@@ -51,6 +51,17 @@ Phase 1 defines the product before implementation. The goal is to make the syste
 - [Version Plan and Risks](docs/phase-1/version-plan-and-risks.md)
 - [Phase 1 Completion Checklist](docs/phase-1/checklist.md)
 
+## Phase 2 Artifacts
+
+Phase 2 defines the synthetic enterprise knowledge base used for RAG retrieval, permissions, citations, and future benchmark design.
+
+- [Synthetic Dataset Specification](docs/phase-2/synthetic-dataset-spec.md)
+- [Document Inventory](docs/phase-2/document-inventory.md)
+- [Access Control Matrix](docs/phase-2/access-control-matrix.md)
+- [Document Writing Guidelines](docs/phase-2/document-writing-guidelines.md)
+- [Phase 2 Completion Checklist](docs/phase-2/checklist.md)
+- [Synthetic Documents](data/synthetic-documents)
+
 ## MVP Boundary
 
 The MVP proves enterprise RAG quality, not breadth.
