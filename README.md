@@ -88,6 +88,29 @@ Phase 4 defines the implementation-ready system architecture, database schema, i
 - [Folder Structure](docs/phase-4/folder-structure.md)
 - [Phase 4 Completion Checklist](docs/phase-4/checklist.md)
 
+## Phase 5 Artifacts
+
+Phase 5 implements the first working backend baseline RAG pipeline: Markdown ingestion, section-based chunks, OpenAI embeddings, pgvector storage, vector-only retrieval, cited answer generation, and benchmark execution.
+
+- [Baseline RAG Implementation](docs/phase-5/baseline-rag-implementation.md)
+- [Baseline Evaluation Results](docs/phase-5/baseline-evaluation-results.md)
+- [Phase 5 Checklist](docs/phase-5/checklist.md)
+
+Run the baseline setup:
+
+```powershell
+pip install -r requirements.txt
+docker compose up -d
+python scripts/ingest_markdown.py --apply-schema
+uvicorn apps.api.app.main:app --reload
+```
+
+Run the baseline benchmark:
+
+```powershell
+python scripts/run_baseline_eval.py
+```
+
 ## MVP Boundary
 
 The MVP proves enterprise RAG quality, not breadth.
