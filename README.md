@@ -73,6 +73,21 @@ Phase 3 defines the evaluation benchmark used to measure retrieval quality, answ
 - [Phase 3 Completion Checklist](docs/phase-3/checklist.md)
 - [Benchmark Questions](data/evaluation/benchmark-questions.json)
 
+## Phase 4 Artifacts
+
+Phase 4 defines the implementation-ready system architecture, database schema, ingestion design, retrieval design, permissions model, prompt versioning, evaluation runner, API design, and Phase 5 baseline RAG plan.
+
+- [Architecture Overview](docs/phase-4/architecture-overview.md)
+- [Database Schema](docs/phase-4/database-schema.md)
+- [API Design](docs/phase-4/api-design.md)
+- [Ingestion Pipeline](docs/phase-4/ingestion-pipeline.md)
+- [Retrieval Pipeline](docs/phase-4/retrieval-pipeline.md)
+- [Evaluation Runner Design](docs/phase-4/evaluation-runner-design.md)
+- [Prompt Versioning Design](docs/phase-4/prompt-versioning-design.md)
+- [Permissions Design](docs/phase-4/permissions-design.md)
+- [Folder Structure](docs/phase-4/folder-structure.md)
+- [Phase 4 Completion Checklist](docs/phase-4/checklist.md)
+
 ## MVP Boundary
 
 The MVP proves enterprise RAG quality, not breadth.
