@@ -62,6 +62,17 @@ Phase 2 defines the synthetic enterprise knowledge base used for RAG retrieval, 
 - [Phase 2 Completion Checklist](docs/phase-2/checklist.md)
 - [Synthetic Documents](data/synthetic-documents)
 
+## Phase 3 Artifacts
+
+Phase 3 defines the evaluation benchmark used to measure retrieval quality, answer accuracy, citation accuracy, refusal behavior, permission safety, hallucination resistance, and conversation-memory handling.
+
+- [Benchmark Design](docs/phase-3/benchmark-design.md)
+- [Question Taxonomy](docs/phase-3/question-taxonomy.md)
+- [Evaluation Schema](docs/phase-3/evaluation-schema.md)
+- [Scoring Rubric](docs/phase-3/scoring-rubric.md)
+- [Phase 3 Completion Checklist](docs/phase-3/checklist.md)
+- [Benchmark Questions](data/evaluation/benchmark-questions.json)
+
 ## MVP Boundary
 
 The MVP proves enterprise RAG quality, not breadth.
