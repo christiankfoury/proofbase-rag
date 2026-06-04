@@ -1,7 +1,35 @@
 from apps.api.app.core.config import get_settings
 from apps.api.app.db.session import get_connection
-from apps.api.app.embeddings.openai_embeddings import embed_text, to_vector_literal
 from apps.api.app.retrieval.types import RetrievedChunk, role_variants
+
+
+STOP_WORDS = {
+    "about",
+    "can",
+    "does",
+    "for",
+    "from",
+    "how",
+    "many",
+    "the",
+    "what",
+    "when",
+    "where",
+    "which",
+    "who",
+}
+
+
+def _keyword_query(question: str) -> str:
+    normalized = "".join(character if character.isalnum() else " " for character in question.lower())
+    terms = [
+        term
+        for term in normalized.split()
+        if len(term) >= 3 and term not in STOP_WORDS
+    ]
+    if not terms:
+        return question
+    return " OR ".join(dict.fromkeys(terms))
 
 
 def retrieve_chunks(
@@ -12,35 +40,34 @@ def retrieve_chunks(
 ) -> list[RetrievedChunk]:
     settings = get_settings()
     limit = top_k or settings.default_top_k
-    query_embedding = to_vector_literal(embed_text(question))
     roles = role_variants(user_role)
+    keyword_query = _keyword_query(question)
 
     sql = """
+        with query as (
+          select websearch_to_tsquery('english', %s) as tsquery
+        )
         select
           c.id::text as chunk_id,
           d.external_document_id as document_id,
           d.title as document_title,
           c.section_heading,
           c.content,
-          1 - (ce.embedding <=> %s::vector) as score
-        from chunk_embeddings ce
-        join chunks c on c.id = ce.chunk_id
+          ts_rank_cd(c.tsv, query.tsquery) as score
+        from query
+        join chunks c on c.tsv @@ query.tsquery
         join documents d on d.id = c.document_id
         join document_versions dv on dv.id = c.document_version_id
         where d.access_roles && %s
-          and ce.embedding_model = %s
           and c.chunking_strategy = %s
           and d.status = 'active'
           and dv.ingestion_status = 'indexed'
-        order by ce.embedding <=> %s::vector
+        order by score desc, c.chunk_index asc
         limit %s
     """
 
     with get_connection() as conn:
-        rows = conn.execute(
-            sql,
-            (query_embedding, roles, settings.openai_embedding_model, chunking_strategy, query_embedding, limit),
-        ).fetchall()
+        rows = conn.execute(sql, (keyword_query, roles, chunking_strategy, limit)).fetchall()
 
     return [
         RetrievedChunk(
@@ -51,8 +78,8 @@ def retrieve_chunks(
             content=row["content"],
             rank=index + 1,
             score=float(row["score"]),
-            vector_score=float(row["score"]),
-            retrieval_source="vector",
+            keyword_score=float(row["score"]),
+            retrieval_source="keyword",
         )
         for index, row in enumerate(rows)
     ]

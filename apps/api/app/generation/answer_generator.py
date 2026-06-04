@@ -4,7 +4,7 @@ import re
 from openai import OpenAI
 
 from apps.api.app.core.config import get_settings
-from apps.api.app.retrieval.vector_retriever import RetrievedChunk
+from apps.api.app.retrieval.types import RetrievedChunk
 
 
 def _client() -> OpenAI:

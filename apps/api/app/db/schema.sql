@@ -63,12 +63,23 @@ create table if not exists chunks (
   metadata_json jsonb not null default '{}'::jsonb,
   tsv tsvector generated always as (to_tsvector('english', content)) stored,
   created_at timestamptz not null default now(),
-  unique (document_version_id, chunk_index)
+  constraint chunks_version_strategy_index_key unique (document_version_id, chunking_strategy, chunk_index)
 );
 
 create index if not exists idx_chunks_document on chunks(document_id);
 create index if not exists idx_chunks_version_index on chunks(document_version_id, chunk_index);
+create index if not exists idx_chunks_strategy on chunks(chunking_strategy);
 create index if not exists idx_chunks_tsv on chunks using gin(tsv);
+
+alter table chunks
+  drop constraint if exists chunks_document_version_id_chunk_index_key;
+
+alter table chunks
+  drop constraint if exists chunks_version_strategy_index_key;
+
+alter table chunks
+  add constraint chunks_version_strategy_index_key
+  unique (document_version_id, chunking_strategy, chunk_index);
 
 create table if not exists chunk_embeddings (
   id uuid primary key default uuid_generate_v4(),
@@ -152,6 +163,7 @@ create table if not exists evaluation_results (
   retrieval_hit_score numeric(4,3),
   all_sources_hit_score numeric(4,3),
   expected_source_recall numeric(4,3),
+  precision_at_k numeric(4,3),
   mrr numeric(4,3),
   citation_source_match numeric(4,3),
   behavior_match numeric(4,3),
@@ -168,7 +180,8 @@ create index if not exists idx_evaluation_results_question_id on evaluation_resu
 alter table evaluation_results
   add column if not exists retrieved_chunks_json jsonb not null default '[]'::jsonb,
   add column if not exists all_sources_hit_score numeric(4,3),
-  add column if not exists expected_source_recall numeric(4,3);
+  add column if not exists expected_source_recall numeric(4,3),
+  add column if not exists precision_at_k numeric(4,3);
 
 insert into prompts (name, prompt_type, description)
 values ('enterprise_answer', 'answer_generation', 'Baseline grounded answer prompt with citations and refusal behavior.')

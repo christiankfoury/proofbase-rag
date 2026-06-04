@@ -14,10 +14,12 @@ from apps.api.app.evaluation.metrics import (
     behavior_match,
     citation_source_match,
     expected_source_recall,
+    precision_at_k,
     reciprocal_rank,
 )
 from apps.api.app.generation.answer_generator import citations_from_answer, generate_answer
-from apps.api.app.retrieval.vector_retriever import retrieve_chunks
+from apps.api.app.retrieval.config import RetrievalConfig, default_retrieval_config
+from apps.api.app.retrieval.retriever import retrieve_chunks
 
 
 BENCHMARK_PATH = Path("data/evaluation/benchmark-questions.json")
@@ -36,15 +38,16 @@ def _query_with_memory(question: dict) -> str:
     return f"Previous conversation:\n{context}\n\nFollow-up question:\n{question['question']}"
 
 
-def _create_run(retrieval_only: bool = False) -> str:
-    settings = get_settings()
+def _create_run(config: RetrievalConfig, retrieval_only: bool = False) -> str:
     config = {
-        "run_name": "baseline-vector-only-retrieval" if retrieval_only else "baseline-vector-only",
-        "retrieval_mode": "vector_only",
-        "chunking_strategy": "section_based",
-        "top_k": settings.default_top_k,
-        "prompt_version": "answer_v1",
-        "model": settings.openai_chat_model,
+        "run_name": f"{config.run_name}-retrieval" if retrieval_only else config.run_name,
+        "retrieval_mode": config.retrieval_mode,
+        "chunking_strategy": config.chunking_strategy,
+        "top_k": config.top_k,
+        "vector_weight": config.vector_weight,
+        "keyword_weight": config.keyword_weight,
+        "prompt_version": config.prompt_version,
+        "model": config.model,
         "retrieval_only": retrieval_only,
     }
     with get_connection() as conn:
@@ -84,13 +87,14 @@ def _store_result(run_id: str, question: dict, result: dict) -> None:
               retrieval_hit_score,
               all_sources_hit_score,
               expected_source_recall,
+              precision_at_k,
               mrr,
               citation_source_match,
               behavior_match,
               latency_ms,
               notes
             )
-            values (%s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            values (%s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """,
             (
                 run_id,
@@ -106,6 +110,7 @@ def _store_result(run_id: str, question: dict, result: dict) -> None:
                 result["any_source_hit"],
                 result["all_sources_hit"],
                 result["expected_source_recall"],
+                result["precision_at_k"],
                 result["mrr"],
                 result["citation_source_match"],
                 result["behavior_match"],
@@ -115,8 +120,8 @@ def _store_result(run_id: str, question: dict, result: dict) -> None:
         )
 
 
-def _write_report(summary: dict, results: list[dict]) -> None:
-    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+def _write_report(summary: dict, results: list[dict], report_path: Path = REPORT_PATH) -> None:
+    report_path.parent.mkdir(parents=True, exist_ok=True)
     lines = [
         "# Baseline Evaluation Results",
         "",
@@ -125,13 +130,18 @@ def _write_report(summary: dict, results: list[dict]) -> None:
         "## Run Summary",
         "",
         f"- Questions: {summary['question_count']}",
-        f"- Retrieval mode: vector_only",
-        f"- Chunking strategy: section_based",
+        f"- Run name: {summary['run_name']}",
+        f"- Retrieval mode: {summary['retrieval_mode']}",
+        f"- Chunking strategy: {summary['chunking_strategy']}",
         f"- Top K: {summary['top_k']}",
+        f"- Vector weight: {summary['vector_weight']}",
+        f"- Keyword weight: {summary['keyword_weight']}",
         f"- Any-source retrieval hit: {summary['any_source_hit']}",
         f"- All-sources retrieval hit: {summary['all_sources_hit']}",
         f"- Expected-source recall: {summary['expected_source_recall']}",
+        f"- Precision@k: {summary['precision_at_k']}",
         f"- MRR: {summary['mrr']}",
+        f"- Average latency ms: {summary['average_latency_ms']}",
         f"- Citation source match: {summary['citation_source_match']}",
         f"- Behavior match: {summary['behavior_match']}",
         "",
@@ -139,16 +149,16 @@ def _write_report(summary: dict, results: list[dict]) -> None:
         "",
         "## Question Results",
         "",
-        "| Question ID | Type | Expected Behavior | Generated Behavior | Any Source | All Sources | Source Recall | MRR | Citation Match |",
-        "|---|---|---|---|---:|---:|---:|---:|---:|",
+        "| Question ID | Type | Expected Behavior | Generated Behavior | Any Source | All Sources | Source Recall | Precision@k | MRR | Citation Match |",
+        "|---|---|---|---|---:|---:|---:|---:|---:|---:|",
     ]
     for result in results:
         lines.append(
-            "| {question_id} | {question_type} | {expected_behavior} | {generated_behavior} | {any_source_hit} | {all_sources_hit} | {expected_source_recall} | {mrr} | {citation_source_match} |".format(
+            "| {question_id} | {question_type} | {expected_behavior} | {generated_behavior} | {any_source_hit} | {all_sources_hit} | {expected_source_recall} | {precision_at_k} | {mrr} | {citation_source_match} |".format(
                 **result
             )
         )
-    REPORT_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def _average(values: list[float | None]) -> str:
@@ -173,15 +183,29 @@ def _retrieved_chunks_json(chunks) -> list[dict]:
             "section_heading": chunk.section_heading,
             "rank": chunk.rank,
             "score": chunk.score,
+            "vector_score": chunk.vector_score,
+            "keyword_score": chunk.keyword_score,
+            "hybrid_score": chunk.hybrid_score,
+            "retrieval_source": chunk.retrieval_source,
         }
         for chunk in chunks
     ]
 
 
-def run_benchmark(retrieval_only: bool = False) -> dict:
+def run_benchmark(
+    retrieval_only: bool = False,
+    config: RetrievalConfig | None = None,
+    report_path: Path = REPORT_PATH,
+    write_report: bool = True,
+    include_results: bool = False,
+) -> dict:
     benchmark = _load_benchmark()
-    settings = get_settings()
-    run_id = _create_run(retrieval_only=retrieval_only)
+    active_config = config or default_retrieval_config(
+        run_name="baseline-vector-only-retrieval" if retrieval_only else "baseline-vector-only",
+        retrieval_mode="vector_only",
+        chunking_strategy="section_based",
+    )
+    run_id = _create_run(active_config, retrieval_only=retrieval_only)
     results: list[dict] = []
     questions = benchmark["questions"]
 
@@ -193,7 +217,7 @@ def run_benchmark(retrieval_only: bool = False) -> dict:
         )
         started = time.perf_counter()
         query_text = _query_with_memory(question)
-        chunks = retrieve_chunks(query_text, question["user_role"], settings.default_top_k)
+        chunks = retrieve_chunks(query_text, question["user_role"], active_config)
         if retrieval_only:
             generated = {
                 "answer": "[retrieval-only run: answer generation skipped]",
@@ -223,6 +247,7 @@ def run_benchmark(retrieval_only: bool = False) -> dict:
             "any_source_hit": any_source_hit(expected_docs, chunks),
             "all_sources_hit": all_sources_hit(expected_docs, chunks),
             "expected_source_recall": expected_source_recall(expected_docs, chunks),
+            "precision_at_k": precision_at_k(expected_docs, chunks, active_config.top_k),
             "mrr": reciprocal_rank(expected_docs, chunks),
             "citation_source_match": None if retrieval_only else citation_source_match(expected_docs, model_citations),
             "behavior_match": None if retrieval_only else behavior_match(question["expected_behavior"], generated["behavior"]),
@@ -246,16 +271,26 @@ def run_benchmark(retrieval_only: bool = False) -> dict:
 
     summary = {
         "run_id": run_id,
+        "run_name": active_config.run_name,
         "question_count": len(results),
-        "top_k": settings.default_top_k,
+        "retrieval_mode": active_config.retrieval_mode,
+        "chunking_strategy": active_config.chunking_strategy,
+        "top_k": active_config.top_k,
+        "vector_weight": active_config.vector_weight,
+        "keyword_weight": active_config.keyword_weight,
         "any_source_hit": _average([result["any_source_hit"] for result in results]),
         "all_sources_hit": _average([result["all_sources_hit"] for result in results]),
         "expected_source_recall": _average([result["expected_source_recall"] for result in results]),
+        "precision_at_k": _average([result["precision_at_k"] for result in results]),
         "mrr": _average([result["mrr"] for result in results]),
+        "average_latency_ms": _average([result["latency_ms"] for result in results]),
         "citation_source_match": _average([result["citation_source_match"] for result in results]),
         "behavior_match": _average([result["behavior_match"] for result in results]),
     }
-    _write_report(summary, results)
+    if write_report:
+        _write_report(summary, results, report_path=report_path)
+    if include_results:
+        summary["results"] = results
     return summary
 
 

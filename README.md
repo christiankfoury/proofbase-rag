@@ -111,6 +111,23 @@ Run the baseline benchmark:
 python scripts/run_baseline_eval.py
 ```
 
+## Phase 6 Artifacts
+
+Phase 6 adds controlled retrieval experiments: PostgreSQL full-text keyword search, hybrid vector + keyword retrieval, fixed-size chunking experiments, and retrieval comparison reporting.
+
+- [Retrieval Experiments](docs/phase-6/retrieval-experiments.md)
+- [Hybrid Search Design](docs/phase-6/hybrid-search-design.md)
+- [Phase 6 Evaluation Results](docs/phase-6/evaluation-results.md)
+- [Phase 6 Checklist](docs/phase-6/checklist.md)
+
+Run Phase 6 retrieval experiments:
+
+```powershell
+python scripts/ingest_markdown.py --apply-schema --chunking-strategy section_based
+python scripts/ingest_markdown.py --chunking-strategy fixed_size --chunk-size 180 --chunk-overlap 40
+python scripts/run_retrieval_experiments.py
+```
+
 ## MVP Boundary
 
 The MVP proves enterprise RAG quality, not breadth.

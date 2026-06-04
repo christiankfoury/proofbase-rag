@@ -1,0 +1,22 @@
+# Phase 6 Checklist
+
+- [x] Retrieval modes planned: `vector_only`, `keyword_only`, `hybrid`.
+- [x] PostgreSQL full-text keyword search implemented.
+- [x] Hybrid weighted score merging implemented.
+- [x] Retrieval config object added.
+- [x] Shared retrieval result type added.
+- [x] Fixed-size chunking strategy added.
+- [x] Ingestion supports selectable chunking strategy.
+- [x] Schema supports multiple chunking strategies per document version.
+- [x] Evaluation runner supports retrieval configs.
+- [x] Precision@k added.
+- [x] Chunk-level traces preserved in evaluation results.
+- [x] Retrieval experiment runner added.
+- [x] Section-based chunks re-ingested.
+- [x] Fixed-size chunks ingested.
+- [x] Retrieval experiments run.
+- [x] Evaluation results updated with real metrics.
+- [x] No Azure AI Search added.
+- [x] No reranking added.
+- [x] No frontend dashboard added.
+- [x] No advanced auth added.

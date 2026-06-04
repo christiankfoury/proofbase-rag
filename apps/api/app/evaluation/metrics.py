@@ -1,4 +1,4 @@
-from apps.api.app.retrieval.vector_retriever import RetrievedChunk
+from apps.api.app.retrieval.types import RetrievedChunk
 
 
 def any_source_hit(expected_documents: list[str], retrieved_chunks: list[RetrievedChunk]) -> float | None:
@@ -35,6 +35,16 @@ def reciprocal_rank(expected_documents: list[str], retrieved_chunks: list[Retrie
         if chunk.document_id in expected:
             return 1.0 / chunk.rank
     return 0.0
+
+
+def precision_at_k(expected_documents: list[str], retrieved_chunks: list[RetrievedChunk], top_k: int) -> float | None:
+    if not expected_documents:
+        return None
+    if top_k <= 0:
+        return None
+    expected = set(expected_documents)
+    relevant_count = sum(1 for chunk in retrieved_chunks[:top_k] if chunk.document_id in expected)
+    return relevant_count / top_k
 
 
 def citation_source_match(expected_documents: list[str], citations: list[dict]) -> float | None:

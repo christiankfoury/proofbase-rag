@@ -92,20 +92,33 @@ def _upsert_version(conn, document_id: str, document):
     return row["id"]
 
 
-def ingest_documents(source_dir: str = "data/synthetic-documents") -> dict:
+def ingest_documents(
+    source_dir: str = "data/synthetic-documents",
+    chunking_strategy: str = "section_based",
+    chunk_size: int = 180,
+    chunk_overlap: int = 40,
+) -> dict:
     settings = get_settings()
     documents = load_markdown_documents(source_dir)
     counts = {"documents": 0, "chunks": 0, "embeddings": 0, "failures": 0}
 
     for document in documents:
         try:
-            chunks = chunk_markdown_document(document)
+            chunks = chunk_markdown_document(
+                document,
+                chunking_strategy=chunking_strategy,
+                chunk_size=chunk_size,
+                chunk_overlap=chunk_overlap,
+            )
             embeddings = embed_texts([chunk.content for chunk in chunks])
 
             with get_connection() as conn:
                 document_uuid = _upsert_document(conn, document)
                 version_uuid = _upsert_version(conn, document_uuid, document)
-                conn.execute("delete from chunks where document_version_id = %s", (version_uuid,))
+                conn.execute(
+                    "delete from chunks where document_version_id = %s and chunking_strategy = %s",
+                    (version_uuid, chunking_strategy),
+                )
 
                 for chunk, embedding in zip(chunks, embeddings, strict=True):
                     chunk_row = conn.execute(
@@ -158,12 +171,20 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--apply-schema", action="store_true", help="Apply apps/api/app/db/schema.sql before ingestion")
     parser.add_argument("--source-dir", default="data/synthetic-documents")
+    parser.add_argument("--chunking-strategy", choices=["section_based", "fixed_size"], default="section_based")
+    parser.add_argument("--chunk-size", type=int, default=180)
+    parser.add_argument("--chunk-overlap", type=int, default=40)
     args = parser.parse_args()
 
     if args.apply_schema:
         apply_schema()
 
-    counts = ingest_documents(args.source_dir)
+    counts = ingest_documents(
+        args.source_dir,
+        chunking_strategy=args.chunking_strategy,
+        chunk_size=args.chunk_size,
+        chunk_overlap=args.chunk_overlap,
+    )
     print(json.dumps(counts, indent=2))
     if counts["failures"]:
         raise SystemExit(1)
