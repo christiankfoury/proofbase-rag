@@ -32,6 +32,31 @@ Generated at: 2026-06-04T02:11:44.834094+00:00
 
 A question is considered improved when all-sources hit, source recall, MRR, or Precision@k improves in that order. It is considered regressed when the same ordered metric tuple gets worse.
 
+## Phase 6 Conclusion
+
+Phase 6 compared vector-only retrieval, keyword-only retrieval, and hybrid retrieval across section-based and fixed-size chunking strategies.
+
+The best overall configuration was `vector-section`, which achieved:
+
+- Any-source hit: 1.000
+- All-sources hit: 0.975
+- Precision@k: 0.650
+- MRR: 0.980
+
+Hybrid retrieval did not clearly outperform vector-only retrieval on this benchmark. The `hybrid-section-0.5` configuration matched vector-only all-sources hit and slightly improved MRR, but reduced Precision@k from 0.650 to 0.620.
+
+Keyword-only retrieval was weaker overall, with lower all-sources hit, Precision@k, and MRR, but it may still be useful as a fast fallback or as one component of future hybrid retrieval.
+
+Fixed-size chunking did not clearly outperform section-based chunking. `vector-fixed-size` matched the best all-sources hit and slightly improved MRR, but had slightly lower Precision@k than `vector-section`.
+
+The unresolved failure `MULTI-005` shows that the remaining retrieval issue is likely not solved by simple hybrid scoring alone. It may require query decomposition, better multi-document retrieval logic, reranking, improved benchmark labeling, or answer-generation changes.
+
+This phase produced useful portfolio evidence because it demonstrates measured experimentation rather than assuming that hybrid search always improves retrieval.
+
+Portfolio summary:
+
+> Benchmarked vector, keyword, and hybrid retrieval across chunking strategies on a 60-question enterprise RAG dataset. Found vector-only section-based retrieval performed best overall, while hybrid search slightly improved MRR but reduced Precision@k, demonstrating evaluation-driven retrieval design.
+
 ## Pending Metrics
 
 - Answer accuracy: pending human or judge evaluation.
