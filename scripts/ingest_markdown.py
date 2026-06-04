@@ -165,6 +165,8 @@ def main() -> None:
 
     counts = ingest_documents(args.source_dir)
     print(json.dumps(counts, indent=2))
+    if counts["failures"]:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

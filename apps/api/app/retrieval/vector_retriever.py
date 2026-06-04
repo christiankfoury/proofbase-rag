@@ -43,6 +43,7 @@ def retrieve_chunks(question: str, user_role: str, top_k: int | None = None) -> 
         join documents d on d.id = c.document_id
         join document_versions dv on dv.id = c.document_version_id
         where d.access_roles && %s
+          and ce.embedding_model = %s
           and d.status = 'active'
           and dv.ingestion_status = 'indexed'
         order by ce.embedding <=> %s::vector
@@ -50,7 +51,7 @@ def retrieve_chunks(question: str, user_role: str, top_k: int | None = None) -> 
     """
 
     with get_connection() as conn:
-        rows = conn.execute(sql, (query_embedding, roles, query_embedding, limit)).fetchall()
+        rows = conn.execute(sql, (query_embedding, roles, settings.openai_embedding_model, query_embedding, limit)).fetchall()
 
     return [
         RetrievedChunk(

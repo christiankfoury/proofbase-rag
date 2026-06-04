@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from psycopg import Error as PsycopgError
 from pydantic import BaseModel, Field
 
 from apps.api.app.core.config import get_settings
@@ -24,8 +25,13 @@ def health() -> dict:
 def query(request: QueryRequest) -> dict:
     settings = get_settings()
     top_k = request.top_k or settings.default_top_k
-    chunks = retrieve_chunks(request.question, request.user_role, top_k)
-    answer = generate_answer(request.question, chunks)
+    try:
+        chunks = retrieve_chunks(request.question, request.user_role, top_k)
+        answer = generate_answer(request.question, chunks)
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database is not ready or the baseline schema has not been applied.") from exc
     return {
         "answer": answer["answer"],
         "behavior": answer["behavior"],

@@ -38,13 +38,14 @@ SOURCE_RE = re.compile(
 )
 
 
-def _citation_payload(chunk: RetrievedChunk) -> dict:
+def _citation_payload(chunk: RetrievedChunk, citation_type: str = "model") -> dict:
     return {
         "document_id": chunk.document_id,
         "document_title": chunk.document_title,
         "section_heading": chunk.section_heading,
         "chunk_id": chunk.chunk_id,
         "source": f"Source: {chunk.document_id} {chunk.document_title}, Section: {chunk.section_heading}",
+        "citation_type": citation_type,
     }
 
 
@@ -60,7 +61,7 @@ def build_citations(chunks: list[RetrievedChunk]) -> list[dict]:
     return citations
 
 
-def citations_from_answer(answer: str, chunks: list[RetrievedChunk]) -> list[dict]:
+def citations_from_answer(answer: str, chunks: list[RetrievedChunk], include_fallback: bool = True) -> list[dict]:
     if not chunks:
         return []
 
@@ -81,7 +82,9 @@ def citations_from_answer(answer: str, chunks: list[RetrievedChunk]) -> list[dic
     if citations:
         return citations
 
-    return [_citation_payload(chunks[0])]
+    if include_fallback:
+        return [_citation_payload(chunks[0], citation_type="fallback")]
+    return []
 
 
 def classify_behavior(answer: str, fallback: str = "answer") -> str:

@@ -1,11 +1,30 @@
 from apps.api.app.retrieval.vector_retriever import RetrievedChunk
 
 
-def retrieval_hit(expected_documents: list[str], retrieved_chunks: list[RetrievedChunk]) -> float | None:
+def any_source_hit(expected_documents: list[str], retrieved_chunks: list[RetrievedChunk]) -> float | None:
     if not expected_documents:
         return None
     retrieved_docs = {chunk.document_id for chunk in retrieved_chunks}
     return 1.0 if any(document_id in retrieved_docs for document_id in expected_documents) else 0.0
+
+
+def all_sources_hit(expected_documents: list[str], retrieved_chunks: list[RetrievedChunk]) -> float | None:
+    if not expected_documents:
+        return None
+    retrieved_docs = {chunk.document_id for chunk in retrieved_chunks}
+    return 1.0 if all(document_id in retrieved_docs for document_id in expected_documents) else 0.0
+
+
+def expected_source_recall(expected_documents: list[str], retrieved_chunks: list[RetrievedChunk]) -> float | None:
+    if not expected_documents:
+        return None
+    retrieved_docs = {chunk.document_id for chunk in retrieved_chunks}
+    matched_documents = {document_id for document_id in expected_documents if document_id in retrieved_docs}
+    return len(matched_documents) / len(set(expected_documents))
+
+
+def retrieval_hit(expected_documents: list[str], retrieved_chunks: list[RetrievedChunk]) -> float | None:
+    return any_source_hit(expected_documents, retrieved_chunks)
 
 
 def reciprocal_rank(expected_documents: list[str], retrieved_chunks: list[RetrievedChunk]) -> float | None:

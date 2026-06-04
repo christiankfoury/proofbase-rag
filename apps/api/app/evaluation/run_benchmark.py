@@ -9,12 +9,14 @@ import time
 from apps.api.app.core.config import get_settings
 from apps.api.app.db.session import get_connection
 from apps.api.app.evaluation.metrics import (
+    all_sources_hit,
+    any_source_hit,
     behavior_match,
     citation_source_match,
+    expected_source_recall,
     reciprocal_rank,
-    retrieval_hit,
 )
-from apps.api.app.generation.answer_generator import generate_answer
+from apps.api.app.generation.answer_generator import citations_from_answer, generate_answer
 from apps.api.app.retrieval.vector_retriever import retrieve_chunks
 
 
@@ -77,15 +79,18 @@ def _store_result(run_id: str, question: dict, result: dict) -> None:
               generated_behavior,
               expected_source_documents,
               retrieved_source_documents,
+              retrieved_chunks_json,
               generated_answer,
               retrieval_hit_score,
+              all_sources_hit_score,
+              expected_source_recall,
               mrr,
               citation_source_match,
               behavior_match,
               latency_ms,
               notes
             )
-            values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            values (%s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """,
             (
                 run_id,
@@ -96,8 +101,11 @@ def _store_result(run_id: str, question: dict, result: dict) -> None:
                 result["generated_behavior"],
                 question.get("expected_source_document") or [],
                 result["retrieved_source_documents"],
+                json.dumps(result["retrieved_chunks"]),
                 result["answer"],
-                result["retrieval_hit"],
+                result["any_source_hit"],
+                result["all_sources_hit"],
+                result["expected_source_recall"],
                 result["mrr"],
                 result["citation_source_match"],
                 result["behavior_match"],
@@ -120,7 +128,9 @@ def _write_report(summary: dict, results: list[dict]) -> None:
         f"- Retrieval mode: vector_only",
         f"- Chunking strategy: section_based",
         f"- Top K: {summary['top_k']}",
-        f"- Retrieval hit rate: {summary['retrieval_hit_rate']}",
+        f"- Any-source retrieval hit: {summary['any_source_hit']}",
+        f"- All-sources retrieval hit: {summary['all_sources_hit']}",
+        f"- Expected-source recall: {summary['expected_source_recall']}",
         f"- MRR: {summary['mrr']}",
         f"- Citation source match: {summary['citation_source_match']}",
         f"- Behavior match: {summary['behavior_match']}",
@@ -129,12 +139,12 @@ def _write_report(summary: dict, results: list[dict]) -> None:
         "",
         "## Question Results",
         "",
-        "| Question ID | Type | Expected Behavior | Generated Behavior | Retrieval Hit | MRR | Citation Match |",
-        "|---|---|---|---|---:|---:|---:|",
+        "| Question ID | Type | Expected Behavior | Generated Behavior | Any Source | All Sources | Source Recall | MRR | Citation Match |",
+        "|---|---|---|---|---:|---:|---:|---:|---:|",
     ]
     for result in results:
         lines.append(
-            "| {question_id} | {question_type} | {expected_behavior} | {generated_behavior} | {retrieval_hit} | {mrr} | {citation_source_match} |".format(
+            "| {question_id} | {question_type} | {expected_behavior} | {generated_behavior} | {any_source_hit} | {all_sources_hit} | {expected_source_recall} | {mrr} | {citation_source_match} |".format(
                 **result
             )
         )
@@ -152,6 +162,20 @@ def _retrieval_expected_documents(question: dict) -> list[str]:
     if question["question_type"] in {"permission_restricted", "missing_information"}:
         return []
     return question.get("expected_source_document") or []
+
+
+def _retrieved_chunks_json(chunks) -> list[dict]:
+    return [
+        {
+            "chunk_id": chunk.chunk_id,
+            "document_id": chunk.document_id,
+            "document_title": chunk.document_title,
+            "section_heading": chunk.section_heading,
+            "rank": chunk.rank,
+            "score": chunk.score,
+        }
+        for chunk in chunks
+    ]
 
 
 def run_benchmark(retrieval_only: bool = False) -> dict:
@@ -181,7 +205,7 @@ def run_benchmark(retrieval_only: bool = False) -> dict:
         latency_ms = int((time.perf_counter() - started) * 1000)
 
         expected_docs = _retrieval_expected_documents(question)
-        citations = generated["citations"]
+        model_citations = [] if retrieval_only else citations_from_answer(generated["answer"], chunks, include_fallback=False)
         if question["question_type"] == "permission_restricted":
             notes = "Permission-restricted question: expected source should not be retrieved for this role."
         elif question["question_type"] == "missing_information":
@@ -195,9 +219,12 @@ def run_benchmark(retrieval_only: bool = False) -> dict:
             "generated_behavior": generated["behavior"],
             "answer": generated["answer"],
             "retrieved_source_documents": list(dict.fromkeys(chunk.document_id for chunk in chunks)),
-            "retrieval_hit": retrieval_hit(expected_docs, chunks),
+            "retrieved_chunks": _retrieved_chunks_json(chunks),
+            "any_source_hit": any_source_hit(expected_docs, chunks),
+            "all_sources_hit": all_sources_hit(expected_docs, chunks),
+            "expected_source_recall": expected_source_recall(expected_docs, chunks),
             "mrr": reciprocal_rank(expected_docs, chunks),
-            "citation_source_match": None if retrieval_only else citation_source_match(expected_docs, citations),
+            "citation_source_match": None if retrieval_only else citation_source_match(expected_docs, model_citations),
             "behavior_match": None if retrieval_only else behavior_match(question["expected_behavior"], generated["behavior"]),
             "latency_ms": latency_ms,
             "notes": notes,
@@ -206,7 +233,8 @@ def run_benchmark(retrieval_only: bool = False) -> dict:
         results.append(result)
         print(
             f"  retrieved={result['retrieved_source_documents']} "
-            f"hit={result['retrieval_hit']} mrr={result['mrr']} elapsed_ms={latency_ms}",
+            f"any={result['any_source_hit']} all={result['all_sources_hit']} "
+            f"recall={result['expected_source_recall']} mrr={result['mrr']} elapsed_ms={latency_ms}",
             flush=True,
         )
 
@@ -220,7 +248,9 @@ def run_benchmark(retrieval_only: bool = False) -> dict:
         "run_id": run_id,
         "question_count": len(results),
         "top_k": settings.default_top_k,
-        "retrieval_hit_rate": _average([result["retrieval_hit"] for result in results]),
+        "any_source_hit": _average([result["any_source_hit"] for result in results]),
+        "all_sources_hit": _average([result["all_sources_hit"] for result in results]),
+        "expected_source_recall": _average([result["expected_source_recall"] for result in results]),
         "mrr": _average([result["mrr"] for result in results]),
         "citation_source_match": _average([result["citation_source_match"] for result in results]),
         "behavior_match": _average([result["behavior_match"] for result in results]),
