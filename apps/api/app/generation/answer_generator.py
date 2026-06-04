@@ -90,8 +90,12 @@ def classify_behavior(answer: str, fallback: str = "answer") -> str:
         "do not have access",
         "don't have access",
         "not authorized",
-        "restricted",
-        "available to your role",
+        "you are not authorized",
+        "outside your role",
+        "not available to your role",
+        "restricted to",
+        "restricted access",
+        "permission",
     ]
     not_found_markers = [
         "not found",
