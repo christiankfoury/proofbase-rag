@@ -1,0 +1,21 @@
+# Phase 10 Checklist
+
+- [x] Consistent evaluation run JSON format defined.
+- [x] Dashboard data export script added.
+- [x] Run comparison script added.
+- [x] Phase 6 retrieval results included.
+- [x] Phase 7 answer-quality results included.
+- [x] Phase 8 permission-safety results included.
+- [x] Phase 9 memory results included.
+- [x] Failed-question records exported.
+- [x] FastAPI evaluation dashboard endpoints added.
+- [x] Minimal Next.js dashboard created.
+- [x] Evaluation overview page created.
+- [x] Run comparison page created.
+- [x] Failed questions page created.
+- [x] Retrieval experiments page created.
+- [x] Permission safety page created.
+- [x] Memory evaluation page created.
+- [x] README updated with Phase 10 commands.
+- [x] No fake metrics added.
+- [x] No retrieval, generation, auth, or Azure features added.

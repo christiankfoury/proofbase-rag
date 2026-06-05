@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException
 from psycopg import Error as PsycopgError
 from pydantic import BaseModel, Field
@@ -13,6 +16,8 @@ from apps.api.app.retrieval.retriever import retrieve_chunks
 
 
 app = FastAPI(title="Enterprise Knowledge Agent API")
+
+DASHBOARD_DATA_PATH = Path("data/evaluation/dashboard-summary.json")
 
 
 class QueryRequest(BaseModel):
@@ -32,6 +37,18 @@ class CreateSessionRequest(BaseModel):
     user_id: str | None = None
 
 
+def _load_dashboard_data() -> dict:
+    if not DASHBOARD_DATA_PATH.exists():
+        raise HTTPException(
+            status_code=404,
+            detail="Evaluation dashboard data not found. Run `python scripts/export_dashboard_data.py` first.",
+        )
+    try:
+        return json.loads(DASHBOARD_DATA_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise HTTPException(status_code=500, detail="Evaluation dashboard data is not valid JSON.") from exc
+
+
 @app.get("/health")
 def health() -> dict:
     return {"status": "ok"}
@@ -41,6 +58,65 @@ def health() -> dict:
 def create_chat_session(request: CreateSessionRequest) -> dict:
     session_id = create_session(request.user_role, user_id=request.user_id)
     return {"session_id": session_id, "user_role": request.user_role}
+
+
+@app.get("/evaluation/summary")
+def evaluation_summary() -> dict:
+    data = _load_dashboard_data()
+    return {
+        "generated_at": data["generated_at"],
+        "overview": data["overview"],
+        "run_count": len(data["runs"]),
+        "failed_question_count": len(data["failed_questions"]),
+        "notes": data["notes"],
+    }
+
+
+@app.get("/evaluation/runs")
+def evaluation_runs() -> dict:
+    data = _load_dashboard_data()
+    return {
+        "runs": [
+            {
+                "run_id": run["run_id"],
+                "run_name": run["run_name"],
+                "phase": run["phase"],
+                "run_type": run["run_type"],
+                "timestamp": run["timestamp"],
+                "retrieval_mode": run.get("retrieval_mode"),
+                "chunking_strategy": run.get("chunking_strategy"),
+                "top_k": run.get("top_k"),
+                "metrics": run["metrics"],
+                "failed_question_count": len(run.get("failed_questions") or []),
+            }
+            for run in data["runs"]
+        ]
+    }
+
+
+@app.get("/evaluation/runs/{run_id}")
+def evaluation_run_detail(run_id: str) -> dict:
+    data = _load_dashboard_data()
+    for run in data["runs"]:
+        if run["run_id"] == run_id:
+            return run
+    raise HTTPException(status_code=404, detail="Evaluation run not found.")
+
+
+@app.get("/evaluation/compare")
+def evaluation_compare() -> dict:
+    data = _load_dashboard_data()
+    return {
+        "overview": data["overview"],
+        "comparisons": data["comparisons"],
+        "runs": data["runs"],
+    }
+
+
+@app.get("/evaluation/failed-questions")
+def evaluation_failed_questions() -> dict:
+    data = _load_dashboard_data()
+    return {"failed_questions": data["failed_questions"]}
 
 
 @app.post("/query")

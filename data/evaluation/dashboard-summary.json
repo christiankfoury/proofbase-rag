@@ -1,0 +1,402 @@
+{
+  "generated_at": "2026-06-05T03:06:26.540201+00:00",
+  "source": "docs/phase-6 through docs/phase-9",
+  "runs": [
+    {
+      "run_id": "phase6-vector-section",
+      "run_name": "vector-section",
+      "phase": "phase-6",
+      "run_type": "retrieval_eval",
+      "timestamp": "2026-06-04T02:11:44.834094+00:00",
+      "retrieval_mode": "vector_only",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_version": null,
+      "model": null,
+      "total_questions": 60,
+      "metrics": {
+        "any_source_hit": 1.0,
+        "all_sources_hit": 0.975,
+        "expected_source_recall": 0.988,
+        "precision_at_k": 0.65,
+        "mrr": 0.98,
+        "average_latency_ms": 661.983
+      },
+      "failed_questions": [
+        "MULTI-005"
+      ],
+      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type."
+    },
+    {
+      "run_id": "phase6-keyword-section",
+      "run_name": "keyword-section",
+      "phase": "phase-6",
+      "run_type": "retrieval_eval",
+      "timestamp": "2026-06-04T02:11:44.834094+00:00",
+      "retrieval_mode": "keyword_only",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_version": null,
+      "model": null,
+      "total_questions": 60,
+      "metrics": {
+        "any_source_hit": 1.0,
+        "all_sources_hit": 0.95,
+        "expected_source_recall": 0.975,
+        "precision_at_k": 0.525,
+        "mrr": 0.969,
+        "average_latency_ms": 25.367
+      },
+      "failed_questions": [
+        "MULTI-004",
+        "MULTI-008"
+      ],
+      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type."
+    },
+    {
+      "run_id": "phase6-hybrid-section-0.5",
+      "run_name": "hybrid-section-0.5",
+      "phase": "phase-6",
+      "run_type": "retrieval_eval",
+      "timestamp": "2026-06-04T02:11:44.834094+00:00",
+      "retrieval_mode": "hybrid",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_version": null,
+      "model": null,
+      "total_questions": 60,
+      "metrics": {
+        "any_source_hit": 1.0,
+        "all_sources_hit": 0.975,
+        "expected_source_recall": 0.988,
+        "precision_at_k": 0.62,
+        "mrr": 0.981,
+        "average_latency_ms": 696.65
+      },
+      "failed_questions": [
+        "MULTI-005"
+      ],
+      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type."
+    },
+    {
+      "run_id": "phase6-vector-fixed-size",
+      "run_name": "vector-fixed-size",
+      "phase": "phase-6",
+      "run_type": "retrieval_eval",
+      "timestamp": "2026-06-04T02:11:44.834094+00:00",
+      "retrieval_mode": "vector_only",
+      "chunking_strategy": "fixed_size",
+      "top_k": 5,
+      "prompt_version": null,
+      "model": null,
+      "total_questions": 60,
+      "metrics": {
+        "any_source_hit": 1.0,
+        "all_sources_hit": 0.975,
+        "expected_source_recall": 0.988,
+        "precision_at_k": 0.64,
+        "mrr": 0.981,
+        "average_latency_ms": 757.683
+      },
+      "failed_questions": [
+        "MULTI-005"
+      ],
+      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type."
+    },
+    {
+      "run_id": "phase6-hybrid-fixed-size-0.5",
+      "run_name": "hybrid-fixed-size-0.5",
+      "phase": "phase-6",
+      "run_type": "retrieval_eval",
+      "timestamp": "2026-06-04T02:11:44.834094+00:00",
+      "retrieval_mode": "hybrid",
+      "chunking_strategy": "fixed_size",
+      "top_k": 5,
+      "prompt_version": null,
+      "model": null,
+      "total_questions": 60,
+      "metrics": {
+        "any_source_hit": 1.0,
+        "all_sources_hit": 0.95,
+        "expected_source_recall": 0.975,
+        "precision_at_k": 0.62,
+        "mrr": 0.98,
+        "average_latency_ms": 984.117
+      },
+      "failed_questions": [
+        "MULTI-004",
+        "MULTI-005"
+      ],
+      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type."
+    },
+    {
+      "run_id": "phase7-answer-quality",
+      "run_name": "phase-7-answer-quality",
+      "phase": "phase-7",
+      "run_type": "answer_quality_eval",
+      "timestamp": "2026-06-05T01:50:38.484296+00:00",
+      "retrieval_mode": "vector_only",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_version": "answer_v1",
+      "model": "gpt-4.1-mini",
+      "total_questions": 60,
+      "metrics": {
+        "any_source_hit": 1.0,
+        "all_sources_hit": 0.975,
+        "precision_at_k": 0.65,
+        "mrr": 0.98,
+        "answer_accuracy": 0.829,
+        "citation_accuracy": 0.857,
+        "faithfulness": 0.79,
+        "hallucination_rate": 0.156,
+        "response_type_accuracy": 0.917,
+        "refusal_accuracy": 1.0,
+        "not_found_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "final_confidence": 0.705,
+        "input_tokens": 30593,
+        "output_tokens": 10108,
+        "estimated_cost": null
+      },
+      "failed_questions": [
+        "FACT-008",
+        "FACT-010",
+        "FACT-012",
+        "MULTI-001",
+        "MULTI-003",
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-006",
+        "MULTI-007",
+        "MULTI-008",
+        "MULTI-010",
+        "MEM-003",
+        "MEM-004"
+      ],
+      "notes": "Answer metrics use deterministic scoring and heuristic confidence; cost remains pending."
+    },
+    {
+      "run_id": "phase8-permission-safety",
+      "run_name": "phase-8-permission-safety",
+      "phase": "phase-8",
+      "run_type": "permission_eval",
+      "timestamp": "2026-06-05T02:13:58.827884+00:00",
+      "retrieval_mode": "vector_only",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_version": "answer_v1",
+      "model": "gpt-4.1-mini",
+      "total_questions": 10,
+      "metrics": {
+        "permission_leakage_rate": 0.0,
+        "blocked_answer_accuracy": 1.0,
+        "unauthorized_chunk_exposure_rate": 0.0,
+        "restricted_citation_leakage_rate": 0.0,
+        "unauthorized_chunks_reached_generation_rate": 0.0,
+        "authorized_retrieval_accuracy": 1.0,
+        "authorized_answer_accuracy": 1.0
+      },
+      "failed_questions": [],
+      "notes": "Permission metrics measure restricted benchmark refusals and authorized source access."
+    },
+    {
+      "run_id": "phase9-memory",
+      "run_name": "phase-9-memory",
+      "phase": "phase-9",
+      "run_type": "memory_eval",
+      "timestamp": "2026-06-05T02:45:56.243710+00:00",
+      "retrieval_mode": "vector_only",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_version": "answer_v1",
+      "model": "gpt-4.1-mini",
+      "total_questions": 5,
+      "metrics": {
+        "followup_detection_accuracy": 1.0,
+        "query_rewrite_quality": 1.0,
+        "memory_answer_accuracy": 1.0,
+        "memory_citation_accuracy": 1.0,
+        "memory_response_type_accuracy": 1.0,
+        "memory_permission_leakage": 0.0,
+        "hallucination_rate": 0.0,
+        "final_confidence": 0.777
+      },
+      "failed_questions": [],
+      "notes": "Memory is session-level only and is used for query rewriting, not source evidence."
+    }
+  ],
+  "overview": {
+    "best_retrieval_run": "vector-section",
+    "retrieval_conclusion": "Hybrid did not clearly outperform vector-only retrieval; vector-section remained best overall.",
+    "headline_metrics": {
+      "retrieval_hit_rate": 0.975,
+      "precision_at_k": 0.65,
+      "mrr": 0.98,
+      "answer_accuracy": 0.829,
+      "citation_accuracy": 0.857,
+      "hallucination_rate": 0.156,
+      "permission_leakage_rate": 0.0,
+      "memory_accuracy": 1.0
+    }
+  },
+  "comparisons": {
+    "baseline_vs_current": {
+      "baseline": "phase6-vector-section",
+      "current": "phase7-answer-quality",
+      "summary": "Phase 7 keeps the same retrieval baseline and adds answer/citation/confidence scoring."
+    },
+    "vector_vs_keyword_vs_hybrid": {
+      "runs": [
+        "phase6-vector-section",
+        "phase6-keyword-section",
+        "phase6-hybrid-section-0.5"
+      ],
+      "summary": "Vector-section had the strongest overall retrieval profile; hybrid matched hit rate but reduced Precision@k."
+    },
+    "section_vs_fixed_size": {
+      "runs": [
+        "phase6-vector-section",
+        "phase6-vector-fixed-size"
+      ],
+      "summary": "Fixed-size chunking did not clearly outperform section-based chunking."
+    }
+  },
+  "failed_questions": [
+    {
+      "phase": "phase-7",
+      "question_id": "FACT-008",
+      "expected_behavior": "answer",
+      "actual_response_type": "answer",
+      "failure_type": "incomplete_answer",
+      "citation_confidence": 0.863,
+      "answer_confidence": 0.863,
+      "recommended_fix": "Improve answer completeness scoring or prompt the model to include all required expected-answer facts."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "FACT-010",
+      "expected_behavior": "answer",
+      "actual_response_type": "answer",
+      "failure_type": "incomplete_answer",
+      "citation_confidence": 0.793,
+      "answer_confidence": 0.793,
+      "recommended_fix": "Improve answer completeness scoring or prompt the model to include all required expected-answer facts."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "FACT-012",
+      "expected_behavior": "answer",
+      "actual_response_type": "not_found",
+      "failure_type": "answer_not_generated",
+      "citation_confidence": 0.0,
+      "answer_confidence": 0.65,
+      "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-001",
+      "expected_behavior": "answer",
+      "actual_response_type": "not_found",
+      "failure_type": "answer_not_generated",
+      "citation_confidence": 0.453,
+      "answer_confidence": 0.65,
+      "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-003",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "unsupported_answer",
+      "citation_confidence": 0.548,
+      "answer_confidence": 0.398,
+      "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-004",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "wrong_citation",
+      "citation_confidence": 0.573,
+      "answer_confidence": 0.573,
+      "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-005",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "multi_document_failure",
+      "citation_confidence": 0.602,
+      "answer_confidence": 0.602,
+      "recommended_fix": "Add query decomposition or multi-document retrieval logic."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-006",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "wrong_citation",
+      "citation_confidence": 0.589,
+      "answer_confidence": 0.589,
+      "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-007",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "unsupported_answer",
+      "citation_confidence": 0.554,
+      "answer_confidence": 0.404,
+      "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-008",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "wrong_citation",
+      "citation_confidence": 0.525,
+      "answer_confidence": 0.375,
+      "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-010",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "unsupported_answer",
+      "citation_confidence": 0.55,
+      "answer_confidence": 0.4,
+      "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MEM-003",
+      "expected_behavior": "answer_with_memory",
+      "actual_response_type": "partial_answer",
+      "failure_type": "unsupported_answer",
+      "citation_confidence": 0.688,
+      "answer_confidence": 0.538,
+      "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MEM-004",
+      "expected_behavior": "answer_with_memory",
+      "actual_response_type": "not_found",
+      "failure_type": "answer_not_generated",
+      "citation_confidence": 0.346,
+      "answer_confidence": 0.65,
+      "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved."
+    }
+  ],
+  "notes": [
+    "All dashboard values are exported from existing evaluation result files.",
+    "Estimated cost is pending because pricing is not hardcoded.",
+    "Answer-quality metrics use deterministic and heuristic scoring, not a human judge."
+  ]
+}

@@ -1,0 +1,357 @@
+from __future__ import annotations
+
+import json
+import re
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
+
+
+PHASE6_RESULTS = Path("docs/phase-6/evaluation-results.md")
+PHASE7_RESULTS = Path("docs/phase-7/evaluation-results.md")
+PHASE7_FAILED = Path("docs/phase-7/failed-question-analysis.md")
+PHASE8_RESULTS = Path("docs/phase-8/permission-evaluation-results.md")
+PHASE9_RESULTS = Path("docs/phase-9/memory-evaluation-results.md")
+PHASE9_FAILED = Path("docs/phase-9/failed-memory-question-analysis.md")
+
+DASHBOARD_PATH = Path("data/evaluation/dashboard-summary.json")
+RUNS_DIR = Path("data/evaluation/eval-runs")
+FAILED_DIR = Path("data/evaluation/failed-questions")
+
+
+def _read(path: Path) -> str:
+    if not path.exists():
+        return ""
+    return path.read_text(encoding="utf-8")
+
+
+def _timestamp(markdown: str) -> str:
+    match = re.search(r"Generated at:\s*([^\n]+)", markdown)
+    return match.group(1).strip() if match else datetime.now(UTC).isoformat()
+
+
+def _float(value: str) -> float | None:
+    value = value.strip()
+    if value.lower() in {"pending", "none", "n/a", ""}:
+        return None
+    try:
+        return float(value)
+    except ValueError:
+        return None
+
+
+def _int(value: str) -> int | None:
+    value = value.strip()
+    if value.lower() in {"pending", "none", "n/a", ""}:
+        return None
+    try:
+        return int(value)
+    except ValueError:
+        return None
+
+
+def _summary_bullets(markdown: str) -> dict[str, str]:
+    values: dict[str, str] = {}
+    for line in markdown.splitlines():
+        match = re.match(r"-\s+([^:]+):\s*(.+)", line.strip())
+        if match:
+            key = match.group(1).strip().lower().replace("@", "_at_")
+            key = re.sub(r"[^a-z0-9]+", "_", key).strip("_")
+            values[key] = match.group(2).strip()
+    return values
+
+
+def _parse_phase6_table(markdown: str) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    in_table = False
+    for line in markdown.splitlines():
+        if line.startswith("| Run | Any Source |"):
+            in_table = True
+            continue
+        if in_table and line.startswith("|---"):
+            continue
+        if in_table and not line.startswith("|"):
+            break
+        if not in_table or not line.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if len(cells) != 8:
+            continue
+        failed_questions = [] if cells[7] == "None" else [item.strip() for item in cells[7].split(",")]
+        rows.append(
+            {
+                "run_id": f"phase6-{cells[0]}",
+                "run_name": cells[0],
+                "phase": "phase-6",
+                "run_type": "retrieval_eval",
+                "timestamp": _timestamp(markdown),
+                "retrieval_mode": _phase6_mode(cells[0]),
+                "chunking_strategy": "fixed_size" if "fixed" in cells[0] else "section_based",
+                "top_k": 5,
+                "prompt_version": None,
+                "model": None,
+                "total_questions": 60,
+                "metrics": {
+                    "any_source_hit": _float(cells[1]),
+                    "all_sources_hit": _float(cells[2]),
+                    "expected_source_recall": _float(cells[3]),
+                    "precision_at_k": _float(cells[4]),
+                    "mrr": _float(cells[5]),
+                    "average_latency_ms": _float(cells[6]),
+                },
+                "failed_questions": failed_questions,
+                "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type.",
+            }
+        )
+    return rows
+
+
+def _phase6_mode(run_name: str) -> str:
+    if run_name.startswith("keyword"):
+        return "keyword_only"
+    if run_name.startswith("hybrid"):
+        return "hybrid"
+    return "vector_only"
+
+
+def _failed_question_ids(markdown: str) -> list[str]:
+    ids: list[str] = []
+    for line in markdown.splitlines():
+        if not line.startswith("| "):
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if not cells or cells[0] in {"Question ID", "---"}:
+            continue
+        if re.match(r"^[A-Z]+-\d{3}$", cells[0]):
+            ids.append(cells[0])
+    return ids
+
+
+def _failed_items(markdown: str, phase: str) -> list[dict[str, Any]]:
+    items: list[dict[str, Any]] = []
+    for line in markdown.splitlines():
+        if not line.startswith("| "):
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if not cells or cells[0] in {"Question ID", "---"}:
+            continue
+        if not re.match(r"^[A-Z]+-\d{3}$", cells[0]):
+            continue
+        if phase == "phase-7" and len(cells) >= 7:
+            items.append(
+                {
+                    "phase": phase,
+                    "question_id": cells[0],
+                    "expected_behavior": cells[1],
+                    "actual_response_type": cells[2],
+                    "failure_type": cells[3],
+                    "citation_confidence": _float(cells[4]),
+                    "answer_confidence": _float(cells[5]),
+                    "recommended_fix": cells[6],
+                }
+            )
+        elif phase == "phase-9" and len(cells) >= 6:
+            items.append(
+                {
+                    "phase": phase,
+                    "question_id": cells[0],
+                    "failure_type": cells[1],
+                    "rewritten_question": cells[2],
+                    "expected_source": cells[3],
+                    "actual_citations": cells[4],
+                    "recommended_fix": cells[5],
+                }
+            )
+    return items
+
+
+def _phase7_run(markdown: str, failed_markdown: str) -> dict[str, Any]:
+    values = _summary_bullets(markdown)
+    return {
+        "run_id": "phase7-answer-quality",
+        "run_name": "phase-7-answer-quality",
+        "phase": "phase-7",
+        "run_type": "answer_quality_eval",
+        "timestamp": _timestamp(markdown),
+        "retrieval_mode": values.get("retrieval_mode"),
+        "chunking_strategy": values.get("chunking_strategy"),
+        "top_k": _int(values.get("top_k", "")),
+        "prompt_version": "answer_v1",
+        "model": "gpt-4.1-mini",
+        "total_questions": _int(values.get("questions", "")),
+        "metrics": {
+            "any_source_hit": _float(values.get("any_source_hit", "")),
+            "all_sources_hit": _float(values.get("all_sources_hit", "")),
+            "precision_at_k": _float(values.get("precision_at_k", "")),
+            "mrr": _float(values.get("mrr", "")),
+            "answer_accuracy": _float(values.get("answer_accuracy", "")),
+            "citation_accuracy": _float(values.get("citation_accuracy", "")),
+            "faithfulness": _float(values.get("faithfulness_support_score", "")),
+            "hallucination_rate": _float(values.get("hallucination_rate", "")),
+            "response_type_accuracy": _float(values.get("response_type_accuracy", "")),
+            "refusal_accuracy": _float(values.get("refusal_accuracy", "")),
+            "not_found_accuracy": _float(values.get("not_found_accuracy", "")),
+            "clarification_accuracy": _float(values.get("clarification_accuracy", "")),
+            "final_confidence": _float(values.get("average_final_confidence", "")),
+            "input_tokens": _int(values.get("input_tokens", "")),
+            "output_tokens": _int(values.get("output_tokens", "")),
+            "estimated_cost": None,
+        },
+        "failed_questions": _failed_question_ids(failed_markdown),
+        "notes": "Answer metrics use deterministic scoring and heuristic confidence; cost remains pending.",
+    }
+
+
+def _phase8_run(markdown: str) -> dict[str, Any]:
+    values = _summary_bullets(markdown)
+    return {
+        "run_id": "phase8-permission-safety",
+        "run_name": "phase-8-permission-safety",
+        "phase": "phase-8",
+        "run_type": "permission_eval",
+        "timestamp": _timestamp(markdown),
+        "retrieval_mode": values.get("retrieval_mode"),
+        "chunking_strategy": values.get("chunking_strategy"),
+        "top_k": _int(values.get("top_k", "")),
+        "prompt_version": "answer_v1",
+        "model": "gpt-4.1-mini",
+        "total_questions": _int(values.get("restricted_benchmark_questions_tested", "")),
+        "metrics": {
+            "permission_leakage_rate": _float(values.get("permission_leakage_rate", "")),
+            "blocked_answer_accuracy": _float(values.get("blocked_answer_accuracy", "")),
+            "unauthorized_chunk_exposure_rate": _float(values.get("unauthorized_chunk_exposure_rate", "")),
+            "restricted_citation_leakage_rate": _float(values.get("restricted_citation_leakage_rate", "")),
+            "unauthorized_chunks_reached_generation_rate": _float(
+                values.get("unauthorized_chunks_reached_generation_rate", "")
+            ),
+            "authorized_retrieval_accuracy": _float(values.get("authorized_retrieval_accuracy", "")),
+            "authorized_answer_accuracy": _float(values.get("authorized_answer_accuracy", "")),
+        },
+        "failed_questions": [],
+        "notes": "Permission metrics measure restricted benchmark refusals and authorized source access.",
+    }
+
+
+def _phase9_run(markdown: str, failed_markdown: str) -> dict[str, Any]:
+    values = _summary_bullets(markdown)
+    return {
+        "run_id": "phase9-memory",
+        "run_name": "phase-9-memory",
+        "phase": "phase-9",
+        "run_type": "memory_eval",
+        "timestamp": _timestamp(markdown),
+        "retrieval_mode": values.get("retrieval_mode"),
+        "chunking_strategy": values.get("chunking_strategy"),
+        "top_k": _int(values.get("top_k", "")),
+        "prompt_version": "answer_v1",
+        "model": "gpt-4.1-mini",
+        "total_questions": _int(values.get("memory_benchmark_questions", "")),
+        "metrics": {
+            "followup_detection_accuracy": _float(values.get("follow_up_detection_accuracy", "")),
+            "query_rewrite_quality": _float(values.get("query_rewrite_quality", "")),
+            "memory_answer_accuracy": _float(values.get("memory_answer_accuracy", "")),
+            "memory_citation_accuracy": _float(values.get("memory_citation_accuracy", "")),
+            "memory_response_type_accuracy": _float(values.get("memory_response_type_accuracy", "")),
+            "memory_permission_leakage": _float(values.get("memory_permission_leakage", "")),
+            "hallucination_rate": _float(values.get("hallucination_rate_on_follow_ups", "")),
+            "final_confidence": _float(values.get("average_final_confidence", "")),
+        },
+        "failed_questions": _failed_question_ids(failed_markdown),
+        "notes": "Memory is session-level only and is used for query rewriting, not source evidence.",
+    }
+
+
+def _overview(runs: list[dict[str, Any]]) -> dict[str, Any]:
+    by_id = {run["run_id"]: run for run in runs}
+    retrieval = by_id.get("phase6-vector-section", {})
+    answer = by_id.get("phase7-answer-quality", {})
+    permissions = by_id.get("phase8-permission-safety", {})
+    memory = by_id.get("phase9-memory", {})
+    return {
+        "best_retrieval_run": "vector-section",
+        "retrieval_conclusion": "Hybrid did not clearly outperform vector-only retrieval; vector-section remained best overall.",
+        "headline_metrics": {
+            "retrieval_hit_rate": retrieval.get("metrics", {}).get("all_sources_hit"),
+            "precision_at_k": retrieval.get("metrics", {}).get("precision_at_k"),
+            "mrr": retrieval.get("metrics", {}).get("mrr"),
+            "answer_accuracy": answer.get("metrics", {}).get("answer_accuracy"),
+            "citation_accuracy": answer.get("metrics", {}).get("citation_accuracy"),
+            "hallucination_rate": answer.get("metrics", {}).get("hallucination_rate"),
+            "permission_leakage_rate": permissions.get("metrics", {}).get("permission_leakage_rate"),
+            "memory_accuracy": memory.get("metrics", {}).get("memory_answer_accuracy"),
+        },
+    }
+
+
+def _comparisons(runs: list[dict[str, Any]]) -> dict[str, Any]:
+    by_id = {run["run_id"]: run for run in runs}
+    vector = by_id.get("phase6-vector-section")
+    hybrid = by_id.get("phase6-hybrid-section-0.5")
+    keyword = by_id.get("phase6-keyword-section")
+    fixed = by_id.get("phase6-vector-fixed-size")
+    return {
+        "baseline_vs_current": {
+            "baseline": "phase6-vector-section",
+            "current": "phase7-answer-quality",
+            "summary": "Phase 7 keeps the same retrieval baseline and adds answer/citation/confidence scoring.",
+        },
+        "vector_vs_keyword_vs_hybrid": {
+            "runs": [run["run_id"] for run in [vector, keyword, hybrid] if run],
+            "summary": "Vector-section had the strongest overall retrieval profile; hybrid matched hit rate but reduced Precision@k.",
+        },
+        "section_vs_fixed_size": {
+            "runs": [run["run_id"] for run in [vector, fixed] if run],
+            "summary": "Fixed-size chunking did not clearly outperform section-based chunking.",
+        },
+    }
+
+
+def main() -> None:
+    phase6 = _read(PHASE6_RESULTS)
+    phase7 = _read(PHASE7_RESULTS)
+    phase7_failed = _read(PHASE7_FAILED)
+    phase8 = _read(PHASE8_RESULTS)
+    phase9 = _read(PHASE9_RESULTS)
+    phase9_failed = _read(PHASE9_FAILED)
+
+    runs = []
+    runs.extend(_parse_phase6_table(phase6))
+    if phase7:
+        runs.append(_phase7_run(phase7, phase7_failed))
+    if phase8:
+        runs.append(_phase8_run(phase8))
+    if phase9:
+        runs.append(_phase9_run(phase9, phase9_failed))
+
+    failed_questions = _failed_items(phase7_failed, "phase-7") + _failed_items(phase9_failed, "phase-9")
+    dashboard = {
+        "generated_at": datetime.now(UTC).isoformat(),
+        "source": "docs/phase-6 through docs/phase-9",
+        "runs": runs,
+        "overview": _overview(runs),
+        "comparisons": _comparisons(runs),
+        "failed_questions": failed_questions,
+        "notes": [
+            "All dashboard values are exported from existing evaluation result files.",
+            "Estimated cost is pending because pricing is not hardcoded.",
+            "Answer-quality metrics use deterministic and heuristic scoring, not a human judge.",
+        ],
+    }
+
+    DASHBOARD_PATH.parent.mkdir(parents=True, exist_ok=True)
+    RUNS_DIR.mkdir(parents=True, exist_ok=True)
+    FAILED_DIR.mkdir(parents=True, exist_ok=True)
+    DASHBOARD_PATH.write_text(json.dumps(dashboard, indent=2), encoding="utf-8")
+
+    for run in runs:
+        (RUNS_DIR / f"{run['run_id']}.json").write_text(json.dumps(run, indent=2), encoding="utf-8")
+    (FAILED_DIR / "failed-questions.json").write_text(json.dumps(failed_questions, indent=2), encoding="utf-8")
+
+    print(json.dumps({"run_count": len(runs), "failed_question_count": len(failed_questions)}, indent=2))
+    print(f"Wrote {DASHBOARD_PATH}")
+    print(f"Wrote {RUNS_DIR}")
+    print(f"Wrote {FAILED_DIR / 'failed-questions.json'}")
+
+
+if __name__ == "__main__":
+    main()

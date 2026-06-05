@@ -180,6 +180,48 @@ python scripts/ingest_markdown.py --apply-schema --chunking-strategy section_bas
 python scripts/run_memory_eval.py
 ```
 
+## Phase 10 Artifacts
+
+Phase 10 adds a recruiter-friendly evaluation dashboard and run comparison layer using real metrics exported from Phases 6-9.
+
+- [Evaluation Dashboard Design](docs/phase-10/evaluation-dashboard-design.md)
+- [Run Comparison Design](docs/phase-10/run-comparison-design.md)
+- [Dashboard API Design](docs/phase-10/dashboard-api-design.md)
+- [Evaluation Results Summary](docs/phase-10/evaluation-results-summary.md)
+- [Recruiter Demo Notes](docs/phase-10/recruiter-demo-notes.md)
+- [Phase 10 Checklist](docs/phase-10/checklist.md)
+- [Dashboard Summary JSON](data/evaluation/dashboard-summary.json)
+
+Generate dashboard data and comparison summary:
+
+```powershell
+python scripts/export_dashboard_data.py
+python scripts/compare_eval_runs.py
+```
+
+Run the API and dashboard:
+
+```powershell
+uvicorn apps.api.app.main:app --reload
+cd apps/web
+npm install
+npm run dev
+```
+
+Open the dashboard at `http://127.0.0.1:3000`.
+
+Current honest metric summary:
+
+- Best retrieval configuration: `vector-section`
+- Retrieval hit rate: `0.975`
+- Precision@k: `0.650`
+- MRR: `0.980`
+- Answer accuracy: `0.829`
+- Citation accuracy: `0.857`
+- Hallucination rate: `0.156`
+- Permission leakage rate: `0.000`
+- Memory answer accuracy: `1.000`
+
 ## MVP Boundary
 
 The MVP proves enterprise RAG quality, not breadth.
