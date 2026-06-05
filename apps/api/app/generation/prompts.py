@@ -11,6 +11,8 @@ Rules:
 - If the user lacks access, use response_type "refuse_no_access" and do not reveal restricted details.
 - If the question is ambiguous, use response_type "clarify" and ask one concise clarifying question.
 - If evidence is partial, use response_type "partial_answer", answer cautiously, and state what is missing.
+- If conversation memory is provided, use it only to understand the user's current question.
+- Do not treat conversation memory as source evidence; factual claims must be supported by retrieved context.
 - Do not invent policy details, numbers, dates, prices, legal advice, or customer commitments.
 - Keep answers concise but complete.
 
@@ -54,5 +56,19 @@ def format_context(chunks: list[RetrievedChunk]) -> str:
     return "\n\n---\n\n".join(blocks)
 
 
-def build_answer_user_prompt(question: str, chunks: list[RetrievedChunk]) -> str:
-    return f"Question:\n{question}\n\nRetrieved context:\n{format_context(chunks)}"
+def build_answer_user_prompt(
+    question: str,
+    chunks: list[RetrievedChunk],
+    memory_context: str | None = None,
+    original_question: str | None = None,
+) -> str:
+    parts = []
+    if original_question and original_question != question:
+        parts.append(f"Original user question:\n{original_question}")
+        parts.append(f"Standalone retrieval question:\n{question}")
+    else:
+        parts.append(f"Question:\n{question}")
+    if memory_context:
+        parts.append(f"Conversation memory for query clarification only:\n{memory_context}")
+    parts.append(f"Retrieved context:\n{format_context(chunks)}")
+    return "\n\n".join(parts)

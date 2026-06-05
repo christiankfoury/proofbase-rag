@@ -205,6 +205,31 @@ create index if not exists idx_audit_logs_action on audit_logs(action);
 create index if not exists idx_audit_logs_document_id on audit_logs(document_id);
 create index if not exists idx_audit_logs_created_at on audit_logs(created_at);
 
+create table if not exists chat_sessions (
+  id uuid primary key default uuid_generate_v4(),
+  user_id text,
+  user_role text not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_chat_sessions_user_role on chat_sessions(user_role);
+create index if not exists idx_chat_sessions_updated_at on chat_sessions(updated_at);
+
+create table if not exists chat_messages (
+  id uuid primary key default uuid_generate_v4(),
+  session_id uuid not null references chat_sessions(id) on delete cascade,
+  role text not null,
+  content text not null,
+  response_type text,
+  citations_json jsonb not null default '[]'::jsonb,
+  confidence_json jsonb not null default '{}'::jsonb,
+  metadata_json jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_chat_messages_session_created on chat_messages(session_id, created_at);
+
 insert into prompts (name, prompt_type, description)
 values ('enterprise_answer', 'answer_generation', 'Baseline grounded answer prompt with citations and refusal behavior.')
 on conflict (name) do nothing;

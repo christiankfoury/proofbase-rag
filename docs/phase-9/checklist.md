@@ -1,0 +1,25 @@
+# Phase 9 Checklist
+
+- [x] Chat session schema added.
+- [x] Chat message schema added.
+- [x] Session store added.
+- [x] Follow-up detector added.
+- [x] Query rewriter added.
+- [x] Memory context builder added.
+- [x] `/chat/sessions` endpoint added.
+- [x] `/query` supports `session_id`.
+- [x] `/query` returns memory metadata.
+- [x] User and assistant messages are stored when a session is used.
+- [x] Memory-aware retrieval uses rewritten standalone questions.
+- [x] Answer generation receives short memory context.
+- [x] Memory context is not treated as source evidence.
+- [x] Current-role permission filtering still applies before generation.
+- [x] Memory evaluation metrics added.
+- [x] Memory evaluation script added.
+- [x] Phase 9 documentation added.
+- [x] Memory evaluation run completed.
+- [x] Memory evaluation results updated with real metrics.
+- [x] Failed memory-question report updated with real failures.
+- [x] No long-term memory added.
+- [x] No production auth added.
+- [x] No frontend chat dashboard added.

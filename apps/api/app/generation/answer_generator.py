@@ -295,6 +295,8 @@ def generate_answer(
     chunks: list[RetrievedChunk],
     expected_behavior: str | None = None,
     user_role: str | None = None,
+    memory_context: str | None = None,
+    original_question: str | None = None,
 ) -> dict:
     policy_response = _policy_response(question, chunks, user_role=user_role)
     if policy_response:
@@ -355,7 +357,12 @@ def generate_answer(
         }
 
     settings = get_settings()
-    user_prompt = build_answer_user_prompt(question, chunks)
+    user_prompt = build_answer_user_prompt(
+        question,
+        chunks,
+        memory_context=memory_context,
+        original_question=original_question,
+    )
 
     response = _client().chat.completions.create(
         model=settings.openai_chat_model,
@@ -387,6 +394,16 @@ def generate_answer(
     unsupported_claims = list(dict.fromkeys(unsupported_claims + validation["unsupported_claims"]))
     response_type = _adjust_response_type(response_type, validation["citation_confidence"], unsupported_claims)
     answer = _adjust_answer_text(answer, response_type, validation["citation_confidence"])
+    if response_type == RESPONSE_NOT_FOUND:
+        validation = {
+            "citations": [],
+            "citation_confidence": 0.0,
+            "supported_claims": [],
+            "unsupported_claims": [],
+            "validation_notes": "Retrieved context did not provide enough support for the requested answer.",
+        }
+        supported_claims = []
+        unsupported_claims = []
     confidence = final_confidence(response_type, chunks, validation["citation_confidence"], unsupported_claims)
 
     return {

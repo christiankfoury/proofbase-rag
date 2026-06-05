@@ -162,6 +162,24 @@ python scripts/ingest_markdown.py --apply-schema --chunking-strategy section_bas
 python scripts/run_permission_eval.py
 ```
 
+## Phase 9 Artifacts
+
+Phase 9 adds permission-safe session memory and deterministic query rewriting for follow-up questions.
+
+- [Conversation Memory Design](docs/phase-9/conversation-memory-design.md)
+- [Query Rewriting Design](docs/phase-9/query-rewriting-design.md)
+- [Memory Permission Safety](docs/phase-9/memory-permissions-safety.md)
+- [Phase 9 Memory Evaluation Results](docs/phase-9/memory-evaluation-results.md)
+- [Failed Memory Question Analysis](docs/phase-9/failed-memory-question-analysis.md)
+- [Phase 9 Checklist](docs/phase-9/checklist.md)
+
+Run Phase 9 memory evaluation:
+
+```powershell
+python scripts/ingest_markdown.py --apply-schema --chunking-strategy section_based
+python scripts/run_memory_eval.py
+```
+
 ## MVP Boundary
 
 The MVP proves enterprise RAG quality, not breadth.
