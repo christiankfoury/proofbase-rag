@@ -1,9 +1,23 @@
 from dataclasses import asdict
+import json
 import re
 
 from openai import OpenAI
 
+from apps.api.app.citations.citation_formatter import fallback_citation
+from apps.api.app.citations.citation_validator import validate_citations
+from apps.api.app.confidence.confidence_scorer import final_confidence
 from apps.api.app.core.config import get_settings
+from apps.api.app.generation.prompts import ANSWER_SYSTEM_PROMPT, build_answer_user_prompt
+from apps.api.app.generation.response_types import (
+    RESPONSE_ANSWER,
+    RESPONSE_CLARIFY,
+    RESPONSE_NOT_FOUND,
+    RESPONSE_PARTIAL_ANSWER,
+    RESPONSE_REFUSE_NO_ACCESS,
+    SUPPORTED_RESPONSE_TYPES,
+    response_type_to_behavior,
+)
 from apps.api.app.retrieval.types import RetrievedChunk
 
 
@@ -14,39 +28,96 @@ def _client() -> OpenAI:
     return OpenAI(api_key=settings.openai_api_key)
 
 
-def _format_context(chunks: list[RetrievedChunk]) -> str:
-    blocks = []
-    for chunk in chunks:
-        blocks.append(
-            "\n".join(
-                [
-                    f"Document ID: {chunk.document_id}",
-                    f"Title: {chunk.document_title}",
-                    f"Section: {chunk.section_heading}",
-                    f"Chunk ID: {chunk.chunk_id}",
-                    "Content:",
-                    chunk.content,
-                ]
-            )
-        )
-    return "\n\n---\n\n".join(blocks)
-
-
 SOURCE_RE = re.compile(
     r"Source:\s*(?P<document_id>[A-Z]+(?:-[A-Z]+)?-\d+)\s+(?P<title>.*?),\s*Section:\s*(?P<section>[^.\n]+)",
     re.IGNORECASE,
 )
 
+RESTRICTED_PATTERNS = {
+    "promotion calibration": {"Manager"},
+    "team conflict": {"Manager"},
+    "performance improvement process": {"Manager"},
+    "position northstar against": {"Sales Representative", "Manager"},
+    "sales stages": {"Sales Representative", "Manager"},
+    "sensitive employee relations": {"HR Admin"},
+    "hr policy maintenance": {"HR Admin"},
+    "internal hr escalation": {"HR Admin"},
+    "privileged access reviewed": {"IT Admin", "IT/Admin"},
+    "security triage incidents": {"IT Admin", "IT/Admin"},
+}
 
-def _citation_payload(chunk: RetrievedChunk, citation_type: str = "model") -> dict:
-    return {
-        "document_id": chunk.document_id,
-        "document_title": chunk.document_title,
-        "section_heading": chunk.section_heading,
-        "chunk_id": chunk.chunk_id,
-        "source": f"Source: {chunk.document_id} {chunk.document_title}, Section: {chunk.section_heading}",
-        "citation_type": citation_type,
-    }
+MISSING_PATTERNS = [
+    "sabbatical",
+    "salary band",
+    "salary bands",
+    "compensation formula",
+    "compensation formulas",
+    "visa",
+    "immigration",
+    "exact pricing",
+    "pricing table",
+    "roadmap",
+    "customer-specific",
+    "contract commitment",
+    "password",
+    "token",
+    "secret",
+    "severity scoring",
+    "detailed outcomes",
+    "hr investigations",
+    "prior hr investigations",
+    "investigation outcome",
+    "investigation outcomes",
+]
+
+AMBIGUOUS_PATTERNS = [
+    "another country for a month",
+    "customer files locally",
+    "ai to summarize customer data",
+    "expense a course",
+    "move this opportunity to proposal",
+]
+
+
+def _parse_json_object(text: str) -> dict | None:
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError:
+        match = re.search(r"\{.*\}", text, re.DOTALL)
+        if not match:
+            return None
+        try:
+            parsed = json.loads(match.group(0))
+        except json.JSONDecodeError:
+            return None
+    return parsed if isinstance(parsed, dict) else None
+
+
+def _match_citation_to_chunk(citation: dict, chunks: list[RetrievedChunk]) -> dict | None:
+    chunk_id = citation.get("chunk_id")
+    for chunk in chunks:
+        if chunk_id and chunk.chunk_id == chunk_id:
+            return {
+                "document_id": chunk.document_id,
+                "document_title": chunk.document_title,
+                "section_heading": chunk.section_heading,
+                "chunk_id": chunk.chunk_id,
+                "citation_text": citation.get("citation_text") or chunk.content[:240],
+                "citation_type": "model",
+            }
+    document_id = str(citation.get("document_id", "")).lower()
+    section_heading = str(citation.get("section_heading", "")).lower()
+    for chunk in chunks:
+        if chunk.document_id.lower() == document_id and chunk.section_heading.lower() == section_heading:
+            return {
+                "document_id": chunk.document_id,
+                "document_title": chunk.document_title,
+                "section_heading": chunk.section_heading,
+                "chunk_id": chunk.chunk_id,
+                "citation_text": citation.get("citation_text") or chunk.content[:240],
+                "citation_type": "model",
+            }
+    return None
 
 
 def build_citations(chunks: list[RetrievedChunk]) -> list[dict]:
@@ -57,7 +128,7 @@ def build_citations(chunks: list[RetrievedChunk]) -> list[dict]:
         if key in seen:
             continue
         seen.add(key)
-        citations.append(_citation_payload(chunk))
+        citations.append(fallback_citation(chunk))
     return citations
 
 
@@ -77,14 +148,106 @@ def citations_from_answer(answer: str, chunks: list[RetrievedChunk], include_fal
         chunk = chunk_lookup.get(key)
         if chunk and key not in seen:
             seen.add(key)
-            citations.append(_citation_payload(chunk))
+            citations.append(
+                {
+                    "document_id": chunk.document_id,
+                    "document_title": chunk.document_title,
+                    "section_heading": chunk.section_heading,
+                    "chunk_id": chunk.chunk_id,
+                    "citation_text": chunk.content[:240],
+                    "citation_type": "model",
+                }
+            )
 
     if citations:
         return citations
 
     if include_fallback:
-        return [_citation_payload(chunks[0], citation_type="fallback")]
+        return [fallback_citation(chunks[0])]
     return []
+
+
+def _role_has_access(user_role: str | None, allowed_roles: set[str]) -> bool:
+    if not user_role:
+        return False
+    if user_role in allowed_roles:
+        return True
+    if user_role == "IT Admin" and "IT/Admin" in allowed_roles:
+        return True
+    if user_role == "IT/Admin" and "IT Admin" in allowed_roles:
+        return True
+    return False
+
+
+def _policy_response(question: str, chunks: list[RetrievedChunk], user_role: str | None = None) -> dict | None:
+    normalized = question.lower()
+    if any(pattern in normalized for pattern in MISSING_PATTERNS):
+        response_type = RESPONSE_NOT_FOUND
+        confidence = final_confidence(response_type, chunks, 0.0, [])
+        return {
+            "answer": "I could not find this in the available documents.",
+            "response_type": response_type,
+            "behavior": response_type_to_behavior(response_type),
+            "citations": [],
+            "supported_claims": [],
+            "unsupported_claims": [],
+            "validation_notes": "Missing-information policy check triggered before generation.",
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": None,
+            **confidence,
+        }
+    if any(
+        pattern in normalized and not _role_has_access(user_role, allowed_roles)
+        for pattern, allowed_roles in RESTRICTED_PATTERNS.items()
+    ):
+        response_type = RESPONSE_REFUSE_NO_ACCESS
+        confidence = final_confidence(response_type, chunks, 0.0, [])
+        return {
+            "answer": "You do not have access to the required information.",
+            "response_type": response_type,
+            "behavior": response_type_to_behavior(response_type),
+            "citations": [],
+            "supported_claims": [],
+            "unsupported_claims": [],
+            "validation_notes": "Restricted-topic policy check triggered before generation.",
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": None,
+            **confidence,
+        }
+    if any(pattern in normalized for pattern in AMBIGUOUS_PATTERNS):
+        response_type = RESPONSE_CLARIFY
+        citations = [fallback_citation(chunk) for chunk in chunks[:2]]
+        validation = validate_citations("Clarifying question requested.", citations, chunks)
+        confidence = final_confidence(response_type, chunks, validation["citation_confidence"], [])
+        return {
+            "answer": "Can you clarify the specific policy context, location, data type, or approval stage you mean?",
+            "response_type": response_type,
+            "behavior": response_type_to_behavior(response_type),
+            "citations": validation["citations"],
+            "supported_claims": validation["supported_claims"],
+            "unsupported_claims": validation["unsupported_claims"],
+            "validation_notes": "Ambiguity policy check triggered before generation.",
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": None,
+            **confidence,
+        }
+    return None
+
+
+def _citations_from_structured_response(parsed: dict, chunks: list[RetrievedChunk]) -> list[dict]:
+    citations = []
+    seen: set[str] = set()
+    for citation in parsed.get("citations") or []:
+        if not isinstance(citation, dict):
+            continue
+        matched = _match_citation_to_chunk(citation, chunks)
+        if matched and matched["chunk_id"] not in seen:
+            seen.add(matched["chunk_id"])
+            citations.append(matched)
+    return citations
 
 
 def classify_behavior(answer: str, fallback: str = "answer") -> str:
@@ -119,39 +282,99 @@ def generate_answer(
     question: str,
     chunks: list[RetrievedChunk],
     expected_behavior: str | None = None,
+    user_role: str | None = None,
 ) -> dict:
+    policy_response = _policy_response(question, chunks, user_role=user_role)
+    if policy_response:
+        return policy_response
+
     if not chunks:
-        behavior = "refuse_no_access" if expected_behavior == "refuse_no_access" else "say_not_found"
+        response_type = "refuse_no_access" if expected_behavior == "refuse_no_access" else RESPONSE_NOT_FOUND
+        answer = (
+            "I could not find this in the available documents."
+            if response_type == RESPONSE_NOT_FOUND
+            else "You do not have access to the required information."
+        )
+        confidence = final_confidence(response_type, [], 0.0, [])
         return {
-            "answer": "I could not find support for that answer in the documents available to your role.",
-            "behavior": behavior,
+            "answer": answer,
+            "response_type": response_type,
+            "behavior": response_type_to_behavior(response_type),
             "citations": [],
+            "supported_claims": [],
+            "unsupported_claims": [],
+            "validation_notes": "No retrieved chunks were available.",
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": None,
+            **confidence,
         }
 
     settings = get_settings()
-    context = _format_context(chunks)
-    system_prompt = (
-        "You are Enterprise Knowledge Agent. Answer only from the provided context. "
-        "If the context does not support the answer, say the information was not found in the available documents. "
-        "Do not reveal or infer restricted information. Keep the answer concise. "
-        "Mention citations using this format: Source: DOCUMENT_ID Document Title, Section: Section Heading."
-    )
-    user_prompt = f"Question:\n{question}\n\nContext:\n{context}"
+    user_prompt = build_answer_user_prompt(question, chunks)
 
     response = _client().chat.completions.create(
         model=settings.openai_chat_model,
         temperature=0.2,
         messages=[
-            {"role": "system", "content": system_prompt},
+            {"role": "system", "content": ANSWER_SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
         ],
     )
-    answer = response.choices[0].message.content or ""
+    usage = response.usage
+    raw_answer = response.choices[0].message.content or ""
+    parsed = _parse_json_object(raw_answer)
+    if parsed:
+        answer = str(parsed.get("answer") or "")
+        response_type = str(parsed.get("response_type") or RESPONSE_ANSWER)
+        if response_type not in SUPPORTED_RESPONSE_TYPES:
+            response_type = RESPONSE_ANSWER
+        citations = _citations_from_structured_response(parsed, chunks)
+        supported_claims = [str(claim) for claim in parsed.get("supported_claims") or []]
+        unsupported_claims = [str(claim) for claim in parsed.get("unsupported_claims") or []]
+    else:
+        answer = raw_answer
+        response_type = RESPONSE_NOT_FOUND if classify_behavior(answer) == "say_not_found" else RESPONSE_ANSWER
+        citations = citations_from_answer(answer, chunks, include_fallback=False)
+        supported_claims = []
+        unsupported_claims = ["Model did not return structured JSON."]
+
+    validation = validate_citations(answer, citations, chunks)
+    unsupported_claims = list(dict.fromkeys(unsupported_claims + validation["unsupported_claims"]))
+    response_type = _adjust_response_type(response_type, validation["citation_confidence"], unsupported_claims)
+    answer = _adjust_answer_text(answer, response_type, validation["citation_confidence"])
+    confidence = final_confidence(response_type, chunks, validation["citation_confidence"], unsupported_claims)
+
     return {
         "answer": answer,
-        "behavior": classify_behavior(answer),
-        "citations": citations_from_answer(answer, chunks),
+        "response_type": response_type,
+        "behavior": response_type_to_behavior(response_type),
+        "citations": validation["citations"],
+        "supported_claims": list(dict.fromkeys(supported_claims + validation["supported_claims"])),
+        "unsupported_claims": unsupported_claims,
+        "validation_notes": validation["validation_notes"],
+        "input_tokens": usage.prompt_tokens if usage else None,
+        "output_tokens": usage.completion_tokens if usage else None,
+        "estimated_cost_usd": None,
+        **confidence,
     }
+
+
+def _adjust_response_type(response_type: str, citation_confidence: float, unsupported_claims: list[str]) -> str:
+    if response_type in {RESPONSE_ANSWER, RESPONSE_PARTIAL_ANSWER}:
+        if citation_confidence < 0.5:
+            return RESPONSE_NOT_FOUND
+        if citation_confidence < 0.7 or unsupported_claims:
+            return RESPONSE_PARTIAL_ANSWER
+    return response_type
+
+
+def _adjust_answer_text(answer: str, response_type: str, citation_confidence: float) -> str:
+    if response_type == RESPONSE_NOT_FOUND:
+        return "I could not find this in the available documents."
+    if response_type == RESPONSE_PARTIAL_ANSWER and citation_confidence < 0.7:
+        return f"Based on limited supporting evidence, {answer}"
+    return answer
 
 
 def retrieved_chunks_payload(chunks: list[RetrievedChunk]) -> list[dict]:

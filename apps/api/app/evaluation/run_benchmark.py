@@ -225,7 +225,12 @@ def run_benchmark(
                 "citations": [],
             }
         else:
-            generated = generate_answer(query_text, chunks, expected_behavior=question["expected_behavior"])
+            generated = generate_answer(
+                query_text,
+                chunks,
+                expected_behavior=question["expected_behavior"],
+                user_role=question["user_role"],
+            )
         latency_ms = int((time.perf_counter() - started) * 1000)
 
         expected_docs = _retrieval_expected_documents(question)

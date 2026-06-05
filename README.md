@@ -128,6 +128,23 @@ python scripts/ingest_markdown.py --chunking-strategy fixed_size --chunk-size 18
 python scripts/run_retrieval_experiments.py
 ```
 
+## Phase 7 Artifacts
+
+Phase 7 improves answer generation after retrieval by adding structured response types, citation validation, confidence scoring, safer not-found behavior, and answer-quality evaluation.
+
+- [Answer Generation Design](docs/phase-7/answer-generation-design.md)
+- [Citation Validation Design](docs/phase-7/citation-validation-design.md)
+- [Confidence Scoring](docs/phase-7/confidence-scoring.md)
+- [Phase 7 Evaluation Results](docs/phase-7/evaluation-results.md)
+- [Failed Question Analysis](docs/phase-7/failed-question-analysis.md)
+- [Phase 7 Checklist](docs/phase-7/checklist.md)
+
+Run Phase 7 answer-quality evaluation:
+
+```powershell
+python scripts/run_answer_quality_eval.py
+```
+
 ## MVP Boundary
 
 The MVP proves enterprise RAG quality, not breadth.

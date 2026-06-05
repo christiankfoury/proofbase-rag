@@ -39,7 +39,7 @@ def query(request: QueryRequest) -> dict:
     )
     try:
         chunks = retrieve_chunks(request.question, request.user_role, config)
-        answer = generate_answer(request.question, chunks)
+        answer = generate_answer(request.question, chunks, user_role=request.user_role)
     except RuntimeError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except PsycopgError as exc:
@@ -49,6 +49,14 @@ def query(request: QueryRequest) -> dict:
     return {
         "answer": answer["answer"],
         "behavior": answer["behavior"],
+        "response_type": answer["response_type"],
+        "retrieval_confidence": answer["retrieval_confidence"],
+        "citation_confidence": answer["citation_confidence"],
+        "answer_confidence": answer["answer_confidence"],
+        "final_confidence": answer["final_confidence"],
+        "supported_claims": answer["supported_claims"],
+        "unsupported_claims": answer["unsupported_claims"],
+        "validation_notes": answer["validation_notes"],
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "citations": answer["citations"],
