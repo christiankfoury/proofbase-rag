@@ -17,7 +17,8 @@ from apps.api.app.retrieval.retriever import retrieve_chunks
 
 app = FastAPI(title="Enterprise Knowledge Agent API")
 
-DASHBOARD_DATA_PATH = Path("data/evaluation/dashboard-summary.json")
+ROOT = Path(__file__).resolve().parents[3]
+DASHBOARD_DATA_PATH = ROOT / "data/evaluation/dashboard-summary.json"
 
 
 class QueryRequest(BaseModel):

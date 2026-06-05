@@ -74,9 +74,9 @@ export default async function RetrievalExperimentsPage() {
         <section className="rounded-md border border-stone-300 bg-white p-5">
           <h3 className="text-xl font-semibold">Experiment Setup</h3>
           <ul className="mt-3 space-y-2 text-sm text-stone-700">
-            <li>Benchmark: 60 enterprise questions.</li>
+            <li>Benchmark: {vector?.total_questions ?? "pending"} enterprise questions.</li>
             <li>Compared retrieval-only metrics to avoid extra generation cost.</li>
-            <li>Top K: 5 chunks per question.</li>
+            <li>Top K: {vector?.top_k ?? "pending"} chunks per question.</li>
             <li>Permission and missing-info questions are excluded from retrieval averages.</li>
           </ul>
         </section>

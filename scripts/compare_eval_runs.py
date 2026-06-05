@@ -4,8 +4,9 @@ import json
 from pathlib import Path
 
 
-DASHBOARD_PATH = Path("data/evaluation/dashboard-summary.json")
-REPORT_PATH = Path("docs/phase-10/evaluation-results-summary.md")
+ROOT = Path(__file__).resolve().parents[1]
+DASHBOARD_PATH = ROOT / "data/evaluation/dashboard-summary.json"
+REPORT_PATH = ROOT / "docs/phase-10/evaluation-results-summary.md"
 
 
 def _metric(value: object) -> str:
@@ -22,10 +23,11 @@ def main() -> None:
 
     dashboard = json.loads(DASHBOARD_PATH.read_text(encoding="utf-8"))
     runs = dashboard["runs"]
+    dashboard_label = DASHBOARD_PATH.relative_to(ROOT)
     lines = [
         "# Phase 10 Evaluation Results Summary",
         "",
-        f"Generated from: `{DASHBOARD_PATH}`",
+        f"Generated from: `{dashboard_label}`",
         "",
         "## Overview",
         "",

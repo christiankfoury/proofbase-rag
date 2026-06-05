@@ -1,11 +1,13 @@
 import { MetricCard } from "@/components/MetricCard";
 import { Shell } from "@/components/Shell";
-import { getDashboardData } from "@/lib/dashboard";
+import { formatLabel, getDashboardData } from "@/lib/dashboard";
 
 export default async function PermissionSafetyPage() {
   const data = await getDashboardData();
   const run = data.runs.find((item) => item.phase === "phase-8");
   const metrics = run?.metrics ?? {};
+  const restrictedQuestionCount = metrics.restricted_question_count ?? run?.total_questions ?? "pending";
+  const authorizedTestCount = metrics.authorized_test_count ?? "pending";
 
   return (
     <Shell>
@@ -25,11 +27,11 @@ export default async function PermissionSafetyPage() {
         <section className="rounded-md border border-stone-300 bg-white p-5">
           <h3 className="text-xl font-semibold">What Was Tested</h3>
           <ul className="mt-3 space-y-2 text-sm text-stone-700">
-            <li>10 restricted benchmark questions.</li>
-            <li>10 authorized source-access tests.</li>
-            <li>Retrieval mode: vector only.</li>
-            <li>Chunking: section based.</li>
-            <li>Top K: 5 chunks per question.</li>
+            <li>{restrictedQuestionCount} restricted benchmark questions.</li>
+            <li>{authorizedTestCount} authorized source-access tests.</li>
+            <li>Retrieval mode: {formatLabel(run?.retrieval_mode)}.</li>
+            <li>Chunking: {formatLabel(run?.chunking_strategy)}.</li>
+            <li>Top K: {run?.top_k ?? "pending"} chunks per question.</li>
           </ul>
         </section>
         <section className="rounded-md border border-stone-300 bg-white p-5">

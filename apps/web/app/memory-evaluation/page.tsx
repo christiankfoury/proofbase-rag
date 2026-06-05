@@ -1,6 +1,6 @@
 import { MetricCard } from "@/components/MetricCard";
 import { Shell } from "@/components/Shell";
-import { getDashboardData } from "@/lib/dashboard";
+import { formatLabel, getDashboardData } from "@/lib/dashboard";
 
 export default async function MemoryEvaluationPage() {
   const data = await getDashboardData();
@@ -25,11 +25,11 @@ export default async function MemoryEvaluationPage() {
         <section className="rounded-md border border-stone-300 bg-white p-5">
           <h3 className="text-xl font-semibold">What Was Tested</h3>
           <ul className="mt-3 space-y-2 text-sm text-stone-700">
-            <li>5 conversation-memory benchmark questions.</li>
+            <li>{run?.total_questions ?? "pending"} conversation-memory benchmark questions.</li>
             <li>Previous benchmark turns were included as session context.</li>
-            <li>Retrieval mode: vector only.</li>
-            <li>Chunking: section based.</li>
-            <li>Top K: 5 chunks per follow-up.</li>
+            <li>Retrieval mode: {formatLabel(run?.retrieval_mode)}.</li>
+            <li>Chunking: {formatLabel(run?.chunking_strategy)}.</li>
+            <li>Top K: {run?.top_k ?? "pending"} chunks per follow-up.</li>
           </ul>
         </section>
         <section className="rounded-md border border-stone-300 bg-white p-5">

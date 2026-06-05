@@ -12,7 +12,7 @@ export default async function RunsPage() {
         Compare retrieval experiments, answer quality, permission safety, and memory evaluation using the same exported run format.
       </p>
       <div className="mt-6">
-        <RunTable runs={data.runs} />
+        <RunTable runs={data.runs} bestRunName={data.overview.best_retrieval_run} />
       </div>
       <section className="mt-8 grid gap-4 md:grid-cols-3">
         {Object.entries(data.comparisons).map(([key, comparison]) => (

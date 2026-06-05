@@ -2,21 +2,34 @@ from __future__ import annotations
 
 import json
 import re
+import argparse
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 
-PHASE6_RESULTS = Path("docs/phase-6/evaluation-results.md")
-PHASE7_RESULTS = Path("docs/phase-7/evaluation-results.md")
-PHASE7_FAILED = Path("docs/phase-7/failed-question-analysis.md")
-PHASE8_RESULTS = Path("docs/phase-8/permission-evaluation-results.md")
-PHASE9_RESULTS = Path("docs/phase-9/memory-evaluation-results.md")
-PHASE9_FAILED = Path("docs/phase-9/failed-memory-question-analysis.md")
+ROOT = Path(__file__).resolve().parents[1]
 
-DASHBOARD_PATH = Path("data/evaluation/dashboard-summary.json")
-RUNS_DIR = Path("data/evaluation/eval-runs")
-FAILED_DIR = Path("data/evaluation/failed-questions")
+PHASE6_RESULTS = ROOT / "docs/phase-6/evaluation-results.md"
+PHASE7_RESULTS = ROOT / "docs/phase-7/evaluation-results.md"
+PHASE7_FAILED = ROOT / "docs/phase-7/failed-question-analysis.md"
+PHASE8_RESULTS = ROOT / "docs/phase-8/permission-evaluation-results.md"
+PHASE9_RESULTS = ROOT / "docs/phase-9/memory-evaluation-results.md"
+PHASE9_FAILED = ROOT / "docs/phase-9/failed-memory-question-analysis.md"
+
+DASHBOARD_PATH = ROOT / "data/evaluation/dashboard-summary.json"
+RUNS_DIR = ROOT / "data/evaluation/eval-runs"
+FAILED_DIR = ROOT / "data/evaluation/failed-questions"
+
+REQUIRED_REPORTS = [
+    PHASE6_RESULTS,
+    PHASE7_RESULTS,
+    PHASE7_FAILED,
+    PHASE8_RESULTS,
+    PHASE9_RESULTS,
+    PHASE9_FAILED,
+]
+EXPECTED_RUN_COUNT = 8
 
 
 def _read(path: Path) -> str:
@@ -217,6 +230,8 @@ def _phase8_run(markdown: str) -> dict[str, Any]:
         "model": "gpt-4.1-mini",
         "total_questions": _int(values.get("restricted_benchmark_questions_tested", "")),
         "metrics": {
+            "restricted_question_count": _int(values.get("restricted_benchmark_questions_tested", "")),
+            "authorized_test_count": _int(values.get("authorized_source_access_tests", "")),
             "permission_leakage_rate": _float(values.get("permission_leakage_rate", "")),
             "blocked_answer_accuracy": _float(values.get("blocked_answer_accuracy", "")),
             "unauthorized_chunk_exposure_rate": _float(values.get("unauthorized_chunk_exposure_rate", "")),
@@ -307,6 +322,18 @@ def _comparisons(runs: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--allow-partial",
+        action="store_true",
+        help="Allow dashboard export even when one or more required source reports are missing.",
+    )
+    args = parser.parse_args()
+    missing = [path for path in REQUIRED_REPORTS if not path.exists()]
+    if missing and not args.allow_partial:
+        missing_list = "\n".join(f"- {path.relative_to(ROOT)}" for path in missing)
+        raise SystemExit(f"Missing required evaluation reports:\n{missing_list}")
+
     phase6 = _read(PHASE6_RESULTS)
     phase7 = _read(PHASE7_RESULTS)
     phase7_failed = _read(PHASE7_FAILED)
@@ -322,6 +349,8 @@ def main() -> None:
         runs.append(_phase8_run(phase8))
     if phase9:
         runs.append(_phase9_run(phase9, phase9_failed))
+    if len(runs) != EXPECTED_RUN_COUNT and not args.allow_partial:
+        raise SystemExit(f"Expected {EXPECTED_RUN_COUNT} dashboard runs, found {len(runs)}.")
 
     failed_questions = _failed_items(phase7_failed, "phase-7") + _failed_items(phase9_failed, "phase-9")
     dashboard = {
