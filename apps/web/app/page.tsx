@@ -49,10 +49,10 @@ export default async function OverviewPage() {
               </ul>
             </div>
             <div>
-              <p className="font-medium text-rust">Still Weak</p>
+              <p className="font-medium text-rust">Still Needs Work</p>
               <ul className="mt-2 space-y-2 text-sm text-stone-700">
                 <li>Hybrid retrieval did not beat vector-only overall.</li>
-                <li>Thirteen failed-question records remain in the backlog.</li>
+                <li>13 failed-question cases remain in the improvement backlog.</li>
                 <li>Cost tracking is still pending.</li>
               </ul>
             </div>

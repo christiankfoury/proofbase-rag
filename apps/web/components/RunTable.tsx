@@ -3,7 +3,7 @@ import { EvalRun, formatTableMetric } from "@/lib/dashboard";
 export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?: string }) {
   return (
     <div>
-      <p className="mb-3 text-sm text-stone-600">"-" means the metric was not measured for that run type.</p>
+      <p className="mb-3 text-sm text-stone-600">A dash means the metric was not measured for that run type.</p>
       <div className="overflow-x-auto rounded-md border border-stone-300 bg-white">
         <table className="w-full min-w-[960px] border-collapse text-left text-sm">
           <thead className="bg-stone-100 text-stone-700">
