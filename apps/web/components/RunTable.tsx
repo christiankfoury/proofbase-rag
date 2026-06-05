@@ -1,4 +1,4 @@
-import { EvalRun, formatTableMetric } from "@/lib/dashboard";
+import { EvalRun, formatLabel, formatTableMetric } from "@/lib/dashboard";
 
 export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?: string }) {
   return (
@@ -32,8 +32,8 @@ export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?:
                   </div>
                 </td>
                 <td className="p-3">{run.phase}</td>
-                <td className="p-3">{run.retrieval_mode ?? "n/a"}</td>
-                <td className="p-3">{run.chunking_strategy ?? "n/a"}</td>
+                <td className="p-3">{formatLabel(run.retrieval_mode)}</td>
+                <td className="p-3">{formatLabel(run.chunking_strategy)}</td>
                 <td className="p-3 text-right">{formatTableMetric(run.metrics.precision_at_k)}</td>
                 <td className="p-3 text-right">{formatTableMetric(run.metrics.mrr)}</td>
                 <td className="p-3 text-right">{formatTableMetric(run.metrics.answer_accuracy)}</td>
