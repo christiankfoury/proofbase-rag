@@ -10,6 +10,7 @@ create table if not exists documents (
   source_type text not null default 'markdown',
   source_path text not null,
   access_roles text[] not null,
+  sensitivity text not null default 'internal',
   restricted boolean not null default false,
   status text not null default 'active',
   current_version_id uuid,
@@ -21,6 +22,9 @@ create table if not exists documents (
 create index if not exists idx_documents_category on documents(category);
 create index if not exists idx_documents_status on documents(status);
 create index if not exists idx_documents_access_roles on documents using gin(access_roles);
+
+alter table documents
+  add column if not exists sensitivity text not null default 'internal';
 
 create table if not exists document_versions (
   id uuid primary key default uuid_generate_v4(),
@@ -182,6 +186,24 @@ alter table evaluation_results
   add column if not exists all_sources_hit_score numeric(4,3),
   add column if not exists expected_source_recall numeric(4,3),
   add column if not exists precision_at_k numeric(4,3);
+
+create table if not exists audit_logs (
+  id uuid primary key default uuid_generate_v4(),
+  user_id text,
+  user_role text not null,
+  action text not null,
+  document_id text,
+  resource_type text not null,
+  outcome text not null,
+  reason text,
+  metadata_json jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_audit_logs_user_role on audit_logs(user_role);
+create index if not exists idx_audit_logs_action on audit_logs(action);
+create index if not exists idx_audit_logs_document_id on audit_logs(document_id);
+create index if not exists idx_audit_logs_created_at on audit_logs(created_at);
 
 insert into prompts (name, prompt_type, description)
 values ('enterprise_answer', 'answer_generation', 'Baseline grounded answer prompt with citations and refusal behavior.')

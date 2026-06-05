@@ -145,6 +145,23 @@ Run Phase 7 answer-quality evaluation:
 python scripts/run_answer_quality_eval.py
 ```
 
+## Phase 8 Artifacts
+
+Phase 8 hardens enterprise permissions: role-based document access, permission-filtered retrieval, chunk-level permission inheritance, restricted refusals, audit logs, and permission leakage evaluation.
+
+- [Permissions Implementation](docs/phase-8/permissions-implementation.md)
+- [Permission Filtering Design](docs/phase-8/permission-filtering-design.md)
+- [Audit Logging](docs/phase-8/audit-logging.md)
+- [Phase 8 Permission Evaluation Results](docs/phase-8/permission-evaluation-results.md)
+- [Phase 8 Checklist](docs/phase-8/checklist.md)
+
+Run Phase 8 permission setup and evaluation:
+
+```powershell
+python scripts/ingest_markdown.py --apply-schema --chunking-strategy section_based
+python scripts/run_permission_eval.py
+```
+
 ## MVP Boundary
 
 The MVP proves enterprise RAG quality, not breadth.

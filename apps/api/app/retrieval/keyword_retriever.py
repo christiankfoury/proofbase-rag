@@ -1,6 +1,8 @@
 from apps.api.app.core.config import get_settings
 from apps.api.app.db.session import get_connection
-from apps.api.app.retrieval.types import RetrievedChunk, role_variants
+from apps.api.app.permissions.permission_filter import build_permission_trace, log_permission_trace
+from apps.api.app.permissions.roles import role_variants
+from apps.api.app.retrieval.types import RetrievedChunk
 
 
 STOP_WORDS = {
@@ -40,10 +42,32 @@ def retrieve_chunks(
 ) -> list[RetrievedChunk]:
     settings = get_settings()
     limit = top_k or settings.default_top_k
+    candidate_limit = max(limit * 4, 20)
     roles = role_variants(user_role)
     keyword_query = _keyword_query(question)
 
-    sql = """
+    candidate_sql = """
+        with query as (
+          select websearch_to_tsquery('english', %s) as tsquery
+        )
+        select
+          c.id::text as chunk_id,
+          d.external_document_id as document_id,
+          d.access_roles,
+          d.restricted,
+          d.sensitivity
+        from query
+        join chunks c on c.tsv @@ query.tsquery
+        join documents d on d.id = c.document_id
+        join document_versions dv on dv.id = c.document_version_id
+        where c.chunking_strategy = %s
+          and d.status = 'active'
+          and dv.ingestion_status = 'indexed'
+        order by ts_rank_cd(c.tsv, query.tsquery) desc, c.chunk_index asc
+        limit %s
+    """
+
+    allowed_sql = """
         with query as (
           select websearch_to_tsquery('english', %s) as tsquery
         )
@@ -53,6 +77,9 @@ def retrieve_chunks(
           d.title as document_title,
           c.section_heading,
           c.content,
+          d.access_roles,
+          d.restricted,
+          d.sensitivity,
           ts_rank_cd(c.tsv, query.tsquery) as score
         from query
         join chunks c on c.tsv @@ query.tsquery
@@ -67,15 +94,22 @@ def retrieve_chunks(
     """
 
     with get_connection() as conn:
-        rows = conn.execute(sql, (keyword_query, roles, chunking_strategy, limit)).fetchall()
+        candidate_rows = conn.execute(
+            candidate_sql,
+            (keyword_query, chunking_strategy, candidate_limit),
+        ).fetchall()
+        rows = conn.execute(allowed_sql, (keyword_query, roles, chunking_strategy, limit)).fetchall()
 
-    return [
+    chunks = [
         RetrievedChunk(
             chunk_id=row["chunk_id"],
             document_id=row["document_id"],
             document_title=row["document_title"],
             section_heading=row["section_heading"],
             content=row["content"],
+            access_roles=list(row["access_roles"]),
+            restricted=bool(row["restricted"]),
+            sensitivity=row["sensitivity"],
             rank=index + 1,
             score=float(row["score"]),
             keyword_score=float(row["score"]),
@@ -83,3 +117,11 @@ def retrieve_chunks(
         )
         for index, row in enumerate(rows)
     ]
+    trace = build_permission_trace(
+        user_role=user_role,
+        retrieval_mode="keyword_only",
+        candidate_rows=candidate_rows,
+        allowed_chunks=chunks,
+    )
+    log_permission_trace(trace, chunking_strategy=chunking_strategy, top_k=limit)
+    return chunks

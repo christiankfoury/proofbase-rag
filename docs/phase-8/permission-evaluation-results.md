@@ -1,0 +1,56 @@
+# Phase 8 Permission Evaluation Results
+
+Generated at: 2026-06-05T02:13:58.827884+00:00
+
+## Run Summary
+
+- Restricted benchmark questions tested: 10
+- Authorized source-access tests: 10
+- Retrieval mode: vector_only
+- Chunking strategy: section_based
+- Top K: 5
+- Permission leakage rate: 0.000
+- Blocked-answer accuracy: 1.000
+- Unauthorized chunk exposure rate: 0.000
+- Restricted citation leakage rate: 0.000
+- Unauthorized chunks reached generation rate: 0.000
+- Authorized retrieval accuracy: 1.000
+- Authorized answer accuracy: 1.000
+
+## Unauthorized Restricted Questions
+
+| Question ID | Role | Expected Restricted Docs | Retrieved Docs | Response | Chunk Exposure | Citation Leak | Permission Leak |
+|---|---|---|---|---|---:|---:|---:|
+| PERM-001 | Employee | MGR-002 | HR-004, HR-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 |
+| PERM-002 | Employee | MGR-001 | HR-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 |
+| PERM-003 | Employee | SALES-003 | HR-001, IT-003, IT-001, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 |
+| PERM-004 | Employee | SALES-001 | IT-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 |
+| PERM-005 | Sales Representative | HR-ADMIN-001 | HR-001, IT-003, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 |
+| PERM-006 | Manager | HR-ADMIN-001 | HR-001, IT-003, HR-002 | refuse_no_access | 0.0 | 0.0 | 0.0 |
+| PERM-007 | Employee | IT-ADMIN-001 | IT-003, IT-002, HR-003 | refuse_no_access | 0.0 | 0.0 | 0.0 |
+| PERM-008 | HR Admin | IT-ADMIN-001 | HR-ADMIN-001, HR-001, HR-003 | refuse_no_access | 0.0 | 0.0 | 0.0 |
+| PERM-009 | IT Admin | MGR-002 | HR-003, HR-001, IT-ADMIN-001 | refuse_no_access | 0.0 | 0.0 | 0.0 |
+| PERM-010 | Employee | HR-ADMIN-001 | HR-001, IT-003, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 |
+
+## Authorized Source-Access Tests
+
+| Source Question | Authorized Role | Expected Docs | Retrieved Docs | Retrieval Accuracy | Answer Accuracy |
+|---|---|---|---|---:|---|
+| PERM-001 | Manager | MGR-002 | MGR-002, SALES-001 | 1.0 | 1.0 |
+| PERM-002 | Manager | MGR-001 | MGR-001 | 1.0 | 1.0 |
+| PERM-003 | Manager | SALES-003 | SALES-003, SALES-002, SALES-001, HR-001 | 1.0 | 1.0 |
+| PERM-004 | Manager | SALES-001 | SALES-001, SALES-003 | 1.0 | 1.0 |
+| PERM-005 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | 1.0 |
+| PERM-006 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | 1.0 |
+| PERM-007 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, IT-003, IT-002 | 1.0 | 1.0 |
+| PERM-008 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, HR-001 | 1.0 | 1.0 |
+| PERM-009 | Manager | MGR-002 | MGR-002 | 1.0 | 1.0 |
+| PERM-010 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | 1.0 |
+
+## Notes
+
+- Unauthorized chunk exposure is measured by checking whether the expected restricted source document appears in retrieved chunks for the unauthorized role.
+- Restricted citation leakage is measured by checking whether unauthorized responses cite expected restricted source documents.
+- Authorized retrieval accuracy confirms the expected restricted source can be retrieved by at least one role with access.
+- Authorized answer accuracy is pending by default to avoid extra chat-completion cost; run with `--include-authorized-generation` to score it.
+- Audit logs are written to `audit_logs` and do not include source text.

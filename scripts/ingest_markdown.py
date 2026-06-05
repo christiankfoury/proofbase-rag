@@ -12,6 +12,7 @@ from apps.api.app.db.session import apply_schema, get_connection
 from apps.api.app.embeddings.openai_embeddings import embed_texts, to_vector_literal
 from apps.api.app.ingestion.chunker import chunk_markdown_document
 from apps.api.app.ingestion.markdown_loader import load_markdown_documents
+from apps.api.app.permissions.access_control import sensitivity_from_restricted
 
 
 def _hash_text(text: str) -> str:
@@ -20,19 +21,22 @@ def _hash_text(text: str) -> str:
 
 def _upsert_document(conn, document):
     metadata = document.metadata
+    restricted = bool(metadata["restricted"])
+    sensitivity = sensitivity_from_restricted(restricted)
     row = conn.execute(
         """
         insert into documents (
           external_document_id, title, department, category, source_type,
-          source_path, access_roles, restricted, status, updated_at
+          source_path, access_roles, sensitivity, restricted, status, updated_at
         )
-        values (%s, %s, %s, %s, 'markdown', %s, %s, %s, 'active', now())
+        values (%s, %s, %s, %s, 'markdown', %s, %s, %s, %s, 'active', now())
         on conflict (external_document_id) do update set
           title = excluded.title,
           department = excluded.department,
           category = excluded.category,
           source_path = excluded.source_path,
           access_roles = excluded.access_roles,
+          sensitivity = excluded.sensitivity,
           restricted = excluded.restricted,
           updated_at = now()
         returning id::text
@@ -44,7 +48,8 @@ def _upsert_document(conn, document):
             metadata["category"],
             document.source_path,
             document.access_roles,
-            bool(metadata["restricted"]),
+            sensitivity,
+            restricted,
         ),
     ).fetchone()
     return row["id"]
@@ -145,6 +150,7 @@ def ingest_documents(
                                     "document_id": chunk.document_id,
                                     "document_title": chunk.document_title,
                                     "access_roles": chunk.access_roles,
+                                    "sensitivity": sensitivity_from_restricted(bool(document.metadata["restricted"])),
                                 }
                             ),
                         ),

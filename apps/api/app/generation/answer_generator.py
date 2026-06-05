@@ -4,6 +4,7 @@ import re
 
 from openai import OpenAI
 
+from apps.api.app.audit.audit_logger import log_audit_event
 from apps.api.app.citations.citation_formatter import fallback_citation
 from apps.api.app.citations.citation_validator import validate_citations
 from apps.api.app.confidence.confidence_scorer import final_confidence
@@ -35,6 +36,8 @@ SOURCE_RE = re.compile(
 
 RESTRICTED_PATTERNS = {
     "promotion calibration": {"Manager"},
+    "manager conflict": {"Manager"},
+    "manager conflict handling": {"Manager"},
     "team conflict": {"Manager"},
     "performance improvement process": {"Manager"},
     "position northstar against": {"Sales Representative", "Manager"},
@@ -202,6 +205,15 @@ def _policy_response(question: str, chunks: list[RetrievedChunk], user_role: str
         for pattern, allowed_roles in RESTRICTED_PATTERNS.items()
     ):
         response_type = RESPONSE_REFUSE_NO_ACCESS
+        if user_role:
+            log_audit_event(
+                action="restricted_query_refused",
+                user_role=user_role,
+                resource_type="query",
+                outcome="refused",
+                reason="restricted_topic_policy",
+                metadata={"matched_policy": "restricted_topic"},
+            )
         confidence = final_confidence(response_type, chunks, 0.0, [])
         return {
             "answer": "You do not have access to the required information.",
@@ -287,6 +299,38 @@ def generate_answer(
     policy_response = _policy_response(question, chunks, user_role=user_role)
     if policy_response:
         return policy_response
+
+    if user_role and chunks:
+        from apps.api.app.permissions.access_control import unauthorized_chunks
+
+        unauthorized = unauthorized_chunks(chunks, user_role)
+        if unauthorized:
+            log_audit_event(
+                action="unauthorized_chunks_reached_generation",
+                user_role=user_role,
+                resource_type="generation",
+                outcome="blocked",
+                reason="retriever_returned_disallowed_chunks",
+                metadata={
+                    "blocked_document_ids": list(dict.fromkeys(chunk.document_id for chunk in unauthorized)),
+                    "blocked_chunks_count": len(unauthorized),
+                },
+            )
+            response_type = RESPONSE_REFUSE_NO_ACCESS
+            confidence = final_confidence(response_type, [], 0.0, [])
+            return {
+                "answer": "I cannot answer this because your role does not have access to the required document.",
+                "response_type": response_type,
+                "behavior": response_type_to_behavior(response_type),
+                "citations": [],
+                "supported_claims": [],
+                "unsupported_claims": [],
+                "validation_notes": "Unauthorized chunks were blocked before generation.",
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "estimated_cost_usd": None,
+                **confidence,
+            }
 
     if not chunks:
         response_type = "refuse_no_access" if expected_behavior == "refuse_no_access" else RESPONSE_NOT_FOUND

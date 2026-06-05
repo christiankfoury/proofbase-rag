@@ -8,17 +8,12 @@ class RetrievedChunk:
     document_title: str
     section_heading: str
     content: str
+    access_roles: list[str]
+    restricted: bool
+    sensitivity: str
     rank: int
     score: float
     vector_score: float | None = None
     keyword_score: float | None = None
     hybrid_score: float | None = None
     retrieval_source: str = "vector"
-
-
-def role_variants(user_role: str) -> list[str]:
-    aliases = {
-        "IT Admin": ["IT Admin", "IT/Admin"],
-        "IT/Admin": ["IT/Admin", "IT Admin"],
-    }
-    return aliases.get(user_role, [user_role])

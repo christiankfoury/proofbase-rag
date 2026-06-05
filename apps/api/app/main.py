@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 
 from apps.api.app.core.config import get_settings
 from apps.api.app.generation.answer_generator import generate_answer, retrieved_chunks_payload
+from apps.api.app.permissions.access_control import unauthorized_chunks_reached_generation
 from apps.api.app.retrieval.config import default_retrieval_config
 from apps.api.app.retrieval.retriever import retrieve_chunks
 
@@ -59,6 +60,11 @@ def query(request: QueryRequest) -> dict:
         "validation_notes": answer["validation_notes"],
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
+        "permission_check": {
+            "user_role": request.user_role,
+            "retrieved_chunks_count": len(chunks),
+            "unauthorized_chunks_reached_generation": unauthorized_chunks_reached_generation(chunks, request.user_role),
+        },
         "citations": answer["citations"],
         "retrieved_chunks": retrieved_chunks_payload(chunks),
     }

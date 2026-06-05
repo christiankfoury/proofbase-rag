@@ -1,0 +1,21 @@
+# Phase 8 Checklist
+
+- [x] Role list defined.
+- [x] Document permission metadata preserved.
+- [x] Document sensitivity added.
+- [x] Chunk permission inheritance added to retrieval results.
+- [x] Vector retrieval filters by role before generation.
+- [x] Keyword retrieval filters by role before generation.
+- [x] Hybrid retrieval uses permission-filtered component retrieval.
+- [x] Generation refuses if unauthorized chunks reach the answer generator.
+- [x] Restricted-topic refusals avoid restricted content leakage.
+- [x] Permission-filter audit events added.
+- [x] Restricted candidate audit events added.
+- [x] Permission evaluation metrics added.
+- [x] Permission evaluation script added.
+- [x] Phase 8 documentation added.
+- [x] Permission evaluation run completed.
+- [x] Permission evaluation results updated with real metrics.
+- [x] No production auth added.
+- [x] No frontend dashboard added.
+- [x] No Azure AI Search added.
