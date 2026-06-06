@@ -9,6 +9,9 @@ const links = [
   ["Prompts", "/prompt-experiments"],
   ["Permissions", "/permission-safety"],
   ["Memory", "/memory-evaluation"],
+  ["Feedback", "/feedback"],
+  ["Observability", "/observability"],
+  ["Audit", "/audit"],
 ];
 
 export function Shell({ children }: { children: ReactNode }) {

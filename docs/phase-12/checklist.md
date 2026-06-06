@@ -1,0 +1,24 @@
+# Phase 12 Checklist
+
+- [x] feedback table added to schema.sql
+- [x] apply_schema() run against DB
+- [x] apps/api/app/observability/ package created (tracing.py, logger.py)
+- [x] apps/api/app/feedback/ package created (feedback_store.py)
+- [x] POST /query instrumented with RequestTrace and request logging
+- [x] POST /feedback route added
+- [x] GET /feedback route added
+- [x] GET /feedback/summary route added
+- [x] GET /observability/summary route added
+- [x] GET /audit/events route added
+- [x] GET /audit/summary route added
+- [x] evaluation_run_started and evaluation_run_completed audit events added in run_benchmark.py
+- [x] prompt_version_changed audit event added in main.py
+- [x] feedback_submitted audit event added in main.py
+- [x] scripts/export_feedback_candidates.py added
+- [x] scripts/generate_observability_summary.py added
+- [x] apps/web/lib/feedback.ts added
+- [x] /feedback dashboard page added
+- [x] /observability dashboard page added
+- [x] /audit dashboard page added
+- [x] Shell.tsx navigation updated with Feedback, Observability, Audit links
+- [ ] README updated with Phase 12 commands

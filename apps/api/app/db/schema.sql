@@ -246,3 +246,22 @@ select
 from prompts p
 where p.name = 'enterprise_answer'
 on conflict (prompt_id, version) do nothing;
+
+create table if not exists feedback (
+  id uuid primary key default uuid_generate_v4(),
+  session_id uuid references chat_sessions(id) on delete set null,
+  message_id uuid references chat_messages(id) on delete set null,
+  question text not null,
+  answer text not null,
+  response_type text,
+  citations_json jsonb not null default '[]'::jsonb,
+  user_role text not null,
+  rating text not null check (rating in ('thumbs_up', 'thumbs_down')),
+  user_comment text,
+  feedback_category text not null default 'other',
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_feedback_rating on feedback(rating);
+create index if not exists idx_feedback_category on feedback(feedback_category);
+create index if not exists idx_feedback_created_at on feedback(created_at);

@@ -1,15 +1,23 @@
 import json
+import uuid
+from datetime import UTC, datetime
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from psycopg import Error as PsycopgError
 from pydantic import BaseModel, Field
 
+from apps.api.app.audit.audit_logger import audit_summary as get_audit_summary
+from apps.api.app.audit.audit_logger import list_audit_events, log_audit_event
 from apps.api.app.core.config import get_settings
+from apps.api.app.feedback.feedback_store import feedback_summary as get_feedback_summary
+from apps.api.app.feedback.feedback_store import list_feedback, submit_feedback
 from apps.api.app.generation.answer_generator import generate_answer, retrieved_chunks_payload
 from apps.api.app.memory.context_builder import build_memory_context, memory_context_text
 from apps.api.app.memory.query_rewriter import rewrite_followup_question
 from apps.api.app.memory.session_store import add_message, create_session, get_session, list_messages
+from apps.api.app.observability.logger import build_request_entry, log_request
+from apps.api.app.observability.tracing import RequestTrace
 from apps.api.app.permissions.access_control import unauthorized_chunks_reached_generation
 from apps.api.app.retrieval.config import default_retrieval_config
 from apps.api.app.retrieval.retriever import retrieve_chunks
@@ -19,6 +27,7 @@ app = FastAPI(title="Enterprise Knowledge Agent API")
 
 ROOT = Path(__file__).resolve().parents[3]
 DASHBOARD_DATA_PATH = ROOT / "data/evaluation/dashboard-summary.json"
+OBSERVABILITY_SUMMARY_PATH = ROOT / "data" / "observability" / "summary.json"
 
 
 class QueryRequest(BaseModel):
@@ -38,6 +47,19 @@ class QueryRequest(BaseModel):
 class CreateSessionRequest(BaseModel):
     user_role: str = "Employee"
     user_id: str | None = None
+
+
+class FeedbackRequest(BaseModel):
+    session_id: str | None = None
+    message_id: str | None = None
+    question: str = Field(..., min_length=1)
+    answer: str = Field(..., min_length=1)
+    response_type: str | None = None
+    citations: list[dict] | None = None
+    user_role: str = "Employee"
+    rating: str = Field(..., pattern="^(thumbs_up|thumbs_down)$")
+    user_comment: str | None = None
+    feedback_category: str = "other"
 
 
 def _load_dashboard_data() -> dict:
@@ -123,8 +145,92 @@ def evaluation_failed_questions() -> dict:
     return {"failed_questions": data["failed_questions"]}
 
 
+@app.post("/feedback")
+def post_feedback(request: FeedbackRequest) -> dict:
+    try:
+        feedback_id = submit_feedback(
+            session_id=request.session_id,
+            message_id=request.message_id,
+            question=request.question,
+            answer=request.answer,
+            response_type=request.response_type,
+            citations=request.citations,
+            user_role=request.user_role,
+            rating=request.rating,
+            user_comment=request.user_comment,
+            feedback_category=request.feedback_category,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error saving feedback.") from exc
+    log_audit_event(
+        action="feedback_submitted",
+        user_role=request.user_role,
+        resource_type="feedback",
+        outcome="success",
+        metadata={
+            "feedback_id": feedback_id,
+            "rating": request.rating,
+            "feedback_category": request.feedback_category,
+        },
+    )
+    return {"feedback_id": feedback_id, "status": "submitted"}
+
+
+@app.get("/feedback")
+def get_feedback(
+    rating: str | None = None,
+    feedback_category: str | None = None,
+    limit: int = 50,
+) -> dict:
+    items = list_feedback(rating=rating, feedback_category=feedback_category, limit=limit)
+    return {"feedback": items, "count": len(items)}
+
+
+@app.get("/feedback/summary")
+def feedback_summary_route() -> dict:
+    return get_feedback_summary()
+
+
+@app.get("/observability/summary")
+def observability_summary() -> dict:
+    if not OBSERVABILITY_SUMMARY_PATH.exists():
+        return {
+            "status": "not_generated",
+            "message": "Run `python scripts/generate_observability_summary.py` to generate.",
+        }
+    try:
+        return json.loads(OBSERVABILITY_SUMMARY_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {"status": "error", "message": "summary.json is not valid JSON."}
+
+
+@app.get("/audit/events")
+def audit_events(
+    action: str | None = None,
+    outcome: str | None = None,
+    limit: int = 20,
+) -> dict:
+    events = list_audit_events(action=action, outcome=outcome, limit=limit)
+    return {"events": events, "count": len(events)}
+
+
+@app.get("/audit/summary")
+def audit_summary_route() -> dict:
+    return get_audit_summary()
+
+
 @app.post("/query")
 def query(request: QueryRequest) -> dict:
+    request_id = str(uuid.uuid4())
+    request_timestamp = datetime.now(UTC).isoformat()
+    trace = RequestTrace()
+    chunks = []
+    rewrite: dict = {"rewritten_question": request.question, "is_followup": False, "memory_used": False, "rewrite_strategy": None, "original_question": request.question}
+    answer: dict = {}
+    session_id = request.session_id
+
     settings = get_settings()
     config = default_retrieval_config(
         retrieval_mode=request.retrieval_mode,
@@ -135,7 +241,6 @@ def query(request: QueryRequest) -> dict:
         run_name="api-query",
     )
     try:
-        session_id = request.session_id
         previous_turns = []
         if session_id:
             session = get_session(session_id)
@@ -149,7 +254,12 @@ def query(request: QueryRequest) -> dict:
         memory_context = build_memory_context(previous_turns) if rewrite["memory_used"] else {}
         memory_text = memory_context_text(memory_context)
         retrieval_question = rewrite["rewritten_question"]
+
+        trace.start("retrieval")
         chunks = retrieve_chunks(retrieval_question, request.user_role, config)
+        trace.stop("retrieval")
+
+        trace.start("generation")
         answer = generate_answer(
             retrieval_question,
             chunks,
@@ -159,6 +269,7 @@ def query(request: QueryRequest) -> dict:
             prompt_name=request.prompt_name,
             prompt_version=request.prompt_version,
         )
+        trace.stop("generation")
     except RuntimeError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except PsycopgError as exc:
@@ -198,6 +309,44 @@ def query(request: QueryRequest) -> dict:
                 "user_message_id": user_message_id,
             },
         )
+
+    if request.prompt_version and request.prompt_version != "v1":
+        log_audit_event(
+            action="prompt_version_changed",
+            user_role=request.user_role,
+            resource_type="generation",
+            outcome="success",
+            reason="non_default_prompt_version_requested",
+            metadata={"prompt_version": answer.get("prompt_version")},
+        )
+
+    trace.finish()
+    log_request(
+        build_request_entry(
+            request_id=request_id,
+            timestamp=request_timestamp,
+            user_role=request.user_role,
+            session_id=session_id,
+            question_truncated=request.question[:120],
+            rewritten_question=rewrite.get("rewritten_question"),
+            retrieval_mode=config.retrieval_mode,
+            chunking_strategy=config.chunking_strategy,
+            top_k=config.top_k,
+            retrieved_chunk_ids=[c.chunk_id for c in chunks],
+            retrieved_document_ids=list(dict.fromkeys(c.document_id for c in chunks)),
+            response_type=answer.get("response_type"),
+            citation_count=len(answer.get("citations") or []),
+            final_confidence=answer.get("final_confidence"),
+            retrieval_latency_ms=trace.retrieval_latency_ms,
+            generation_latency_ms=trace.generation_latency_ms,
+            total_latency_ms=trace.total_latency_ms,
+            prompt_version=answer.get("prompt_version"),
+            model=answer.get("model"),
+            input_tokens=answer.get("input_tokens"),
+            output_tokens=answer.get("output_tokens"),
+            error=None,
+        )
+    )
 
     return {
         "session_id": session_id,

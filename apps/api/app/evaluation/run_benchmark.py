@@ -6,6 +6,7 @@ from pathlib import Path
 from statistics import mean
 import time
 
+from apps.api.app.audit.audit_logger import log_audit_event
 from apps.api.app.core.config import get_settings
 from apps.api.app.db.session import get_connection
 from apps.api.app.evaluation.metrics import (
@@ -66,7 +67,15 @@ def _create_run(config: RetrievalConfig, retrieval_only: bool = False) -> str:
                 config["model"],
             ),
         ).fetchone()
-    return row["id"]
+    run_id = row["id"]
+    log_audit_event(
+        action="evaluation_run_started",
+        user_role="system",
+        resource_type="evaluation_run",
+        outcome="started",
+        metadata={"run_name": config["run_name"], "run_id": run_id},
+    )
+    return run_id
 
 
 def _store_result(run_id: str, question: dict, result: dict) -> None:
@@ -276,6 +285,13 @@ def run_benchmark(
             "update evaluation_runs set completed_at = now(), status = 'completed' where id = %s",
             (run_id,),
         )
+    log_audit_event(
+        action="evaluation_run_completed",
+        user_role="system",
+        resource_type="evaluation_run",
+        outcome="completed",
+        metadata={"run_id": run_id, "question_count": len(results)},
+    )
 
     summary = {
         "run_id": run_id,
