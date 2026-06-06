@@ -10,6 +10,12 @@ function MetricCard({ label, value }: { label: string; value: string | number | 
   );
 }
 
+function formatLatency(value: number | null | undefined): string {
+  if (value === null || value === undefined) return "pending";
+  if (value >= 1000) return `${(value / 1000).toFixed(1)}s`;
+  return `${Math.round(value)} ms`;
+}
+
 export function CitationTable({ citations }: { citations: Citation[] }) {
   if (!citations.length) {
     return <p className="text-sm text-stone-600">No citations returned.</p>;
@@ -86,7 +92,7 @@ export function QueryResultPanel({ result }: { result: QueryResponse }) {
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-steel">{formatLabel(result.response_type)}</p>
-            <h3 className="mt-2 text-xl font-semibold">Answer</h3>
+            <h3 className="mt-2 text-xl font-semibold">Generated Response</h3>
           </div>
           <div className="rounded border border-stone-300 px-3 py-2 text-sm">
             {result.multi_doc_used ? "Multi-doc used" : "Single-query retrieval"}
@@ -103,9 +109,9 @@ export function QueryResultPanel({ result }: { result: QueryResponse }) {
       </section>
 
       <section className="grid gap-3 md:grid-cols-3">
-        <MetricCard label="Retrieval latency ms" value={result.retrieval_latency_ms} />
-        <MetricCard label="Generation latency ms" value={result.generation_latency_ms} />
-        <MetricCard label="Total latency ms" value={result.total_latency_ms} />
+        <MetricCard label="Retrieval latency" value={formatLatency(result.retrieval_latency_ms)} />
+        <MetricCard label="Generation latency" value={formatLatency(result.generation_latency_ms)} />
+        <MetricCard label="Total latency" value={formatLatency(result.total_latency_ms)} />
       </section>
 
       <section className="rounded-md border border-stone-300 bg-white p-5">
@@ -113,7 +119,15 @@ export function QueryResultPanel({ result }: { result: QueryResponse }) {
         <div className="mt-3 grid gap-3 text-sm md:grid-cols-3">
           <p>Role: {result.permission_check.user_role}</p>
           <p>Returned chunks: {result.permission_check.retrieved_chunks_count}</p>
-          <p>Unauthorized chunks reached generation: {String(result.permission_check.unauthorized_chunks_reached_generation)}</p>
+          <p>
+            <span className={`inline-flex rounded border px-2 py-1 text-xs font-semibold ${
+              result.permission_check.unauthorized_chunks_reached_generation
+                ? "border-rust bg-orange-50 text-rust"
+                : "border-moss bg-green-50 text-moss"
+            }`}>
+              {result.permission_check.unauthorized_chunks_reached_generation ? "Leakage detected" : "No leakage"}
+            </span>
+          </p>
         </div>
       </section>
 

@@ -225,6 +225,7 @@ export function ChatDemoClient() {
                 onClick={() => {
                   setRole(preset.role);
                   setQuestion(preset.question);
+                  setRetrievalMode("vector_only");
                   setMultiDocMode(preset.multiDocMode);
                 }}
                 className="w-full rounded border border-stone-300 px-3 py-2 text-left text-sm hover:border-moss"
