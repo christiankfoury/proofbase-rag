@@ -9,7 +9,7 @@ from apps.api.app.citations.citation_formatter import fallback_citation
 from apps.api.app.citations.citation_validator import validate_citations
 from apps.api.app.confidence.confidence_scorer import final_confidence
 from apps.api.app.core.config import get_settings
-from apps.api.app.generation.prompts import ANSWER_SYSTEM_PROMPT, build_answer_user_prompt
+from apps.api.app.generation.prompts import build_answer_user_prompt
 from apps.api.app.generation.response_types import (
     RESPONSE_ANSWER,
     RESPONSE_CLARIFY,
@@ -19,6 +19,7 @@ from apps.api.app.generation.response_types import (
     SUPPORTED_RESPONSE_TYPES,
     response_type_to_behavior,
 )
+from apps.api.app.prompts.prompt_registry import PromptVersion, get_prompt
 from apps.api.app.retrieval.types import RetrievedChunk
 
 
@@ -182,6 +183,18 @@ def _role_has_access(user_role: str | None, allowed_roles: set[str]) -> bool:
     return False
 
 
+def _prompt_metadata(prompt: PromptVersion, model: str, temperature: float) -> dict:
+    return {
+        "prompt_id": prompt.prompt_id,
+        "prompt_name": prompt.prompt_name,
+        "prompt_type": prompt.prompt_type,
+        "prompt_version": prompt.version,
+        "prompt_status": prompt.status,
+        "model": model,
+        "temperature": temperature,
+    }
+
+
 def _policy_response(question: str, chunks: list[RetrievedChunk], user_role: str | None = None) -> dict | None:
     normalized = question.lower()
     if any(pattern in normalized for pattern in MISSING_PATTERNS):
@@ -297,10 +310,20 @@ def generate_answer(
     user_role: str | None = None,
     memory_context: str | None = None,
     original_question: str | None = None,
+    prompt_name: str = "answer_generation",
+    prompt_version: str | None = None,
+    model: str | None = None,
+    temperature: float | None = None,
 ) -> dict:
+    settings = get_settings()
+    prompt = get_prompt(prompt_name, prompt_version)
+    selected_model = model or prompt.model or settings.openai_chat_model
+    selected_temperature = prompt.temperature if temperature is None else temperature
+    prompt_metadata = _prompt_metadata(prompt, selected_model, selected_temperature)
+
     policy_response = _policy_response(question, chunks, user_role=user_role)
     if policy_response:
-        return policy_response
+        return {**policy_response, **prompt_metadata}
 
     if user_role and chunks:
         from apps.api.app.permissions.access_control import unauthorized_chunks
@@ -331,6 +354,7 @@ def generate_answer(
                 "input_tokens": 0,
                 "output_tokens": 0,
                 "estimated_cost_usd": None,
+                **prompt_metadata,
                 **confidence,
             }
 
@@ -353,10 +377,10 @@ def generate_answer(
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": None,
+            **prompt_metadata,
             **confidence,
         }
 
-    settings = get_settings()
     user_prompt = build_answer_user_prompt(
         question,
         chunks,
@@ -365,10 +389,10 @@ def generate_answer(
     )
 
     response = _client().chat.completions.create(
-        model=settings.openai_chat_model,
-        temperature=0.2,
+        model=selected_model,
+        temperature=selected_temperature,
         messages=[
-            {"role": "system", "content": ANSWER_SYSTEM_PROMPT},
+            {"role": "system", "content": prompt.content},
             {"role": "user", "content": user_prompt},
         ],
     )
@@ -417,6 +441,7 @@ def generate_answer(
         "input_tokens": usage.prompt_tokens if usage else None,
         "output_tokens": usage.completion_tokens if usage else None,
         "estimated_cost_usd": None,
+        **prompt_metadata,
         **confidence,
     }
 

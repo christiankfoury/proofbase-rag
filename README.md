@@ -222,6 +222,32 @@ Current honest metric summary:
 - Permission leakage rate: `0.000`
 - Memory answer accuracy: `1.000`
 
+## Phase 11 Artifacts
+
+Phase 11 adds prompt versioning and experiment tracking so answer-generation prompt changes can be evaluated against the benchmark and compared for regressions.
+
+- [Prompt Versioning Implementation](docs/phase-11/prompt-versioning-implementation.md)
+- [Experiment Tracking Design](docs/phase-11/experiment-tracking-design.md)
+- [Prompt Experiment Results](docs/phase-11/prompt-experiment-results.md)
+- [Prompt Regression Analysis](docs/phase-11/prompt-regression-analysis.md)
+- [Phase 11 Checklist](docs/phase-11/checklist.md)
+- [Prompt Versions](apps/api/app/prompts/versions)
+
+Run prompt experiments and compare versions:
+
+```powershell
+python scripts/run_prompt_experiment.py --prompt-version all
+python scripts/compare_prompt_versions.py
+python scripts/export_dashboard_data.py
+python scripts/compare_eval_runs.py
+```
+
+Prompt experiment outputs are written to:
+
+```text
+data/evaluation/prompt-experiments/
+```
+
 ## MVP Boundary
 
 The MVP proves enterprise RAG quality, not breadth.

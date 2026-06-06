@@ -20,6 +20,8 @@ PHASE9_FAILED = ROOT / "docs/phase-9/failed-memory-question-analysis.md"
 DASHBOARD_PATH = ROOT / "data/evaluation/dashboard-summary.json"
 RUNS_DIR = ROOT / "data/evaluation/eval-runs"
 FAILED_DIR = ROOT / "data/evaluation/failed-questions"
+PROMPT_EXPERIMENT_DIR = ROOT / "data/evaluation/prompt-experiments"
+PROMPT_COMPARISON_PATH = PROMPT_EXPERIMENT_DIR / "prompt-comparison.json"
 
 REQUIRED_REPORTS = [
     PHASE6_RESULTS,
@@ -276,6 +278,63 @@ def _phase9_run(markdown: str, failed_markdown: str) -> dict[str, Any]:
     }
 
 
+def _prompt_experiment_runs() -> list[dict[str, Any]]:
+    runs: list[dict[str, Any]] = []
+    if not PROMPT_EXPERIMENT_DIR.exists():
+        return runs
+    for path in sorted(PROMPT_EXPERIMENT_DIR.glob("phase11-answer-generation-*.json")):
+        result = json.loads(path.read_text(encoding="utf-8"))
+        summary = result["summary"]
+        failed_questions = [item["question_id"] for item in result.get("failed_questions", [])]
+        runs.append(
+            {
+                "run_id": summary["experiment_id"],
+                "run_name": summary["run_name"],
+                "phase": summary["phase"],
+                "run_type": "prompt_experiment",
+                "timestamp": result["generated_at"],
+                "retrieval_mode": summary["retrieval_mode"],
+                "chunking_strategy": summary["chunking_strategy"],
+                "top_k": summary["top_k"],
+                "prompt_name": summary["prompt_name"],
+                "prompt_version": summary["prompt_version"],
+                "prompt_status": summary["prompt_status"],
+                "prompt_change_notes": summary["prompt_change_notes"],
+                "model": summary["model"],
+                "temperature": summary["temperature"],
+                "total_questions": summary["question_count"],
+                "metrics": {
+                    "any_source_hit": summary.get("any_source_hit"),
+                    "all_sources_hit": summary.get("all_sources_hit"),
+                    "precision_at_k": summary.get("precision_at_k"),
+                    "mrr": summary.get("mrr"),
+                    "answer_accuracy": summary.get("answer_accuracy"),
+                    "citation_accuracy": summary.get("citation_accuracy"),
+                    "faithfulness": summary.get("faithfulness"),
+                    "hallucination_rate": summary.get("hallucination_rate"),
+                    "response_type_accuracy": summary.get("response_type_accuracy"),
+                    "refusal_accuracy": summary.get("refusal_accuracy"),
+                    "not_found_accuracy": summary.get("not_found_accuracy"),
+                    "clarification_accuracy": summary.get("clarification_accuracy"),
+                    "final_confidence": summary.get("final_confidence"),
+                    "input_tokens": summary.get("input_tokens"),
+                    "output_tokens": summary.get("output_tokens"),
+                    "estimated_cost": summary.get("estimated_cost"),
+                    "failed_question_count": summary.get("failed_question_count"),
+                },
+                "failed_questions": failed_questions,
+                "notes": summary["prompt_change_notes"],
+            }
+        )
+    return runs
+
+
+def _prompt_comparison() -> dict[str, Any]:
+    if not PROMPT_COMPARISON_PATH.exists():
+        return {"best": {}, "comparisons": [], "prompt_versions": []}
+    return json.loads(PROMPT_COMPARISON_PATH.read_text(encoding="utf-8"))
+
+
 def _overview(runs: list[dict[str, Any]]) -> dict[str, Any]:
     by_id = {run["run_id"]: run for run in runs}
     retrieval = by_id.get("phase6-vector-section", {})
@@ -304,7 +363,8 @@ def _comparisons(runs: list[dict[str, Any]]) -> dict[str, Any]:
     hybrid = by_id.get("phase6-hybrid-section-0.5")
     keyword = by_id.get("phase6-keyword-section")
     fixed = by_id.get("phase6-vector-fixed-size")
-    return {
+    prompt_runs = [run for run in runs if run["run_type"] == "prompt_experiment"]
+    comparisons = {
         "baseline_vs_current": {
             "baseline": "phase6-vector-section",
             "current": "phase7-answer-quality",
@@ -319,6 +379,20 @@ def _comparisons(runs: list[dict[str, Any]]) -> dict[str, Any]:
             "summary": "Fixed-size chunking did not clearly outperform section-based chunking.",
         },
     }
+    if prompt_runs:
+        best_prompt = max(
+            prompt_runs,
+            key=lambda run: (
+                run["metrics"].get("answer_accuracy") or 0,
+                run["metrics"].get("citation_accuracy") or 0,
+                -(run["metrics"].get("hallucination_rate") or 1),
+            ),
+        )
+        comparisons["prompt_versions"] = {
+            "runs": [run["run_id"] for run in prompt_runs],
+            "summary": f"Prompt experiments compare answer-generation versions; {best_prompt['prompt_version']} is currently strongest by answer and citation metrics.",
+        }
+    return comparisons
 
 
 def main() -> None:
@@ -351,14 +425,17 @@ def main() -> None:
         runs.append(_phase9_run(phase9, phase9_failed))
     if len(runs) != EXPECTED_RUN_COUNT and not args.allow_partial:
         raise SystemExit(f"Expected {EXPECTED_RUN_COUNT} dashboard runs, found {len(runs)}.")
+    runs.extend(_prompt_experiment_runs())
 
     failed_questions = _failed_items(phase7_failed, "phase-7") + _failed_items(phase9_failed, "phase-9")
+    prompt_comparison = _prompt_comparison()
     dashboard = {
         "generated_at": datetime.now(UTC).isoformat(),
-        "source": "docs/phase-6 through docs/phase-9",
+        "source": "docs/phase-6 through docs/phase-11",
         "runs": runs,
         "overview": _overview(runs),
         "comparisons": _comparisons(runs),
+        "prompt_comparison": prompt_comparison,
         "failed_questions": failed_questions,
         "notes": [
             "All dashboard values are exported from existing evaluation result files.",

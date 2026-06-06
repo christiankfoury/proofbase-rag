@@ -32,12 +32,16 @@ Generated from: `data\evaluation\dashboard-summary.json`
 | phase-7-answer-quality | phase-7 | answer_quality_eval | vector_only | section_based | 0.650 | 0.980 | 0.829 | 0.857 | pending | pending |
 | phase-8-permission-safety | phase-8 | permission_eval | vector_only | section_based | pending | pending | pending | pending | 0.000 | pending |
 | phase-9-memory | phase-9 | memory_eval | vector_only | section_based | pending | pending | pending | pending | pending | 1.000 |
+| answer-generation-v1 | phase-11 | prompt_experiment | vector_only | section_based | 0.650 | 0.980 | 0.786 | 0.843 | pending | pending |
+| answer-generation-v2 | phase-11 | prompt_experiment | vector_only | section_based | 0.650 | 0.980 | 0.857 | 0.871 | pending | pending |
+| answer-generation-v3 | phase-11 | prompt_experiment | vector_only | section_based | 0.650 | 0.980 | 0.843 | 0.871 | pending | pending |
 
 ## Comparison Notes
 
 - Phase 7 keeps the same retrieval baseline and adds answer/citation/confidence scoring.
 - Vector-section had the strongest overall retrieval profile; hybrid matched hit rate but reduced Precision@k.
 - Fixed-size chunking did not clearly outperform section-based chunking.
+- Prompt experiments compare answer-generation versions; v2 is currently strongest by answer and citation metrics.
 
 ## Failed Questions
 

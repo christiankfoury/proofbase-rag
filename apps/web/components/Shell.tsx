@@ -6,6 +6,7 @@ const links = [
   ["Runs", "/runs"],
   ["Failed", "/failed-questions"],
   ["Retrieval", "/retrieval-experiments"],
+  ["Prompts", "/prompt-experiments"],
   ["Permissions", "/permission-safety"],
   ["Memory", "/memory-evaluation"],
 ];

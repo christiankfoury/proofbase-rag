@@ -31,6 +31,8 @@ class QueryRequest(BaseModel):
     chunking_strategy: str = "section_based"
     vector_weight: float = 0.5
     keyword_weight: float = 0.5
+    prompt_name: str = "answer_generation"
+    prompt_version: str | None = None
 
 
 class CreateSessionRequest(BaseModel):
@@ -110,6 +112,7 @@ def evaluation_compare() -> dict:
     return {
         "overview": data["overview"],
         "comparisons": data["comparisons"],
+        "prompt_comparison": data.get("prompt_comparison", {}),
         "runs": data["runs"],
     }
 
@@ -153,6 +156,8 @@ def query(request: QueryRequest) -> dict:
             user_role=request.user_role,
             memory_context=memory_text,
             original_question=request.question,
+            prompt_name=request.prompt_name,
+            prompt_version=request.prompt_version,
         )
     except RuntimeError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
@@ -210,6 +215,10 @@ def query(request: QueryRequest) -> dict:
         "validation_notes": answer["validation_notes"],
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
+        "prompt_name": answer.get("prompt_name"),
+        "prompt_version": answer.get("prompt_version"),
+        "model": answer.get("model"),
+        "temperature": answer.get("temperature"),
         "memory": {
             "is_followup": rewrite["is_followup"],
             "memory_used": rewrite["memory_used"],
