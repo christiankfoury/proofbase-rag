@@ -310,6 +310,54 @@ Observability fields tracked per request: `request_id`, `user_role`, `session_id
 
 Audit events logged: `restricted_query_refused`, `unauthorized_chunks_reached_generation`, `permission_filtered_retrieval`, `unauthorized_candidate_blocked`, `feedback_submitted`, `evaluation_run_started`, `evaluation_run_completed`, `prompt_version_changed`.
 
+## Phase 13 Artifacts
+
+Phase 13 improves multi-document reasoning by adding query decomposition, multi-source retrieval, and grouped evidence context. It also makes the observability dashboard live — no manual script required.
+
+- [Multi-Document Reasoning Design](docs/phase-13/multi-document-reasoning-design.md)
+- [Query Decomposition Design](docs/phase-13/query-decomposition-design.md)
+- [Live Observability Design](docs/phase-13/live-observability-design.md)
+- [Multi-Document Failure Analysis](docs/phase-13/multi-document-failure-analysis.md)
+- [Phase 13 Checklist](docs/phase-13/checklist.md)
+
+Run multi-document evaluation (baseline vs multi-doc comparison):
+
+```powershell
+python scripts/run_multi_doc_eval.py
+```
+
+Results are written to `data/evaluation/multi-doc-eval.json`. Export to dashboard:
+
+```powershell
+python scripts/export_dashboard_data.py
+```
+
+Run full benchmark regression check after multi-doc changes:
+
+```powershell
+python scripts/run_prompt_experiment.py --prompt-version v1
+```
+
+Dashboard page added in Phase 13:
+
+- `/multi-doc` — baseline vs multi-doc comparison table, fixed/broken/still-failing question cards, hallucination regression warning if applicable
+
+Phase 13 results (10 MULTI questions, baseline → multi-doc):
+
+- Answer accuracy: `0.700` → `0.850` (+0.150)
+- Citation accuracy: `0.750` → `0.900` (+0.150)
+- Response type accuracy: `0.900` → `1.000`
+- All sources cited rate: `0.600` → `0.800`
+- Failed questions: `4` → `2`
+- Hallucination rate: `0.667` → `0.700` (+0.033, known tradeoff — documented)
+
+Full benchmark regression check confirmed no regressions on FACT, PERM, MISS, AMB, or MEM questions.
+
+Known limitations:
+- MULTI-005 still failing — SALES-002 (Implementation Timeline) not retrieved by vector search for this question; retrieval miss, not a generation issue
+- Multi-doc detection is heuristic — questions that don't match keyword patterns take the single-doc fast path even if they need multiple documents
+- Hallucination rate slightly higher in multi-doc mode — synthesized cross-document answers produce inferences the citation validator cannot fully match back to individual chunks
+
 ## MVP Boundary
 
 The MVP proves enterprise RAG quality, not breadth.

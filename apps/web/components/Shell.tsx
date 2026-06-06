@@ -9,6 +9,7 @@ const links = [
   ["Prompts", "/prompt-experiments"],
   ["Permissions", "/permission-safety"],
   ["Memory", "/memory-evaluation"],
+  ["Multi-Doc", "/multi-doc"],
   ["Feedback", "/feedback"],
   ["Observability", "/observability"],
   ["Audit", "/audit"],

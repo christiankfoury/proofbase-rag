@@ -1,5 +1,6 @@
 import { Shell } from "@/components/Shell";
 import { MetricCard } from "@/components/MetricCard";
+import { ObservabilityRefresh } from "@/components/ObservabilityRefresh";
 import { getObservabilitySummary } from "@/lib/feedback";
 
 export default async function ObservabilityPage() {
@@ -33,11 +34,12 @@ export default async function ObservabilityPage() {
   return (
     <Shell>
       <h2 className="text-3xl font-semibold">Observability</h2>
-      <p className="mt-3 max-w-3xl text-stone-700">
-        Latency, token usage, and confidence from live RAG request logs. Run{" "}
-        <code className="rounded bg-stone-100 px-1 py-0.5 text-sm">python scripts/generate_observability_summary.py</code>{" "}
-        to refresh.
-      </p>
+      <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
+        <p className="max-w-2xl text-stone-700">
+          Live latency, token usage, and confidence from RAG request logs. Auto-refreshes every 15 seconds.
+        </p>
+        <ObservabilityRefresh />
+      </div>
 
       <section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <MetricCard label="Avg Total Latency" value={fmt(data.avg_total_latency_ms, " ms")} />

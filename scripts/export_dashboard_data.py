@@ -22,6 +22,7 @@ RUNS_DIR = ROOT / "data/evaluation/eval-runs"
 FAILED_DIR = ROOT / "data/evaluation/failed-questions"
 PROMPT_EXPERIMENT_DIR = ROOT / "data/evaluation/prompt-experiments"
 PROMPT_COMPARISON_PATH = PROMPT_EXPERIMENT_DIR / "prompt-comparison.json"
+MULTI_DOC_EVAL_PATH = ROOT / "data/evaluation/multi-doc-eval.json"
 
 REQUIRED_REPORTS = [
     PHASE6_RESULTS,
@@ -329,6 +330,43 @@ def _prompt_experiment_runs() -> list[dict[str, Any]]:
     return runs
 
 
+def _multi_doc_comparison() -> dict[str, Any]:
+    if not MULTI_DOC_EVAL_PATH.exists():
+        return {}
+    data = json.loads(MULTI_DOC_EVAL_PATH.read_text(encoding="utf-8"))
+    baseline = data.get("baseline", {}).get("summary", {})
+    multi_doc = data.get("multi_doc", {}).get("summary", {})
+    baseline_rows = data.get("baseline", {}).get("rows", [])
+    multi_doc_rows = data.get("multi_doc", {}).get("rows", [])
+
+    fixed = [
+        r["question_id"] for r in multi_doc_rows
+        if r.get("answer_accuracy", 0) >= 1.0
+        and next((b for b in baseline_rows if b["question_id"] == r["question_id"]), {}).get("answer_accuracy", 0) < 1.0
+    ]
+    broken = [
+        r["question_id"] for r in multi_doc_rows
+        if r.get("answer_accuracy", 1) < 1.0
+        and next((b for b in baseline_rows if b["question_id"] == r["question_id"]), {}).get("answer_accuracy", 1) >= 1.0
+    ]
+    still_failing = [
+        r["question_id"] for r in multi_doc_rows
+        if r.get("answer_accuracy", 1) < 1.0
+        and next((b for b in baseline_rows if b["question_id"] == r["question_id"]), {}).get("answer_accuracy", 1) < 1.0
+    ]
+
+    return {
+        "baseline": baseline,
+        "multi_doc": multi_doc,
+        "fixed_questions": fixed,
+        "broken_questions": broken,
+        "still_failing": still_failing,
+        "hallucination_regression": (
+            (multi_doc.get("hallucination_rate") or 0) > (baseline.get("hallucination_rate") or 0)
+        ),
+    }
+
+
 def _prompt_comparison() -> dict[str, Any]:
     if not PROMPT_COMPARISON_PATH.exists():
         return {"best": {}, "comparisons": [], "prompt_versions": []}
@@ -429,13 +467,15 @@ def main() -> None:
 
     failed_questions = _failed_items(phase7_failed, "phase-7") + _failed_items(phase9_failed, "phase-9")
     prompt_comparison = _prompt_comparison()
+    multi_doc_comparison = _multi_doc_comparison()
     dashboard = {
         "generated_at": datetime.now(UTC).isoformat(),
-        "source": "docs/phase-6 through docs/phase-11",
+        "source": "docs/phase-6 through docs/phase-13",
         "runs": runs,
         "overview": _overview(runs),
         "comparisons": _comparisons(runs),
         "prompt_comparison": prompt_comparison,
+        "multi_doc_comparison": multi_doc_comparison,
         "failed_questions": failed_questions,
         "notes": [
             "All dashboard values are exported from existing evaluation result files.",

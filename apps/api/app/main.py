@@ -17,8 +17,12 @@ from apps.api.app.memory.context_builder import build_memory_context, memory_con
 from apps.api.app.memory.query_rewriter import rewrite_followup_question
 from apps.api.app.memory.session_store import add_message, create_session, get_session, list_messages
 from apps.api.app.observability.logger import build_request_entry, log_request
+from apps.api.app.observability.summary import compute_live_summary
 from apps.api.app.observability.tracing import RequestTrace
 from apps.api.app.permissions.access_control import unauthorized_chunks_reached_generation
+from apps.api.app.reasoning.evidence_grouper import group_chunks_by_document
+from apps.api.app.reasoning.multi_doc_detector import is_multi_document_question
+from apps.api.app.reasoning.query_decomposer import retrieve_multi_doc
 from apps.api.app.retrieval.config import default_retrieval_config
 from apps.api.app.retrieval.retriever import retrieve_chunks
 
@@ -27,7 +31,6 @@ app = FastAPI(title="Enterprise Knowledge Agent API")
 
 ROOT = Path(__file__).resolve().parents[3]
 DASHBOARD_DATA_PATH = ROOT / "data/evaluation/dashboard-summary.json"
-OBSERVABILITY_SUMMARY_PATH = ROOT / "data" / "observability" / "summary.json"
 
 
 class QueryRequest(BaseModel):
@@ -135,6 +138,7 @@ def evaluation_compare() -> dict:
         "overview": data["overview"],
         "comparisons": data["comparisons"],
         "prompt_comparison": data.get("prompt_comparison", {}),
+        "multi_doc_comparison": data.get("multi_doc_comparison", {}),
         "runs": data["runs"],
     }
 
@@ -195,15 +199,12 @@ def feedback_summary_route() -> dict:
 
 @app.get("/observability/summary")
 def observability_summary() -> dict:
-    if not OBSERVABILITY_SUMMARY_PATH.exists():
-        return {
-            "status": "not_generated",
-            "message": "Run `python scripts/generate_observability_summary.py` to generate.",
-        }
-    try:
-        return json.loads(OBSERVABILITY_SUMMARY_PATH.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return {"status": "error", "message": "summary.json is not valid JSON."}
+    return compute_live_summary(limit=20)
+
+
+@app.get("/observability/recent-requests")
+def recent_requests_route(limit: int = 20) -> dict:
+    return compute_live_summary(limit=limit)
 
 
 @app.get("/audit/events")
@@ -256,7 +257,13 @@ def query(request: QueryRequest) -> dict:
         retrieval_question = rewrite["rewritten_question"]
 
         trace.start("retrieval")
-        chunks = retrieve_chunks(retrieval_question, request.user_role, config)
+        multi_doc = is_multi_document_question(retrieval_question)
+        if multi_doc:
+            chunks = retrieve_multi_doc(retrieval_question, request.user_role, config)
+            grouped_docs = group_chunks_by_document(chunks)
+        else:
+            chunks = retrieve_chunks(retrieval_question, request.user_role, config)
+            grouped_docs = None
         trace.stop("retrieval")
 
         trace.start("generation")
@@ -267,7 +274,9 @@ def query(request: QueryRequest) -> dict:
             memory_context=memory_text,
             original_question=request.question,
             prompt_name=request.prompt_name,
-            prompt_version=request.prompt_version,
+            prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+            multi_doc=multi_doc,
+            grouped_docs=grouped_docs,
         )
         trace.stop("generation")
     except RuntimeError as exc:

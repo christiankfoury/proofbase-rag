@@ -314,6 +314,8 @@ def generate_answer(
     prompt_version: str | None = None,
     model: str | None = None,
     temperature: float | None = None,
+    multi_doc: bool = False,
+    grouped_docs: list[dict] | None = None,
 ) -> dict:
     settings = get_settings()
     prompt = get_prompt(prompt_name, prompt_version)
@@ -381,12 +383,21 @@ def generate_answer(
             **confidence,
         }
 
-    user_prompt = build_answer_user_prompt(
-        question,
-        chunks,
-        memory_context=memory_context,
-        original_question=original_question,
-    )
+    if grouped_docs is not None:
+        from apps.api.app.generation.prompts import build_multi_doc_user_prompt
+        user_prompt = build_multi_doc_user_prompt(
+            question,
+            grouped_docs,
+            memory_context=memory_context,
+            original_question=original_question,
+        )
+    else:
+        user_prompt = build_answer_user_prompt(
+            question,
+            chunks,
+            memory_context=memory_context,
+            original_question=original_question,
+        )
 
     response = _client().chat.completions.create(
         model=selected_model,
@@ -416,8 +427,8 @@ def generate_answer(
 
     validation = validate_citations(answer, citations, chunks)
     unsupported_claims = list(dict.fromkeys(unsupported_claims + validation["unsupported_claims"]))
-    response_type = _adjust_response_type(response_type, validation["citation_confidence"], unsupported_claims)
-    answer = _adjust_answer_text(answer, response_type, validation["citation_confidence"])
+    response_type = _adjust_response_type(response_type, validation["citation_confidence"], unsupported_claims, multi_doc=multi_doc)
+    answer = _adjust_answer_text(answer, response_type, validation["citation_confidence"], multi_doc=multi_doc)
     if response_type == RESPONSE_NOT_FOUND:
         validation = {
             "citations": [],
@@ -446,19 +457,31 @@ def generate_answer(
     }
 
 
-def _adjust_response_type(response_type: str, citation_confidence: float, unsupported_claims: list[str]) -> str:
+def _adjust_response_type(
+    response_type: str,
+    citation_confidence: float,
+    unsupported_claims: list[str],
+    multi_doc: bool = False,
+) -> str:
     if response_type in {RESPONSE_ANSWER, RESPONSE_PARTIAL_ANSWER}:
-        if citation_confidence < 0.5:
+        not_found_threshold = 0.3 if multi_doc else 0.5
+        partial_threshold = 0.5 if multi_doc else 0.7
+        if citation_confidence < not_found_threshold:
             return RESPONSE_NOT_FOUND
-        if citation_confidence < 0.7 or unsupported_claims:
+        if citation_confidence < partial_threshold or unsupported_claims:
             return RESPONSE_PARTIAL_ANSWER
     return response_type
 
 
-def _adjust_answer_text(answer: str, response_type: str, citation_confidence: float) -> str:
+def _adjust_answer_text(
+    answer: str,
+    response_type: str,
+    citation_confidence: float,
+    multi_doc: bool = False,
+) -> str:
     if response_type == RESPONSE_NOT_FOUND:
         return "I could not find this in the available documents."
-    if response_type == RESPONSE_PARTIAL_ANSWER and citation_confidence < 0.7:
+    if response_type == RESPONSE_PARTIAL_ANSWER and citation_confidence < 0.7 and not multi_doc:
         return f"Based on limited supporting evidence, {answer}"
     return answer
 
