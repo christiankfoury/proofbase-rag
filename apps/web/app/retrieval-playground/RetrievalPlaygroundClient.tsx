@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { CitationTable, RetrievedContext } from "@/components/QueryResultPanel";
-import { QueryResponse, UserRole, queryRag } from "@/lib/api";
+import { RetrievedContext } from "@/components/QueryResultPanel";
+import { Citation, QueryResponse, UserRole, queryRag } from "@/lib/api";
 import { formatLabel, formatMetric } from "@/lib/dashboard";
 
 const modes = [
@@ -17,6 +17,50 @@ type ModeResult = {
   result?: QueryResponse;
   error?: string;
 };
+
+function formatLatency(value: number | null | undefined): string {
+  if (value === null || value === undefined) return "pending";
+  if (value >= 1000) return `${(value / 1000).toFixed(1)}s`;
+  return `${Math.round(value)} ms`;
+}
+
+function outcomeFor(label: string, result?: QueryResponse): { text: string; tone: string } {
+  if (!result) return { text: "Not run", tone: "border-stone-300 bg-stone-50 text-stone-700" };
+  if (label === "Multi-doc" && result.citations.length > 1 && result.response_type !== "not_found") {
+    return { text: "Best for this query", tone: "border-moss bg-green-50 text-moss" };
+  }
+  if (label === "Keyword only" && result.citations.length > 0) {
+    return { text: "Exact terms helped", tone: "border-steel bg-slate-50 text-steel" };
+  }
+  if (result.response_type === "not_found") {
+    return { text: "Missed supporting evidence", tone: "border-rust bg-orange-50 text-rust" };
+  }
+  if (result.response_type === "partial_answer") {
+    return { text: "Partial support", tone: "border-rust bg-orange-50 text-rust" };
+  }
+  return { text: "Answered", tone: "border-moss bg-green-50 text-moss" };
+}
+
+function CompactCitations({ citations }: { citations: Citation[] }) {
+  if (!citations.length) return <p className="text-sm text-stone-600">No citations returned.</p>;
+  return (
+    <div className="space-y-2">
+      {citations.slice(0, 5).map((citation, index) => (
+        <div key={`${citation.chunk_id ?? citation.document_id}-${index}`} className="rounded border border-stone-200 p-3 text-sm">
+          <div className="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <p className="font-semibold">{citation.document_title ?? "Untitled"}</p>
+              <p className="text-xs text-stone-500">{citation.document_id ?? "n/a"} / {citation.section_heading ?? "n/a"}</p>
+            </div>
+            <p className="text-xs text-stone-600">{formatMetric(citation.confidence)}</p>
+          </div>
+          <p className="mt-2 break-all font-mono text-xs text-stone-500">{citation.chunk_id ?? "no chunk id"}</p>
+        </div>
+      ))}
+      {citations.length > 5 ? <p className="text-xs text-stone-500">Showing 5 of {citations.length} citations.</p> : null}
+    </div>
+  );
+}
 
 export function RetrievalPlaygroundClient() {
   const [question, setQuestion] = useState("If I work remotely, what approval and device security expectations apply?");
@@ -60,20 +104,29 @@ export function RetrievalPlaygroundClient() {
             {loading ? "Running..." : "Compare modes"}
           </button>
         </div>
+        <p className="mt-3 text-sm text-stone-700">
+          This comparison shows why evaluation matters: vector retrieval is best overall, but keyword and multi-document retrieval can recover different evidence depending on the question.
+        </p>
       </div>
 
       <div className="grid gap-5 xl:grid-cols-2">
-        {results.map(({ label, result, error }) => (
-          <article key={label} className="rounded-md border border-stone-300 bg-white p-5">
+        {results.map(({ label, result, error }) => {
+          const outcome = outcomeFor(label, result);
+          const emphasize = outcome.text === "Best for this query";
+          return (
+          <article key={label} className={`rounded-md border bg-white p-5 ${emphasize ? "border-moss" : "border-stone-300"}`}>
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <h3 className="text-xl font-semibold">{label}</h3>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-xl font-semibold">{label}</h3>
+                  <span className={`rounded border px-2 py-1 text-xs font-semibold ${outcome.tone}`}>{outcome.text}</span>
+                </div>
                 <p className="mt-1 text-sm text-stone-600">{result ? formatLabel(result.response_type) : "Not run"}</p>
               </div>
               {result ? (
                 <div className="text-right text-xs text-stone-600">
                   <p>Confidence: {formatMetric(result.final_confidence)}</p>
-                  <p>Latency: {formatMetric(result.total_latency_ms)} ms</p>
+                  <p>Latency: {formatLatency(result.total_latency_ms)}</p>
                 </div>
               ) : null}
             </div>
@@ -83,7 +136,7 @@ export function RetrievalPlaygroundClient() {
                 <p className="line-clamp-6 text-sm leading-6 text-stone-800">{result.answer}</p>
                 <div>
                   <h4 className="mb-2 font-semibold">Citations</h4>
-                  <CitationTable citations={result.citations} />
+                  <CompactCitations citations={result.citations} />
                 </div>
                 <details className="rounded border border-stone-300 p-4">
                   <summary className="cursor-pointer font-semibold">Top Retrieved Chunks</summary>
@@ -96,7 +149,7 @@ export function RetrievalPlaygroundClient() {
               <p className="mt-4 text-sm text-stone-600">Run the comparison to populate this mode.</p>
             )}
           </article>
-        ))}
+        )})}
       </div>
     </section>
   );
