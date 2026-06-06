@@ -5,7 +5,7 @@ from datetime import UTC, datetime
 from statistics import mean
 from typing import Any
 
-from apps.api.app.observability.logger import LOG_PATH
+from apps.api.app.observability.logger import get_observability_log_path
 
 
 def _safe_float(value: Any) -> float | None:
@@ -21,7 +21,8 @@ def _avg(values: list) -> float | None:
 
 
 def compute_live_summary(limit: int = 20) -> dict[str, Any]:
-    if not LOG_PATH.exists():
+    log_path = get_observability_log_path()
+    if not log_path.exists():
         return {
             "status": "not_generated",
             "message": "No request logs yet. Send queries via POST /query first.",
@@ -38,7 +39,7 @@ def compute_live_summary(limit: int = 20) -> dict[str, Any]:
 
     entries: list[dict] = []
     try:
-        with LOG_PATH.open(encoding="utf-8") as fh:
+        with log_path.open(encoding="utf-8") as fh:
             for line in fh:
                 line = line.strip()
                 if line:

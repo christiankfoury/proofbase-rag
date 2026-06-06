@@ -4,10 +4,14 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 from statistics import mean
+import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-LOG_PATH = ROOT / "data" / "observability" / "request-logs.jsonl"
+sys.path.insert(0, str(ROOT))
+
+from apps.api.app.observability.logger import get_observability_log_path
+
 OUTPUT_PATH = ROOT / "data" / "observability" / "summary.json"
 
 
@@ -24,12 +28,13 @@ def _avg(values: list) -> float | None:
 
 
 def main() -> None:
-    if not LOG_PATH.exists():
-        print(f"No log file at {LOG_PATH}. Run some queries via POST /query first.")
+    log_path = get_observability_log_path()
+    if not log_path.exists():
+        print(f"No log file at {log_path}. Run some queries via POST /query first.")
         return
 
     entries = []
-    with LOG_PATH.open(encoding="utf-8") as fh:
+    with log_path.open(encoding="utf-8") as fh:
         for line in fh:
             line = line.strip()
             if line:

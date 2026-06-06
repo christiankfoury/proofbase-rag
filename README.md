@@ -39,6 +39,62 @@ The system should prove that it can:
 | Observability | Structured JSONL request logs, audit log, OpenTelemetry planned |
 | Deployment | Docker, Azure Container Apps or Azure App Service |
 
+## Phase 14 Docker Quickstart
+
+Phase 14 makes the project Docker-ready for local demos. It is Azure-ready, not deployed to Azure.
+
+Create a local `.env` file and add your OpenAI key:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Start Postgres with pgvector, FastAPI, and the Next.js dashboard:
+
+```powershell
+docker compose up --build
+```
+
+In a second terminal, initialize the database:
+
+```powershell
+docker compose run --rm api python scripts/setup_db.py
+```
+
+Ingest the synthetic Markdown corpus:
+
+```powershell
+docker compose run --rm api python scripts/ingest_markdown.py --apply-schema --chunking-strategy section_based
+```
+
+Run the smoke test:
+
+```powershell
+docker compose run --rm api python scripts/run_smoke_test.py --api-base-url http://api:8000
+```
+
+Open:
+
+- Dashboard: `http://localhost:3000`
+- API: `http://localhost:8000`
+- API health: `http://localhost:8000/health`
+- API readiness: `http://localhost:8000/ready`
+
+If port `3000` is already in use, set `WEB_PORT=3001` in `.env` and open `http://localhost:3001`. If port `8000` is already in use, set `API_PORT` and update `NEXT_PUBLIC_API_BASE_URL` for host-side access.
+
+Run evaluation commands inside the API container:
+
+```powershell
+docker compose run --rm api python scripts/run_retrieval_experiments.py
+docker compose run --rm api python scripts/run_answer_quality_eval.py
+docker compose run --rm api python scripts/run_permission_eval.py
+docker compose run --rm api python scripts/run_memory_eval.py
+docker compose run --rm api python scripts/run_multi_doc_eval.py
+docker compose run --rm api python scripts/export_dashboard_data.py
+```
+
+Required environment variables are documented in [Phase 14 Environment Variables](docs/phase-14/environment-variables.md). The main local variables are `DATABASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`, `OPENAI_CHAT_MODEL`, `OPENAI_EMBEDDING_MODEL`, `DEFAULT_TOP_K`, `LOG_LEVEL`, `OBSERVABILITY_LOG_PATH`, `AUDIT_LOG_PATH`, `NEXT_PUBLIC_API_BASE_URL`, `API_PORT`, and `WEB_PORT`.
+
 ## Phase 1 Artifacts
 
 Phase 1 defines the product before implementation. The goal is to make the system specific, measurable, and recruiter-friendly before writing application code.
@@ -357,6 +413,36 @@ Known limitations:
 - MULTI-005 still failing — SALES-002 (Implementation Timeline) not retrieved by vector search for this question; retrieval miss, not a generation issue
 - Multi-doc detection is heuristic — questions that don't match keyword patterns take the single-doc fast path even if they need multiple documents
 - Hallucination rate slightly higher in multi-doc mode — synthesized cross-document answers produce inferences the citation validator cannot fully match back to individual chunks
+
+## Phase 14 Artifacts
+
+Phase 14 packages the existing enterprise RAG system for reproducible local demos and documents an Azure-ready deployment path without claiming cloud deployment.
+
+- [Docker Local Setup](docs/phase-14/docker-local-setup.md)
+- [Deployment Architecture](docs/phase-14/deployment-architecture.md)
+- [Azure Readiness Plan](docs/phase-14/azure-readiness-plan.md)
+- [Environment Variables](docs/phase-14/environment-variables.md)
+- [Health Checks](docs/phase-14/health-checks.md)
+- [Smoke Test Results](docs/phase-14/smoke-test-results.md)
+- [Phase 14 Checklist](docs/phase-14/checklist.md)
+
+Phase 14 adds:
+
+- Docker Compose services for pgvector Postgres, FastAPI, and Next.js.
+- API and web Dockerfiles.
+- `GET /ready` database/schema readiness endpoint.
+- Repeatable database setup and smoke-test scripts.
+- Environment variable examples without secrets.
+- Lightweight CI for Python compile, frontend build, and Docker image builds.
+- Azure-ready deployment plan for Container Apps, Azure Database for PostgreSQL, ACR, Key Vault, and future Blob Storage.
+
+Known deployment limitations:
+
+- Azure deployment has not been performed yet.
+- Production authentication and SSO remain deferred.
+- Audit events persist in Postgres; durable cloud audit/log export remains future work.
+- Raw document storage still uses repository files, not Azure Blob Storage.
+- Evaluations and ingestion require `OPENAI_API_KEY` for embedding and generation calls.
 
 ## MVP Boundary
 

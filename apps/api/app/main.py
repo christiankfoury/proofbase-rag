@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from apps.api.app.audit.audit_logger import audit_summary as get_audit_summary
 from apps.api.app.audit.audit_logger import list_audit_events, log_audit_event
 from apps.api.app.core.config import get_settings
+from apps.api.app.db.session import get_connection
 from apps.api.app.feedback.feedback_store import feedback_summary as get_feedback_summary
 from apps.api.app.feedback.feedback_store import list_feedback, submit_feedback
 from apps.api.app.generation.answer_generator import generate_answer, retrieved_chunks_payload
@@ -80,6 +81,73 @@ def _load_dashboard_data() -> dict:
 @app.get("/health")
 def health() -> dict:
     return {"status": "ok"}
+
+
+@app.get("/ready")
+def ready() -> dict:
+    required_tables = [
+        "documents",
+        "document_versions",
+        "chunks",
+        "chunk_embeddings",
+        "audit_logs",
+        "chat_sessions",
+        "chat_messages",
+        "feedback",
+    ]
+    try:
+        with get_connection() as conn:
+            vector_extension = conn.execute(
+                "select exists(select 1 from pg_extension where extname = 'vector') as exists"
+            ).fetchone()["exists"]
+            table_rows = conn.execute(
+                """
+                select table_name
+                from information_schema.tables
+                where table_schema = 'public'
+                  and table_name = any(%s)
+                """,
+                (required_tables,),
+            ).fetchall()
+            existing_tables = {row["table_name"] for row in table_rows}
+            missing_tables = sorted(set(required_tables) - existing_tables)
+            if missing_tables:
+                raise HTTPException(
+                    status_code=503,
+                    detail={
+                        "status": "not_ready",
+                        "database": "connected",
+                        "schema": "missing_tables",
+                        "missing_tables": missing_tables,
+                    },
+                )
+            if not vector_extension:
+                raise HTTPException(
+                    status_code=503,
+                    detail={
+                        "status": "not_ready",
+                        "database": "connected",
+                        "schema": "pgvector_missing",
+                    },
+                )
+            document_count = conn.execute("select count(*) as count from documents").fetchone()["count"]
+            chunk_count = conn.execute("select count(*) as count from chunks").fetchone()["count"]
+    except HTTPException:
+        raise
+    except PsycopgError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail={"status": "not_ready", "database": "unavailable", "reason": str(exc)},
+        ) from exc
+
+    return {
+        "status": "ready",
+        "database": "connected",
+        "schema": "ok",
+        "pgvector": "enabled",
+        "document_count": document_count,
+        "chunk_count": chunk_count,
+    }
 
 
 @app.post("/chat/sessions")

@@ -5,19 +5,27 @@ import threading
 from pathlib import Path
 from typing import Any
 
+from apps.api.app.core.config import get_settings
 
 ROOT = Path(__file__).resolve().parents[4]
-LOG_PATH = ROOT / "data" / "observability" / "request-logs.jsonl"
 
 _lock = threading.Lock()
 
 
+def get_observability_log_path() -> Path:
+    configured_path = Path(get_settings().observability_log_path)
+    if configured_path.is_absolute():
+        return configured_path
+    return ROOT / configured_path
+
+
 def log_request(entry: dict[str, Any]) -> None:
     try:
-        LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+        log_path = get_observability_log_path()
+        log_path.parent.mkdir(parents=True, exist_ok=True)
         line = json.dumps(entry, default=str) + "\n"
         with _lock:
-            with LOG_PATH.open("a", encoding="utf-8") as fh:
+            with log_path.open("a", encoding="utf-8") as fh:
                 fh.write(line)
     except Exception:
         return
