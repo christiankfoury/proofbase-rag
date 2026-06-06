@@ -25,6 +25,36 @@ The script verifies:
 
 ## Latest Verification Status
 
+Verified by user on: 2026-06-06
+
+Commands run:
+
+```powershell
+docker compose run --rm api python scripts/setup_db.py
+docker compose run --rm api python scripts/ingest_markdown.py --apply-schema --chunking-strategy section_based
+docker compose run --rm api python scripts/run_smoke_test.py --api-base-url http://api:8000
+```
+
+Results:
+
+- `setup_db.py`: passed.
+- pgvector enabled: `true`.
+- Required table count: `13`.
+- Missing tables: `[]`.
+- Ingestion: `14` documents, `80` chunks, `80` embeddings, `0` failures.
+- Smoke test: passed.
+- `/health`: passed.
+- `/ready`: passed.
+- Readiness DB counts: `14` documents, `160` chunks.
+- Smoke DB counts: `14` documents, `160` chunks.
+- Normal query response type: `answer`.
+- Restricted query response type: `refuse_no_access`.
+- Unauthorized chunks reached generation: `false`.
+
+Note: readiness reported `160` chunks because the local Docker volume included chunks from more than one ingestion run. The latest section-based ingestion command itself produced `80` chunks.
+
+## Earlier Local Verification
+
 Verified on: 2026-06-06
 
 Environment:
