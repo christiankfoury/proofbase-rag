@@ -51,5 +51,5 @@ Generated from: `data\evaluation\dashboard-summary.json`
 ## Honesty Notes
 
 - No fake metrics are added by Phase 10.
-- Estimated cost remains pending where earlier phases did not calculate it.
+- Estimated chat-generation cost is calculated where token counts are available; retrieval-only and embedding costs remain out of scope.
 - Answer metrics are deterministic or heuristic signals, not a human-grade semantic evaluation.

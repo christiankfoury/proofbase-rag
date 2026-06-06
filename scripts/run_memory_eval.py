@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from apps.api.app.evaluation.answer_metrics import score_answer
+from apps.api.app.costing.estimator import estimate_chat_cost
 from apps.api.app.evaluation.memory_metrics import (
     followup_detection_accuracy,
     memory_permission_leakage,
@@ -39,6 +40,20 @@ def _average(values: list[float | None]) -> str:
     if not real_values:
         return "pending"
     return f"{mean(real_values):.3f}"
+
+
+def _sum(values: list[int | None]) -> int | str:
+    real_values = [value for value in values if value is not None]
+    if not real_values:
+        return "pending"
+    return sum(real_values)
+
+
+def _sum_cost(values: list[float | None]) -> float | str:
+    real_values = [value for value in values if value is not None]
+    if not real_values:
+        return "pending"
+    return round(sum(real_values), 6)
 
 
 def _failure_type(question: dict, row: dict) -> str | None:
@@ -92,6 +107,9 @@ def _write_results(summary: dict, rows: list[dict]) -> None:
         f"- Memory permission leakage: {summary['memory_permission_leakage']}",
         f"- Hallucination rate on follow-ups: {summary['hallucination_rate']}",
         f"- Average final confidence: {summary['final_confidence']}",
+        f"- Input tokens: {summary['input_tokens']}",
+        f"- Output tokens: {summary['output_tokens']}",
+        f"- Estimated cost: {summary['estimated_cost']}",
         "",
         "## Question Results",
         "",
@@ -212,6 +230,12 @@ def main() -> None:
             "memory_permission_leakage": memory_permission_leakage(chunks, question["user_role"], answer["citations"]),
             "latency_ms": latency_ms,
             "final_confidence": answer["final_confidence"],
+            "input_tokens": answer["input_tokens"],
+            "output_tokens": answer["output_tokens"],
+            "input_cost_usd": answer.get("input_cost_usd"),
+            "output_cost_usd": answer.get("output_cost_usd"),
+            "estimated_cost_usd": answer.get("estimated_cost_usd"),
+            "pricing_status": answer.get("pricing_status"),
             **scores,
         }
         rows.append(row)
@@ -257,7 +281,17 @@ def main() -> None:
         "memory_permission_leakage": _average([row["memory_permission_leakage"] for row in rows]),
         "hallucination_rate": _average([row["hallucination_rate"] for row in rows]),
         "final_confidence": _average([row["final_confidence"] for row in rows]),
+        "input_tokens": _sum([row["input_tokens"] for row in rows]),
+        "output_tokens": _sum([row["output_tokens"] for row in rows]),
+        "estimated_cost": _sum_cost([row.get("estimated_cost_usd") for row in rows]),
     }
+    if summary["estimated_cost"] == "pending":
+        cost = estimate_chat_cost(
+            model="gpt-4.1-mini",
+            input_tokens=summary["input_tokens"],
+            output_tokens=summary["output_tokens"],
+        )
+        summary["estimated_cost"] = cost["estimated_cost_usd"] if cost["estimated_cost_usd"] is not None else "pending"
     _write_results(summary, rows)
     _write_failed(failed)
     print(json.dumps(summary, indent=2))
@@ -267,4 +301,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -6,6 +6,7 @@ from statistics import mean
 import json
 import time
 
+from apps.api.app.costing.estimator import estimate_chat_cost
 from apps.api.app.evaluation.answer_metrics import score_answer
 from apps.api.app.evaluation.failed_question_report import failed_question_item
 from apps.api.app.evaluation.metrics import (
@@ -57,6 +58,13 @@ def _sum(values: list[int | None]) -> int | None:
     if not real_values:
         return None
     return sum(real_values)
+
+
+def _sum_cost(values: list[float | None]) -> float | None:
+    real_values = [value for value in values if value is not None]
+    if not real_values:
+        return None
+    return round(sum(real_values), 6)
 
 
 def run_prompt_experiment(config: ExperimentConfig) -> dict:
@@ -114,6 +122,10 @@ def run_prompt_experiment(config: ExperimentConfig) -> dict:
             "final_confidence": answer["final_confidence"],
             "input_tokens": answer["input_tokens"],
             "output_tokens": answer["output_tokens"],
+            "input_cost_usd": answer.get("input_cost_usd"),
+            "output_cost_usd": answer.get("output_cost_usd"),
+            "estimated_cost_usd": answer.get("estimated_cost_usd"),
+            "pricing_status": answer.get("pricing_status"),
             "prompt_version": answer.get("prompt_version"),
             "model": answer.get("model"),
             "temperature": answer.get("temperature"),
@@ -161,8 +173,18 @@ def run_prompt_experiment(config: ExperimentConfig) -> dict:
         "final_confidence": _average([row["final_confidence"] for row in rows]),
         "input_tokens": _sum([row["input_tokens"] for row in rows]),
         "output_tokens": _sum([row["output_tokens"] for row in rows]),
-        "estimated_cost": None,
+        "estimated_cost": _sum_cost([row.get("estimated_cost_usd") for row in rows]),
+        "pricing_status": "estimated",
     }
+    if summary["estimated_cost"] is None:
+        summary.update(
+            estimate_chat_cost(
+                model=config.model,
+                input_tokens=summary["input_tokens"],
+                output_tokens=summary["output_tokens"],
+            )
+        )
+        summary["estimated_cost"] = summary["estimated_cost_usd"]
     return {
         "generated_at": datetime.now(UTC).isoformat(),
         "started_at": started_at,

@@ -47,5 +47,5 @@ Same shape as Phase 12 `ObservabilitySummary` TypeScript type:
 - `generated_at`, `total_requests`
 - `avg_total_latency_ms`, `avg_retrieval_latency_ms`, `avg_generation_latency_ms`
 - `avg_final_confidence`, `avg_input_tokens`, `avg_output_tokens`
-- `estimated_cost: null`
+- `estimated_cost`, `total_estimated_cost_usd`, and `avg_estimated_cost_usd` when token usage and model pricing are available
 - `recent_requests: [...]` (last N entries from JSONL)

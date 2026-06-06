@@ -23,7 +23,7 @@ Generated at: 2026-06-05T01:50:38.484296+00:00
 - Average final confidence: 0.705
 - Input tokens: 30593
 - Output tokens: 10108
-- Estimated cost: pending
+- Estimated cost: 0.028410
 
 ## Question Results
 
@@ -95,4 +95,4 @@ Generated at: 2026-06-05T01:50:38.484296+00:00
 - Answer accuracy uses deterministic expected-answer term overlap and should be treated as a baseline signal, not a human-grade semantic judge.
 - Citation accuracy checks whether citations point to expected source documents.
 - Faithfulness is the heuristic citation confidence score.
-- Cost remains pending because model pricing is not hardcoded.
+- Estimated cost uses configured chat model pricing and excludes embedding/ingestion cost.

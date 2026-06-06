@@ -8,6 +8,7 @@ from apps.api.app.audit.audit_logger import log_audit_event
 from apps.api.app.citations.citation_formatter import fallback_citation
 from apps.api.app.citations.citation_validator import validate_citations
 from apps.api.app.confidence.confidence_scorer import final_confidence
+from apps.api.app.costing.estimator import estimate_chat_cost
 from apps.api.app.core.config import get_settings
 from apps.api.app.generation.prompts import build_answer_user_prompt
 from apps.api.app.generation.response_types import (
@@ -195,6 +196,10 @@ def _prompt_metadata(prompt: PromptVersion, model: str, temperature: float) -> d
     }
 
 
+def _zero_cost(model: str) -> dict:
+    return estimate_chat_cost(model=model, input_tokens=0, output_tokens=0)
+
+
 def _policy_response(question: str, chunks: list[RetrievedChunk], user_role: str | None = None) -> dict | None:
     normalized = question.lower()
     if any(pattern in normalized for pattern in MISSING_PATTERNS):
@@ -325,7 +330,7 @@ def generate_answer(
 
     policy_response = _policy_response(question, chunks, user_role=user_role)
     if policy_response:
-        return {**policy_response, **prompt_metadata}
+        return {**policy_response, **prompt_metadata, **_zero_cost(selected_model)}
 
     if user_role and chunks:
         from apps.api.app.permissions.access_control import unauthorized_chunks
@@ -357,6 +362,7 @@ def generate_answer(
                 "output_tokens": 0,
                 "estimated_cost_usd": None,
                 **prompt_metadata,
+                **_zero_cost(selected_model),
                 **confidence,
             }
 
@@ -380,6 +386,7 @@ def generate_answer(
             "output_tokens": 0,
             "estimated_cost_usd": None,
             **prompt_metadata,
+            **_zero_cost(selected_model),
             **confidence,
         }
 
@@ -451,7 +458,11 @@ def generate_answer(
         "validation_notes": validation["validation_notes"],
         "input_tokens": usage.prompt_tokens if usage else None,
         "output_tokens": usage.completion_tokens if usage else None,
-        "estimated_cost_usd": None,
+        **estimate_chat_cost(
+            model=selected_model,
+            input_tokens=usage.prompt_tokens if usage else None,
+            output_tokens=usage.completion_tokens if usage else None,
+        ),
         **prompt_metadata,
         **confidence,
     }

@@ -8,7 +8,7 @@ Generated at: 2026-06-06T00:17:42.173034+00:00
 - Best citation accuracy: `v2`
 - Lowest hallucination rate: `v3`
 - Metrics are produced by the deterministic Phase 7 answer-quality scoring pipeline.
-- Estimated cost remains pending because pricing is not hardcoded.
+- Estimated cost uses configured chat model pricing and excludes embedding/ingestion cost.
 
 ## Prompt Version Metrics
 

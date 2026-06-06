@@ -79,6 +79,12 @@ def _run_pass(questions: list[dict], use_multi_doc: bool) -> list[dict]:
             "final_confidence": answer["final_confidence"],
             "latency_ms": latency_ms,
             "mode": label,
+            "input_tokens": answer["input_tokens"],
+            "output_tokens": answer["output_tokens"],
+            "input_cost_usd": answer.get("input_cost_usd"),
+            "output_cost_usd": answer.get("output_cost_usd"),
+            "estimated_cost_usd": answer.get("estimated_cost_usd"),
+            "pricing_status": answer.get("pricing_status"),
             **scores,
         }
         rows.append(row)

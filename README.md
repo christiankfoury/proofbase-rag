@@ -19,7 +19,7 @@ The main portfolio story:
 - Citation-focused: generated answers include citations and citation validation.
 - Measured iteration: vector, keyword, hybrid, prompt, memory, and multi-document changes are compared with real metrics.
 - Demo-ready: the project includes a Next.js evaluation dashboard, Docker Compose stack, health/readiness endpoints, smoke tests, and Azure-ready docs.
-- Honest limitations: synthetic data, no production auth yet, cost estimation pending, and remaining multi-document retrieval misses are documented.
+- Honest limitations: synthetic data, no production auth yet, chat-generation cost estimation only, and remaining multi-document retrieval misses are documented.
 
 ## Key Features
 
@@ -55,7 +55,7 @@ The main portfolio story:
 | Database | PostgreSQL, pgvector |
 | Retrieval | Vector search, PostgreSQL full-text search, hybrid experiments |
 | Evaluation | Custom benchmark runners and deterministic scoring helpers |
-| Observability | JSONL request logs, live summary endpoints, dashboard views |
+| Observability | JSONL request logs, live summary endpoints, cost estimates, dashboard views |
 | Security controls | Role-based document access, audit logs, permission evaluations |
 | Packaging | Docker, Docker Compose |
 | Cloud readiness | Azure Container Apps/App Service, Azure Database for PostgreSQL, ACR, Key Vault, Blob Storage future target |
@@ -129,7 +129,7 @@ Benchmark artifacts:
 
 ## Final Metrics
 
-All numbers below come from existing evaluation outputs. Cost remains pending because pricing is not hardcoded.
+All numbers below come from existing evaluation outputs. Chat-generation cost is estimated from configured model pricing; embedding and infrastructure cost are still future work.
 
 ### Retrieval
 
@@ -201,6 +201,7 @@ Source: [Multi-Doc Evaluation JSON](data/evaluation/multi-doc-eval.json)
 | Postgres/pgvector setup | Passed |
 | Smoke test | Passed in latest user run |
 | Azure deployment | Azure-ready, not deployed |
+| Chat cost tracking | Estimated from configured model pricing |
 
 Source: [Phase 14 Smoke Test Results](docs/phase-14/smoke-test-results.md)
 
@@ -337,7 +338,7 @@ Open the dashboard after exporting data.
 - Production authentication and SSO are not implemented.
 - There are no real SharePoint, Slack, Teams, Google Drive, or HRIS connectors yet.
 - Raw document storage still uses repository files, not Azure Blob Storage.
-- Cost estimation is pending because model pricing is not hardcoded.
+- Chat-generation cost is estimated from configured model pricing; embedding, hosting, and Azure infrastructure costs are not included yet.
 - `MULTI-005` still fails due to a `SALES-002` retrieval miss.
 - Multi-document detection is heuristic.
 - The `/chat` page is a demo UI, not a production end-user assistant with authentication.
@@ -353,7 +354,7 @@ Open the dashboard after exporting data.
 - Add real enterprise connectors.
 - Evaluate Azure AI Search or reranking for unresolved retrieval misses.
 - Improve multi-document retrieval and source coverage.
-- Add cost estimation from model pricing configuration.
+- Extend cost tracking to embeddings, ingestion, and cloud infrastructure estimates.
 - Build a richer admin UI for permissions, ingestion, and evaluation review.
 - Turn the demo chat into a production-grade authenticated assistant if this moves beyond portfolio scope.
 
@@ -376,6 +377,7 @@ Phase artifacts are preserved for review:
 - [Phase 13](docs/phase-13/multi-document-reasoning-design.md): multi-document reasoning.
 - [Phase 14](docs/phase-14/docker-local-setup.md): Docker and Azure readiness.
 - [Phase 15 Interactive UX](docs/phase-15/interactive-demo-ux.md): recruiter-facing interactive demo.
+- [Phase 16](docs/phase-16/cost-tracking.md): chat-generation cost tracking.
 
 ## Final Portfolio Description
 

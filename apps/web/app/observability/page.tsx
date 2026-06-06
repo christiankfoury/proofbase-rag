@@ -30,6 +30,8 @@ export default async function ObservabilityPage() {
 
   const fmt = (v: number | null | undefined, suffix = "") =>
     v != null ? `${v}${suffix}` : "pending";
+  const fmtUsd = (v: number | null | undefined) =>
+    v != null ? `$${v.toFixed(6)}` : "pending";
 
   return (
     <Shell>
@@ -49,7 +51,8 @@ export default async function ObservabilityPage() {
         <MetricCard label="Avg Input Tokens" value={fmt(data.avg_input_tokens != null ? Math.round(data.avg_input_tokens) : null)} />
         <MetricCard label="Avg Output Tokens" value={fmt(data.avg_output_tokens != null ? Math.round(data.avg_output_tokens) : null)} />
         <MetricCard label="Total Requests" value={fmt(data.total_requests)} />
-        <MetricCard label="Estimated Cost" value="pending" detail="Pricing not hardcoded." />
+        <MetricCard label="Total Estimated Cost" value={fmtUsd(data.total_estimated_cost_usd ?? data.estimated_cost)} detail="Chat token cost only." />
+        <MetricCard label="Avg Cost / Request" value={fmtUsd(data.avg_estimated_cost_usd)} detail="Configured model pricing." />
       </section>
 
       {recent.length > 0 && (
@@ -70,6 +73,8 @@ export default async function ObservabilityPage() {
                   <th className="px-4 py-3">Prompt</th>
                   <th className="px-4 py-3 text-right">In Tok</th>
                   <th className="px-4 py-3 text-right">Out Tok</th>
+                  <th className="px-4 py-3 text-right">Cost</th>
+                  <th className="px-4 py-3">Pricing</th>
                   <th className="px-4 py-3">Error</th>
                 </tr>
               </thead>
@@ -91,6 +96,8 @@ export default async function ObservabilityPage() {
                     <td className="whitespace-nowrap px-4 py-3">{entry.prompt_version ?? "-"}</td>
                     <td className="px-4 py-3 text-right">{entry.input_tokens ?? "-"}</td>
                     <td className="px-4 py-3 text-right">{entry.output_tokens ?? "-"}</td>
+                    <td className="px-4 py-3 text-right">{fmtUsd(entry.estimated_cost_usd)}</td>
+                    <td className="whitespace-nowrap px-4 py-3">{entry.pricing_status ?? "-"}</td>
                     <td className="px-4 py-3 text-rust">{entry.error ?? ""}</td>
                   </tr>
                 ))}

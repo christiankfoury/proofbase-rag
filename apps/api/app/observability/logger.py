@@ -54,6 +54,10 @@ def build_request_entry(
     model: str | None,
     input_tokens: int | None,
     output_tokens: int | None,
+    input_cost_usd: float | None,
+    output_cost_usd: float | None,
+    estimated_cost_usd: float | None,
+    pricing_status: str | None,
     error: str | None,
 ) -> dict[str, Any]:
     return {
@@ -78,6 +82,10 @@ def build_request_entry(
         "model": model,
         "input_tokens": input_tokens,
         "output_tokens": output_tokens,
-        "estimated_cost": None,
+        "input_cost_usd": input_cost_usd,
+        "output_cost_usd": output_cost_usd,
+        "estimated_cost_usd": estimated_cost_usd,
+        "estimated_cost": estimated_cost_usd,
+        "pricing_status": pricing_status,
         "error": error,
     }

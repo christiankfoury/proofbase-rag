@@ -24,5 +24,5 @@ The strongest Phase 10 demo story is:
 ## Honest Caveats
 
 - Some answer-quality metrics use deterministic and heuristic scoring.
-- Estimated cost remains pending where pricing is not hardcoded.
+- Estimated chat-generation cost is calculated from configured model pricing where token counts are available.
 - The frontend is intentionally minimal and focused on evaluation visibility.

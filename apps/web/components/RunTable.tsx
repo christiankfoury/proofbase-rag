@@ -1,12 +1,19 @@
 import Link from "next/link";
 import { EvalRun, formatLabel, formatTableMetric } from "@/lib/dashboard";
 
+function formatCost(value: number | string | null | undefined): string {
+  if (value === null || value === undefined || value === "") return "-";
+  if (typeof value === "number") return `$${value.toFixed(6)}`;
+  if (value.toLowerCase() === "pending") return "-";
+  return value;
+}
+
 export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?: string }) {
   return (
     <div>
       <p className="mb-3 text-sm text-stone-600">A dash means the metric was not measured for that run type.</p>
       <div className="overflow-x-auto rounded-md border border-stone-300 bg-white">
-        <table className="w-full min-w-[960px] border-collapse text-left text-sm">
+        <table className="w-full min-w-[1040px] border-collapse text-left text-sm">
           <thead className="bg-stone-100 text-stone-700">
             <tr>
               <th className="p-3">Run</th>
@@ -19,6 +26,7 @@ export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?:
               <th className="p-3 text-right">Citation</th>
               <th className="p-3 text-right">Permission Leak</th>
               <th className="p-3 text-right">Memory</th>
+              <th className="p-3 text-right">Est. Cost</th>
             </tr>
           </thead>
           <tbody>
@@ -43,6 +51,7 @@ export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?:
                 <td className="p-3 text-right">{formatTableMetric(run.metrics.citation_accuracy)}</td>
                 <td className="p-3 text-right">{formatTableMetric(run.metrics.permission_leakage_rate)}</td>
                 <td className="p-3 text-right">{formatTableMetric(run.metrics.memory_answer_accuracy)}</td>
+                <td className="p-3 text-right">{formatCost(run.metrics.estimated_cost)}</td>
               </tr>
             ))}
           </tbody>

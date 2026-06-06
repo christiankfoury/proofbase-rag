@@ -576,6 +576,10 @@ def query(request: QueryRequest) -> dict:
             model=answer.get("model"),
             input_tokens=answer.get("input_tokens"),
             output_tokens=answer.get("output_tokens"),
+            input_cost_usd=answer.get("input_cost_usd"),
+            output_cost_usd=answer.get("output_cost_usd"),
+            estimated_cost_usd=answer.get("estimated_cost_usd"),
+            pricing_status=answer.get("pricing_status"),
             error=None,
         )
     )
@@ -602,6 +606,10 @@ def query(request: QueryRequest) -> dict:
         "prompt_version": answer.get("prompt_version"),
         "model": answer.get("model"),
         "temperature": answer.get("temperature"),
+        "input_cost_usd": answer.get("input_cost_usd"),
+        "output_cost_usd": answer.get("output_cost_usd"),
+        "estimated_cost_usd": answer.get("estimated_cost_usd"),
+        "pricing_status": answer.get("pricing_status"),
         "retrieval_latency_ms": trace.retrieval_latency_ms,
         "generation_latency_ms": trace.generation_latency_ms,
         "total_latency_ms": trace.total_latency_ms,

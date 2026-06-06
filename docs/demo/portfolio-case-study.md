@@ -124,7 +124,7 @@ The project uses deterministic and heuristic scoring rather than a human judge f
 - Add PDF and DOCX ingestion.
 - Add real enterprise connectors such as SharePoint, Slack, Teams, or Google Drive.
 - Evaluate Azure AI Search or reranking for remaining retrieval misses.
-- Add cost estimation based on configurable model pricing.
+- Extend cost estimation beyond chat-generation tokens to embeddings, ingestion, and cloud infrastructure.
 - Build an admin UI for ingestion, permissions, and evaluation review.
 
 ## Short Website Summary

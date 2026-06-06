@@ -14,6 +14,7 @@ from apps.api.app.evaluation.prompt_comparison import (
     compare_to_baseline,
     load_prompt_experiment_results,
 )
+from apps.api.app.costing.estimator import estimate_chat_cost
 
 
 EXPERIMENT_DIR = ROOT / "data/evaluation/prompt-experiments"
@@ -30,6 +31,14 @@ def _fmt(value) -> str:
     return str(value)
 
 
+def _cost(summary: dict) -> float | None:
+    return summary.get("estimated_cost") or estimate_chat_cost(
+        model=summary.get("model"),
+        input_tokens=summary.get("input_tokens"),
+        output_tokens=summary.get("output_tokens"),
+    )["estimated_cost_usd"]
+
+
 def _write_results_doc(results: list[dict], best: dict) -> None:
     RESULTS_DOC.parent.mkdir(parents=True, exist_ok=True)
     lines = [
@@ -43,18 +52,18 @@ def _write_results_doc(results: list[dict], best: dict) -> None:
         f"- Best citation accuracy: `{best.get('best_citations', 'pending')}`",
         f"- Lowest hallucination rate: `{best.get('lowest_hallucination', 'pending')}`",
         "- Metrics are produced by the deterministic Phase 7 answer-quality scoring pipeline.",
-        "- Estimated cost remains pending because pricing is not hardcoded.",
+        "- Estimated cost uses configured chat model pricing and excludes embedding/ingestion cost.",
         "",
         "## Prompt Version Metrics",
         "",
-        "| Prompt | Status | Model | Temp | Answer | Citation | Hallucination | Response Type | Confidence | Failed | Input Tokens | Output Tokens |",
-        "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "| Prompt | Status | Model | Temp | Answer | Citation | Hallucination | Response Type | Confidence | Failed | Input Tokens | Output Tokens | Est. Cost |",
+        "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for result in sorted(results, key=lambda item: item["summary"]["prompt_version"]):
         summary = result["summary"]
         prompt = result["prompt"]
         lines.append(
-            "| {version} | {status} | {model} | {temperature} | {answer} | {citation} | {hallucination} | {response_type} | {confidence} | {failed} | {input_tokens} | {output_tokens} |".format(
+            "| {version} | {status} | {model} | {temperature} | {answer} | {citation} | {hallucination} | {response_type} | {confidence} | {failed} | {input_tokens} | {output_tokens} | {estimated_cost} |".format(
                 version=summary["prompt_version"],
                 status=prompt["prompt_status"],
                 model=summary["model"],
@@ -67,6 +76,7 @@ def _write_results_doc(results: list[dict], best: dict) -> None:
                 failed=_fmt(summary["failed_question_count"]),
                 input_tokens=_fmt(summary["input_tokens"]),
                 output_tokens=_fmt(summary["output_tokens"]),
+                estimated_cost=_fmt(_cost(summary)),
             )
         )
     lines.extend(
@@ -110,6 +120,8 @@ def main() -> None:
     results = load_prompt_experiment_results(EXPERIMENT_DIR)
     if not results:
         raise SystemExit("No prompt experiment results found. Run `python scripts/run_prompt_experiment.py` first.")
+    for result in results:
+        result["summary"]["estimated_cost"] = _cost(result["summary"])
     by_version = {result["summary"]["prompt_version"]: result for result in results}
     baseline = by_version.get("v1")
     if not baseline:

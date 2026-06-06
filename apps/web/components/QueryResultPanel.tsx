@@ -16,6 +16,11 @@ function formatLatency(value: number | null | undefined): string {
   return `${Math.round(value)} ms`;
 }
 
+function formatUsd(value: number | null | undefined): string {
+  if (value === null || value === undefined) return "pending";
+  return `$${value.toFixed(6)}`;
+}
+
 export function CitationTable({ citations }: { citations: Citation[] }) {
   if (!citations.length) {
     return <p className="text-sm text-stone-600">No citations returned.</p>;
@@ -108,10 +113,11 @@ export function QueryResultPanel({ result }: { result: QueryResponse }) {
         <MetricCard label="Answer confidence" value={result.answer_confidence} />
       </section>
 
-      <section className="grid gap-3 md:grid-cols-3">
+      <section className="grid gap-3 md:grid-cols-4">
         <MetricCard label="Retrieval latency" value={formatLatency(result.retrieval_latency_ms)} />
         <MetricCard label="Generation latency" value={formatLatency(result.generation_latency_ms)} />
         <MetricCard label="Total latency" value={formatLatency(result.total_latency_ms)} />
+        <MetricCard label="Estimated cost" value={formatUsd(result.estimated_cost_usd)} />
       </section>
 
       <section className="rounded-md border border-stone-300 bg-white p-5">

@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from apps.api.app.costing.estimator import estimate_chat_cost
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -64,6 +65,14 @@ def _int(value: str) -> int | None:
         return int(value)
     except ValueError:
         return None
+
+
+def _estimated_cost(model: str | None, input_tokens: int | None, output_tokens: int | None) -> float | None:
+    return estimate_chat_cost(
+        model=model,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+    )["estimated_cost_usd"]
 
 
 def _summary_bullets(markdown: str) -> dict[str, str]:
@@ -183,6 +192,9 @@ def _failed_items(markdown: str, phase: str) -> list[dict[str, Any]]:
 
 def _phase7_run(markdown: str, failed_markdown: str) -> dict[str, Any]:
     values = _summary_bullets(markdown)
+    input_tokens = _int(values.get("input_tokens", ""))
+    output_tokens = _int(values.get("output_tokens", ""))
+    model = "gpt-4.1-mini"
     return {
         "run_id": "phase7-answer-quality",
         "run_name": "phase-7-answer-quality",
@@ -193,7 +205,7 @@ def _phase7_run(markdown: str, failed_markdown: str) -> dict[str, Any]:
         "chunking_strategy": values.get("chunking_strategy"),
         "top_k": _int(values.get("top_k", "")),
         "prompt_version": "answer_v1",
-        "model": "gpt-4.1-mini",
+        "model": model,
         "total_questions": _int(values.get("questions", "")),
         "metrics": {
             "any_source_hit": _float(values.get("any_source_hit", "")),
@@ -209,12 +221,12 @@ def _phase7_run(markdown: str, failed_markdown: str) -> dict[str, Any]:
             "not_found_accuracy": _float(values.get("not_found_accuracy", "")),
             "clarification_accuracy": _float(values.get("clarification_accuracy", "")),
             "final_confidence": _float(values.get("average_final_confidence", "")),
-            "input_tokens": _int(values.get("input_tokens", "")),
-            "output_tokens": _int(values.get("output_tokens", "")),
-            "estimated_cost": None,
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "estimated_cost": _estimated_cost(model, input_tokens, output_tokens),
         },
         "failed_questions": _failed_question_ids(failed_markdown),
-        "notes": "Answer metrics use deterministic scoring and heuristic confidence; cost remains pending.",
+        "notes": "Answer metrics use deterministic scoring and heuristic confidence; cost is estimated from configured model pricing.",
     }
 
 
@@ -252,6 +264,9 @@ def _phase8_run(markdown: str) -> dict[str, Any]:
 
 def _phase9_run(markdown: str, failed_markdown: str) -> dict[str, Any]:
     values = _summary_bullets(markdown)
+    input_tokens = _int(values.get("input_tokens", ""))
+    output_tokens = _int(values.get("output_tokens", ""))
+    model = "gpt-4.1-mini"
     return {
         "run_id": "phase9-memory",
         "run_name": "phase-9-memory",
@@ -262,7 +277,7 @@ def _phase9_run(markdown: str, failed_markdown: str) -> dict[str, Any]:
         "chunking_strategy": values.get("chunking_strategy"),
         "top_k": _int(values.get("top_k", "")),
         "prompt_version": "answer_v1",
-        "model": "gpt-4.1-mini",
+        "model": model,
         "total_questions": _int(values.get("memory_benchmark_questions", "")),
         "metrics": {
             "followup_detection_accuracy": _float(values.get("follow_up_detection_accuracy", "")),
@@ -273,6 +288,9 @@ def _phase9_run(markdown: str, failed_markdown: str) -> dict[str, Any]:
             "memory_permission_leakage": _float(values.get("memory_permission_leakage", "")),
             "hallucination_rate": _float(values.get("hallucination_rate_on_follow_ups", "")),
             "final_confidence": _float(values.get("average_final_confidence", "")),
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "estimated_cost": _estimated_cost(model, input_tokens, output_tokens),
         },
         "failed_questions": _failed_question_ids(failed_markdown),
         "notes": "Memory is session-level only and is used for query rewriting, not source evidence.",
@@ -320,7 +338,11 @@ def _prompt_experiment_runs() -> list[dict[str, Any]]:
                     "final_confidence": summary.get("final_confidence"),
                     "input_tokens": summary.get("input_tokens"),
                     "output_tokens": summary.get("output_tokens"),
-                    "estimated_cost": summary.get("estimated_cost"),
+                    "estimated_cost": summary.get("estimated_cost") or _estimated_cost(
+                        summary.get("model"),
+                        summary.get("input_tokens"),
+                        summary.get("output_tokens"),
+                    ),
                     "failed_question_count": summary.get("failed_question_count"),
                 },
                 "failed_questions": failed_questions,
@@ -479,7 +501,7 @@ def main() -> None:
         "failed_questions": failed_questions,
         "notes": [
             "All dashboard values are exported from existing evaluation result files.",
-            "Estimated cost is pending because pricing is not hardcoded.",
+            "Estimated cost is calculated from configured chat model pricing where token counts are available.",
             "Answer-quality metrics use deterministic and heuristic scoring, not a human judge.",
         ],
     }

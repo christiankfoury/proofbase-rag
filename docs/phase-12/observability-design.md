@@ -31,7 +31,7 @@ This keeps the observability layer simple, dependency-free, and portable.
 | model | answer["model"] |
 | input_tokens | answer["input_tokens"] |
 | output_tokens | answer["output_tokens"] |
-| estimated_cost | always null — pricing not hardcoded |
+| estimated_cost | calculated from configured chat model pricing when token usage is available |
 | error | exception message if query fails, else null |
 
 ## Tracing

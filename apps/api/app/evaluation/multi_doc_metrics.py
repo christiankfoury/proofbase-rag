@@ -28,6 +28,14 @@ def multi_doc_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
         real = [v for v in values if v is not None]
         return round(mean(real), 3) if real else None
 
+    def _sum(values: list) -> int | None:
+        real = [v for v in values if v is not None]
+        return sum(real) if real else None
+
+    def _sum_cost(values: list) -> float | None:
+        real = [v for v in values if v is not None]
+        return round(sum(real), 6) if real else None
+
     return {
         "multi_doc_question_count": len(multi_rows),
         "answer_accuracy": _avg([r.get("answer_accuracy") for r in multi_rows]),
@@ -43,4 +51,7 @@ def multi_doc_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "failed_question_count": sum(
             1 for r in multi_rows if r.get("answer_accuracy", 1.0) < 1.0
         ),
+        "input_tokens": _sum([r.get("input_tokens") for r in multi_rows]),
+        "output_tokens": _sum([r.get("output_tokens") for r in multi_rows]),
+        "estimated_cost": _sum_cost([r.get("estimated_cost_usd") for r in multi_rows]),
     }
