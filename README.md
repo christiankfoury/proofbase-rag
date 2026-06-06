@@ -36,7 +36,7 @@ The system should prove that it can:
 | Cloud | Azure |
 | Storage | Azure Blob Storage |
 | Evaluation | Custom evaluation runner, optional LangSmith |
-| Observability | OpenTelemetry or LangSmith traces |
+| Observability | Structured JSONL request logs, audit log, OpenTelemetry planned |
 | Deployment | Docker, Azure Container Apps or Azure App Service |
 
 ## Phase 1 Artifacts
@@ -247,6 +247,68 @@ Prompt experiment outputs are written to:
 ```text
 data/evaluation/prompt-experiments/
 ```
+
+## Phase 12 Artifacts
+
+Phase 12 adds a production-style feedback and observability layer: answer ratings, structured request logs, per-request timing traces, extended audit coverage, and dashboard views for feedback, observability, and audit events.
+
+- [Feedback Loop Design](docs/phase-12/feedback-loop-design.md)
+- [Observability Design](docs/phase-12/observability-design.md)
+- [Audit Log Design](docs/phase-12/audit-log-design.md)
+- [Feedback-to-Evaluation Workflow](docs/phase-12/feedback-to-evaluation-workflow.md)
+- [Phase 12 Checklist](docs/phase-12/checklist.md)
+
+Submit feedback on an answer:
+
+```powershell
+Invoke-WebRequest -Uri http://localhost:8000/feedback -Method POST `
+  -ContentType "application/json" -UseBasicParsing `
+  -Body '{
+    "question": "What is the parental leave policy?",
+    "answer": "Employees receive up to 12 weeks...",
+    "user_role": "Employee",
+    "rating": "thumbs_down",
+    "feedback_category": "incorrect_answer",
+    "user_comment": "Missing the adoptive parent eligibility."
+  }'
+```
+
+View feedback summary:
+
+```powershell
+Invoke-WebRequest -Uri http://localhost:8000/feedback/summary -UseBasicParsing
+```
+
+Generate observability summary from request logs:
+
+```powershell
+python scripts/generate_observability_summary.py
+```
+
+Export negative feedback as benchmark review candidates:
+
+```powershell
+python scripts/export_feedback_candidates.py
+```
+
+Candidates are written to `data/evaluation/feedback-candidates.json`. All items have `needs_human_review: true` and must be reviewed before being added to `benchmark-questions.json`.
+
+View audit events:
+
+```powershell
+Invoke-WebRequest -Uri http://localhost:8000/audit/events -UseBasicParsing
+Invoke-WebRequest -Uri http://localhost:8000/audit/summary -UseBasicParsing
+```
+
+Dashboard pages added in Phase 12:
+
+- `/feedback` — ratings, category breakdown, recent negative feedback
+- `/observability` — latency, tokens, confidence from live request logs
+- `/audit` — action counts and recent audit events
+
+Observability fields tracked per request: `request_id`, `user_role`, `session_id`, `question` (truncated), `rewritten_question`, `retrieval_mode`, `chunking_strategy`, `top_k`, `retrieved_chunk_ids`, `retrieved_document_ids`, `response_type`, `citation_count`, `final_confidence`, `retrieval_latency_ms`, `generation_latency_ms`, `total_latency_ms`, `prompt_version`, `model`, `input_tokens`, `output_tokens`, `estimated_cost` (null — pricing not hardcoded).
+
+Audit events logged: `restricted_query_refused`, `unauthorized_chunks_reached_generation`, `permission_filtered_retrieval`, `unauthorized_candidate_blocked`, `feedback_submitted`, `evaluation_run_started`, `evaluation_run_completed`, `prompt_version_changed`.
 
 ## MVP Boundary
 

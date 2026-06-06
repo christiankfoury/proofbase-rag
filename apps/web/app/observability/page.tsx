@@ -12,12 +12,15 @@ export default async function ObservabilityPage() {
         <h2 className="text-3xl font-semibold">Observability</h2>
         <section className="mt-8 rounded-md border border-stone-300 bg-white p-5">
           <p className="text-stone-700">
-            {data.message ?? "Run"}{" "}
-            {data.status === "not_generated" && (
-              <code className="rounded bg-stone-100 px-1 py-0.5 text-sm">python scripts/generate_observability_summary.py</code>
-            )}{" "}
-            {data.status === "not_generated" && "to generate the summary, then refresh."}
-            {data.status === "unavailable" && "Make sure the API is running."}
+            {data.status === "not_generated" ? (
+              <>
+                Run{" "}
+                <code className="rounded bg-stone-100 px-1 py-0.5 text-sm">python scripts/generate_observability_summary.py</code>
+                {" "}to generate the summary, then refresh.
+              </>
+            ) : (
+              "API is unavailable. Make sure the server is running."
+            )}
           </p>
         </section>
       </Shell>
@@ -41,9 +44,9 @@ export default async function ObservabilityPage() {
         <MetricCard label="Avg Retrieval Latency" value={fmt(data.avg_retrieval_latency_ms, " ms")} />
         <MetricCard label="Avg Generation Latency" value={fmt(data.avg_generation_latency_ms, " ms")} />
         <MetricCard label="Avg Confidence" value={data.avg_final_confidence} />
-        <MetricCard label="Avg Input Tokens" value={data.avg_input_tokens} />
-        <MetricCard label="Avg Output Tokens" value={data.avg_output_tokens} />
-        <MetricCard label="Total Requests" value={data.total_requests} />
+        <MetricCard label="Avg Input Tokens" value={fmt(data.avg_input_tokens != null ? Math.round(data.avg_input_tokens) : null)} />
+        <MetricCard label="Avg Output Tokens" value={fmt(data.avg_output_tokens != null ? Math.round(data.avg_output_tokens) : null)} />
+        <MetricCard label="Total Requests" value={fmt(data.total_requests)} />
         <MetricCard label="Estimated Cost" value="pending" detail="Pricing not hardcoded." />
       </section>
 

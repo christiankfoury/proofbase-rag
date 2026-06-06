@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 
-ROOT = Path(__file__).resolve().parents[5]
+ROOT = Path(__file__).resolve().parents[4]
 LOG_PATH = ROOT / "data" / "observability" / "request-logs.jsonl"
 
 _lock = threading.Lock()
