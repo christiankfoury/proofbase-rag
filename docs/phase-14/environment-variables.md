@@ -13,6 +13,7 @@
 | `LOG_LEVEL` | No | `INFO` | Reserved for runtime logging configuration. |
 | `OBSERVABILITY_LOG_PATH` | No | `data/observability/request-logs.jsonl` | API request log path. Relative paths resolve from repo root. |
 | `AUDIT_LOG_PATH` | No | `data/audit/audit-events.jsonl` | Reserved for future JSONL audit export; current audit events persist in Postgres. |
+| `CORS_ALLOWED_ORIGINS` | No | `http://localhost:3000,http://127.0.0.1:3000` | Comma-separated browser origins allowed to call the API. Defaults include local dashboard ports. |
 | `API_PORT` | No | `8000` | Docker Compose host port for the API. |
 
 ## Web

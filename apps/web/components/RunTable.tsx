@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { EvalRun, formatLabel, formatTableMetric } from "@/lib/dashboard";
 
 export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?: string }) {
@@ -25,7 +26,9 @@ export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?:
               <tr key={run.run_id} className="border-t border-stone-200">
                 <td className="p-3 font-medium">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span>{run.run_name}</span>
+                    <Link href={`/evaluation/runs/${encodeURIComponent(run.run_id)}`} className="underline decoration-stone-400 underline-offset-4 hover:text-moss">
+                      {run.run_name}
+                    </Link>
                     {run.run_name === bestRunName ? (
                       <span className="rounded bg-moss px-2 py-1 text-xs font-semibold text-white">Best config</span>
                     ) : null}

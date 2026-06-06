@@ -206,21 +206,34 @@ Source: [Phase 14 Smoke Test Results](docs/phase-14/smoke-test-results.md)
 
 ## Dashboard
 
-The dashboard is a recruiter-friendly view of real evaluation outputs and live operational signals.
+The dashboard is now both a recruiter-friendly evaluation view and an interactive demo surface for live questions, citations, permissions, retrieval comparison, feedback, and failure inspection.
 
 Dashboard routes:
 
 - `/` overview metrics.
-- `/runs` evaluation runs.
-- `/failed-questions` failure backlog.
-- `/retrieval-experiments` vector, keyword, and hybrid comparisons.
-- `/prompt-experiments` prompt version comparisons.
-- `/permission-safety` restricted-access safety results.
-- `/memory-evaluation` follow-up question evaluation.
+- `/chat` live RAG demo with role selector, presets, citations, confidence, latency, retrieved context, and feedback.
+- `/runs` evaluation run comparison.
+- `/evaluation/runs/phase11-answer-generation-v1` per-question benchmark explorer for detailed runs.
+- `/failed-questions` expandable failure backlog with expected answers, actual answers, citations, and fixes.
+- `/retrieval-playground` side-by-side vector, keyword, hybrid, and multi-doc comparison.
+- `/permission-demo` role comparison for restricted questions.
 - `/multi-doc` multi-document reasoning comparison.
-- `/feedback` answer feedback summaries.
 - `/observability` live latency, token, and confidence logs.
+- `/feedback` answer feedback summaries.
 - `/audit` security-relevant audit events.
+
+Legacy metric pages such as `/retrieval-experiments`, `/prompt-experiments`, `/permission-safety`, and `/memory-evaluation` remain available for deeper review.
+
+Recommended interactive demo presets:
+
+- HR factual: `Where does Northstar Analytics have offices?`
+- Missing information: `What is Northstar's sabbatical policy?`
+- Restricted manager question: `What is the promotion calibration process?`
+- Memory follow-up scenario: seeded vacation question followed by `Can I carry any unused days into next year?`
+- Multi-document: `If I work remotely, what approval and device security expectations apply?`
+- Known failure: MULTI-005 sales positioning question.
+
+The `/chat` page is a recruiter/demo UI over the existing API. It is not production authentication.
 
 Screenshots to capture:
 
@@ -231,7 +244,7 @@ Screenshots to capture:
 - Multi-document comparison page.
 - Observability page.
 - Audit page.
-- API response with citations.
+- Chat demo response with citations and retrieved context.
 - Permission refusal example.
 
 See [Screenshots Checklist](docs/demo/screenshots-checklist.md).
@@ -310,6 +323,7 @@ Open the dashboard after exporting data.
 ## Demo And Portfolio Materials
 
 - [Demo Script](docs/demo/demo-script.md)
+- [Interactive Demo Guide](docs/demo/interactive-demo-guide.md)
 - [Portfolio Case Study](docs/demo/portfolio-case-study.md)
 - [Resume Bullets](docs/demo/resume-bullets.md)
 - [Architecture Diagram Guide](docs/demo/architecture-diagram.md)
@@ -326,7 +340,7 @@ Open the dashboard after exporting data.
 - Cost estimation is pending because model pricing is not hardcoded.
 - `MULTI-005` still fails due to a `SALES-002` retrieval miss.
 - Multi-document detection is heuristic.
-- The dashboard is an evaluation/operations dashboard; there is no polished end-user chat UI yet.
+- The `/chat` page is a demo UI, not a production end-user assistant with authentication.
 - Runtime request logs such as `data/observability/request-logs.jsonl` are generated data and should be reviewed before committing.
 
 ## Roadmap
@@ -341,6 +355,7 @@ Open the dashboard after exporting data.
 - Improve multi-document retrieval and source coverage.
 - Add cost estimation from model pricing configuration.
 - Build a richer admin UI for permissions, ingestion, and evaluation review.
+- Turn the demo chat into a production-grade authenticated assistant if this moves beyond portfolio scope.
 
 ## Project Documentation
 
@@ -360,6 +375,7 @@ Phase artifacts are preserved for review:
 - [Phase 12](docs/phase-12/observability-design.md): feedback, observability, audit.
 - [Phase 13](docs/phase-13/multi-document-reasoning-design.md): multi-document reasoning.
 - [Phase 14](docs/phase-14/docker-local-setup.md): Docker and Azure readiness.
+- [Phase 15 Interactive UX](docs/phase-15/interactive-demo-ux.md): recruiter-facing interactive demo.
 
 ## Final Portfolio Description
 

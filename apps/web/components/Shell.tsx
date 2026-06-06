@@ -3,16 +3,15 @@ import type { ReactNode } from "react";
 
 const links = [
   ["Overview", "/"],
-  ["Runs", "/runs"],
-  ["Failed", "/failed-questions"],
-  ["Retrieval", "/retrieval-experiments"],
-  ["Prompts", "/prompt-experiments"],
-  ["Permissions", "/permission-safety"],
-  ["Memory", "/memory-evaluation"],
+  ["Chat Demo", "/chat"],
+  ["Evaluation", "/runs"],
+  ["Failed Questions", "/failed-questions"],
+  ["Retrieval Playground", "/retrieval-playground"],
+  ["Permission Demo", "/permission-demo"],
   ["Multi-Doc", "/multi-doc"],
-  ["Feedback", "/feedback"],
   ["Observability", "/observability"],
-  ["Audit", "/audit"],
+  ["Feedback", "/feedback"],
+  ["Audit Logs", "/audit"],
 ];
 
 export function Shell({ children }: { children: ReactNode }) {
@@ -22,7 +21,7 @@ export function Shell({ children }: { children: ReactNode }) {
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-5 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-rust">Enterprise Knowledge Agent</p>
-            <h1 className="text-2xl font-semibold">Evaluation Dashboard</h1>
+            <h1 className="text-2xl font-semibold">Interactive Demo Dashboard</h1>
           </div>
           <nav className="flex flex-wrap gap-2 text-sm">
             {links.map(([label, href]) => (

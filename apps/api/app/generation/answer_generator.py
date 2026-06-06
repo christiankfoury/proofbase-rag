@@ -490,6 +490,7 @@ def retrieved_chunks_payload(chunks: list[RetrievedChunk]) -> list[dict]:
     payload = []
     for chunk in chunks:
         item = asdict(chunk)
+        item["content_preview"] = chunk.content[:500]
         item.pop("content", None)
         payload.append(item)
     return payload
