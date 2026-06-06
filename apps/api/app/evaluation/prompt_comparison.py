@@ -24,9 +24,12 @@ class PromptComparison:
         }
 
 
+PROMPT_EXPERIMENT_GLOB = "*-answer-generation-*.json"
+
+
 def load_prompt_experiment_results(directory: Path) -> list[dict]:
     results = []
-    for path in sorted(directory.glob("phase11-answer-generation-*.json")):
+    for path in sorted(directory.glob(PROMPT_EXPERIMENT_GLOB)):
         results.append(json.loads(path.read_text(encoding="utf-8")))
     return results
 

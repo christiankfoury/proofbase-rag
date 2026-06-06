@@ -9,6 +9,7 @@ function PromptExperimentTable({ runs }: { runs: EvalRun[] }) {
           <tr>
             <th className="px-4 py-3">Prompt</th>
             <th className="px-4 py-3">Status</th>
+            <th className="px-4 py-3">Change Notes</th>
             <th className="px-4 py-3">Model</th>
             <th className="px-4 py-3 text-right">Temp</th>
             <th className="px-4 py-3 text-right">Answer</th>
@@ -24,6 +25,7 @@ function PromptExperimentTable({ runs }: { runs: EvalRun[] }) {
             <tr key={run.run_id} className="border-t border-stone-200">
               <td className="px-4 py-3 font-semibold">{run.prompt_version}</td>
               <td className="px-4 py-3">{formatLabel(run.prompt_status)}</td>
+              <td className="px-4 py-3 max-w-xs text-stone-600">{run.prompt_change_notes ?? "-"}</td>
               <td className="px-4 py-3">{run.model}</td>
               <td className="px-4 py-3 text-right">{formatTableMetric(run.temperature)}</td>
               <td className="px-4 py-3 text-right">{formatTableMetric(run.metrics.answer_accuracy)}</td>

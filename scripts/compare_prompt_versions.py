@@ -103,7 +103,7 @@ def _write_regression_doc(comparisons: list[dict]) -> None:
                 "",
             ]
         )
-    REGRESSION_DOC.write_text("\n".join(lines), encoding="utf-8")
+    REGRESSION_DOC.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main() -> None:

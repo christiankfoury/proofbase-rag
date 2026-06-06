@@ -359,7 +359,7 @@ def generate_answer(
             }
 
     if not chunks:
-        response_type = "refuse_no_access" if expected_behavior == "refuse_no_access" else RESPONSE_NOT_FOUND
+        response_type = RESPONSE_REFUSE_NO_ACCESS if expected_behavior == "refuse_no_access" else RESPONSE_NOT_FOUND
         answer = (
             "I could not find this in the available documents."
             if response_type == RESPONSE_NOT_FOUND

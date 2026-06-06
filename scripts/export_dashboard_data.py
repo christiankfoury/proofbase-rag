@@ -282,7 +282,7 @@ def _prompt_experiment_runs() -> list[dict[str, Any]]:
     runs: list[dict[str, Any]] = []
     if not PROMPT_EXPERIMENT_DIR.exists():
         return runs
-    for path in sorted(PROMPT_EXPERIMENT_DIR.glob("phase11-answer-generation-*.json")):
+    for path in sorted(PROMPT_EXPERIMENT_DIR.glob("*-answer-generation-*.json")):
         result = json.loads(path.read_text(encoding="utf-8"))
         summary = result["summary"]
         failed_questions = [item["question_id"] for item in result.get("failed_questions", [])]
