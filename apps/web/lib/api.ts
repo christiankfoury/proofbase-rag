@@ -1,0 +1,201 @@
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
+
+export type UserRole = "Employee" | "Sales Representative" | "Manager" | "HR Admin" | "IT Admin";
+export type RetrievalMode = "vector_only" | "keyword_only" | "hybrid";
+export type MultiDocMode = "auto" | "off" | "force";
+
+export type Citation = {
+  document_id?: string;
+  document_title?: string;
+  section_heading?: string;
+  chunk_id?: string;
+  citation_text?: string;
+  citation_type?: string;
+  confidence?: number | null;
+};
+
+export type RetrievedChunk = {
+  rank?: number | null;
+  document_id: string;
+  document_title: string;
+  section_heading: string;
+  chunk_id: string;
+  score?: number | null;
+  vector_score?: number | null;
+  keyword_score?: number | null;
+  hybrid_score?: number | null;
+  retrieval_source?: string | null;
+  access_roles?: string[] | null;
+  sensitivity?: string | null;
+  content_preview?: string;
+};
+
+export type QueryRequest = {
+  question: string;
+  user_role: UserRole | string;
+  session_id?: string | null;
+  user_id?: string | null;
+  top_k?: number | null;
+  retrieval_mode?: RetrievalMode;
+  chunking_strategy?: string;
+  vector_weight?: number;
+  keyword_weight?: number;
+  prompt_name?: string;
+  prompt_version?: string | null;
+  multi_doc_mode?: MultiDocMode;
+};
+
+export type QueryResponse = {
+  session_id: string | null;
+  user_message_id: string | null;
+  assistant_message_id: string | null;
+  answer: string;
+  behavior: string;
+  response_type: string;
+  retrieval_confidence: number;
+  citation_confidence: number;
+  answer_confidence: number;
+  final_confidence: number;
+  supported_claims: string[];
+  unsupported_claims: string[];
+  validation_notes: string;
+  retrieval_mode: string;
+  chunking_strategy: string;
+  multi_doc_mode?: string;
+  multi_doc_used?: boolean;
+  prompt_name?: string | null;
+  prompt_version?: string | null;
+  model?: string | null;
+  temperature?: number | null;
+  input_cost_usd?: number | null;
+  output_cost_usd?: number | null;
+  estimated_cost_usd?: number | null;
+  pricing_status?: string | null;
+  retrieval_latency_ms?: number | null;
+  generation_latency_ms?: number | null;
+  total_latency_ms?: number | null;
+  memory: {
+    is_followup: boolean;
+    memory_used: boolean;
+    original_question: string;
+    rewritten_question: string;
+    rewrite_strategy?: string | null;
+    previous_topic?: string | null;
+  };
+  permission_check: {
+    user_role: string;
+    retrieved_chunks_count: number;
+    unauthorized_chunks_reached_generation: boolean;
+  };
+  citations: Citation[];
+  retrieved_chunks: RetrievedChunk[];
+};
+
+export type RunQuestionRow = Record<string, unknown> & {
+  question_id: string;
+  question?: string;
+  question_type?: string;
+  expected_behavior?: string;
+  expected_answer?: string;
+  expected_source_document?: string[];
+  actual_response_type?: string;
+  actual_answer?: string;
+  actual_citations?: Citation[];
+  answer_accuracy?: number | null;
+  citation_accuracy?: number | null;
+  failure_type?: string | null;
+  confidence?: number | null;
+  final_confidence?: number | null;
+  recommended_fix?: string | null;
+  passed?: boolean;
+};
+
+export type RunQuestionResponse = {
+  run: Record<string, unknown> | null;
+  run_id: string;
+  detail_available: boolean;
+  detail_source: string | null;
+  row_count: number;
+  rows: RunQuestionRow[];
+  message: string | null;
+};
+
+export type EnrichedFailure = {
+  phase: string;
+  question_id: string;
+  expected_behavior?: string;
+  actual_response_type?: string;
+  failure_type: string;
+  citation_confidence?: number | null;
+  answer_confidence?: number | null;
+  recommended_fix?: string;
+  question?: string;
+  question_type?: string;
+  user_role?: string;
+  expected_answer?: string;
+  expected_source_document?: string[];
+  expected_source_section_or_quote?: Array<Record<string, unknown>>;
+  actual_answer?: string;
+  actual_citations?: Citation[];
+  actual_citation_documents?: string[];
+  retrieved_documents?: string[];
+  retrieved_chunks?: RetrievedChunk[];
+  confidence?: number | null;
+  known_open_issue?: boolean;
+  known_open_issue_note?: string | null;
+};
+
+async function requestJson<T>(path: string, options?: RequestInit): Promise<T> {
+  const response = await fetch(`${API_BASE}${path}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options?.headers ?? {}),
+    },
+  });
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(detail || `Request failed with ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function queryRag(payload: QueryRequest): Promise<QueryResponse> {
+  return requestJson<QueryResponse>("/query", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function createChatSession(payload: { user_role: string; user_id?: string | null }): Promise<{ session_id: string; user_role: string }> {
+  return requestJson("/chat/sessions", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function submitFeedback(payload: {
+  session_id?: string | null;
+  message_id?: string | null;
+  question: string;
+  answer: string;
+  response_type?: string | null;
+  citations?: Citation[];
+  user_role: string;
+  rating: "thumbs_up" | "thumbs_down";
+  user_comment?: string | null;
+  feedback_category?: string;
+}): Promise<{ feedback_id: string; status: string }> {
+  return requestJson("/feedback", {
+    method: "POST",
+    body: JSON.stringify({ feedback_category: "other", ...payload }),
+  });
+}
+
+export async function getRunQuestions(runId: string): Promise<RunQuestionResponse> {
+  return requestJson<RunQuestionResponse>(`/evaluation/runs/${encodeURIComponent(runId)}/questions`, { cache: "no-store" });
+}
+
+export async function getEnrichedFailures(): Promise<{ failed_questions: EnrichedFailure[]; count: number }> {
+  return requestJson<{ failed_questions: EnrichedFailure[]; count: number }>("/evaluation/failed-questions/enriched", { cache: "no-store" });
+}

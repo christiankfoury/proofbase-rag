@@ -1,0 +1,138 @@
+export type Metrics = Record<string, number | string | null | undefined>;
+
+export type EvalRun = {
+  run_id: string;
+  run_name: string;
+  phase: string;
+  run_type: string;
+  timestamp: string;
+  retrieval_mode?: string | null;
+  chunking_strategy?: string | null;
+  top_k?: number | null;
+  prompt_name?: string | null;
+  prompt_version?: string | null;
+  prompt_status?: string | null;
+  prompt_change_notes?: string | null;
+  model?: string | null;
+  temperature?: number | null;
+  total_questions?: number | null;
+  metrics: Metrics;
+  failed_questions?: string[];
+  notes?: string;
+};
+
+export type PromptComparison = {
+  best?: {
+    best_overall?: string;
+    lowest_hallucination?: string;
+    best_citations?: string;
+  };
+  comparisons?: Array<{
+    baseline_version: string;
+    candidate_version: string;
+    fixed_questions: string[];
+    broken_questions: string[];
+    still_failing: string[];
+  }>;
+  prompt_versions?: Array<Record<string, unknown>>;
+};
+
+export type FailedQuestion = {
+  phase: string;
+  question_id: string;
+  failure_type: string;
+  recommended_fix: string;
+  expected_behavior?: string;
+  actual_response_type?: string;
+  citation_confidence?: number | null;
+  answer_confidence?: number | null;
+};
+
+export type MultiDocComparison = {
+  baseline?: {
+    multi_doc_question_count?: number;
+    answer_accuracy?: number | null;
+    citation_accuracy?: number | null;
+    all_sources_hit?: number | null;
+    source_coverage_score?: number | null;
+    hallucination_rate?: number | null;
+    response_type_accuracy?: number | null;
+    all_required_sources_cited_rate?: number | null;
+    failed_question_count?: number;
+  };
+  multi_doc?: {
+    multi_doc_question_count?: number;
+    answer_accuracy?: number | null;
+    citation_accuracy?: number | null;
+    all_sources_hit?: number | null;
+    source_coverage_score?: number | null;
+    hallucination_rate?: number | null;
+    response_type_accuracy?: number | null;
+    all_required_sources_cited_rate?: number | null;
+    failed_question_count?: number;
+  };
+  fixed_questions?: string[];
+  broken_questions?: string[];
+  still_failing?: string[];
+  hallucination_regression?: boolean;
+};
+
+export type DashboardData = {
+  generated_at: string;
+  overview: {
+    best_retrieval_run: string;
+    retrieval_conclusion: string;
+    headline_metrics: Metrics;
+  };
+  comparisons: Record<string, { summary: string; runs?: string[]; baseline?: string; current?: string }>;
+  prompt_comparison?: PromptComparison;
+  multi_doc_comparison?: MultiDocComparison;
+  runs: EvalRun[];
+  failed_questions: FailedQuestion[];
+  notes: string[];
+};
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
+
+export async function getDashboardData(): Promise<DashboardData> {
+  const response = await fetch(`${API_BASE}/evaluation/compare`, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error("Evaluation dashboard data is unavailable. Generate it and start the API first.");
+  }
+  const compare = await response.json();
+  const failedResponse = await fetch(`${API_BASE}/evaluation/failed-questions`, { cache: "no-store" });
+  const summaryResponse = await fetch(`${API_BASE}/evaluation/summary`, { cache: "no-store" });
+  const failed = failedResponse.ok ? await failedResponse.json() : { failed_questions: [] };
+  const summary = summaryResponse.ok ? await summaryResponse.json() : { generated_at: "", notes: [] };
+  return {
+    generated_at: summary.generated_at,
+    overview: compare.overview,
+    comparisons: compare.comparisons,
+    prompt_comparison: compare.prompt_comparison,
+    multi_doc_comparison: compare.multi_doc_comparison,
+    runs: compare.runs,
+    failed_questions: failed.failed_questions,
+    notes: summary.notes ?? [],
+  };
+}
+
+export function formatMetric(value: number | string | null | undefined): string {
+  if (value === null || value === undefined || value === "") return "pending";
+  if (typeof value === "number") return value.toFixed(3);
+  return value;
+}
+
+export function formatTableMetric(value: number | string | null | undefined): string {
+  if (value === null || value === undefined || value === "") return "-";
+  if (typeof value === "string" && value.toLowerCase() === "pending") return "-";
+  if (typeof value === "number") return value.toFixed(3);
+  return value;
+}
+
+export function formatLabel(value: string | null | undefined): string {
+  if (!value) return "n/a";
+  return value
+    .replaceAll("_", " ")
+    .replaceAll("-", " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
