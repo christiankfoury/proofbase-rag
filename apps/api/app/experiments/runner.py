@@ -67,9 +67,16 @@ def _sum_cost(values: list[float | None]) -> float | None:
     return round(sum(real_values), 6)
 
 
-def run_prompt_experiment(config: ExperimentConfig) -> dict:
+def run_prompt_experiment(
+    config: ExperimentConfig,
+    question_ids: set[str] | None = None,
+    question_filter: str = "all",
+) -> dict:
     benchmark = _load_benchmark()
     prompt = get_prompt(config.prompt_name, config.prompt_version)
+    questions = benchmark["questions"]
+    if question_ids is not None:
+        questions = [question for question in questions if question["question_id"] in question_ids]
     retrieval_config = RetrievalConfig(
         run_name=config.run_name,
         retrieval_mode=config.retrieval_mode,
@@ -82,8 +89,8 @@ def run_prompt_experiment(config: ExperimentConfig) -> dict:
     failed = []
     started_at = datetime.now(UTC).isoformat()
 
-    for index, question in enumerate(benchmark["questions"], start=1):
-        print(f"[{index}/{benchmark['question_count']}] {question['question_id']} {config.prompt_version}", flush=True)
+    for index, question in enumerate(questions, start=1):
+        print(f"[{index}/{len(questions)}] {question['question_id']} {config.prompt_version}", flush=True)
         started = time.perf_counter()
         query_text = _query_with_memory(question)
         chunks = retrieve_chunks(query_text, question["user_role"], retrieval_config)
@@ -156,7 +163,9 @@ def run_prompt_experiment(config: ExperimentConfig) -> dict:
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "top_k": config.top_k,
+        "question_filter": question_filter,
         "question_count": len(rows),
+        "source_question_count": benchmark["question_count"],
         "failed_question_count": len(failed),
         "any_source_hit": _average([row["any_source_hit"] for row in rows]),
         "all_sources_hit": _average([row["all_sources_hit"] for row in rows]),
@@ -198,6 +207,7 @@ def run_prompt_experiment(config: ExperimentConfig) -> dict:
 
 def write_prompt_experiment(result: dict) -> Path:
     PROMPT_EXPERIMENT_DIR.mkdir(parents=True, exist_ok=True)
-    path = PROMPT_EXPERIMENT_DIR / f"{result['summary']['experiment_id']}.json"
+    suffix = "-failed-subset" if result["summary"].get("question_filter") == "failed" else ""
+    path = PROMPT_EXPERIMENT_DIR / f"{result['summary']['experiment_id']}{suffix}.json"
     path.write_text(json.dumps(result, indent=2), encoding="utf-8")
     return path

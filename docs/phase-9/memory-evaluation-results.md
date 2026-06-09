@@ -1,6 +1,6 @@
 # Phase 9 Memory Evaluation Results
 
-Generated at: 2026-06-05T02:45:56.243710+00:00
+Generated at: 2026-06-09T23:26:24.462144+00:00
 
 ## Run Summary
 
@@ -15,7 +15,10 @@ Generated at: 2026-06-05T02:45:56.243710+00:00
 - Memory response type accuracy: 1.000
 - Memory permission leakage: 0.000
 - Hallucination rate on follow-ups: 0.000
-- Average final confidence: 0.777
+- Average final confidence: 0.799
+- Input tokens: 4740
+- Output tokens: 1289
+- Estimated cost: 0.003959
 
 ## Question Results
 

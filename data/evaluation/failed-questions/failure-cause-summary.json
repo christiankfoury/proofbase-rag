@@ -1,0 +1,463 @@
+{
+  "generated_at": "2026-06-09T23:30:44.709375+00:00",
+  "source_failed_questions": "data\\evaluation\\failed-questions\\failed-questions.json",
+  "joined_prompt_run": "data\\evaluation\\prompt-experiments\\phase11-answer-generation-v1.json",
+  "failed_question_count": 13,
+  "bucket_counts": {
+    "answer_support_issue": 4,
+    "citation_mismatch": 3,
+    "confidence_threshold_downgrade": 3,
+    "answer_completeness": 2,
+    "multi_doc_synthesis_issue": 1
+  },
+  "failure_type_counts": {
+    "unsupported_answer": 4,
+    "answer_not_generated": 3,
+    "wrong_citation": 3,
+    "incomplete_answer": 2,
+    "multi_document_failure": 1
+  },
+  "largest_bucket": "answer_support_issue",
+  "largest_bucket_label": "Answer support issue",
+  "target_question_ids": [
+    "MULTI-003",
+    "MULTI-007",
+    "MULTI-010",
+    "MEM-003"
+  ],
+  "prompt_run_results": {
+    "v5_failed_subset": {
+      "path": "data\\evaluation\\prompt-experiments\\phase11-answer-generation-v5-failed-subset.json",
+      "question_filter": "failed",
+      "question_count": 13,
+      "failed_question_count": 9,
+      "answer_accuracy": 0.654,
+      "citation_accuracy": 0.615,
+      "hallucination_rate": 0.4,
+      "response_type_accuracy": 0.731,
+      "estimated_cost": 0.013502,
+      "bucket_counts": {
+        "citation_mismatch": 3,
+        "confidence_threshold_downgrade": 3,
+        "answer_support_issue": 2,
+        "multi_doc_synthesis_issue": 1
+      },
+      "failed_question_ids": [
+        "FACT-012",
+        "MULTI-001",
+        "MULTI-003",
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-006",
+        "MULTI-008",
+        "MEM-003",
+        "MEM-004"
+      ]
+    },
+    "v5_full": {
+      "path": "data\\evaluation\\prompt-experiments\\phase11-answer-generation-v5.json",
+      "question_filter": "all",
+      "question_count": 60,
+      "failed_question_count": 8,
+      "answer_accuracy": 0.871,
+      "citation_accuracy": 0.857,
+      "hallucination_rate": 0.094,
+      "response_type_accuracy": 0.917,
+      "estimated_cost": 0.032533,
+      "bucket_counts": {
+        "citation_mismatch": 3,
+        "confidence_threshold_downgrade": 3,
+        "answer_support_issue": 1,
+        "multi_doc_synthesis_issue": 1
+      },
+      "failed_question_ids": [
+        "FACT-012",
+        "MULTI-001",
+        "MULTI-003",
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-006",
+        "MULTI-008",
+        "MEM-004"
+      ]
+    }
+  },
+  "failures": [
+    {
+      "phase": "phase-7",
+      "question_id": "FACT-008",
+      "question_type": "simple_factual",
+      "user_role": "Employee",
+      "question": "Who must approve a regular work location change?",
+      "expected_behavior": "answer",
+      "actual_response_type": "answer",
+      "failure_type": "incomplete_answer",
+      "cause_bucket": "answer_completeness",
+      "cause_label": "Answer completeness",
+      "expected_source_document": [
+        "HR-003"
+      ],
+      "actual_citation_documents": [
+        "HR-003"
+      ],
+      "retrieved_documents": [
+        "HR-003",
+        "IT-001",
+        "HR-002"
+      ],
+      "answer_accuracy": 1.0,
+      "citation_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_confidence": 0.863,
+      "answer_confidence": 0.863,
+      "recommended_fix": "Improve answer completeness scoring or prompt the model to include all required expected-answer facts."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "FACT-010",
+      "question_type": "simple_factual",
+      "user_role": "Employee",
+      "question": "What is the annual wellness stipend amount?",
+      "expected_behavior": "answer",
+      "actual_response_type": "answer",
+      "failure_type": "incomplete_answer",
+      "cause_bucket": "answer_completeness",
+      "cause_label": "Answer completeness",
+      "expected_source_document": [
+        "HR-004"
+      ],
+      "actual_citation_documents": [
+        "HR-004"
+      ],
+      "retrieved_documents": [
+        "HR-004",
+        "HR-002"
+      ],
+      "answer_accuracy": 0.5,
+      "citation_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_confidence": 0.793,
+      "answer_confidence": 0.793,
+      "recommended_fix": "Improve answer completeness scoring or prompt the model to include all required expected-answer facts."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "FACT-012",
+      "question_type": "simple_factual",
+      "user_role": "Employee",
+      "question": "Are employees allowed to share passwords or MFA codes?",
+      "expected_behavior": "answer",
+      "actual_response_type": "not_found",
+      "failure_type": "answer_not_generated",
+      "cause_bucket": "confidence_threshold_downgrade",
+      "cause_label": "Confidence threshold downgrade",
+      "expected_source_document": [
+        "IT-001"
+      ],
+      "actual_citation_documents": [],
+      "retrieved_documents": [
+        "IT-001",
+        "IT-003",
+        "IT-002"
+      ],
+      "answer_accuracy": 0.0,
+      "citation_accuracy": 0.0,
+      "hallucination_rate": null,
+      "citation_confidence": 0.0,
+      "answer_confidence": 0.65,
+      "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-001",
+      "question_type": "multi_document",
+      "user_role": "Employee",
+      "question": "If I work remotely, what approval and device security expectations apply?",
+      "expected_behavior": "answer",
+      "actual_response_type": "not_found",
+      "failure_type": "answer_not_generated",
+      "cause_bucket": "confidence_threshold_downgrade",
+      "cause_label": "Confidence threshold downgrade",
+      "expected_source_document": [
+        "HR-003",
+        "IT-002"
+      ],
+      "actual_citation_documents": [],
+      "retrieved_documents": [
+        "HR-003",
+        "IT-002"
+      ],
+      "answer_accuracy": 0.0,
+      "citation_accuracy": 0.0,
+      "hallucination_rate": null,
+      "citation_confidence": 0.453,
+      "answer_confidence": 0.65,
+      "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-003",
+      "question_type": "multi_document",
+      "user_role": "Employee",
+      "question": "Who should I contact for PTO questions and what is the basic vacation entitlement?",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "unsupported_answer",
+      "cause_bucket": "answer_support_issue",
+      "cause_label": "Answer support issue",
+      "expected_source_document": [
+        "HR-001",
+        "HR-002"
+      ],
+      "actual_citation_documents": [
+        "HR-002",
+        "HR-001"
+      ],
+      "retrieved_documents": [
+        "HR-002",
+        "HR-001"
+      ],
+      "answer_accuracy": 1.0,
+      "citation_accuracy": 1.0,
+      "hallucination_rate": 1.0,
+      "citation_confidence": 0.548,
+      "answer_confidence": 0.398,
+      "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-004",
+      "question_type": "multi_document",
+      "user_role": "Sales Representative",
+      "question": "How should I position Northstar against BI tools while avoiding prohibited claims?",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "wrong_citation",
+      "cause_bucket": "citation_mismatch",
+      "cause_label": "Citation mismatch",
+      "expected_source_document": [
+        "SALES-002",
+        "SALES-003"
+      ],
+      "actual_citation_documents": [
+        "SALES-003"
+      ],
+      "retrieved_documents": [
+        "SALES-003",
+        "SALES-001",
+        "SALES-002"
+      ],
+      "answer_accuracy": 1.0,
+      "citation_accuracy": 0.5,
+      "hallucination_rate": 1.0,
+      "citation_confidence": 0.573,
+      "answer_confidence": 0.573,
+      "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-005",
+      "question_type": "multi_document",
+      "user_role": "Sales Representative",
+      "question": "Before a deal moves to proposal, what sales-stage and implementation constraints should I check?",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "multi_document_failure",
+      "cause_bucket": "multi_doc_synthesis_issue",
+      "cause_label": "Multi-document synthesis issue",
+      "expected_source_document": [
+        "SALES-001",
+        "SALES-002"
+      ],
+      "actual_citation_documents": [
+        "SALES-001"
+      ],
+      "retrieved_documents": [
+        "SALES-001",
+        "SALES-003"
+      ],
+      "answer_accuracy": 0.0,
+      "citation_accuracy": 0.5,
+      "hallucination_rate": 0.0,
+      "citation_confidence": 0.602,
+      "answer_confidence": 0.602,
+      "recommended_fix": "Add query decomposition or multi-document retrieval logic."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-006",
+      "question_type": "multi_document",
+      "user_role": "Manager",
+      "question": "How should a manager handle ongoing performance concerns?",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "wrong_citation",
+      "cause_bucket": "citation_mismatch",
+      "cause_label": "Citation mismatch",
+      "expected_source_document": [
+        "MGR-001",
+        "MGR-002"
+      ],
+      "actual_citation_documents": [],
+      "retrieved_documents": [
+        "MGR-002",
+        "MGR-001"
+      ],
+      "answer_accuracy": 0.0,
+      "citation_accuracy": 0.0,
+      "hallucination_rate": null,
+      "citation_confidence": 0.589,
+      "answer_confidence": 0.589,
+      "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-007",
+      "question_type": "multi_document",
+      "user_role": "Employee",
+      "question": "If I use a personal device for remote work, what are the remote-work and device rules?",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "unsupported_answer",
+      "cause_bucket": "answer_support_issue",
+      "cause_label": "Answer support issue",
+      "expected_source_document": [
+        "HR-003",
+        "IT-002"
+      ],
+      "actual_citation_documents": [
+        "IT-002",
+        "HR-003"
+      ],
+      "retrieved_documents": [
+        "HR-003",
+        "IT-002",
+        "HR-001"
+      ],
+      "answer_accuracy": 0.5,
+      "citation_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_confidence": 0.554,
+      "answer_confidence": 0.404,
+      "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-008",
+      "question_type": "multi_document",
+      "user_role": "Employee",
+      "question": "What should I do if I need benefits help and also want to use my learning budget?",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "wrong_citation",
+      "cause_bucket": "citation_mismatch",
+      "cause_label": "Citation mismatch",
+      "expected_source_document": [
+        "HR-001",
+        "HR-004"
+      ],
+      "actual_citation_documents": [
+        "HR-004"
+      ],
+      "retrieved_documents": [
+        "HR-004",
+        "HR-002",
+        "HR-001"
+      ],
+      "answer_accuracy": 0.5,
+      "citation_accuracy": 0.5,
+      "hallucination_rate": 1.0,
+      "citation_confidence": 0.525,
+      "answer_confidence": 0.375,
+      "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MULTI-010",
+      "question_type": "multi_document",
+      "user_role": "HR Admin",
+      "question": "How should HR handle a cross-border remote work exception?",
+      "expected_behavior": "answer",
+      "actual_response_type": "partial_answer",
+      "failure_type": "unsupported_answer",
+      "cause_bucket": "answer_support_issue",
+      "cause_label": "Answer support issue",
+      "expected_source_document": [
+        "HR-003",
+        "HR-ADMIN-001"
+      ],
+      "actual_citation_documents": [
+        "HR-ADMIN-001",
+        "HR-003"
+      ],
+      "retrieved_documents": [
+        "HR-ADMIN-001",
+        "HR-003",
+        "IT-002"
+      ],
+      "answer_accuracy": 0.5,
+      "citation_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_confidence": 0.55,
+      "answer_confidence": 0.4,
+      "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MEM-003",
+      "question_type": "conversation_memory",
+      "user_role": "Employee",
+      "question": "Can I download restricted data to it?",
+      "expected_behavior": "answer_with_memory",
+      "actual_response_type": "partial_answer",
+      "failure_type": "unsupported_answer",
+      "cause_bucket": "answer_support_issue",
+      "cause_label": "Answer support issue",
+      "expected_source_document": [
+        "IT-002"
+      ],
+      "actual_citation_documents": [
+        "IT-002",
+        "IT-003"
+      ],
+      "retrieved_documents": [
+        "IT-002",
+        "HR-003",
+        "IT-001",
+        "IT-003"
+      ],
+      "answer_accuracy": 1.0,
+      "citation_accuracy": 1.0,
+      "hallucination_rate": 1.0,
+      "citation_confidence": 0.688,
+      "answer_confidence": 0.538,
+      "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
+    },
+    {
+      "phase": "phase-7",
+      "question_id": "MEM-004",
+      "question_type": "conversation_memory",
+      "user_role": "Sales Representative",
+      "question": "How long does it usually take?",
+      "expected_behavior": "answer_with_memory",
+      "actual_response_type": "not_found",
+      "failure_type": "answer_not_generated",
+      "cause_bucket": "confidence_threshold_downgrade",
+      "cause_label": "Confidence threshold downgrade",
+      "expected_source_document": [
+        "SALES-002"
+      ],
+      "actual_citation_documents": [],
+      "retrieved_documents": [
+        "SALES-001",
+        "SALES-002"
+      ],
+      "answer_accuracy": 0.0,
+      "citation_accuracy": 0.0,
+      "hallucination_rate": null,
+      "citation_confidence": 0.346,
+      "answer_confidence": 0.65,
+      "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved."
+    }
+  ]
+}

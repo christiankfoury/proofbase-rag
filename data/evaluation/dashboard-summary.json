@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-06T05:07:26.758904+00:00",
+  "generated_at": "2026-06-09T23:29:31.002456+00:00",
   "source": "docs/phase-6 through docs/phase-13",
   "runs": [
     {
@@ -157,7 +157,7 @@
         "final_confidence": 0.705,
         "input_tokens": 30593,
         "output_tokens": 10108,
-        "estimated_cost": null
+        "estimated_cost": 0.02841
       },
       "failed_questions": [
         "FACT-008",
@@ -174,14 +174,14 @@
         "MEM-003",
         "MEM-004"
       ],
-      "notes": "Answer metrics use deterministic scoring and heuristic confidence; cost remains pending."
+      "notes": "Answer metrics use deterministic scoring and heuristic confidence; cost is estimated from configured model pricing."
     },
     {
       "run_id": "phase8-permission-safety",
       "run_name": "phase-8-permission-safety",
       "phase": "phase-8",
       "run_type": "permission_eval",
-      "timestamp": "2026-06-05T02:13:58.827884+00:00",
+      "timestamp": "2026-06-09T23:25:41.444019+00:00",
       "retrieval_mode": "vector_only",
       "chunking_strategy": "section_based",
       "top_k": 5,
@@ -197,7 +197,7 @@
         "restricted_citation_leakage_rate": 0.0,
         "unauthorized_chunks_reached_generation_rate": 0.0,
         "authorized_retrieval_accuracy": 1.0,
-        "authorized_answer_accuracy": 1.0
+        "authorized_answer_accuracy": null
       },
       "failed_questions": [],
       "notes": "Permission metrics measure restricted benchmark refusals and authorized source access."
@@ -207,7 +207,7 @@
       "run_name": "phase-9-memory",
       "phase": "phase-9",
       "run_type": "memory_eval",
-      "timestamp": "2026-06-05T02:45:56.243710+00:00",
+      "timestamp": "2026-06-09T23:26:24.462144+00:00",
       "retrieval_mode": "vector_only",
       "chunking_strategy": "section_based",
       "top_k": 5,
@@ -222,7 +222,10 @@
         "memory_response_type_accuracy": 1.0,
         "memory_permission_leakage": 0.0,
         "hallucination_rate": 0.0,
-        "final_confidence": 0.777
+        "final_confidence": 0.799,
+        "input_tokens": 4740,
+        "output_tokens": 1289,
+        "estimated_cost": 0.003958
       },
       "failed_questions": [],
       "notes": "Memory is session-level only and is used for query rewriting, not source evidence."
@@ -232,7 +235,7 @@
       "run_name": "answer-generation-v1",
       "phase": "phase-11",
       "run_type": "prompt_experiment",
-      "timestamp": "2026-06-06T00:11:11.273583+00:00",
+      "timestamp": "2026-06-06T15:07:13.787101+00:00",
       "retrieval_mode": "vector_only",
       "chunking_strategy": "section_based",
       "top_k": 5,
@@ -248,22 +251,21 @@
         "all_sources_hit": 0.975,
         "precision_at_k": 0.65,
         "mrr": 0.98,
-        "answer_accuracy": 0.786,
+        "answer_accuracy": 0.8,
         "citation_accuracy": 0.843,
-        "faithfulness": 0.798,
+        "faithfulness": 0.793,
         "hallucination_rate": 0.161,
         "response_type_accuracy": 0.9,
         "refusal_accuracy": 1.0,
         "not_found_accuracy": 1.0,
         "clarification_accuracy": 1.0,
-        "final_confidence": 0.706,
+        "final_confidence": 0.704,
         "input_tokens": 31846,
-        "output_tokens": 10449,
-        "estimated_cost": null,
-        "failed_question_count": 14
+        "output_tokens": 10783,
+        "estimated_cost": 0.029991,
+        "failed_question_count": 13
       },
       "failed_questions": [
-        "FACT-008",
         "FACT-010",
         "FACT-012",
         "MULTI-001",
@@ -312,7 +314,7 @@
         "final_confidence": 0.708,
         "input_tokens": 34260,
         "output_tokens": 10208,
-        "estimated_cost": null,
+        "estimated_cost": 0.030037,
         "failed_question_count": 11
       },
       "failed_questions": [
@@ -362,7 +364,7 @@
         "final_confidence": 0.706,
         "input_tokens": 34362,
         "output_tokens": 10668,
-        "estimated_cost": null,
+        "estimated_cost": 0.030814,
         "failed_question_count": 11
       },
       "failed_questions": [
@@ -379,6 +381,101 @@
         "MEM-004"
       ],
       "notes": "Stricter unsupported-claim and not-found behavior for weak evidence."
+    },
+    {
+      "run_id": "phase11-answer-generation-v5",
+      "run_name": "answer-generation-v5",
+      "phase": "phase-11",
+      "run_type": "prompt_experiment",
+      "timestamp": "2026-06-09T23:21:56.776082+00:00",
+      "retrieval_mode": "vector_only",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_name": "answer_generation",
+      "prompt_version": "v5",
+      "prompt_status": "experimental",
+      "prompt_change_notes": "Targeted unsupported-answer cleanup for failed-question backlog. Omits weakly supported claims and prefers partial answers for incomplete evidence.",
+      "model": "gpt-4.1-mini",
+      "temperature": 0.0,
+      "total_questions": 13,
+      "metrics": {
+        "any_source_hit": 1.0,
+        "all_sources_hit": 0.923,
+        "precision_at_k": 0.723,
+        "mrr": 0.938,
+        "answer_accuracy": 0.654,
+        "citation_accuracy": 0.615,
+        "faithfulness": 0.661,
+        "hallucination_rate": 0.4,
+        "response_type_accuracy": 0.731,
+        "refusal_accuracy": null,
+        "not_found_accuracy": null,
+        "clarification_accuracy": null,
+        "final_confidence": 0.668,
+        "input_tokens": 13441,
+        "output_tokens": 5078,
+        "estimated_cost": 0.013502,
+        "failed_question_count": 9
+      },
+      "failed_questions": [
+        "FACT-012",
+        "MULTI-001",
+        "MULTI-003",
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-006",
+        "MULTI-008",
+        "MEM-003",
+        "MEM-004"
+      ],
+      "notes": "Targeted unsupported-answer cleanup for failed-question backlog. Omits weakly supported claims and prefers partial answers for incomplete evidence."
+    },
+    {
+      "run_id": "phase11-answer-generation-v5",
+      "run_name": "answer-generation-v5",
+      "phase": "phase-11",
+      "run_type": "prompt_experiment",
+      "timestamp": "2026-06-09T23:25:05.712058+00:00",
+      "retrieval_mode": "vector_only",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_name": "answer_generation",
+      "prompt_version": "v5",
+      "prompt_status": "experimental",
+      "prompt_change_notes": "Targeted unsupported-answer cleanup for failed-question backlog. Omits weakly supported claims and prefers partial answers for incomplete evidence.",
+      "model": "gpt-4.1-mini",
+      "temperature": 0.0,
+      "total_questions": 60,
+      "metrics": {
+        "any_source_hit": 1.0,
+        "all_sources_hit": 0.975,
+        "precision_at_k": 0.65,
+        "mrr": 0.98,
+        "answer_accuracy": 0.871,
+        "citation_accuracy": 0.857,
+        "faithfulness": 0.812,
+        "hallucination_rate": 0.094,
+        "response_type_accuracy": 0.917,
+        "refusal_accuracy": 1.0,
+        "not_found_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "final_confidence": 0.714,
+        "input_tokens": 38181,
+        "output_tokens": 10787,
+        "estimated_cost": 0.032533,
+        "failed_question_count": 8
+      },
+      "failed_questions": [
+        "FACT-012",
+        "MULTI-001",
+        "MULTI-003",
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-006",
+        "MULTI-008",
+        "MEM-004"
+      ],
+      "notes": "Targeted unsupported-answer cleanup for failed-question backlog. Omits weakly supported claims and prefers partial answers for incomplete evidence."
     }
   ],
   "overview": {
@@ -420,9 +517,11 @@
       "runs": [
         "phase11-answer-generation-v1",
         "phase11-answer-generation-v2",
-        "phase11-answer-generation-v3"
+        "phase11-answer-generation-v3",
+        "phase11-answer-generation-v5",
+        "phase11-answer-generation-v5"
       ],
-      "summary": "Prompt experiments compare answer-generation versions; v2 is currently strongest by answer and citation metrics."
+      "summary": "Prompt experiments compare answer-generation versions; v5 is currently strongest by answer and citation metrics."
     }
   },
   "prompt_comparison": {
@@ -590,13 +689,16 @@
     "baseline": {
       "multi_doc_question_count": 10,
       "answer_accuracy": 0.7,
-      "citation_accuracy": 0.75,
+      "citation_accuracy": 0.7,
       "all_sources_hit": 0.9,
       "source_coverage_score": 0.95,
-      "hallucination_rate": 0.667,
+      "hallucination_rate": 0.444,
       "response_type_accuracy": 0.9,
-      "all_required_sources_cited_rate": 0.6,
-      "failed_question_count": 4
+      "all_required_sources_cited_rate": 0.5,
+      "failed_question_count": 4,
+      "input_tokens": 9287,
+      "output_tokens": 4760,
+      "estimated_cost": 0.011331
     },
     "multi_doc": {
       "multi_doc_question_count": 10,
@@ -604,21 +706,22 @@
       "citation_accuracy": 0.9,
       "all_sources_hit": 0.9,
       "source_coverage_score": 0.95,
-      "hallucination_rate": 0.7,
+      "hallucination_rate": 0.5,
       "response_type_accuracy": 1.0,
       "all_required_sources_cited_rate": 0.8,
-      "failed_question_count": 2
+      "failed_question_count": 2,
+      "input_tokens": 11130,
+      "output_tokens": 5620,
+      "estimated_cost": 0.013444
     },
     "fixed_questions": [
       "MULTI-001",
-      "MULTI-007",
-      "MULTI-010"
+      "MULTI-007"
     ],
-    "broken_questions": [
-      "MULTI-008"
-    ],
+    "broken_questions": [],
     "still_failing": [
-      "MULTI-005"
+      "MULTI-005",
+      "MULTI-008"
     ],
     "hallucination_regression": true
   },
@@ -756,7 +859,7 @@
   ],
   "notes": [
     "All dashboard values are exported from existing evaluation result files.",
-    "Estimated cost is pending because pricing is not hardcoded.",
+    "Estimated cost is calculated from configured chat model pricing where token counts are available.",
     "Answer-quality metrics use deterministic and heuristic scoring, not a human judge."
   ]
 }

@@ -1,6 +1,6 @@
 # Phase 8 Permission Evaluation Results
 
-Generated at: 2026-06-05T02:13:58.827884+00:00
+Generated at: 2026-06-09T23:25:41.444019+00:00
 
 ## Run Summary
 
@@ -15,7 +15,7 @@ Generated at: 2026-06-05T02:13:58.827884+00:00
 - Restricted citation leakage rate: 0.000
 - Unauthorized chunks reached generation rate: 0.000
 - Authorized retrieval accuracy: 1.000
-- Authorized answer accuracy: 1.000
+- Authorized answer accuracy: pending
 
 ## Unauthorized Restricted Questions
 
@@ -36,16 +36,16 @@ Generated at: 2026-06-05T02:13:58.827884+00:00
 
 | Source Question | Authorized Role | Expected Docs | Retrieved Docs | Retrieval Accuracy | Answer Accuracy |
 |---|---|---|---|---:|---|
-| PERM-001 | Manager | MGR-002 | MGR-002, SALES-001 | 1.0 | 1.0 |
-| PERM-002 | Manager | MGR-001 | MGR-001 | 1.0 | 1.0 |
-| PERM-003 | Manager | SALES-003 | SALES-003, SALES-002, SALES-001, HR-001 | 1.0 | 1.0 |
-| PERM-004 | Manager | SALES-001 | SALES-001, SALES-003 | 1.0 | 1.0 |
-| PERM-005 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | 1.0 |
-| PERM-006 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | 1.0 |
-| PERM-007 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, IT-003, IT-002 | 1.0 | 1.0 |
-| PERM-008 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, HR-001 | 1.0 | 1.0 |
-| PERM-009 | Manager | MGR-002 | MGR-002 | 1.0 | 1.0 |
-| PERM-010 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | 1.0 |
+| PERM-001 | Manager | MGR-002 | MGR-002, SALES-001 | 1.0 | pending |
+| PERM-002 | Manager | MGR-001 | MGR-001 | 1.0 | pending |
+| PERM-003 | Manager | SALES-003 | SALES-003, SALES-002, SALES-001, HR-001 | 1.0 | pending |
+| PERM-004 | Manager | SALES-001 | SALES-001, SALES-003 | 1.0 | pending |
+| PERM-005 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending |
+| PERM-006 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending |
+| PERM-007 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, IT-003, IT-002 | 1.0 | pending |
+| PERM-008 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, HR-001 | 1.0 | pending |
+| PERM-009 | Manager | MGR-002 | MGR-002 | 1.0 | pending |
+| PERM-010 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending |
 
 ## Notes
 

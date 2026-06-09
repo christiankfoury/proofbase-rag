@@ -3,13 +3,15 @@ from __future__ import annotations
 import json
 import re
 import argparse
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from apps.api.app.costing.estimator import estimate_chat_cost
-
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from apps.api.app.costing.estimator import estimate_chat_cost
 
 PHASE6_RESULTS = ROOT / "docs/phase-6/evaluation-results.md"
 PHASE7_RESULTS = ROOT / "docs/phase-7/evaluation-results.md"

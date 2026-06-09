@@ -33,6 +33,7 @@ def prompt_experiment_config(prompt_version: str) -> ExperimentConfig:
         "v1": "Current Phase 7/9 structured JSON prompt.",
         "v2": "Stricter citation requirements and multi-document citation expectations.",
         "v3": "Stricter not-found and unsupported-claim behavior.",
+        "v5": "Targeted unsupported-answer cleanup for failed-question backlog.",
     }.get(prompt_version, prompt.change_notes)
     return ExperimentConfig(
         experiment_id=f"phase11-answer-generation-{prompt_version}",
@@ -45,4 +46,4 @@ def prompt_experiment_config(prompt_version: str) -> ExperimentConfig:
 
 
 def default_prompt_experiment_configs() -> list[ExperimentConfig]:
-    return [prompt_experiment_config(version) for version in ["v1", "v2", "v3"]]
+    return [prompt_experiment_config(version) for version in ["v1", "v2", "v3", "v5"]]
