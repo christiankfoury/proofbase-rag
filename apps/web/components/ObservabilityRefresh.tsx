@@ -23,7 +23,7 @@ export function ObservabilityRefresh({ intervalSeconds = 15 }: { intervalSeconds
           router.refresh();
           setLastUpdated(new Date());
         }}
-        className="rounded border border-stone-300 bg-white px-2 py-1 text-xs hover:border-moss"
+        className="rounded border border-stone-300 bg-white px-2 py-1 text-xs hover:border-moss focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-1"
       >
         Refresh
       </button>

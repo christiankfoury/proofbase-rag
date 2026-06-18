@@ -1,4 +1,7 @@
+import { Card } from "@/components/Card";
+import { PageHeader } from "@/components/PageHeader";
 import { RunTable } from "@/components/RunTable";
+import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { getDashboardData } from "@/lib/dashboard";
 
@@ -7,20 +10,21 @@ export default async function RunsPage() {
 
   return (
     <Shell>
-      <h2 className="text-3xl font-semibold">Run Comparison</h2>
-      <p className="mt-3 max-w-3xl text-stone-700">
-        Compare retrieval experiments, answer quality, permission safety, and memory evaluation using the same exported run format.
-      </p>
-      <div className="mt-6">
-        <RunTable runs={data.runs} bestRunName={data.overview.best_retrieval_run} />
-      </div>
-      <section className="mt-8 grid gap-4 md:grid-cols-3">
-        {Object.entries(data.comparisons).map(([key, comparison]) => (
-          <article key={key} className="rounded-md border border-stone-300 bg-white p-5">
-            <h3 className="font-semibold">{key.replaceAll("_", " ")}</h3>
-            <p className="mt-2 text-sm text-stone-700">{comparison.summary}</p>
-          </article>
-        ))}
+      <PageHeader
+        title="Run Comparison"
+        description="Compare retrieval experiments, answer quality, permission safety, and memory evaluation using the same exported run format."
+      />
+      <RunTable runs={data.runs} bestRunName={data.overview.best_retrieval_run} />
+      <section className="mt-8">
+        <SectionHeading title="Comparison Notes" />
+        <div className="grid gap-4 md:grid-cols-3">
+          {Object.entries(data.comparisons).map(([key, comparison]) => (
+            <Card key={key} as="article" padding="compact">
+              <h4 className="font-semibold capitalize text-ink">{key.replaceAll("_", " ")}</h4>
+              <p className="mt-2 text-sm text-stone-700">{comparison.summary}</p>
+            </Card>
+          ))}
+        </div>
       </section>
     </Shell>
   );

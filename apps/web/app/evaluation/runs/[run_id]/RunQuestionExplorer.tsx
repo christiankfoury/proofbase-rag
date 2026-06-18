@@ -1,6 +1,8 @@
 "use client";
 
 import { Fragment, useMemo, useState } from "react";
+import { Badge } from "@/components/Badge";
+import { Card } from "@/components/Card";
 import { CitationTable } from "@/components/QueryResultPanel";
 import { RunQuestionResponse, RunQuestionRow } from "@/lib/api";
 import { formatLabel, formatMetric } from "@/lib/dashboard";
@@ -43,92 +45,100 @@ export function RunQuestionExplorer({ data }: { data: RunQuestionResponse }) {
 
   if (!data.detail_available) {
     return (
-      <section className="rounded-md border border-stone-300 bg-white p-5">
-        <h3 className="text-xl font-semibold">Per-question rows unavailable</h3>
+      <Card>
+        <h3 className="text-xl font-semibold text-ink">Per-question rows unavailable</h3>
         <p className="mt-2 text-stone-700">{data.message}</p>
-      </section>
+      </Card>
     );
   }
 
   return (
     <section className="space-y-4">
-      <div className="grid gap-3 rounded-md border border-stone-300 bg-white p-5 md:grid-cols-4">
-        <select value={questionType} onChange={(event) => setQuestionType(event.target.value)} className="rounded border border-stone-300 px-3 py-2">
+      <Card padding="compact" className="grid gap-3 md:grid-cols-4">
+        <select value={questionType} onChange={(event) => setQuestionType(event.target.value)} className="field">
           <option value="all">All question types</option>
           {uniqueValues(data.rows, "question_type").map((item) => <option key={item}>{item}</option>)}
         </select>
-        <select value={passState} onChange={(event) => setPassState(event.target.value)} className="rounded border border-stone-300 px-3 py-2">
+        <select value={passState} onChange={(event) => setPassState(event.target.value)} className="field">
           <option value="all">Passed and failed</option>
           <option value="passed">Passed only</option>
           <option value="failed">Failed only</option>
         </select>
-        <select value={failureType} onChange={(event) => setFailureType(event.target.value)} className="rounded border border-stone-300 px-3 py-2">
+        <select value={failureType} onChange={(event) => setFailureType(event.target.value)} className="field">
           <option value="all">All failure types</option>
           {uniqueValues(data.rows, "failure_type").map((item) => <option key={item}>{item}</option>)}
         </select>
-        <select value={responseType} onChange={(event) => setResponseType(event.target.value)} className="rounded border border-stone-300 px-3 py-2">
+        <select value={responseType} onChange={(event) => setResponseType(event.target.value)} className="field">
           <option value="all">All response types</option>
           {uniqueValues(data.rows, "actual_response_type").map((item) => <option key={item}>{item}</option>)}
         </select>
-      </div>
+      </Card>
 
-      <div className="overflow-x-auto rounded-md border border-stone-300 bg-white">
-        <table className="w-full min-w-[1120px] text-left text-sm">
-          <thead className="bg-stone-100 text-stone-700">
+      <div className="overflow-x-auto rounded-md border border-stone-300 bg-white shadow-card">
+        <table className="data-table min-w-[1120px]">
+          <thead>
             <tr>
-              <th className="p-3">Question</th>
-              <th className="p-3">Expected</th>
-              <th className="p-3">Actual</th>
-              <th className="p-3">Sources</th>
-              <th className="p-3 text-right">Answer</th>
-              <th className="p-3 text-right">Citation</th>
-              <th className="p-3">Failure</th>
-              <th className="p-3 text-right">Confidence</th>
+              <th>Question</th>
+              <th>Expected</th>
+              <th>Actual</th>
+              <th>Sources</th>
+              <th className="text-right">Answer</th>
+              <th className="text-right">Citation</th>
+              <th>Failure</th>
+              <th className="text-right">Confidence</th>
             </tr>
           </thead>
           <tbody>
-            {filteredRows.map((row) => (
-              <Fragment key={row.question_id}>
-                <tr className="cursor-pointer border-t border-stone-200 align-top hover:bg-stone-50" onClick={() => setExpanded(expanded === row.question_id ? null : row.question_id)}>
-                  <td className="p-3">
-                    <p className="font-semibold">{row.question_id}</p>
-                    <p className="mt-1 max-w-sm text-stone-700">{row.question}</p>
-                  </td>
-                  <td className="p-3">{formatLabel(row.expected_behavior)}</td>
-                  <td className="p-3">{formatLabel(row.actual_response_type)}</td>
-                  <td className="p-3">{(row.expected_source_document ?? []).join(", ") || "n/a"}</td>
-                  <td className="p-3 text-right">{formatMetric(row.answer_accuracy)}</td>
-                  <td className="p-3 text-right">{formatMetric(row.citation_accuracy)}</td>
-                  <td className="p-3">{row.failure_type ? formatLabel(row.failure_type) : "Passed"}</td>
-                  <td className="p-3 text-right">{formatMetric(row.final_confidence ?? row.confidence)}</td>
-                </tr>
-                {expanded === row.question_id ? (
-                  <tr key={`${row.question_id}-detail`} className="border-t border-stone-200 bg-stone-50">
-                    <td colSpan={8} className="p-5">
-                      <div className="grid gap-4 lg:grid-cols-2">
-                        <div>
-                          <h4 className="font-semibold">Expected Answer</h4>
-                          <p className="mt-2 text-sm leading-6 text-stone-700">{row.expected_answer ?? "n/a"}</p>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold">Actual Answer</h4>
-                          <p className="mt-2 text-sm leading-6 text-stone-700">{row.actual_answer ?? "n/a"}</p>
-                        </div>
-                      </div>
-                      <div className="mt-4">
-                        <h4 className="mb-2 font-semibold">Actual Citations</h4>
-                        <CitationTable citations={row.actual_citations ?? []} />
-                      </div>
-                      {row.recommended_fix ? (
-                        <p className="mt-4 rounded border border-stone-300 bg-white p-3 text-sm">
-                          <span className="font-semibold">Recommended fix: </span>{row.recommended_fix}
-                        </p>
-                      ) : null}
+            {filteredRows.map((row) => {
+              const passed = rowPassed(row);
+              return (
+                <Fragment key={row.question_id}>
+                  <tr
+                    className="cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss"
+                    onClick={() => setExpanded(expanded === row.question_id ? null : row.question_id)}
+                  >
+                    <td>
+                      <p className="font-semibold text-ink">{row.question_id}</p>
+                      <p className="mt-1 max-w-sm">{row.question}</p>
                     </td>
+                    <td>{formatLabel(row.expected_behavior)}</td>
+                    <td>{formatLabel(row.actual_response_type)}</td>
+                    <td>{(row.expected_source_document ?? []).join(", ") || "n/a"}</td>
+                    <td className="text-right">{formatMetric(row.answer_accuracy)}</td>
+                    <td className="text-right">{formatMetric(row.citation_accuracy)}</td>
+                    <td>
+                      <Badge tone={passed ? "good" : "warn"}>{row.failure_type ? formatLabel(row.failure_type) : "Passed"}</Badge>
+                    </td>
+                    <td className="text-right">{formatMetric(row.final_confidence ?? row.confidence)}</td>
                   </tr>
-                ) : null}
-              </Fragment>
-            ))}
+                  {expanded === row.question_id ? (
+                    <tr key={`${row.question_id}-detail`} className="bg-stone-50">
+                      <td colSpan={8} className="p-5">
+                        <div className="grid gap-4 lg:grid-cols-2">
+                          <div>
+                            <h4 className="font-semibold text-ink">Expected Answer</h4>
+                            <p className="mt-2 text-sm leading-6 text-stone-700">{row.expected_answer ?? "n/a"}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-ink">Actual Answer</h4>
+                            <p className="mt-2 text-sm leading-6 text-stone-700">{row.actual_answer ?? "n/a"}</p>
+                          </div>
+                        </div>
+                        <div className="mt-4">
+                          <h4 className="mb-2 font-semibold text-ink">Actual Citations</h4>
+                          <CitationTable citations={row.actual_citations ?? []} />
+                        </div>
+                        {row.recommended_fix ? (
+                          <p className="mt-4 rounded border border-stone-300 bg-white p-3 text-sm text-stone-700">
+                            <span className="font-semibold text-ink">Recommended fix: </span>{row.recommended_fix}
+                          </p>
+                        ) : null}
+                      </td>
+                    </tr>
+                  ) : null}
+                </Fragment>
+              );
+            })}
           </tbody>
         </table>
       </div>

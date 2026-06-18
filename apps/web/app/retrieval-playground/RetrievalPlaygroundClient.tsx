@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Badge, BadgeTone } from "@/components/Badge";
+import { Card } from "@/components/Card";
 import { RetrievedContext } from "@/components/QueryResultPanel";
 import { Citation, QueryResponse, UserRole, queryRag } from "@/lib/api";
 import { formatLabel, formatMetric } from "@/lib/dashboard";
@@ -24,21 +26,21 @@ function formatLatency(value: number | null | undefined): string {
   return `${Math.round(value)} ms`;
 }
 
-function outcomeFor(label: string, result?: QueryResponse): { text: string; tone: string } {
-  if (!result) return { text: "Not run", tone: "border-stone-300 bg-stone-50 text-stone-700" };
+function outcomeFor(label: string, result?: QueryResponse): { text: string; tone: BadgeTone } {
+  if (!result) return { text: "Not run", tone: "neutral" };
   if (label === "Multi-doc" && result.citations.length > 1 && result.response_type !== "not_found") {
-    return { text: "Best for this query", tone: "border-moss bg-green-50 text-moss" };
+    return { text: "Best for this query", tone: "good" };
   }
   if (label === "Keyword only" && result.citations.length > 0) {
-    return { text: "Exact terms helped", tone: "border-steel bg-slate-50 text-steel" };
+    return { text: "Exact terms helped", tone: "info" };
   }
   if (result.response_type === "not_found") {
-    return { text: "Missed supporting evidence", tone: "border-rust bg-orange-50 text-rust" };
+    return { text: "Missed supporting evidence", tone: "warn" };
   }
   if (result.response_type === "partial_answer") {
-    return { text: "Partial support", tone: "border-rust bg-orange-50 text-rust" };
+    return { text: "Partial support", tone: "warn" };
   }
-  return { text: "Answered", tone: "border-moss bg-green-50 text-moss" };
+  return { text: "Answered", tone: "good" };
 }
 
 function CompactCitations({ citations }: { citations: Citation[] }) {
@@ -49,7 +51,7 @@ function CompactCitations({ citations }: { citations: Citation[] }) {
         <div key={`${citation.chunk_id ?? citation.document_id}-${index}`} className="rounded border border-stone-200 p-3 text-sm">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
-              <p className="font-semibold">{citation.document_title ?? "Untitled"}</p>
+              <p className="font-semibold text-ink">{citation.document_title ?? "Untitled"}</p>
               <p className="text-xs text-stone-500">{citation.document_id ?? "n/a"} / {citation.section_heading ?? "n/a"}</p>
             </div>
             <p className="text-xs text-stone-600">{formatMetric(citation.confidence)}</p>
@@ -91,65 +93,68 @@ export function RetrievalPlaygroundClient() {
 
   return (
     <section className="space-y-5">
-      <div className="rounded-md border border-stone-300 bg-white p-5">
+      <Card>
         <div className="grid gap-3 lg:grid-cols-[1fr_180px_auto]">
-          <input value={question} onChange={(event) => setQuestion(event.target.value)} className="rounded border border-stone-300 px-3 py-2" />
-          <select value={role} onChange={(event) => setRole(event.target.value as UserRole)} className="rounded border border-stone-300 px-3 py-2">
+          <input value={question} onChange={(event) => setQuestion(event.target.value)} className="field" />
+          <select value={role} onChange={(event) => setRole(event.target.value as UserRole)} className="field">
             <option>Employee</option>
             <option>Sales Representative</option>
             <option>Manager</option>
             <option>HR Admin</option>
           </select>
-          <button type="button" onClick={runComparison} disabled={loading} className="rounded bg-ink px-4 py-2 font-semibold text-white disabled:opacity-60">
+          <button type="button" onClick={runComparison} disabled={loading} className="btn-primary">
             {loading ? "Running..." : "Compare modes"}
           </button>
         </div>
         <p className="mt-3 text-sm text-stone-700">
           This comparison shows why evaluation matters: vector retrieval is best overall, but keyword and multi-document retrieval can recover different evidence depending on the question.
         </p>
-      </div>
+      </Card>
 
       <div className="grid gap-5 xl:grid-cols-2">
         {results.map(({ label, result, error }) => {
           const outcome = outcomeFor(label, result);
           const emphasize = outcome.text === "Best for this query";
           return (
-          <article key={label} className={`rounded-md border bg-white p-5 ${emphasize ? "border-moss" : "border-stone-300"}`}>
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-xl font-semibold">{label}</h3>
-                  <span className={`rounded border px-2 py-1 text-xs font-semibold ${outcome.tone}`}>{outcome.text}</span>
-                </div>
-                <p className="mt-1 text-sm text-stone-600">{result ? formatLabel(result.response_type) : "Not run"}</p>
-              </div>
-              {result ? (
-                <div className="text-right text-xs text-stone-600">
-                  <p>Confidence: {formatMetric(result.final_confidence)}</p>
-                  <p>Latency: {formatLatency(result.total_latency_ms)}</p>
-                </div>
-              ) : null}
-            </div>
-            {error ? <p className="mt-4 rounded border border-rust bg-orange-50 p-3 text-sm text-rust">{error}</p> : null}
-            {result ? (
-              <div className="mt-4 space-y-4">
-                <p className="line-clamp-6 text-sm leading-6 text-stone-800">{result.answer}</p>
+            <Card key={label} tone={emphasize ? "good" : "neutral"}>
+              <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <h4 className="mb-2 font-semibold">Citations</h4>
-                  <CompactCitations citations={result.citations} />
-                </div>
-                <details className="rounded border border-stone-300 p-4">
-                  <summary className="cursor-pointer font-semibold">Top Retrieved Chunks</summary>
-                  <div className="mt-3">
-                    <RetrievedContext chunks={result.retrieved_chunks.slice(0, 4)} />
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="text-xl font-semibold text-ink">{label}</h3>
+                    <Badge tone={outcome.tone}>{outcome.text}</Badge>
                   </div>
-                </details>
+                  <p className="mt-1 text-sm text-stone-600">{result ? formatLabel(result.response_type) : "Not run"}</p>
+                </div>
+                {result ? (
+                  <div className="text-right text-xs text-stone-600">
+                    <p>Confidence: {formatMetric(result.final_confidence)}</p>
+                    <p>Latency: {formatLatency(result.total_latency_ms)}</p>
+                  </div>
+                ) : null}
               </div>
-            ) : (
-              <p className="mt-4 text-sm text-stone-600">Run the comparison to populate this mode.</p>
-            )}
-          </article>
-        )})}
+              {error ? <p className="mt-4 rounded border border-rust bg-rust-soft p-3 text-sm font-medium text-rust-dark">{error}</p> : null}
+              {result ? (
+                <div className="mt-4 space-y-4">
+                  <p className="line-clamp-6 text-sm leading-6 text-stone-800">{result.answer}</p>
+                  <div>
+                    <h4 className="mb-2 font-semibold text-ink">Citations</h4>
+                    <CompactCitations citations={result.citations} />
+                  </div>
+                  <details className="rounded border border-stone-300 p-4">
+                    <summary className="cursor-pointer font-semibold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss">
+                      Top Retrieved Chunks
+                    </summary>
+                    <div className="mt-3">
+                      <RetrievedContext chunks={result.retrieved_chunks.slice(0, 4)} />
+                    </div>
+                  </details>
+                </div>
+              ) : (
+                <p className="mt-4 text-sm text-stone-600">Run the comparison to populate this mode.</p>
+              )}
+            </Card>
+          );
+        })}
       </div>
     </section>
   );

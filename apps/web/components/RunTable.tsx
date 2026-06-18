@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { EvalRun, formatLabel, formatTableMetric } from "@/lib/dashboard";
+import { Badge } from "@/components/Badge";
+import { EvalRun, formatLabel, formatTableMetric, riskRateClass } from "@/lib/dashboard";
 
 function formatCost(value: number | string | null | undefined): string {
   if (value === null || value === undefined || value === "") return "-";
@@ -12,46 +13,49 @@ export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?:
   return (
     <div>
       <p className="mb-3 text-sm text-stone-600">A dash means the metric was not measured for that run type.</p>
-      <div className="overflow-x-auto rounded-md border border-stone-300 bg-white">
-        <table className="w-full min-w-[1040px] border-collapse text-left text-sm">
-          <thead className="bg-stone-100 text-stone-700">
+      <div className="overflow-x-auto rounded-md border border-stone-300 bg-white shadow-card">
+        <table className="data-table min-w-[1040px]">
+          <thead>
             <tr>
-              <th className="p-3">Run</th>
-              <th className="p-3">Phase</th>
-              <th className="p-3">Mode</th>
-              <th className="p-3">Chunking</th>
-              <th className="p-3 text-right">Precision@k</th>
-              <th className="p-3 text-right">MRR</th>
-              <th className="p-3 text-right">Answer</th>
-              <th className="p-3 text-right">Citation</th>
-              <th className="p-3 text-right">Permission Leak</th>
-              <th className="p-3 text-right">Memory</th>
-              <th className="p-3 text-right">Est. Cost</th>
+              <th>Run</th>
+              <th>Phase</th>
+              <th>Mode</th>
+              <th>Chunking</th>
+              <th className="text-right">Precision@k</th>
+              <th className="text-right">MRR</th>
+              <th className="text-right">Answer</th>
+              <th className="text-right">Citation</th>
+              <th className="text-right">Permission Leak</th>
+              <th className="text-right">Memory</th>
+              <th className="text-right">Est. Cost</th>
             </tr>
           </thead>
           <tbody>
             {runs.map((run) => (
-              <tr key={run.run_id} className="border-t border-stone-200">
-                <td className="p-3 font-medium">
+              <tr key={run.run_id}>
+                <td className="font-medium text-ink">
                   <div className="flex flex-wrap items-center gap-2">
-                    <Link href={`/evaluation/runs/${encodeURIComponent(run.run_id)}`} className="underline decoration-stone-400 underline-offset-4 hover:text-moss">
+                    <Link
+                      href={`/evaluation/runs/${encodeURIComponent(run.run_id)}`}
+                      className="rounded underline decoration-stone-400 underline-offset-4 hover:text-moss-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss"
+                    >
                       {run.run_name}
                     </Link>
-                    {run.run_name === bestRunName ? (
-                      <span className="rounded bg-moss px-2 py-1 text-xs font-semibold text-white">Best config</span>
-                    ) : null}
+                    {run.run_name === bestRunName ? <Badge tone="solid">Best config</Badge> : null}
                   </div>
                 </td>
-                <td className="p-3">{run.phase}</td>
-                <td className="p-3">{formatLabel(run.retrieval_mode)}</td>
-                <td className="p-3">{formatLabel(run.chunking_strategy)}</td>
-                <td className="p-3 text-right">{formatTableMetric(run.metrics.precision_at_k)}</td>
-                <td className="p-3 text-right">{formatTableMetric(run.metrics.mrr)}</td>
-                <td className="p-3 text-right">{formatTableMetric(run.metrics.answer_accuracy)}</td>
-                <td className="p-3 text-right">{formatTableMetric(run.metrics.citation_accuracy)}</td>
-                <td className="p-3 text-right">{formatTableMetric(run.metrics.permission_leakage_rate)}</td>
-                <td className="p-3 text-right">{formatTableMetric(run.metrics.memory_answer_accuracy)}</td>
-                <td className="p-3 text-right">{formatCost(run.metrics.estimated_cost)}</td>
+                <td>{run.phase}</td>
+                <td>{formatLabel(run.retrieval_mode)}</td>
+                <td>{formatLabel(run.chunking_strategy)}</td>
+                <td className="text-right">{formatTableMetric(run.metrics.precision_at_k)}</td>
+                <td className="text-right">{formatTableMetric(run.metrics.mrr)}</td>
+                <td className="text-right">{formatTableMetric(run.metrics.answer_accuracy)}</td>
+                <td className="text-right">{formatTableMetric(run.metrics.citation_accuracy)}</td>
+                <td className={`text-right ${riskRateClass(run.metrics.permission_leakage_rate)}`}>
+                  {formatTableMetric(run.metrics.permission_leakage_rate)}
+                </td>
+                <td className="text-right">{formatTableMetric(run.metrics.memory_answer_accuracy)}</td>
+                <td className="text-right">{formatCost(run.metrics.estimated_cost)}</td>
               </tr>
             ))}
           </tbody>

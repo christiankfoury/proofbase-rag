@@ -1,5 +1,16 @@
+import { Badge, BadgeTone } from "@/components/Badge";
+import { Card } from "@/components/Card";
+import { EmptyState } from "@/components/EmptyState";
+import { PageHeader } from "@/components/PageHeader";
+import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { getAuditEvents, getAuditSummary } from "@/lib/feedback";
+
+function outcomeTone(outcome: string): BadgeTone {
+  if (outcome === "success" || outcome === "completed" || outcome === "started") return "good";
+  if (outcome === "blocked" || outcome === "refused") return "warn";
+  return "neutral";
+}
 
 export default async function AuditPage() {
   const [{ events }, summary] = await Promise.all([
@@ -10,68 +21,56 @@ export default async function AuditPage() {
 
   return (
     <Shell>
-      <h2 className="text-3xl font-semibold">Audit Log</h2>
-      <p className="mt-3 max-w-3xl text-stone-700">
-        Recent audit events covering query refusals, permission blocks, feedback submissions, and evaluation runs.
-      </p>
+      <PageHeader
+        title="Audit Log"
+        description="Recent audit events covering query refusals, permission blocks, feedback submissions, and evaluation runs."
+      />
 
       {actionCounts.length > 0 && (
-        <section className="mt-6 grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        <section className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {actionCounts.map(([action, count]) => (
-            <article key={action} className="rounded-md border border-stone-300 bg-white p-4">
+            <Card key={action} as="article" padding="compact">
               <p className="text-sm font-medium text-steel">{action.replaceAll("_", " ")}</p>
-              <p className="mt-2 text-2xl font-semibold">{count}</p>
-            </article>
+              <p className="mt-2 text-2xl font-semibold text-ink">{count}</p>
+            </Card>
           ))}
         </section>
       )}
 
       <section className="mt-8">
-        <h3 className="mb-3 text-xl font-semibold">Recent Events</h3>
+        <SectionHeading title="Recent Events" />
         {events.length === 0 ? (
-          <div className="rounded-md border border-stone-300 bg-white p-5">
-            <p className="text-stone-700">
-              No audit events found. Events are logged automatically during queries, feedback submissions, and evaluation runs.
-            </p>
-          </div>
+          <EmptyState>
+            No audit events found. Events are logged automatically during queries, feedback submissions, and evaluation runs.
+          </EmptyState>
         ) : (
-          <div className="overflow-x-auto rounded-md border border-stone-300 bg-white">
-            <table className="w-full min-w-[800px] text-left text-sm">
-              <thead className="bg-stone-100">
+          <div className="overflow-x-auto rounded-md border border-stone-300 bg-white shadow-card">
+            <table className="data-table min-w-[800px]">
+              <thead>
                 <tr>
-                  <th className="px-4 py-3">Time</th>
-                  <th className="px-4 py-3">Action</th>
-                  <th className="px-4 py-3">Role</th>
-                  <th className="px-4 py-3">Resource</th>
-                  <th className="px-4 py-3">Outcome</th>
-                  <th className="px-4 py-3">Reason</th>
+                  <th>Time</th>
+                  <th>Action</th>
+                  <th>Role</th>
+                  <th>Resource</th>
+                  <th>Outcome</th>
+                  <th>Reason</th>
                 </tr>
               </thead>
               <tbody>
                 {events.map((event) => (
-                  <tr key={event.id} className="border-t border-stone-200">
-                    <td className="whitespace-nowrap px-4 py-3 text-stone-500">
+                  <tr key={event.id}>
+                    <td className="whitespace-nowrap text-stone-500">
                       {new Date(event.created_at).toLocaleString()}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3 font-medium">
+                    <td className="whitespace-nowrap font-medium text-ink">
                       {event.action.replaceAll("_", " ")}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3">{event.user_role}</td>
-                    <td className="whitespace-nowrap px-4 py-3">{event.resource_type}</td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`rounded border px-2 py-1 text-xs font-semibold ${
-                          event.outcome === "success" || event.outcome === "completed" || event.outcome === "started"
-                            ? "border-moss bg-white text-moss"
-                            : event.outcome === "blocked" || event.outcome === "refused"
-                            ? "border-rust bg-orange-50 text-rust"
-                            : "border-stone-300 bg-stone-50 text-stone-700"
-                        }`}
-                      >
-                        {event.outcome}
-                      </span>
+                    <td className="whitespace-nowrap">{event.user_role}</td>
+                    <td className="whitespace-nowrap">{event.resource_type}</td>
+                    <td>
+                      <Badge tone={outcomeTone(event.outcome)}>{event.outcome}</Badge>
                     </td>
-                    <td className="px-4 py-3 text-stone-600">{event.reason ?? "-"}</td>
+                    <td className="text-stone-600">{event.reason ?? "-"}</td>
                   </tr>
                 ))}
               </tbody>

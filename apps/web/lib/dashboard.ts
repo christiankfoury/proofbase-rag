@@ -142,3 +142,32 @@ export function formatLabel(value: string | null | undefined): string {
     .replaceAll("-", " ")
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
+
+/**
+ * Returns a text color/weight class for rate-style metrics where lower is
+ * better (hallucination rate, permission leakage rate, error rate). Used to
+ * give risk signals visual emphasis instead of rendering as plain numbers.
+ */
+export function riskRateClass(
+  value: number | string | null | undefined,
+  { warnAt = 0.05, riskAt = 0.15 }: { warnAt?: number; riskAt?: number } = {}
+): string {
+  if (typeof value !== "number") return "text-stone-700";
+  if (value >= riskAt) return "font-semibold text-red-600";
+  if (value >= warnAt) return "font-semibold text-rust";
+  return "text-moss-dark";
+}
+
+/**
+ * Returns a text color/weight class for rate-style metrics where higher is
+ * better (accuracy, recall, precision). Used to flag weak scores.
+ */
+export function goodRateClass(
+  value: number | string | null | undefined,
+  { warnBelow = 0.8, riskBelow = 0.6 }: { warnBelow?: number; riskBelow?: number } = {}
+): string {
+  if (typeof value !== "number") return "text-stone-700";
+  if (value < riskBelow) return "font-semibold text-red-600";
+  if (value < warnBelow) return "font-semibold text-rust";
+  return "text-stone-700";
+}

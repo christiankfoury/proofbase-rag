@@ -10,8 +10,85 @@
 body {
   margin: 0;
   background: #f7f8f5;
+  font-feature-settings: "tnum" 1;
 }
 
 a {
   color: inherit;
+}
+
+::selection {
+  background: #eaf0e8;
+}
+
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded text-sm font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-ink px-4 py-2 text-white hover:bg-steel focus-visible:ring-steel;
+  }
+  .btn-secondary {
+    @apply btn border border-stone-300 bg-white px-4 py-2 text-ink hover:border-moss hover:text-moss-dark focus-visible:ring-moss;
+  }
+  .btn-accent {
+    @apply btn bg-moss px-4 py-2 text-white hover:bg-moss-dark focus-visible:ring-moss;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  /* Form fields */
+  .field {
+    @apply rounded border border-stone-300 bg-white px-3 py-2 text-sm text-ink transition-colors duration-150 placeholder:text-stone-400 focus:border-moss focus:outline-none focus:ring-1 focus:ring-moss/40;
+  }
+
+  /* Cards */
+  .card {
+    @apply rounded-md border border-stone-300 bg-white p-5 shadow-card;
+  }
+  .card-compact {
+    @apply rounded-md border border-stone-300 bg-white p-4 shadow-card;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded border px-2 py-1 text-2xs font-semibold uppercase tracking-wide;
+  }
+  .badge-neutral {
+    @apply badge border-stone-300 bg-stone-50 text-stone-600;
+  }
+  .badge-good {
+    @apply badge border-moss bg-moss-soft text-moss-dark;
+  }
+  .badge-warn {
+    @apply badge border-rust bg-rust-soft text-rust-dark;
+  }
+  .badge-info {
+    @apply badge border-steel bg-steel-soft text-steel-dark;
+  }
+  .badge-solid {
+    @apply badge border-transparent bg-moss text-white;
+  }
+
+  /* Tables */
+  .data-table {
+    @apply w-full border-collapse text-left text-sm;
+  }
+  .data-table thead {
+    @apply bg-stone-100 text-xs font-semibold uppercase tracking-wide text-stone-600;
+  }
+  .data-table th {
+    @apply px-4 py-3 font-semibold;
+  }
+  .data-table td {
+    @apply px-4 py-3 align-top text-stone-700;
+  }
+  .data-table tbody tr {
+    @apply border-t border-stone-200;
+  }
+  .data-table tbody tr:hover {
+    @apply bg-stone-50;
+  }
 }
