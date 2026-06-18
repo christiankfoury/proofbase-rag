@@ -82,6 +82,12 @@ export type DashboardData = {
   overview: {
     best_retrieval_run: string;
     retrieval_conclusion: string;
+    current_answer_run_id?: string | null;
+    current_failed_question_count?: number | null;
+    progress_summary?: {
+      improved: string[];
+      still_needs_work: string[];
+    };
     headline_metrics: Metrics;
   };
   comparisons: Record<string, { summary: string; runs?: string[]; baseline?: string; current?: string }>;

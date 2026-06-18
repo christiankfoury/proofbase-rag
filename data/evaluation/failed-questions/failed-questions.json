@@ -1,132 +1,207 @@
 [
   {
-    "phase": "phase-7",
-    "question_id": "FACT-008",
-    "expected_behavior": "answer",
-    "actual_response_type": "answer",
-    "failure_type": "incomplete_answer",
-    "citation_confidence": 0.863,
-    "answer_confidence": 0.863,
-    "recommended_fix": "Improve answer completeness scoring or prompt the model to include all required expected-answer facts."
-  },
-  {
-    "phase": "phase-7",
-    "question_id": "FACT-010",
-    "expected_behavior": "answer",
-    "actual_response_type": "answer",
-    "failure_type": "incomplete_answer",
-    "citation_confidence": 0.793,
-    "answer_confidence": 0.793,
-    "recommended_fix": "Improve answer completeness scoring or prompt the model to include all required expected-answer facts."
-  },
-  {
-    "phase": "phase-7",
     "question_id": "FACT-012",
+    "question": "Are employees allowed to share passwords or MFA codes?",
     "expected_behavior": "answer",
     "actual_response_type": "not_found",
-    "failure_type": "answer_not_generated",
+    "expected_source_document": [
+      "IT-001"
+    ],
+    "actual_citations": [],
+    "retrieval_success": 1.0,
     "citation_confidence": 0.0,
     "answer_confidence": 0.65,
-    "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved."
+    "failure_type": "answer_not_generated",
+    "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved.",
+    "phase": "phase-11",
+    "run_id": "phase11-answer-generation-v5",
+    "run_name": "answer-generation-v5"
   },
   {
-    "phase": "phase-7",
     "question_id": "MULTI-001",
+    "question": "If I work remotely, what approval and device security expectations apply?",
     "expected_behavior": "answer",
     "actual_response_type": "not_found",
-    "failure_type": "answer_not_generated",
-    "citation_confidence": 0.453,
+    "expected_source_document": [
+      "HR-003",
+      "IT-002"
+    ],
+    "actual_citations": [],
+    "retrieval_success": 1.0,
+    "citation_confidence": 0.0,
     "answer_confidence": 0.65,
-    "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved."
+    "failure_type": "answer_not_generated",
+    "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved.",
+    "phase": "phase-11",
+    "run_id": "phase11-answer-generation-v5",
+    "run_name": "answer-generation-v5"
   },
   {
-    "phase": "phase-7",
     "question_id": "MULTI-003",
+    "question": "Who should I contact for PTO questions and what is the basic vacation entitlement?",
     "expected_behavior": "answer",
     "actual_response_type": "partial_answer",
+    "expected_source_document": [
+      "HR-001",
+      "HR-002"
+    ],
+    "actual_citations": [
+      {
+        "document_id": "HR-001",
+        "section_heading": "Employee Support Channels",
+        "confidence": 0.311
+      },
+      {
+        "document_id": "HR-002",
+        "section_heading": "Vacation Entitlement",
+        "confidence": 0.809
+      }
+    ],
+    "retrieval_success": 1.0,
+    "citation_confidence": 0.56,
+    "answer_confidence": 0.41,
     "failure_type": "unsupported_answer",
-    "citation_confidence": 0.548,
-    "answer_confidence": 0.398,
-    "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
+    "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak.",
+    "phase": "phase-11",
+    "run_id": "phase11-answer-generation-v5",
+    "run_name": "answer-generation-v5"
   },
   {
-    "phase": "phase-7",
     "question_id": "MULTI-004",
+    "question": "How should I position Northstar against BI tools while avoiding prohibited claims?",
     "expected_behavior": "answer",
     "actual_response_type": "partial_answer",
+    "expected_source_document": [
+      "SALES-002",
+      "SALES-003"
+    ],
+    "actual_citations": [
+      {
+        "document_id": "SALES-003",
+        "section_heading": "Positioning Against Generic BI Tools",
+        "confidence": 0.673
+      },
+      {
+        "document_id": "SALES-003",
+        "section_heading": "Prohibited Claims",
+        "confidence": 0.493
+      }
+    ],
+    "retrieval_success": 1.0,
+    "citation_confidence": 0.583,
+    "answer_confidence": 0.433,
     "failure_type": "wrong_citation",
-    "citation_confidence": 0.573,
-    "answer_confidence": 0.573,
-    "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk."
+    "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk.",
+    "phase": "phase-11",
+    "run_id": "phase11-answer-generation-v5",
+    "run_name": "answer-generation-v5"
   },
   {
-    "phase": "phase-7",
     "question_id": "MULTI-005",
+    "question": "Before a deal moves to proposal, what sales-stage and implementation constraints should I check?",
     "expected_behavior": "answer",
     "actual_response_type": "partial_answer",
+    "expected_source_document": [
+      "SALES-001",
+      "SALES-002"
+    ],
+    "actual_citations": [
+      {
+        "document_id": "SALES-001",
+        "section_heading": "Sales Stages",
+        "confidence": 0.533
+      },
+      {
+        "document_id": "SALES-001",
+        "section_heading": "Handoff Rules",
+        "confidence": 0.642
+      }
+    ],
+    "retrieval_success": 0.0,
+    "citation_confidence": 0.588,
+    "answer_confidence": 0.588,
     "failure_type": "multi_document_failure",
-    "citation_confidence": 0.602,
-    "answer_confidence": 0.602,
-    "recommended_fix": "Add query decomposition or multi-document retrieval logic."
+    "recommended_fix": "Add query decomposition or multi-document retrieval logic.",
+    "phase": "phase-11",
+    "run_id": "phase11-answer-generation-v5",
+    "run_name": "answer-generation-v5"
   },
   {
-    "phase": "phase-7",
     "question_id": "MULTI-006",
+    "question": "How should a manager handle ongoing performance concerns?",
     "expected_behavior": "answer",
     "actual_response_type": "partial_answer",
+    "expected_source_document": [
+      "MGR-001",
+      "MGR-002"
+    ],
+    "actual_citations": [
+      {
+        "document_id": "MGR-002",
+        "section_heading": "Performance Documentation",
+        "confidence": 0.553
+      },
+      {
+        "document_id": "MGR-002",
+        "section_heading": "Performance Improvement Process",
+        "confidence": 0.632
+      }
+    ],
+    "retrieval_success": 1.0,
+    "citation_confidence": 0.593,
+    "answer_confidence": 0.593,
     "failure_type": "wrong_citation",
-    "citation_confidence": 0.589,
-    "answer_confidence": 0.589,
-    "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk."
+    "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk.",
+    "phase": "phase-11",
+    "run_id": "phase11-answer-generation-v5",
+    "run_name": "answer-generation-v5"
   },
   {
-    "phase": "phase-7",
-    "question_id": "MULTI-007",
-    "expected_behavior": "answer",
-    "actual_response_type": "partial_answer",
-    "failure_type": "unsupported_answer",
-    "citation_confidence": 0.554,
-    "answer_confidence": 0.404,
-    "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
-  },
-  {
-    "phase": "phase-7",
     "question_id": "MULTI-008",
+    "question": "What should I do if I need benefits help and also want to use my learning budget?",
     "expected_behavior": "answer",
     "actual_response_type": "partial_answer",
+    "expected_source_document": [
+      "HR-001",
+      "HR-004"
+    ],
+    "actual_citations": [
+      {
+        "document_id": "HR-004",
+        "section_heading": "Benefits Support",
+        "confidence": 0.491
+      },
+      {
+        "document_id": "HR-004",
+        "section_heading": "Learning Budget",
+        "confidence": 0.545
+      }
+    ],
+    "retrieval_success": 1.0,
+    "citation_confidence": 0.518,
+    "answer_confidence": 0.368,
     "failure_type": "wrong_citation",
-    "citation_confidence": 0.525,
-    "answer_confidence": 0.375,
-    "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk."
+    "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk.",
+    "phase": "phase-11",
+    "run_id": "phase11-answer-generation-v5",
+    "run_name": "answer-generation-v5"
   },
   {
-    "phase": "phase-7",
-    "question_id": "MULTI-010",
-    "expected_behavior": "answer",
-    "actual_response_type": "partial_answer",
-    "failure_type": "unsupported_answer",
-    "citation_confidence": 0.55,
-    "answer_confidence": 0.4,
-    "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
-  },
-  {
-    "phase": "phase-7",
-    "question_id": "MEM-003",
-    "expected_behavior": "answer_with_memory",
-    "actual_response_type": "partial_answer",
-    "failure_type": "unsupported_answer",
-    "citation_confidence": 0.688,
-    "answer_confidence": 0.538,
-    "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak."
-  },
-  {
-    "phase": "phase-7",
     "question_id": "MEM-004",
+    "question": "How long does it usually take?",
     "expected_behavior": "answer_with_memory",
     "actual_response_type": "not_found",
-    "failure_type": "answer_not_generated",
-    "citation_confidence": 0.346,
+    "expected_source_document": [
+      "SALES-002"
+    ],
+    "actual_citations": [],
+    "retrieval_success": 1.0,
+    "citation_confidence": 0.0,
     "answer_confidence": 0.65,
-    "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved."
+    "failure_type": "answer_not_generated",
+    "recommended_fix": "Adjust confidence thresholds or prompting so answerable questions do not downgrade to not-found when supporting sources were retrieved.",
+    "phase": "phase-11",
+    "run_id": "phase11-answer-generation-v5",
+    "run_name": "answer-generation-v5"
   }
 ]

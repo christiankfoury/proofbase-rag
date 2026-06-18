@@ -307,51 +307,104 @@ def _prompt_experiment_runs() -> list[dict[str, Any]]:
         result = json.loads(path.read_text(encoding="utf-8"))
         summary = result["summary"]
         failed_questions = [item["question_id"] for item in result.get("failed_questions", [])]
-        runs.append(
-            {
-                "run_id": summary["experiment_id"],
-                "run_name": summary["run_name"],
-                "phase": summary["phase"],
-                "run_type": "prompt_experiment",
-                "timestamp": result["generated_at"],
-                "retrieval_mode": summary["retrieval_mode"],
-                "chunking_strategy": summary["chunking_strategy"],
-                "top_k": summary["top_k"],
-                "prompt_name": summary["prompt_name"],
-                "prompt_version": summary["prompt_version"],
-                "prompt_status": summary["prompt_status"],
-                "prompt_change_notes": summary["prompt_change_notes"],
-                "model": summary["model"],
-                "temperature": summary["temperature"],
-                "total_questions": summary["question_count"],
-                "metrics": {
-                    "any_source_hit": summary.get("any_source_hit"),
-                    "all_sources_hit": summary.get("all_sources_hit"),
-                    "precision_at_k": summary.get("precision_at_k"),
-                    "mrr": summary.get("mrr"),
-                    "answer_accuracy": summary.get("answer_accuracy"),
-                    "citation_accuracy": summary.get("citation_accuracy"),
-                    "faithfulness": summary.get("faithfulness"),
-                    "hallucination_rate": summary.get("hallucination_rate"),
-                    "response_type_accuracy": summary.get("response_type_accuracy"),
-                    "refusal_accuracy": summary.get("refusal_accuracy"),
-                    "not_found_accuracy": summary.get("not_found_accuracy"),
-                    "clarification_accuracy": summary.get("clarification_accuracy"),
-                    "final_confidence": summary.get("final_confidence"),
-                    "input_tokens": summary.get("input_tokens"),
-                    "output_tokens": summary.get("output_tokens"),
-                    "estimated_cost": summary.get("estimated_cost") or _estimated_cost(
-                        summary.get("model"),
-                        summary.get("input_tokens"),
-                        summary.get("output_tokens"),
-                    ),
-                    "failed_question_count": summary.get("failed_question_count"),
-                },
-                "failed_questions": failed_questions,
-                "notes": summary["prompt_change_notes"],
-            }
-        )
+        question_filter = summary.get("question_filter")
+        run_id = summary["experiment_id"]
+        run_name = summary["run_name"]
+        if question_filter and question_filter != "all":
+            run_id = path.stem
+            run_name = f"{run_name}-{question_filter}"
+        run = {
+            "run_id": run_id,
+            "run_name": run_name,
+            "phase": summary["phase"],
+            "run_type": "prompt_experiment",
+            "timestamp": result["generated_at"],
+            "retrieval_mode": summary["retrieval_mode"],
+            "chunking_strategy": summary["chunking_strategy"],
+            "top_k": summary["top_k"],
+            "prompt_name": summary["prompt_name"],
+            "prompt_version": summary["prompt_version"],
+            "prompt_status": summary["prompt_status"],
+            "prompt_change_notes": summary["prompt_change_notes"],
+            "model": summary["model"],
+            "temperature": summary["temperature"],
+            "total_questions": summary["question_count"],
+            "metrics": {
+                "any_source_hit": summary.get("any_source_hit"),
+                "all_sources_hit": summary.get("all_sources_hit"),
+                "precision_at_k": summary.get("precision_at_k"),
+                "mrr": summary.get("mrr"),
+                "answer_accuracy": summary.get("answer_accuracy"),
+                "citation_accuracy": summary.get("citation_accuracy"),
+                "faithfulness": summary.get("faithfulness"),
+                "hallucination_rate": summary.get("hallucination_rate"),
+                "response_type_accuracy": summary.get("response_type_accuracy"),
+                "refusal_accuracy": summary.get("refusal_accuracy"),
+                "not_found_accuracy": summary.get("not_found_accuracy"),
+                "clarification_accuracy": summary.get("clarification_accuracy"),
+                "final_confidence": summary.get("final_confidence"),
+                "input_tokens": summary.get("input_tokens"),
+                "output_tokens": summary.get("output_tokens"),
+                "estimated_cost": summary.get("estimated_cost") or _estimated_cost(
+                    summary.get("model"),
+                    summary.get("input_tokens"),
+                    summary.get("output_tokens"),
+                ),
+                "failed_question_count": summary.get("failed_question_count"),
+            },
+            "failed_questions": failed_questions,
+            "notes": summary["prompt_change_notes"],
+        }
+        if question_filter is not None:
+            run["question_filter"] = question_filter
+        if summary.get("source_question_count") is not None:
+            run["source_question_count"] = summary.get("source_question_count")
+        runs.append(run)
     return runs
+
+
+def _current_answer_run(runs: list[dict[str, Any]]) -> dict[str, Any] | None:
+    candidates = [
+        run
+        for run in runs
+        if run.get("run_type") == "prompt_experiment"
+        and run.get("question_filter") == "all"
+        and run.get("total_questions") == run.get("source_question_count")
+    ]
+    if not candidates:
+        return None
+    return max(candidates, key=lambda run: run.get("timestamp") or "")
+
+
+def _full_prompt_experiment_runs(runs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        run
+        for run in runs
+        if run.get("run_type") == "prompt_experiment"
+        and run.get("question_filter") in {None, "all"}
+        and (
+            run.get("source_question_count") is None
+            or run.get("total_questions") == run.get("source_question_count")
+        )
+    ]
+
+
+def _prompt_experiment_failed_items(run: dict[str, Any] | None) -> list[dict[str, Any]]:
+    if not run:
+        return []
+    path = PROMPT_EXPERIMENT_DIR / f"{run['run_id']}.json"
+    if not path.exists():
+        return []
+    result = json.loads(path.read_text(encoding="utf-8"))
+    return [
+        {
+            **item,
+            "phase": run["phase"],
+            "run_id": run["run_id"],
+            "run_name": run["run_name"],
+        }
+        for item in result.get("failed_questions", [])
+    ]
 
 
 def _multi_doc_comparison() -> dict[str, Any]:
@@ -397,15 +450,32 @@ def _prompt_comparison() -> dict[str, Any]:
     return json.loads(PROMPT_COMPARISON_PATH.read_text(encoding="utf-8"))
 
 
-def _overview(runs: list[dict[str, Any]]) -> dict[str, Any]:
+def _overview(runs: list[dict[str, Any]], current_answer_run: dict[str, Any] | None) -> dict[str, Any]:
     by_id = {run["run_id"]: run for run in runs}
     retrieval = by_id.get("phase6-vector-section", {})
     answer = by_id.get("phase7-answer-quality", {})
     permissions = by_id.get("phase8-permission-safety", {})
     memory = by_id.get("phase9-memory", {})
+    current_failed_count = len(current_answer_run.get("failed_questions") or []) if current_answer_run else len(
+        answer.get("failed_questions") or []
+    )
     return {
         "best_retrieval_run": "vector-section",
         "retrieval_conclusion": "Hybrid did not clearly outperform vector-only retrieval; vector-section remained best overall.",
+        "current_answer_run_id": current_answer_run.get("run_id") if current_answer_run else answer.get("run_id"),
+        "current_failed_question_count": current_failed_count,
+        "progress_summary": {
+            "improved": [
+                "Permission tests reached zero leakage.",
+                "Memory follow-up tests reached full accuracy.",
+                "Chat-generation cost tracking is implemented.",
+            ],
+            "still_needs_work": [
+                "Hybrid retrieval still did not beat vector-only overall.",
+                f"{current_failed_count} failed-question cases remain in the current improvement backlog.",
+                "Embedding, infrastructure, cached-input, and batch cost modeling remain pending.",
+            ],
+        },
         "headline_metrics": {
             "retrieval_hit_rate": retrieval.get("metrics", {}).get("all_sources_hit"),
             "precision_at_k": retrieval.get("metrics", {}).get("precision_at_k"),
@@ -425,7 +495,7 @@ def _comparisons(runs: list[dict[str, Any]]) -> dict[str, Any]:
     hybrid = by_id.get("phase6-hybrid-section-0.5")
     keyword = by_id.get("phase6-keyword-section")
     fixed = by_id.get("phase6-vector-fixed-size")
-    prompt_runs = [run for run in runs if run["run_type"] == "prompt_experiment"]
+    prompt_runs = _full_prompt_experiment_runs(runs)
     comparisons = {
         "baseline_vs_current": {
             "baseline": "phase6-vector-section",
@@ -489,14 +559,19 @@ def main() -> None:
         raise SystemExit(f"Expected {EXPECTED_RUN_COUNT} dashboard runs, found {len(runs)}.")
     runs.extend(_prompt_experiment_runs())
 
-    failed_questions = _failed_items(phase7_failed, "phase-7") + _failed_items(phase9_failed, "phase-9")
+    current_answer_run = _current_answer_run(runs)
+    failed_questions = (
+        _prompt_experiment_failed_items(current_answer_run)
+        if current_answer_run
+        else _failed_items(phase7_failed, "phase-7") + _failed_items(phase9_failed, "phase-9")
+    )
     prompt_comparison = _prompt_comparison()
     multi_doc_comparison = _multi_doc_comparison()
     dashboard = {
         "generated_at": datetime.now(UTC).isoformat(),
-        "source": "docs/phase-6 through docs/phase-13",
+        "source": "docs/phase-6 through docs/phase-16",
         "runs": runs,
-        "overview": _overview(runs),
+        "overview": _overview(runs, current_answer_run),
         "comparisons": _comparisons(runs),
         "prompt_comparison": prompt_comparison,
         "multi_doc_comparison": multi_doc_comparison,

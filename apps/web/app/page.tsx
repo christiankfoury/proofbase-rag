@@ -8,6 +8,18 @@ import Link from "next/link";
 export default async function OverviewPage() {
   const data = await getDashboardData();
   const metrics = data.overview.headline_metrics;
+  const progressSummary = data.overview.progress_summary ?? {
+    improved: [
+      "Permission tests reached zero leakage.",
+      "Memory follow-up tests reached full accuracy.",
+      "Chat-generation cost tracking is implemented.",
+    ],
+    still_needs_work: [
+      "Hybrid retrieval still did not beat vector-only overall.",
+      `${data.overview.current_failed_question_count ?? data.failed_questions.length} failed-question cases remain in the current improvement backlog.`,
+      "Embedding, infrastructure, cached-input, and batch cost modeling remain pending.",
+    ],
+  };
 
   return (
     <Shell>
@@ -61,17 +73,17 @@ export default async function OverviewPage() {
             <div>
               <p className="font-medium text-moss">Improved</p>
               <ul className="mt-2 space-y-2 text-sm text-stone-700">
-                <li>Permission tests reached zero leakage.</li>
-                <li>Memory follow-up tests reached full accuracy.</li>
-                <li>Evaluation data is now comparable across phases.</li>
+                {progressSummary.improved.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
               </ul>
             </div>
             <div>
               <p className="font-medium text-rust">Still Needs Work</p>
               <ul className="mt-2 space-y-2 text-sm text-stone-700">
-                <li>Hybrid retrieval did not beat vector-only overall.</li>
-                <li>13 failed-question cases remain in the improvement backlog.</li>
-                <li>Cost tracking is still pending.</li>
+                {progressSummary.still_needs_work.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
               </ul>
             </div>
           </div>

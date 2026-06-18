@@ -329,10 +329,17 @@ def evaluation_failed_questions() -> dict:
 
 @app.get("/evaluation/failed-questions/enriched")
 def evaluation_failed_questions_enriched() -> dict:
+    data = _load_dashboard_data()
+    current_run_id = data.get("overview", {}).get("current_answer_run_id")
     benchmark_by_id = _load_benchmark_by_id()
     failed_items = _load_failed_items()
     detailed_rows: dict[str, dict] = {}
-    for run_id in ("phase11-answer-generation-v3", "phase11-answer-generation-v1"):
+    run_ids = [
+        run_id
+        for run_id in (current_run_id, "phase11-answer-generation-v3", "phase11-answer-generation-v1")
+        if run_id
+    ]
+    for run_id in dict.fromkeys(run_ids):
         rows, _ = _load_run_rows(run_id)
         for row in rows:
             if row.get("question_id") and row["question_id"] not in detailed_rows:
@@ -343,7 +350,7 @@ def evaluation_failed_questions_enriched() -> dict:
         question_id = item.get("question_id")
         benchmark = benchmark_by_id.get(question_id, {})
         row = detailed_rows.get(question_id, {})
-        citations = row.get("citations") or []
+        citations = row.get("citations") or item.get("actual_citations") or []
         failures.append(
             {
                 **item,
