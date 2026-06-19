@@ -40,9 +40,11 @@ values (
 on conflict (seeded_data_key) do update set
   name = excluded.name,
   description = excluded.description,
+  status = excluded.status,
   default_retrieval_profile = excluded.default_retrieval_profile,
   quality_status = excluded.quality_status,
   quality_summary = excluded.quality_summary,
+  archived_at = null,
   updated_at = now();
 
 create table if not exists documents (
