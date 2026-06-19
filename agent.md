@@ -42,10 +42,15 @@ The agent should work in a strict loop:
 1. Plan.
 2. Implement.
 3. Verify.
-4. Commit to main.
+4. Commit to main with a detailed commit message.
 5. Review the commit.
 6. Perform a code review.
-7. Repeat.
+7. Push main.
+8. Repeat.
+
+Continue implementing roadmap phases sequentially until all listed phases are complete, the user stops the loop, or a true blocker is reached. Do not stop after one phase merely because the phase was committed; update progress as part of the phase commit, complete the review, push, then continue to the next phase.
+
+Track durable progress in `docs/roadmap/progress.md`. At the start of each phase, read that file together with `docs/roadmap/phase-plan.md` and the latest `docs/phase-*` notes to confirm the current phase, completed phases, verification status, commit references, and next step. Update the progress tracker during each phase before committing. If the tracker conflicts with repository evidence, inspect the repo history and phase docs, then repair the tracker as part of the phase.
 
 ## Operating Autonomy
 
@@ -149,7 +154,13 @@ Before committing:
 - inspect changed files
 - stage only intentional files
 - avoid committing `.env`, runtime logs, secrets, or unrelated user changes
-- write a concrete commit message
+- write a detailed commit message that explains the product change, engineering change, verification performed, and any known limitation or skipped check
+
+Use a multi-part commit message for phase work, for example:
+
+```powershell
+git commit -m "Add document library workspace" -m "Product: adds the department document library surface and document status metadata." -m "Engineering: adds the ingestion job model and links seeded corpus documents into department views." -m "Verification: ran API compile checks and web build; skipped OpenAI-backed ingestion because no new embeddings were required."
+```
 
 If the current branch is not `main`, ask before switching, merging, or committing directly to another branch.
 
@@ -184,7 +195,24 @@ Perform a self-review in code-review mode:
 
 If review finds issues, fix them in a follow-up commit or clearly document the unresolved risk.
 
-### 7. Loop
+### 7. Push Main
+
+After commit review and code review are complete, push `main` to its upstream remote unless the user has explicitly asked not to push or the review found an unresolved issue that should not leave the machine.
+
+Before pushing:
+
+- run `git status --short --branch`
+- confirm the working tree is clean
+- confirm `main` is the current branch
+- confirm the local commit is the intended work
+
+After pushing:
+
+- run `git status --short --branch`
+- confirm `main` is aligned with `origin/main`
+- note any push failure or remote divergence clearly
+
+### 8. Loop
 
 After review, choose the next highest-value phase from the roadmap. Prefer work that makes the application more presentable while strengthening measured RAG quality.
 
@@ -232,6 +260,7 @@ Ask before implementing when the answer affects:
 - Future product plan: `docs/roadmap/app-admin-roadmap.md`
 - Feature use cases: `docs/roadmap/feature-use-cases.md`
 - Future phases: `docs/roadmap/phase-plan.md`
+- Roadmap progress tracker: `docs/roadmap/progress.md`
 - Current demo guide: `docs/demo/interactive-demo-guide.md`
 - Current failure analysis: `docs/phase-17/failed-question-cause-analysis.md`
 - Main API entrypoint: `apps/api/app/main.py`

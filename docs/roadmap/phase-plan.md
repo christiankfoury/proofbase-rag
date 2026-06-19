@@ -6,6 +6,8 @@ These phases are documentation targets until implementation begins. Each impleme
 
 The numbering starts after the existing Phase 17 work.
 
+Use `docs/roadmap/progress.md` as the durable phase tracker. Before starting work, confirm the current phase there. Before committing a phase, update the tracker with status, verification, commit references if already known, skipped checks, and the next expected phase.
+
 Agents should plan internally and execute without waiting for user approval unless a decision is genuinely blocking, risky, costly, irreversible, or changes product direction. Use the recruiter-demo and engineering-manager review lens from `agent.md`: make the App side feel like a real product while keeping Dev/Admin proof honest and measurable.
 
 Default assumptions for future phases:
