@@ -1,24 +1,25 @@
 # Enterprise Knowledge Agent
 
-Enterprise Knowledge Agent is a portfolio-grade enterprise RAG system that simulates a secure internal company assistant. Employees can ask questions across synthetic HR, IT/security, sales, manager, HR admin, and IT admin documents and receive cited, permission-aware answers.
+Enterprise Knowledge Agent is a portfolio-grade enterprise RAG system that simulates a secure internal company assistant. Users work inside project and department knowledge spaces, ask scoped questions across synthetic HR, IT/security, sales, manager, HR admin, and IT admin documents, and receive cited, permission-aware answers.
 
-This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, a 60-question benchmark, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
+This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, project workspaces, department document libraries, PDF-to-Markdown review uploads, scoped retrieval, a 60-question benchmark, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, human review workflows, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
 
 ## Recruiter Summary
 
-Built an enterprise RAG knowledge assistant with PostgreSQL/pgvector retrieval, OpenAI generation, cited answers, RBAC enforcement, benchmark-driven evaluation, live observability, Docker packaging, and Azure-ready deployment planning.
+Built an enterprise RAG knowledge assistant with project workspaces, department document libraries, PostgreSQL/pgvector retrieval, OpenAI generation, cited answers, RBAC enforcement, benchmark-driven evaluation, human review, live observability, Docker packaging, and Azure-ready deployment planning.
 
 The main portfolio story:
 
-> Baseline RAG was measured, weaknesses were identified, retrieval and prompting were improved, and the final system demonstrates enterprise-grade controls around citations, permissions, evaluation, memory, observability, and deployment readiness.
+> Baseline RAG was measured, weaknesses were identified, retrieval and prompting were improved, and the final system demonstrates an App-side knowledge workspace backed by enterprise-grade controls around citations, permissions, evaluation, memory, observability, human review, and deployment readiness.
 
 ## Why This Is Not A Basic Chatbot
 
 - Evaluation-first: a 60-question benchmark measures retrieval, answer quality, citations, permissions, memory, missing information, and multi-document reasoning.
+- Product-shaped: projects, departments, document libraries, PDF extraction review, and scoped assistant controls make the demo feel like a real internal app.
 - Permission-aware: restricted documents are filtered before generation, and permission leakage is evaluated separately.
 - Citation-focused: generated answers include citations and citation validation.
 - Measured iteration: vector, keyword, hybrid, prompt, memory, and multi-document changes are compared with real metrics.
-- Demo-ready: the project includes a Next.js evaluation dashboard, Docker Compose stack, health/readiness endpoints, smoke tests, and Azure-ready docs.
+- Demo-ready: the project includes a Next.js App and Dev/Admin UI, Docker Compose stack, health/readiness endpoints, smoke tests, and Azure-ready docs.
 - Honest limitations: synthetic data, no production auth yet, chat-generation cost estimation only, and remaining multi-document retrieval misses are documented.
 
 ## Key Features
@@ -34,7 +35,7 @@ The main portfolio story:
 - Permission leakage evaluation.
 - Session-level conversation memory and query rewriting.
 - Prompt versioning and prompt experiment tracking.
-- Feedback collection and feedback-to-evaluation workflow.
+- Feedback collection, failed-question review, and feedback-to-evaluation workflow.
 - Observability request logs and live observability dashboard.
 - Audit logs for security-relevant events.
 - Evaluation dashboard with run comparison, failed questions, prompt experiments, permissions, memory, and multi-document views.
@@ -88,7 +89,7 @@ flowchart LR
   Audit --> Web
 ```
 
-The backend owns ingestion, retrieval, permissions, memory, answer generation, citations, confidence scoring, feedback, observability, audit logs, and evaluation APIs. The frontend is an evaluation and operations dashboard, not a marketing site.
+The backend owns ingestion, retrieval, permissions, memory, answer generation, citations, confidence scoring, feedback, observability, audit logs, and evaluation APIs. The frontend is split into an App surface for projects, departments, document libraries, and scoped chat, plus a Dev/Admin surface for evaluation and operations proof.
 
 More detail:
 
@@ -251,16 +252,18 @@ The `/chat` page is a recruiter/demo UI over the existing API. It is not product
 
 Screenshots to capture:
 
-- App Home.
+- App Home with the five-minute demo path.
 - Project workspace for `Northstar Analytics`.
-- Department workspace for a seeded Northstar department.
-- Retrieval comparison.
+- Department workspace for a seeded Northstar department with document library and Markdown preview.
+- Chat demo response with project scope, citations, confidence, latency, and retrieved context.
+- Algorithm Quality Lab with profile comparison and known failure visibility.
+- Failed-question or feedback review with answer/citation labels.
+- Deep retrieval comparison.
 - Permission safety page.
 - Memory evaluation page.
 - Multi-document comparison page.
 - Observability page.
 - Audit page.
-- Chat demo response with citations and retrieved context.
 - Permission refusal example.
 
 See [Screenshots Checklist](docs/demo/screenshots-checklist.md).
@@ -273,7 +276,7 @@ Create a local `.env` file and add your OpenAI key:
 Copy-Item .env.example .env
 ```
 
-Start Postgres with pgvector, FastAPI, and the Next.js dashboard:
+Start Postgres with pgvector, FastAPI, and the Next.js App and Dev/Admin UI:
 
 ```powershell
 docker compose up --build
@@ -281,7 +284,7 @@ docker compose up --build
 
 Open:
 
-- Dashboard: `http://localhost:3000`
+- App and Dev/Admin UI: `http://localhost:3000`
 - API: `http://localhost:8000`
 - API health: `http://localhost:8000/health`
 - API readiness: `http://localhost:8000/ready`
@@ -369,7 +372,7 @@ Open the dashboard after exporting data.
 - Use Azure Database for PostgreSQL with pgvector.
 - Add production auth with Clerk or Auth.js.
 - Persist raw documents and durable logs in Azure Blob Storage.
-- Add PDF and DOCX ingestion.
+- Add uploaded-document approval, indexing, and DOCX ingestion.
 - Add review approval and indexing for uploaded PDF Markdown.
 - Add project-scoped benchmark runs and promotion gates.
 - Add real enterprise connectors.
@@ -407,6 +410,7 @@ Phase artifacts are preserved for review:
 - [Phase 23](docs/phase-23/project-scoped-rag-design.md): project- and department-scoped retrieval.
 - [Phase 24](docs/phase-24/algorithm-quality-lab-design.md): named retrieval profiles and algorithm review workflow.
 - [Phase 25](docs/phase-25/result-verification-review-design.md): human review labels for failed questions and feedback-derived candidates.
+- [Phase 26](docs/phase-26/recruiter-presentation-polish.md): recruiter presentation polish, five-minute demo path, screenshot checklist, and limitations alignment.
 
 ## Final Portfolio Description
 

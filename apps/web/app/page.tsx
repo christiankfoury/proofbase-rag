@@ -26,6 +26,37 @@ const proofPoints = [
   "Dev/Admin views for failures, observability, feedback, cost, and audit events.",
 ];
 
+const demoPath = [
+  {
+    step: "1",
+    title: "Open Northstar Analytics",
+    detail: "Start from Projects to show a durable workspace with seeded departments and quality status.",
+    href: "/projects",
+    action: "Projects",
+  },
+  {
+    step: "2",
+    title: "Inspect Department Knowledge",
+    detail: "Open a department document library to review indexed sources, role metadata, and PDF extraction review.",
+    href: "/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001",
+    action: "Department",
+  },
+  {
+    step: "3",
+    title: "Ask With Scope",
+    detail: "Use the assistant with project, department, and role controls before checking citations and retrieved context.",
+    href: "/chat",
+    action: "Assistant",
+  },
+  {
+    step: "4",
+    title: "Prove The Controls",
+    detail: "Move to Dev/Admin for algorithm comparison, failed-question review, permission safety, and audit evidence.",
+    href: "/dev-admin",
+    action: "Dev/Admin",
+  },
+];
+
 export default function AppHomePage() {
   return (
     <Shell>
@@ -94,7 +125,28 @@ export default function AppHomePage() {
 
       <section className="mt-8">
         <SectionHeading
-          title="App Capability Roadmap"
+          title="Five-Minute Demo Path"
+          description="The first screen now leads with the App workflow, then hands off to the engineering proof without requiring terminal commands for the main story."
+        />
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {demoPath.map((item) => (
+            <Card key={item.step} padding="compact" className="flex h-full flex-col justify-between">
+              <div>
+                <span className="badge-info">{item.step}</span>
+                <p className="mt-3 font-semibold text-ink">{item.title}</p>
+                <p className="mt-2 text-sm leading-6 text-stone-700">{item.detail}</p>
+              </div>
+              <Link href={item.href} className="btn-secondary btn-sm mt-4 self-start">
+                {item.action}
+              </Link>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-8">
+        <SectionHeading
+          title="Implemented App Capabilities"
           description="Projects, departments, indexed document review, PDF extraction, and scoped retrieval are implemented; upload approval/indexing remains a planned phase."
         />
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

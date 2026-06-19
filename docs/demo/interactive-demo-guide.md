@@ -12,6 +12,15 @@ docker compose run --rm api python scripts/ingest_markdown.py --apply-schema --c
 
 Open `http://localhost:3000`.
 
+## Five-Minute Presentation Path
+
+1. Open `/` and follow the four-step demo path.
+2. Open `/projects`, then select `Northstar Analytics`.
+3. Open a seeded department and inspect document inventory, access roles, active version metadata, PDF extraction, and Markdown preview.
+4. Open `/chat`, ask a scoped question, and show citations plus retrieved context.
+5. Open `/dev-admin/retrieval-playground` to compare algorithm profiles and known failures.
+6. Open `/dev-admin/failed-questions` or `/dev-admin/feedback` to show human review labels without claiming automatic benchmark promotion.
+
 ## Pages To Show
 
 | Page | URL | What it demonstrates |
@@ -93,6 +102,7 @@ Open `http://localhost:3000`.
 - Projects are durable workspaces, and `/chat` sends the selected project scope to retrieval.
 - Department workspaces include document libraries and PDF-to-Markdown review uploads. `/chat` can strictly narrow retrieval to one department inside the selected project.
 - Uploaded PDFs are extracted for review only; approval, chunking, embeddings, and retrieval indexing remain future work.
+- Human review labels are persisted for failed questions and negative feedback, but approved candidates are not exported into benchmark JSON automatically yet.
 - Metrics and benchmark details come from existing evaluation JSON and Markdown outputs.
 - Querying requires `OPENAI_API_KEY`.
 - Retrieved context only shows chunks returned by the permission-filtered query API.

@@ -8,6 +8,24 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { getDashboardData } from "@/lib/dashboard";
 import Link from "next/link";
 
+const proofPath = [
+  {
+    title: "Algorithm comparison",
+    detail: "Named profiles show historical metrics, live source coverage, citations, latency, cost signals, and review notes.",
+    href: "/dev-admin/retrieval-playground",
+  },
+  {
+    title: "Failure inspection",
+    detail: "Failed benchmark questions keep expected answers, actual answers, citations, root causes, fixes, and human review labels together.",
+    href: "/dev-admin/failed-questions",
+  },
+  {
+    title: "Permission safety",
+    detail: "Role-restricted questions demonstrate that unauthorized chunks do not reach generation.",
+    href: "/dev-admin/permission-safety",
+  },
+];
+
 export default async function OverviewPage() {
   const data = await getDashboardData();
   const metrics = data.overview.headline_metrics;
@@ -52,6 +70,30 @@ export default async function OverviewPage() {
           </>
         }
       />
+      <section className="mb-8 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <Card>
+          <SectionHeading
+            title="Proof Without Hiding Failures"
+            description="Dev/Admin is the evidence layer behind the App demo: benchmark outputs, known misses, review decisions, and audit trails stay visible."
+          />
+          <p className="text-sm leading-6 text-stone-700">
+            The App side shows a usable project workspace. This surface shows whether the assistant is safe enough to trust, where it still fails, and what evidence supports any retrieval or prompt change.
+          </p>
+        </Card>
+        <div className="grid gap-4 md:grid-cols-3">
+          {proofPath.map((item) => (
+            <Card key={item.title} padding="compact" className="flex h-full flex-col justify-between">
+              <div>
+                <p className="font-semibold text-ink">{item.title}</p>
+                <p className="mt-2 text-sm leading-6 text-stone-700">{item.detail}</p>
+              </div>
+              <Link href={item.href} className="btn-secondary btn-sm mt-4 self-start">
+                Open
+              </Link>
+            </Card>
+          ))}
+        </div>
+      </section>
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <MetricCard
           label="Source Recall"

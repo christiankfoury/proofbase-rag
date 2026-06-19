@@ -29,8 +29,14 @@ If a check is skipped because it calls OpenAI, document that clearly.
 ## Dashboard Verification
 
 - [ ] Open `/`.
+- [ ] Open `/projects`.
+- [ ] Open a seeded `Northstar Analytics` project.
+- [ ] Open a seeded department document library.
 - [ ] Open `/chat`.
 - [ ] Open `/dev-admin`.
+- [ ] Open `/dev-admin/retrieval-playground`.
+- [ ] Open `/dev-admin/failed-questions` and verify review controls render.
+- [ ] Open `/dev-admin/feedback` and verify review controls render.
 - [ ] Open `/dev-admin/retrieval-experiments`.
 - [ ] Open `/dev-admin/permission-safety`.
 - [ ] Open `/dev-admin/memory-evaluation`.
@@ -55,7 +61,10 @@ docker compose run --rm api python scripts/export_dashboard_data.py
 
 - [ ] README explains what the project is in the first screen.
 - [ ] Final metrics use real numbers only.
-- [ ] Demo script has exact questions and expected behavior.
+- [ ] Demo script can be completed in roughly five minutes.
+- [ ] Demo script has exact questions, expected behavior, and honest limitations.
 - [ ] Resume bullets are copied into the resume or project page.
 - [ ] Screenshots are captured and reviewed.
 - [ ] Known limitations and roadmap are visible.
+- [ ] Uploaded PDF screenshots do not imply approval/indexing is complete.
+- [ ] Human review screenshots do not imply automatic benchmark promotion is complete.

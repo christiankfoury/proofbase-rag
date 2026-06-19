@@ -6,10 +6,10 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-- Current phase: Phase 26, Recruiter Presentation Polish.
-- Last completed phase: Phase 25, Result Verification And Human Review.
-- Last verification focus: failed-question and feedback review UI, review persistence API import, web build, and Docker Compose config.
-- Next expected work: align App, Dev/Admin, README, demo guide, screenshots, and limitations for recruiter presentation.
+- Current phase: Phase 27, Auth And Deployment Readiness.
+- Last completed phase: Phase 26, Recruiter Presentation Polish.
+- Last verification focus: App and Dev/Admin presentation build, Docker Compose config, five-minute demo script review, and claims review.
+- Next expected work: decide the safest local-auth/deployment-readiness slice without claiming production SSO or changing the permission model prematurely.
 
 ## Phase Status
 
@@ -23,9 +23,9 @@ Update this tracker before committing each phase. Keep entries factual: record w
 | 22: PDF And Document Extraction Pipeline | Complete | `fcbab93` | Targeted Python compile, API import, PDF extractor import, generated sample PDF extraction, web production build, and `docker compose config --quiet` passed. Live multipart upload against Postgres and OpenAI-backed ingestion/eval were skipped. | Added PDF-only upload, deterministic Markdown extraction, local raw file storage, pending-review document versions, and no-index-before-review behavior. |
 | 23: Project-Scoped RAG | Complete | `2a26183` | Targeted Python compile, API import, web production build, and `docker compose config --quiet` passed. Live scoped query checks against Postgres and OpenAI-backed evals were skipped. | Added strict project and optional department scope to query retrieval, response payloads, observability, and the `/chat` App surface while preserving global Dev/Admin query behavior. |
 | 24: Algorithm Quality Lab | Complete | `e9df2e3` | Targeted API compile, API import, web production build, and `docker compose config --quiet` passed. Live review-note POST against Postgres and full OpenAI-backed evals were skipped. | Reworked retrieval playground into a named-profile quality lab with historical metrics, live source/citation coverage, known failure visibility, cost/latency signals, and audit-backed review notes. |
-| 25: Result Verification And Human Review | Complete | Pending | Targeted Python compile, API import, web production build, and `docker compose config --quiet` passed. Live review-save checks against Postgres and candidate-based evaluation reruns were skipped. | Added persisted human review decisions for failed questions and negative feedback with answer/citation labels, candidate decisions, and audit events without auto-promoting benchmark changes. |
-| 26: Recruiter Presentation Polish | Next | Pending | Pending | Align App, Dev/Admin, README, demo guide, screenshots, and limitations. |
-| 27: Auth And Deployment Readiness | Planned | Pending | Pending | Move toward production-shaped auth, membership, permissions, and deployment readiness. |
+| 25: Result Verification And Human Review | Complete | `4081465` | Targeted Python compile, API import, web production build, and `docker compose config --quiet` passed. Live review-save checks against Postgres and candidate-based evaluation reruns were skipped. | Added persisted human review decisions for failed questions and negative feedback with answer/citation labels, candidate decisions, and audit events without auto-promoting benchmark changes. |
+| 26: Recruiter Presentation Polish | Complete | Pending | Web production build and `docker compose config --quiet` passed. Demo script five-minute review and claims review passed by document inspection. Live screenshots and live `/chat` queries were skipped. | Added first-screen demo path, Dev/Admin proof framing, aligned README/demo/case-study/screenshot/checklist docs, and kept limitations explicit. |
+| 27: Auth And Deployment Readiness | Next | Pending | Pending | Move toward production-shaped auth, membership, permissions, and deployment readiness. |
 
 ## Update Rules
 

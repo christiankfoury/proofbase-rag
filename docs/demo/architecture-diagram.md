@@ -6,10 +6,12 @@ The architecture diagram should make it clear that this is an evaluated enterpri
 
 Include:
 
-- Next.js dashboard.
+- Next.js App and Dev/Admin UI.
 - FastAPI backend.
 - PostgreSQL with pgvector.
 - Markdown ingestion pipeline.
+- Project workspaces and department document libraries.
+- PDF-to-Markdown review uploads.
 - Section-based chunking.
 - OpenAI embeddings.
 - Vector, keyword, and hybrid retrieval experiments.
@@ -18,7 +20,7 @@ Include:
 - Citation validation and confidence scoring.
 - Session memory and query rewriting.
 - Evaluation runner and benchmark data.
-- Feedback, observability, and audit logs.
+- Feedback, human review, observability, and audit logs.
 - Docker Compose local stack.
 - Azure-ready deployment targets.
 
@@ -31,8 +33,11 @@ flowchart LR
   Chunker --> Embeddings[OpenAI Embeddings]
   Embeddings --> DB[(PostgreSQL + pgvector)]
 
-  User[Reviewer / Demo User] --> Web[Next.js Evaluation Dashboard]
+  User[Reviewer / Demo User] --> Web[Next.js App + Dev/Admin UI]
   Web --> API[FastAPI Backend]
+
+  API --> Projects[Projects + Departments]
+  Projects --> DB
 
   API --> Memory[Session Memory + Query Rewrite]
   Memory --> Retrieve[Vector / Keyword / Hybrid Retrieval]
@@ -44,6 +49,7 @@ flowchart LR
   Validation --> API
 
   API --> Feedback[Feedback Store]
+  API --> Reviews[Human Review Decisions]
   API --> Audit[Audit Logs]
   API --> Logs[Observability JSONL]
 
@@ -51,6 +57,7 @@ flowchart LR
   Eval --> Retrieve
   Eval --> Reports[Evaluation Reports + JSON]
   Reports --> Web
+  Reviews --> Web
   Logs --> Web
   Audit --> Web
 
@@ -70,4 +77,4 @@ flowchart LR
 
 ## Suggested Caption
 
-> Enterprise Knowledge Agent uses a FastAPI RAG backend, PostgreSQL/pgvector retrieval, role-based permission filtering, OpenAI generation, citation validation, and a Next.js evaluation dashboard. The system is evaluated with a 60-question benchmark and packaged with Docker for local demos and Azure-ready deployment planning.
+> Enterprise Knowledge Agent uses a FastAPI RAG backend, PostgreSQL/pgvector retrieval, role-based permission filtering, OpenAI generation, citation validation, and a Next.js App plus Dev/Admin UI. The system is evaluated with a 60-question benchmark and packaged with Docker for local demos and Azure-ready deployment planning.

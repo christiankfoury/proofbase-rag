@@ -2,7 +2,7 @@
 
 ## Concise Bullets
 
-- Built a Dockerized enterprise RAG assistant with FastAPI, Next.js, PostgreSQL/pgvector, OpenAI APIs, RBAC, citations, observability, and Azure-ready deployment docs.
+- Built a Dockerized enterprise RAG assistant with project workspaces, department document libraries, FastAPI, Next.js, PostgreSQL/pgvector, OpenAI APIs, RBAC, citations, observability, and Azure-ready deployment docs.
 - Created a 60-question benchmark and evaluation dashboard measuring retrieval, answer accuracy, citation accuracy, permission leakage, memory, and multi-document reasoning.
 - Improved multi-document answer accuracy from `0.700` to `0.850` and citation accuracy from `0.750` to `0.900` while documenting remaining hallucination tradeoffs.
 
@@ -16,8 +16,8 @@
 
 ## Short Project Description
 
-Enterprise Knowledge Agent is a full-stack enterprise RAG portfolio project that demonstrates secure retrieval, role-based permissions, citation-grounded answer generation, benchmark-driven iteration, observability, Dockerized local deployment, and Azure-ready architecture.
+Enterprise Knowledge Agent is a full-stack enterprise RAG portfolio project that demonstrates project-scoped knowledge workspaces, secure retrieval, role-based permissions, citation-grounded answer generation, benchmark-driven iteration, human review, observability, Dockerized local deployment, and Azure-ready architecture.
 
 ## Longer Project Description
 
-Enterprise Knowledge Agent simulates a secure internal company AI assistant over synthetic HR, IT/security, sales, manager, HR admin, and IT admin documents. The project goes beyond a PDF chatbot by adding a 60-question benchmark, retrieval experiments, citation validation, confidence scoring, role-based permissions, permission leakage evaluation, session memory, prompt versioning, feedback, observability, audit logs, multi-document reasoning, a Next.js evaluation dashboard, Dockerized local setup, smoke tests, CI, and Azure-ready deployment documentation. Final measured results include `0.975` all-sources retrieval hit, `0.829` answer accuracy, `0.857` citation accuracy, `0.000` permission leakage, `1.000` memory answer accuracy, and multi-document answer accuracy improvement from `0.700` to `0.850`.
+Enterprise Knowledge Agent simulates a secure internal company AI assistant over synthetic HR, IT/security, sales, manager, HR admin, and IT admin documents. The project goes beyond a PDF chatbot by adding project workspaces, department document libraries, scoped retrieval, PDF-to-Markdown review uploads, a 60-question benchmark, retrieval experiments, citation validation, confidence scoring, role-based permissions, permission leakage evaluation, session memory, prompt versioning, feedback, human review, observability, audit logs, multi-document reasoning, a Next.js App and Dev/Admin UI, Dockerized local setup, smoke tests, CI, and Azure-ready deployment documentation. Final measured results include `0.975` all-sources retrieval hit, `0.829` answer accuracy, `0.857` citation accuracy, `0.000` permission leakage, `1.000` memory answer accuracy, and multi-document answer accuracy improvement from `0.700` to `0.850`.

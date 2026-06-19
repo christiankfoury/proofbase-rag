@@ -1,6 +1,6 @@
 # Enterprise Knowledge Agent Demo Script
 
-This demo is designed for recruiters and engineering interviewers. It uses the existing Next.js dashboard plus API calls because the current project does not include a polished end-user chat UI.
+This five-minute demo is designed for recruiters and engineering interviewers. Lead with the App side, then move into Dev/Admin proof for quality, permissions, failures, and operations.
 
 ## Setup
 
@@ -19,233 +19,167 @@ docker compose run --rm api python scripts/ingest_markdown.py --apply-schema --c
 
 Open:
 
-- Dashboard: `http://localhost:3000`
+- App: `http://localhost:3000`
 - API health: `http://localhost:8000/health`
 - API readiness: `http://localhost:8000/ready`
 
 If port `3000` is busy, set `WEB_PORT=3001` and open `http://localhost:3001`.
 
-## Scene 1: Evaluation Dashboard Overview
+## Scene 1: App Home And Demo Path
 
-Open: `http://localhost:3000`
+Open: `/`
 
 Point out:
 
-- This is an evaluation dashboard, not a marketing page.
-- The system is measured across retrieval, answers, citations, permissions, hallucination, and memory.
-- Headline metrics are exported from real benchmark outputs.
+- The first screen is a product workspace, not a metrics wall.
+- The four-step demo path goes from project workspace to department knowledge, scoped assistant, and Dev/Admin proof.
+- The App side is intentionally separate from Dev/Admin evaluation and operations.
 
-Expected recruiter takeaway:
+Expected takeaway:
 
-> This project was built like an evaluated enterprise AI system, not a one-off chatbot.
+> This is presented as an internal knowledge product with measurable engineering controls behind it.
 
-## Scene 2: Normal HR Question With Citations
+## Scene 2: Project Workspace
 
-Role: `Employee`
+Open: `/projects`
 
-Question:
+Select the seeded `Northstar Analytics` project.
 
-```text
-Where does Northstar Analytics have offices?
-```
+Point out:
 
-Command:
-
-```powershell
-Invoke-WebRequest -Uri http://localhost:8000/query -Method POST `
-  -ContentType "application/json" -UseBasicParsing `
-  -Body '{"question":"Where does Northstar Analytics have offices?","user_role":"Employee","retrieval_mode":"vector_only","chunking_strategy":"section_based"}'
-```
+- Projects are durable knowledge workspaces.
+- The seeded project maps the synthetic enterprise corpus into departments.
+- Workspace quality and document coverage are visible before asking questions.
 
 Expected behavior:
 
-- `response_type` is `answer`.
-- Answer cites `HR-001`.
-- Response includes `final_confidence`, citations, and retrieved chunks.
+- `Northstar Analytics` appears as seeded demo data.
+- The project detail page shows departments, document counts, and project-scoped assistant entry points.
+
+## Scene 3: Department Document Library
+
+Open a seeded department, for example:
+
+`/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001`
 
 Point out:
 
-- The system answers from retrieved evidence.
-- Citations are structured, not just free-text footnotes.
-- The response includes confidence and retrieval metadata for debugging.
-
-## Scene 3: Permission Refusal As Employee
-
-Role: `Employee`
-
-Question:
-
-```text
-What is the promotion calibration process?
-```
-
-Command:
-
-```powershell
-Invoke-WebRequest -Uri http://localhost:8000/query -Method POST `
-  -ContentType "application/json" -UseBasicParsing `
-  -Body '{"question":"What is the promotion calibration process?","user_role":"Employee","retrieval_mode":"vector_only","chunking_strategy":"section_based"}'
-```
+- Department workspaces have icons, descriptions, access defaults, and document inventories.
+- Indexed corpus documents show roles, status, active version metadata, and extracted Markdown preview.
+- PDF upload creates reviewable Markdown, but uploaded files are not indexed until a future approval/indexing step.
 
 Expected behavior:
 
-- `response_type` is `refuse_no_access`.
-- `permission_check.unauthorized_chunks_reached_generation` is `false`.
-- Restricted manager-only chunks do not reach generation.
+- The document library shows seeded indexed documents.
+- The upload form and review status make ingestion limits explicit.
+
+## Scene 4: Scoped Assistant With Citations
+
+Open: `/chat`
+
+Use:
+
+- Project: `Northstar Analytics`
+- Department: `All departments`
+- Role: `Employee`
+- Question: `Where does Northstar Analytics have offices?`
+
+Expected behavior:
+
+- The response type is `answer`.
+- The answer cites an HR source such as `HR-001`.
+- Confidence, latency, citations, and retrieved context are visible.
 
 Point out:
 
-- Permissions are enforced before the model sees evidence.
-- The permission evaluation reached `0.000` leakage.
+- Retrieval is scoped to the selected project.
+- Citations are structured evidence, not decorative footnotes.
+- Retrieved context is shown for engineering review.
 
-## Scene 4: Same Restricted Question As Manager
+## Scene 5: Safe Refusal And Role Contrast
 
-Role: `Manager`
-
-Question:
+In `/chat`, ask as `Employee`:
 
 ```text
 What is the promotion calibration process?
 ```
 
-Command:
-
-```powershell
-Invoke-WebRequest -Uri http://localhost:8000/query -Method POST `
-  -ContentType "application/json" -UseBasicParsing `
-  -Body '{"question":"What is the promotion calibration process?","user_role":"Manager","retrieval_mode":"vector_only","chunking_strategy":"section_based"}'
-```
-
 Expected behavior:
 
-- The system can answer because the Manager role can access manager-only guidance.
-- Citations should point to manager-accessible documents such as `MGR-002`.
+- The system refuses because the employee role should not access manager-only guidance.
+- Restricted chunks do not reach generation.
+
+Then open `/dev-admin/permission-demo` and run the same question across roles.
 
 Point out:
 
-- This demonstrates role-aware behavior, not a hardcoded refusal.
-- The same question has different valid outcomes depending on the role.
+- Permission filtering happens before generation.
+- The same question can have different valid outcomes by role.
+- Permission evaluation reports zero leakage in the benchmark artifacts.
 
-## Scene 5: Missing Information Refusal
+## Scene 6: Missing Information And Memory
 
-Role: `Employee`
-
-Question:
+In `/chat`, ask:
 
 ```text
 What is Northstar's sabbatical policy?
 ```
 
-Command:
-
-```powershell
-Invoke-WebRequest -Uri http://localhost:8000/query -Method POST `
-  -ContentType "application/json" -UseBasicParsing `
-  -Body '{"question":"What is Northstar''s sabbatical policy?","user_role":"Employee","retrieval_mode":"vector_only","chunking_strategy":"section_based"}'
-```
-
 Expected behavior:
 
-- `response_type` is `not_found` or equivalent missing-information behavior.
-- The answer does not invent a sabbatical policy.
+- The assistant returns a missing-information response instead of inventing a policy.
 
-Point out:
-
-- The project evaluates missing-information behavior.
-- Refusing unsupported questions is a core enterprise requirement.
-
-## Scene 6: Session Memory Follow-Up
-
-Role: `Employee`
-
-Create a session:
-
-```powershell
-$session = Invoke-RestMethod -Uri http://localhost:8000/chat/sessions -Method POST `
-  -ContentType "application/json" `
-  -Body '{"user_role":"Employee"}'
-```
-
-Initial question:
-
-```powershell
-Invoke-RestMethod -Uri http://localhost:8000/query -Method POST `
-  -ContentType "application/json" `
-  -Body (@{
-    question = "How many paid vacation days do full-time employees receive each calendar year?"
-    user_role = "Employee"
-    session_id = $session.session_id
-    retrieval_mode = "vector_only"
-    chunking_strategy = "section_based"
-  } | ConvertTo-Json)
-```
-
-Follow-up:
-
-```powershell
-Invoke-RestMethod -Uri http://localhost:8000/query -Method POST `
-  -ContentType "application/json" `
-  -Body (@{
-    question = "Can I carry any unused days into next year?"
-    user_role = "Employee"
-    session_id = $session.session_id
-    retrieval_mode = "vector_only"
-    chunking_strategy = "section_based"
-  } | ConvertTo-Json)
-```
-
-Expected behavior:
-
-- The follow-up is rewritten using session memory.
-- The answer cites `HR-002`.
-- Memory is used for rewriting, not as source evidence.
-
-Point out:
-
-- Memory evaluation reached `1.000` answer and citation accuracy.
-- Permission filtering still applies after memory rewrite.
-
-## Scene 7: Multi-Document Reasoning And Metrics
-
-Role: `Employee`
-
-Question:
+Then use the memory scenario button or ask the vacation question followed by:
 
 ```text
-If I work remotely, what approval and device security expectations apply?
+Can I carry any unused days into next year?
 ```
-
-Command:
-
-```powershell
-Invoke-WebRequest -Uri http://localhost:8000/query -Method POST `
-  -ContentType "application/json" -UseBasicParsing `
-  -Body '{"question":"If I work remotely, what approval and device security expectations apply?","user_role":"Employee","retrieval_mode":"vector_only","chunking_strategy":"section_based"}'
-```
-
-Expected behavior:
-
-- The system synthesizes from remote-work and device-security sources.
-- Expected source documents are `HR-003` and `IT-002`.
-
-Then open:
-
-- `/dev-admin/multi-doc`
-- `/dev-admin/retrieval-experiments`
-- `/dev-admin/permission-safety`
-- `/dev-admin/memory-evaluation`
-- `/dev-admin/failed-questions`
-- `/dev-admin/observability`
 
 Point out:
 
-- Multi-doc answer accuracy improved from `0.700` to `0.850`.
-- Multi-doc citation accuracy improved from `0.750` to `0.900`.
-- Failed multi-doc questions dropped from `4` to `2`.
-- The dashboard also shows the remaining tradeoff: hallucination rate moved from `0.667` to `0.700`.
+- Memory helps rewrite follow-up questions.
+- Memory is not treated as source evidence; retrieved documents remain the source of truth.
+
+## Scene 7: Algorithm Quality Lab
+
+Open: `/dev-admin/retrieval-playground`
+
+Use:
+
+- Question: `If I work remotely, what approval and device security expectations apply?`
+- Role: `Employee`
+
+Point out:
+
+- Named profiles compare vector, keyword, hybrid, and multi-document behavior.
+- Results include source coverage, citation coverage, latency, cost signals, and known failure visibility.
+- Review notes are audit-backed; profile promotion is not automatic.
+
+## Scene 8: Failed Question And Human Review
+
+Open: `/dev-admin/failed-questions`
+
+Expand a known failure such as `MULTI-005`.
+
+Point out:
+
+- The UI keeps expected answer, actual answer, expected sources, actual citations, root cause, and suggested fix together.
+- Evaluators can label answer correctness and citation correctness independently.
+- Saving a review creates a candidate or needs-fix decision, but it does not mutate benchmark JSON automatically.
+
+Optional: open `/dev-admin/feedback` and show the same review workflow for negative user feedback.
 
 ## Closing Pitch
 
 End with:
 
-> The project shows a complete enterprise AI engineering loop: define the product, build the RAG pipeline, measure it, improve weak cases, enforce permissions, observe behavior, containerize it, and package it for deployment review.
+> The project shows the enterprise AI loop end to end: organize knowledge, scope retrieval, answer with citations, enforce permissions before generation, measure quality, inspect failures, collect human review, and keep limitations visible.
+
+## Honest Limitations To Mention
+
+- The corpus is synthetic.
+- Querying requires a configured `OPENAI_API_KEY`.
+- `/chat` is a demo UI, not production authentication.
+- Uploaded PDFs are extracted for review, but approval/indexing for those uploads is future work.
+- Azure deployment is documented as ready work, not claimed as completed.
+- Project-scoped benchmarks and automatic candidate promotion remain future work.
