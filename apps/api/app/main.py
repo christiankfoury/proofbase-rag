@@ -26,6 +26,7 @@ from apps.api.app.projects.project_store import archive_project
 from apps.api.app.projects.project_store import archive_department
 from apps.api.app.projects.project_store import create_department as create_department_record
 from apps.api.app.projects.project_store import create_project as create_project_record
+from apps.api.app.projects.document_store import list_project_documents
 from apps.api.app.projects.project_store import get_department
 from apps.api.app.projects.project_store import get_project, list_projects
 from apps.api.app.projects.project_store import update_department as update_department_record
@@ -242,6 +243,7 @@ def ready() -> dict:
         "project_departments",
         "documents",
         "document_versions",
+        "ingestion_jobs",
         "chunks",
         "chunk_embeddings",
         "audit_logs",
@@ -568,6 +570,30 @@ def project_detail_route(project_id: str, include_archived: bool = False) -> dic
     return {"project": project}
 
 
+@app.get("/projects/{project_id}/documents")
+def project_documents_route(
+    project_id: str,
+    department_id: str | None = None,
+    include_archived: bool = False,
+) -> dict:
+    project_id = _validate_project_id(project_id)
+    if department_id is not None:
+        department_id = _validate_project_id(department_id)
+    try:
+        if not get_project(project_id, include_archived=include_archived):
+            raise HTTPException(status_code=404, detail="Project not found.")
+        documents = list_project_documents(
+            project_id,
+            department_id=department_id,
+            include_archived=include_archived,
+        )
+    except HTTPException:
+        raise
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error loading project documents.") from exc
+    return {"documents": documents, "count": len(documents)}
+
+
 @app.post("/projects/{project_id}/departments", status_code=201)
 def create_department_route(project_id: str, request: DepartmentCreateRequest) -> dict:
     project_id = _validate_project_id(project_id)
@@ -604,6 +630,29 @@ def create_department_route(project_id: str, request: DepartmentCreateRequest) -
         metadata={"project_id": project_id, "department_id": department["id"], "department_name": department["name"]},
     )
     return {"department": department}
+
+
+@app.get("/projects/{project_id}/departments/{department_id}/documents")
+def department_documents_route(
+    project_id: str,
+    department_id: str,
+    include_archived: bool = False,
+) -> dict:
+    project_id = _validate_project_id(project_id)
+    department_id = _validate_project_id(department_id)
+    try:
+        if not get_department(project_id, department_id, include_archived=include_archived):
+            raise HTTPException(status_code=404, detail="Department not found.")
+        documents = list_project_documents(
+            project_id,
+            department_id=department_id,
+            include_archived=include_archived,
+        )
+    except HTTPException:
+        raise
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error loading department documents.") from exc
+    return {"documents": documents, "count": len(documents)}
 
 
 @app.get("/projects/{project_id}/departments/{department_id}")

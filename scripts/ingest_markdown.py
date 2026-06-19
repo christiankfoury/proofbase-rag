@@ -108,6 +108,68 @@ def _upsert_version(conn, document_id: str, document):
     return row["id"]
 
 
+def _upsert_ingestion_job(conn, document_id: str, version_id: str, document) -> None:
+    metadata = document.metadata
+    content_hash = _hash_text(document.body)
+    source_path = Path(document.source_path)
+    conn.execute(
+        """
+        insert into ingestion_jobs (
+          project_id, department_id, document_id, document_version_id,
+          source_file_name, source_file_type, status, stage, status_detail,
+          content_hash, started_at, completed_at, metadata_json, updated_at
+        )
+        select
+          d.project_id,
+          d.department_id,
+          d.id,
+          %s::uuid,
+          %s,
+          'markdown',
+          'indexed',
+          'indexed',
+          'Seeded Markdown corpus document loaded and embedded by scripts/ingest_markdown.py.',
+          %s,
+          now(),
+          now(),
+          %s::jsonb,
+          now()
+        from documents d
+        where d.id = %s::uuid
+        on conflict (document_version_id) do update set
+          project_id = excluded.project_id,
+          department_id = excluded.department_id,
+          document_id = excluded.document_id,
+          source_file_name = excluded.source_file_name,
+          source_file_type = excluded.source_file_type,
+          status = excluded.status,
+          stage = excluded.stage,
+          status_detail = excluded.status_detail,
+          content_hash = excluded.content_hash,
+          completed_at = excluded.completed_at,
+          failed_at = null,
+          error_message = null,
+          metadata_json = excluded.metadata_json,
+          updated_at = now()
+        """,
+        (
+            version_id,
+            source_path.name,
+            content_hash,
+            json.dumps(
+                {
+                    "source_path": document.source_path,
+                    "document_id": metadata["document_id"],
+                    "title": metadata["title"],
+                    "seeded_corpus": True,
+                },
+                default=str,
+            ),
+            document_id,
+        ),
+    )
+
+
 def ingest_documents(
     source_dir: str = "data/synthetic-documents",
     chunking_strategy: str = "section_based",
@@ -131,6 +193,7 @@ def ingest_documents(
             with get_connection() as conn:
                 document_uuid = _upsert_document(conn, document)
                 version_uuid = _upsert_version(conn, document_uuid, document)
+                _upsert_ingestion_job(conn, document_uuid, version_uuid, document)
                 conn.execute(
                     "delete from chunks where document_version_id = %s and chunking_strategy = %s",
                     (version_uuid, chunking_strategy),

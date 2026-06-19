@@ -32,6 +32,49 @@ export type DepartmentPayload = {
   default_access_roles: string[];
 };
 
+export type ProjectDocument = {
+  id: string;
+  project_id: string;
+  department_id?: string | null;
+  external_document_id: string;
+  title: string;
+  department: string;
+  category: string;
+  source_type: string;
+  source_path: string;
+  access_roles: string[];
+  sensitivity: string;
+  restricted: boolean;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  version: {
+    id?: string | null;
+    version_label?: string | null;
+    effective_date?: string | null;
+    owner?: string | null;
+    review_cycle?: string | null;
+    content_hash?: string | null;
+    metadata: Record<string, unknown>;
+    ingestion_status: string;
+    indexed_at?: string | null;
+    failed_at?: string | null;
+    failure_reason?: string | null;
+  };
+  chunk_count: number;
+  markdown_preview: string;
+  ingestion_job?: {
+    id?: string | null;
+    status?: string | null;
+    stage?: string | null;
+    status_detail?: string | null;
+    started_at?: string | null;
+    completed_at?: string | null;
+    failed_at?: string | null;
+    error_message?: string | null;
+  } | null;
+};
+
 export type ProjectActivity = {
   id: string;
   action: string;
@@ -101,6 +144,21 @@ export async function fetchProject(projectId: string, includeArchived = false): 
   return payload.project;
 }
 
+export async function fetchProjectDocuments(
+  projectId: string,
+  options: { departmentId?: string; includeArchived?: boolean } = {}
+): Promise<ProjectDocument[]> {
+  const params = new URLSearchParams();
+  if (options.departmentId) params.set("department_id", options.departmentId);
+  if (options.includeArchived) params.set("include_archived", "true");
+  const query = params.toString() ? `?${params.toString()}` : "";
+  const payload = await projectRequest<{ documents: ProjectDocument[] }>(
+    `/projects/${encodeURIComponent(projectId)}/documents${query}`,
+    { cache: "no-store" }
+  );
+  return payload.documents;
+}
+
 export async function createProject(payload: ProjectPayload): Promise<Project> {
   const result = await projectRequest<{ project: Project }>("/projects", {
     method: "POST",
@@ -131,6 +189,19 @@ export async function fetchDepartment(projectId: string, departmentId: string, i
     { cache: "no-store" }
   );
   return result.department;
+}
+
+export async function fetchDepartmentDocuments(
+  projectId: string,
+  departmentId: string,
+  includeArchived = false
+): Promise<ProjectDocument[]> {
+  const params = includeArchived ? "?include_archived=true" : "";
+  const result = await projectRequest<{ documents: ProjectDocument[] }>(
+    `/projects/${encodeURIComponent(projectId)}/departments/${encodeURIComponent(departmentId)}/documents${params}`,
+    { cache: "no-store" }
+  );
+  return result.documents;
 }
 
 export async function createDepartment(projectId: string, payload: DepartmentPayload): Promise<ProjectDepartment> {

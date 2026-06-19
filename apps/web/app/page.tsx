@@ -10,8 +10,8 @@ const nextCapabilities = [
     detail: "Turn derived department coverage into editable workspaces with icons and access defaults.",
   },
   {
-    title: "Documents",
-    detail: "Upload files, review extracted Markdown, and index approved knowledge for retrieval.",
+    title: "Document Library",
+    detail: "Review indexed documents, active versions, ingestion status, access roles, and extracted Markdown previews.",
   },
   {
     title: "Algorithm Verification",
@@ -94,8 +94,8 @@ export default function AppHomePage() {
 
       <section className="mt-8">
         <SectionHeading
-          title="Next App Capabilities"
-          description="Projects are implemented; the remaining items are planned product phases."
+          title="App Capability Roadmap"
+          description="Projects, departments, and indexed document review are implemented; extraction and scoped retrieval remain planned phases."
         />
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {nextCapabilities.map((item) => (

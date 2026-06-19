@@ -213,6 +213,35 @@ alter table documents
   add constraint documents_current_version_fk
   foreign key (current_version_id) references document_versions(id);
 
+create table if not exists ingestion_jobs (
+  id uuid primary key default uuid_generate_v4(),
+  project_id uuid references projects(id),
+  department_id uuid references project_departments(id),
+  document_id uuid references documents(id) on delete set null,
+  document_version_id uuid references document_versions(id) on delete set null,
+  source_file_name text not null,
+  source_file_type text not null,
+  status text not null default 'uploaded' check (
+    status in ('uploaded', 'extracting', 'normalizing', 'chunking', 'embedding', 'indexed', 'failed', 'skipped')
+  ),
+  stage text not null default 'uploaded',
+  status_detail text not null default '',
+  content_hash text,
+  started_at timestamptz,
+  completed_at timestamptz,
+  failed_at timestamptz,
+  error_message text,
+  metadata_json jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (document_version_id)
+);
+
+create index if not exists idx_ingestion_jobs_project on ingestion_jobs(project_id);
+create index if not exists idx_ingestion_jobs_department on ingestion_jobs(department_id);
+create index if not exists idx_ingestion_jobs_status on ingestion_jobs(status);
+create index if not exists idx_ingestion_jobs_created_at on ingestion_jobs(created_at);
+
 create table if not exists chunks (
   id uuid primary key default uuid_generate_v4(),
   document_id uuid not null references documents(id) on delete cascade,

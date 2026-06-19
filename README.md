@@ -214,7 +214,7 @@ App routes:
 - `/` App Home with links to project workspaces, the working assistant, and Dev/Admin proof.
 - `/projects` project workspace list with create, edit, archive, seeded corpus coverage, quality status, and recent project audit events.
 - `/projects/[projectId]` selected project workspace home.
-- `/projects/[projectId]/departments/[departmentId]` department workspace detail with icon, access defaults, coverage, edit, and archive controls.
+- `/projects/[projectId]/departments/[departmentId]` department workspace detail with icon, access defaults, document library, active version metadata, extracted Markdown preview, edit, and archive controls.
 - `/chat` live RAG demo with role selector, presets, citations, confidence, latency, retrieved context, and feedback.
 
 Dev/Admin routes:
@@ -236,6 +236,7 @@ Recommended interactive demo presets:
 
 - Project workspace: open `/projects` and select the seeded `Northstar Analytics` project.
 - Department workspace: open a seeded Northstar department such as `People Operations`, `IT Admin`, or `Sales`.
+- Document library: open a seeded department and inspect indexed documents, version metadata, access roles, ingestion status, and extracted Markdown preview.
 - HR factual: `Where does Northstar Analytics have offices?`
 - Missing information: `What is Northstar's sabbatical policy?`
 - Restricted manager question: `What is the promotion calibration process?`
@@ -355,6 +356,7 @@ Open the dashboard after exporting data.
 - The `/chat` page is a demo UI, not a production end-user assistant with authentication.
 - Project CRUD is implemented, but project-scoped retrieval is planned for a later phase. The current assistant still uses the existing global retrieval path plus role-based permission filtering.
 - Department workspaces are implemented, but department-scoped retrieval and document upload/extraction are not implemented yet.
+- Department document libraries are implemented for indexed seeded documents, but upload controls are disabled until PDF/document extraction is implemented.
 - Runtime request logs such as `data/observability/request-logs.jsonl` are generated data and should be reviewed before committing.
 
 ## Roadmap
@@ -394,6 +396,7 @@ Phase artifacts are preserved for review:
 - [Phase 18](docs/phase-18/app-admin-navigation-design.md): App and Dev/Admin navigation split.
 - [Phase 19](docs/phase-19/project-workspace-design.md): project workspace model and UI.
 - [Phase 20](docs/phase-20/department-workspace-design.md): department workspace model and UI.
+- [Phase 21](docs/phase-21/document-library-design.md): document library and ingestion status planning.
 
 ## Final Portfolio Description
 

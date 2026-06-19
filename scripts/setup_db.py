@@ -15,6 +15,7 @@ REQUIRED_TABLES = [
     "project_departments",
     "documents",
     "document_versions",
+    "ingestion_jobs",
     "chunks",
     "chunk_embeddings",
     "prompts",

@@ -6,10 +6,10 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-- Current phase: Phase 21, Document Library And File Ingestion Planning.
-- Last completed phase: Phase 20, Department Workspaces.
-- Last verification focus: Docker Compose startup, database setup, seeded project coverage, health/readiness checks, web render, and project/department CRUD.
-- Next expected work: implement the App-side document library surface, ingestion job/status model, document version metadata, and indexed Markdown preview placeholder for existing seeded documents.
+- Current phase: Phase 22, PDF And Document Extraction Pipeline.
+- Last completed phase: Phase 21, Document Library And File Ingestion Planning.
+- Last verification focus: document library read model, ingestion job schema, seeded Markdown ingestion job upsert path, API import, web build, and Docker Compose config.
+- Next expected work: implement real file extraction and reviewable Markdown output for uploaded files.
 
 ## Phase Status
 
@@ -19,8 +19,8 @@ Update this tracker before committing each phase. Keep entries factual: record w
 | 19: Project Workspace Model And UI | Complete | `efca8b1`, `ba015cb`, `91a6b11` | API/backend checks and web build completed during phase work. | Added Postgres-backed projects and seeded `Northstar Analytics`. |
 | 20: Department Workspaces | Complete | `d4e2105` | API/backend checks and web build completed during phase work. | Added project-local departments, seeded corpus mapping, and department UI. |
 | Docker verification after Phase 20 | Complete | `4a3cd61` | `docker compose` stack built and started inside the Compose network; API `/health` and `/ready` passed; web rendered; project and department CRUD passed. | Host ports were not exposed because another local container owned port 5432. OpenAI-backed ingestion/eval was not run. |
-| 21: Document Library And File Ingestion Planning | Next | Pending | Pending | Build document library UI and honest ingestion status/version model before real parsing. |
-| 22: PDF And Document Extraction Pipeline | Planned | Pending | Pending | Add real file extraction and reviewable Markdown output. |
+| 21: Document Library And File Ingestion Planning | Complete | Pending | Targeted Python compile, API import smoke check, web production build, and `docker compose config` passed. Live Postgres document-library checks and OpenAI-backed ingestion/eval were skipped. | Added department document library UI, read-only document endpoints, ingestion job schema, seeded Markdown ingestion job upsert path, version metadata, and Markdown preview. |
+| 22: PDF And Document Extraction Pipeline | Next | Pending | Pending | Add real file extraction and reviewable Markdown output. |
 | 23: Project-Scoped RAG | Planned | Pending | Pending | Scope retrieval/generation by project and optional department while preserving role filtering. |
 | 24: Algorithm Quality Lab | Planned | Pending | Pending | Make retrieval/profile comparisons measurable and reviewable. |
 | 25: Result Verification And Human Review | Planned | Pending | Pending | Add review workflow for answers, citations, and feedback-to-eval candidates. |

@@ -10,7 +10,9 @@ import {
   DepartmentColor,
   DepartmentIcon,
   fetchDepartment,
+  fetchDepartmentDocuments,
   ProjectDepartment,
+  ProjectDocument,
   updateDepartment,
 } from "@/lib/projects";
 
@@ -63,6 +65,21 @@ function formFromDepartment(department: ProjectDepartment): DepartmentFormState 
   };
 }
 
+function statusTone(status: string) {
+  if (status === "indexed" || status === "active") return "good" as const;
+  if (status === "failed") return "warn" as const;
+  return "neutral" as const;
+}
+
+function formatDate(value?: string | null): string {
+  if (!value) return "Pending";
+  return new Date(value).toLocaleDateString();
+}
+
+function compactHash(value?: string | null): string {
+  return value ? value.slice(0, 12) : "Pending";
+}
+
 export function DepartmentDetailClient({
   projectId,
   departmentId,
@@ -71,6 +88,8 @@ export function DepartmentDetailClient({
   departmentId: string;
 }) {
   const [department, setDepartment] = useState<ProjectDepartment | null>(null);
+  const [documents, setDocuments] = useState<ProjectDocument[]>([]);
+  const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
   const [form, setForm] = useState<DepartmentFormState | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -79,10 +98,14 @@ export function DepartmentDetailClient({
   useEffect(() => {
     let active = true;
     setLoading(true);
-    fetchDepartment(projectId, departmentId, true)
-      .then((nextDepartment) => {
+    Promise.all([fetchDepartment(projectId, departmentId, true), fetchDepartmentDocuments(projectId, departmentId, true)])
+      .then(([nextDepartment, nextDocuments]) => {
         if (!active) return;
         setDepartment(nextDepartment);
+        setDocuments(nextDocuments);
+        setSelectedDocumentId((current) =>
+          current && nextDocuments.some((document) => document.id === current) ? current : nextDocuments[0]?.id ?? ""
+        );
         setForm(formFromDepartment(nextDepartment));
       })
       .catch((err: Error) => {
@@ -143,6 +166,8 @@ export function DepartmentDetailClient({
     return <EmptyState title="Department unavailable">The department API is unavailable or this department was not found.</EmptyState>;
   }
 
+  const selectedDocument = documents.find((document) => document.id === selectedDocumentId) ?? documents[0] ?? null;
+
   return (
     <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">
       <section className="space-y-5">
@@ -197,10 +222,144 @@ export function DepartmentDetailClient({
             Current document roles: {department.access_roles.join(", ") || "No indexed documents linked."}
           </p>
         </div>
+
+        <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <SectionHeading
+              title="Document Library"
+              description="Indexed documents linked to this department, with ingestion status, active version metadata, and source Markdown preview."
+            />
+            <button className="btn-secondary" type="button" disabled title="PDF and document extraction starts in Phase 22.">
+              Upload disabled
+            </button>
+          </div>
+
+          {documents.length ? (
+            <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+              <div className="space-y-3">
+                {documents.map((document) => {
+                  const selected = document.id === selectedDocument?.id;
+                  return (
+                    <button
+                      key={document.id}
+                      type="button"
+                      onClick={() => setSelectedDocumentId(document.id)}
+                      className={`w-full rounded border p-4 text-left transition-colors ${
+                        selected
+                          ? "border-moss bg-moss-soft"
+                          : "border-stone-200 bg-white hover:border-stone-300 hover:bg-stone-50"
+                      }`}
+                    >
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="font-semibold text-ink">{document.title}</p>
+                          <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-stone-500">
+                            {document.external_document_id}
+                          </p>
+                        </div>
+                        <Badge tone={statusTone(document.version.ingestion_status)}>
+                          {document.version.ingestion_status}
+                        </Badge>
+                      </div>
+                      <div className="mt-3 grid gap-2 text-sm text-stone-700 sm:grid-cols-3">
+                        <span>{formatNumber(document.chunk_count)} chunks</span>
+                        <span>{document.source_type}</span>
+                        <span>{document.sensitivity}</span>
+                      </div>
+                      <p className="mt-3 text-xs text-stone-600">
+                        Roles: {document.access_roles.join(", ") || "No roles"}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {selectedDocument ? (
+                <div className="rounded border border-stone-200 bg-stone-50 p-4">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-semibold uppercase tracking-wide text-stone-500">Active Version</p>
+                      <h3 className="mt-1 text-lg font-semibold text-ink">{selectedDocument.version.version_label ?? "Pending"}</h3>
+                    </div>
+                    <Badge tone={selectedDocument.restricted ? "warn" : "good"}>
+                      {selectedDocument.restricted ? "restricted" : "internal"}
+                    </Badge>
+                  </div>
+
+                  <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+                    <div>
+                      <dt className="font-semibold text-stone-500">Owner</dt>
+                      <dd className="mt-1 text-stone-800">{selectedDocument.version.owner ?? "Pending"}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-stone-500">Review Cycle</dt>
+                      <dd className="mt-1 text-stone-800">{selectedDocument.version.review_cycle ?? "Pending"}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-stone-500">Effective Date</dt>
+                      <dd className="mt-1 text-stone-800">{formatDate(selectedDocument.version.effective_date)}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-stone-500">Indexed</dt>
+                      <dd className="mt-1 text-stone-800">{formatDate(selectedDocument.version.indexed_at)}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-stone-500">Content Hash</dt>
+                      <dd className="mt-1 font-mono text-xs text-stone-800">{compactHash(selectedDocument.version.content_hash)}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-stone-500">Source Path</dt>
+                      <dd className="mt-1 break-words font-mono text-xs text-stone-800">{selectedDocument.source_path}</dd>
+                    </div>
+                  </dl>
+
+                  <div className="mt-4 rounded border border-stone-200 bg-white p-3">
+                    <p className="text-sm font-semibold text-ink">Ingestion Status</p>
+                    <p className="mt-2 text-sm leading-6 text-stone-700">
+                      {selectedDocument.ingestion_job?.status_detail ??
+                        "Current version metadata is indexed. Detailed upload extraction jobs begin in Phase 22."}
+                    </p>
+                    {selectedDocument.version.failure_reason ? (
+                      <p className="mt-2 text-sm text-rust-dark">{selectedDocument.version.failure_reason}</p>
+                    ) : null}
+                  </div>
+
+                  <div className="mt-4">
+                    <p className="text-sm font-semibold uppercase tracking-wide text-stone-500">Extracted Markdown Preview</p>
+                    <pre className="mt-2 max-h-[520px] overflow-auto whitespace-pre-wrap rounded border border-stone-200 bg-white p-4 text-xs leading-5 text-stone-800">
+                      {selectedDocument.markdown_preview || "No extracted Markdown preview is available for this document."}
+                    </pre>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <EmptyState title="No documents linked">
+              Upload and extraction are planned next. Existing seeded corpus documents appear here after ingestion links them to a department.
+            </EmptyState>
+          )}
+        </div>
       </section>
 
-      <form onSubmit={handleSave} className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
-        <SectionHeading title="Department Settings" />
+      <div className="space-y-5">
+        <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
+          <SectionHeading
+            title="Upload Planning"
+            description="The product entry point is visible, but parsing and indexing new files start in Phase 22."
+          />
+          <div className="rounded border border-dashed border-stone-300 bg-stone-50 p-4">
+            <p className="font-semibold text-ink">Drop zone placeholder</p>
+            <p className="mt-2 text-sm leading-6 text-stone-700">
+              Future uploads will create ingestion jobs, extract Markdown for review, then index approved content.
+            </p>
+            <button className="btn-secondary mt-4" type="button" disabled title="PDF and document extraction starts in Phase 22.">
+              Choose file disabled
+            </button>
+          </div>
+        </div>
+
+        <form onSubmit={handleSave} className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
+          <SectionHeading title="Department Settings" />
         <div className="space-y-3">
           <label className="block">
             <span className="text-sm font-medium text-stone-700">Name</span>
@@ -267,7 +426,8 @@ export function DepartmentDetailClient({
             Archive
           </button>
         </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
