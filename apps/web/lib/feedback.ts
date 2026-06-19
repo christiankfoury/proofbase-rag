@@ -1,3 +1,5 @@
+import type { Citation } from "@/lib/api";
+
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
 export type FeedbackItem = {
@@ -7,7 +9,7 @@ export type FeedbackItem = {
   question: string;
   answer: string;
   response_type: string | null;
-  citations_json: unknown[];
+  citations_json: Citation[];
   user_role: string;
   rating: "thumbs_up" | "thumbs_down";
   user_comment: string | null;

@@ -6,10 +6,10 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-- Current phase: Phase 25, Result Verification And Human Review.
-- Last completed phase: Phase 24, Algorithm Quality Lab.
-- Last verification focus: Algorithm Quality Lab UI, API review endpoint import, web build, and Docker Compose config.
-- Next expected work: add a human review workflow for answer and citation correctness without auto-promoting feedback.
+- Current phase: Phase 26, Recruiter Presentation Polish.
+- Last completed phase: Phase 25, Result Verification And Human Review.
+- Last verification focus: failed-question and feedback review UI, review persistence API import, web build, and Docker Compose config.
+- Next expected work: align App, Dev/Admin, README, demo guide, screenshots, and limitations for recruiter presentation.
 
 ## Phase Status
 
@@ -22,9 +22,9 @@ Update this tracker before committing each phase. Keep entries factual: record w
 | 21: Document Library And File Ingestion Planning | Complete | `586212f` | Targeted Python compile, API import smoke check, web production build, and `docker compose config` passed. Live Postgres document-library checks and OpenAI-backed ingestion/eval were skipped. | Added department document library UI, read-only document endpoints, ingestion job schema, seeded Markdown ingestion job upsert path, version metadata, and Markdown preview. |
 | 22: PDF And Document Extraction Pipeline | Complete | `fcbab93` | Targeted Python compile, API import, PDF extractor import, generated sample PDF extraction, web production build, and `docker compose config --quiet` passed. Live multipart upload against Postgres and OpenAI-backed ingestion/eval were skipped. | Added PDF-only upload, deterministic Markdown extraction, local raw file storage, pending-review document versions, and no-index-before-review behavior. |
 | 23: Project-Scoped RAG | Complete | `2a26183` | Targeted Python compile, API import, web production build, and `docker compose config --quiet` passed. Live scoped query checks against Postgres and OpenAI-backed evals were skipped. | Added strict project and optional department scope to query retrieval, response payloads, observability, and the `/chat` App surface while preserving global Dev/Admin query behavior. |
-| 24: Algorithm Quality Lab | Complete | Pending | Targeted API compile, API import, web production build, and `docker compose config --quiet` passed. Live review-note POST against Postgres and full OpenAI-backed evals were skipped. | Reworked retrieval playground into a named-profile quality lab with historical metrics, live source/citation coverage, known failure visibility, cost/latency signals, and audit-backed review notes. |
-| 25: Result Verification And Human Review | Next | Pending | Pending | Add review workflow for answers, citations, and feedback-to-eval candidates. |
-| 26: Recruiter Presentation Polish | Planned | Pending | Pending | Align App, Dev/Admin, README, demo guide, screenshots, and limitations. |
+| 24: Algorithm Quality Lab | Complete | `e9df2e3` | Targeted API compile, API import, web production build, and `docker compose config --quiet` passed. Live review-note POST against Postgres and full OpenAI-backed evals were skipped. | Reworked retrieval playground into a named-profile quality lab with historical metrics, live source/citation coverage, known failure visibility, cost/latency signals, and audit-backed review notes. |
+| 25: Result Verification And Human Review | Complete | Pending | Targeted Python compile, API import, web production build, and `docker compose config --quiet` passed. Live review-save checks against Postgres and candidate-based evaluation reruns were skipped. | Added persisted human review decisions for failed questions and negative feedback with answer/citation labels, candidate decisions, and audit events without auto-promoting benchmark changes. |
+| 26: Recruiter Presentation Polish | Next | Pending | Pending | Align App, Dev/Admin, README, demo guide, screenshots, and limitations. |
 | 27: Auth And Deployment Readiness | Planned | Pending | Pending | Move toward production-shaped auth, membership, permissions, and deployment readiness. |
 
 ## Update Rules

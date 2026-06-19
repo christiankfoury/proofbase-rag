@@ -222,12 +222,12 @@ Dev/Admin routes:
 - `/dev-admin` overview metrics and measured RAG progress.
 - `/dev-admin/runs` evaluation run comparison.
 - `/dev-admin/evaluation/runs/phase11-answer-generation-v1` per-question benchmark explorer for detailed runs.
-- `/dev-admin/failed-questions` expandable failure backlog with expected answers, actual answers, citations, and fixes.
+- `/dev-admin/failed-questions` expandable failure backlog with expected answers, actual answers, citations, fixes, and human review labels.
 - `/dev-admin/retrieval-playground` Algorithm Quality Lab with named profiles, historical metrics, live source coverage, known failures, cost/latency signals, and review notes.
 - `/dev-admin/permission-demo` role comparison for restricted questions.
 - `/dev-admin/multi-doc` multi-document reasoning comparison.
 - `/dev-admin/observability` live latency, token, and confidence logs.
-- `/dev-admin/feedback` answer feedback summaries.
+- `/dev-admin/feedback` answer feedback summaries and negative-feedback review controls.
 - `/dev-admin/audit` security-relevant audit events.
 
 Deep evaluation pages such as `/dev-admin/retrieval-experiments`, `/dev-admin/prompt-experiments`, `/dev-admin/permission-safety`, and `/dev-admin/memory-evaluation` remain available for deeper review.
@@ -245,6 +245,7 @@ Recommended interactive demo presets:
 - Memory follow-up scenario: seeded vacation question followed by `Can I carry any unused days into next year?`
 - Multi-document: `If I work remotely, what approval and device security expectations apply?`
 - Known failure: MULTI-005 sales positioning question.
+- Human review: label a failed question or negative feedback item with answer/citation correctness and save it as an evaluation candidate, needs-fix item, approved reference, or rejected item.
 
 The `/chat` page is a recruiter/demo UI over the existing API. It is not production authentication.
 
@@ -405,6 +406,7 @@ Phase artifacts are preserved for review:
 - [Phase 22](docs/phase-22/pdf-extraction-design.md): PDF upload and deterministic Markdown extraction.
 - [Phase 23](docs/phase-23/project-scoped-rag-design.md): project- and department-scoped retrieval.
 - [Phase 24](docs/phase-24/algorithm-quality-lab-design.md): named retrieval profiles and algorithm review workflow.
+- [Phase 25](docs/phase-25/result-verification-review-design.md): human review labels for failed questions and feedback-derived candidates.
 
 ## Final Portfolio Description
 

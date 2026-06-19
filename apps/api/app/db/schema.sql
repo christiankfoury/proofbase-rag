@@ -460,3 +460,26 @@ create table if not exists feedback (
 create index if not exists idx_feedback_rating on feedback(rating);
 create index if not exists idx_feedback_category on feedback(feedback_category);
 create index if not exists idx_feedback_created_at on feedback(created_at);
+
+create table if not exists evaluation_reviews (
+  id uuid primary key default uuid_generate_v4(),
+  source_type text not null check (source_type in ('failed_question', 'feedback')),
+  source_id text not null,
+  question text not null,
+  answer text,
+  expected_answer text,
+  expected_sources text[] not null default '{}',
+  actual_citations_json jsonb not null default '[]'::jsonb,
+  retrieved_chunks_json jsonb not null default '[]'::jsonb,
+  answer_correctness numeric(3, 2) not null check (answer_correctness in (0, 0.5, 1)),
+  citation_correctness numeric(3, 2) not null check (citation_correctness in (0, 0.5, 1)),
+  decision text not null check (decision in ('needs_fix', 'evaluation_candidate', 'approved_reference', 'rejected')),
+  reviewer_role text not null default 'Evaluator',
+  reviewer_id text,
+  notes text not null default '',
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_evaluation_reviews_source on evaluation_reviews(source_type, source_id);
+create index if not exists idx_evaluation_reviews_decision on evaluation_reviews(decision);
+create index if not exists idx_evaluation_reviews_created_at on evaluation_reviews(created_at);

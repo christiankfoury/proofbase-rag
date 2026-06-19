@@ -38,6 +38,7 @@ from apps.api.app.reasoning.multi_doc_detector import is_multi_document_question
 from apps.api.app.reasoning.query_decomposer import retrieve_multi_doc
 from apps.api.app.retrieval.config import default_retrieval_config
 from apps.api.app.retrieval.retriever import retrieve_chunks
+from apps.api.app.review.review_store import create_review_decision, list_review_decisions
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -109,6 +110,23 @@ class AlgorithmReviewRequest(BaseModel):
     expected_sources: list[str] = Field(default_factory=list, max_length=20)
     notes: str = Field("", max_length=2000)
     result_summary: dict | None = None
+
+
+class EvaluationReviewRequest(BaseModel):
+    source_type: str = Field(..., pattern="^(failed_question|feedback)$")
+    source_id: str = Field(..., min_length=1, max_length=120)
+    question: str = Field(..., min_length=1)
+    answer: str | None = None
+    expected_answer: str | None = None
+    expected_sources: list[str] = Field(default_factory=list, max_length=20)
+    actual_citations: list[dict] = Field(default_factory=list, max_length=20)
+    retrieved_chunks: list[dict] = Field(default_factory=list, max_length=20)
+    answer_correctness: float = Field(..., ge=0, le=1)
+    citation_correctness: float = Field(..., ge=0, le=1)
+    decision: str = Field(..., pattern="^(needs_fix|evaluation_candidate|approved_reference|rejected)$")
+    reviewer_role: str = "Evaluator"
+    reviewer_id: str | None = None
+    notes: str = Field("", max_length=2000)
 
 
 class ProjectCreateRequest(BaseModel):
@@ -275,6 +293,7 @@ def ready() -> dict:
         "chat_sessions",
         "chat_messages",
         "feedback",
+        "evaluation_reviews",
     ]
     try:
         with get_connection() as conn:
@@ -496,6 +515,61 @@ def algorithm_review_route(request: AlgorithmReviewRequest) -> dict:
         "audit_action": "algorithm_profile_reviewed",
         "decision": request.decision,
     }
+
+
+@app.post("/evaluation/reviews", status_code=201)
+def create_evaluation_review_route(request: EvaluationReviewRequest) -> dict:
+    if request.answer_correctness not in {0, 0.5, 1} or request.citation_correctness not in {0, 0.5, 1}:
+        raise HTTPException(status_code=400, detail="Correctness labels must be 0, 0.5, or 1.")
+    try:
+        review = create_review_decision(
+            source_type=request.source_type,
+            source_id=request.source_id,
+            question=request.question,
+            answer=request.answer,
+            expected_answer=request.expected_answer,
+            expected_sources=request.expected_sources,
+            actual_citations=request.actual_citations,
+            retrieved_chunks=request.retrieved_chunks,
+            answer_correctness=request.answer_correctness,
+            citation_correctness=request.citation_correctness,
+            decision=request.decision,
+            reviewer_role=request.reviewer_role,
+            reviewer_id=request.reviewer_id,
+            notes=request.notes,
+        )
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error saving evaluation review.") from exc
+    log_audit_event(
+        action="evaluation_review_saved",
+        user_role=request.reviewer_role,
+        user_id=request.reviewer_id,
+        resource_type="evaluation_review",
+        document_id=review["id"],
+        outcome=request.decision,
+        reason=request.source_type,
+        metadata={
+            "review_id": review["id"],
+            "source_type": request.source_type,
+            "source_id": request.source_id,
+            "answer_correctness": request.answer_correctness,
+            "citation_correctness": request.citation_correctness,
+        },
+    )
+    return {"review": review, "status": "saved"}
+
+
+@app.get("/evaluation/reviews")
+def evaluation_reviews_route(
+    source_type: str | None = None,
+    decision: str | None = None,
+    limit: int = 50,
+) -> dict:
+    try:
+        reviews = list_review_decisions(source_type=source_type, decision=decision, limit=limit)
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error loading evaluation reviews.") from exc
+    return {"reviews": reviews, "count": len(reviews)}
 
 
 @app.post("/feedback")

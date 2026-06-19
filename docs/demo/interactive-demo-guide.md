@@ -23,12 +23,12 @@ Open `http://localhost:3000`.
 | Dev/Admin Overview | `/dev-admin` | Final metrics and evaluation-first proof. |
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts. |
 | Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows when detailed JSON exists. |
-| Failed Questions | `/dev-admin/failed-questions` | Expandable failure analysis with expected answer, actual answer, citations, and fixes. |
+| Failed Questions | `/dev-admin/failed-questions` | Expandable failure analysis with expected answer, actual answer, citations, fixes, and human review labels. |
 | Algorithm Quality Lab | `/dev-admin/retrieval-playground` | Named retrieval profiles, historical metrics, live source/citation coverage, known failures, and review notes. |
 | Permission Demo | `/dev-admin/permission-demo` | Same restricted question across Employee, Sales Representative, Manager, and HR Admin. |
 | Multi-Doc | `/dev-admin/multi-doc` | Phase 13 before/after multi-document metrics. |
 | Observability | `/dev-admin/observability` | Live request logs, latency, confidence, and token summaries. |
-| Feedback | `/dev-admin/feedback` | Human feedback summaries. |
+| Feedback | `/dev-admin/feedback` | Human feedback summaries and negative-feedback review decisions. |
 | Audit Logs | `/dev-admin/audit` | Security-relevant audit events. |
 
 ## Recommended Query Scenes
@@ -85,7 +85,7 @@ Open `http://localhost:3000`.
 9. Known failure
    - Page: `/dev-admin/failed-questions`
    - Expand `MULTI-005`.
-   - Expected: shows the known open retrieval miss honestly.
+   - Expected: shows the known open retrieval miss honestly and lets an evaluator save answer/citation labels without changing the benchmark.
 
 ## Demo Notes
 

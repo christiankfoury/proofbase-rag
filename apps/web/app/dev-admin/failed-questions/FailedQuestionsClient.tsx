@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Badge, BadgeTone } from "@/components/Badge";
 import { Card } from "@/components/Card";
+import { EvaluationReviewPanel } from "@/components/EvaluationReviewPanel";
 import { CitationTable, RetrievedContext } from "@/components/QueryResultPanel";
 import { EnrichedFailure } from "@/lib/api";
 import { formatLabel, formatMetric } from "@/lib/dashboard";
@@ -106,6 +107,19 @@ export function FailedQuestionsClient({ failures }: { failures: EnrichedFailure[
                 <p className="mt-4 rounded border border-stone-300 bg-stone-50 p-3 text-sm text-stone-700">
                   <span className="font-semibold text-ink">Recommended fix: </span>{item.recommended_fix ?? "n/a"}
                 </p>
+                <section className="mt-4">
+                  <h4 className="mb-2 font-semibold text-ink">Human Review Decision</h4>
+                  <EvaluationReviewPanel
+                    sourceType="failed_question"
+                    sourceId={item.question_id}
+                    question={item.question ?? item.question_id}
+                    answer={item.actual_answer}
+                    expectedAnswer={item.expected_answer}
+                    expectedSources={item.expected_source_document ?? []}
+                    actualCitations={item.actual_citations ?? []}
+                    retrievedChunks={item.retrieved_chunks ?? []}
+                  />
+                </section>
               </div>
             ) : null}
           </Card>

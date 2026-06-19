@@ -1,10 +1,10 @@
-import { Badge } from "@/components/Badge";
 import { EmptyState } from "@/components/EmptyState";
 import { MetricCard } from "@/components/MetricCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { getFeedback, getFeedbackSummary } from "@/lib/feedback";
+import { FeedbackReviewClient } from "./FeedbackReviewClient";
 
 export default async function FeedbackPage() {
   const [summary, { feedback: negativeItems }] = await Promise.all([
@@ -17,12 +17,7 @@ export default async function FeedbackPage() {
     <Shell>
       <PageHeader
         title="Feedback Overview"
-        description={
-          <>
-            User ratings and category breakdown from live query feedback. Negative feedback can be exported as benchmark candidates via{" "}
-            <code className="rounded bg-stone-100 px-1 py-0.5 text-sm">scripts/export_feedback_candidates.py</code>.
-          </>
-        }
+        description="User ratings and category breakdown from live query feedback. Negative feedback can become evaluation candidates only after human review."
       />
 
       <section className="grid gap-4 md:grid-cols-3">
@@ -65,37 +60,10 @@ export default async function FeedbackPage() {
 
       {negativeItems.length > 0 && (
         <section className="mt-8">
-          <SectionHeading title="Recent Negative Feedback" />
-          <div className="overflow-x-auto rounded-md border border-stone-300 bg-white shadow-card">
-            <table className="data-table min-w-[700px]">
-              <thead>
-                <tr>
-                  <th>Question</th>
-                  <th>Category</th>
-                  <th>Role</th>
-                  <th>Comment</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {negativeItems.map((item) => (
-                  <tr key={item.feedback_id}>
-                    <td className="max-w-xs text-stone-700">{item.question.slice(0, 80)}{item.question.length > 80 ? "…" : ""}</td>
-                    <td className="whitespace-nowrap">
-                      <Badge tone="warn">{item.feedback_category.replaceAll("_", " ")}</Badge>
-                    </td>
-                    <td className="whitespace-nowrap">{item.user_role}</td>
-                    <td className="max-w-xs text-stone-600">{item.user_comment ?? "-"}</td>
-                    <td className="whitespace-nowrap text-stone-500">
-                      {new Date(item.created_at).toLocaleDateString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <SectionHeading title="Negative Feedback Review" />
+          <FeedbackReviewClient items={negativeItems} />
           <p className="mt-3 text-sm text-stone-500">
-            Run <code className="rounded bg-stone-100 px-1 py-0.5">python scripts/export_feedback_candidates.py</code> to export these as benchmark review candidates.
+            Save a review with decision <span className="font-semibold">Evaluation candidate</span> before adding feedback to benchmark work. Nothing is auto-promoted.
           </p>
         </section>
       )}
