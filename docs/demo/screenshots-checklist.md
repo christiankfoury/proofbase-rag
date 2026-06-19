@@ -7,6 +7,7 @@ Capture screenshots after running the Docker stack and exporting dashboard data.
 - App Home at `/`.
 - Project workspace list at `/projects`.
 - Seeded `Northstar Analytics` project detail at `/projects/00000000-0000-0000-0000-000000000019`.
+- Seeded department detail at `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001`.
 - Chat demo at `/chat`.
 - Dev/Admin overview at `/dev-admin`.
 - Retrieval comparison at `/dev-admin/retrieval-experiments`.

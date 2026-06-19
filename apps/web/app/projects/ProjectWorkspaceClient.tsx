@@ -7,7 +7,10 @@ import { EmptyState } from "@/components/EmptyState";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
   archiveProject,
+  createDepartment,
   createProject,
+  DepartmentColor,
+  DepartmentIcon,
   fetchProject,
   fetchProjects,
   Project,
@@ -28,6 +31,22 @@ const emptyForm: ProjectFormState = {
   default_retrieval_profile: "vector-section",
 };
 
+type DepartmentFormState = {
+  name: string;
+  icon: DepartmentIcon;
+  color: DepartmentColor;
+  description: string;
+  default_access_roles_text: string;
+};
+
+const emptyDepartmentForm: DepartmentFormState = {
+  name: "",
+  icon: "building",
+  color: "steel",
+  description: "",
+  default_access_roles_text: "Employee",
+};
+
 function formatNumber(value: number | null | undefined): string {
   return new Intl.NumberFormat("en-US").format(value ?? 0);
 }
@@ -42,12 +61,40 @@ function formatLabel(value: string): string {
   return value.replaceAll("_", " ").replaceAll("-", " ");
 }
 
+function iconLabel(icon: string): string {
+  const labels: Record<string, string> = {
+    people: "PE",
+    shield: "SH",
+    chart: "CH",
+    briefcase: "BR",
+    lock: "LO",
+    key: "KE",
+    building: "BU",
+  };
+  return labels[icon] ?? "DE";
+}
+
+function colorClass(color: string): string {
+  const classes: Record<string, string> = {
+    moss: "border-moss bg-moss-soft text-moss-dark",
+    steel: "border-steel bg-steel-soft text-steel-dark",
+    rust: "border-rust bg-rust-soft text-rust-dark",
+    stone: "border-stone-300 bg-stone-100 text-stone-700",
+  };
+  return classes[color] ?? classes.stone;
+}
+
+function parseRoles(value: string): string[] {
+  return Array.from(new Set(value.split(",").map((role) => role.trim()).filter(Boolean)));
+}
+
 export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?: string }) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedId, setSelectedId] = useState(initialProjectId ?? "");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [createForm, setCreateForm] = useState(emptyForm);
   const [editForm, setEditForm] = useState(emptyForm);
+  const [departmentForm, setDepartmentForm] = useState(emptyDepartmentForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -157,6 +204,30 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
       setSelectedId(nextProjects[0]?.id ?? "");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Project could not be archived.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleCreateDepartment(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!activeProject) return;
+    setSaving(true);
+    setError(null);
+    try {
+      await createDepartment(activeProject.id, {
+        name: departmentForm.name,
+        icon: departmentForm.icon,
+        color: departmentForm.color,
+        description: departmentForm.description,
+        default_access_roles: parseRoles(departmentForm.default_access_roles_text),
+      });
+      const project = await fetchProject(activeProject.id);
+      setSelectedProject(project);
+      await refreshProjects(project.id);
+      setDepartmentForm(emptyDepartmentForm);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Department could not be created.");
     } finally {
       setSaving(false);
     }
@@ -293,30 +364,100 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                 <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
                   <SectionHeading
                     title="Department Coverage"
-                    description="This coverage is derived from the current document inventory. Editable department workspaces are planned next."
+                    description="Create project-local knowledge areas with icons, descriptions, and default access roles."
                   />
+                  <form onSubmit={handleCreateDepartment} className="mb-5 grid gap-3 rounded border border-stone-200 bg-stone-50 p-4 lg:grid-cols-2">
+                    <input
+                      className="field w-full"
+                      value={departmentForm.name}
+                      onChange={(event) => setDepartmentForm((form) => ({ ...form, name: event.target.value }))}
+                      placeholder="Department name"
+                      required
+                    />
+                    <input
+                      className="field w-full"
+                      value={departmentForm.default_access_roles_text}
+                      onChange={(event) =>
+                        setDepartmentForm((form) => ({ ...form, default_access_roles_text: event.target.value }))
+                      }
+                      placeholder="Default roles"
+                    />
+                    <select
+                      className="field w-full"
+                      value={departmentForm.icon}
+                      onChange={(event) =>
+                        setDepartmentForm((form) => ({ ...form, icon: event.target.value as DepartmentIcon }))
+                      }
+                    >
+                      <option value="building">Building</option>
+                      <option value="people">People</option>
+                      <option value="shield">Shield</option>
+                      <option value="chart">Chart</option>
+                      <option value="briefcase">Briefcase</option>
+                      <option value="lock">Lock</option>
+                      <option value="key">Key</option>
+                    </select>
+                    <select
+                      className="field w-full"
+                      value={departmentForm.color}
+                      onChange={(event) =>
+                        setDepartmentForm((form) => ({ ...form, color: event.target.value as DepartmentColor }))
+                      }
+                    >
+                      <option value="steel">Steel</option>
+                      <option value="moss">Moss</option>
+                      <option value="rust">Rust</option>
+                      <option value="stone">Stone</option>
+                    </select>
+                    <textarea
+                      className="field min-h-20 w-full lg:col-span-2"
+                      value={departmentForm.description}
+                      onChange={(event) => setDepartmentForm((form) => ({ ...form, description: event.target.value }))}
+                      placeholder="Description"
+                    />
+                    <div className="lg:col-span-2">
+                      <button className="btn-primary" type="submit" disabled={saving}>
+                        Create department
+                      </button>
+                    </div>
+                  </form>
                   {activeProject.departments?.length ? (
-                    <div className="overflow-x-auto">
-                      <table className="data-table min-w-[680px]">
-                        <thead>
-                          <tr>
-                            <th>Department</th>
-                            <th>Documents</th>
-                            <th>Chunks</th>
-                            <th>Roles</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {activeProject.departments.map((department) => (
-                            <tr key={department.name}>
-                              <td className="font-medium text-ink">{department.name}</td>
-                              <td>{formatNumber(department.document_count)}</td>
-                              <td>{formatNumber(department.chunk_count)}</td>
-                              <td>{department.access_roles.join(", ") || "-"}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                    <div className="grid gap-3 md:grid-cols-2">
+                      {activeProject.departments.map((department) => (
+                        <article key={department.id} className="rounded border border-stone-200 bg-white p-4">
+                          <div className="flex items-start gap-3">
+                            <div
+                              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded border text-xs font-semibold ${colorClass(
+                                department.color
+                              )}`}
+                            >
+                              {iconLabel(department.icon)}
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <p className="font-semibold text-ink">{department.name}</p>
+                                {department.seeded_data_key ? <Badge tone="neutral">Seeded</Badge> : null}
+                              </div>
+                              <p className="mt-1 text-sm leading-5 text-stone-600">
+                                {department.description || "No description"}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="mt-4 grid grid-cols-3 gap-2 text-sm text-stone-700">
+                            <span>{formatNumber(department.document_count)} docs</span>
+                            <span>{formatNumber(department.chunk_count)} chunks</span>
+                            <span>{department.default_access_roles.length} defaults</span>
+                          </div>
+                          <p className="mt-3 text-xs text-stone-600">
+                            Current roles: {department.access_roles.join(", ") || department.default_access_roles.join(", ") || "-"}
+                          </p>
+                          <div className="mt-4">
+                            <Link href={`/projects/${activeProject.id}/departments/${department.id}`} className="btn-secondary btn-sm">
+                              Open
+                            </Link>
+                          </div>
+                        </article>
+                      ))}
                     </div>
                   ) : (
                     <EmptyState title="No documents indexed">

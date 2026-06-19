@@ -12,6 +12,7 @@ from apps.api.app.db.session import apply_schema, get_connection
 
 REQUIRED_TABLES = [
     "projects",
+    "project_departments",
     "documents",
     "document_versions",
     "chunks",

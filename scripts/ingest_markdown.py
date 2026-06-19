@@ -26,12 +26,21 @@ def _upsert_document(conn, document):
     row = conn.execute(
         """
         insert into documents (
-          project_id, external_document_id, title, department, category, source_type,
+          project_id, department_id, external_document_id, title, department, category, source_type,
           source_path, access_roles, sensitivity, restricted, status, updated_at
         )
-        values ('00000000-0000-0000-0000-000000000019', %s, %s, %s, %s, 'markdown', %s, %s, %s, %s, 'active', now())
+        values (
+          '00000000-0000-0000-0000-000000000019',
+          (
+            select id from project_departments
+            where project_id = '00000000-0000-0000-0000-000000000019'
+              and seeded_data_key = %s
+          ),
+          %s, %s, %s, %s, 'markdown', %s, %s, %s, %s, 'active', now()
+        )
         on conflict (external_document_id) do update set
           project_id = excluded.project_id,
+          department_id = excluded.department_id,
           title = excluded.title,
           department = excluded.department,
           category = excluded.category,
@@ -43,6 +52,7 @@ def _upsert_document(conn, document):
         returning id::text
         """,
         (
+            metadata["category"],
             metadata["document_id"],
             metadata["title"],
             metadata["department"],

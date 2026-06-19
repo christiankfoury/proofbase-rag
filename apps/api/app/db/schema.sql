@@ -47,9 +47,104 @@ on conflict (seeded_data_key) do update set
   archived_at = null,
   updated_at = now();
 
+create table if not exists project_departments (
+  id uuid primary key default uuid_generate_v4(),
+  project_id uuid not null references projects(id) on delete cascade,
+  name text not null,
+  icon text not null default 'building',
+  color text not null default 'steel',
+  description text not null default '',
+  default_access_roles text[] not null default '{}',
+  seeded_data_key text,
+  status text not null default 'active' check (status in ('active', 'archived')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  archived_at timestamptz,
+  unique (project_id, name),
+  unique (project_id, seeded_data_key)
+);
+
+create index if not exists idx_project_departments_project on project_departments(project_id);
+create index if not exists idx_project_departments_status on project_departments(status);
+
+insert into project_departments (
+  id, project_id, name, icon, color, description, default_access_roles, seeded_data_key
+)
+values
+  (
+    '00000000-0000-0000-0000-000000002001',
+    '00000000-0000-0000-0000-000000000019',
+    'People Operations',
+    'people',
+    'moss',
+    'Employee-facing HR policies, benefits, PTO, and workplace guidance.',
+    array['Employee', 'Manager', 'HR Admin'],
+    'HR Public'
+  ),
+  (
+    '00000000-0000-0000-0000-000000002002',
+    '00000000-0000-0000-0000-000000000019',
+    'HR Admin',
+    'lock',
+    'rust',
+    'Restricted HR operations guidance for HR administrators.',
+    array['HR Admin'],
+    'HR Admin'
+  ),
+  (
+    '00000000-0000-0000-0000-000000002003',
+    '00000000-0000-0000-0000-000000000019',
+    'IT and Security',
+    'shield',
+    'steel',
+    'Employee-facing security, device, acceptable-use, and data-handling policies.',
+    array['Employee', 'Manager', 'IT Admin'],
+    'IT Public'
+  ),
+  (
+    '00000000-0000-0000-0000-000000002004',
+    '00000000-0000-0000-0000-000000000019',
+    'IT Admin',
+    'key',
+    'rust',
+    'Restricted privileged-access and incident-response guidance for IT administrators.',
+    array['IT Admin'],
+    'IT Admin'
+  ),
+  (
+    '00000000-0000-0000-0000-000000002005',
+    '00000000-0000-0000-0000-000000000019',
+    'Sales',
+    'chart',
+    'moss',
+    'Sales playbooks, product positioning, FAQs, and competitive guidance.',
+    array['Sales Representative', 'Manager'],
+    'Sales Enablement'
+  ),
+  (
+    '00000000-0000-0000-0000-000000002006',
+    '00000000-0000-0000-0000-000000000019',
+    'Management',
+    'briefcase',
+    'steel',
+    'Manager-only coaching, review, and promotion calibration guidance.',
+    array['Manager', 'HR Admin'],
+    'Manager Only'
+  )
+on conflict (project_id, seeded_data_key) do update set
+  name = excluded.name,
+  icon = excluded.icon,
+  color = excluded.color,
+  description = excluded.description,
+  default_access_roles = excluded.default_access_roles,
+  status = 'active',
+  archived_at = null,
+  updated_at = now();
+
 create table if not exists documents (
   id uuid primary key default uuid_generate_v4(),
   project_id uuid references projects(id),
+  department_id uuid references project_departments(id),
   external_document_id text not null unique,
   title text not null,
   department text not null,
@@ -72,14 +167,23 @@ create index if not exists idx_documents_access_roles on documents using gin(acc
 
 alter table documents
   add column if not exists sensitivity text not null default 'internal',
-  add column if not exists project_id uuid references projects(id);
+  add column if not exists project_id uuid references projects(id),
+  add column if not exists department_id uuid references project_departments(id);
 
 update documents
 set project_id = '00000000-0000-0000-0000-000000000019'
 where project_id is null
   and external_document_id ~ '^(HR|IT|SALES|MANAGER|HR-ADMIN|IT-ADMIN)-';
 
+update documents d
+set department_id = pd.id
+from project_departments pd
+where d.project_id = pd.project_id
+  and d.category = pd.seeded_data_key
+  and d.department_id is null;
+
 create index if not exists idx_documents_project on documents(project_id);
+create index if not exists idx_documents_department on documents(department_id);
 
 create table if not exists document_versions (
   id uuid primary key default uuid_generate_v4(),

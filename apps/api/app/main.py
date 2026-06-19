@@ -23,8 +23,12 @@ from apps.api.app.observability.summary import compute_live_summary
 from apps.api.app.observability.tracing import RequestTrace
 from apps.api.app.permissions.access_control import unauthorized_chunks_reached_generation
 from apps.api.app.projects.project_store import archive_project
+from apps.api.app.projects.project_store import archive_department
+from apps.api.app.projects.project_store import create_department as create_department_record
 from apps.api.app.projects.project_store import create_project as create_project_record
+from apps.api.app.projects.project_store import get_department
 from apps.api.app.projects.project_store import get_project, list_projects
+from apps.api.app.projects.project_store import update_department as update_department_record
 from apps.api.app.projects.project_store import update_project as update_project_record
 from apps.api.app.reasoning.evidence_grouper import group_chunks_by_document
 from apps.api.app.reasoning.multi_doc_detector import is_multi_document_question
@@ -107,12 +111,40 @@ class ProjectUpdateRequest(BaseModel):
     user_id: str | None = None
 
 
+class DepartmentCreateRequest(BaseModel):
+    name: str = Field(..., min_length=1, max_length=120)
+    icon: str = Field("building", pattern="^(people|shield|chart|briefcase|lock|key|building)$")
+    color: str = Field("steel", pattern="^(moss|steel|rust|stone)$")
+    description: str = Field("", max_length=1000)
+    default_access_roles: list[str] = Field(default_factory=list, max_length=10)
+    user_role: str = "Knowledge Manager"
+    user_id: str | None = None
+
+
+class DepartmentUpdateRequest(BaseModel):
+    name: str | None = Field(None, min_length=1, max_length=120)
+    icon: str | None = Field(None, pattern="^(people|shield|chart|briefcase|lock|key|building)$")
+    color: str | None = Field(None, pattern="^(moss|steel|rust|stone)$")
+    description: str | None = Field(None, max_length=1000)
+    default_access_roles: list[str] | None = Field(None, max_length=10)
+    status: str | None = Field(None, pattern="^(active|archived)$")
+    user_role: str = "Knowledge Manager"
+    user_id: str | None = None
+
+
 def _validate_project_id(project_id: str) -> str:
     try:
         uuid.UUID(project_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail="Project ID must be a valid UUID.") from exc
     return project_id
+
+
+def _normalize_roles(roles: list[str] | None) -> list[str] | None:
+    if roles is None:
+        return None
+    normalized = [role.strip() for role in roles if role.strip()]
+    return list(dict.fromkeys(normalized))
 
 
 def _load_dashboard_data() -> dict:
@@ -207,6 +239,7 @@ def health() -> dict:
 def ready() -> dict:
     required_tables = [
         "projects",
+        "project_departments",
         "documents",
         "document_versions",
         "chunks",
@@ -533,6 +566,124 @@ def project_detail_route(project_id: str, include_archived: bool = False) -> dic
     if not project:
         raise HTTPException(status_code=404, detail="Project not found.")
     return {"project": project}
+
+
+@app.post("/projects/{project_id}/departments", status_code=201)
+def create_department_route(project_id: str, request: DepartmentCreateRequest) -> dict:
+    project_id = _validate_project_id(project_id)
+    name = request.name.strip()
+    description = request.description.strip()
+    default_access_roles = _normalize_roles(request.default_access_roles) or []
+    if not name:
+        raise HTTPException(status_code=400, detail="Department name is required.")
+    try:
+        if not get_project(project_id):
+            raise HTTPException(status_code=404, detail="Project not found.")
+        department = create_department_record(
+            project_id=project_id,
+            name=name,
+            icon=request.icon,
+            color=request.color,
+            description=description,
+            default_access_roles=default_access_roles,
+        )
+    except HTTPException:
+        raise
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error creating department.") from exc
+
+    log_audit_event(
+        action="department_created",
+        user_role=request.user_role,
+        user_id=request.user_id,
+        resource_type="department",
+        document_id=department["id"],
+        outcome="success",
+        metadata={"project_id": project_id, "department_id": department["id"], "department_name": department["name"]},
+    )
+    return {"department": department}
+
+
+@app.get("/projects/{project_id}/departments/{department_id}")
+def department_detail_route(project_id: str, department_id: str, include_archived: bool = False) -> dict:
+    project_id = _validate_project_id(project_id)
+    department_id = _validate_project_id(department_id)
+    try:
+        department = get_department(project_id, department_id, include_archived=include_archived)
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error loading department.") from exc
+    if not department:
+        raise HTTPException(status_code=404, detail="Department not found.")
+    return {"department": department}
+
+
+@app.patch("/projects/{project_id}/departments/{department_id}")
+def update_department_route(project_id: str, department_id: str, request: DepartmentUpdateRequest) -> dict:
+    project_id = _validate_project_id(project_id)
+    department_id = _validate_project_id(department_id)
+    updates = request.model_dump(exclude={"user_role", "user_id"}, exclude_unset=True)
+    if "name" in updates and updates["name"] is not None:
+        updates["name"] = updates["name"].strip()
+        if not updates["name"]:
+            raise HTTPException(status_code=400, detail="Department name is required.")
+    if "description" in updates and updates["description"] is not None:
+        updates["description"] = updates["description"].strip()
+    if "default_access_roles" in updates:
+        updates["default_access_roles"] = _normalize_roles(updates["default_access_roles"])
+    try:
+        department = update_department_record(project_id, department_id, **updates)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error updating department.") from exc
+    if not department:
+        raise HTTPException(status_code=404, detail="Department not found.")
+
+    log_audit_event(
+        action="department_updated",
+        user_role=request.user_role,
+        user_id=request.user_id,
+        resource_type="department",
+        document_id=department["id"],
+        outcome="success",
+        metadata={
+            "project_id": project_id,
+            "department_id": department["id"],
+            "changed_fields": sorted(updates.keys()),
+        },
+    )
+    return {"department": department}
+
+
+@app.delete("/projects/{project_id}/departments/{department_id}")
+def archive_department_route(
+    project_id: str,
+    department_id: str,
+    user_role: str = "Knowledge Manager",
+    user_id: str | None = None,
+) -> dict:
+    project_id = _validate_project_id(project_id)
+    department_id = _validate_project_id(department_id)
+    try:
+        department = archive_department(project_id, department_id)
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error archiving department.") from exc
+    if not department:
+        raise HTTPException(status_code=404, detail="Department not found.")
+
+    log_audit_event(
+        action="department_archived",
+        user_role=user_role,
+        user_id=user_id,
+        resource_type="department",
+        document_id=department["id"],
+        outcome="success",
+        reason="soft_delete",
+        metadata={"project_id": project_id, "department_id": department["id"], "department_name": department["name"]},
+    )
+    return {"department": department, "status": "archived"}
 
 
 @app.patch("/projects/{project_id}")

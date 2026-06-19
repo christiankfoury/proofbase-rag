@@ -7,6 +7,9 @@ from apps.api.app.db.session import get_connection
 
 
 VALID_PROJECT_STATUSES = {"active", "paused", "archived"}
+VALID_DEPARTMENT_STATUSES = {"active", "archived"}
+VALID_DEPARTMENT_ICONS = {"people", "shield", "chart", "briefcase", "lock", "key", "building"}
+VALID_DEPARTMENT_COLORS = {"moss", "steel", "rust", "stone"}
 
 
 def _project_from_row(row: dict[str, Any]) -> dict[str, Any]:
@@ -46,14 +49,25 @@ def _base_project_select(where_clause: str) -> str:
           p.created_at,
           p.updated_at,
           p.archived_at,
-          count(distinct d.id) filter (where d.status = 'active')::int as document_count,
-          count(c.id) filter (where d.status = 'active')::int as chunk_count,
-          count(distinct d.department) filter (where d.status = 'active')::int as department_count
+          coalesce(doc_stats.document_count, 0)::int as document_count,
+          coalesce(doc_stats.chunk_count, 0)::int as chunk_count,
+          coalesce(dept_stats.department_count, 0)::int as department_count
         from projects p
-        left join documents d on d.project_id = p.id
-        left join chunks c on c.document_id = d.id
+        left join lateral (
+          select
+            count(distinct d.id) filter (where d.status = 'active') as document_count,
+            count(c.id) filter (where d.status = 'active') as chunk_count
+          from documents d
+          left join chunks c on c.document_id = d.id
+          where d.project_id = p.id
+        ) doc_stats on true
+        left join lateral (
+          select count(*) as department_count
+          from project_departments pd
+          where pd.project_id = p.id
+            and pd.status <> 'archived'
+        ) dept_stats on true
         {where_clause}
-        group by p.id
     """
 
 
@@ -79,31 +93,7 @@ def get_project(project_id: str, *, include_archived: bool = False) -> dict[str,
         if not row:
             return None
         project = _project_from_row(dict(row))
-        department_rows = conn.execute(
-            """
-            select
-              d.department as name,
-              count(distinct d.id)::int as document_count,
-              count(c.id)::int as chunk_count,
-              min(d.sensitivity) as sensitivity,
-              array(
-                select distinct role
-                from documents rd
-                cross join lateral unnest(rd.access_roles) as roles(role)
-                where rd.project_id = %s::uuid
-                  and rd.department = d.department
-                  and rd.status = 'active'
-                order by role
-              ) as access_roles
-            from documents d
-            left join chunks c on c.document_id = d.id
-            where d.project_id = %s::uuid
-              and d.status = 'active'
-            group by d.department
-            order by d.department asc
-            """,
-            (project_id, project_id),
-        ).fetchall()
+        department_rows = _department_rows(conn, project_id, include_archived=False)
         activity_rows = conn.execute(
             """
             select id::text, action, outcome, reason, metadata_json, created_at
@@ -122,6 +112,61 @@ def get_project(project_id: str, *, include_archived: bool = False) -> dict[str,
     project["departments"] = [dict(row) for row in department_rows]
     project["recent_activity"] = [dict(row) for row in activity_rows]
     return project
+
+
+def _department_rows(conn, project_id: str, *, include_archived: bool = False):
+    status_clause = "" if include_archived else "and pd.status <> 'archived'"
+    return conn.execute(
+        f"""
+        select
+          pd.id::text,
+          pd.project_id::text,
+          pd.name,
+          pd.icon,
+          pd.color,
+          pd.description,
+          pd.default_access_roles,
+          pd.seeded_data_key,
+          pd.status,
+          pd.created_at,
+          pd.updated_at,
+          pd.archived_at,
+          count(distinct d.id) filter (where d.status = 'active')::int as document_count,
+          count(c.id) filter (where d.status = 'active')::int as chunk_count,
+          coalesce(array(
+            select distinct role
+            from documents rd
+            cross join lateral unnest(rd.access_roles) as roles(role)
+            where rd.department_id = pd.id
+              and rd.status = 'active'
+            order by role
+          ), '{{}}') as access_roles
+        from project_departments pd
+        left join documents d on d.department_id = pd.id
+        left join chunks c on c.document_id = d.id
+        where pd.project_id = %s::uuid
+          {status_clause}
+        group by pd.id
+        order by
+          case
+            when pd.seeded_data_key = 'HR Public' then 0
+            when pd.seeded_data_key = 'HR Admin' then 1
+            when pd.seeded_data_key = 'IT Public' then 2
+            when pd.seeded_data_key = 'IT Admin' then 3
+            when pd.seeded_data_key = 'Sales Enablement' then 4
+            when pd.seeded_data_key = 'Manager Only' then 5
+            else 10
+          end,
+          pd.name asc
+        """,
+        (project_id,),
+    ).fetchall()
+
+
+def get_department(project_id: str, department_id: str, *, include_archived: bool = False) -> dict[str, Any] | None:
+    with get_connection() as conn:
+        rows = _department_rows(conn, project_id, include_archived=include_archived)
+    return next((dict(row) for row in rows if row["id"] == department_id), None)
 
 
 def create_project(
@@ -201,3 +246,100 @@ def update_project(
 
 def archive_project(project_id: str) -> dict[str, Any] | None:
     return update_project(project_id, status="archived")
+
+
+def create_department(
+    *,
+    project_id: str,
+    name: str,
+    icon: str = "building",
+    color: str = "steel",
+    description: str = "",
+    default_access_roles: list[str] | None = None,
+) -> dict[str, Any]:
+    _validate_department_metadata(icon=icon, color=color)
+    roles = default_access_roles or []
+    with get_connection() as conn:
+        row = conn.execute(
+            """
+            insert into project_departments (
+              project_id, name, icon, color, description, default_access_roles
+            )
+            values (%s::uuid, %s, %s, %s, %s, %s)
+            returning id::text
+            """,
+            (project_id, name, icon, color, description, roles),
+        ).fetchone()
+    department = get_department(project_id, row["id"], include_archived=True)
+    if department is None:
+        raise RuntimeError("Created department could not be loaded.")
+    return department
+
+
+def update_department(
+    project_id: str,
+    department_id: str,
+    *,
+    name: str | None = None,
+    icon: str | None = None,
+    color: str | None = None,
+    description: str | None = None,
+    default_access_roles: list[str] | None = None,
+    status: str | None = None,
+) -> dict[str, Any] | None:
+    assignments: list[str] = []
+    params: list[Any] = []
+    if name is not None:
+        assignments.append("name = %s")
+        params.append(name)
+    if icon is not None:
+        _validate_department_metadata(icon=icon)
+        assignments.append("icon = %s")
+        params.append(icon)
+    if color is not None:
+        _validate_department_metadata(color=color)
+        assignments.append("color = %s")
+        params.append(color)
+    if description is not None:
+        assignments.append("description = %s")
+        params.append(description)
+    if default_access_roles is not None:
+        assignments.append("default_access_roles = %s")
+        params.append(default_access_roles)
+    if status is not None:
+        if status not in VALID_DEPARTMENT_STATUSES:
+            raise ValueError("Department status must be active or archived.")
+        assignments.append("status = %s")
+        params.append(status)
+        assignments.append("archived_at = case when %s = 'archived' then coalesce(archived_at, now()) else null end")
+        params.append(status)
+
+    if not assignments:
+        return get_department(project_id, department_id, include_archived=True)
+
+    params.extend([project_id, department_id])
+    with get_connection() as conn:
+        row = conn.execute(
+            f"""
+            update project_departments
+            set {", ".join(assignments)}, updated_at = now()
+            where project_id = %s::uuid
+              and id = %s::uuid
+            returning id::text
+            """,
+            params,
+        ).fetchone()
+    if not row:
+        return None
+    return get_department(project_id, row["id"], include_archived=True)
+
+
+def archive_department(project_id: str, department_id: str) -> dict[str, Any] | None:
+    return update_department(project_id, department_id, status="archived")
+
+
+def _validate_department_metadata(*, icon: str | None = None, color: str | None = None) -> None:
+    if icon is not None and icon not in VALID_DEPARTMENT_ICONS:
+        raise ValueError(f"Department icon must be one of: {', '.join(sorted(VALID_DEPARTMENT_ICONS))}.")
+    if color is not None and color not in VALID_DEPARTMENT_COLORS:
+        raise ValueError(f"Department color must be one of: {', '.join(sorted(VALID_DEPARTMENT_COLORS))}.")
