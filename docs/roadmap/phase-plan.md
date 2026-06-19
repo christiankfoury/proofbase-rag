@@ -6,6 +6,18 @@ These phases are documentation targets until implementation begins. Each impleme
 
 The numbering starts after the existing Phase 17 work.
 
+Agents should plan internally and execute without waiting for user approval unless a decision is genuinely blocking, risky, costly, irreversible, or changes product direction. Use the recruiter-demo and engineering-manager review lens from `agent.md`: make the App side feel like a real product while keeping Dev/Admin proof honest and measurable.
+
+Default assumptions for future phases:
+
+- A project is a generic knowledge workspace.
+- Durable product concepts should be persisted in Postgres when practical.
+- The existing synthetic corpus should be seeded as `Northstar Analytics`.
+- Prefer archive or soft-delete semantics before hard delete.
+- Retrieval behavior should remain unchanged until the project-scoped RAG phase.
+- Seeded/demo data must be honest and must not create fake metrics, fake activity, or fake quality claims.
+- Each phase should update its docs and verification notes as part of the implementation.
+
 ## Phase 18: App And Dev/Admin Navigation Split
 
 Goal: Reframe the product so the first visible surface is an App, while existing evaluation pages become Dev/Admin.
@@ -62,8 +74,8 @@ Verification:
 
 Questions before starting:
 
-- Should projects be persisted in Postgres immediately?
-- Should the existing synthetic corpus become one seeded project named Northstar Analytics?
+- Override the default Postgres-backed project model only if the current repo state makes it impractical.
+- Override the default seeded `Northstar Analytics` project only if a better corpus mapping already exists.
 
 ## Phase 20: Department Workspaces
 
@@ -322,4 +334,3 @@ Algorithm phases additionally require:
 - cost and latency notes
 - permission leakage check
 - explanation of tradeoffs
-

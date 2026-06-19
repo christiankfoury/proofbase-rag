@@ -300,13 +300,26 @@ The next UI pass should make these points obvious:
 - Failures are visible and actionable.
 - Safety controls are part of the product, not a footnote.
 
+## Agent Decision Defaults
+
+Future phases should be implemented through a recruiter-demo and engineering-manager review lens. The agent should make a plan internally, use the repo and roadmap to choose reasonable defaults, and proceed without asking for plan approval. Ask the user only for decisions that are genuinely blocking, risky, costly, irreversible, or outside the established product direction.
+
+Default product choices:
+
+1. A project represents a generic knowledge workspace.
+2. The existing synthetic corpus maps to a seeded project named `Northstar Analytics`.
+3. Departments are project-local knowledge areas unless a later phase introduces reusable templates.
+4. Durable App concepts should use Postgres-backed models when practical.
+5. Archive or soft-delete should be preferred before hard delete.
+6. Retrieval behavior should remain unchanged until project-scoped RAG is implemented.
+7. Seeded/demo data must be honest and should never imply fake usage, fake metrics, or unverified quality wins.
+
 ## Questions To Resolve Before Implementation
 
-1. Should a project represent a client demo, a company workspace, an internal initiative, or any knowledge base?
-2. Should departments be templates copied into each project or fully custom per project?
-3. Should the first upload flow support only PDF, or PDF plus Markdown and DOCX?
-4. Should extracted Markdown require human review before indexing?
-5. Should App-side role selection stay as a demo control, or should production auth be introduced before project work?
-6. Should project data be stored in Postgres immediately, or should the first UI use seeded/demo data?
-7. Should algorithm comparison prioritize answer quality, source recall, citation accuracy, cost, or latency?
+These are still worth revisiting only if the implementation reaches a point where the defaults above are no longer sufficient:
 
+1. Should departments eventually become reusable templates copied into each project?
+2. Should the first upload flow support only PDF, or PDF plus Markdown and DOCX?
+3. Should extracted Markdown require human review before indexing?
+4. Should App-side role selection stay as a demo control, or should production auth be introduced before project work?
+5. Should algorithm comparison prioritize answer quality, source recall, citation accuracy, cost, or latency?

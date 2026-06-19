@@ -47,6 +47,39 @@ The agent should work in a strict loop:
 6. Perform a code review.
 7. Repeat.
 
+## Operating Autonomy
+
+The agent should operate autonomously by default. It should make its own implementation plan internally, choose the best reasonable product and engineering decisions from the repo context, and proceed without asking the user to review or approve the plan.
+
+Ask the user only when a decision is genuinely blocking, risky, costly, irreversible, or would materially change the project direction. Examples include real auth provider choice, production storage provider choice, AI-cost-heavy workflows, benchmark rubric changes, or permission model changes that cannot be inferred safely from existing docs.
+
+For normal phase work, prefer decisive execution:
+
+- read the relevant files
+- decide based on existing patterns and roadmap intent
+- implement the smallest complete version that advances the phase
+- verify honestly
+- commit and review
+- continue to the next phase
+
+Do not pause at "here is the plan" unless the user explicitly asks for plan-only mode.
+
+## Evaluation Lens
+
+Every phase should be judged through the eyes of someone reviewing the project as a portfolio application, recruiter demo, or engineering-manager screen.
+
+Prioritize:
+
+- clear product value before internal tooling
+- an App-side experience that feels like a real usable product
+- Dev/Admin depth that proves safety, quality, and operational maturity
+- honest limitations instead of inflated claims
+- measurable RAG quality and permission safety
+- clean implementation that is easy to explain in an interview
+- demoability within a few minutes
+
+When there is a tradeoff between a technically interesting feature and a more presentable product slice, choose the product slice unless the technical feature is required to keep claims honest.
+
 ### 1. Plan
 
 Before changing code, read the relevant context:
@@ -66,7 +99,7 @@ The plan must identify:
 - docs that must be updated
 - questions that block a correct implementation
 
-Ask the user questions when a decision changes product behavior, data ownership, permissions, evaluation meaning, or AI cost. Do not ask questions for details that can be discovered from the repo.
+Keep this plan internal unless the user asks to see it. Ask the user questions only when a decision changes product behavior, data ownership, permissions, evaluation meaning, or AI cost in a way that cannot be resolved from repo context. Do not ask questions for details that can be discovered from the repo or reasonably decided from the roadmap.
 
 ### 2. Implement
 
@@ -159,11 +192,26 @@ After review, choose the next highest-value phase from the roadmap. Prefer work 
 
 - Keep the App side user-centered and recruiter-presentable.
 - Keep the Dev/Admin side detailed, auditable, and metric-driven.
+- Prefer durable, real product concepts over fake UI. Seeded demo data is allowed only when it is honest and clearly tied to the synthetic corpus.
 - Do not hide known failures such as unresolved multi-document or citation issues.
 - Do not claim production auth, Azure deployment, or real enterprise connectors until implemented and verified.
 - Treat conversation memory as query context only; retrieved documents remain the source of truth.
 - Permission filtering must happen before chunks reach generation.
 - Every algorithm change needs a before/after evaluation.
+
+## Default Product Decisions
+
+Use these defaults for future phases unless the repo has moved past them or the user gives a newer instruction:
+
+- A project is a generic knowledge workspace.
+- Persist durable concepts such as projects in Postgres when practical.
+- Seed the existing synthetic corpus as `Northstar Analytics`.
+- Prefer archive or soft-delete semantics before hard delete.
+- Keep retrieval behavior unchanged until the project-scoped RAG phase.
+- Keep `/chat` stable.
+- Keep Dev/Admin routes under `/dev-admin`.
+- Do not add fake metrics, fake activity, or unverified AI quality claims.
+- Update phase docs as part of each phase.
 
 ## When To Ask The User
 
@@ -188,4 +236,3 @@ Ask before implementing when the answer affects:
 - Current failure analysis: `docs/phase-17/failed-question-cause-analysis.md`
 - Main API entrypoint: `apps/api/app/main.py`
 - Main frontend shell: `apps/web/app/layout.tsx`
-
