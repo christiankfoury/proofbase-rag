@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-18T00:43:10.684581+00:00",
+  "generated_at": "2026-06-19T01:52:00.620326+00:00",
   "source": "docs/phase-6 through docs/phase-16",
   "runs": [
     {
@@ -280,9 +280,7 @@
         "MEM-003",
         "MEM-004"
       ],
-      "notes": "Current Phase 7/9 structured JSON answer prompt. Note: v1 uses temperature=0.2, causing run-to-run variance. The phase-7 baseline run of the same prompt scored 0.829 answer accuracy vs 0.800 here — the difference is LLM non-determinism, not a code change. Subsequent prompt versions (v2 onward) use temperature=0.0 for reproducibility.",
-      "question_filter": "all",
-      "source_question_count": 60
+      "notes": "Current Phase 7/9 structured JSON answer prompt. Note: v1 uses temperature=0.2, causing run-to-run variance. The phase-7 baseline run of the same prompt scored 0.829 answer accuracy vs 0.800 here \u2014 the difference is LLM non-determinism, not a code change. Subsequent prompt versions (v2 onward) use temperature=0.0 for reproducibility."
     },
     {
       "run_id": "phase11-answer-generation-v2",
@@ -430,7 +428,7 @@
         "MEM-003",
         "MEM-004"
       ],
-      "notes": "Targeted unsupported-answer cleanup for failed-question backlog. Omits weakly supported claims and prefers partial answers for incomplete evidence. This run evaluated only 13 of 60 benchmark questions (previously-failed subset). Precision@k (0.723) appears higher than full-benchmark runs because the subset contains disproportionately many MULTI questions with 3+ expected source documents, which inflate chunk-level precision. Not directly comparable to full-benchmark scores.",
+      "notes": "Targeted unsupported-answer cleanup for failed-question backlog. Omits weakly supported claims and prefers partial answers for incomplete evidence. This run evaluated only 13/60 benchmark questions (previously-failed subset). Precision@k appears higher than full-benchmark runs because the subset contains disproportionately many MULTI questions with 3+ expected source documents, which inflate chunk-level precision. Not directly comparable to full-benchmark scores.",
       "question_filter": "failed",
       "source_question_count": 60
     },

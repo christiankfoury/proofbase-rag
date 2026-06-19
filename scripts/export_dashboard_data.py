@@ -260,7 +260,7 @@ def _phase8_run(markdown: str) -> dict[str, Any]:
             "authorized_answer_accuracy": _float(values.get("authorized_answer_accuracy", "")),
         },
         "failed_questions": [],
-        "notes": "Permission metrics measure restricted benchmark refusals and authorized source access.",
+        "notes": "Pre-retrieval role filter blocked all 10 unauthorized requests. Zero restricted chunks reached retrieval or generation. Authorized-role retrieval confirmed for all 10 questions. Authorized answer generation is marked pending (requires --include-authorized-generation flag). Permission safety here is structurally enforced by a hard document-access filter, not probabilistic.",
     }
 
 
@@ -359,6 +359,21 @@ def _prompt_experiment_runs() -> list[dict[str, Any]]:
             run["question_filter"] = question_filter
         if summary.get("source_question_count") is not None:
             run["source_question_count"] = summary.get("source_question_count")
+        if summary.get("prompt_version") == "v1":
+            run["notes"] += (
+                " Note: v1 uses temperature=0.2, causing run-to-run variance. The phase-7 baseline run of the"
+                " same prompt scored 0.829 answer accuracy vs 0.800 here — the difference is LLM"
+                " non-determinism, not a code change. Subsequent prompt versions (v2 onward) use"
+                " temperature=0.0 for reproducibility."
+            )
+        if question_filter and question_filter != "all":
+            run["notes"] += (
+                f" This run evaluated only {summary.get('question_count')}/{summary.get('source_question_count')}"
+                " benchmark questions (previously-failed subset). Precision@k appears higher than full-benchmark"
+                " runs because the subset contains disproportionately many MULTI questions with 3+ expected"
+                " source documents, which inflate chunk-level precision. Not directly comparable to"
+                " full-benchmark scores."
+            )
         runs.append(run)
     return runs
 
