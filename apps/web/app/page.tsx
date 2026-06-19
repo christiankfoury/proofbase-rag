@@ -6,8 +6,8 @@ import { Shell } from "@/components/Shell";
 
 const nextCapabilities = [
   {
-    title: "Departments",
-    detail: "Turn derived department coverage into editable workspaces with icons and access defaults.",
+    title: "Scoped Assistant",
+    detail: "Ask from a selected project or narrow to one department while preserving role-based filtering.",
   },
   {
     title: "Document Library",
@@ -37,7 +37,7 @@ export default function AppHomePage() {
               A permission-aware internal assistant for asking questions across company knowledge with citations, confidence, and safe refusal behavior.
             </p>
             <p className="mt-3 text-stone-700">
-              Projects are now first-class workspaces. The seeded Northstar Analytics project shows current corpus coverage while project-scoped retrieval remains planned.
+              Projects are now first-class workspaces. The seeded Northstar Analytics project can be queried as a whole or narrowed to a department before role-based filtering.
             </p>
           </>
         }
@@ -64,7 +64,7 @@ export default function AppHomePage() {
               description="Open Northstar Analytics to review coverage, quality status, and workspace settings before asking questions."
             />
             <p className="text-stone-700">
-              The App side now has project CRUD and a seeded workspace for the existing corpus. The assistant can answer supported questions, refuse restricted requests, show citations, expose retrieved context, and collect feedback.
+              The App side now has project CRUD, departments, document review, and a scoped assistant for the existing corpus. The assistant can answer supported questions, refuse restricted requests, show citations, expose retrieved context, and collect feedback.
             </p>
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -95,7 +95,7 @@ export default function AppHomePage() {
       <section className="mt-8">
         <SectionHeading
           title="App Capability Roadmap"
-          description="Projects, departments, indexed document review, and PDF extraction are implemented; upload approval/indexing and scoped retrieval remain planned phases."
+          description="Projects, departments, indexed document review, PDF extraction, and scoped retrieval are implemented; upload approval/indexing remains a planned phase."
         />
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {nextCapabilities.map((item) => (

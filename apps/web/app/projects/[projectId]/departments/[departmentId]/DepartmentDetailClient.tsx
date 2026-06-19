@@ -360,7 +360,7 @@ export function DepartmentDetailClient({
                     <p className="text-sm font-semibold text-ink">Ingestion Status</p>
                     <p className="mt-2 text-sm leading-6 text-stone-700">
                       {selectedDocument.ingestion_job?.status_detail ??
-                        "Current version metadata is indexed. Detailed upload extraction jobs begin in Phase 22."}
+                        "Current indexed version metadata is available. New uploads stay pending review until approval and indexing exist."}
                     </p>
                     {selectedDocument.version.failure_reason ? (
                       <p className="mt-2 text-sm text-rust-dark">{selectedDocument.version.failure_reason}</p>
@@ -378,7 +378,7 @@ export function DepartmentDetailClient({
             </div>
           ) : (
             <EmptyState title="No documents linked">
-              Upload and extraction are planned next. Existing seeded corpus documents appear here after ingestion links them to a department.
+              Upload a PDF for Markdown review, or ingest the seeded corpus to link existing documents to this department.
             </EmptyState>
           )}
         </div>

@@ -77,6 +77,8 @@ class QueryRequest(BaseModel):
     prompt_name: str = "answer_generation"
     prompt_version: str | None = None
     multi_doc_mode: str = Field("auto", pattern="^(auto|off|force)$")
+    project_id: str | None = None
+    department_id: str | None = None
 
 
 class CreateSessionRequest(BaseModel):
@@ -909,6 +911,10 @@ def query(request: QueryRequest) -> dict:
     rewrite: dict = {"rewritten_question": request.question, "is_followup": False, "memory_used": False, "rewrite_strategy": None, "original_question": request.question}
     answer: dict = {}
     session_id = request.session_id
+    project_id = _validate_project_id(request.project_id) if request.project_id else None
+    department_id = _validate_project_id(request.department_id) if request.department_id else None
+    if department_id and not project_id:
+        raise HTTPException(status_code=400, detail="Department scope requires a project scope.")
 
     settings = get_settings()
     config = default_retrieval_config(
@@ -918,8 +924,17 @@ def query(request: QueryRequest) -> dict:
         vector_weight=request.vector_weight,
         keyword_weight=request.keyword_weight,
         run_name="api-query",
+        project_id=project_id,
+        department_id=department_id,
     )
     try:
+        if project_id:
+            project = get_project(project_id)
+            if not project:
+                raise HTTPException(status_code=404, detail="Project not found.")
+            if department_id and not get_department(project_id, department_id):
+                raise HTTPException(status_code=404, detail="Department not found.")
+
         previous_turns = []
         if session_id:
             session = get_session(session_id)
@@ -1021,6 +1036,8 @@ def query(request: QueryRequest) -> dict:
             retrieval_mode=config.retrieval_mode,
             chunking_strategy=config.chunking_strategy,
             top_k=config.top_k,
+            project_id=config.project_id,
+            department_id=config.department_id,
             retrieved_chunk_ids=[c.chunk_id for c in chunks],
             retrieved_document_ids=list(dict.fromkeys(c.document_id for c in chunks)),
             response_type=answer.get("response_type"),
@@ -1057,6 +1074,10 @@ def query(request: QueryRequest) -> dict:
         "validation_notes": answer["validation_notes"],
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
+        "scope": {
+            "project_id": config.project_id,
+            "department_id": config.department_id,
+        },
         "multi_doc_mode": request.multi_doc_mode,
         "multi_doc_used": multi_doc,
         "prompt_name": answer.get("prompt_name"),

@@ -20,6 +20,8 @@ def retrieve_chunks(
     chunking_strategy: str = "section_based",
     vector_weight: float = 0.5,
     keyword_weight: float = 0.5,
+    project_id: str | None = None,
+    department_id: str | None = None,
 ) -> list[RetrievedChunk]:
     settings = get_settings()
     limit = top_k or settings.default_top_k
@@ -30,12 +32,16 @@ def retrieve_chunks(
         user_role,
         top_k=candidate_k,
         chunking_strategy=chunking_strategy,
+        project_id=project_id,
+        department_id=department_id,
     )
     keyword_chunks = keyword_retriever.retrieve_chunks(
         question,
         user_role,
         top_k=candidate_k,
         chunking_strategy=chunking_strategy,
+        project_id=project_id,
+        department_id=department_id,
     )
 
     vector_scores = {chunk.chunk_id: score for chunk, score in zip(vector_chunks, _normalize_scores([c.score for c in vector_chunks]), strict=True)}
@@ -61,6 +67,8 @@ def retrieve_chunks(
                 chunk_id=chunk.chunk_id,
                 document_id=chunk.document_id,
                 document_title=chunk.document_title,
+                project_id=chunk.project_id,
+                department_id=chunk.department_id,
                 section_heading=chunk.section_heading,
                 content=chunk.content,
                 access_roles=chunk.access_roles,
@@ -81,6 +89,8 @@ def retrieve_chunks(
             chunk_id=chunk.chunk_id,
             document_id=chunk.document_id,
             document_title=chunk.document_title,
+            project_id=chunk.project_id,
+            department_id=chunk.department_id,
             section_heading=chunk.section_heading,
             content=chunk.content,
             access_roles=chunk.access_roles,

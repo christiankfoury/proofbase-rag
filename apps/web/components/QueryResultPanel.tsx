@@ -23,6 +23,10 @@ function formatUsd(value: number | null | undefined): string {
   return `$${value.toFixed(6)}`;
 }
 
+function shortId(value: string | null | undefined, fallback = "global"): string {
+  return value ? value.slice(0, 8) : fallback;
+}
+
 export function CitationTable({ citations }: { citations: Citation[] }) {
   if (!citations.length) {
     return <p className="text-sm text-stone-600">No citations returned.</p>;
@@ -84,6 +88,9 @@ export function RetrievedContext({ chunks }: { chunks: RetrievedChunk[] }) {
             <span>Hybrid: {formatMetric(chunk.hybrid_score)}</span>
             <span>Sensitivity: {chunk.sensitivity ?? "n/a"}</span>
           </div>
+          <p className="mt-2 text-xs text-stone-600">
+            Scope: project {shortId(chunk.project_id)} / department {shortId(chunk.department_id, "all")}
+          </p>
           <p className="mt-2 text-xs text-stone-600">Roles: {(chunk.access_roles ?? []).join(", ") || "n/a"}</p>
           <p className="mt-3 text-sm leading-6 text-stone-800">{chunk.content_preview ?? "No preview available."}</p>
         </article>
@@ -122,13 +129,17 @@ export function QueryResultPanel({ result }: { result: QueryResponse }) {
 
       <Card>
         <h3 className="text-lg font-semibold text-ink">Permission Check</h3>
-        <div className="mt-3 grid items-center gap-3 text-sm text-stone-700 md:grid-cols-3">
+        <div className="mt-3 grid items-center gap-3 text-sm text-stone-700 md:grid-cols-4">
           <p>Role: {result.permission_check.user_role}</p>
           <p>Returned chunks: {result.permission_check.retrieved_chunks_count}</p>
+          <p>Scope: {result.scope?.project_id ? `project ${shortId(result.scope.project_id)}` : "global"}</p>
           <Badge tone={result.permission_check.unauthorized_chunks_reached_generation ? "warn" : "good"}>
             {result.permission_check.unauthorized_chunks_reached_generation ? "Leakage detected" : "No leakage"}
           </Badge>
         </div>
+        {result.scope?.department_id ? (
+          <p className="mt-2 text-sm text-stone-600">Department narrowed to {shortId(result.scope.department_id)} before role filtering.</p>
+        ) : null}
       </Card>
 
       <Card>

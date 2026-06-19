@@ -13,6 +13,8 @@ class RetrievedChunk:
     sensitivity: str
     rank: int
     score: float
+    project_id: str | None = None
+    department_id: str | None = None
     vector_score: float | None = None
     keyword_score: float | None = None
     hybrid_score: float | None = None

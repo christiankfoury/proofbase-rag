@@ -13,6 +13,8 @@ class RetrievalConfig:
     keyword_weight: float = 0.5
     prompt_version: str = "answer_v1"
     model: str = "gpt-4.1-mini"
+    project_id: str | None = None
+    department_id: str | None = None
 
 
 def default_retrieval_config(
@@ -22,6 +24,8 @@ def default_retrieval_config(
     vector_weight: float = 0.5,
     keyword_weight: float = 0.5,
     run_name: str | None = None,
+    project_id: str | None = None,
+    department_id: str | None = None,
 ) -> RetrievalConfig:
     settings = get_settings()
     mode = retrieval_mode
@@ -34,4 +38,6 @@ def default_retrieval_config(
         vector_weight=vector_weight,
         keyword_weight=keyword_weight,
         model=settings.openai_chat_model,
+        project_id=project_id,
+        department_id=department_id,
     )

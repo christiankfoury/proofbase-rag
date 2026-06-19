@@ -215,7 +215,7 @@ App routes:
 - `/projects` project workspace list with create, edit, archive, seeded corpus coverage, quality status, and recent project audit events.
 - `/projects/[projectId]` selected project workspace home.
 - `/projects/[projectId]/departments/[departmentId]` department workspace detail with icon, access defaults, document library, PDF upload for Markdown review, active version metadata, extracted Markdown preview, edit, and archive controls.
-- `/chat` live RAG demo with role selector, presets, citations, confidence, latency, retrieved context, and feedback.
+- `/chat` live project-scoped RAG demo with project and department scope selectors, role selector, presets, citations, confidence, latency, retrieved context, and feedback.
 
 Dev/Admin routes:
 
@@ -238,6 +238,7 @@ Recommended interactive demo presets:
 - Department workspace: open a seeded Northstar department such as `People Operations`, `IT Admin`, or `Sales`.
 - Document library: open a seeded department and inspect indexed documents, version metadata, access roles, ingestion status, and extracted Markdown preview.
 - PDF upload review: upload a PDF into a department to extract Markdown as a pending-review document; it is not indexed for retrieval until a later approval/indexing step.
+- Scoped assistant: open `/chat`, keep `Northstar Analytics` selected, and optionally narrow the question to one department before submitting.
 - HR factual: `Where does Northstar Analytics have offices?`
 - Missing information: `What is Northstar's sabbatical policy?`
 - Restricted manager question: `What is the promotion calibration process?`
@@ -355,8 +356,8 @@ Open the dashboard after exporting data.
 - `MULTI-005` still fails due to a `SALES-002` retrieval miss.
 - Multi-document detection is heuristic.
 - The `/chat` page is a demo UI, not a production end-user assistant with authentication.
-- Project CRUD is implemented, but project-scoped retrieval is planned for a later phase. The current assistant still uses the existing global retrieval path plus role-based permission filtering.
-- Department workspaces are implemented, but department-scoped retrieval and uploaded-document indexing are not implemented yet.
+- Project-scoped retrieval is implemented for `/chat` and `POST /query` when a scope is supplied. Dev/Admin benchmark tools can still use the global retrieval path when no scope is supplied.
+- Department-scoped retrieval is implemented as a strict filter when a department scope is supplied. Uploaded-document indexing is not implemented yet.
 - Department document libraries and PDF-to-Markdown review uploads are implemented, but approval/indexing for uploaded files is not implemented yet.
 - Uploaded source files are stored locally under `data/uploads/` for development and are ignored by git; Azure Blob Storage remains future work.
 - Runtime request logs such as `data/observability/request-logs.jsonl` are generated data and should be reviewed before committing.
@@ -369,6 +370,7 @@ Open the dashboard after exporting data.
 - Persist raw documents and durable logs in Azure Blob Storage.
 - Add PDF and DOCX ingestion.
 - Add review approval and indexing for uploaded PDF Markdown.
+- Add project-scoped benchmark runs and promotion gates.
 - Add real enterprise connectors.
 - Evaluate Azure AI Search or reranking for unresolved retrieval misses.
 - Improve multi-document retrieval and source coverage.
@@ -401,6 +403,7 @@ Phase artifacts are preserved for review:
 - [Phase 20](docs/phase-20/department-workspace-design.md): department workspace model and UI.
 - [Phase 21](docs/phase-21/document-library-design.md): document library and ingestion status planning.
 - [Phase 22](docs/phase-22/pdf-extraction-design.md): PDF upload and deterministic Markdown extraction.
+- [Phase 23](docs/phase-23/project-scoped-rag-design.md): project- and department-scoped retrieval.
 
 ## Final Portfolio Description
 

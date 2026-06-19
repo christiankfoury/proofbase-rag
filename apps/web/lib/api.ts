@@ -18,6 +18,8 @@ export type RetrievedChunk = {
   rank?: number | null;
   document_id: string;
   document_title: string;
+  project_id?: string | null;
+  department_id?: string | null;
   section_heading: string;
   chunk_id: string;
   score?: number | null;
@@ -43,6 +45,8 @@ export type QueryRequest = {
   prompt_name?: string;
   prompt_version?: string | null;
   multi_doc_mode?: MultiDocMode;
+  project_id?: string | null;
+  department_id?: string | null;
 };
 
 export type QueryResponse = {
@@ -61,6 +65,10 @@ export type QueryResponse = {
   validation_notes: string;
   retrieval_mode: string;
   chunking_strategy: string;
+  scope?: {
+    project_id?: string | null;
+    department_id?: string | null;
+  };
   multi_doc_mode?: string;
   multi_doc_used?: boolean;
   prompt_name?: string | null;

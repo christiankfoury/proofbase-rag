@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { EmptyState } from "@/components/EmptyState";
 import { QueryResultPanel } from "@/components/QueryResultPanel";
 import {
@@ -12,6 +12,7 @@ import {
   queryRag,
   submitFeedback,
 } from "@/lib/api";
+import { fetchProject, fetchProjects, type Project } from "@/lib/projects";
 
 const roles: UserRole[] = ["Employee", "Sales Representative", "Manager", "HR Admin", "IT Admin"];
 const retrievalModes: RetrievalMode[] = ["vector_only", "keyword_only", "hybrid"];
@@ -70,6 +71,11 @@ export function ChatDemoClient() {
   const [promptVersion, setPromptVersion] = useState("default");
   const [multiDocMode, setMultiDocMode] = useState<MultiDocMode>("auto");
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProjectId, setSelectedProjectId] = useState("");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState("");
+  const [scopeLoading, setScopeLoading] = useState(false);
   const [result, setResult] = useState<QueryResponse | null>(null);
   const [transcript, setTranscript] = useState<Array<{ question: string; response_type: string; answer: string }>>([]);
   const [loading, setLoading] = useState(false);
@@ -78,6 +84,52 @@ export function ChatDemoClient() {
   const [feedbackCategory, setFeedbackCategory] = useState("correctness");
   const [feedbackComment, setFeedbackComment] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState<string | null>(null);
+  const departments = selectedProject?.departments ?? [];
+  const queryDisabled = loading || scopeLoading || !selectedProjectId;
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchProjects()
+      .then((items) => {
+        if (cancelled) return;
+        setProjects(items);
+        setSelectedProjectId((current) => current || items.find((item) => item.seeded_data_key)?.id || items[0]?.id || "");
+      })
+      .catch((exc) => {
+        if (!cancelled) setError(exc instanceof Error ? exc.message : "Project list failed.");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedProjectId) {
+      setSelectedProject(null);
+      setSelectedDepartmentId("");
+      return;
+    }
+
+    let cancelled = false;
+    setScopeLoading(true);
+    fetchProject(selectedProjectId)
+      .then((project) => {
+        if (cancelled) return;
+        setSelectedProject(project);
+        setSelectedDepartmentId((current) =>
+          current && project.departments?.some((department) => department.id === current) ? current : ""
+        );
+      })
+      .catch((exc) => {
+        if (!cancelled) setError(exc instanceof Error ? exc.message : "Project detail failed.");
+      })
+      .finally(() => {
+        if (!cancelled) setScopeLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedProjectId]);
 
   async function runQuery(nextQuestion = question, nextSessionId = sessionId) {
     setLoading(true);
@@ -92,6 +144,8 @@ export function ChatDemoClient() {
         chunking_strategy: "section_based",
         prompt_version: promptVersion === "default" ? null : promptVersion,
         multi_doc_mode: multiDocMode,
+        project_id: selectedProjectId || null,
+        department_id: selectedDepartmentId || null,
       });
       setSessionId(response.session_id);
       setResult(response);
@@ -124,6 +178,8 @@ export function ChatDemoClient() {
         retrieval_mode: retrievalMode,
         chunking_strategy: "section_based",
         multi_doc_mode: "off",
+        project_id: selectedProjectId || null,
+        department_id: selectedDepartmentId || null,
       });
       const followup = "Can I carry any unused days into next year?";
       const response = await queryRag({
@@ -134,6 +190,8 @@ export function ChatDemoClient() {
         chunking_strategy: "section_based",
         prompt_version: promptVersion === "default" ? null : promptVersion,
         multi_doc_mode: "off",
+        project_id: selectedProjectId || null,
+        department_id: selectedDepartmentId || null,
       });
       setQuestion(followup);
       setResult(response);
@@ -175,6 +233,41 @@ export function ChatDemoClient() {
     <div className="grid gap-6 xl:grid-cols-[420px_minmax(0,1fr)] 2xl:grid-cols-[460px_minmax(0,1fr)] 2xl:gap-8">
       <aside className="card space-y-6 xl:sticky xl:top-8 xl:self-start">
         <form onSubmit={onSubmit} className="space-y-4">
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-1">
+            <div>
+              <label className="text-sm font-semibold text-ink" htmlFor="project">Project</label>
+              <select
+                id="project"
+                value={selectedProjectId}
+                onChange={(event) => {
+                  setSelectedProjectId(event.target.value);
+                  setSelectedDepartmentId("");
+                }}
+                className="field mt-1 w-full"
+                disabled={scopeLoading && !projects.length}
+              >
+                {projects.length ? null : <option value="">No projects loaded</option>}
+                {projects.map((project) => (
+                  <option key={project.id} value={project.id}>{project.name}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-ink" htmlFor="department">Department</label>
+              <select
+                id="department"
+                value={selectedDepartmentId}
+                onChange={(event) => setSelectedDepartmentId(event.target.value)}
+                className="field mt-1 w-full"
+                disabled={!selectedProjectId || scopeLoading}
+              >
+                <option value="">All departments</option>
+                {departments.map((department) => (
+                  <option key={department.id} value={department.id}>{department.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
           <div>
             <label className="text-sm font-semibold text-ink" htmlFor="role">Role</label>
             <select id="role" value={role} onChange={(event) => setRole(event.target.value as UserRole)} className="field mt-1 w-full">
@@ -211,7 +304,7 @@ export function ChatDemoClient() {
               </select>
             </div>
           </div>
-          <button type="submit" disabled={loading} className="btn-primary w-full">
+          <button type="submit" disabled={queryDisabled} className="btn-primary w-full">
             {loading ? "Running..." : "Submit query"}
           </button>
         </form>
@@ -228,6 +321,7 @@ export function ChatDemoClient() {
                   setQuestion(preset.question);
                   setRetrievalMode("vector_only");
                   setMultiDocMode(preset.multiDocMode);
+                  setSelectedDepartmentId("");
                 }}
                 className="w-full rounded border border-stone-300 px-3 py-2 text-left text-sm transition-colors hover:border-moss hover:bg-moss-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss"
               >
@@ -238,7 +332,7 @@ export function ChatDemoClient() {
             <button
               type="button"
               onClick={runMemoryScenario}
-              disabled={loading}
+              disabled={queryDisabled}
               className="w-full rounded border border-steel px-3 py-2 text-left text-sm font-semibold text-steel-dark transition-colors hover:bg-steel-soft disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-steel"
             >
               Run memory follow-up scenario

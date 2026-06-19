@@ -11,17 +11,22 @@ def retrieve_chunks(
     user_role: str,
     top_k: int | None = None,
     chunking_strategy: str = "section_based",
+    project_id: str | None = None,
+    department_id: str | None = None,
 ) -> list[RetrievedChunk]:
     settings = get_settings()
     limit = top_k or settings.default_top_k
     candidate_limit = max(limit * 4, 20)
     query_embedding = to_vector_literal(embed_text(question))
     roles = role_variants(user_role)
+    scope_sql, scope_params = _scope_filter(project_id=project_id, department_id=department_id)
 
-    candidate_sql = """
+    candidate_sql = f"""
         select
           c.id::text as chunk_id,
           d.external_document_id as document_id,
+          d.project_id::text as project_id,
+          d.department_id::text as department_id,
           d.access_roles,
           d.restricted,
           d.sensitivity
@@ -33,15 +38,18 @@ def retrieve_chunks(
           and c.chunking_strategy = %s
           and d.status = 'active'
           and dv.ingestion_status = 'indexed'
+          {scope_sql}
         order by ce.embedding <=> %s::vector
         limit %s
     """
 
-    allowed_sql = """
+    allowed_sql = f"""
         select
           c.id::text as chunk_id,
           d.external_document_id as document_id,
           d.title as document_title,
+          d.project_id::text as project_id,
+          d.department_id::text as department_id,
           c.section_heading,
           c.content,
           d.access_roles,
@@ -57,6 +65,7 @@ def retrieve_chunks(
           and c.chunking_strategy = %s
           and d.status = 'active'
           and dv.ingestion_status = 'indexed'
+          {scope_sql}
         order by ce.embedding <=> %s::vector
         limit %s
     """
@@ -64,11 +73,11 @@ def retrieve_chunks(
     with get_connection() as conn:
         candidate_rows = conn.execute(
             candidate_sql,
-            (settings.openai_embedding_model, chunking_strategy, query_embedding, candidate_limit),
+            (settings.openai_embedding_model, chunking_strategy, *scope_params, query_embedding, candidate_limit),
         ).fetchall()
         rows = conn.execute(
             allowed_sql,
-            (query_embedding, roles, settings.openai_embedding_model, chunking_strategy, query_embedding, limit),
+            (query_embedding, roles, settings.openai_embedding_model, chunking_strategy, *scope_params, query_embedding, limit),
         ).fetchall()
 
     chunks = [
@@ -76,6 +85,8 @@ def retrieve_chunks(
             chunk_id=row["chunk_id"],
             document_id=row["document_id"],
             document_title=row["document_title"],
+            project_id=row["project_id"],
+            department_id=row["department_id"],
             section_heading=row["section_heading"],
             content=row["content"],
             access_roles=list(row["access_roles"]),
@@ -96,3 +107,15 @@ def retrieve_chunks(
     )
     log_permission_trace(trace, chunking_strategy=chunking_strategy, top_k=limit)
     return chunks
+
+
+def _scope_filter(*, project_id: str | None = None, department_id: str | None = None) -> tuple[str, list[str]]:
+    clauses: list[str] = []
+    params: list[str] = []
+    if project_id:
+        clauses.append("and d.project_id = %s::uuid")
+        params.append(project_id)
+    if department_id:
+        clauses.append("and d.department_id = %s::uuid")
+        params.append(department_id)
+    return "\n          ".join(clauses), params

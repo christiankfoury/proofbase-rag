@@ -7,7 +7,7 @@ export default function ChatDemoPage() {
     <Shell>
       <PageHeader
         title="Chat Demo"
-        description="Ask the enterprise RAG API live, switch demo roles, inspect citations and retrieved context, and submit feedback. This is a recruiter demo UI, not production authentication."
+        description="Ask the enterprise RAG API live from a selected project or department, switch demo roles, inspect citations and retrieved context, and submit feedback. This is a recruiter demo UI, not production authentication."
       />
       <ChatDemoClient />
     </Shell>

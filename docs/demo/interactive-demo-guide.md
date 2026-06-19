@@ -19,7 +19,7 @@ Open `http://localhost:3000`.
 | App Home | `/` | Product framing with Projects as the primary App entry point. |
 | Projects | `/projects` | Project CRUD, seeded Northstar workspace, corpus coverage, quality status, and project audit events. |
 | Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, PDF upload for Markdown review, active version metadata, extracted Markdown preview, edit, and archive controls. |
-| Chat Demo | `/chat` | Live RAG query, role selection, citations, confidence, latency, retrieved context, and feedback. |
+| Chat Demo | `/chat` | Live scoped RAG query, project and department selection, role selection, citations, confidence, latency, retrieved context, and feedback. |
 | Dev/Admin Overview | `/dev-admin` | Final metrics and evaluation-first proof. |
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts. |
 | Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows when detailed JSON exists. |
@@ -36,7 +36,7 @@ Open `http://localhost:3000`.
 1. Project workspace
    - Page: `/projects`
    - Project: `Northstar Analytics`
-   - Expected: seeded corpus coverage with derived departments, document count, indexed chunk count, global quality status, and no claim of project-scoped retrieval.
+   - Expected: seeded corpus coverage with derived departments, document count, indexed chunk count, global quality status, and project-scoped assistant entry points.
 
 2. Department workspace
    - Page: `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001`
@@ -45,18 +45,22 @@ Open `http://localhost:3000`.
 
 3. Normal factual answer
    - Page: `/chat`
+   - Project: `Northstar Analytics`
+   - Department: `All departments`
    - Role: `Employee`
    - Question: `Where does Northstar Analytics have offices?`
    - Expected: `answer` with HR citation.
 
 4. Missing information
    - Page: `/chat`
+   - Project: `Northstar Analytics`
    - Role: `Employee`
    - Question: `What is Northstar's sabbatical policy?`
    - Expected: `not_found`, with no invented policy.
 
 5. Permission refusal
    - Page: `/chat`
+   - Project: `Northstar Analytics`
    - Role: `Employee`
    - Question: `What is the promotion calibration process?`
    - Expected: `refuse_no_access`.
@@ -73,6 +77,7 @@ Open `http://localhost:3000`.
 
 8. Multi-document reasoning
    - Page: `/chat` or `/dev-admin/retrieval-playground`
+   - Project: `Northstar Analytics` when using `/chat`
    - Role: `Employee`
    - Question: `If I work remotely, what approval and device security expectations apply?`
    - Expected: synthesis from HR and IT policy sources.
@@ -85,8 +90,8 @@ Open `http://localhost:3000`.
 ## Demo Notes
 
 - The chat page is a demo UI over the existing API. It is not production authentication.
-- Projects are durable workspaces, but `/chat` is not project-scoped until the planned project-scoped RAG phase.
-- Department workspaces include document libraries and PDF-to-Markdown review uploads, but `/chat` is not department-scoped yet.
+- Projects are durable workspaces, and `/chat` sends the selected project scope to retrieval.
+- Department workspaces include document libraries and PDF-to-Markdown review uploads. `/chat` can strictly narrow retrieval to one department inside the selected project.
 - Uploaded PDFs are extracted for review only; approval, chunking, embeddings, and retrieval indexing remain future work.
 - Metrics and benchmark details come from existing evaluation JSON and Markdown outputs.
 - Querying requires `OPENAI_API_KEY`.
