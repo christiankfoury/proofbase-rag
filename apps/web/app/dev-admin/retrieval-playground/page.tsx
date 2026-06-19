@@ -1,15 +1,19 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Shell } from "@/components/Shell";
+import { getDashboardData } from "@/lib/dashboard";
 import { RetrievalPlaygroundClient } from "./RetrievalPlaygroundClient";
 
-export default function RetrievalPlaygroundPage() {
+export default async function RetrievalPlaygroundPage() {
+  const data = await getDashboardData();
+  const historicalRuns = data.runs.filter((run) => run.phase === "phase-6");
+
   return (
     <Shell>
       <PageHeader
-        title="Retrieval Playground"
-        description="Compare vector, keyword, hybrid, and forced multi-document query paths using the same question and real API output."
+        title="Algorithm Quality Lab"
+        description="Compare named retrieval profiles with real historical metrics, live source coverage, citations, latency, cost, and known failure visibility."
       />
-      <RetrievalPlaygroundClient />
+      <RetrievalPlaygroundClient historicalRuns={historicalRuns} failures={data.failed_questions} />
     </Shell>
   );
 }

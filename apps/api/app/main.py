@@ -99,6 +99,18 @@ class FeedbackRequest(BaseModel):
     feedback_category: str = "other"
 
 
+class AlgorithmReviewRequest(BaseModel):
+    profile_name: str = Field(..., min_length=1, max_length=120)
+    decision: str = Field(..., pattern="^(review_only|candidate|rejected)$")
+    question: str = Field(..., min_length=1)
+    user_role: str = "Knowledge Manager"
+    reviewer_id: str | None = None
+    primary_metric: str = Field("source_coverage", max_length=80)
+    expected_sources: list[str] = Field(default_factory=list, max_length=20)
+    notes: str = Field("", max_length=2000)
+    result_summary: dict | None = None
+
+
 class ProjectCreateRequest(BaseModel):
     name: str = Field(..., min_length=1, max_length=120)
     description: str = Field("", max_length=1000)
@@ -454,6 +466,36 @@ def evaluation_failed_questions_enriched() -> dict:
             }
         )
     return {"failed_questions": failures, "count": len(failures)}
+
+
+@app.post("/evaluation/algorithm-reviews", status_code=201)
+def algorithm_review_route(request: AlgorithmReviewRequest) -> dict:
+    review_id = str(uuid.uuid4())
+    recorded = log_audit_event(
+        action="algorithm_profile_reviewed",
+        user_role=request.user_role,
+        user_id=request.reviewer_id,
+        resource_type="retrieval_profile",
+        document_id=request.profile_name,
+        outcome=request.decision,
+        reason=request.primary_metric,
+        metadata={
+            "review_id": review_id,
+            "profile_name": request.profile_name,
+            "question": request.question,
+            "expected_sources": request.expected_sources,
+            "notes": request.notes,
+            "result_summary": request.result_summary or {},
+        },
+    )
+    if not recorded:
+        raise HTTPException(status_code=503, detail="Audit log storage is unavailable; review note was not recorded.")
+    return {
+        "review_id": review_id,
+        "status": "recorded",
+        "audit_action": "algorithm_profile_reviewed",
+        "decision": request.decision,
+    }
 
 
 @app.post("/feedback")

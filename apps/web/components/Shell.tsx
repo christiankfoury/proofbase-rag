@@ -19,7 +19,7 @@ const navGroups = [
       ["Overview", "/dev-admin"],
       ["Runs", "/dev-admin/runs"],
       ["Failed Questions", "/dev-admin/failed-questions"],
-      ["Retrieval Playground", "/dev-admin/retrieval-playground"],
+      ["Algorithm Lab", "/dev-admin/retrieval-playground"],
       ["Permission Demo", "/dev-admin/permission-demo"],
       ["Multi-Doc", "/dev-admin/multi-doc"],
       ["Observability", "/dev-admin/observability"],

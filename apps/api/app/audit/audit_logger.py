@@ -16,7 +16,7 @@ def log_audit_event(
     user_id: str | None = None,
     reason: str | None = None,
     metadata: dict[str, Any] | None = None,
-) -> None:
+) -> bool:
     safe_metadata = metadata or {}
     try:
         with get_connection() as conn:
@@ -39,9 +39,10 @@ def log_audit_event(
                     json.dumps(safe_metadata),
                 ),
             )
+        return True
     except Exception:
         # Audit logging must never expose content or break the user-facing path.
-        return
+        return False
 
 
 def list_audit_events(
@@ -93,4 +94,3 @@ def audit_summary() -> dict[str, Any]:
         return {"counts_by_action": {row["action"]: row["n"] for row in rows}}
     except Exception:
         return {"counts_by_action": {}}
-

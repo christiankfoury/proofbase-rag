@@ -120,7 +120,7 @@ export default function AppHomePage() {
             Inspect failures
           </Link>
           <Link href="/dev-admin/retrieval-playground" className="btn-secondary">
-            Compare algorithms
+            Open quality lab
           </Link>
         </div>
       </Card>

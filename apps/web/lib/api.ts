@@ -207,3 +207,20 @@ export async function getRunQuestions(runId: string): Promise<RunQuestionRespons
 export async function getEnrichedFailures(): Promise<{ failed_questions: EnrichedFailure[]; count: number }> {
   return requestJson<{ failed_questions: EnrichedFailure[]; count: number }>("/evaluation/failed-questions/enriched", { cache: "no-store" });
 }
+
+export async function submitAlgorithmReview(payload: {
+  profile_name: string;
+  decision: "review_only" | "candidate" | "rejected";
+  question: string;
+  user_role: string;
+  reviewer_id?: string | null;
+  primary_metric?: string;
+  expected_sources?: string[];
+  notes?: string;
+  result_summary?: Record<string, unknown>;
+}): Promise<{ review_id: string; status: string; audit_action: string; decision: string }> {
+  return requestJson("/evaluation/algorithm-reviews", {
+    method: "POST",
+    body: JSON.stringify({ primary_metric: "source_coverage", expected_sources: [], notes: "", ...payload }),
+  });
+}

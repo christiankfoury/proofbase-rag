@@ -47,7 +47,7 @@ export default async function OverviewPage() {
               Run Permission Demo
             </Link>
             <Link href="/dev-admin/retrieval-playground" className="btn-secondary">
-              Open Retrieval Playground
+              Open Algorithm Lab
             </Link>
           </>
         }

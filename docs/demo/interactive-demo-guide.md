@@ -24,7 +24,7 @@ Open `http://localhost:3000`.
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts. |
 | Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows when detailed JSON exists. |
 | Failed Questions | `/dev-admin/failed-questions` | Expandable failure analysis with expected answer, actual answer, citations, and fixes. |
-| Retrieval Playground | `/dev-admin/retrieval-playground` | Vector, keyword, hybrid, and multi-doc comparison on the same question. |
+| Algorithm Quality Lab | `/dev-admin/retrieval-playground` | Named retrieval profiles, historical metrics, live source/citation coverage, known failures, and review notes. |
 | Permission Demo | `/dev-admin/permission-demo` | Same restricted question across Employee, Sales Representative, Manager, and HR Admin. |
 | Multi-Doc | `/dev-admin/multi-doc` | Phase 13 before/after multi-document metrics. |
 | Observability | `/dev-admin/observability` | Live request logs, latency, confidence, and token summaries. |
