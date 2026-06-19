@@ -3,7 +3,7 @@ import uuid
 from datetime import UTC, datetime
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from psycopg import Error as PsycopgError
 from pydantic import BaseModel, Field
@@ -15,6 +15,7 @@ from apps.api.app.db.session import get_connection
 from apps.api.app.feedback.feedback_store import feedback_summary as get_feedback_summary
 from apps.api.app.feedback.feedback_store import list_feedback, submit_feedback
 from apps.api.app.generation.answer_generator import generate_answer, retrieved_chunks_payload
+from apps.api.app.ingestion.pdf_extractor import extract_pdf_to_markdown
 from apps.api.app.memory.context_builder import build_memory_context, memory_context_text
 from apps.api.app.memory.query_rewriter import rewrite_followup_question
 from apps.api.app.memory.session_store import add_message, create_session, get_session, list_messages
@@ -22,11 +23,12 @@ from apps.api.app.observability.logger import build_request_entry, log_request
 from apps.api.app.observability.summary import compute_live_summary
 from apps.api.app.observability.tracing import RequestTrace
 from apps.api.app.permissions.access_control import unauthorized_chunks_reached_generation
+from apps.api.app.projects.document_store import create_pending_review_document
+from apps.api.app.projects.document_store import list_project_documents
 from apps.api.app.projects.project_store import archive_project
 from apps.api.app.projects.project_store import archive_department
 from apps.api.app.projects.project_store import create_department as create_department_record
 from apps.api.app.projects.project_store import create_project as create_project_record
-from apps.api.app.projects.document_store import list_project_documents
 from apps.api.app.projects.project_store import get_department
 from apps.api.app.projects.project_store import get_project, list_projects
 from apps.api.app.projects.project_store import update_department as update_department_record
@@ -44,6 +46,7 @@ BENCHMARK_PATH = ROOT / "data/evaluation/benchmark-questions.json"
 FAILED_QUESTIONS_PATH = ROOT / "data/evaluation/failed-questions/failed-questions.json"
 PROMPT_EXPERIMENT_DIR = ROOT / "data/evaluation/prompt-experiments"
 MULTI_DOC_EVAL_PATH = ROOT / "data/evaluation/multi-doc-eval.json"
+MAX_UPLOAD_BYTES = 10 * 1024 * 1024
 
 
 def _cors_origins() -> list[str]:
@@ -146,6 +149,14 @@ def _normalize_roles(roles: list[str] | None) -> list[str] | None:
         return None
     normalized = [role.strip() for role in roles if role.strip()]
     return list(dict.fromkeys(normalized))
+
+
+def _safe_upload_name(filename: str | None) -> str:
+    name = Path(filename or "upload.pdf").name
+    stem = Path(name).stem or "upload"
+    suffix = Path(name).suffix.lower() or ".pdf"
+    safe_stem = "".join(char if char.isalnum() or char in {"-", "_"} else "-" for char in stem).strip("-")
+    return f"{safe_stem or 'upload'}{suffix}"
 
 
 def _load_dashboard_data() -> dict:
@@ -653,6 +664,102 @@ def department_documents_route(
     except PsycopgError as exc:
         raise HTTPException(status_code=503, detail="Database error loading department documents.") from exc
     return {"documents": documents, "count": len(documents)}
+
+
+@app.post("/projects/{project_id}/departments/{department_id}/documents/upload", status_code=201)
+async def upload_department_document_route(
+    project_id: str,
+    department_id: str,
+    file: UploadFile = File(...),
+    title: str | None = Form(None),
+    access_roles: str | None = Form(None),
+    restricted: bool = Form(False),
+    user_role: str = Form("Knowledge Manager"),
+    user_id: str | None = Form(None),
+) -> dict:
+    project_id = _validate_project_id(project_id)
+    department_id = _validate_project_id(department_id)
+    safe_name = _safe_upload_name(file.filename)
+    if not safe_name.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Only PDF uploads are supported in this phase.")
+
+    raw_bytes = await file.read()
+    if len(raw_bytes) > MAX_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail="PDF uploads are limited to 10 MB in the local demo.")
+    if not raw_bytes.startswith(b"%PDF"):
+        raise HTTPException(status_code=400, detail="Uploaded file is not a valid PDF.")
+
+    settings = get_settings()
+    upload_id = str(uuid.uuid4())
+    relative_path = Path(settings.upload_storage_dir) / project_id / department_id / f"{upload_id}-{safe_name}"
+    storage_path = ROOT / relative_path
+    storage_path.parent.mkdir(parents=True, exist_ok=True)
+    storage_path.write_bytes(raw_bytes)
+
+    document_title = (title or Path(safe_name).stem.replace("-", " ")).strip()
+    external_document_id = f"UPLOAD-{upload_id[:8].upper()}"
+
+    try:
+        department = get_department(project_id, department_id)
+        if not department:
+            storage_path.unlink(missing_ok=True)
+            raise HTTPException(status_code=404, detail="Department not found.")
+        roles = _normalize_roles(access_roles.split(",")) if access_roles else list(department["default_access_roles"])
+        if not roles:
+            roles = ["Employee"]
+        extraction = extract_pdf_to_markdown(storage_path, title=document_title)
+        document = create_pending_review_document(
+            project_id=project_id,
+            department=department,
+            external_document_id=external_document_id,
+            title=document_title,
+            source_path=str(relative_path).replace("\\", "/"),
+            source_file_name=safe_name,
+            source_file_type="pdf",
+            raw_file_bytes=raw_bytes,
+            access_roles=roles,
+            restricted=restricted,
+            extracted_markdown=extraction.markdown,
+            extraction_metadata={
+                "extractor": "pypdf",
+                "page_count": extraction.page_count,
+                "pages_with_text": extraction.pages_with_text,
+                "extraction_confidence": extraction.confidence,
+                "warnings": extraction.warnings,
+                "review_required": True,
+            },
+        )
+    except HTTPException:
+        raise
+    except PsycopgError as exc:
+        storage_path.unlink(missing_ok=True)
+        raise HTTPException(status_code=503, detail="Database error saving extracted document.") from exc
+    except Exception as exc:
+        storage_path.unlink(missing_ok=True)
+        raise HTTPException(status_code=400, detail=f"PDF extraction failed: {exc}") from exc
+
+    log_audit_event(
+        action="document_uploaded_for_review",
+        user_role=user_role,
+        user_id=user_id,
+        resource_type="document",
+        document_id=document["external_document_id"],
+        outcome="success",
+        reason="pending_review",
+        metadata={
+            "project_id": project_id,
+            "department_id": department_id,
+            "document_id": document["id"],
+            "external_document_id": document["external_document_id"],
+            "source_file_name": safe_name,
+            "ingestion_status": document["version"]["ingestion_status"],
+        },
+    )
+    return {
+        "document": document,
+        "status": "pending_review",
+        "message": "PDF extracted to Markdown for review. No chunks or embeddings were created.",
+    }
 
 
 @app.get("/projects/{project_id}/departments/{department_id}")

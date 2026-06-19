@@ -18,7 +18,7 @@ Open `http://localhost:3000`.
 |---|---|---|
 | App Home | `/` | Product framing with Projects as the primary App entry point. |
 | Projects | `/projects` | Project CRUD, seeded Northstar workspace, corpus coverage, quality status, and project audit events. |
-| Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, active version metadata, extracted Markdown preview, edit, and archive controls. |
+| Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, PDF upload for Markdown review, active version metadata, extracted Markdown preview, edit, and archive controls. |
 | Chat Demo | `/chat` | Live RAG query, role selection, citations, confidence, latency, retrieved context, and feedback. |
 | Dev/Admin Overview | `/dev-admin` | Final metrics and evaluation-first proof. |
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts. |
@@ -41,7 +41,7 @@ Open `http://localhost:3000`.
 2. Department workspace
    - Page: `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001`
    - Department: `People Operations`
-   - Expected: icon label, description, default roles, current document roles, document count, indexed document list, version metadata, access roles, ingestion status, extracted Markdown preview, and disabled upload controls.
+   - Expected: icon label, description, default roles, current document roles, document count, indexed document list, PDF upload form, version metadata, access roles, ingestion status, extracted Markdown preview, and honest pending-review status for new uploads.
 
 3. Normal factual answer
    - Page: `/chat`
@@ -86,8 +86,8 @@ Open `http://localhost:3000`.
 
 - The chat page is a demo UI over the existing API. It is not production authentication.
 - Projects are durable workspaces, but `/chat` is not project-scoped until the planned project-scoped RAG phase.
-- Department workspaces include document libraries for indexed seeded documents, but `/chat` is not department-scoped yet.
-- Upload controls are disabled until the PDF/document extraction phase adds real parsing and reviewable Markdown output.
+- Department workspaces include document libraries and PDF-to-Markdown review uploads, but `/chat` is not department-scoped yet.
+- Uploaded PDFs are extracted for review only; approval, chunking, embeddings, and retrieval indexing remain future work.
 - Metrics and benchmark details come from existing evaluation JSON and Markdown outputs.
 - Querying requires `OPENAI_API_KEY`.
 - Retrieved context only shows chunks returned by the permission-filtered query API.

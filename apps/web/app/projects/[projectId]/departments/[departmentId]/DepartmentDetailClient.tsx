@@ -13,6 +13,7 @@ import {
   fetchDepartmentDocuments,
   ProjectDepartment,
   ProjectDocument,
+  uploadDepartmentDocument,
   updateDepartment,
 } from "@/lib/projects";
 
@@ -91,9 +92,15 @@ export function DepartmentDetailClient({
   const [documents, setDocuments] = useState<ProjectDocument[]>([]);
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
   const [form, setForm] = useState<DepartmentFormState | null>(null);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploadTitle, setUploadTitle] = useState("");
+  const [uploadRolesText, setUploadRolesText] = useState("");
+  const [uploadRestricted, setUploadRestricted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -106,6 +113,7 @@ export function DepartmentDetailClient({
         setSelectedDocumentId((current) =>
           current && nextDocuments.some((document) => document.id === current) ? current : nextDocuments[0]?.id ?? ""
         );
+        setUploadRolesText((current) => current || nextDepartment.default_access_roles.join(", "));
         setForm(formFromDepartment(nextDepartment));
       })
       .catch((err: Error) => {
@@ -141,6 +149,40 @@ export function DepartmentDetailClient({
     }
   }
 
+  async function handleUpload(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!uploadFile) {
+      setError("Choose a PDF before uploading.");
+      return;
+    }
+    setUploading(true);
+    setError(null);
+    setNotice(null);
+    try {
+      const document = await uploadDepartmentDocument(projectId, departmentId, {
+        file: uploadFile,
+        title: uploadTitle,
+        access_roles: parseRoles(uploadRolesText),
+        restricted: uploadRestricted,
+      });
+      const [nextDepartment, nextDocuments] = await Promise.all([
+        fetchDepartment(projectId, departmentId, true),
+        fetchDepartmentDocuments(projectId, departmentId, true),
+      ]);
+      setDepartment(nextDepartment);
+      setDocuments(nextDocuments);
+      setSelectedDocumentId(document.id);
+      setUploadFile(null);
+      setUploadTitle("");
+      setUploadRestricted(false);
+      setNotice("PDF extracted to Markdown and saved for review. It is not indexed for retrieval yet.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "PDF upload could not be processed.");
+    } finally {
+      setUploading(false);
+    }
+  }
+
   async function handleArchive() {
     if (!department) return;
     const confirmed = window.confirm(`Archive ${department.name}? Linked documents are not deleted.`);
@@ -173,6 +215,9 @@ export function DepartmentDetailClient({
       <section className="space-y-5">
         {error ? (
           <div className="rounded-md border border-rust bg-rust-soft p-4 text-sm text-rust-dark">{error}</div>
+        ) : null}
+        {notice ? (
+          <div className="rounded-md border border-moss bg-moss-soft p-4 text-sm text-moss-dark">{notice}</div>
         ) : null}
         <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -227,11 +272,9 @@ export function DepartmentDetailClient({
           <div className="flex flex-wrap items-start justify-between gap-4">
             <SectionHeading
               title="Document Library"
-              description="Indexed documents linked to this department, with ingestion status, active version metadata, and source Markdown preview."
+              description="Department documents with ingestion status, active version metadata, access roles, and source Markdown preview."
             />
-            <button className="btn-secondary" type="button" disabled title="PDF and document extraction starts in Phase 22.">
-              Upload disabled
-            </button>
+            <Badge tone="info">PDF review enabled</Badge>
           </div>
 
           {documents.length ? (
@@ -344,18 +387,49 @@ export function DepartmentDetailClient({
       <div className="space-y-5">
         <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
           <SectionHeading
-            title="Upload Planning"
-            description="The product entry point is visible, but parsing and indexing new files start in Phase 22."
+            title="Upload PDF"
+            description="Extract text to Markdown for review. This does not create chunks or embeddings."
           />
-          <div className="rounded border border-dashed border-stone-300 bg-stone-50 p-4">
-            <p className="font-semibold text-ink">Drop zone placeholder</p>
-            <p className="mt-2 text-sm leading-6 text-stone-700">
-              Future uploads will create ingestion jobs, extract Markdown for review, then index approved content.
-            </p>
-            <button className="btn-secondary mt-4" type="button" disabled title="PDF and document extraction starts in Phase 22.">
-              Choose file disabled
+          <form onSubmit={handleUpload} className="space-y-3 rounded border border-dashed border-stone-300 bg-stone-50 p-4">
+            <label className="block">
+              <span className="text-sm font-medium text-stone-700">PDF file</span>
+              <input
+                className="field mt-1 w-full"
+                type="file"
+                accept="application/pdf,.pdf"
+                onChange={(event) => setUploadFile(event.target.files?.[0] ?? null)}
+              />
+            </label>
+            <label className="block">
+              <span className="text-sm font-medium text-stone-700">Title</span>
+              <input
+                className="field mt-1 w-full"
+                value={uploadTitle}
+                onChange={(event) => setUploadTitle(event.target.value)}
+                placeholder="Defaults to file name"
+              />
+            </label>
+            <label className="block">
+              <span className="text-sm font-medium text-stone-700">Access roles</span>
+              <input
+                className="field mt-1 w-full"
+                value={uploadRolesText}
+                onChange={(event) => setUploadRolesText(event.target.value)}
+                placeholder="Employee, Manager"
+              />
+            </label>
+            <label className="flex items-center gap-2 text-sm text-stone-700">
+              <input
+                type="checkbox"
+                checked={uploadRestricted}
+                onChange={(event) => setUploadRestricted(event.target.checked)}
+              />
+              Restricted source
+            </label>
+            <button className="btn-primary w-full" type="submit" disabled={uploading}>
+              {uploading ? "Extracting..." : "Extract for review"}
             </button>
-          </div>
+          </form>
         </div>
 
         <form onSubmit={handleSave} className="rounded-md border border-stone-300 bg-white p-5 shadow-card">

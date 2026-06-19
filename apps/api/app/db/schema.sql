@@ -222,7 +222,7 @@ create table if not exists ingestion_jobs (
   source_file_name text not null,
   source_file_type text not null,
   status text not null default 'uploaded' check (
-    status in ('uploaded', 'extracting', 'normalizing', 'chunking', 'embedding', 'indexed', 'failed', 'skipped')
+    status in ('uploaded', 'extracting', 'normalizing', 'pending_review', 'chunking', 'embedding', 'indexed', 'failed', 'skipped')
   ),
   stage text not null default 'uploaded',
   status_detail text not null default '',
@@ -241,6 +241,13 @@ create index if not exists idx_ingestion_jobs_project on ingestion_jobs(project_
 create index if not exists idx_ingestion_jobs_department on ingestion_jobs(department_id);
 create index if not exists idx_ingestion_jobs_status on ingestion_jobs(status);
 create index if not exists idx_ingestion_jobs_created_at on ingestion_jobs(created_at);
+
+alter table ingestion_jobs
+  drop constraint if exists ingestion_jobs_status_check;
+
+alter table ingestion_jobs
+  add constraint ingestion_jobs_status_check
+  check (status in ('uploaded', 'extracting', 'normalizing', 'pending_review', 'chunking', 'embedding', 'indexed', 'failed', 'skipped'));
 
 create table if not exists chunks (
   id uuid primary key default uuid_generate_v4(),

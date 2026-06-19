@@ -11,7 +11,7 @@ const nextCapabilities = [
   },
   {
     title: "Document Library",
-    detail: "Review indexed documents, active versions, ingestion status, access roles, and extracted Markdown previews.",
+    detail: "Review indexed documents and upload PDFs for extracted Markdown review before indexing.",
   },
   {
     title: "Algorithm Verification",
@@ -95,7 +95,7 @@ export default function AppHomePage() {
       <section className="mt-8">
         <SectionHeading
           title="App Capability Roadmap"
-          description="Projects, departments, and indexed document review are implemented; extraction and scoped retrieval remain planned phases."
+          description="Projects, departments, indexed document review, and PDF extraction are implemented; upload approval/indexing and scoped retrieval remain planned phases."
         />
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {nextCapabilities.map((item) => (

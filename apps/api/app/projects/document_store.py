@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, datetime
+import hashlib
 from typing import Any
 
 from apps.api.app.db.session import get_connection
+from apps.api.app.permissions.access_control import sensitivity_from_restricted
 
 
 def _json_value(value: Any, default: Any) -> Any:
@@ -59,6 +62,14 @@ def _document_from_row(row: dict[str, Any]) -> dict[str, Any]:
         if row.get("ingestion_job_id")
         else None,
     }
+
+
+def _hash_bytes(content: bytes) -> str:
+    return hashlib.sha256(content).hexdigest()
+
+
+def _hash_text(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def list_project_documents(
@@ -148,3 +159,122 @@ def list_project_documents(
         ).fetchall()
 
     return [_document_from_row(dict(row)) for row in rows]
+
+
+def create_pending_review_document(
+    *,
+    project_id: str,
+    department: dict[str, Any],
+    external_document_id: str,
+    title: str,
+    source_path: str,
+    source_file_name: str,
+    source_file_type: str,
+    raw_file_bytes: bytes,
+    access_roles: list[str],
+    restricted: bool,
+    extracted_markdown: str,
+    extraction_metadata: dict[str, Any],
+) -> dict[str, Any]:
+    sensitivity = sensitivity_from_restricted(restricted)
+    category = department.get("seeded_data_key") or department["name"]
+    now = datetime.now(UTC).isoformat()
+    version_metadata = {
+        "document_id": external_document_id,
+        "title": title,
+        "department": department["name"],
+        "category": category,
+        "access_roles": access_roles,
+        "restricted": restricted,
+        "source_path": source_path,
+        "source_file_name": source_file_name,
+        "source_file_type": source_file_type,
+        "uploaded_at": now,
+        **extraction_metadata,
+    }
+    status_detail = (
+        "PDF text was extracted deterministically and is waiting for human review. "
+        "No chunks or embeddings were created."
+    )
+
+    with get_connection() as conn:
+        document_row = conn.execute(
+            """
+            insert into documents (
+              project_id, department_id, external_document_id, title, department, category,
+              source_type, source_path, access_roles, sensitivity, restricted, status, updated_at
+            )
+            values (
+              %s::uuid, %s::uuid, %s, %s, %s, %s,
+              %s, %s, %s, %s, %s, 'active', now()
+            )
+            returning id::text
+            """,
+            (
+                project_id,
+                department["id"],
+                external_document_id,
+                title,
+                department["name"],
+                category,
+                source_file_type,
+                source_path,
+                access_roles,
+                sensitivity,
+                restricted,
+            ),
+        ).fetchone()
+        document_id = document_row["id"]
+        version_row = conn.execute(
+            """
+            insert into document_versions (
+              document_id, version_label, effective_date, owner, review_cycle,
+              content_hash, extracted_text, metadata_json, ingestion_status
+            )
+            values (
+              %s::uuid, 'v1', null, %s, 'manual review required',
+              %s, %s, %s::jsonb, 'pending_review'
+            )
+            returning id::text
+            """,
+            (
+                document_id,
+                "Knowledge Manager",
+                _hash_text(extracted_markdown),
+                extracted_markdown,
+                json.dumps(version_metadata, default=str),
+            ),
+        ).fetchone()
+        version_id = version_row["id"]
+        conn.execute(
+            "update documents set current_version_id = %s::uuid where id = %s::uuid",
+            (version_id, document_id),
+        )
+        conn.execute(
+            """
+            insert into ingestion_jobs (
+              project_id, department_id, document_id, document_version_id,
+              source_file_name, source_file_type, status, stage, status_detail,
+              content_hash, started_at, completed_at, metadata_json
+            )
+            values (
+              %s::uuid, %s::uuid, %s::uuid, %s::uuid,
+              %s, %s, 'pending_review', 'review_pending', %s,
+              %s, now(), now(), %s::jsonb
+            )
+            """,
+            (
+                project_id,
+                department["id"],
+                document_id,
+                version_id,
+                source_file_name,
+                source_file_type,
+                status_detail,
+                _hash_bytes(raw_file_bytes),
+                json.dumps(version_metadata, default=str),
+            ),
+        )
+
+    documents = list_project_documents(project_id, department_id=department["id"], include_archived=True)
+    return next(document for document in documents if document["id"] == document_id)

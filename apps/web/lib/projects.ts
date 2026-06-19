@@ -204,6 +204,37 @@ export async function fetchDepartmentDocuments(
   return result.documents;
 }
 
+export async function uploadDepartmentDocument(
+  projectId: string,
+  departmentId: string,
+  payload: {
+    file: File;
+    title?: string;
+    access_roles?: string[];
+    restricted?: boolean;
+  }
+): Promise<ProjectDocument> {
+  const formData = new FormData();
+  formData.append("file", payload.file);
+  if (payload.title) formData.append("title", payload.title);
+  if (payload.access_roles?.length) formData.append("access_roles", payload.access_roles.join(", "));
+  formData.append("restricted", String(Boolean(payload.restricted)));
+
+  const response = await fetch(
+    `${API_BASE}/projects/${encodeURIComponent(projectId)}/departments/${encodeURIComponent(departmentId)}/documents/upload`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(detail || `Upload failed with ${response.status}`);
+  }
+  const result = (await response.json()) as { document: ProjectDocument };
+  return result.document;
+}
+
 export async function createDepartment(projectId: string, payload: DepartmentPayload): Promise<ProjectDepartment> {
   const result = await projectRequest<{ department: ProjectDepartment }>(
     `/projects/${encodeURIComponent(projectId)}/departments`,
