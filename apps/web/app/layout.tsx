@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Enterprise Knowledge Agent",
-  description: "App workspace and Dev/Admin proof for a permission-aware enterprise RAG assistant",
+  description: "App workspace and Dev & Admin proof for a permission-aware enterprise RAG assistant",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

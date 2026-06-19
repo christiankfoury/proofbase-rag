@@ -23,7 +23,7 @@ const proofPoints = [
   "Permission-filtered retrieval before generation.",
   "Cited answers with confidence and validation signals.",
   "Benchmark runs for retrieval, answer quality, memory, and permissions.",
-  "Dev/Admin views for failures, observability, feedback, cost, and audit events.",
+  "Dev & Admin views for failures, observability, feedback, cost, and audit events.",
 ];
 
 const demoPath = [
@@ -51,9 +51,9 @@ const demoPath = [
   {
     step: "4",
     title: "Prove The Controls",
-    detail: "Move to Dev/Admin for algorithm comparison, failed-question review, permission safety, and audit evidence.",
+    detail: "Move to Dev & Admin for algorithm comparison, failed-question review, permission safety, and audit evidence.",
     href: "/dev-admin",
-    action: "Dev/Admin",
+    action: "Dev & Admin",
   },
 ];
 
@@ -81,7 +81,7 @@ export default function AppHomePage() {
               Ask the assistant
             </Link>
             <Link href="/dev-admin" className="btn-secondary">
-              View Dev/Admin proof
+              View Dev & Admin proof
             </Link>
           </>
         }
@@ -160,9 +160,9 @@ export default function AppHomePage() {
       </section>
 
       <Card className="mt-8">
-        <SectionHeading title="Dev/Admin Remains Available" />
+        <SectionHeading title="Dev & Admin Remains Available" />
         <p className="text-stone-700">
-          Evaluation runs, failed-question analysis, retrieval comparison, observability, feedback, and audit logs now live under the Dev/Admin section so the product story and engineering proof are clearly separated.
+          Evaluation runs, failed-question analysis, retrieval comparison, observability, feedback, and audit logs now live under the Dev & Admin section so the product story and engineering proof are clearly separated.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <Link href="/dev-admin/runs" className="btn-secondary">

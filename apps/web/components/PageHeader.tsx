@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect } from "react";
 import type { ReactNode } from "react";
+import { useShellHeader } from "@/components/Shell";
 
 export function PageHeader({
   title,
@@ -11,13 +15,18 @@ export function PageHeader({
   actions?: ReactNode;
   className?: string;
 }) {
+  const shellHeader = useShellHeader();
+
+  useEffect(() => {
+    shellHeader?.setHeader({ title, actions: actions ?? null });
+    return () => shellHeader?.setHeader({ title: null, actions: null });
+  }, [actions, shellHeader, title]);
+
+  if (!description) return null;
+
   return (
-    <div className={`mb-8 flex flex-col gap-5 md:flex-row md:items-start md:justify-between ${className}`}>
-      <div>
-        <h2 className="text-3xl font-semibold tracking-tight text-ink">{title}</h2>
-        {description ? <div className="mt-3 max-w-3xl text-stone-700">{description}</div> : null}
-      </div>
-      {actions ? <div className="flex flex-wrap gap-3">{actions}</div> : null}
+    <div className={`mb-6 ${className}`}>
+      <div className="max-w-3xl text-stone-700">{description}</div>
     </div>
   );
 }

@@ -74,7 +74,7 @@ export default async function OverviewPage() {
         <Card>
           <SectionHeading
             title="Proof Without Hiding Failures"
-            description="Dev/Admin is the evidence layer behind the App demo: benchmark outputs, known misses, review decisions, and audit trails stay visible."
+            description="Dev & Admin is the evidence layer behind the App demo: benchmark outputs, known misses, review decisions, and audit trails stay visible."
           />
           <p className="text-sm leading-6 text-stone-700">
             The App side shows a usable project workspace. This surface shows whether the assistant is safe enough to trust, where it still fails, and what evidence supports any retrieval or prompt change.
