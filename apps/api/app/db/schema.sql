@@ -173,7 +173,7 @@ alter table documents
 update documents
 set project_id = '00000000-0000-0000-0000-000000000019'
 where project_id is null
-  and external_document_id ~ '^(HR|IT|SALES|MANAGER|HR-ADMIN|IT-ADMIN)-';
+  and external_document_id ~ '^(HR|IT|SALES|MGR|HR-ADMIN|IT-ADMIN)-';
 
 update documents d
 set department_id = pd.id
