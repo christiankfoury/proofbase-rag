@@ -1,8 +1,53 @@
 create extension if not exists "uuid-ossp";
 create extension if not exists vector;
 
+create table if not exists projects (
+  id uuid primary key default uuid_generate_v4(),
+  name text not null,
+  description text not null default '',
+  status text not null default 'active' check (status in ('active', 'paused', 'archived')),
+  default_retrieval_profile text not null default 'vector-section',
+  seeded_data_key text unique,
+  quality_status text not null default 'project_evaluation_pending',
+  quality_summary jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  archived_at timestamptz
+);
+
+create index if not exists idx_projects_status on projects(status);
+create index if not exists idx_projects_updated_at on projects(updated_at);
+
+insert into projects (
+  id, name, description, status, default_retrieval_profile,
+  seeded_data_key, quality_status, quality_summary
+)
+values (
+  '00000000-0000-0000-0000-000000000019',
+  'Northstar Analytics',
+  'Seeded workspace backed by the synthetic HR, IT/security, sales, manager, HR admin, and IT admin corpus.',
+  'active',
+  'vector-section',
+  'northstar_synthetic',
+  'global_baseline_measured',
+  '{
+    "label": "Global benchmark measured",
+    "detail": "Uses existing global evaluation outputs. Project-scoped evaluation is planned for a later phase.",
+    "permission_leakage_rate": 0.0,
+    "known_open_issue": "MULTI-005 remains a documented source coverage miss."
+  }'::jsonb
+)
+on conflict (seeded_data_key) do update set
+  name = excluded.name,
+  description = excluded.description,
+  default_retrieval_profile = excluded.default_retrieval_profile,
+  quality_status = excluded.quality_status,
+  quality_summary = excluded.quality_summary,
+  updated_at = now();
+
 create table if not exists documents (
   id uuid primary key default uuid_generate_v4(),
+  project_id uuid references projects(id),
   external_document_id text not null unique,
   title text not null,
   department text not null,
@@ -24,7 +69,15 @@ create index if not exists idx_documents_status on documents(status);
 create index if not exists idx_documents_access_roles on documents using gin(access_roles);
 
 alter table documents
-  add column if not exists sensitivity text not null default 'internal';
+  add column if not exists sensitivity text not null default 'internal',
+  add column if not exists project_id uuid references projects(id);
+
+update documents
+set project_id = '00000000-0000-0000-0000-000000000019'
+where project_id is null
+  and external_document_id ~ '^(HR|IT|SALES|MANAGER|HR-ADMIN|IT-ADMIN)-';
+
+create index if not exists idx_documents_project on documents(project_id);
 
 create table if not exists document_versions (
   id uuid primary key default uuid_generate_v4(),

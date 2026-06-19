@@ -16,7 +16,8 @@ Open `http://localhost:3000`.
 
 | Page | URL | What it demonstrates |
 |---|---|---|
-| App Home | `/` | Assistant-first product framing and next App capabilities. |
+| App Home | `/` | Product framing with Projects as the primary App entry point. |
+| Projects | `/projects` | Project CRUD, seeded Northstar workspace, corpus coverage, quality status, and project audit events. |
 | Chat Demo | `/chat` | Live RAG query, role selection, citations, confidence, latency, retrieved context, and feedback. |
 | Dev/Admin Overview | `/dev-admin` | Final metrics and evaluation-first proof. |
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts. |
@@ -31,41 +32,46 @@ Open `http://localhost:3000`.
 
 ## Recommended Query Scenes
 
-1. Normal factual answer
+1. Project workspace
+   - Page: `/projects`
+   - Project: `Northstar Analytics`
+   - Expected: seeded corpus coverage with derived departments, document count, indexed chunk count, global quality status, and no claim of project-scoped retrieval.
+
+2. Normal factual answer
    - Page: `/chat`
    - Role: `Employee`
    - Question: `Where does Northstar Analytics have offices?`
    - Expected: `answer` with HR citation.
 
-2. Missing information
+3. Missing information
    - Page: `/chat`
    - Role: `Employee`
    - Question: `What is Northstar's sabbatical policy?`
    - Expected: `not_found`, with no invented policy.
 
-3. Permission refusal
+4. Permission refusal
    - Page: `/chat`
    - Role: `Employee`
    - Question: `What is the promotion calibration process?`
    - Expected: `refuse_no_access`.
 
-4. Authorized role contrast
+5. Authorized role contrast
    - Page: `/dev-admin/permission-demo`
    - Question: `What is the promotion calibration process?`
    - Expected: Employee and Sales Representative refuse; Manager should answer if the manager source is retrieved; HR Admin is shown according to actual access.
 
-5. Memory follow-up
+6. Memory follow-up
    - Page: `/chat`
    - Use the memory scenario button.
    - Expected: follow-up rewrite uses prior vacation context.
 
-6. Multi-document reasoning
+7. Multi-document reasoning
    - Page: `/chat` or `/dev-admin/retrieval-playground`
    - Role: `Employee`
    - Question: `If I work remotely, what approval and device security expectations apply?`
    - Expected: synthesis from HR and IT policy sources.
 
-7. Known failure
+8. Known failure
    - Page: `/dev-admin/failed-questions`
    - Expand `MULTI-005`.
    - Expected: shows the known open retrieval miss honestly.
@@ -73,6 +79,7 @@ Open `http://localhost:3000`.
 ## Demo Notes
 
 - The chat page is a demo UI over the existing API. It is not production authentication.
+- Projects are durable workspaces, but `/chat` is not project-scoped until the planned project-scoped RAG phase.
 - Metrics and benchmark details come from existing evaluation JSON and Markdown outputs.
 - Querying requires `OPENAI_API_KEY`.
 - Retrieved context only shows chunks returned by the permission-filtered query API.

@@ -22,6 +22,10 @@ from apps.api.app.observability.logger import build_request_entry, log_request
 from apps.api.app.observability.summary import compute_live_summary
 from apps.api.app.observability.tracing import RequestTrace
 from apps.api.app.permissions.access_control import unauthorized_chunks_reached_generation
+from apps.api.app.projects.project_store import archive_project
+from apps.api.app.projects.project_store import create_project as create_project_record
+from apps.api.app.projects.project_store import get_project, list_projects
+from apps.api.app.projects.project_store import update_project as update_project_record
 from apps.api.app.reasoning.evidence_grouper import group_chunks_by_document
 from apps.api.app.reasoning.multi_doc_detector import is_multi_document_question
 from apps.api.app.reasoning.query_decomposer import retrieve_multi_doc
@@ -83,6 +87,32 @@ class FeedbackRequest(BaseModel):
     rating: str = Field(..., pattern="^(thumbs_up|thumbs_down)$")
     user_comment: str | None = None
     feedback_category: str = "other"
+
+
+class ProjectCreateRequest(BaseModel):
+    name: str = Field(..., min_length=1, max_length=120)
+    description: str = Field("", max_length=1000)
+    status: str = Field("active", pattern="^(active|paused)$")
+    default_retrieval_profile: str = Field("vector-section", min_length=1, max_length=80)
+    user_role: str = "Knowledge Manager"
+    user_id: str | None = None
+
+
+class ProjectUpdateRequest(BaseModel):
+    name: str | None = Field(None, min_length=1, max_length=120)
+    description: str | None = Field(None, max_length=1000)
+    status: str | None = Field(None, pattern="^(active|paused|archived)$")
+    default_retrieval_profile: str | None = Field(None, min_length=1, max_length=80)
+    user_role: str = "Knowledge Manager"
+    user_id: str | None = None
+
+
+def _validate_project_id(project_id: str) -> str:
+    try:
+        uuid.UUID(project_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Project ID must be a valid UUID.") from exc
+    return project_id
 
 
 def _load_dashboard_data() -> dict:
@@ -176,6 +206,7 @@ def health() -> dict:
 @app.get("/ready")
 def ready() -> dict:
     required_tables = [
+        "projects",
         "documents",
         "document_versions",
         "chunks",
@@ -448,6 +479,118 @@ def audit_events(
 @app.get("/audit/summary")
 def audit_summary_route() -> dict:
     return get_audit_summary()
+
+
+@app.get("/projects")
+def projects_route(include_archived: bool = False) -> dict:
+    try:
+        projects = list_projects(include_archived=include_archived)
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database is not ready or the project schema has not been applied.") from exc
+    return {"projects": projects, "count": len(projects)}
+
+
+@app.post("/projects", status_code=201)
+def create_project_route(request: ProjectCreateRequest) -> dict:
+    name = request.name.strip()
+    description = request.description.strip()
+    default_retrieval_profile = request.default_retrieval_profile.strip()
+    if not name:
+        raise HTTPException(status_code=400, detail="Project name is required.")
+    if not default_retrieval_profile:
+        raise HTTPException(status_code=400, detail="Default retrieval profile is required.")
+    try:
+        project = create_project_record(
+            name=name,
+            description=description,
+            status=request.status,
+            default_retrieval_profile=default_retrieval_profile,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error creating project.") from exc
+
+    log_audit_event(
+        action="project_created",
+        user_role=request.user_role,
+        user_id=request.user_id,
+        resource_type="project",
+        document_id=project["id"],
+        outcome="success",
+        metadata={"project_id": project["id"], "project_name": project["name"], "status": project["status"]},
+    )
+    return {"project": project}
+
+
+@app.get("/projects/{project_id}")
+def project_detail_route(project_id: str, include_archived: bool = False) -> dict:
+    project_id = _validate_project_id(project_id)
+    try:
+        project = get_project(project_id, include_archived=include_archived)
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error loading project.") from exc
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found.")
+    return {"project": project}
+
+
+@app.patch("/projects/{project_id}")
+def update_project_route(project_id: str, request: ProjectUpdateRequest) -> dict:
+    project_id = _validate_project_id(project_id)
+    updates = request.model_dump(exclude={"user_role", "user_id"}, exclude_unset=True)
+    if "name" in updates and updates["name"] is not None:
+        updates["name"] = updates["name"].strip()
+        if not updates["name"]:
+            raise HTTPException(status_code=400, detail="Project name is required.")
+    if "description" in updates and updates["description"] is not None:
+        updates["description"] = updates["description"].strip()
+    if "default_retrieval_profile" in updates and updates["default_retrieval_profile"] is not None:
+        updates["default_retrieval_profile"] = updates["default_retrieval_profile"].strip()
+        if not updates["default_retrieval_profile"]:
+            raise HTTPException(status_code=400, detail="Default retrieval profile is required.")
+    try:
+        project = update_project_record(project_id, **updates)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error updating project.") from exc
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found.")
+
+    log_audit_event(
+        action="project_updated",
+        user_role=request.user_role,
+        user_id=request.user_id,
+        resource_type="project",
+        document_id=project["id"],
+        outcome="success",
+        metadata={"project_id": project["id"], "changed_fields": sorted(updates.keys())},
+    )
+    return {"project": project}
+
+
+@app.delete("/projects/{project_id}")
+def archive_project_route(project_id: str, user_role: str = "Knowledge Manager", user_id: str | None = None) -> dict:
+    project_id = _validate_project_id(project_id)
+    try:
+        project = archive_project(project_id)
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error archiving project.") from exc
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found.")
+
+    log_audit_event(
+        action="project_archived",
+        user_role=user_role,
+        user_id=user_id,
+        resource_type="project",
+        document_id=project["id"],
+        outcome="success",
+        reason="soft_delete",
+        metadata={"project_id": project["id"], "project_name": project["name"]},
+    )
+    return {"project": project, "status": "archived"}
 
 
 @app.post("/query")

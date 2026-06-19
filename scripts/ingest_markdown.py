@@ -26,11 +26,12 @@ def _upsert_document(conn, document):
     row = conn.execute(
         """
         insert into documents (
-          external_document_id, title, department, category, source_type,
+          project_id, external_document_id, title, department, category, source_type,
           source_path, access_roles, sensitivity, restricted, status, updated_at
         )
-        values (%s, %s, %s, %s, 'markdown', %s, %s, %s, %s, 'active', now())
+        values ('00000000-0000-0000-0000-000000000019', %s, %s, %s, %s, 'markdown', %s, %s, %s, %s, 'active', now())
         on conflict (external_document_id) do update set
+          project_id = excluded.project_id,
           title = excluded.title,
           department = excluded.department,
           category = excluded.category,

@@ -6,12 +6,8 @@ import { Shell } from "@/components/Shell";
 
 const nextCapabilities = [
   {
-    title: "Projects",
-    detail: "Create knowledge workspaces for teams, clients, or demo corpora in the next phase.",
-  },
-  {
     title: "Departments",
-    detail: "Organize HR, IT, Sales, Manager, and Admin knowledge areas with clear ownership.",
+    detail: "Turn derived department coverage into editable workspaces with icons and access defaults.",
   },
   {
     title: "Documents",
@@ -41,13 +37,16 @@ export default function AppHomePage() {
               A permission-aware internal assistant for asking questions across company knowledge with citations, confidence, and safe refusal behavior.
             </p>
             <p className="mt-3 text-stone-700">
-              Phase 18 reframes the product around the App experience first. Projects, departments, document upload, and project-scoped RAG are planned next.
+              Projects are now first-class workspaces. The seeded Northstar Analytics project shows current corpus coverage while project-scoped retrieval remains planned.
             </p>
           </>
         }
         actions={
           <>
-            <Link href="/chat" className="btn-primary">
+            <Link href="/projects" className="btn-primary">
+              Open projects
+            </Link>
+            <Link href="/chat" className="btn-secondary">
               Ask the assistant
             </Link>
             <Link href="/dev-admin" className="btn-secondary">
@@ -61,15 +60,18 @@ export default function AppHomePage() {
         <Card tone="good" className="flex flex-col justify-between">
           <div>
             <SectionHeading
-              title="Start With The Working Assistant"
-              description="Use the existing live RAG demo as the App-side entry point while the project workspace model is built."
+              title="Start In A Project Workspace"
+              description="Open Northstar Analytics to review coverage, quality status, and workspace settings before asking questions."
             />
             <p className="text-stone-700">
-              The assistant can answer supported questions, refuse restricted requests, show citations, expose retrieved context, and collect feedback. It remains a demo UI rather than production authentication.
+              The App side now has project CRUD and a seeded workspace for the existing corpus. The assistant can answer supported questions, refuse restricted requests, show citations, expose retrieved context, and collect feedback.
             </p>
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/chat" className="btn-primary">
+            <Link href="/projects" className="btn-primary">
+              Open projects
+            </Link>
+            <Link href="/chat" className="btn-secondary">
               Open assistant
             </Link>
             <Link href="/dev-admin/permission-demo" className="btn-secondary">
@@ -93,7 +95,7 @@ export default function AppHomePage() {
       <section className="mt-8">
         <SectionHeading
           title="Next App Capabilities"
-          description="These are planned product concepts, not implemented CRUD or upload flows in Phase 18."
+          description="Projects are implemented; the remaining items are planned product phases."
         />
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {nextCapabilities.map((item) => (

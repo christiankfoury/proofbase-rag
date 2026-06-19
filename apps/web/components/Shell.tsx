@@ -9,6 +9,7 @@ const navGroups = [
     title: "App",
     links: [
       ["Home", "/"],
+      ["Projects", "/projects"],
       ["Assistant", "/chat"],
     ],
   },

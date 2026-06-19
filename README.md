@@ -211,7 +211,9 @@ The frontend now separates the recruiter-facing App surface from the Dev/Admin p
 
 App routes:
 
-- `/` assistant-first App Home with links to the working assistant and Dev/Admin proof.
+- `/` App Home with links to project workspaces, the working assistant, and Dev/Admin proof.
+- `/projects` project workspace list with create, edit, archive, seeded corpus coverage, quality status, and recent project audit events.
+- `/projects/[projectId]` selected project workspace home.
 - `/chat` live RAG demo with role selector, presets, citations, confidence, latency, retrieved context, and feedback.
 
 Dev/Admin routes:
@@ -231,6 +233,7 @@ Deep evaluation pages such as `/dev-admin/retrieval-experiments`, `/dev-admin/pr
 
 Recommended interactive demo presets:
 
+- Project workspace: open `/projects` and select the seeded `Northstar Analytics` project.
 - HR factual: `Where does Northstar Analytics have offices?`
 - Missing information: `What is Northstar's sabbatical policy?`
 - Restricted manager question: `What is the promotion calibration process?`
@@ -242,7 +245,8 @@ The `/chat` page is a recruiter/demo UI over the existing API. It is not product
 
 Screenshots to capture:
 
-- Dashboard overview.
+- App Home.
+- Project workspace for `Northstar Analytics`.
 - Retrieval comparison.
 - Permission safety page.
 - Memory evaluation page.
@@ -346,6 +350,8 @@ Open the dashboard after exporting data.
 - `MULTI-005` still fails due to a `SALES-002` retrieval miss.
 - Multi-document detection is heuristic.
 - The `/chat` page is a demo UI, not a production end-user assistant with authentication.
+- Project CRUD is implemented, but project-scoped retrieval is planned for a later phase. The current assistant still uses the existing global retrieval path plus role-based permission filtering.
+- Department workspaces and document upload/extraction are not implemented yet.
 - Runtime request logs such as `data/observability/request-logs.jsonl` are generated data and should be reviewed before committing.
 
 ## Roadmap
@@ -382,6 +388,8 @@ Phase artifacts are preserved for review:
 - [Phase 14](docs/phase-14/docker-local-setup.md): Docker and Azure readiness.
 - [Phase 15 Interactive UX](docs/phase-15/interactive-demo-ux.md): recruiter-facing interactive demo.
 - [Phase 16](docs/phase-16/cost-tracking.md): chat-generation cost tracking.
+- [Phase 18](docs/phase-18/app-admin-navigation-design.md): App and Dev/Admin navigation split.
+- [Phase 19](docs/phase-19/project-workspace-design.md): project workspace model and UI.
 
 ## Final Portfolio Description
 
