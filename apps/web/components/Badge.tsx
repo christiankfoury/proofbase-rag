@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 const toneClass = {
   neutral: "badge-neutral",
@@ -14,10 +14,11 @@ export function Badge({
   tone = "neutral",
   children,
   className = "",
+  ...rest
 }: {
   tone?: BadgeTone;
   children: ReactNode;
   className?: string;
-}) {
-  return <span className={`${toneClass[tone]} ${className}`}>{children}</span>;
+} & HTMLAttributes<HTMLSpanElement>) {
+  return <span className={`${toneClass[tone]} ${className}`} {...rest}>{children}</span>;
 }

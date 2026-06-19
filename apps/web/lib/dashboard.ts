@@ -16,6 +16,8 @@ export type EvalRun = {
   model?: string | null;
   temperature?: number | null;
   total_questions?: number | null;
+  question_filter?: string | null;
+  source_question_count?: number | null;
   metrics: Metrics;
   failed_questions?: string[];
   notes?: string;

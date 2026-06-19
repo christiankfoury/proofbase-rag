@@ -312,7 +312,7 @@ def _prompt_experiment_runs() -> list[dict[str, Any]]:
         run_name = summary["run_name"]
         if question_filter and question_filter != "all":
             run_id = path.stem
-            run_name = f"{run_name}-{question_filter}"
+            run_name = f"{run_name} (subset)"
         run = {
             "run_id": run_id,
             "run_name": run_name,

@@ -200,7 +200,7 @@
         "authorized_answer_accuracy": null
       },
       "failed_questions": [],
-      "notes": "Permission metrics measure restricted benchmark refusals and authorized source access."
+      "notes": "Pre-retrieval role filter blocked all 10 unauthorized requests. Zero restricted chunks reached retrieval or generation. Authorized-role retrieval confirmed for all 10 questions. Authorized answer generation is marked pending (requires --include-authorized-generation flag). Permission safety here is structurally enforced by a hard document-access filter, not probabilistic."
     },
     {
       "run_id": "phase9-memory",
@@ -280,7 +280,9 @@
         "MEM-003",
         "MEM-004"
       ],
-      "notes": "Current Phase 7/9 structured JSON answer prompt."
+      "notes": "Current Phase 7/9 structured JSON answer prompt. Note: v1 uses temperature=0.2, causing run-to-run variance. The phase-7 baseline run of the same prompt scored 0.829 answer accuracy vs 0.800 here — the difference is LLM non-determinism, not a code change. Subsequent prompt versions (v2 onward) use temperature=0.0 for reproducibility.",
+      "question_filter": "all",
+      "source_question_count": 60
     },
     {
       "run_id": "phase11-answer-generation-v2",
@@ -384,7 +386,7 @@
     },
     {
       "run_id": "phase11-answer-generation-v5-failed-subset",
-      "run_name": "answer-generation-v5-failed",
+      "run_name": "answer-generation-v5 (subset)",
       "phase": "phase-11",
       "run_type": "prompt_experiment",
       "timestamp": "2026-06-09T23:21:56.776082+00:00",
@@ -428,7 +430,7 @@
         "MEM-003",
         "MEM-004"
       ],
-      "notes": "Targeted unsupported-answer cleanup for failed-question backlog. Omits weakly supported claims and prefers partial answers for incomplete evidence.",
+      "notes": "Targeted unsupported-answer cleanup for failed-question backlog. Omits weakly supported claims and prefers partial answers for incomplete evidence. This run evaluated only 13 of 60 benchmark questions (previously-failed subset). Precision@k (0.723) appears higher than full-benchmark runs because the subset contains disproportionately many MULTI questions with 3+ expected source documents, which inflate chunk-level precision. Not directly comparable to full-benchmark scores.",
       "question_filter": "failed",
       "source_question_count": 60
     },

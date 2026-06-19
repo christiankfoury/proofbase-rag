@@ -2,7 +2,7 @@
   "benchmark_version": "1.0",
   "created_for_phase": "phase-3",
   "source_corpus": "data/synthetic-documents",
-  "question_count": 60,
+  "question_count": 65,
   "questions": [
     {
       "question_id": "FACT-001",
@@ -843,6 +843,91 @@
       "expected_source_section_or_quote": [{"document_id": "MGR-002", "section": "Review Cycle", "quote": "Northstar runs formal performance reviews twice per year: mid-year review in June and year-end review in December."}],
       "allowed_documents": ["HR-001", "HR-002", "HR-003", "HR-004", "IT-001", "IT-002", "IT-003", "SALES-001", "SALES-002", "SALES-003", "MGR-001", "MGR-002"],
       "evaluation_notes": "Tests memory for manager review-cycle follow-up."
+    },
+    {
+      "question_id": "MEM-006",
+      "question_type": "conversation_memory",
+      "difficulty": "easy",
+      "user_role": "Employee",
+      "question": "Can I paste confidential data into them?",
+      "previous_turns": [
+        {"role": "user", "content": "I am asking about approved AI tools at Northstar."},
+        {"role": "assistant", "content": "The relevant policy is the Acceptable Use Policy."}
+      ],
+      "expected_behavior": "answer_with_memory",
+      "expected_answer": "No. Confidential or restricted data must not be pasted into unapproved AI tools.",
+      "expected_source_document": ["IT-001"],
+      "expected_source_section_or_quote": [{"document_id": "IT-001", "section": "AI Tool Usage", "quote": "Confidential or restricted data must not be pasted into unapproved AI tools."}],
+      "allowed_documents": ["HR-001", "HR-002", "HR-003", "HR-004", "IT-001", "IT-002", "IT-003"],
+      "evaluation_notes": "Tests memory for AI tool policy follow-up. 'them' refers to AI tools mentioned in prior context."
+    },
+    {
+      "question_id": "MEM-007",
+      "question_type": "conversation_memory",
+      "difficulty": "easy",
+      "user_role": "Employee",
+      "question": "What types of data does it include?",
+      "previous_turns": [
+        {"role": "user", "content": "I am asking about the Confidential data classification level."},
+        {"role": "assistant", "content": "The relevant policy is the Data Classification and Handling Policy."}
+      ],
+      "expected_behavior": "answer_with_memory",
+      "expected_answer": "Confidential data includes customer business information, financial forecasts, non-public sales materials, and employee operational data.",
+      "expected_source_document": ["IT-003"],
+      "expected_source_section_or_quote": [{"document_id": "IT-003", "section": "Classification Levels", "quote": "Confidential data includes customer business information, financial forecasts, non-public sales materials, and employee operational data."}],
+      "allowed_documents": ["HR-001", "HR-002", "HR-003", "HR-004", "IT-001", "IT-002", "IT-003"],
+      "evaluation_notes": "Tests memory for data classification follow-up. 'it' refers to the Confidential level from prior context."
+    },
+    {
+      "question_id": "MEM-008",
+      "question_type": "conversation_memory",
+      "difficulty": "easy",
+      "user_role": "Sales Representative",
+      "question": "What needs to be done before reaching it?",
+      "previous_turns": [
+        {"role": "user", "content": "I am asking about the proposal stage in the sales process."},
+        {"role": "assistant", "content": "The relevant policy is the Sales Playbook."}
+      ],
+      "expected_behavior": "answer_with_memory",
+      "expected_answer": "Opportunities should not move to proposal until discovery notes and stakeholder mapping are complete.",
+      "expected_source_document": ["SALES-001"],
+      "expected_source_section_or_quote": [{"document_id": "SALES-001", "section": "Sales Stages", "quote": "Opportunities should not move to proposal until discovery notes and stakeholder mapping are complete."}],
+      "allowed_documents": ["HR-001", "HR-002", "HR-003", "HR-004", "IT-001", "IT-002", "IT-003", "SALES-001", "SALES-002", "SALES-003"],
+      "evaluation_notes": "Tests memory for sales process follow-up. 'it' refers to the proposal stage from prior context."
+    },
+    {
+      "question_id": "MEM-009",
+      "question_type": "conversation_memory",
+      "difficulty": "easy",
+      "user_role": "Manager",
+      "question": "How often should they happen?",
+      "previous_turns": [
+        {"role": "user", "content": "I am asking about one-on-one meeting expectations for managers."},
+        {"role": "assistant", "content": "The relevant policy is the Manager Handbook."}
+      ],
+      "expected_behavior": "answer_with_memory",
+      "expected_answer": "Managers should hold one-on-one meetings with direct reports at least every two weeks.",
+      "expected_source_document": ["MGR-001"],
+      "expected_source_section_or_quote": [{"document_id": "MGR-001", "section": "One-on-One Expectations", "quote": "Managers should hold one-on-one meetings with direct reports at least every two weeks."}],
+      "allowed_documents": ["HR-001", "HR-002", "HR-003", "HR-004", "IT-001", "IT-002", "IT-003", "SALES-001", "SALES-002", "SALES-003", "MGR-001", "MGR-002"],
+      "evaluation_notes": "Tests memory for manager policy follow-up. 'they' refers to one-on-one meetings from prior context."
+    },
+    {
+      "question_id": "MEM-010",
+      "question_type": "conversation_memory",
+      "difficulty": "easy",
+      "user_role": "Employee",
+      "question": "Does it roll over at the end of the year?",
+      "previous_turns": [
+        {"role": "user", "content": "I am asking about the wellness stipend."},
+        {"role": "assistant", "content": "The relevant policy is the Benefits Overview."}
+      ],
+      "expected_behavior": "answer_with_memory",
+      "expected_answer": "No. Unused wellness stipend amounts do not carry over into the next calendar year.",
+      "expected_source_document": ["HR-004"],
+      "expected_source_section_or_quote": [{"document_id": "HR-004", "section": "Wellness Stipend", "quote": "Unused wellness stipend amounts do not carry over into the next calendar year."}],
+      "allowed_documents": ["HR-001", "HR-002", "HR-003", "HR-004", "IT-001", "IT-002", "IT-003"],
+      "evaluation_notes": "Tests memory for benefits follow-up. 'it' refers to the wellness stipend from prior context."
     }
   ]
 }
