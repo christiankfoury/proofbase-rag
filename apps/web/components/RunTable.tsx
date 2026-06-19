@@ -73,7 +73,7 @@ export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?:
               />
               <MetricTh
                 label="Answer"
-                tip="Term-overlap accuracy: the generated answer contains ≥65% of the key terms from the expected answer. Deterministic signal, not an LLM judge."
+                tip="Term-overlap accuracy: the generated answer contains at least 65% of the key terms from the expected answer. Deterministic signal, not an LLM judge."
               />
               <MetricTh
                 label="Citation"
@@ -99,7 +99,7 @@ export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?:
                 <td className="font-medium text-ink">
                   <div className="flex flex-wrap items-center gap-2">
                     <Link
-                      href={`/evaluation/runs/${encodeURIComponent(run.run_id)}`}
+                      href={`/dev-admin/evaluation/runs/${encodeURIComponent(run.run_id)}`}
                       className="rounded underline decoration-stone-400 underline-offset-4 hover:text-moss-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss"
                     >
                       {run.run_name}

@@ -205,25 +205,29 @@ Source: [Multi-Doc Evaluation JSON](data/evaluation/multi-doc-eval.json)
 
 Source: [Phase 14 Smoke Test Results](docs/phase-14/smoke-test-results.md)
 
-## Dashboard
+## App And Dev/Admin UI
 
-The dashboard is now both a recruiter-friendly evaluation view and an interactive demo surface for live questions, citations, permissions, retrieval comparison, feedback, and failure inspection.
+The frontend now separates the recruiter-facing App surface from the Dev/Admin proof surface.
 
-Dashboard routes:
+App routes:
 
-- `/` overview metrics.
+- `/` assistant-first App Home with links to the working assistant and Dev/Admin proof.
 - `/chat` live RAG demo with role selector, presets, citations, confidence, latency, retrieved context, and feedback.
-- `/runs` evaluation run comparison.
-- `/evaluation/runs/phase11-answer-generation-v1` per-question benchmark explorer for detailed runs.
-- `/failed-questions` expandable failure backlog with expected answers, actual answers, citations, and fixes.
-- `/retrieval-playground` side-by-side vector, keyword, hybrid, and multi-doc comparison.
-- `/permission-demo` role comparison for restricted questions.
-- `/multi-doc` multi-document reasoning comparison.
-- `/observability` live latency, token, and confidence logs.
-- `/feedback` answer feedback summaries.
-- `/audit` security-relevant audit events.
 
-Legacy metric pages such as `/retrieval-experiments`, `/prompt-experiments`, `/permission-safety`, and `/memory-evaluation` remain available for deeper review.
+Dev/Admin routes:
+
+- `/dev-admin` overview metrics and measured RAG progress.
+- `/dev-admin/runs` evaluation run comparison.
+- `/dev-admin/evaluation/runs/phase11-answer-generation-v1` per-question benchmark explorer for detailed runs.
+- `/dev-admin/failed-questions` expandable failure backlog with expected answers, actual answers, citations, and fixes.
+- `/dev-admin/retrieval-playground` side-by-side vector, keyword, hybrid, and multi-doc comparison.
+- `/dev-admin/permission-demo` role comparison for restricted questions.
+- `/dev-admin/multi-doc` multi-document reasoning comparison.
+- `/dev-admin/observability` live latency, token, and confidence logs.
+- `/dev-admin/feedback` answer feedback summaries.
+- `/dev-admin/audit` security-relevant audit events.
+
+Deep evaluation pages such as `/dev-admin/retrieval-experiments`, `/dev-admin/prompt-experiments`, `/dev-admin/permission-safety`, and `/dev-admin/memory-evaluation` remain available for deeper review.
 
 Recommended interactive demo presets:
 

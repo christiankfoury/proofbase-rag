@@ -230,12 +230,12 @@ Expected behavior:
 
 Then open:
 
-- `/multi-doc`
-- `/retrieval-experiments`
-- `/permission-safety`
-- `/memory-evaluation`
-- `/failed-questions`
-- `/observability`
+- `/dev-admin/multi-doc`
+- `/dev-admin/retrieval-experiments`
+- `/dev-admin/permission-safety`
+- `/dev-admin/memory-evaluation`
+- `/dev-admin/failed-questions`
+- `/dev-admin/observability`
 
 Point out:
 

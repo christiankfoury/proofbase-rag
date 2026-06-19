@@ -1,107 +1,127 @@
-import { MetricCard } from "@/components/MetricCard";
-import { RetrievalChart } from "@/components/RetrievalChart";
-import { RunTable } from "@/components/RunTable";
-import { Shell } from "@/components/Shell";
-import { PageHeader } from "@/components/PageHeader";
-import { Card } from "@/components/Card";
-import { SectionHeading } from "@/components/SectionHeading";
-import { getDashboardData } from "@/lib/dashboard";
 import Link from "next/link";
+import { Card } from "@/components/Card";
+import { PageHeader } from "@/components/PageHeader";
+import { SectionHeading } from "@/components/SectionHeading";
+import { Shell } from "@/components/Shell";
 
-export default async function OverviewPage() {
-  const data = await getDashboardData();
-  const metrics = data.overview.headline_metrics;
-  const progressSummary = data.overview.progress_summary ?? {
-    improved: [
-      "Permission tests reached zero leakage.",
-      "Memory follow-up tests reached full accuracy.",
-      "Chat-generation cost tracking is implemented.",
-    ],
-    still_needs_work: [
-      "Hybrid retrieval still did not beat vector-only overall.",
-      `${data.overview.current_failed_question_count ?? data.failed_questions.length} failed-question cases remain in the current improvement backlog.`,
-      "Embedding, infrastructure, cached-input, and batch cost modeling remain pending.",
-    ],
-  };
+const nextCapabilities = [
+  {
+    title: "Projects",
+    detail: "Create knowledge workspaces for teams, clients, or demo corpora in the next phase.",
+  },
+  {
+    title: "Departments",
+    detail: "Organize HR, IT, Sales, Manager, and Admin knowledge areas with clear ownership.",
+  },
+  {
+    title: "Documents",
+    detail: "Upload files, review extracted Markdown, and index approved knowledge for retrieval.",
+  },
+  {
+    title: "Algorithm Verification",
+    detail: "Promote retrieval and prompt changes only after evaluation proves the result improved.",
+  },
+];
 
+const proofPoints = [
+  "Permission-filtered retrieval before generation.",
+  "Cited answers with confidence and validation signals.",
+  "Benchmark runs for retrieval, answer quality, memory, and permissions.",
+  "Dev/Admin views for failures, observability, feedback, cost, and audit events.",
+];
+
+export default function AppHomePage() {
   return (
     <Shell>
       <PageHeader
-        title="Measured Enterprise RAG Progress"
+        title="Enterprise Knowledge Assistant"
         description={
           <>
             <p className="text-lg text-stone-800">
-              A permission-aware enterprise RAG assistant with citations, confidence scoring, benchmark evaluation, and interactive demos.
+              A permission-aware internal assistant for asking questions across company knowledge with citations, confidence, and safe refusal behavior.
             </p>
             <p className="mt-3 text-stone-700">
-              This dashboard compares real evaluation runs across retrieval, answer quality, citations, permission safety, and memory.
+              Phase 18 reframes the product around the App experience first. Projects, departments, document upload, and project-scoped RAG are planned next.
             </p>
           </>
         }
         actions={
           <>
             <Link href="/chat" className="btn-primary">
-              Try Chat Demo
+              Ask the assistant
             </Link>
-            <Link href="/permission-demo" className="btn-secondary">
-              Run Permission Demo
-            </Link>
-            <Link href="/retrieval-playground" className="btn-secondary">
-              Open Retrieval Playground
+            <Link href="/dev-admin" className="btn-secondary">
+              View Dev/Admin proof
             </Link>
           </>
         }
       />
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <MetricCard
-          label="Source Recall"
-          value={metrics.retrieval_hit_rate}
-          detail="All expected sources retrieved."
-          badge="Best"
-          tone="good"
-        />
-        <MetricCard label="Precision@k" value={metrics.precision_at_k} detail="Expected-source chunks in top-k." />
-        <MetricCard label="MRR / First Source Rank" value={metrics.mrr} detail="Rank quality for first expected source." />
-        <MetricCard label="Answer Accuracy" value={metrics.answer_accuracy} detail="Deterministic answer scoring." />
-        <MetricCard label="Citation Accuracy" value={metrics.citation_accuracy} detail="Citations match expected documents." />
-        <MetricCard label="Hallucination Rate" value={metrics.hallucination_rate} detail="Unsupported-answer signal." badge="Risk" tone="warn" />
-        <MetricCard label="Permission Leakage Rate" value={metrics.permission_leakage_rate} detail="Restricted-source leakage." badge="Safety" tone="good" />
-        <MetricCard label="Memory Answer Accuracy" value={metrics.memory_accuracy} detail="Follow-up benchmark answers." tone="good" />
-      </section>
-      <Card tone="good" className="mt-8">
-        <SectionHeading title="Experiment Conclusion" />
-        <p className="text-stone-700">
-          Vector retrieval with section-based chunks remains the best overall configuration; hybrid did not outperform it on this corpus.
-        </p>
-      </Card>
-      <section className="mt-8 grid gap-4 lg:grid-cols-2">
-        <RetrievalChart runs={data.runs} />
-        <Card>
-          <SectionHeading title="What Improved / Still Needs Work" />
-          <div className="grid gap-4 md:grid-cols-2">
-            <div>
-              <p className="font-semibold text-moss-dark">Improved</p>
-              <ul className="mt-2 space-y-2 text-sm text-stone-700">
-                {progressSummary.improved.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="font-semibold text-rust-dark">Still Needs Work</p>
-              <ul className="mt-2 space-y-2 text-sm text-stone-700">
-                {progressSummary.still_needs_work.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
+
+      <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+        <Card tone="good" className="flex flex-col justify-between">
+          <div>
+            <SectionHeading
+              title="Start With The Working Assistant"
+              description="Use the existing live RAG demo as the App-side entry point while the project workspace model is built."
+            />
+            <p className="text-stone-700">
+              The assistant can answer supported questions, refuse restricted requests, show citations, expose retrieved context, and collect feedback. It remains a demo UI rather than production authentication.
+            </p>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/chat" className="btn-primary">
+              Open assistant
+            </Link>
+            <Link href="/dev-admin/permission-demo" className="btn-secondary">
+              Check permission behavior
+            </Link>
           </div>
         </Card>
+
+        <Card>
+          <SectionHeading title="Measured Trust Signals" />
+          <ul className="space-y-3 text-sm text-stone-700">
+            {proofPoints.map((item) => (
+              <li key={item} className="border-l-4 border-moss pl-3">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Card>
       </section>
+
       <section className="mt-8">
-        <SectionHeading title="Evaluation Runs" />
-        <RunTable runs={data.runs} bestRunName={data.overview.best_retrieval_run} />
+        <SectionHeading
+          title="Next App Capabilities"
+          description="These are planned product concepts, not implemented CRUD or upload flows in Phase 18."
+        />
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {nextCapabilities.map((item) => (
+            <Card key={item.title} padding="compact">
+              <p className="font-semibold text-ink">{item.title}</p>
+              <p className="mt-2 text-sm leading-6 text-stone-700">{item.detail}</p>
+            </Card>
+          ))}
+        </div>
       </section>
+
+      <Card className="mt-8">
+        <SectionHeading title="Dev/Admin Remains Available" />
+        <p className="text-stone-700">
+          Evaluation runs, failed-question analysis, retrieval comparison, observability, feedback, and audit logs now live under the Dev/Admin section so the product story and engineering proof are clearly separated.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link href="/dev-admin/runs" className="btn-secondary">
+            Review runs
+          </Link>
+          <Link href="/dev-admin/failed-questions" className="btn-secondary">
+            Inspect failures
+          </Link>
+          <Link href="/dev-admin/retrieval-playground" className="btn-secondary">
+            Compare algorithms
+          </Link>
+        </div>
+      </Card>
     </Shell>
   );
 }

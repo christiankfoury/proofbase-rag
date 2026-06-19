@@ -29,12 +29,14 @@ If a check is skipped because it calls OpenAI, document that clearly.
 ## Dashboard Verification
 
 - [ ] Open `/`.
-- [ ] Open `/retrieval-experiments`.
-- [ ] Open `/permission-safety`.
-- [ ] Open `/memory-evaluation`.
-- [ ] Open `/multi-doc`.
-- [ ] Open `/observability`.
-- [ ] Open `/audit`.
+- [ ] Open `/chat`.
+- [ ] Open `/dev-admin`.
+- [ ] Open `/dev-admin/retrieval-experiments`.
+- [ ] Open `/dev-admin/permission-safety`.
+- [ ] Open `/dev-admin/memory-evaluation`.
+- [ ] Open `/dev-admin/multi-doc`.
+- [ ] Open `/dev-admin/observability`.
+- [ ] Open `/dev-admin/audit`.
 
 ## Evaluation Commands
 

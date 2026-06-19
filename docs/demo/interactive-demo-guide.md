@@ -16,17 +16,18 @@ Open `http://localhost:3000`.
 
 | Page | URL | What it demonstrates |
 |---|---|---|
-| Overview | `/` | Final metrics and evaluation-first story. |
+| App Home | `/` | Assistant-first product framing and next App capabilities. |
 | Chat Demo | `/chat` | Live RAG query, role selection, citations, confidence, latency, retrieved context, and feedback. |
-| Evaluation | `/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts. |
-| Run Detail | `/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows when detailed JSON exists. |
-| Failed Questions | `/failed-questions` | Expandable failure analysis with expected answer, actual answer, citations, and fixes. |
-| Retrieval Playground | `/retrieval-playground` | Vector, keyword, hybrid, and multi-doc comparison on the same question. |
-| Permission Demo | `/permission-demo` | Same restricted question across Employee, Sales Representative, Manager, and HR Admin. |
-| Multi-Doc | `/multi-doc` | Phase 13 before/after multi-document metrics. |
-| Observability | `/observability` | Live request logs, latency, confidence, and token summaries. |
-| Feedback | `/feedback` | Human feedback summaries. |
-| Audit Logs | `/audit` | Security-relevant audit events. |
+| Dev/Admin Overview | `/dev-admin` | Final metrics and evaluation-first proof. |
+| Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts. |
+| Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows when detailed JSON exists. |
+| Failed Questions | `/dev-admin/failed-questions` | Expandable failure analysis with expected answer, actual answer, citations, and fixes. |
+| Retrieval Playground | `/dev-admin/retrieval-playground` | Vector, keyword, hybrid, and multi-doc comparison on the same question. |
+| Permission Demo | `/dev-admin/permission-demo` | Same restricted question across Employee, Sales Representative, Manager, and HR Admin. |
+| Multi-Doc | `/dev-admin/multi-doc` | Phase 13 before/after multi-document metrics. |
+| Observability | `/dev-admin/observability` | Live request logs, latency, confidence, and token summaries. |
+| Feedback | `/dev-admin/feedback` | Human feedback summaries. |
+| Audit Logs | `/dev-admin/audit` | Security-relevant audit events. |
 
 ## Recommended Query Scenes
 
@@ -49,7 +50,7 @@ Open `http://localhost:3000`.
    - Expected: `refuse_no_access`.
 
 4. Authorized role contrast
-   - Page: `/permission-demo`
+   - Page: `/dev-admin/permission-demo`
    - Question: `What is the promotion calibration process?`
    - Expected: Employee and Sales Representative refuse; Manager should answer if the manager source is retrieved; HR Admin is shown according to actual access.
 
@@ -59,13 +60,13 @@ Open `http://localhost:3000`.
    - Expected: follow-up rewrite uses prior vacation context.
 
 6. Multi-document reasoning
-   - Page: `/chat` or `/retrieval-playground`
+   - Page: `/chat` or `/dev-admin/retrieval-playground`
    - Role: `Employee`
    - Question: `If I work remotely, what approval and device security expectations apply?`
    - Expected: synthesis from HR and IT policy sources.
 
 7. Known failure
-   - Page: `/failed-questions`
+   - Page: `/dev-admin/failed-questions`
    - Expand `MULTI-005`.
    - Expected: shows the known open retrieval miss honestly.
 

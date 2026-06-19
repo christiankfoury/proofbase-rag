@@ -14,10 +14,10 @@ Turn the existing evaluation dashboard into an interactive enterprise RAG demo t
   - `/evaluation/failed-questions/enriched`
 - Added interactive frontend pages:
   - `/chat`
-  - `/permission-demo`
-  - `/retrieval-playground`
-  - `/evaluation/runs/[run_id]`
-- Reworked `/failed-questions` into an expandable inspector.
+  - `/dev-admin/permission-demo`
+  - `/dev-admin/retrieval-playground`
+  - `/dev-admin/evaluation/runs/[run_id]`
+- Reworked `/dev-admin/failed-questions` into an expandable inspector.
 - Updated top navigation for recruiter demo flow.
 
 ## What Stayed Out Of Scope
@@ -45,7 +45,7 @@ The chat demo lets a reviewer select a role, enter a question, choose retrieval 
 - retrieved context
 - feedback submission
 
-### `/permission-demo`
+### `/dev-admin/permission-demo`
 
 Runs the same permission-sensitive question across four roles and compares:
 
@@ -55,7 +55,7 @@ Runs the same permission-sensitive question across four roles and compares:
 - unauthorized chunk exposure
 - permission result
 
-### `/retrieval-playground`
+### `/dev-admin/retrieval-playground`
 
 Runs one question through:
 
@@ -66,11 +66,11 @@ Runs one question through:
 
 The page shows answers, citations, top retrieved chunks, latency, and confidence side by side.
 
-### `/evaluation/runs/[run_id]`
+### `/dev-admin/evaluation/runs/[run_id]`
 
 Shows run metadata and per-question rows when detailed JSON exists. Prompt experiment runs have rows; older aggregate-only runs show a clear unavailable message.
 
-### `/failed-questions`
+### `/dev-admin/failed-questions`
 
 Expands each failure into expected answer, actual answer, expected sources, actual citations, retrieved documents, scores, and recommended fix. `MULTI-005` is highlighted as a known open issue.
 

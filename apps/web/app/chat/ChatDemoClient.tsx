@@ -172,8 +172,8 @@ export function ChatDemoClient() {
   }
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[380px_1fr]">
-      <aside className="card space-y-6">
+    <div className="grid gap-6 xl:grid-cols-[420px_minmax(0,1fr)] 2xl:grid-cols-[460px_minmax(0,1fr)] 2xl:gap-8">
+      <aside className="card space-y-6 xl:sticky xl:top-8 xl:self-start">
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
             <label className="text-sm font-semibold text-ink" htmlFor="role">Role</label>
