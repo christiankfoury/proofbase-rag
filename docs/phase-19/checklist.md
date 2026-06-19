@@ -39,4 +39,3 @@
 - [x] Run `docker compose config`.
 - [x] Run `npm run build` for the web app using ignored alternate dist dir because the existing `.next\trace` artifact is permission-blocked.
 - [ ] Run live CRUD against Postgres after starting the Docker stack.
-

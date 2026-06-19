@@ -25,4 +25,3 @@ Live project CRUD against Postgres was not run in this pass because the Docker s
 ## Build Note
 
 The default `.next\trace` path in `apps/web` was permission-blocked. `next.config.mjs` now keeps `.next` as the default output but allows `NEXT_DIST_DIR` for verification builds. The temporary `.next-*` output pattern is ignored by Git.
-

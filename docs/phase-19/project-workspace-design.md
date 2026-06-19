@@ -63,4 +63,3 @@ The Northstar quality status references existing global evaluation outputs. New 
 - Project-scoped retrieval is not enforced yet.
 - Project-scoped evaluation sets are not implemented.
 - Live CRUD verification requires a running Postgres-backed API.
-
