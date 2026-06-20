@@ -197,11 +197,6 @@ export function Shell({ children }: { children: ReactNode }) {
   const devAdminAuthUnavailable = isDevAdminRoute && authError;
 
   useEffect(() => {
-    const savedState = window.localStorage.getItem("eka-nav-open");
-    setNavOpen(savedState === "true");
-  }, []);
-
-  useEffect(() => {
     let cancelled = false;
 
     async function loadIdentity() {
@@ -233,11 +228,7 @@ export function Shell({ children }: { children: ReactNode }) {
   }, []);
 
   function toggleNav() {
-    setNavOpen((current) => {
-      const next = !current;
-      window.localStorage.setItem("eka-nav-open", String(next));
-      return next;
-    });
+    setNavOpen((current) => !current);
   }
 
   useEffect(() => {
