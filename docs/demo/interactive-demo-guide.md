@@ -29,8 +29,8 @@ Open `http://localhost:3000`.
 | Projects | `/projects` | Project CRUD, seeded Northstar workspace, corpus coverage, quality status, and project audit events. |
 | Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, PDF upload for Markdown review, active version metadata, extracted Markdown preview, edit, and archive controls. |
 | Chat Demo | `/chat` | Live scoped RAG query, project and department selection, role selection, citations, confidence, latency, retrieved context, and feedback. |
-| Dev/Admin Overview | `/dev-admin` | Final metrics and evaluation-first proof. |
-| Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts. |
+| Dev/Admin Overview | `/dev-admin` | Final metrics with run IDs, timestamps, sample sizes, benchmark version, category breakdown, and evaluation-first proof. |
+| Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts with explicit pass/fail counts. |
 | Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows when detailed JSON exists. |
 | Failed Questions | `/dev-admin/failed-questions` | Expandable failure analysis with expected answer, actual answer, citations, fixes, and human review labels. |
 | Algorithm Quality Lab | `/dev-admin/retrieval-playground` | Named retrieval profiles, historical metrics, live source/citation coverage, known failures, and review notes. |
@@ -103,6 +103,6 @@ Open `http://localhost:3000`.
 - Department workspaces include document libraries and PDF-to-Markdown review uploads. `/chat` can strictly narrow retrieval to one department inside the selected project.
 - Uploaded PDFs are extracted for review only; approval, chunking, embeddings, and retrieval indexing remain future work.
 - Human review labels are persisted for failed questions and negative feedback, but approved candidates are not exported into benchmark JSON automatically yet.
-- Metrics and benchmark details come from existing evaluation JSON and Markdown outputs.
+- Metrics and benchmark details come from existing evaluation JSON and Markdown outputs; dashboard sample sizes are shown explicitly because retrieval/answer-quality, permission, and memory runs use different suites.
 - Querying requires `OPENAI_API_KEY`.
 - Retrieved context only shows chunks returned by the permission-filtered query API.

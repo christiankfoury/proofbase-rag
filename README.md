@@ -133,51 +133,51 @@ Benchmark artifacts:
 
 ## Final Metrics
 
-All numbers below come from existing evaluation outputs. They do not all use the same sample size: primary retrieval and answer-quality runs use 60 questions, permission safety uses 10 restricted-access questions, and the current memory page reports a 5-question follow-up suite. Chat-generation cost is estimated from configured model pricing; embedding and infrastructure cost are still future work.
+All numbers below come from existing evaluation outputs. They do not all use the same sample size: the benchmark source corpus has 65 questions, primary retrieval and answer-quality dashboard runs use 60-question subsets, permission safety uses 10 restricted-access questions, and the current memory page reports a 5-question follow-up suite. Chat-generation cost is estimated from configured model pricing; embedding and infrastructure cost are still future work.
 
 ### Retrieval
 
-| Metric | Value |
-|---|---:|
-| Best retrieval configuration | `vector-section` |
-| All-sources retrieval hit | `0.975` |
-| Precision@k | `0.650` |
-| MRR | `0.980` |
+| Metric | Value | Run | Sample |
+|---|---:|---|---:|
+| Best retrieval configuration | `vector-section` | `phase6-vector-section` | 60 |
+| All-sources retrieval hit | `0.975` | `phase6-vector-section` | 60 |
+| Precision@k | `0.650` | `phase6-vector-section` | 60 |
+| MRR | `0.980` | `phase6-vector-section` | 60 |
 
 Source: [Phase 6 Evaluation Results](docs/phase-6/evaluation-results.md)
 
 ### Answer Quality
 
-| Metric | Value |
-|---|---:|
-| Answer accuracy | `0.829` |
-| Citation accuracy | `0.857` |
-| Hallucination rate | `0.156` |
+| Metric | Value | Run | Sample |
+|---|---:|---|---:|
+| Answer accuracy | `0.829` | `phase7-answer-quality` | 60 |
+| Citation accuracy | `0.857` | `phase7-answer-quality` | 60 |
+| Hallucination rate | `0.156` | `phase7-answer-quality` | 60 |
 
 Source: [Phase 7 Evaluation Results](docs/phase-7/evaluation-results.md)
 
 ### Permission Safety
 
-| Metric | Value |
-|---|---:|
-| Permission leakage rate | `0.000` |
-| Blocked-answer accuracy | `1.000` |
-| Unauthorized chunk exposure rate | `0.000` |
-| Restricted citation leakage rate | `0.000` |
-| Unauthorized chunks reached generation rate | `0.000` |
+| Metric | Value | Run | Sample |
+|---|---:|---|---:|
+| Permission leakage rate | `0.000` | `phase8-permission-safety` | 10 |
+| Blocked-answer accuracy | `1.000` | `phase8-permission-safety` | 10 |
+| Unauthorized chunk exposure rate | `0.000` | `phase8-permission-safety` | 10 |
+| Restricted citation leakage rate | `0.000` | `phase8-permission-safety` | 10 |
+| Unauthorized chunks reached generation rate | `0.000` | `phase8-permission-safety` | 10 |
 
 Source: [Phase 8 Permission Evaluation Results](docs/phase-8/permission-evaluation-results.md)
 
 ### Conversation Memory
 
-| Metric | Value |
-|---|---:|
-| Follow-up detection accuracy | `1.000` |
-| Query rewrite quality | `1.000` |
-| Memory answer accuracy | `1.000` |
-| Memory citation accuracy | `1.000` |
-| Memory response type accuracy | `1.000` |
-| Memory permission leakage | `0.000` |
+| Metric | Value | Run | Sample |
+|---|---:|---|---:|
+| Follow-up detection accuracy | `1.000` | `phase9-memory` | 5 |
+| Query rewrite quality | `1.000` | `phase9-memory` | 5 |
+| Memory answer accuracy | `1.000` | `phase9-memory` | 5 |
+| Memory citation accuracy | `1.000` | `phase9-memory` | 5 |
+| Memory response type accuracy | `1.000` | `phase9-memory` | 5 |
+| Memory permission leakage | `0.000` | `phase9-memory` | 5 |
 
 Source: [Phase 9 Memory Evaluation Results](docs/phase-9/memory-evaluation-results.md)
 

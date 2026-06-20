@@ -1,6 +1,24 @@
 {
-  "generated_at": "2026-06-19T01:52:00.620326+00:00",
+  "generated_at": "2026-06-20T19:21:44.902324+00:00",
   "source": "docs/phase-6 through docs/phase-16",
+  "benchmark_context": {
+    "benchmark_version": "1.0",
+    "source_corpus": "data/synthetic-documents",
+    "corpus_question_count": 65,
+    "category_breakdown": {
+      "ambiguous": 5,
+      "conversation_memory": 10,
+      "missing_information": 10,
+      "multi_document": 10,
+      "permission_restricted": 10,
+      "simple_factual": 20
+    },
+    "current_dashboard_suites": {
+      "primary_retrieval_and_answer_quality": 60,
+      "permission_safety": 10,
+      "memory_followups": 5
+    }
+  },
   "runs": [
     {
       "run_id": "phase6-vector-section",
@@ -25,7 +43,12 @@
       "failed_questions": [
         "MULTI-005"
       ],
-      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type."
+      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type.",
+      "sample_size": 60,
+      "passed_count": 59,
+      "failed_count": 1,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-04T02:11:44.834094+00:00"
     },
     {
       "run_id": "phase6-keyword-section",
@@ -51,7 +74,12 @@
         "MULTI-004",
         "MULTI-008"
       ],
-      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type."
+      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type.",
+      "sample_size": 60,
+      "passed_count": 58,
+      "failed_count": 2,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-04T02:11:44.834094+00:00"
     },
     {
       "run_id": "phase6-hybrid-section-0.5",
@@ -76,7 +104,12 @@
       "failed_questions": [
         "MULTI-005"
       ],
-      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type."
+      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type.",
+      "sample_size": 60,
+      "passed_count": 59,
+      "failed_count": 1,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-04T02:11:44.834094+00:00"
     },
     {
       "run_id": "phase6-vector-fixed-size",
@@ -101,7 +134,12 @@
       "failed_questions": [
         "MULTI-005"
       ],
-      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type."
+      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type.",
+      "sample_size": 60,
+      "passed_count": 59,
+      "failed_count": 1,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-04T02:11:44.834094+00:00"
     },
     {
       "run_id": "phase6-hybrid-fixed-size-0.5",
@@ -127,7 +165,12 @@
         "MULTI-004",
         "MULTI-005"
       ],
-      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type."
+      "notes": "Retrieval-only run. Answer quality and cost metrics are pending for this run type.",
+      "sample_size": 60,
+      "passed_count": 58,
+      "failed_count": 2,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-04T02:11:44.834094+00:00"
     },
     {
       "run_id": "phase7-answer-quality",
@@ -174,7 +217,12 @@
         "MEM-003",
         "MEM-004"
       ],
-      "notes": "Answer metrics use deterministic scoring and heuristic confidence; cost is estimated from configured model pricing."
+      "notes": "Answer metrics use deterministic scoring and heuristic confidence; cost is estimated from configured model pricing.",
+      "sample_size": 60,
+      "passed_count": 47,
+      "failed_count": 13,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-05T01:50:38.484296+00:00"
     },
     {
       "run_id": "phase8-permission-safety",
@@ -200,7 +248,15 @@
         "authorized_answer_accuracy": null
       },
       "failed_questions": [],
-      "notes": "Pre-retrieval role filter blocked all 10 unauthorized requests. Zero restricted chunks reached retrieval or generation. Authorized-role retrieval confirmed for all 10 questions. Authorized answer generation is marked pending (requires --include-authorized-generation flag). Permission safety here is structurally enforced by a hard document-access filter, not probabilistic."
+      "category_breakdown": {
+        "permission_restricted": 10
+      },
+      "notes": "Pre-retrieval role filter blocked all 10 unauthorized requests. Zero restricted chunks reached retrieval or generation. Authorized-role retrieval confirmed for all 10 questions. Authorized answer generation is marked pending (requires --include-authorized-generation flag). Permission safety here is structurally enforced by a hard document-access filter, not probabilistic.",
+      "sample_size": 10,
+      "passed_count": 10,
+      "failed_count": 0,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-09T23:25:41.444019+00:00"
     },
     {
       "run_id": "phase9-memory",
@@ -228,7 +284,15 @@
         "estimated_cost": 0.003958
       },
       "failed_questions": [],
-      "notes": "Memory is session-level only and is used for query rewriting, not source evidence."
+      "category_breakdown": {
+        "conversation_memory": 5
+      },
+      "notes": "Memory is session-level only and is used for query rewriting, not source evidence.",
+      "sample_size": 5,
+      "passed_count": 5,
+      "failed_count": 0,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-09T23:26:24.462144+00:00"
     },
     {
       "run_id": "phase11-answer-generation-v1",
@@ -280,7 +344,20 @@
         "MEM-003",
         "MEM-004"
       ],
-      "notes": "Current Phase 7/9 structured JSON answer prompt. Note: v1 uses temperature=0.2, causing run-to-run variance. The phase-7 baseline run of the same prompt scored 0.829 answer accuracy vs 0.800 here \u2014 the difference is LLM non-determinism, not a code change. Subsequent prompt versions (v2 onward) use temperature=0.0 for reproducibility."
+      "notes": "Current Phase 7/9 structured JSON answer prompt. Note: v1 uses temperature=0.2, causing run-to-run variance. The phase-7 baseline run of the same prompt scored 0.829 answer accuracy vs 0.800 here; the difference is LLM non-determinism, not a code change. Subsequent prompt versions (v2 onward) use temperature=0.0 for reproducibility.",
+      "category_breakdown": {
+        "ambiguous": 5,
+        "conversation_memory": 5,
+        "missing_information": 10,
+        "multi_document": 10,
+        "permission_restricted": 10,
+        "simple_factual": 20
+      },
+      "sample_size": 60,
+      "passed_count": 47,
+      "failed_count": 13,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-06T15:07:13.787101+00:00"
     },
     {
       "run_id": "phase11-answer-generation-v2",
@@ -330,7 +407,20 @@
         "MULTI-010",
         "MEM-004"
       ],
-      "notes": "Stricter citation requirements; every key claim must map to a cited chunk."
+      "notes": "Stricter citation requirements; every key claim must map to a cited chunk.",
+      "category_breakdown": {
+        "ambiguous": 5,
+        "conversation_memory": 5,
+        "missing_information": 10,
+        "multi_document": 10,
+        "permission_restricted": 10,
+        "simple_factual": 20
+      },
+      "sample_size": 60,
+      "passed_count": 49,
+      "failed_count": 11,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-06T00:14:34.927059+00:00"
     },
     {
       "run_id": "phase11-answer-generation-v3",
@@ -380,7 +470,20 @@
         "MULTI-009",
         "MEM-004"
       ],
-      "notes": "Stricter unsupported-claim and not-found behavior for weak evidence."
+      "notes": "Stricter unsupported-claim and not-found behavior for weak evidence.",
+      "category_breakdown": {
+        "ambiguous": 5,
+        "conversation_memory": 5,
+        "missing_information": 10,
+        "multi_document": 10,
+        "permission_restricted": 10,
+        "simple_factual": 20
+      },
+      "sample_size": 60,
+      "passed_count": 49,
+      "failed_count": 11,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-06T00:17:41.811934+00:00"
     },
     {
       "run_id": "phase11-answer-generation-v5-failed-subset",
@@ -429,8 +532,18 @@
         "MEM-004"
       ],
       "notes": "Targeted unsupported-answer cleanup for failed-question backlog. Omits weakly supported claims and prefers partial answers for incomplete evidence. This run evaluated only 13/60 benchmark questions (previously-failed subset). Precision@k appears higher than full-benchmark runs because the subset contains disproportionately many MULTI questions with 3+ expected source documents, which inflate chunk-level precision. Not directly comparable to full-benchmark scores.",
+      "category_breakdown": {
+        "conversation_memory": 2,
+        "multi_document": 8,
+        "simple_factual": 3
+      },
       "question_filter": "failed",
-      "source_question_count": 60
+      "source_question_count": 60,
+      "sample_size": 13,
+      "passed_count": 4,
+      "failed_count": 9,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-09T23:21:56.776082+00:00"
     },
     {
       "run_id": "phase11-answer-generation-v5",
@@ -478,8 +591,21 @@
         "MEM-004"
       ],
       "notes": "Targeted unsupported-answer cleanup for failed-question backlog. Omits weakly supported claims and prefers partial answers for incomplete evidence.",
+      "category_breakdown": {
+        "ambiguous": 5,
+        "conversation_memory": 5,
+        "missing_information": 10,
+        "multi_document": 10,
+        "permission_restricted": 10,
+        "simple_factual": 20
+      },
       "question_filter": "all",
-      "source_question_count": 60
+      "source_question_count": 60,
+      "sample_size": 60,
+      "passed_count": 52,
+      "failed_count": 8,
+      "benchmark_version": "1.0",
+      "run_timestamp": "2026-06-09T23:25:05.712058+00:00"
     }
   ],
   "overview": {
@@ -508,6 +634,100 @@
       "hallucination_rate": 0.156,
       "permission_leakage_rate": 0.0,
       "memory_accuracy": 1.0
+    },
+    "metric_context": {
+      "retrieval_hit_rate": {
+        "run_id": "phase6-vector-section",
+        "run_name": "vector-section",
+        "metric_key": "all_sources_hit",
+        "sample_size": 60,
+        "passed_count": 59,
+        "failed_count": 1,
+        "benchmark_version": "1.0",
+        "run_timestamp": "2026-06-04T02:11:44.834094+00:00",
+        "category_breakdown": null
+      },
+      "precision_at_k": {
+        "run_id": "phase6-vector-section",
+        "run_name": "vector-section",
+        "metric_key": "precision_at_k",
+        "sample_size": 60,
+        "passed_count": 59,
+        "failed_count": 1,
+        "benchmark_version": "1.0",
+        "run_timestamp": "2026-06-04T02:11:44.834094+00:00",
+        "category_breakdown": null
+      },
+      "mrr": {
+        "run_id": "phase6-vector-section",
+        "run_name": "vector-section",
+        "metric_key": "mrr",
+        "sample_size": 60,
+        "passed_count": 59,
+        "failed_count": 1,
+        "benchmark_version": "1.0",
+        "run_timestamp": "2026-06-04T02:11:44.834094+00:00",
+        "category_breakdown": null
+      },
+      "answer_accuracy": {
+        "run_id": "phase7-answer-quality",
+        "run_name": "phase-7-answer-quality",
+        "metric_key": "answer_accuracy",
+        "sample_size": 60,
+        "passed_count": 47,
+        "failed_count": 13,
+        "benchmark_version": "1.0",
+        "run_timestamp": "2026-06-05T01:50:38.484296+00:00",
+        "category_breakdown": null
+      },
+      "citation_accuracy": {
+        "run_id": "phase7-answer-quality",
+        "run_name": "phase-7-answer-quality",
+        "metric_key": "citation_accuracy",
+        "sample_size": 60,
+        "passed_count": 47,
+        "failed_count": 13,
+        "benchmark_version": "1.0",
+        "run_timestamp": "2026-06-05T01:50:38.484296+00:00",
+        "category_breakdown": null
+      },
+      "hallucination_rate": {
+        "run_id": "phase7-answer-quality",
+        "run_name": "phase-7-answer-quality",
+        "metric_key": "hallucination_rate",
+        "sample_size": 60,
+        "passed_count": 47,
+        "failed_count": 13,
+        "benchmark_version": "1.0",
+        "run_timestamp": "2026-06-05T01:50:38.484296+00:00",
+        "category_breakdown": null
+      },
+      "permission_leakage_rate": {
+        "run_id": "phase8-permission-safety",
+        "run_name": "phase-8-permission-safety",
+        "metric_key": "permission_leakage_rate",
+        "sample_size": 10,
+        "passed_count": 10,
+        "failed_count": 0,
+        "benchmark_version": "1.0",
+        "run_timestamp": "2026-06-09T23:25:41.444019+00:00",
+        "category_breakdown": {
+          "permission_restricted": 10
+        }
+      },
+      "memory_accuracy": {
+        "run_id": "phase9-memory",
+        "run_name": "phase-9-memory",
+        "metric_key": "memory_answer_accuracy",
+        "sample_size": 5,
+        "passed_count": 5,
+        "failed_count": 0,
+        "benchmark_version": "1.0",
+        "run_timestamp": "2026-06-09T23:26:24.462144+00:00",
+        "category_breakdown": {
+          "conversation_memory": 5
+        }
+      }
     }
   },
   "comparisons": {

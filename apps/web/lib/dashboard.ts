@@ -6,6 +6,7 @@ export type EvalRun = {
   phase: string;
   run_type: string;
   timestamp: string;
+  run_timestamp?: string | null;
   retrieval_mode?: string | null;
   chunking_strategy?: string | null;
   top_k?: number | null;
@@ -16,6 +17,11 @@ export type EvalRun = {
   model?: string | null;
   temperature?: number | null;
   total_questions?: number | null;
+  sample_size?: number | null;
+  passed_count?: number | null;
+  failed_count?: number | null;
+  benchmark_version?: string | null;
+  category_breakdown?: Record<string, number | null> | null;
   question_filter?: string | null;
   source_question_count?: number | null;
   metrics: Metrics;
@@ -79,8 +85,29 @@ export type MultiDocComparison = {
   hallucination_regression?: boolean;
 };
 
+export type MetricContext = {
+  run_id?: string | null;
+  run_name?: string | null;
+  metric_key?: string | null;
+  sample_size?: number | null;
+  passed_count?: number | null;
+  failed_count?: number | null;
+  benchmark_version?: string | null;
+  run_timestamp?: string | null;
+  category_breakdown?: Record<string, number | null> | null;
+};
+
+export type BenchmarkContext = {
+  benchmark_version?: string | null;
+  source_corpus?: string | null;
+  corpus_question_count?: number | null;
+  category_breakdown?: Record<string, number | null> | null;
+  current_dashboard_suites?: Record<string, number | null> | null;
+};
+
 export type DashboardData = {
   generated_at: string;
+  benchmark_context?: BenchmarkContext;
   overview: {
     best_retrieval_run: string;
     retrieval_conclusion: string;
@@ -91,6 +118,7 @@ export type DashboardData = {
       still_needs_work: string[];
     };
     headline_metrics: Metrics;
+    metric_context?: Record<string, MetricContext>;
   };
   comparisons: Record<string, { summary: string; runs?: string[]; baseline?: string; current?: string }>;
   prompt_comparison?: PromptComparison;
@@ -109,7 +137,9 @@ function emptyDashboardData(): DashboardData {
       best_retrieval_run: "",
       retrieval_conclusion: "",
       headline_metrics: {},
+      metric_context: {},
     },
+    benchmark_context: {},
     comparisons: {},
     runs: [],
     failed_questions: [],
@@ -130,6 +160,7 @@ export async function getDashboardData(headers: HeadersInit = {}): Promise<Dashb
   return {
     generated_at: summary.generated_at,
     overview: compare.overview,
+    benchmark_context: compare.benchmark_context ?? summary.benchmark_context ?? {},
     comparisons: compare.comparisons,
     prompt_comparison: compare.prompt_comparison,
     multi_doc_comparison: compare.multi_doc_comparison,
@@ -158,6 +189,13 @@ export function formatLabel(value: string | null | undefined): string {
     .replaceAll("_", " ")
     .replaceAll("-", " ")
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+export function formatDateTime(value: string | null | undefined): string {
+  if (!value) return "not available";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return value;
+  return parsed.toISOString().replace(".000", "");
 }
 
 /**

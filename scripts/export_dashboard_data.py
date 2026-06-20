@@ -19,6 +19,7 @@ PHASE7_FAILED = ROOT / "docs/phase-7/failed-question-analysis.md"
 PHASE8_RESULTS = ROOT / "docs/phase-8/permission-evaluation-results.md"
 PHASE9_RESULTS = ROOT / "docs/phase-9/memory-evaluation-results.md"
 PHASE9_FAILED = ROOT / "docs/phase-9/failed-memory-question-analysis.md"
+BENCHMARK_PATH = ROOT / "data/evaluation/benchmark-questions.json"
 
 DASHBOARD_PATH = ROOT / "data/evaluation/dashboard-summary.json"
 RUNS_DIR = ROOT / "data/evaluation/eval-runs"
@@ -36,6 +37,61 @@ REQUIRED_REPORTS = [
     PHASE9_FAILED,
 ]
 EXPECTED_RUN_COUNT = 8
+
+
+def _load_benchmark() -> dict[str, Any]:
+    if not BENCHMARK_PATH.exists():
+        return {"questions": []}
+    return json.loads(BENCHMARK_PATH.read_text(encoding="utf-8"))
+
+
+def _category_breakdown(questions: list[dict[str, Any]]) -> dict[str, int]:
+    breakdown: dict[str, int] = {}
+    for question in questions:
+        question_type = question.get("question_type")
+        if not question_type:
+            continue
+        breakdown[str(question_type)] = breakdown.get(str(question_type), 0) + 1
+    return dict(sorted(breakdown.items()))
+
+
+def _benchmark_context(benchmark: dict[str, Any]) -> dict[str, Any]:
+    questions = [question for question in benchmark.get("questions", []) if isinstance(question, dict)]
+    return {
+        "benchmark_version": benchmark.get("benchmark_version") or "not available",
+        "source_corpus": benchmark.get("source_corpus") or "not available",
+        "corpus_question_count": benchmark.get("question_count") or len(questions),
+        "category_breakdown": _category_breakdown(questions),
+        "current_dashboard_suites": {
+            "primary_retrieval_and_answer_quality": 60,
+            "permission_safety": 10,
+            "memory_followups": 5,
+        },
+    }
+
+
+def _annotate_run(run: dict[str, Any], *, benchmark_version: str | None = None) -> dict[str, Any]:
+    sample_size = run.get("total_questions")
+    failed_count = run.get("metrics", {}).get("failed_question_count")
+    if failed_count is None and run.get("failed_questions") is not None:
+        failed_count = len(run.get("failed_questions") or [])
+    passed_count = None
+    if isinstance(sample_size, int) and isinstance(failed_count, int):
+        passed_count = sample_size - failed_count
+    return {
+        **run,
+        "sample_size": sample_size,
+        "passed_count": passed_count,
+        "failed_count": failed_count,
+        "benchmark_version": benchmark_version or "not available",
+        "run_timestamp": run.get("timestamp"),
+    }
+
+
+def _with_category_breakdown(run: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, Any]:
+    if not rows:
+        return run
+    return {**run, "category_breakdown": _category_breakdown(rows)}
 
 
 def _read(path: Path) -> str:
@@ -260,6 +316,7 @@ def _phase8_run(markdown: str) -> dict[str, Any]:
             "authorized_answer_accuracy": _float(values.get("authorized_answer_accuracy", "")),
         },
         "failed_questions": [],
+        "category_breakdown": {"permission_restricted": _int(values.get("restricted_benchmark_questions_tested", ""))},
         "notes": "Pre-retrieval role filter blocked all 10 unauthorized requests. Zero restricted chunks reached retrieval or generation. Authorized-role retrieval confirmed for all 10 questions. Authorized answer generation is marked pending (requires --include-authorized-generation flag). Permission safety here is structurally enforced by a hard document-access filter, not probabilistic.",
     }
 
@@ -295,6 +352,7 @@ def _phase9_run(markdown: str, failed_markdown: str) -> dict[str, Any]:
             "estimated_cost": _estimated_cost(model, input_tokens, output_tokens),
         },
         "failed_questions": _failed_question_ids(failed_markdown),
+        "category_breakdown": {"conversation_memory": _int(values.get("memory_benchmark_questions", ""))},
         "notes": "Memory is session-level only and is used for query rewriting, not source evidence.",
     }
 
@@ -306,6 +364,7 @@ def _prompt_experiment_runs() -> list[dict[str, Any]]:
     for path in sorted(PROMPT_EXPERIMENT_DIR.glob("*-answer-generation-*.json")):
         result = json.loads(path.read_text(encoding="utf-8"))
         summary = result["summary"]
+        rows = [row for row in result.get("rows", []) if isinstance(row, dict)]
         failed_questions = [item["question_id"] for item in result.get("failed_questions", [])]
         question_filter = summary.get("question_filter")
         run_id = summary["experiment_id"]
@@ -355,6 +414,7 @@ def _prompt_experiment_runs() -> list[dict[str, Any]]:
             "failed_questions": failed_questions,
             "notes": summary["prompt_change_notes"],
         }
+        run = _with_category_breakdown(run, rows)
         if question_filter is not None:
             run["question_filter"] = question_filter
         if summary.get("source_question_count") is not None:
@@ -362,7 +422,7 @@ def _prompt_experiment_runs() -> list[dict[str, Any]]:
         if summary.get("prompt_version") == "v1":
             run["notes"] += (
                 " Note: v1 uses temperature=0.2, causing run-to-run variance. The phase-7 baseline run of the"
-                " same prompt scored 0.829 answer accuracy vs 0.800 here — the difference is LLM"
+                " same prompt scored 0.829 answer accuracy vs 0.800 here; the difference is LLM"
                 " non-determinism, not a code change. Subsequent prompt versions (v2 onward) use"
                 " temperature=0.0 for reproducibility."
             )
@@ -465,6 +525,20 @@ def _prompt_comparison() -> dict[str, Any]:
     return json.loads(PROMPT_COMPARISON_PATH.read_text(encoding="utf-8"))
 
 
+def _metric_context(run: dict[str, Any], metric_key: str) -> dict[str, Any]:
+    return {
+        "run_id": run.get("run_id"),
+        "run_name": run.get("run_name"),
+        "metric_key": metric_key,
+        "sample_size": run.get("sample_size"),
+        "passed_count": run.get("passed_count"),
+        "failed_count": run.get("failed_count"),
+        "benchmark_version": run.get("benchmark_version"),
+        "run_timestamp": run.get("run_timestamp") or run.get("timestamp"),
+        "category_breakdown": run.get("category_breakdown"),
+    }
+
+
 def _overview(runs: list[dict[str, Any]], current_answer_run: dict[str, Any] | None) -> dict[str, Any]:
     by_id = {run["run_id"]: run for run in runs}
     retrieval = by_id.get("phase6-vector-section", {})
@@ -500,6 +574,16 @@ def _overview(runs: list[dict[str, Any]], current_answer_run: dict[str, Any] | N
             "hallucination_rate": answer.get("metrics", {}).get("hallucination_rate"),
             "permission_leakage_rate": permissions.get("metrics", {}).get("permission_leakage_rate"),
             "memory_accuracy": memory.get("metrics", {}).get("memory_answer_accuracy"),
+        },
+        "metric_context": {
+            "retrieval_hit_rate": _metric_context(retrieval, "all_sources_hit"),
+            "precision_at_k": _metric_context(retrieval, "precision_at_k"),
+            "mrr": _metric_context(retrieval, "mrr"),
+            "answer_accuracy": _metric_context(answer, "answer_accuracy"),
+            "citation_accuracy": _metric_context(answer, "citation_accuracy"),
+            "hallucination_rate": _metric_context(answer, "hallucination_rate"),
+            "permission_leakage_rate": _metric_context(permissions, "permission_leakage_rate"),
+            "memory_accuracy": _metric_context(memory, "memory_answer_accuracy"),
         },
     }
 
@@ -555,6 +639,10 @@ def main() -> None:
         missing_list = "\n".join(f"- {path.relative_to(ROOT)}" for path in missing)
         raise SystemExit(f"Missing required evaluation reports:\n{missing_list}")
 
+    benchmark = _load_benchmark()
+    benchmark_context = _benchmark_context(benchmark)
+    benchmark_version = benchmark_context["benchmark_version"]
+
     phase6 = _read(PHASE6_RESULTS)
     phase7 = _read(PHASE7_RESULTS)
     phase7_failed = _read(PHASE7_FAILED)
@@ -573,6 +661,7 @@ def main() -> None:
     if len(runs) != EXPECTED_RUN_COUNT and not args.allow_partial:
         raise SystemExit(f"Expected {EXPECTED_RUN_COUNT} dashboard runs, found {len(runs)}.")
     runs.extend(_prompt_experiment_runs())
+    runs = [_annotate_run(run, benchmark_version=benchmark_version) for run in runs]
 
     current_answer_run = _current_answer_run(runs)
     failed_questions = (
@@ -585,6 +674,7 @@ def main() -> None:
     dashboard = {
         "generated_at": datetime.now(UTC).isoformat(),
         "source": "docs/phase-6 through docs/phase-16",
+        "benchmark_context": benchmark_context,
         "runs": runs,
         "overview": _overview(runs, current_answer_run),
         "comparisons": _comparisons(runs),

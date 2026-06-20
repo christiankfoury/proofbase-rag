@@ -48,5 +48,18 @@
     "MEM-003",
     "MEM-004"
   ],
-  "notes": "Current Phase 7/9 structured JSON answer prompt. Note: v1 uses temperature=0.2, causing run-to-run variance. The phase-7 baseline run of the same prompt scored 0.829 answer accuracy vs 0.800 here \u2014 the difference is LLM non-determinism, not a code change. Subsequent prompt versions (v2 onward) use temperature=0.0 for reproducibility."
+  "notes": "Current Phase 7/9 structured JSON answer prompt. Note: v1 uses temperature=0.2, causing run-to-run variance. The phase-7 baseline run of the same prompt scored 0.829 answer accuracy vs 0.800 here; the difference is LLM non-determinism, not a code change. Subsequent prompt versions (v2 onward) use temperature=0.0 for reproducibility.",
+  "category_breakdown": {
+    "ambiguous": 5,
+    "conversation_memory": 5,
+    "missing_information": 10,
+    "multi_document": 10,
+    "permission_restricted": 10,
+    "simple_factual": 20
+  },
+  "sample_size": 60,
+  "passed_count": 47,
+  "failed_count": 13,
+  "benchmark_version": "1.0",
+  "run_timestamp": "2026-06-06T15:07:13.787101+00:00"
 }

@@ -34,7 +34,7 @@ The App side surfaces projects, departments, document libraries, PDF-to-Markdown
 
 ## Evaluation-First Approach
 
-Before optimizing the system, I created a 60-question benchmark covering:
+Before optimizing the system, I created a 65-question benchmark source corpus. The current primary retrieval and answer-quality dashboard runs use 60-question subsets, with separate 10-question permission safety and 5-question memory suites covering:
 
 - Simple factual questions.
 - Multi-document questions.

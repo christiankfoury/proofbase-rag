@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Badge } from "@/components/Badge";
-import { EvalRun, formatLabel, formatTableMetric, riskRateClass } from "@/lib/dashboard";
+import { EvalRun, formatDateTime, formatLabel, formatTableMetric, riskRateClass } from "@/lib/dashboard";
 
 function formatCost(value: number | string | null | undefined): string {
   if (value === null || value === undefined || value === "") return "-";
@@ -56,11 +56,16 @@ export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?:
     <div>
       <p className="mb-3 text-sm text-stone-600">A dash means the metric was not measured for that run type.</p>
       <div className="overflow-x-auto rounded-md border border-stone-300 bg-white shadow-card">
-        <table className="data-table min-w-[1040px]">
+        <table className="data-table min-w-[1320px]">
           <thead>
             <tr>
               <th>Run</th>
+              <th>Run ID</th>
               <th>Phase</th>
+              <th>Timestamp</th>
+              <th className="text-right">Sample</th>
+              <th className="text-right">Passed</th>
+              <th className="text-right">Failed</th>
               <th>Mode</th>
               <th>Chunking</th>
               <MetricTh
@@ -115,7 +120,12 @@ export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?:
                     ) : null}
                   </div>
                 </td>
+                <td className="text-xs text-stone-600">{run.run_id}</td>
                 <td>{run.phase}</td>
+                <td>{formatDateTime(run.run_timestamp ?? run.timestamp)}</td>
+                <td className="text-right">{run.sample_size ?? run.total_questions ?? "not measured"}</td>
+                <td className="text-right">{run.passed_count ?? "not available"}</td>
+                <td className="text-right">{run.failed_count ?? "not available"}</td>
                 <td>{formatLabel(run.retrieval_mode)}</td>
                 <td>{formatLabel(run.chunking_strategy)}</td>
                 <td className="text-right">{formatTableMetric(run.metrics.precision_at_k)}</td>

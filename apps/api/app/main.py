@@ -404,6 +404,7 @@ def evaluation_summary(user: Annotated[dict, Depends(current_admin_user)]) -> di
     return {
         "generated_at": data["generated_at"],
         "overview": data["overview"],
+        "benchmark_context": data.get("benchmark_context", {}),
         "run_count": len(data["runs"]),
         "failed_question_count": len(data["failed_questions"]),
         "notes": data["notes"],
@@ -421,6 +422,12 @@ def evaluation_runs(user: Annotated[dict, Depends(current_admin_user)]) -> dict:
                 "phase": run["phase"],
                 "run_type": run["run_type"],
                 "timestamp": run["timestamp"],
+                "run_timestamp": run.get("run_timestamp") or run.get("timestamp"),
+                "sample_size": run.get("sample_size") or run.get("total_questions"),
+                "passed_count": run.get("passed_count"),
+                "failed_count": run.get("failed_count"),
+                "benchmark_version": run.get("benchmark_version"),
+                "category_breakdown": run.get("category_breakdown"),
                 "retrieval_mode": run.get("retrieval_mode"),
                 "chunking_strategy": run.get("chunking_strategy"),
                 "top_k": run.get("top_k"),
@@ -466,6 +473,7 @@ def evaluation_compare(user: Annotated[dict, Depends(current_admin_user)]) -> di
     data = _load_dashboard_data()
     return {
         "overview": data["overview"],
+        "benchmark_context": data.get("benchmark_context", {}),
         "comparisons": data["comparisons"],
         "prompt_comparison": data.get("prompt_comparison", {}),
         "multi_doc_comparison": data.get("multi_doc_comparison", {}),

@@ -4,12 +4,14 @@ export function MetricCard({
   label,
   value,
   detail,
+  context,
   badge,
   tone = "neutral",
 }: {
   label: string;
   value: number | string | null | undefined;
   detail?: string;
+  context?: string;
   badge?: string;
   tone?: "neutral" | "good" | "warn" | "risk";
 }) {
@@ -32,6 +34,7 @@ export function MetricCard({
       </div>
       <p className={`mt-2 text-3xl font-semibold ${styles.value}`}>{formatMetric(value)}</p>
       {detail ? <p className="mt-2 text-sm text-stone-600">{detail}</p> : null}
+      {context ? <p className="mt-2 text-xs leading-5 text-stone-500">{context}</p> : null}
     </section>
   );
 }
