@@ -102,14 +102,29 @@ export type DashboardData = {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
-export async function getDashboardData(): Promise<DashboardData> {
-  const response = await fetch(`${API_BASE}/evaluation/compare`, { cache: "no-store" });
+function emptyDashboardData(): DashboardData {
+  return {
+    generated_at: "",
+    overview: {
+      best_retrieval_run: "",
+      retrieval_conclusion: "",
+      headline_metrics: {},
+    },
+    comparisons: {},
+    runs: [],
+    failed_questions: [],
+    notes: [],
+  };
+}
+
+export async function getDashboardData(headers: HeadersInit = {}): Promise<DashboardData> {
+  const response = await fetch(`${API_BASE}/evaluation/compare`, { cache: "no-store", headers });
   if (!response.ok) {
-    throw new Error("Evaluation dashboard data is unavailable. Generate it and start the API first.");
+    return emptyDashboardData();
   }
   const compare = await response.json();
-  const failedResponse = await fetch(`${API_BASE}/evaluation/failed-questions`, { cache: "no-store" });
-  const summaryResponse = await fetch(`${API_BASE}/evaluation/summary`, { cache: "no-store" });
+  const failedResponse = await fetch(`${API_BASE}/evaluation/failed-questions`, { cache: "no-store", headers });
+  const summaryResponse = await fetch(`${API_BASE}/evaluation/summary`, { cache: "no-store", headers });
   const failed = failedResponse.ok ? await failedResponse.json() : { failed_questions: [] };
   const summary = summaryResponse.ok ? await summaryResponse.json() : { generated_at: "", notes: [] };
   return {

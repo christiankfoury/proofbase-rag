@@ -3,12 +3,14 @@ import { PageHeader } from "@/components/PageHeader";
 import { Shell } from "@/components/Shell";
 import { getRunQuestions } from "@/lib/api";
 import { formatLabel } from "@/lib/dashboard";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 import { RunQuestionExplorer } from "./RunQuestionExplorer";
 
 export default async function EvaluationRunDetailPage({ params }: { params: Promise<{ run_id: string }> }) {
   const resolvedParams = await params;
   const runId = decodeURIComponent(resolvedParams.run_id);
-  const data = await getRunQuestions(runId);
+  const authHeaders = await serverDemoAuthHeaders();
+  const data = await getRunQuestions(runId, authHeaders);
   const runName = typeof data.run?.run_name === "string" ? data.run.run_name : runId;
 
   return (

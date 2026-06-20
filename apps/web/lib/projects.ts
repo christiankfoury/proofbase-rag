@@ -1,4 +1,5 @@
 import { API_BASE } from "@/lib/api";
+import { demoAuthHeaders } from "@/lib/demoAuth";
 
 export type ProjectStatus = "active" | "paused" | "archived";
 
@@ -120,6 +121,7 @@ async function projectRequest<T>(path: string, options?: RequestInit): Promise<T
     ...options,
     headers: {
       "Content-Type": "application/json",
+      ...demoAuthHeaders(),
       ...(options?.headers ?? {}),
     },
   });
@@ -224,6 +226,7 @@ export async function uploadDepartmentDocument(
     `${API_BASE}/projects/${encodeURIComponent(projectId)}/departments/${encodeURIComponent(departmentId)}/documents/upload`,
     {
       method: "POST",
+      headers: demoAuthHeaders(),
       body: formData,
     }
   );

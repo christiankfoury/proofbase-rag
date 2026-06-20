@@ -64,6 +64,7 @@ export function PermissionDemoClient() {
           </button>
         </div>
         <p className="mt-3 text-sm text-stone-600">
+          This Dev & Admin tool simulates role perspectives while the API still resolves the signed-in demo user server-side.
           The default question uses promotion calibration because the current corpus supports the intended role contrast.
         </p>
       </Card>

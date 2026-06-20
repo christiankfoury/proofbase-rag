@@ -2,11 +2,11 @@
 
 Enterprise Knowledge Agent is a portfolio-grade enterprise RAG system that simulates a secure internal company assistant. Users work inside project and department knowledge spaces, ask scoped questions across synthetic HR, IT/security, sales, manager, HR admin, and IT admin documents, and receive cited, permission-aware answers.
 
-This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, project workspaces, department document libraries, PDF-to-Markdown review uploads, scoped retrieval, a 60-question benchmark, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, human review workflows, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
+This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, local demo auth, project workspaces, department document libraries, PDF-to-Markdown review uploads, scoped retrieval, a 60-question benchmark, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, human review workflows, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
 
 ## Recruiter Summary
 
-Built an enterprise RAG knowledge assistant with project workspaces, department document libraries, PostgreSQL/pgvector retrieval, OpenAI generation, cited answers, RBAC enforcement, benchmark-driven evaluation, human review, live observability, Docker packaging, and Azure-ready deployment planning.
+Built an enterprise RAG knowledge assistant with local demo identity, project memberships, project workspaces, department document libraries, PostgreSQL/pgvector retrieval, OpenAI generation, cited answers, RBAC enforcement, benchmark-driven evaluation, human review, live observability, Docker packaging, and Azure-ready deployment planning.
 
 The main portfolio story:
 
@@ -20,7 +20,7 @@ The main portfolio story:
 - Citation-focused: generated answers include citations and citation validation.
 - Measured iteration: vector, keyword, hybrid, prompt, memory, and multi-document changes are compared with real metrics.
 - Demo-ready: the project includes a Next.js App and Dev/Admin UI, Docker Compose stack, health/readiness endpoints, smoke tests, and Azure-ready docs.
-- Honest limitations: synthetic data, no production auth yet, chat-generation cost estimation only, and remaining multi-document retrieval misses are documented.
+- Honest limitations: synthetic data, local demo auth only, no production SSO yet, chat-generation cost estimation only, and remaining multi-document retrieval misses are documented.
 
 ## Key Features
 
@@ -38,6 +38,7 @@ The main portfolio story:
 - Feedback collection, failed-question review, and feedback-to-evaluation workflow.
 - Observability request logs and live observability dashboard.
 - Audit logs for security-relevant events.
+- Local demo users and project memberships with server-side role derivation.
 - Evaluation dashboard with run comparison, failed questions, prompt experiments, permissions, memory, and multi-document views.
 - Multi-document query decomposition, grouped evidence, and synthesis prompt.
 - Docker Compose local stack with Postgres/pgvector, FastAPI, and Next.js.
@@ -201,6 +202,7 @@ Source: [Multi-Doc Evaluation JSON](data/evaluation/multi-doc-eval.json)
 | API `/ready` | Passed |
 | Postgres/pgvector setup | Passed |
 | Smoke test | Passed in latest user run |
+| Local demo auth | Passed for member, guest, and admin/non-admin checks |
 | Azure deployment | Azure-ready, not deployed |
 | Chat cost tracking | Estimated from configured model pricing |
 
@@ -216,7 +218,7 @@ App routes:
 - `/projects` project workspace list with create, edit, archive, seeded corpus coverage, quality status, and recent project audit events.
 - `/projects/[projectId]` selected project workspace home.
 - `/projects/[projectId]/departments/[departmentId]` department workspace detail with icon, access defaults, document library, PDF upload for Markdown review, active version metadata, extracted Markdown preview, edit, and archive controls.
-- `/chat` live project-scoped RAG demo with project and department scope selectors, role selector, presets, citations, confidence, latency, retrieved context, and feedback.
+- `/chat` live project-scoped RAG demo with project and department scope selectors, signed-in demo role context, presets, citations, confidence, latency, retrieved context, and feedback.
 
 Dev/Admin routes:
 
@@ -248,7 +250,7 @@ Recommended interactive demo presets:
 - Known failure: MULTI-005 sales positioning question.
 - Human review: label a failed question or negative feedback item with answer/citation correctness and save it as an evaluation candidate, needs-fix item, approved reference, or rejected item.
 
-The `/chat` page is a recruiter/demo UI over the existing API. It is not production authentication.
+The `/chat` page is a recruiter/demo UI over local demo auth. The API derives the App query role from the selected demo user instead of trusting a free-form role selector, but this is not production SSO.
 
 Screenshots to capture:
 
@@ -288,6 +290,8 @@ Open:
 - API: `http://localhost:8000`
 - API health: `http://localhost:8000/health`
 - API readiness: `http://localhost:8000/ready`
+
+The local demo defaults to Emma Employee. Use the header selector in the web app to switch demo users, including Kai Knowledge Manager for Dev/Admin access and Gus Guest for unauthorized-access checks.
 
 If port `3000` is already in use, set `WEB_PORT=3001` in `.env` and open `http://localhost:3001`.
 
@@ -353,13 +357,13 @@ Open the dashboard after exporting data.
 
 - The corpus is synthetic and intentionally avoids real employee or customer data.
 - The project is Azure-ready but has not been deployed to Azure yet.
-- Production authentication and SSO are not implemented.
+- Local demo auth is implemented with seeded demo users and project memberships. Production authentication and SSO are not implemented.
 - There are no real SharePoint, Slack, Teams, Google Drive, or HRIS connectors yet.
 - Raw document storage still uses repository files, not Azure Blob Storage.
 - Chat-generation cost is estimated from configured model pricing; embedding, hosting, and Azure infrastructure costs are not included yet.
 - `MULTI-005` still fails due to a `SALES-002` retrieval miss.
 - Multi-document detection is heuristic.
-- The `/chat` page is a demo UI, not a production end-user assistant with authentication.
+- The `/chat` page is a demo UI backed by local demo auth, not a production end-user assistant with SSO/session hardening.
 - Project-scoped retrieval is implemented for `/chat` and `POST /query` when a scope is supplied. Dev/Admin benchmark tools can still use the global retrieval path when no scope is supplied.
 - Department-scoped retrieval is implemented as a strict filter when a department scope is supplied. Uploaded-document indexing is not implemented yet.
 - Department document libraries and PDF-to-Markdown review uploads are implemented, but approval/indexing for uploaded files is not implemented yet.
@@ -370,7 +374,7 @@ Open the dashboard after exporting data.
 
 - Deploy the containers to Azure Container Apps or Azure App Service.
 - Use Azure Database for PostgreSQL with pgvector.
-- Add production auth with Clerk or Auth.js.
+- Replace local demo auth with production auth using Clerk, Auth.js, or the chosen enterprise identity provider.
 - Persist raw documents and durable logs in Azure Blob Storage.
 - Add uploaded-document approval, indexing, and DOCX ingestion.
 - Add review approval and indexing for uploaded PDF Markdown.
@@ -411,7 +415,8 @@ Phase artifacts are preserved for review:
 - [Phase 24](docs/phase-24/algorithm-quality-lab-design.md): named retrieval profiles and algorithm review workflow.
 - [Phase 25](docs/phase-25/result-verification-review-design.md): human review labels for failed questions and feedback-derived candidates.
 - [Phase 26](docs/phase-26/recruiter-presentation-polish.md): recruiter presentation polish, five-minute demo path, screenshot checklist, and limitations alignment.
+- [Phase 27](docs/phase-27/local-demo-auth-design.md): local demo auth, project memberships, server-side role derivation, and Dev/Admin gating.
 
 ## Final Portfolio Description
 
-Enterprise Knowledge Agent is a full-stack enterprise RAG portfolio project that demonstrates secure retrieval, role-based permissions, citation-grounded answer generation, benchmark-driven iteration, operational observability, Dockerized local deployment, and Azure-ready architecture. It shows how an internal AI assistant can be evaluated and hardened beyond a simple chatbot demo.
+Enterprise Knowledge Agent is a full-stack enterprise RAG portfolio project that demonstrates local demo identity, secure retrieval, role-based permissions, citation-grounded answer generation, benchmark-driven iteration, operational observability, Dockerized local deployment, and Azure-ready architecture. It shows how an internal AI assistant can be evaluated and hardened beyond a simple chatbot demo.

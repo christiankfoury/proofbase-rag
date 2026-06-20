@@ -1,5 +1,6 @@
 import { API_BASE } from "@/lib/api";
 import type { Citation, RetrievedChunk } from "@/lib/api";
+import { demoAuthHeaders } from "@/lib/demoAuth";
 
 export type ReviewDecision = "needs_fix" | "evaluation_candidate" | "approved_reference" | "rejected";
 export type CorrectnessLabel = "1" | "0.5" | "0";
@@ -28,6 +29,7 @@ async function reviewRequest<T>(path: string, options?: RequestInit): Promise<T>
     ...options,
     headers: {
       "Content-Type": "application/json",
+      ...demoAuthHeaders(),
       ...(options?.headers ?? {}),
     },
   });

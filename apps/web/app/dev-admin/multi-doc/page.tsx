@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { getDashboardData, formatTableMetric, type MultiDocComparison } from "@/lib/dashboard";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 const METRICS: { key: keyof NonNullable<MultiDocComparison["baseline"]>; label: string; higherIsBetter: boolean }[] = [
   { key: "answer_accuracy", label: "Answer Accuracy", higherIsBetter: true },
@@ -25,7 +26,8 @@ function delta(baseline: number | null | undefined, improved: number | null | un
 }
 
 export default async function MultiDocPage() {
-  const data = await getDashboardData();
+  const authHeaders = await serverDemoAuthHeaders();
+  const data = await getDashboardData(authHeaders);
   const comparison = data.multi_doc_comparison;
 
   if (!comparison || !comparison.baseline || !comparison.multi_doc) {

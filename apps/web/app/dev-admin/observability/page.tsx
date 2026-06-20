@@ -6,9 +6,11 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { goodRateClass } from "@/lib/dashboard";
 import { getObservabilitySummary } from "@/lib/feedback";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 export default async function ObservabilityPage() {
-  const data = await getObservabilitySummary();
+  const authHeaders = await serverDemoAuthHeaders();
+  const data = await getObservabilitySummary(authHeaders);
   const recent = data.recent_requests ?? [];
 
   if (data.status === "not_generated" || data.status === "unavailable") {

@@ -63,7 +63,7 @@ Updated materials:
 ## Limitations Kept Visible
 
 - The corpus is synthetic.
-- `/chat` is a demo UI, not production authentication.
+- `/chat` now uses local demo auth, but it is still not production authentication or SSO.
 - Uploaded PDFs are extracted for review only; approval, chunking, embeddings, and indexing are not implemented.
 - Human review decisions are persisted, but approved candidates are not automatically exported into benchmark JSON.
 - Project-scoped benchmark runs remain future work.

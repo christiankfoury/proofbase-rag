@@ -1,6 +1,37 @@
 create extension if not exists "uuid-ossp";
 create extension if not exists vector;
 
+create table if not exists demo_users (
+  id uuid primary key default uuid_generate_v4(),
+  display_name text not null,
+  email text not null unique,
+  business_role text not null,
+  is_admin boolean not null default false,
+  status text not null default 'active' check (status in ('active', 'disabled')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_demo_users_status on demo_users(status);
+create index if not exists idx_demo_users_role on demo_users(business_role);
+
+insert into demo_users (id, display_name, email, business_role, is_admin)
+values
+  ('00000000-0000-0000-0000-000000002701', 'Emma Employee', 'employee@northstar.example', 'Employee', false),
+  ('00000000-0000-0000-0000-000000002702', 'Sam Sales', 'sales@northstar.example', 'Sales Representative', false),
+  ('00000000-0000-0000-0000-000000002703', 'Mina Manager', 'manager@northstar.example', 'Manager', false),
+  ('00000000-0000-0000-0000-000000002704', 'Harper HR Admin', 'hr-admin@northstar.example', 'HR Admin', false),
+  ('00000000-0000-0000-0000-000000002705', 'Ira IT Admin', 'it-admin@northstar.example', 'IT Admin', false),
+  ('00000000-0000-0000-0000-000000002706', 'Kai Knowledge Manager', 'knowledge-manager@northstar.example', 'Knowledge Manager', true),
+  ('00000000-0000-0000-0000-000000002707', 'Gus Guest', 'guest@external.example', 'Employee', false)
+on conflict (id) do update set
+  display_name = excluded.display_name,
+  email = excluded.email,
+  business_role = excluded.business_role,
+  is_admin = excluded.is_admin,
+  status = 'active',
+  updated_at = now();
+
 create table if not exists projects (
   id uuid primary key default uuid_generate_v4(),
   name text not null,
@@ -45,6 +76,31 @@ on conflict (seeded_data_key) do update set
   quality_status = excluded.quality_status,
   quality_summary = excluded.quality_summary,
   archived_at = null,
+  updated_at = now();
+
+create table if not exists project_memberships (
+  id uuid primary key default uuid_generate_v4(),
+  project_id uuid not null references projects(id) on delete cascade,
+  user_id uuid not null references demo_users(id) on delete cascade,
+  membership_level text not null check (membership_level in ('viewer', 'contributor', 'owner')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (project_id, user_id)
+);
+
+create index if not exists idx_project_memberships_project on project_memberships(project_id);
+create index if not exists idx_project_memberships_user on project_memberships(user_id);
+
+insert into project_memberships (project_id, user_id, membership_level)
+values
+  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002701', 'viewer'),
+  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002702', 'viewer'),
+  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002703', 'viewer'),
+  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002704', 'viewer'),
+  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002705', 'viewer'),
+  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002706', 'owner')
+on conflict (project_id, user_id) do update set
+  membership_level = excluded.membership_level,
   updated_at = now();
 
 create table if not exists project_departments (

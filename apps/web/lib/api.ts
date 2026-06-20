@@ -1,3 +1,5 @@
+import { demoAuthHeaders } from "@/lib/demoAuth";
+
 export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
 export type UserRole = "Employee" | "Sales Representative" | "Manager" | "HR Admin" | "IT Admin";
@@ -34,7 +36,7 @@ export type RetrievedChunk = {
 
 export type QueryRequest = {
   question: string;
-  user_role: UserRole | string;
+  user_role?: UserRole | string;
   session_id?: string | null;
   user_id?: string | null;
   top_k?: number | null;
@@ -158,6 +160,7 @@ async function requestJson<T>(path: string, options?: RequestInit): Promise<T> {
     ...options,
     headers: {
       "Content-Type": "application/json",
+      ...demoAuthHeaders(),
       ...(options?.headers ?? {}),
     },
   });
@@ -175,7 +178,7 @@ export async function queryRag(payload: QueryRequest): Promise<QueryResponse> {
   });
 }
 
-export async function createChatSession(payload: { user_role: string; user_id?: string | null }): Promise<{ session_id: string; user_role: string }> {
+export async function createChatSession(payload: { user_role?: string; user_id?: string | null } = {}): Promise<{ session_id: string; user_role: string; user_id?: string }> {
   return requestJson("/chat/sessions", {
     method: "POST",
     body: JSON.stringify(payload),
@@ -189,7 +192,7 @@ export async function submitFeedback(payload: {
   answer: string;
   response_type?: string | null;
   citations?: Citation[];
-  user_role: string;
+  user_role?: string;
   rating: "thumbs_up" | "thumbs_down";
   user_comment?: string | null;
   feedback_category?: string;
@@ -200,12 +203,40 @@ export async function submitFeedback(payload: {
   });
 }
 
-export async function getRunQuestions(runId: string): Promise<RunQuestionResponse> {
-  return requestJson<RunQuestionResponse>(`/evaluation/runs/${encodeURIComponent(runId)}/questions`, { cache: "no-store" });
+export async function getRunQuestions(runId: string, headers: HeadersInit = {}): Promise<RunQuestionResponse> {
+  const response = await fetch(`${API_BASE}/evaluation/runs/${encodeURIComponent(runId)}/questions`, {
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json",
+      ...demoAuthHeaders(),
+      ...headers,
+    },
+  });
+  if (!response.ok) {
+    return {
+      run: null,
+      run_id: runId,
+      detail_available: false,
+      detail_source: null,
+      row_count: 0,
+      rows: [],
+      message: "Run details are unavailable for the selected demo user.",
+    };
+  }
+  return response.json();
 }
 
-export async function getEnrichedFailures(): Promise<{ failed_questions: EnrichedFailure[]; count: number }> {
-  return requestJson<{ failed_questions: EnrichedFailure[]; count: number }>("/evaluation/failed-questions/enriched", { cache: "no-store" });
+export async function getEnrichedFailures(headers: HeadersInit = {}): Promise<{ failed_questions: EnrichedFailure[]; count: number }> {
+  const response = await fetch(`${API_BASE}/evaluation/failed-questions/enriched`, {
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json",
+      ...demoAuthHeaders(),
+      ...headers,
+    },
+  });
+  if (!response.ok) return { failed_questions: [], count: 0 };
+  return response.json();
 }
 
 export async function submitAlgorithmReview(payload: {

@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Card } from "@/components/Card";
 import { SectionHeading } from "@/components/SectionHeading";
 import { getDashboardData } from "@/lib/dashboard";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 import Link from "next/link";
 
 const proofPath = [
@@ -27,7 +28,8 @@ const proofPath = [
 ];
 
 export default async function OverviewPage() {
-  const data = await getDashboardData();
+  const authHeaders = await serverDemoAuthHeaders();
+  const data = await getDashboardData(authHeaders);
   const metrics = data.overview.headline_metrics;
   const progressSummary = data.overview.progress_summary ?? {
     improved: [

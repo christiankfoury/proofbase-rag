@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     observability_log_path: str = "data/observability/request-logs.jsonl"
     audit_log_path: str = "data/audit/audit-events.jsonl"
     upload_storage_dir: str = "data/uploads"
+    default_demo_user_id: str = "00000000-0000-0000-0000-000000002701"
     cors_allowed_origins: str = (
         "http://localhost:3000,"
         "http://127.0.0.1:3000,"

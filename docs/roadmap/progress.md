@@ -6,10 +6,10 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-- Current phase: Phase 27, Auth And Deployment Readiness.
-- Last completed phase: Phase 26, Recruiter Presentation Polish.
-- Last verification focus: App and Dev/Admin presentation build, Docker Compose config, five-minute demo script review, and claims review.
-- Next expected work: decide the safest local-auth/deployment-readiness slice without claiming production SSO or changing the permission model prematurely.
+- Current phase: Phase 28, next roadmap slice not yet selected.
+- Last completed phase: Phase 27, Auth And Deployment Readiness.
+- Last verification focus: local demo auth schema, API access control smokes, server-side App role derivation, web production build, and Docker Compose config.
+- Next expected work: choose the next product slice without claiming production SSO, hosted Azure deployment, or uploaded-document indexing before those are implemented.
 
 ## Phase Status
 
@@ -25,7 +25,7 @@ Update this tracker before committing each phase. Keep entries factual: record w
 | 24: Algorithm Quality Lab | Complete | `e9df2e3` | Targeted API compile, API import, web production build, and `docker compose config --quiet` passed. Live review-note POST against Postgres and full OpenAI-backed evals were skipped. | Reworked retrieval playground into a named-profile quality lab with historical metrics, live source/citation coverage, known failure visibility, cost/latency signals, and audit-backed review notes. |
 | 25: Result Verification And Human Review | Complete | `4081465` | Targeted Python compile, API import, web production build, and `docker compose config --quiet` passed. Live review-save checks against Postgres and candidate-based evaluation reruns were skipped. | Added persisted human review decisions for failed questions and negative feedback with answer/citation labels, candidate decisions, and audit events without auto-promoting benchmark changes. |
 | 26: Recruiter Presentation Polish | Complete | Pending | Web production build and `docker compose config --quiet` passed. Demo script five-minute review and claims review passed by document inspection. Live screenshots and live `/chat` queries were skipped. | Added first-screen demo path, Dev/Admin proof framing, aligned README/demo/case-study/screenshot/checklist docs, and kept limitations explicit. |
-| 27: Auth And Deployment Readiness | Next | Pending | Pending | Move toward production-shaped auth, membership, permissions, and deployment readiness. |
+| 27: Auth And Deployment Readiness | Complete | Pending | `python -m compileall apps scripts`, API import smoke, `python scripts/setup_db.py`, seeded demo-user smoke, FastAPI member/guest/admin access-control smokes, project-scoped query role-derivation smoke with OpenAI mocked out, `npm run build`, and `docker compose config --quiet` passed. | Added local demo auth, seeded demo users, project memberships, `X-Demo-User-Id`, `/auth/demo-users`, `/auth/me`, server-side App role derivation, project membership checks, Dev/Admin admin gating, header user switcher, and deployment/auth docs. Production SSO, hosted auth, Azure deployment, and uploaded-document indexing remain future work. |
 
 ## Update Rules
 

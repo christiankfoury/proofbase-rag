@@ -8,7 +8,7 @@ The local deployment uses Docker Compose:
 - `api`: FastAPI service that handles retrieval, generation, ingestion scripts, evaluation scripts, feedback, audit events, and observability summaries.
 - `web`: Next.js service that reads API endpoints for dashboard, feedback, audit, and observability views.
 
-The API connects to Postgres with `DATABASE_URL`. The web app connects to the API with `NEXT_PUBLIC_API_BASE_URL`.
+The API connects to Postgres with `DATABASE_URL`. The web app connects to the API with `NEXT_PUBLIC_API_BASE_URL`. Local demo auth uses seeded database users and the `X-Demo-User-Id` request header; `DEFAULT_DEMO_USER_ID` controls the fallback demo user.
 
 ## Azure-Ready Target Architecture
 
@@ -33,4 +33,6 @@ Recommended target services:
 
 ## Deployment Boundaries
 
-Phase 14 does not add production authentication, Azure AI Search, production SSO, cloud deployment automation, or real Azure uptime claims.
+Phase 27 adds local demo auth and project memberships for portfolio/demo use. It does not add production authentication, Azure AI Search, production SSO, cloud deployment automation, or real Azure uptime claims.
+
+Production auth handoff should replace `X-Demo-User-Id` with a real identity provider, map provider claims to application users and memberships, and move session/token validation into the API boundary.

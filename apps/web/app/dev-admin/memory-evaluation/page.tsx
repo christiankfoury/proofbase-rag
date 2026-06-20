@@ -4,9 +4,11 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { formatLabel, getDashboardData } from "@/lib/dashboard";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 export default async function MemoryEvaluationPage() {
-  const data = await getDashboardData();
+  const authHeaders = await serverDemoAuthHeaders();
+  const data = await getDashboardData(authHeaders);
   const run = data.runs.find((item) => item.phase === "phase-9");
   const metrics = run?.metrics ?? {};
 

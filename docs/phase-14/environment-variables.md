@@ -10,6 +10,7 @@
 | `OPENAI_CHAT_MODEL` | No | `gpt-4.1-mini` | Backward-compatible chat model variable. Takes precedence over `OPENAI_MODEL`. |
 | `OPENAI_EMBEDDING_MODEL` | No | `text-embedding-3-small` | Must match embedding dimensionality used by schema. |
 | `DEFAULT_TOP_K` | No | `5` | Default retrieval count. |
+| `DEFAULT_DEMO_USER_ID` | No | `00000000-0000-0000-0000-000000002701` | Local demo auth fallback when `X-Demo-User-Id` is not supplied. Defaults to Emma Employee. |
 | `LOG_LEVEL` | No | `INFO` | Reserved for runtime logging configuration. |
 | `OBSERVABILITY_LOG_PATH` | No | `data/observability/request-logs.jsonl` | API request log path. Relative paths resolve from repo root. |
 | `AUDIT_LOG_PATH` | No | `data/audit/audit-events.jsonl` | Reserved for future JSONL audit export; current audit events persist in Postgres. |

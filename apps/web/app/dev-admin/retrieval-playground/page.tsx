@@ -1,10 +1,12 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Shell } from "@/components/Shell";
 import { getDashboardData } from "@/lib/dashboard";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 import { RetrievalPlaygroundClient } from "./RetrievalPlaygroundClient";
 
 export default async function RetrievalPlaygroundPage() {
-  const data = await getDashboardData();
+  const authHeaders = await serverDemoAuthHeaders();
+  const data = await getDashboardData(authHeaders);
   const historicalRuns = data.runs.filter((run) => run.phase === "phase-6");
 
   return (

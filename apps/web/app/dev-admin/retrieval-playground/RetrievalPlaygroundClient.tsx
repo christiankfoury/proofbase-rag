@@ -275,7 +275,7 @@ export function RetrievalPlaygroundClient({
             aria-label="Expected source documents"
             placeholder="Expected docs, e.g. HR-003, IT-002"
           />
-          <select value={role} onChange={(event) => setRole(event.target.value as UserRole)} className="field">
+          <select value={role} onChange={(event) => setRole(event.target.value as UserRole)} className="field" aria-label="Admin simulation role">
             <option>Employee</option>
             <option>Sales Representative</option>
             <option>Manager</option>
@@ -287,7 +287,9 @@ export function RetrievalPlaygroundClient({
           </button>
         </div>
         <p className="mt-3 text-sm text-stone-700">
-          The live gate checks retrieved-source coverage, citation-source coverage, permission leakage, confidence, latency, and estimated cost for one question. Full promotion still requires benchmark evidence.
+          Admin-only simulation compares role perspectives for one question while the API still resolves the signed-in demo user.
+          The live gate checks retrieved-source coverage, citation-source coverage, permission leakage, confidence, latency, and estimated cost.
+          Full promotion still requires benchmark evidence.
         </p>
       </Card>
 

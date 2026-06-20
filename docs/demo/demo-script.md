@@ -179,7 +179,7 @@ End with:
 
 - The corpus is synthetic.
 - Querying requires a configured `OPENAI_API_KEY`.
-- `/chat` is a demo UI, not production authentication.
+- `/chat` uses local demo auth and server-side role derivation, but it is not production SSO or session hardening.
 - Uploaded PDFs are extracted for review, but approval/indexing for those uploads is future work.
 - Azure deployment is documented as ready work, not claimed as completed.
 - Project-scoped benchmarks and automatic candidate promotion remain future work.

@@ -2,12 +2,20 @@ import json
 import uuid
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Annotated
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from psycopg import Error as PsycopgError
 from pydantic import BaseModel, Field
 
+from apps.api.app.auth.demo_auth import DEMO_USER_HEADER
+from apps.api.app.auth.demo_auth import accessible_project_ids
+from apps.api.app.auth.demo_auth import list_demo_users
+from apps.api.app.auth.demo_auth import require_admin
+from apps.api.app.auth.demo_auth import require_project_editor
+from apps.api.app.auth.demo_auth import require_project_member
+from apps.api.app.auth.demo_auth import resolve_demo_user
 from apps.api.app.audit.audit_logger import audit_summary as get_audit_summary
 from apps.api.app.audit.audit_logger import list_audit_events, log_audit_event
 from apps.api.app.core.config import get_settings
@@ -191,6 +199,25 @@ def _safe_upload_name(filename: str | None) -> str:
     return f"{safe_stem or 'upload'}{suffix}"
 
 
+def current_demo_user(
+    x_demo_user_id: Annotated[str | None, Header(alias=DEMO_USER_HEADER)] = None,
+) -> dict:
+    return resolve_demo_user(x_demo_user_id)
+
+
+def current_admin_user(user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+    require_admin(user)
+    return user
+
+
+def _effective_query_role(requested_role: str, user: dict, *, project_scoped: bool) -> str:
+    if project_scoped:
+        return user["business_role"]
+    if user["is_admin"]:
+        return requested_role or user["business_role"]
+    return user["business_role"]
+
+
 def _load_dashboard_data() -> dict:
     if not DASHBOARD_DATA_PATH.exists():
         raise HTTPException(
@@ -350,14 +377,29 @@ def ready() -> dict:
     }
 
 
+@app.get("/auth/demo-users")
+def demo_users_route() -> dict:
+    try:
+        users = list_demo_users()
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Demo auth schema is not ready.") from exc
+    return {"users": users, "count": len(users), "auth_mode": "local_demo"}
+
+
+@app.get("/auth/me")
+def auth_me_route(user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+    return {"user": user, "auth_mode": "local_demo"}
+
+
 @app.post("/chat/sessions")
-def create_chat_session(request: CreateSessionRequest) -> dict:
-    session_id = create_session(request.user_role, user_id=request.user_id)
-    return {"session_id": session_id, "user_role": request.user_role}
+def create_chat_session(request: CreateSessionRequest, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+    effective_role = _effective_query_role(request.user_role, user, project_scoped=False)
+    session_id = create_session(effective_role, user_id=user["id"])
+    return {"session_id": session_id, "user_role": effective_role, "user_id": user["id"]}
 
 
 @app.get("/evaluation/summary")
-def evaluation_summary() -> dict:
+def evaluation_summary(user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     data = _load_dashboard_data()
     return {
         "generated_at": data["generated_at"],
@@ -369,7 +411,7 @@ def evaluation_summary() -> dict:
 
 
 @app.get("/evaluation/runs")
-def evaluation_runs() -> dict:
+def evaluation_runs(user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     data = _load_dashboard_data()
     return {
         "runs": [
@@ -391,7 +433,7 @@ def evaluation_runs() -> dict:
 
 
 @app.get("/evaluation/runs/{run_id}")
-def evaluation_run_detail(run_id: str) -> dict:
+def evaluation_run_detail(run_id: str, user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     data = _load_dashboard_data()
     for run in data["runs"]:
         if run["run_id"] == run_id:
@@ -400,7 +442,7 @@ def evaluation_run_detail(run_id: str) -> dict:
 
 
 @app.get("/evaluation/runs/{run_id}/questions")
-def evaluation_run_questions(run_id: str) -> dict:
+def evaluation_run_questions(run_id: str, user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     run = _dashboard_run(run_id)
     rows, detail_source = _load_run_rows(run_id)
     benchmark_by_id = _load_benchmark_by_id()
@@ -420,7 +462,7 @@ def evaluation_run_questions(run_id: str) -> dict:
 
 
 @app.get("/evaluation/compare")
-def evaluation_compare() -> dict:
+def evaluation_compare(user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     data = _load_dashboard_data()
     return {
         "overview": data["overview"],
@@ -432,13 +474,13 @@ def evaluation_compare() -> dict:
 
 
 @app.get("/evaluation/failed-questions")
-def evaluation_failed_questions() -> dict:
+def evaluation_failed_questions(user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     data = _load_dashboard_data()
     return {"failed_questions": data["failed_questions"]}
 
 
 @app.get("/evaluation/failed-questions/enriched")
-def evaluation_failed_questions_enriched() -> dict:
+def evaluation_failed_questions_enriched(user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     data = _load_dashboard_data()
     current_run_id = data.get("overview", {}).get("current_answer_run_id")
     benchmark_by_id = _load_benchmark_by_id()
@@ -488,12 +530,12 @@ def evaluation_failed_questions_enriched() -> dict:
 
 
 @app.post("/evaluation/algorithm-reviews", status_code=201)
-def algorithm_review_route(request: AlgorithmReviewRequest) -> dict:
+def algorithm_review_route(request: AlgorithmReviewRequest, user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     review_id = str(uuid.uuid4())
     recorded = log_audit_event(
         action="algorithm_profile_reviewed",
-        user_role=request.user_role,
-        user_id=request.reviewer_id,
+        user_role=user["business_role"],
+        user_id=user["id"],
         resource_type="retrieval_profile",
         document_id=request.profile_name,
         outcome=request.decision,
@@ -518,7 +560,7 @@ def algorithm_review_route(request: AlgorithmReviewRequest) -> dict:
 
 
 @app.post("/evaluation/reviews", status_code=201)
-def create_evaluation_review_route(request: EvaluationReviewRequest) -> dict:
+def create_evaluation_review_route(request: EvaluationReviewRequest, user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     if request.answer_correctness not in {0, 0.5, 1} or request.citation_correctness not in {0, 0.5, 1}:
         raise HTTPException(status_code=400, detail="Correctness labels must be 0, 0.5, or 1.")
     try:
@@ -534,16 +576,16 @@ def create_evaluation_review_route(request: EvaluationReviewRequest) -> dict:
             answer_correctness=request.answer_correctness,
             citation_correctness=request.citation_correctness,
             decision=request.decision,
-            reviewer_role=request.reviewer_role,
-            reviewer_id=request.reviewer_id,
+            reviewer_role=user["business_role"],
+            reviewer_id=user["id"],
             notes=request.notes,
         )
     except PsycopgError as exc:
         raise HTTPException(status_code=503, detail="Database error saving evaluation review.") from exc
     log_audit_event(
         action="evaluation_review_saved",
-        user_role=request.reviewer_role,
-        user_id=request.reviewer_id,
+        user_role=user["business_role"],
+        user_id=user["id"],
         resource_type="evaluation_review",
         document_id=review["id"],
         outcome=request.decision,
@@ -561,6 +603,7 @@ def create_evaluation_review_route(request: EvaluationReviewRequest) -> dict:
 
 @app.get("/evaluation/reviews")
 def evaluation_reviews_route(
+    user: Annotated[dict, Depends(current_admin_user)],
     source_type: str | None = None,
     decision: str | None = None,
     limit: int = 50,
@@ -573,7 +616,8 @@ def evaluation_reviews_route(
 
 
 @app.post("/feedback")
-def post_feedback(request: FeedbackRequest) -> dict:
+def post_feedback(request: FeedbackRequest, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+    effective_role = user["business_role"]
     try:
         feedback_id = submit_feedback(
             session_id=request.session_id,
@@ -582,7 +626,7 @@ def post_feedback(request: FeedbackRequest) -> dict:
             answer=request.answer,
             response_type=request.response_type,
             citations=request.citations,
-            user_role=request.user_role,
+            user_role=effective_role,
             rating=request.rating,
             user_comment=request.user_comment,
             feedback_category=request.feedback_category,
@@ -593,7 +637,8 @@ def post_feedback(request: FeedbackRequest) -> dict:
         raise HTTPException(status_code=503, detail="Database error saving feedback.") from exc
     log_audit_event(
         action="feedback_submitted",
-        user_role=request.user_role,
+        user_role=effective_role,
+        user_id=user["id"],
         resource_type="feedback",
         outcome="success",
         metadata={
@@ -607,6 +652,7 @@ def post_feedback(request: FeedbackRequest) -> dict:
 
 @app.get("/feedback")
 def get_feedback(
+    user: Annotated[dict, Depends(current_admin_user)],
     rating: str | None = None,
     feedback_category: str | None = None,
     limit: int = 50,
@@ -616,22 +662,23 @@ def get_feedback(
 
 
 @app.get("/feedback/summary")
-def feedback_summary_route() -> dict:
+def feedback_summary_route(user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     return get_feedback_summary()
 
 
 @app.get("/observability/summary")
-def observability_summary() -> dict:
+def observability_summary(user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     return compute_live_summary(limit=20)
 
 
 @app.get("/observability/recent-requests")
-def recent_requests_route(limit: int = 20) -> dict:
+def recent_requests_route(user: Annotated[dict, Depends(current_admin_user)], limit: int = 20) -> dict:
     return compute_live_summary(limit=limit)
 
 
 @app.get("/audit/events")
 def audit_events(
+    user: Annotated[dict, Depends(current_admin_user)],
     action: str | None = None,
     outcome: str | None = None,
     limit: int = 20,
@@ -641,21 +688,24 @@ def audit_events(
 
 
 @app.get("/audit/summary")
-def audit_summary_route() -> dict:
+def audit_summary_route(user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     return get_audit_summary()
 
 
 @app.get("/projects")
-def projects_route(include_archived: bool = False) -> dict:
+def projects_route(user: Annotated[dict, Depends(current_demo_user)], include_archived: bool = False) -> dict:
     try:
         projects = list_projects(include_archived=include_archived)
     except PsycopgError as exc:
         raise HTTPException(status_code=503, detail="Database is not ready or the project schema has not been applied.") from exc
+    allowed_project_ids = accessible_project_ids(user)
+    if allowed_project_ids is not None:
+        projects = [project for project in projects if project["id"] in allowed_project_ids]
     return {"projects": projects, "count": len(projects)}
 
 
 @app.post("/projects", status_code=201)
-def create_project_route(request: ProjectCreateRequest) -> dict:
+def create_project_route(request: ProjectCreateRequest, user: Annotated[dict, Depends(current_admin_user)]) -> dict:
     name = request.name.strip()
     description = request.description.strip()
     default_retrieval_profile = request.default_retrieval_profile.strip()
@@ -677,8 +727,8 @@ def create_project_route(request: ProjectCreateRequest) -> dict:
 
     log_audit_event(
         action="project_created",
-        user_role=request.user_role,
-        user_id=request.user_id,
+        user_role=user["business_role"],
+        user_id=user["id"],
         resource_type="project",
         document_id=project["id"],
         outcome="success",
@@ -688,8 +738,9 @@ def create_project_route(request: ProjectCreateRequest) -> dict:
 
 
 @app.get("/projects/{project_id}")
-def project_detail_route(project_id: str, include_archived: bool = False) -> dict:
+def project_detail_route(project_id: str, user: Annotated[dict, Depends(current_demo_user)], include_archived: bool = False) -> dict:
     project_id = _validate_project_id(project_id)
+    require_project_member(user, project_id)
     try:
         project = get_project(project_id, include_archived=include_archived)
     except PsycopgError as exc:
@@ -702,10 +753,12 @@ def project_detail_route(project_id: str, include_archived: bool = False) -> dic
 @app.get("/projects/{project_id}/documents")
 def project_documents_route(
     project_id: str,
+    user: Annotated[dict, Depends(current_demo_user)],
     department_id: str | None = None,
     include_archived: bool = False,
 ) -> dict:
     project_id = _validate_project_id(project_id)
+    require_project_member(user, project_id)
     if department_id is not None:
         department_id = _validate_project_id(department_id)
     try:
@@ -724,8 +777,9 @@ def project_documents_route(
 
 
 @app.post("/projects/{project_id}/departments", status_code=201)
-def create_department_route(project_id: str, request: DepartmentCreateRequest) -> dict:
+def create_department_route(project_id: str, request: DepartmentCreateRequest, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
     project_id = _validate_project_id(project_id)
+    require_project_editor(user, project_id)
     name = request.name.strip()
     description = request.description.strip()
     default_access_roles = _normalize_roles(request.default_access_roles) or []
@@ -751,8 +805,8 @@ def create_department_route(project_id: str, request: DepartmentCreateRequest) -
 
     log_audit_event(
         action="department_created",
-        user_role=request.user_role,
-        user_id=request.user_id,
+        user_role=user["business_role"],
+        user_id=user["id"],
         resource_type="department",
         document_id=department["id"],
         outcome="success",
@@ -765,10 +819,12 @@ def create_department_route(project_id: str, request: DepartmentCreateRequest) -
 def department_documents_route(
     project_id: str,
     department_id: str,
+    user: Annotated[dict, Depends(current_demo_user)],
     include_archived: bool = False,
 ) -> dict:
     project_id = _validate_project_id(project_id)
     department_id = _validate_project_id(department_id)
+    require_project_member(user, project_id)
     try:
         if not get_department(project_id, department_id, include_archived=include_archived):
             raise HTTPException(status_code=404, detail="Department not found.")
@@ -788,15 +844,15 @@ def department_documents_route(
 async def upload_department_document_route(
     project_id: str,
     department_id: str,
+    user: Annotated[dict, Depends(current_demo_user)],
     file: UploadFile = File(...),
     title: str | None = Form(None),
     access_roles: str | None = Form(None),
     restricted: bool = Form(False),
-    user_role: str = Form("Knowledge Manager"),
-    user_id: str | None = Form(None),
 ) -> dict:
     project_id = _validate_project_id(project_id)
     department_id = _validate_project_id(department_id)
+    require_project_editor(user, project_id)
     safe_name = _safe_upload_name(file.filename)
     if not safe_name.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only PDF uploads are supported in this phase.")
@@ -858,8 +914,8 @@ async def upload_department_document_route(
 
     log_audit_event(
         action="document_uploaded_for_review",
-        user_role=user_role,
-        user_id=user_id,
+        user_role=user["business_role"],
+        user_id=user["id"],
         resource_type="document",
         document_id=document["external_document_id"],
         outcome="success",
@@ -881,9 +937,15 @@ async def upload_department_document_route(
 
 
 @app.get("/projects/{project_id}/departments/{department_id}")
-def department_detail_route(project_id: str, department_id: str, include_archived: bool = False) -> dict:
+def department_detail_route(
+    project_id: str,
+    department_id: str,
+    user: Annotated[dict, Depends(current_demo_user)],
+    include_archived: bool = False,
+) -> dict:
     project_id = _validate_project_id(project_id)
     department_id = _validate_project_id(department_id)
+    require_project_member(user, project_id)
     try:
         department = get_department(project_id, department_id, include_archived=include_archived)
     except PsycopgError as exc:
@@ -894,9 +956,15 @@ def department_detail_route(project_id: str, department_id: str, include_archive
 
 
 @app.patch("/projects/{project_id}/departments/{department_id}")
-def update_department_route(project_id: str, department_id: str, request: DepartmentUpdateRequest) -> dict:
+def update_department_route(
+    project_id: str,
+    department_id: str,
+    request: DepartmentUpdateRequest,
+    user: Annotated[dict, Depends(current_demo_user)],
+) -> dict:
     project_id = _validate_project_id(project_id)
     department_id = _validate_project_id(department_id)
+    require_project_editor(user, project_id)
     updates = request.model_dump(exclude={"user_role", "user_id"}, exclude_unset=True)
     if "name" in updates and updates["name"] is not None:
         updates["name"] = updates["name"].strip()
@@ -917,8 +985,8 @@ def update_department_route(project_id: str, department_id: str, request: Depart
 
     log_audit_event(
         action="department_updated",
-        user_role=request.user_role,
-        user_id=request.user_id,
+        user_role=user["business_role"],
+        user_id=user["id"],
         resource_type="department",
         document_id=department["id"],
         outcome="success",
@@ -935,11 +1003,11 @@ def update_department_route(project_id: str, department_id: str, request: Depart
 def archive_department_route(
     project_id: str,
     department_id: str,
-    user_role: str = "Knowledge Manager",
-    user_id: str | None = None,
+    user: Annotated[dict, Depends(current_demo_user)],
 ) -> dict:
     project_id = _validate_project_id(project_id)
     department_id = _validate_project_id(department_id)
+    require_project_editor(user, project_id)
     try:
         department = archive_department(project_id, department_id)
     except PsycopgError as exc:
@@ -949,8 +1017,8 @@ def archive_department_route(
 
     log_audit_event(
         action="department_archived",
-        user_role=user_role,
-        user_id=user_id,
+        user_role=user["business_role"],
+        user_id=user["id"],
         resource_type="department",
         document_id=department["id"],
         outcome="success",
@@ -961,8 +1029,9 @@ def archive_department_route(
 
 
 @app.patch("/projects/{project_id}")
-def update_project_route(project_id: str, request: ProjectUpdateRequest) -> dict:
+def update_project_route(project_id: str, request: ProjectUpdateRequest, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
     project_id = _validate_project_id(project_id)
+    require_project_editor(user, project_id)
     updates = request.model_dump(exclude={"user_role", "user_id"}, exclude_unset=True)
     if "name" in updates and updates["name"] is not None:
         updates["name"] = updates["name"].strip()
@@ -985,8 +1054,8 @@ def update_project_route(project_id: str, request: ProjectUpdateRequest) -> dict
 
     log_audit_event(
         action="project_updated",
-        user_role=request.user_role,
-        user_id=request.user_id,
+        user_role=user["business_role"],
+        user_id=user["id"],
         resource_type="project",
         document_id=project["id"],
         outcome="success",
@@ -996,8 +1065,9 @@ def update_project_route(project_id: str, request: ProjectUpdateRequest) -> dict
 
 
 @app.delete("/projects/{project_id}")
-def archive_project_route(project_id: str, user_role: str = "Knowledge Manager", user_id: str | None = None) -> dict:
+def archive_project_route(project_id: str, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
     project_id = _validate_project_id(project_id)
+    require_project_editor(user, project_id)
     try:
         project = archive_project(project_id)
     except PsycopgError as exc:
@@ -1007,8 +1077,8 @@ def archive_project_route(project_id: str, user_role: str = "Knowledge Manager",
 
     log_audit_event(
         action="project_archived",
-        user_role=user_role,
-        user_id=user_id,
+        user_role=user["business_role"],
+        user_id=user["id"],
         resource_type="project",
         document_id=project["id"],
         outcome="success",
@@ -1019,7 +1089,7 @@ def archive_project_route(project_id: str, user_role: str = "Knowledge Manager",
 
 
 @app.post("/query")
-def query(request: QueryRequest) -> dict:
+def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
     request_id = str(uuid.uuid4())
     request_timestamp = datetime.now(UTC).isoformat()
     trace = RequestTrace()
@@ -1031,6 +1101,9 @@ def query(request: QueryRequest) -> dict:
     department_id = _validate_project_id(request.department_id) if request.department_id else None
     if department_id and not project_id:
         raise HTTPException(status_code=400, detail="Department scope requires a project scope.")
+    if project_id:
+        require_project_member(user, project_id)
+    effective_role = _effective_query_role(request.user_role, user, project_scoped=bool(project_id))
 
     settings = get_settings()
     config = default_retrieval_config(
@@ -1056,9 +1129,11 @@ def query(request: QueryRequest) -> dict:
             session = get_session(session_id)
             if not session:
                 raise HTTPException(status_code=404, detail="Chat session not found.")
+            if session.get("user_id") and session["user_id"] != user["id"]:
+                raise HTTPException(status_code=403, detail="Chat session belongs to another demo user.")
             previous_turns = list_messages(session_id)
         elif request.user_id:
-            session_id = create_session(request.user_role, user_id=request.user_id)
+            session_id = create_session(effective_role, user_id=user["id"])
 
         rewrite = rewrite_followup_question(request.question, previous_turns)
         memory_context = build_memory_context(previous_turns) if rewrite["memory_used"] else {}
@@ -1070,10 +1145,10 @@ def query(request: QueryRequest) -> dict:
             request.multi_doc_mode == "auto" and is_multi_document_question(retrieval_question)
         )
         if multi_doc:
-            chunks = retrieve_multi_doc(retrieval_question, request.user_role, config)
+            chunks = retrieve_multi_doc(retrieval_question, effective_role, config)
             grouped_docs = group_chunks_by_document(chunks)
         else:
-            chunks = retrieve_chunks(retrieval_question, request.user_role, config)
+            chunks = retrieve_chunks(retrieval_question, effective_role, config)
             grouped_docs = None
         trace.stop("retrieval")
 
@@ -1081,7 +1156,7 @@ def query(request: QueryRequest) -> dict:
         answer = generate_answer(
             retrieval_question,
             chunks,
-            user_role=request.user_role,
+            user_role=effective_role,
             memory_context=memory_text,
             original_question=request.question,
             prompt_name=request.prompt_name,
@@ -1133,7 +1208,8 @@ def query(request: QueryRequest) -> dict:
     if request.prompt_version and request.prompt_version != "v1":
         log_audit_event(
             action="prompt_version_changed",
-            user_role=request.user_role,
+            user_role=effective_role,
+            user_id=user["id"],
             resource_type="generation",
             outcome="success",
             reason="non_default_prompt_version_requested",
@@ -1145,7 +1221,7 @@ def query(request: QueryRequest) -> dict:
         build_request_entry(
             request_id=request_id,
             timestamp=request_timestamp,
-            user_role=request.user_role,
+            user_role=effective_role,
             session_id=session_id,
             question_truncated=request.question[:120],
             rewritten_question=rewrite.get("rewritten_question"),
@@ -1216,9 +1292,9 @@ def query(request: QueryRequest) -> dict:
             "previous_topic": rewrite.get("previous_topic"),
         },
         "permission_check": {
-            "user_role": request.user_role,
+            "user_role": effective_role,
             "retrieved_chunks_count": len(chunks),
-            "unauthorized_chunks_reached_generation": unauthorized_chunks_reached_generation(chunks, request.user_role),
+            "unauthorized_chunks_reached_generation": unauthorized_chunks_reached_generation(chunks, effective_role),
         },
         "citations": answer["citations"],
         "retrieved_chunks": retrieved_chunks_payload(chunks),

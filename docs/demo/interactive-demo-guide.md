@@ -98,7 +98,7 @@ Open `http://localhost:3000`.
 
 ## Demo Notes
 
-- The chat page is a demo UI over the existing API. It is not production authentication.
+- The chat page uses local demo auth over the existing API. It derives App query role server-side, but it is not production authentication or SSO.
 - Projects are durable workspaces, and `/chat` sends the selected project scope to retrieval.
 - Department workspaces include document libraries and PDF-to-Markdown review uploads. `/chat` can strictly narrow retrieval to one department inside the selected project.
 - Uploaded PDFs are extracted for review only; approval, chunking, embeddings, and retrieval indexing remain future work.

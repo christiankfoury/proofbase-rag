@@ -79,8 +79,8 @@ export type AuditSummary = {
   counts_by_action: Record<string, number>;
 };
 
-export async function getFeedbackSummary(): Promise<FeedbackSummary> {
-  const res = await fetch(`${API_BASE}/feedback/summary`, { cache: "no-store" });
+export async function getFeedbackSummary(headers: HeadersInit = {}): Promise<FeedbackSummary> {
+  const res = await fetch(`${API_BASE}/feedback/summary`, { cache: "no-store", headers });
   if (!res.ok) return { total: 0, thumbs_up: 0, thumbs_down: 0, negative_category_breakdown: {} };
   return res.json();
 }
@@ -89,18 +89,18 @@ export async function getFeedback(params?: {
   rating?: string;
   feedback_category?: string;
   limit?: number;
-}): Promise<{ feedback: FeedbackItem[]; count: number }> {
+}, headers: HeadersInit = {}): Promise<{ feedback: FeedbackItem[]; count: number }> {
   const url = new URL(`${API_BASE}/feedback`);
   if (params?.rating) url.searchParams.set("rating", params.rating);
   if (params?.feedback_category) url.searchParams.set("feedback_category", params.feedback_category);
   if (params?.limit) url.searchParams.set("limit", String(params.limit));
-  const res = await fetch(url.toString(), { cache: "no-store" });
+  const res = await fetch(url.toString(), { cache: "no-store", headers });
   if (!res.ok) return { feedback: [], count: 0 };
   return res.json();
 }
 
-export async function getObservabilitySummary(): Promise<ObservabilitySummary> {
-  const res = await fetch(`${API_BASE}/observability/summary`, { cache: "no-store" });
+export async function getObservabilitySummary(headers: HeadersInit = {}): Promise<ObservabilitySummary> {
+  const res = await fetch(`${API_BASE}/observability/summary`, { cache: "no-store", headers });
   if (!res.ok) {
     return {
       avg_total_latency_ms: null,
@@ -122,18 +122,18 @@ export async function getAuditEvents(params?: {
   action?: string;
   outcome?: string;
   limit?: number;
-}): Promise<{ events: AuditEvent[]; count: number }> {
+}, headers: HeadersInit = {}): Promise<{ events: AuditEvent[]; count: number }> {
   const url = new URL(`${API_BASE}/audit/events`);
   if (params?.action) url.searchParams.set("action", params.action);
   if (params?.outcome) url.searchParams.set("outcome", params.outcome);
   if (params?.limit) url.searchParams.set("limit", String(params.limit));
-  const res = await fetch(url.toString(), { cache: "no-store" });
+  const res = await fetch(url.toString(), { cache: "no-store", headers });
   if (!res.ok) return { events: [], count: 0 };
   return res.json();
 }
 
-export async function getAuditSummary(): Promise<AuditSummary> {
-  const res = await fetch(`${API_BASE}/audit/summary`, { cache: "no-store" });
+export async function getAuditSummary(headers: HeadersInit = {}): Promise<AuditSummary> {
+  const res = await fetch(`${API_BASE}/audit/summary`, { cache: "no-store", headers });
   if (!res.ok) return { counts_by_action: {} };
   return res.json();
 }

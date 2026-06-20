@@ -4,12 +4,14 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { getFeedback, getFeedbackSummary } from "@/lib/feedback";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 import { FeedbackReviewClient } from "./FeedbackReviewClient";
 
 export default async function FeedbackPage() {
+  const authHeaders = await serverDemoAuthHeaders();
   const [summary, { feedback: negativeItems }] = await Promise.all([
-    getFeedbackSummary(),
-    getFeedback({ rating: "thumbs_down", limit: 20 }),
+    getFeedbackSummary(authHeaders),
+    getFeedback({ rating: "thumbs_down", limit: 20 }, authHeaders),
   ]);
   const categories = Object.entries(summary.negative_category_breakdown).sort(([, a], [, b]) => b - a);
 

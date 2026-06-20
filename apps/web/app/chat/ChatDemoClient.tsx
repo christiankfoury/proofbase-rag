@@ -12,9 +12,10 @@ import {
   queryRag,
   submitFeedback,
 } from "@/lib/api";
+import { DEMO_USER_CHANGED_EVENT, fetchCurrentDemoUser, fetchDemoUsers, setSelectedDemoUserId, syncDemoUserCookie } from "@/lib/demoAuth";
+import type { DemoUser } from "@/lib/demoAuth";
 import { fetchProject, fetchProjects, type Project } from "@/lib/projects";
 
-const roles: UserRole[] = ["Employee", "Sales Representative", "Manager", "HR Admin", "IT Admin"];
 const retrievalModes: RetrievalMode[] = ["vector_only", "keyword_only", "hybrid"];
 const promptVersions = ["default", "v1", "v2", "v3", "v4"];
 const multiDocModes: MultiDocMode[] = ["auto", "off", "force"];
@@ -65,7 +66,8 @@ const presets = [
 ];
 
 export function ChatDemoClient() {
-  const [role, setRole] = useState<UserRole>("Employee");
+  const [demoUsers, setDemoUsers] = useState<DemoUser[]>([]);
+  const [currentUser, setCurrentUser] = useState<DemoUser | null>(null);
   const [question, setQuestion] = useState("Where does Northstar Analytics have offices?");
   const [retrievalMode, setRetrievalMode] = useState<RetrievalMode>("vector_only");
   const [promptVersion, setPromptVersion] = useState("default");
@@ -86,6 +88,32 @@ export function ChatDemoClient() {
   const [feedbackStatus, setFeedbackStatus] = useState<string | null>(null);
   const departments = selectedProject?.departments ?? [];
   const queryDisabled = loading || scopeLoading || !selectedProjectId;
+  const role = currentUser?.business_role ?? "Employee";
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadIdentity() {
+      try {
+        syncDemoUserCookie();
+        const [users, user] = await Promise.all([fetchDemoUsers(), fetchCurrentDemoUser()]);
+        if (cancelled) return;
+        setDemoUsers(users);
+        setCurrentUser(user);
+      } catch (exc) {
+        if (!cancelled) setError(exc instanceof Error ? exc.message : "Demo identity failed.");
+      }
+    }
+
+    loadIdentity();
+    window.addEventListener(DEMO_USER_CHANGED_EVENT, loadIdentity);
+    window.addEventListener("storage", loadIdentity);
+    return () => {
+      cancelled = true;
+      window.removeEventListener(DEMO_USER_CHANGED_EVENT, loadIdentity);
+      window.removeEventListener("storage", loadIdentity);
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -138,7 +166,6 @@ export function ChatDemoClient() {
     try {
       const response = await queryRag({
         question: nextQuestion,
-        user_role: role,
         session_id: nextSessionId,
         retrieval_mode: retrievalMode,
         chunking_strategy: "section_based",
@@ -169,11 +196,10 @@ export function ChatDemoClient() {
     setError(null);
     setFeedbackStatus(null);
     try {
-      const session = await createChatSession({ user_role: role });
+      const session = await createChatSession();
       setSessionId(session.session_id);
       await queryRag({
         question: "How many vacation days do full-time employees receive?",
-        user_role: role,
         session_id: session.session_id,
         retrieval_mode: retrievalMode,
         chunking_strategy: "section_based",
@@ -184,7 +210,6 @@ export function ChatDemoClient() {
       const followup = "Can I carry any unused days into next year?";
       const response = await queryRag({
         question: followup,
-        user_role: role,
         session_id: session.session_id,
         retrieval_mode: retrievalMode,
         chunking_strategy: "section_based",
@@ -217,7 +242,6 @@ export function ChatDemoClient() {
         answer: result.answer,
         response_type: result.response_type,
         citations: result.citations,
-        user_role: role,
         rating: feedbackRating,
         feedback_category: feedbackCategory,
         user_comment: feedbackComment,
@@ -269,10 +293,11 @@ export function ChatDemoClient() {
             </div>
           </div>
           <div>
-            <label className="text-sm font-semibold text-ink" htmlFor="role">Role</label>
-            <select id="role" value={role} onChange={(event) => setRole(event.target.value as UserRole)} className="field mt-1 w-full">
-              {roles.map((item) => <option key={item}>{item}</option>)}
-            </select>
+            <p className="text-sm font-semibold text-ink">Signed-in role</p>
+            <div className="mt-1 rounded border border-stone-300 bg-stone-50 px-3 py-2 text-sm text-stone-700">
+              <span className="font-semibold text-ink">{currentUser?.display_name ?? "Loading demo user"}</span>
+              <span className="block text-xs text-stone-600">{role} - derived server-side from local demo auth</span>
+            </div>
           </div>
           <div>
             <label className="text-sm font-semibold text-ink" htmlFor="question">Question</label>
@@ -317,7 +342,8 @@ export function ChatDemoClient() {
                 key={preset.label}
                 type="button"
                 onClick={() => {
-                  setRole(preset.role);
+                  const matchingUser = demoUsers.find((user) => user.business_role === preset.role);
+                  if (matchingUser) setSelectedDemoUserId(matchingUser.id);
                   setQuestion(preset.question);
                   setRetrievalMode("vector_only");
                   setMultiDocMode(preset.multiDocMode);

@@ -7,7 +7,7 @@ export default function PermissionDemoPage() {
     <Shell>
       <PageHeader
         title="Permission Demo"
-        description="Run the same role-sensitive question as multiple users and compare refusals, citations, and permission checks."
+        description="Admin-only simulation: run the same role-sensitive question as multiple users and compare refusals, citations, and permission checks."
       />
       <PermissionDemoClient />
     </Shell>

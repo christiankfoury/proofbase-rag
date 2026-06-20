@@ -4,9 +4,11 @@ import { RunTable } from "@/components/RunTable";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { getDashboardData } from "@/lib/dashboard";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 export default async function RunsPage() {
-  const data = await getDashboardData();
+  const authHeaders = await serverDemoAuthHeaders();
+  const data = await getDashboardData(authHeaders);
 
   return (
     <Shell>

@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { EvalRun, formatLabel, formatTableMetric, getDashboardData, riskRateClass } from "@/lib/dashboard";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 function PromptExperimentTable({ runs }: { runs: EvalRun[] }) {
   return (
@@ -52,7 +53,8 @@ function PromptExperimentTable({ runs }: { runs: EvalRun[] }) {
 }
 
 export default async function PromptExperimentsPage() {
-  const data = await getDashboardData();
+  const authHeaders = await serverDemoAuthHeaders();
+  const data = await getDashboardData(authHeaders);
   const runs = data.runs.filter((run) => run.run_type === "prompt_experiment");
   const best = data.prompt_comparison?.best ?? {};
   const comparisons = data.prompt_comparison?.comparisons ?? [];

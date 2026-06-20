@@ -2,6 +2,7 @@ import { MetricCard } from "@/components/MetricCard";
 import { PageHeader } from "@/components/PageHeader";
 import { Shell } from "@/components/Shell";
 import { getEnrichedFailures } from "@/lib/api";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 import { FailedQuestionsClient } from "./FailedQuestionsClient";
 
 function countFailures(items: { failure_type: string }[], type: string): number {
@@ -9,7 +10,8 @@ function countFailures(items: { failure_type: string }[], type: string): number 
 }
 
 export default async function FailedQuestionsPage() {
-  const data = await getEnrichedFailures();
+  const authHeaders = await serverDemoAuthHeaders();
+  const data = await getEnrichedFailures(authHeaders);
   const failures = data.failed_questions;
   const summary = [
     { label: "Total failures", value: failures.length, detail: "Open improvement backlog.", tone: "neutral" as const },

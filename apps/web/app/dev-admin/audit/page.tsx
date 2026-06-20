@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { getAuditEvents, getAuditSummary } from "@/lib/feedback";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 function outcomeTone(outcome: string): BadgeTone {
   if (outcome === "success" || outcome === "completed" || outcome === "started") return "good";
@@ -13,9 +14,10 @@ function outcomeTone(outcome: string): BadgeTone {
 }
 
 export default async function AuditPage() {
+  const authHeaders = await serverDemoAuthHeaders();
   const [{ events }, summary] = await Promise.all([
-    getAuditEvents({ limit: 20 }),
-    getAuditSummary(),
+    getAuditEvents({ limit: 20 }, authHeaders),
+    getAuditSummary(authHeaders),
   ]);
   const actionCounts = Object.entries(summary.counts_by_action).sort(([, a], [, b]) => b - a);
 

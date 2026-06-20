@@ -4,6 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
+import {
+  DEMO_USER_CHANGED_EVENT,
+  fetchCurrentDemoUser,
+  fetchDemoUsers,
+  selectedDemoUserId,
+  setSelectedDemoUserId,
+  syncDemoUserCookie,
+} from "@/lib/demoAuth";
+import type { DemoUser } from "@/lib/demoAuth";
 
 const navGroups = [
   {
@@ -175,14 +184,52 @@ export function Shell({ children }: { children: ReactNode }) {
   const breadcrumbListRef = useRef<HTMLOListElement | null>(null);
   const [navOpen, setNavOpen] = useState(false);
   const [header, setHeader] = useState<ShellHeaderState>({ title: null, actions: null });
+  const [demoUsers, setDemoUsers] = useState<DemoUser[]>([]);
+  const [currentUser, setCurrentUser] = useState<DemoUser | null>(null);
+  const [authError, setAuthError] = useState<string | null>(null);
   const [hoveredBreadcrumbIndex, setHoveredBreadcrumbIndex] = useState<number | null>(null);
   const [breadcrumbHighlightWidth, setBreadcrumbHighlightWidth] = useState(0);
   const headerContext = useMemo(() => ({ setHeader }), []);
   const breadcrumbs = useMemo(() => breadcrumbForPath(pathname ?? "/", header.title), [pathname, header.title]);
+  const isDevAdminRoute = Boolean(pathname?.startsWith("/dev-admin"));
+  const devAdminChecking = isDevAdminRoute && !currentUser && !authError;
+  const devAdminBlocked = isDevAdminRoute && currentUser && !currentUser.is_admin;
+  const devAdminAuthUnavailable = isDevAdminRoute && authError;
 
   useEffect(() => {
     const savedState = window.localStorage.getItem("eka-nav-open");
     setNavOpen(savedState === "true");
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadIdentity() {
+      setAuthError(null);
+      try {
+        syncDemoUserCookie();
+        const [users, user] = await Promise.all([fetchDemoUsers(), fetchCurrentDemoUser()]);
+        if (cancelled) return;
+        setDemoUsers(users);
+        setCurrentUser(user);
+      } catch (exc) {
+        if (!cancelled) setAuthError(exc instanceof Error ? exc.message : "Demo identity unavailable.");
+      }
+    }
+
+    loadIdentity();
+
+    function onIdentityChanged() {
+      loadIdentity();
+    }
+
+    window.addEventListener(DEMO_USER_CHANGED_EVENT, onIdentityChanged);
+    window.addEventListener("storage", onIdentityChanged);
+    return () => {
+      cancelled = true;
+      window.removeEventListener(DEMO_USER_CHANGED_EVENT, onIdentityChanged);
+      window.removeEventListener("storage", onIdentityChanged);
+    };
   }, []);
 
   function toggleNav() {
@@ -336,11 +383,53 @@ export function Shell({ children }: { children: ReactNode }) {
                   </ol>
                 </nav>
               </div>
-              {header.actions ? <div className="flex shrink-0 flex-wrap justify-end gap-2">{header.actions}</div> : null}
+              <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+                {!devAdminBlocked && !devAdminAuthUnavailable && header.actions ? header.actions : null}
+                <label className="flex items-center gap-2 text-xs text-stone-600">
+                  <span className="hidden font-semibold uppercase tracking-wide md:inline">Signed in as</span>
+                  <select
+                    value={currentUser?.id ?? selectedDemoUserId()}
+                    onChange={(event) => setSelectedDemoUserId(event.target.value)}
+                    className="h-9 max-w-56 rounded border border-stone-300 bg-white px-2 text-sm font-medium text-ink shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss"
+                    aria-label="Signed in as"
+                  >
+                    {demoUsers.length ? null : <option value={selectedDemoUserId()}>Loading identity...</option>}
+                    {demoUsers.map((user) => (
+                      <option key={user.id} value={user.id}>
+                        {user.display_name} - {user.business_role}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
             </div>
           </header>
           <div className="px-4 py-5 md:px-6 2xl:px-8">
-            <div className="mx-auto w-full max-w-[1920px]">{children}</div>
+            <div className="mx-auto w-full max-w-[1920px]">
+              {devAdminChecking ? (
+                <div className="card">
+                  <p className="font-semibold text-ink">Checking Dev & Admin access</p>
+                  <p className="mt-2 text-sm text-stone-600">Loading the local demo identity before showing admin evidence.</p>
+                </div>
+              ) : devAdminAuthUnavailable ? (
+                <div className="card max-w-3xl">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-rust">Demo identity unavailable</p>
+                  <h2 className="mt-2 text-2xl font-semibold text-ink">Dev & Admin access cannot be verified</h2>
+                  <p className="mt-3 text-stone-700">{authError}</p>
+                </div>
+              ) : devAdminBlocked ? (
+                <div className="card max-w-3xl">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-rust">Access denied</p>
+                  <h2 className="mt-2 text-2xl font-semibold text-ink">Dev & Admin requires Knowledge Manager access</h2>
+                  <p className="mt-3 text-stone-700">
+                    {currentUser.display_name} is signed in as {currentUser.business_role}. Switch to Kai Knowledge Manager to review evaluation runs,
+                    audit logs, observability, and admin-only simulation tools.
+                  </p>
+                </div>
+              ) : (
+                children
+              )}
+            </div>
           </div>
         </div>
       </main>

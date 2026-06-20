@@ -6,6 +6,7 @@ import { RetrievalChart } from "@/components/RetrievalChart";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { EvalRun, formatLabel, formatMetric, formatTableMetric, getDashboardData } from "@/lib/dashboard";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 function RetrievalExperimentTable({ runs }: { runs: EvalRun[] }) {
   return (
@@ -50,7 +51,8 @@ function RetrievalExperimentTable({ runs }: { runs: EvalRun[] }) {
 }
 
 export default async function RetrievalExperimentsPage() {
-  const data = await getDashboardData();
+  const authHeaders = await serverDemoAuthHeaders();
+  const data = await getDashboardData(authHeaders);
   const retrievalRuns = data.runs.filter((run) => run.phase === "phase-6");
   const best = retrievalRuns.find((run) => run.run_name === data.overview.best_retrieval_run);
   const vector = retrievalRuns.find((run) => run.run_name === "vector-section");

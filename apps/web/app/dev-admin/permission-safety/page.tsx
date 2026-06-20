@@ -4,9 +4,11 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { formatLabel, getDashboardData } from "@/lib/dashboard";
+import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 export default async function PermissionSafetyPage() {
-  const data = await getDashboardData();
+  const authHeaders = await serverDemoAuthHeaders();
+  const data = await getDashboardData(authHeaders);
   const run = data.runs.find((item) => item.phase === "phase-8");
   const metrics = run?.metrics ?? {};
   const restrictedQuestionCount = metrics.restricted_question_count ?? run?.total_questions ?? "pending";
