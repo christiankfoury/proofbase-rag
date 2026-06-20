@@ -61,6 +61,12 @@ const navStyles = {
   linkInactive: "border-transparent bg-white text-stone-700 hover:border-stone-300 hover:text-moss-dark",
 };
 
+const pageStyles = {
+  chrome: "px-4 md:px-6 xl:px-8 2xl:px-10",
+  container: "mx-auto w-full max-w-[2400px]",
+  headerInner: "mx-auto flex min-h-10 w-full max-w-[2400px] items-center justify-between gap-4",
+};
+
 function isActiveNavLink(pathname: string | null, href: string) {
   if (href === "/" || href === "/dev-admin") {
     return pathname === href;
@@ -324,8 +330,8 @@ export function Shell({ children }: { children: ReactNode }) {
           </nav>
         </aside>
         <div className="min-w-0">
-          <header className="border-b border-stone-300 bg-white px-4 py-2 md:px-6 2xl:px-8">
-            <div className="mx-auto flex min-h-10 w-full max-w-[1920px] items-center justify-between gap-4">
+          <header className={`border-b border-stone-300 bg-white py-2 ${pageStyles.chrome}`}>
+            <div className={pageStyles.headerInner}>
               <div className="flex min-w-0 items-center gap-3">
                 <button
                   type="button"
@@ -404,8 +410,8 @@ export function Shell({ children }: { children: ReactNode }) {
               </div>
             </div>
           </header>
-          <div className="px-4 py-5 md:px-6 2xl:px-8">
-            <div className="mx-auto w-full max-w-[1920px]">
+          <div className={`py-5 ${pageStyles.chrome}`}>
+            <div className={`${pageStyles.container} page-content`}>
               {devAdminChecking ? (
                 <div className="card">
                   <p className="font-semibold text-ink">Checking Dev & Admin access</p>

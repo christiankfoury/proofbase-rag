@@ -22,6 +22,51 @@ a {
 }
 
 @layer components {
+  .page-content {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  .page-content .text-xs {
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+  }
+  .page-content .text-sm {
+    font-size: 0.9375rem;
+    line-height: 1.55rem;
+  }
+  .page-content .text-base {
+    font-size: 1rem;
+    line-height: 1.625rem;
+  }
+
+  @screen lg {
+    .page-content {
+      font-size: 1rem;
+    }
+    .page-content .text-sm {
+      font-size: 1rem;
+      line-height: 1.625rem;
+    }
+  }
+
+  @screen 2xl {
+    .page-content {
+      font-size: 1.0625rem;
+    }
+    .page-content .text-xs {
+      font-size: 0.875rem;
+      line-height: 1.35rem;
+    }
+    .page-content .text-sm {
+      font-size: 1.0625rem;
+      line-height: 1.7rem;
+    }
+    .page-content .text-base {
+      font-size: 1.125rem;
+      line-height: 1.8rem;
+    }
+  }
+
   /* Buttons */
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded text-sm font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:opacity-60;
