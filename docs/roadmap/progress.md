@@ -6,10 +6,10 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-- Current phase: Phase 29, Benchmark Schema Cleanup And Validation.
-- Last completed phase: Phase 28, Dashboard Transparency.
-- Last verification focus: dashboard export regeneration, Python compile, API import smoke, and web production build with the established alternate dist dir.
-- Next expected work: implement `docs/roadmap/phases-improvement.md` Phase 29 by adding benchmark validation while preserving existing evaluator compatibility. Do not change retrieval, prompts, scoring, or metric claims without new measured artifacts.
+- Current phase: Phase 30, Enterprise Document Expansion.
+- Last completed phase: Phase 29, Benchmark Schema Cleanup And Validation.
+- Last verification focus: benchmark validation and Python compile.
+- Next expected work: implement `docs/roadmap/phases-improvement.md` Phase 30 by adding richer synthetic enterprise documents before expanding the benchmark heavily. Preserve existing metric claims until new ingestion/evaluation artifacts prove changes.
 
 ## Phase Status
 
@@ -27,8 +27,8 @@ Update this tracker before committing each phase. Keep entries factual: record w
 | 26: Recruiter Presentation Polish | Complete | Pending | Web production build and `docker compose config --quiet` passed. Demo script five-minute review and claims review passed by document inspection. Live screenshots and live `/chat` queries were skipped. | Added first-screen demo path, Dev/Admin proof framing, aligned README/demo/case-study/screenshot/checklist docs, and kept limitations explicit. |
 | 27: Auth And Deployment Readiness | Complete | Pending | `python -m compileall apps scripts`, API import smoke, `python scripts/setup_db.py`, seeded demo-user smoke, FastAPI member/guest/admin access-control smokes, project-scoped query role-derivation smoke with OpenAI mocked out, `npm run build`, and `docker compose config --quiet` passed. | Added local demo auth, seeded demo users, project memberships, `X-Demo-User-Id`, `/auth/demo-users`, `/auth/me`, server-side App role derivation, project membership checks, Dev/Admin admin gating, header user switcher, and deployment/auth docs. Production SSO, hosted auth, Azure deployment, and uploaded-document indexing remain future work. |
 | 28: Dashboard Transparency | Complete | `abc7f70` | `python scripts/export_dashboard_data.py`, `python -m compileall apps scripts`, API import smoke, and `npm run build` with `NEXT_DIST_DIR=.next-codex-build` passed. Plain web build still hits the known local `.next\trace` permission issue. | Added benchmark context, suite sizes, per-run sample/pass/fail metadata, run timestamps, benchmark version, category breakdown where available, metric-source context on `/dev-admin`, expanded run table provenance, README/demo copy cleanup, and Phase 28 notes. No scores were changed and no OpenAI-backed eval was run. |
-| 29: Benchmark Schema Cleanup And Validation | Current | Pending | Not started. | Add benchmark validation while preserving existing evaluator compatibility. |
-| 30: Enterprise Document Expansion | Planned | Pending | Not started. | Add richer synthetic enterprise documents before expanding questions heavily. |
+| 29: Benchmark Schema Cleanup And Validation | Complete | Pending | `python scripts/validate_benchmark.py` and `python -m compileall apps scripts` passed. | Added `scripts/validate_benchmark.py`, required-field checks, unique question IDs, valid question type/difficulty/role/behavior checks, memory/permission/missing-information consistency checks, source-document reference checks against Markdown metadata, category-count reporting, Phase 29 notes, and validator references in README/demo cleanup docs. Existing benchmark content, evaluator field names, metrics, retrieval, prompts, and permissions were unchanged. |
+| 30: Enterprise Document Expansion | Current | Pending | Not started. | Add richer synthetic enterprise documents before expanding questions heavily. |
 | 31: Benchmark Expansion | Planned | Pending | Not started. | Grow validated benchmark toward 120-150 questions. |
 | 32: Expanded Baseline Run | Planned | Pending | Not started. | Capture baseline metrics on the expanded corpus before tuning. |
 | 33: Precision@k Improvement | Planned | Pending | Not started. | Improve retrieval precision while keeping recall, MRR, and permission safety strong. |

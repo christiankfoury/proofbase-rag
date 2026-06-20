@@ -335,6 +335,7 @@ The smoke test verifies:
 Run evaluations inside the API container after ingestion:
 
 ```powershell
+docker compose run --rm api python scripts/validate_benchmark.py
 docker compose run --rm api python scripts/run_retrieval_experiments.py
 docker compose run --rm api python scripts/run_answer_quality_eval.py
 docker compose run --rm api python scripts/run_permission_eval.py
@@ -343,7 +344,7 @@ docker compose run --rm api python scripts/run_multi_doc_eval.py
 docker compose run --rm api python scripts/export_dashboard_data.py
 ```
 
-Open the dashboard after exporting data.
+Open the dashboard after exporting data. Run the benchmark validator before publishing refreshed metrics so schema and source-document references are checked first.
 
 ## Demo And Portfolio Materials
 

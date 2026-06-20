@@ -49,6 +49,7 @@ If a check is skipped because it calls OpenAI, document that clearly.
 Run when refreshing metrics:
 
 ```powershell
+docker compose run --rm api python scripts/validate_benchmark.py
 docker compose run --rm api python scripts/run_retrieval_experiments.py
 docker compose run --rm api python scripts/run_answer_quality_eval.py
 docker compose run --rm api python scripts/run_permission_eval.py

@@ -53,7 +53,7 @@ flowchart LR
   API --> Audit[Audit Logs]
   API --> Logs[Observability JSONL]
 
-  Benchmark[60-Question Benchmark] --> Eval[Evaluation Scripts]
+  Benchmark[65-Question Benchmark Corpus] --> Eval[Evaluation Scripts]
   Eval --> Retrieve
   Eval --> Reports[Evaluation Reports + JSON]
   Reports --> Web
