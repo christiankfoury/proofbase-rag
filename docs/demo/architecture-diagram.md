@@ -77,4 +77,4 @@ flowchart LR
 
 ## Suggested Caption
 
-> Enterprise Knowledge Agent uses a FastAPI RAG backend, PostgreSQL/pgvector retrieval, role-based permission filtering, OpenAI generation, citation validation, and a Next.js App plus Dev/Admin UI. The system is evaluated with a 65-question benchmark corpus, 60-question primary dashboard runs, and separate permission and memory suites, then packaged with Docker for local demos and Azure-ready deployment planning.
+> Enterprise Knowledge Agent uses a FastAPI RAG backend, PostgreSQL/pgvector retrieval, role-based permission filtering, OpenAI generation, citation validation, and a Next.js App plus Dev/Admin UI. The system has a 130-question benchmark corpus, legacy 60-question primary dashboard runs, and separate permission and memory suites, then is packaged with Docker for local demos and Azure-ready deployment planning.

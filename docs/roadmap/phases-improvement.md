@@ -13,8 +13,8 @@ The improvement story should focus on five areas:
 ## Current Evaluation Truth
 
 - Full benchmark source file: `data/evaluation/benchmark-questions.json`.
-- Current benchmark corpus size: 65 questions.
-- Current primary retrieval and answer-quality dashboard runs: 60 questions.
+- Current benchmark corpus size: 130 questions.
+- Current primary retrieval and answer-quality dashboard runs: legacy 60-question pre-expansion suites.
 - Current permission safety run: 10 restricted-access questions.
 - Current memory evaluation run: 5 follow-up questions.
 - Current headline metrics must be treated as measured outputs, not promises.
@@ -47,8 +47,8 @@ Key changes:
 - Show the sample size behind each headline metric.
 - Show benchmark version, run ID, and run timestamp near the metric context.
 - Show corpus/run context:
-  - full benchmark corpus: 65 questions
-  - main evaluation run: 60 questions
+  - full benchmark corpus: 130 questions
+  - main evaluation run: legacy 60-question pre-expansion suite
   - permission safety suite: 10 questions
   - memory suite: 5 questions
 - Add category breakdown for the current benchmark corpus and latest applicable run.

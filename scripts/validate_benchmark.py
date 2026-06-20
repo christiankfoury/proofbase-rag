@@ -46,6 +46,8 @@ VALID_QUESTION_TYPES = {
     "missing_information",
     "conversation_memory",
     "ambiguous",
+    "prompt_injection",
+    "conflicting_source",
 }
 
 VALID_DIFFICULTIES = {"easy", "medium", "hard"}

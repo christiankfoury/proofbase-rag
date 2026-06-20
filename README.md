@@ -2,7 +2,7 @@
 
 Enterprise Knowledge Agent is a portfolio-grade enterprise RAG system that simulates a secure internal company assistant. Users work inside project and department knowledge spaces, ask scoped questions across synthetic HR, IT/security, sales, manager, finance, legal, engineering, support, operations, HR admin, and IT admin documents, and receive cited, permission-aware answers.
 
-This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, local demo auth, project workspaces, department document libraries, PDF-to-Markdown review uploads, scoped retrieval, a 65-question benchmark corpus with 60-question primary evaluation runs, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, human review workflows, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
+This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, local demo auth, project workspaces, department document libraries, PDF-to-Markdown review uploads, scoped retrieval, a 130-question benchmark corpus with legacy 60-question primary evaluation runs, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, human review workflows, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
 
 ## Recruiter Summary
 
@@ -14,7 +14,7 @@ The main portfolio story:
 
 ## Why This Is Not A Basic Chatbot
 
-- Evaluation-first: a 65-question benchmark corpus measures retrieval, answer quality, citations, permissions, memory, missing information, and multi-document reasoning; current primary dashboard runs use 60-question subsets, with separate permission and memory suites.
+- Evaluation-first: a 130-question benchmark corpus measures retrieval, answer quality, citations, permissions, memory, missing information, multi-document reasoning, prompt-injection handling, and conflicting-source handling; current measured dashboard runs still use the legacy 60-question primary suites, with separate permission and memory suites.
 - Product-shaped: projects, departments, document libraries, PDF extraction review, and scoped assistant controls make the demo feel like a real internal app.
 - Permission-aware: restricted documents are filtered before generation, and permission leakage is evaluated separately.
 - Citation-focused: generated answers include citations and citation validation.
@@ -103,7 +103,7 @@ More detail:
 
 ## Evaluation Benchmark
 
-The benchmark corpus contains 65 synthetic enterprise questions. Current primary retrieval and answer-quality dashboard runs use 60-question subsets, while permission safety and memory have separate smaller suites.
+The benchmark corpus contains 130 synthetic enterprise questions. Current primary retrieval and answer-quality dashboard runs still come from legacy 60-question pre-expansion subsets, while permission safety and memory have separate smaller suites.
 
 The corpus covers:
 
@@ -113,6 +113,8 @@ The corpus covers:
 - Missing-information questions.
 - Ambiguous questions.
 - Conversation-memory follow-ups.
+- Prompt-injection and adversarial-source questions.
+- Conflicting-source and versioned-policy questions.
 
 Evaluation covers:
 
@@ -133,7 +135,7 @@ Benchmark artifacts:
 
 ## Final Metrics
 
-All numbers below come from existing evaluation outputs. They do not all use the same sample size: the benchmark source corpus has 65 questions, primary retrieval and answer-quality dashboard runs use 60-question subsets, permission safety uses 10 restricted-access questions, and the current memory page reports a 5-question follow-up suite. Chat-generation cost is estimated from configured model pricing; embedding and infrastructure cost are still future work.
+All numbers below come from existing evaluation outputs produced before the Phase 31 benchmark expansion. They do not all use the same sample size: the active benchmark source corpus has 130 questions, primary retrieval and answer-quality dashboard runs use legacy 60-question subsets, permission safety uses 10 restricted-access questions, and the current memory page reports a 5-question follow-up suite. Chat-generation cost is estimated from configured model pricing; embedding and infrastructure cost are still future work.
 
 ### Retrieval
 

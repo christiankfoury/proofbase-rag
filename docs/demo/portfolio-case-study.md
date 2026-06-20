@@ -34,7 +34,7 @@ The App side surfaces projects, departments, document libraries, PDF-to-Markdown
 
 ## Evaluation-First Approach
 
-Before optimizing the system, I created a 65-question benchmark source corpus. The current primary retrieval and answer-quality dashboard runs use 60-question subsets, with separate 10-question permission safety and 5-question memory suites covering:
+Before optimizing the system, I created a benchmark source corpus that now contains 130 questions. The current primary retrieval and answer-quality dashboard runs still use legacy 60-question pre-expansion subsets, with separate 10-question permission safety and 5-question memory suites covering:
 
 - Simple factual questions.
 - Multi-document questions.
@@ -42,6 +42,8 @@ Before optimizing the system, I created a 65-question benchmark source corpus. T
 - Missing-information questions.
 - Ambiguous questions.
 - Conversation-memory follow-ups.
+- Prompt-injection and adversarial-source questions.
+- Conflicting-source and versioned-policy questions.
 
 Each phase improved one measurable part of the system and preserved the evaluation artifacts. This made the project easier to debug and easier to explain.
 

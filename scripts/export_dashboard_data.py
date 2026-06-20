@@ -37,6 +37,8 @@ REQUIRED_REPORTS = [
     PHASE9_FAILED,
 ]
 EXPECTED_RUN_COUNT = 8
+LEGACY_BENCHMARK_VERSION = "1.0"
+LEGACY_BENCHMARK_CUTOFF = "2026-06-20T00:00:00"
 
 
 def _load_benchmark() -> dict[str, Any]:
@@ -70,7 +72,17 @@ def _benchmark_context(benchmark: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _annotate_run(run: dict[str, Any], *, benchmark_version: str | None = None) -> dict[str, Any]:
+def _run_benchmark_version(run: dict[str, Any], *, current_benchmark_version: str | None = None) -> str:
+    if run.get("benchmark_version"):
+        return str(run["benchmark_version"])
+    timestamp = str(run.get("timestamp") or "")
+    legacy_sample_size = run.get("source_question_count") == 60 or run.get("total_questions") in {5, 10, 60}
+    if legacy_sample_size and timestamp < LEGACY_BENCHMARK_CUTOFF:
+        return LEGACY_BENCHMARK_VERSION
+    return current_benchmark_version or "not available"
+
+
+def _annotate_run(run: dict[str, Any], *, current_benchmark_version: str | None = None) -> dict[str, Any]:
     sample_size = run.get("total_questions")
     failed_count = run.get("metrics", {}).get("failed_question_count")
     if failed_count is None and run.get("failed_questions") is not None:
@@ -83,7 +95,7 @@ def _annotate_run(run: dict[str, Any], *, benchmark_version: str | None = None) 
         "sample_size": sample_size,
         "passed_count": passed_count,
         "failed_count": failed_count,
-        "benchmark_version": benchmark_version or "not available",
+        "benchmark_version": _run_benchmark_version(run, current_benchmark_version=current_benchmark_version),
         "run_timestamp": run.get("timestamp"),
     }
 
@@ -641,7 +653,7 @@ def main() -> None:
 
     benchmark = _load_benchmark()
     benchmark_context = _benchmark_context(benchmark)
-    benchmark_version = benchmark_context["benchmark_version"]
+    current_benchmark_version = benchmark_context["benchmark_version"]
 
     phase6 = _read(PHASE6_RESULTS)
     phase7 = _read(PHASE7_RESULTS)
@@ -661,7 +673,7 @@ def main() -> None:
     if len(runs) != EXPECTED_RUN_COUNT and not args.allow_partial:
         raise SystemExit(f"Expected {EXPECTED_RUN_COUNT} dashboard runs, found {len(runs)}.")
     runs.extend(_prompt_experiment_runs())
-    runs = [_annotate_run(run, benchmark_version=benchmark_version) for run in runs]
+    runs = [_annotate_run(run, current_benchmark_version=current_benchmark_version) for run in runs]
 
     current_answer_run = _current_answer_run(runs)
     failed_questions = (

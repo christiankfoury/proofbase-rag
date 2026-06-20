@@ -6,10 +6,10 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-- Current phase: Phase 31, Benchmark Expansion.
-- Last completed phase: Phase 30, Enterprise Document Expansion.
-- Last verification focus: expanded corpus loader smoke, benchmark validation, Python compile, and API import.
-- Next expected work: implement `docs/roadmap/phases-improvement.md` Phase 31 by expanding the validated benchmark against the richer corpus. Preserve existing metric claims until new run artifacts prove changes.
+- Current phase: Phase 32, Expanded Baseline Run.
+- Last completed phase: Phase 31, Benchmark Expansion.
+- Last verification focus: benchmark validation, dashboard export, Python compile, API import, and dashboard version-context inspection.
+- Next expected work: run baseline evaluations against the expanded benchmark only when the required OpenAI-backed workflow is approved, then export dashboard data with new run IDs and sample sizes.
 
 ## Phase Status
 
@@ -29,8 +29,8 @@ Update this tracker before committing each phase. Keep entries factual: record w
 | 28: Dashboard Transparency | Complete | `abc7f70` | `python scripts/export_dashboard_data.py`, `python -m compileall apps scripts`, API import smoke, and `npm run build` with `NEXT_DIST_DIR=.next-codex-build` passed. Plain web build still hits the known local `.next\trace` permission issue. | Added benchmark context, suite sizes, per-run sample/pass/fail metadata, run timestamps, benchmark version, category breakdown where available, metric-source context on `/dev-admin`, expanded run table provenance, README/demo copy cleanup, and Phase 28 notes. No scores were changed and no OpenAI-backed eval was run. |
 | 29: Benchmark Schema Cleanup And Validation | Complete | `62e9b31` | `python scripts/validate_benchmark.py` and `python -m compileall apps scripts` passed. | Added `scripts/validate_benchmark.py`, required-field checks, unique question IDs, valid question type/difficulty/role/behavior checks, memory/permission/missing-information consistency checks, source-document reference checks against Markdown metadata, category-count reporting, Phase 29 notes, and validator references in README/demo cleanup docs. Existing benchmark content, evaluator field names, metrics, retrieval, prompts, and permissions were unchanged. |
 | 30: Enterprise Document Expansion | Complete | `78f8d78` | Markdown loader smoke loaded 19 documents; `python scripts/validate_benchmark.py`, `python -m compileall apps scripts`, API import smoke, and `git diff --check` passed. OpenAI-backed ingestion/evaluation and permission reruns were skipped. | Added finance, legal, engineering, support, and operations Markdown documents plus seeded Northstar department mappings. No metrics changed; current permission suite still covers the existing 10 restricted-access questions. |
-| 31: Benchmark Expansion | Current | Pending | Not started. | Grow validated benchmark toward 120-150 questions. |
-| 32: Expanded Baseline Run | Planned | Pending | Not started. | Capture baseline metrics on the expanded corpus before tuning. |
+| 31: Benchmark Expansion | Complete | Pending | `python scripts/validate_benchmark.py`, `python scripts/validate_benchmark.py --json`, `python scripts/export_dashboard_data.py`, `python -m compileall apps scripts`, API import smoke, dashboard version-context inspection, and `git diff --check` passed. Expanded OpenAI-backed evaluations were not run. | Expanded benchmark version `1.1` to 130 questions with new finance, legal, engineering, support, operations, prompt-injection, and conflicting-source coverage. Existing metric scores remain from legacy run artifacts. |
+| 32: Expanded Baseline Run | Current | Pending | Not started. | Capture baseline metrics on the expanded corpus before tuning. |
 | 33: Precision@k Improvement | Planned | Pending | Not started. | Improve retrieval precision while keeping recall, MRR, and permission safety strong. |
 | 34: Hallucination And Abstention Reduction | Planned | Pending | Not started. | Reduce unsupported claims and improve missing-information abstention. |
 | 35: Citation Accuracy Improvement | Planned | Pending | Not started. | Improve citation-source alignment and classify citation failures. |
