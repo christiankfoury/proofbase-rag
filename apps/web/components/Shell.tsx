@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import type { ReactNode } from "react";
 import {
   DEMO_USER_CHANGED_EVENT,
@@ -200,18 +200,20 @@ function breadcrumbForPath(pathname: string, pageTitle: string | null): Breadcru
 
 export function Shell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const breadcrumbListRef = useRef<HTMLOListElement | null>(null);
   const [navOpen, setNavOpen] = useState(false);
   const [header, setHeader] = useState<ShellHeaderState>({ title: null, actions: null });
   const [demoUsers, setDemoUsers] = useState<DemoUser[]>([]);
   const [currentUser, setCurrentUser] = useState<DemoUser | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [isRouteRefreshPending, startRouteRefresh] = useTransition();
   const [hoveredBreadcrumbIndex, setHoveredBreadcrumbIndex] = useState<number | null>(null);
   const [breadcrumbHighlightWidth, setBreadcrumbHighlightWidth] = useState(0);
   const headerContext = useMemo(() => ({ setHeader }), []);
   const breadcrumbs = useMemo(() => breadcrumbForPath(pathname ?? "/", header.title), [pathname, header.title]);
   const isDevAdminRoute = Boolean(pathname?.startsWith("/dev-admin"));
-  const devAdminChecking = isDevAdminRoute && !currentUser && !authError;
+  const devAdminChecking = isDevAdminRoute && ((!currentUser && !authError) || isRouteRefreshPending);
   const devAdminBlocked = isDevAdminRoute && currentUser && !currentUser.is_admin;
   const devAdminAuthUnavailable = isDevAdminRoute && authError;
 
@@ -234,7 +236,11 @@ export function Shell({ children }: { children: ReactNode }) {
     loadIdentity();
 
     function onIdentityChanged() {
+      setCurrentUser(null);
       loadIdentity();
+      startRouteRefresh(() => {
+        router.refresh();
+      });
     }
 
     window.addEventListener(DEMO_USER_CHANGED_EVENT, onIdentityChanged);
@@ -244,7 +250,7 @@ export function Shell({ children }: { children: ReactNode }) {
       window.removeEventListener(DEMO_USER_CHANGED_EVENT, onIdentityChanged);
       window.removeEventListener("storage", onIdentityChanged);
     };
-  }, []);
+  }, [router]);
 
   function toggleNav() {
     setNavOpen((current) => !current);
