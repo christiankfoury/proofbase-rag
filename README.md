@@ -1,6 +1,6 @@
 # Enterprise Knowledge Agent
 
-Enterprise Knowledge Agent is a portfolio-grade enterprise RAG system that simulates a secure internal company assistant. Users work inside project and department knowledge spaces, ask scoped questions across synthetic HR, IT/security, sales, manager, HR admin, and IT admin documents, and receive cited, permission-aware answers.
+Enterprise Knowledge Agent is a portfolio-grade enterprise RAG system that simulates a secure internal company assistant. Users work inside project and department knowledge spaces, ask scoped questions across synthetic HR, IT/security, sales, manager, finance, legal, engineering, support, operations, HR admin, and IT admin documents, and receive cited, permission-aware answers.
 
 This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, local demo auth, project workspaces, department document libraries, PDF-to-Markdown review uploads, scoped retrieval, a 65-question benchmark corpus with 60-question primary evaluation runs, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, human review workflows, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
 
@@ -312,6 +312,8 @@ docker compose run --rm api python scripts/ingest_markdown.py --apply-schema --c
 ```
 
 The ingestion command calls the OpenAI embeddings API, so `OPENAI_API_KEY` must be configured.
+
+The seeded corpus currently contains 19 synthetic Markdown documents. Current dashboard metrics still come from the existing evaluation artifacts; the expanded Phase 30 documents are ready for ingestion and future benchmark expansion, but they do not change measured retrieval, answer-quality, permission, or memory scores until new run artifacts are created.
 
 ## Smoke Test
 

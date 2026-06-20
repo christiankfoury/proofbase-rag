@@ -56,7 +56,7 @@ insert into projects (
 values (
   '00000000-0000-0000-0000-000000000019',
   'Northstar Analytics',
-  'Seeded workspace backed by the synthetic HR, IT/security, sales, manager, HR admin, and IT admin corpus.',
+  'Seeded workspace backed by the synthetic HR, IT/security, sales, manager, finance, legal, engineering, support, operations, HR admin, and IT admin corpus.',
   'active',
   'vector-section',
   'northstar_synthetic',
@@ -186,6 +186,56 @@ values
     'Manager-only coaching, review, and promotion calibration guidance.',
     array['Manager', 'HR Admin'],
     'Manager Only'
+  ),
+  (
+    '00000000-0000-0000-0000-000000002007',
+    '00000000-0000-0000-0000-000000000019',
+    'Finance',
+    'building',
+    'steel',
+    'Expense, reimbursement, procurement, and spend-approval guidance.',
+    array['Employee', 'Sales Representative', 'Manager', 'HR Admin', 'IT Admin'],
+    'Finance'
+  ),
+  (
+    '00000000-0000-0000-0000-000000002008',
+    '00000000-0000-0000-0000-000000000019',
+    'Legal',
+    'lock',
+    'rust',
+    'Restricted legal operations guidance for contracts, NDAs, retention, and legal holds.',
+    array['Sales Representative', 'Manager', 'HR Admin', 'IT Admin'],
+    'Legal'
+  ),
+  (
+    '00000000-0000-0000-0000-000000002009',
+    '00000000-0000-0000-0000-000000000019',
+    'Engineering',
+    'key',
+    'steel',
+    'Restricted engineering operations guidance for deployments, on-call, incidents, and API standards.',
+    array['Manager', 'IT Admin'],
+    'Engineering'
+  ),
+  (
+    '00000000-0000-0000-0000-000000002010',
+    '00000000-0000-0000-0000-000000000019',
+    'Support',
+    'briefcase',
+    'moss',
+    'Restricted customer-support escalation, SLA, refund, and handoff guidance.',
+    array['Sales Representative', 'Manager'],
+    'Support'
+  ),
+  (
+    '00000000-0000-0000-0000-000000002011',
+    '00000000-0000-0000-0000-000000000019',
+    'Operations',
+    'building',
+    'stone',
+    'Vendor onboarding, travel booking, equipment request, and operations exception guidance.',
+    array['Employee', 'Manager', 'HR Admin', 'IT Admin'],
+    'Operations'
   )
 on conflict (project_id, seeded_data_key) do update set
   name = excluded.name,

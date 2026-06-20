@@ -155,7 +155,12 @@ def _department_rows(conn, project_id: str, *, include_archived: bool = False):
             when pd.seeded_data_key = 'IT Admin' then 3
             when pd.seeded_data_key = 'Sales Enablement' then 4
             when pd.seeded_data_key = 'Manager Only' then 5
-            else 10
+            when pd.seeded_data_key = 'Finance' then 6
+            when pd.seeded_data_key = 'Legal' then 7
+            when pd.seeded_data_key = 'Engineering' then 8
+            when pd.seeded_data_key = 'Support' then 9
+            when pd.seeded_data_key = 'Operations' then 10
+            else 20
           end,
           pd.name asc
         """,
