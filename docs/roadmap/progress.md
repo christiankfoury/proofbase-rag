@@ -1,15 +1,15 @@
 # Roadmap Progress Tracker
 
-This file is the durable source of truth for roadmap progress. At the start of each phase, read this file with `agent.md`, `docs/roadmap/phase-plan.md`, the latest `docs/phase-*` notes, and recent Git history.
+This file is the durable source of truth for roadmap progress. At the start of each phase, read this file with `agent.md`, `docs/roadmap/phase-plan.md`, `docs/roadmap/phases-improvement.md`, the latest `docs/phase-*` notes, and recent Git history.
 
 Update this tracker before committing each phase. Keep entries factual: record what was implemented, what was verified, what was skipped, and which commit or commits contain the work.
 
 ## Current Position
 
-- Current phase: Phase 28, next roadmap slice not yet selected.
+- Current phase: Phase 28, Dashboard Transparency.
 - Last completed phase: Phase 27, Auth And Deployment Readiness.
 - Last verification focus: local demo auth schema, API access control smokes, server-side App role derivation, web production build, and Docker Compose config.
-- Next expected work: choose the next product slice without claiming production SSO, hosted Azure deployment, or uploaded-document indexing before those are implemented.
+- Next expected work: implement `docs/roadmap/phases-improvement.md` Phase 28 by adding run/sample-size/category context to the Dev & Admin dashboard and related documentation without changing scores.
 
 ## Phase Status
 
@@ -26,6 +26,16 @@ Update this tracker before committing each phase. Keep entries factual: record w
 | 25: Result Verification And Human Review | Complete | `4081465` | Targeted Python compile, API import, web production build, and `docker compose config --quiet` passed. Live review-save checks against Postgres and candidate-based evaluation reruns were skipped. | Added persisted human review decisions for failed questions and negative feedback with answer/citation labels, candidate decisions, and audit events without auto-promoting benchmark changes. |
 | 26: Recruiter Presentation Polish | Complete | Pending | Web production build and `docker compose config --quiet` passed. Demo script five-minute review and claims review passed by document inspection. Live screenshots and live `/chat` queries were skipped. | Added first-screen demo path, Dev/Admin proof framing, aligned README/demo/case-study/screenshot/checklist docs, and kept limitations explicit. |
 | 27: Auth And Deployment Readiness | Complete | Pending | `python -m compileall apps scripts`, API import smoke, `python scripts/setup_db.py`, seeded demo-user smoke, FastAPI member/guest/admin access-control smokes, project-scoped query role-derivation smoke with OpenAI mocked out, `npm run build`, and `docker compose config --quiet` passed. | Added local demo auth, seeded demo users, project memberships, `X-Demo-User-Id`, `/auth/demo-users`, `/auth/me`, server-side App role derivation, project membership checks, Dev/Admin admin gating, header user switcher, and deployment/auth docs. Production SSO, hosted auth, Azure deployment, and uploaded-document indexing remain future work. |
+| 28: Dashboard Transparency | Current | Pending | Not started. | First improvement roadmap slice from `docs/roadmap/phases-improvement.md`: make metrics defensible with run IDs, sample sizes, benchmark version, timestamps, and category breakdown. |
+| 29: Benchmark Schema Cleanup And Validation | Planned | Pending | Not started. | Add benchmark validation while preserving existing evaluator compatibility. |
+| 30: Enterprise Document Expansion | Planned | Pending | Not started. | Add richer synthetic enterprise documents before expanding questions heavily. |
+| 31: Benchmark Expansion | Planned | Pending | Not started. | Grow validated benchmark toward 120-150 questions. |
+| 32: Expanded Baseline Run | Planned | Pending | Not started. | Capture baseline metrics on the expanded corpus before tuning. |
+| 33: Precision@k Improvement | Planned | Pending | Not started. | Improve retrieval precision while keeping recall, MRR, and permission safety strong. |
+| 34: Hallucination And Abstention Reduction | Planned | Pending | Not started. | Reduce unsupported claims and improve missing-information abstention. |
+| 35: Citation Accuracy Improvement | Planned | Pending | Not started. | Improve citation-source alignment and classify citation failures. |
+| 36: Permission And Memory Evaluation Expansion | Planned | Pending | Not started. | Expand safety and memory suites and prove memory does not bypass permissions. |
+| 37: Regression Scorecard | Planned | Pending | Not started. | Publish baseline-vs-current dashboard only after measured run IDs support the claims. |
 
 ## Update Rules
 

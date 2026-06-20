@@ -318,6 +318,31 @@ Questions before starting:
 - Should auth use Clerk, Auth.js, or a simpler local demo auth first?
 - Should Azure deployment be implemented before or after real uploaded files?
 
+## Phases 28-37: Evaluation And Credibility Improvement Roadmap
+
+After Phase 27, continue from `docs/roadmap/phases-improvement.md`. That document is the executable source of truth for the next improvement sequence.
+
+Phase mapping:
+
+- Phase 28: Dashboard Transparency.
+- Phase 29: Benchmark Schema Cleanup And Validation.
+- Phase 30: Enterprise Document Expansion.
+- Phase 31: Benchmark Expansion.
+- Phase 32: Expanded Baseline Run.
+- Phase 33: Precision@k Improvement.
+- Phase 34: Hallucination And Abstention Reduction.
+- Phase 35: Citation Accuracy Improvement.
+- Phase 36: Permission And Memory Evaluation Expansion.
+- Phase 37: Regression Scorecard.
+
+Implementation rule:
+
+- Make current metrics defensible before improving them.
+- Expand enterprise documents before expanding the benchmark heavily.
+- Capture an expanded baseline before retrieval or prompt tuning.
+- Do not publish target-metric claims until phase notes and dashboard run IDs prove them.
+- Preserve zero permission leakage as a hard gate for every quality phase.
+
 ## Promotion Gates For Every Future Phase
 
 Each phase must answer:

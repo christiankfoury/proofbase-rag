@@ -50,7 +50,7 @@ The agent should work in a strict loop:
 
 Continue implementing roadmap phases sequentially until all listed phases are complete, the user stops the loop, or a true blocker is reached. Do not stop after one phase merely because the phase was committed; update progress as part of the phase commit, complete the review, push, then continue to the next phase.
 
-Track durable progress in `docs/roadmap/progress.md`. At the start of each phase, read that file together with `docs/roadmap/phase-plan.md` and the latest `docs/phase-*` notes to confirm the current phase, completed phases, verification status, commit references, and next step. Update the progress tracker during each phase before committing. If the tracker conflicts with repository evidence, inspect the repo history and phase docs, then repair the tracker as part of the phase.
+Track durable progress in `docs/roadmap/progress.md`. At the start of each phase, read that file together with `docs/roadmap/phase-plan.md`, `docs/roadmap/phases-improvement.md`, and the latest `docs/phase-*` notes to confirm the current phase, completed phases, verification status, commit references, and next step. Update the progress tracker during each phase before committing. If the tracker conflicts with repository evidence, inspect the repo history and phase docs, then repair the tracker as part of the phase.
 
 ## Operating Autonomy
 
@@ -84,6 +84,23 @@ Prioritize:
 - demoability within a few minutes
 
 When there is a tradeoff between a technically interesting feature and a more presentable product slice, choose the product slice unless the technical feature is required to keep claims honest.
+
+## Post-Phase 27 Improvement Focus
+
+After Phase 27, continue with `docs/roadmap/phases-improvement.md`. The next sequence is evaluation-driven:
+
+- Phase 28: dashboard transparency and metric context.
+- Phase 29: benchmark schema cleanup and validation.
+- Phase 30: enterprise document expansion.
+- Phase 31: benchmark expansion.
+- Phase 32: expanded baseline run.
+- Phase 33: Precision@k improvement.
+- Phase 34: hallucination and abstention reduction.
+- Phase 35: citation accuracy improvement.
+- Phase 36: permission and memory evaluation expansion.
+- Phase 37: regression scorecard.
+
+Do not tune retrieval or prompts blindly. Make the dashboard and benchmark defensible first, expand the source corpus and tests, then optimize against measured before/after runs.
 
 ### 1. Plan
 
@@ -140,6 +157,12 @@ python scripts/run_permission_eval.py
 python scripts/run_memory_eval.py
 python scripts/run_multi_doc_eval.py
 python scripts/export_dashboard_data.py
+```
+
+For benchmark-schema work after Phase 29 adds the validator, also run:
+
+```powershell
+python scripts/validate_benchmark.py
 ```
 
 OpenAI-backed commands require a configured `OPENAI_API_KEY`. If a check is skipped because it would call OpenAI or needs unavailable local services, state that explicitly in the final response and in relevant phase notes.
@@ -239,6 +262,7 @@ Use these defaults for future phases unless the repo has moved past them or the 
 - Keep `/chat` stable.
 - Keep Dev/Admin routes under `/dev-admin`.
 - Do not add fake metrics, fake activity, or unverified AI quality claims.
+- Metric claims must include the run, sample size, benchmark version, and skipped checks when applicable.
 - Update phase docs as part of each phase.
 
 ## When To Ask The User
@@ -260,6 +284,7 @@ Ask before implementing when the answer affects:
 - Future product plan: `docs/roadmap/app-admin-roadmap.md`
 - Feature use cases: `docs/roadmap/feature-use-cases.md`
 - Future phases: `docs/roadmap/phase-plan.md`
+- Post-Phase 27 improvement roadmap: `docs/roadmap/phases-improvement.md`
 - Roadmap progress tracker: `docs/roadmap/progress.md`
 - Current demo guide: `docs/demo/interactive-demo-guide.md`
 - Current failure analysis: `docs/phase-17/failed-question-cause-analysis.md`
