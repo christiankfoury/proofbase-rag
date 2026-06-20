@@ -48,6 +48,19 @@ const navGroups = [
   },
 ];
 
+const navStyles = {
+  panel:
+    "fixed inset-y-0 left-0 z-30 w-80 max-w-[calc(100vw-2rem)] overflow-y-auto border-r border-stone-300 bg-white shadow-xl transition-transform duration-200 ease-out md:w-96 xl:w-[28rem]",
+  chrome: "px-5 py-5 md:px-6 xl:px-7",
+  description: "mt-2 text-sm leading-6 text-stone-600 md:text-[15px] xl:text-base",
+  nav: "space-y-7 px-5 pb-6 text-[15px] md:px-6 md:text-base xl:px-7 xl:text-[17px]",
+  groupLabel: "mb-2 text-xs font-semibold uppercase tracking-wide text-stone-500 md:text-[13px]",
+  linkBase:
+    "block whitespace-nowrap rounded border px-3 py-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 md:px-3.5 md:py-2.5",
+  linkActive: "border-moss bg-moss-soft text-moss-dark",
+  linkInactive: "border-transparent bg-white text-stone-700 hover:border-stone-300 hover:text-moss-dark",
+};
+
 function isActiveNavLink(pathname: string | null, href: string) {
   if (href === "/" || href === "/dev-admin") {
     return pathname === href;
@@ -259,16 +272,16 @@ export function Shell({ children }: { children: ReactNode }) {
           tabIndex={navOpen ? 0 : -1}
         />
         <aside
-          className={`fixed inset-y-0 left-0 z-30 w-72 max-w-[calc(100vw-3rem)] overflow-y-auto border-r border-stone-300 bg-white shadow-xl transition-transform duration-200 ease-out xl:w-80 ${
+          className={`${navStyles.panel} ${
             navOpen ? "translate-x-0" : "pointer-events-none -translate-x-full"
           }`}
           aria-hidden={!navOpen}
         >
-          <div className="flex items-start justify-between gap-4 px-5 py-5">
+          <div className={`flex items-start justify-between gap-4 ${navStyles.chrome}`}>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-rust">Enterprise Knowledge Agent</p>
-              <h1 className="mt-1 text-2xl font-semibold">Knowledge Workspace</h1>
-              <p className="mt-2 text-sm leading-6 text-stone-600">
+              <h1 className="mt-1 text-2xl font-semibold md:text-3xl">Knowledge Workspace</h1>
+              <p className={navStyles.description}>
                 App experience first, with Dev & Admin proof for quality, safety, and operations.
               </p>
             </div>
@@ -286,10 +299,10 @@ export function Shell({ children }: { children: ReactNode }) {
               </span>
             </button>
           </div>
-          <nav id="primary-navigation" className="space-y-6 px-5 pb-5 text-sm">
+          <nav id="primary-navigation" className={navStyles.nav}>
             {navGroups.map((group) => (
               <div key={group.title}>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-stone-500">{group.title}</p>
+                <p className={navStyles.groupLabel}>{group.title}</p>
                 <div className="space-y-1">
                   {group.links.map(([label, href]) => {
                     const active = isActiveNavLink(pathname, href);
@@ -299,11 +312,7 @@ export function Shell({ children }: { children: ReactNode }) {
                         href={href}
                         aria-current={active ? "page" : undefined}
                         tabIndex={navOpen ? undefined : -1}
-                        className={`block whitespace-nowrap rounded border px-3 py-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 ${
-                          active
-                            ? "border-moss bg-moss-soft text-moss-dark"
-                            : "border-transparent bg-white text-stone-700 hover:border-stone-300 hover:text-moss-dark"
-                        }`}
+                        className={`${navStyles.linkBase} ${active ? navStyles.linkActive : navStyles.linkInactive}`}
                       >
                         {label}
                       </Link>
