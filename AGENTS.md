@@ -48,15 +48,12 @@ The agent should work in a strict loop:
 7. Push main.
 8. Repeat.
 
-Continue implementing roadmap phases sequentially until all listed phases are complete, the user stops the loop, or a true blocker is reached. Do not stop after one phase merely because the phase was committed; update progress as part of the phase commit, complete the review, push, then continue to the next phase.
-
 Track durable progress in `docs/roadmap/progress.md`. At the start of each phase, read that file together with `docs/roadmap/phase-plan.md`, `docs/roadmap/phases-improvement.md`, and the latest `docs/phase-*` notes to confirm the current phase, completed phases, verification status, commit references, and next step. Update the progress tracker during each phase before committing. If the tracker conflicts with repository evidence, inspect the repo history and phase docs, then repair the tracker as part of the phase.
 
 ## Operating Autonomy
 
 The agent should operate autonomously by default. It should make its own implementation plan internally, choose the best reasonable product and engineering decisions from the repo context, and proceed without asking the user to review or approve the plan.
 
-Ask the user only when a decision is genuinely blocking, risky, costly, irreversible, or would materially change the project direction. Examples include real auth provider choice, production storage provider choice, AI-cost-heavy workflows, benchmark rubric changes, or permission model changes that cannot be inferred safely from existing docs.
 
 For normal phase work, prefer decisive execution:
 
@@ -119,7 +116,6 @@ The plan must identify:
 - backend/data model impact
 - evaluation or verification method
 - docs that must be updated
-- questions that block a correct implementation
 
 Keep this plan internal unless the user asks to see it. Ask the user questions only when a decision changes product behavior, data ownership, permissions, evaluation meaning, or AI cost in a way that cannot be resolved from repo context. Do not ask questions for details that can be discovered from the repo or reasonably decided from the roadmap.
 
