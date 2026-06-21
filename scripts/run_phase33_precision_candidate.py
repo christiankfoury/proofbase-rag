@@ -21,6 +21,10 @@ PHASE_DIR = ROOT / "docs/phase-33"
 REPORT_PATH = PHASE_DIR / "precision-candidate-results.md"
 SUMMARY_PATH = PHASE_DIR / "precision-candidate-runbook.md"
 BENCHMARK_PATH = ROOT / "data/evaluation/benchmark-questions.json"
+EXTERNAL_EMBEDDINGS_APPROVAL_MESSAGE = (
+    "Live Phase 33 vector retrieval sends benchmark question text to the external embeddings API. "
+    "Re-run with --allow-external-embeddings only after explicit user approval."
+)
 
 
 def _run_id(top_k: int) -> str:
@@ -125,12 +129,18 @@ def _write_runbook(config: RetrievalConfig, dry_run: bool) -> None:
         "## Required Live Commands",
         "",
         "```powershell",
-        f"python scripts/run_phase33_precision_candidate.py --top-k {config.top_k} --candidate-limit {config.rerank_candidate_limit}",
+        (
+            "python scripts/run_phase33_precision_candidate.py "
+            f"--top-k {config.top_k} "
+            f"--candidate-limit {config.rerank_candidate_limit} "
+            "--allow-external-embeddings"
+        ),
         (
             "python scripts/run_permission_eval.py "
             f"--retrieval-mode {config.retrieval_mode} "
             f"--top-k {config.top_k} "
-            f"--rerank-candidate-limit {config.rerank_candidate_limit}"
+            f"--rerank-candidate-limit {config.rerank_candidate_limit} "
+            "--allow-external-embeddings"
         ),
         "python scripts/export_dashboard_data.py",
         "```",
@@ -145,7 +155,7 @@ def _write_runbook(config: RetrievalConfig, dry_run: bool) -> None:
         "## Current Status",
         "",
         "- Dry run only." if dry_run else "- Live run completed; inspect `precision-candidate-results.md` and exported dashboard data.",
-        "- OpenAI-backed retrieval sends benchmark questions to the embedding API; run only with explicit approval.",
+        "- OpenAI-backed retrieval sends benchmark questions to the embedding API; the live commands require `--allow-external-embeddings` and should run only after explicit approval.",
         "",
     ]
     SUMMARY_PATH.write_text("\n".join(lines), encoding="utf-8")
@@ -203,14 +213,27 @@ def _config(top_k: int, candidate_limit: int) -> RetrievalConfig:
     )
 
 
+def _requires_external_embeddings_approval(*, dry_run: bool) -> bool:
+    return not dry_run
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run the Phase 33 vector lexical rerank retrieval candidate.")
     parser.add_argument("--top-k", type=int, default=3)
     parser.add_argument("--candidate-limit", type=int, default=20)
     parser.add_argument("--dry-run", action="store_true", help="Write the runbook and print config without calling retrieval.")
+    parser.add_argument(
+        "--allow-external-embeddings",
+        action="store_true",
+        help="Confirm explicit approval to send benchmark question text to the external embeddings API.",
+    )
     args = parser.parse_args()
 
     config = _config(top_k=args.top_k, candidate_limit=args.candidate_limit)
+
+    if _requires_external_embeddings_approval(dry_run=args.dry_run) and not args.allow_external_embeddings:
+        raise SystemExit(EXTERNAL_EMBEDDINGS_APPROVAL_MESSAGE)
+
     _write_runbook(config, dry_run=args.dry_run)
 
     if args.dry_run:

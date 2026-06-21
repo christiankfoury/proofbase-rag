@@ -1,6 +1,6 @@
 # Phase 33 Precision Candidate Runbook
 
-Generated at: 2026-06-21T01:51:29.203854+00:00
+Generated at: 2026-06-21T01:58:58.055803+00:00
 
 ## Candidate Config
 
@@ -14,8 +14,8 @@ Generated at: 2026-06-21T01:51:29.203854+00:00
 ## Required Live Commands
 
 ```powershell
-python scripts/run_phase33_precision_candidate.py --top-k 3 --candidate-limit 20
-python scripts/run_permission_eval.py --retrieval-mode vector_lexical_rerank --top-k 3 --rerank-candidate-limit 20
+python scripts/run_phase33_precision_candidate.py --top-k 3 --candidate-limit 20 --allow-external-embeddings
+python scripts/run_permission_eval.py --retrieval-mode vector_lexical_rerank --top-k 3 --rerank-candidate-limit 20 --allow-external-embeddings
 python scripts/export_dashboard_data.py
 ```
 
@@ -29,4 +29,4 @@ python scripts/export_dashboard_data.py
 ## Current Status
 
 - Dry run only.
-- OpenAI-backed retrieval sends benchmark questions to the embedding API; run only with explicit approval.
+- OpenAI-backed retrieval sends benchmark questions to the embedding API; the live commands require `--allow-external-embeddings` and should run only after explicit approval.

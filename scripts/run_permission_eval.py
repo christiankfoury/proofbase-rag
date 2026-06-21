@@ -27,6 +27,10 @@ from apps.api.app.retrieval.retriever import retrieve_chunks
 BENCHMARK_PATH = Path("data/evaluation/benchmark-questions.json")
 REPORT_PATH = Path("docs/phase-8/permission-evaluation-results.md")
 PHASE33_REPORT_PATH = Path("docs/phase-33/permission-candidate-results.md")
+EXTERNAL_EMBEDDINGS_APPROVAL_MESSAGE = (
+    "The Phase 33 vector_lexical_rerank permission run sends benchmark question text to the external embeddings API. "
+    "Re-run with --allow-external-embeddings only after explicit user approval."
+)
 
 
 def _load_benchmark() -> dict:
@@ -153,6 +157,10 @@ def _default_report_path(retrieval_mode: str) -> Path:
     return REPORT_PATH
 
 
+def _requires_external_embeddings_approval(retrieval_mode: str) -> bool:
+    return retrieval_mode == "vector_lexical_rerank"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -166,7 +174,15 @@ def main() -> None:
     parser.add_argument("--run-name", default=None)
     parser.add_argument("--report-path", type=Path, default=None)
     parser.add_argument("--include-authorized-generation", action="store_true")
+    parser.add_argument(
+        "--allow-external-embeddings",
+        action="store_true",
+        help="Confirm explicit approval to send benchmark question text to the external embeddings API.",
+    )
     args = parser.parse_args()
+
+    if _requires_external_embeddings_approval(args.retrieval_mode) and not args.allow_external_embeddings:
+        raise SystemExit(EXTERNAL_EMBEDDINGS_APPROVAL_MESSAGE)
 
     benchmark = _load_benchmark()
     run_name = args.run_name or _default_run_name(args.retrieval_mode)
