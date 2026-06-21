@@ -9,7 +9,7 @@ import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 export default async function PermissionSafetyPage() {
   const authHeaders = await serverDemoAuthHeaders();
   const data = await getDashboardData(authHeaders);
-  const run = data.runs.find((item) => item.phase === "phase-8");
+  const run = data.runs.find((item) => item.run_id === "phase36-permission-evaluation") ?? data.runs.find((item) => item.phase === "phase-8");
   const metrics = run?.metrics ?? {};
   const restrictedQuestionCount = metrics.restricted_question_count ?? run?.total_questions ?? "pending";
   const authorizedTestCount = metrics.authorized_test_count ?? "pending";
@@ -18,7 +18,7 @@ export default async function PermissionSafetyPage() {
     <Shell>
       <PageHeader
         title="Permission Safety"
-        description="Phase 8 tests whether restricted sources stay out of retrieval, generation, citations, and final answers."
+        description="The permission suite tests whether restricted sources stay out of retrieval, generation, citations, and final answers."
       />
       <section className="grid gap-4 md:grid-cols-3">
         <MetricCard label="Permission Leakage" value={metrics.permission_leakage_rate} tone="good" badge="Safety" />

@@ -32,6 +32,9 @@ PHASE33_DIAGNOSTICS_PATH = ROOT / "data/evaluation/phase33-precision-diagnostics
 PHASE33_NO_EGRESS_PATH = ROOT / "data/evaluation/phase33-no-egress-candidates.json"
 PHASE33_LIVE_CANDIDATE_PATH = EXPANDED_BASELINE_DIR / "phase33-vector-lexical-rerank-top3.json"
 PHASE33_PERMISSION_CANDIDATE_PATH = ROOT / "docs/phase-33/permission-candidate-results.md"
+PHASE36_PERMISSION_RUN_PATH = RUNS_DIR / "phase36-permission-evaluation.json"
+PHASE36_MEMORY_RUN_PATH = RUNS_DIR / "phase36-memory-evaluation.json"
+PHASE36_MEMORY_PERMISSION_RUN_PATH = RUNS_DIR / "phase36-memory-permission-boundary.json"
 
 REQUIRED_REPORTS = [
     PHASE6_RESULTS,
@@ -70,9 +73,9 @@ def _benchmark_context(benchmark: dict[str, Any]) -> dict[str, Any]:
         "corpus_question_count": benchmark.get("question_count") or len(questions),
         "category_breakdown": _category_breakdown(questions),
         "current_dashboard_suites": {
-            "primary_retrieval_and_answer_quality": 60,
-            "permission_safety": 10,
-            "memory_followups": 5,
+            "primary_retrieval_and_answer_quality": benchmark.get("question_count") or len(questions),
+            "permission_safety": sum(1 for question in questions if question.get("question_type") == "permission_restricted"),
+            "memory_followups": sum(1 for question in questions if question.get("question_type") == "conversation_memory"),
         },
     }
 
@@ -464,6 +467,16 @@ def _expanded_baseline_runs() -> list[dict[str, Any]]:
         run = payload.get("dashboard_run")
         if isinstance(run, dict):
             runs.append(run)
+    return runs
+
+
+def _phase36_runs() -> list[dict[str, Any]]:
+    runs = []
+    for path in [PHASE36_PERMISSION_RUN_PATH, PHASE36_MEMORY_RUN_PATH, PHASE36_MEMORY_PERMISSION_RUN_PATH]:
+        if path.exists():
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(payload, dict):
+                runs.append(payload)
     return runs
 
 
@@ -877,6 +890,7 @@ def main() -> None:
         raise SystemExit(f"Expected {EXPECTED_RUN_COUNT} dashboard runs, found {len(runs)}.")
     runs.extend(_prompt_experiment_runs())
     runs.extend(_expanded_baseline_runs())
+    runs.extend(_phase36_runs())
     runs = [_annotate_run(run, current_benchmark_version=current_benchmark_version) for run in runs]
 
     current_answer_run = _current_answer_run(runs)

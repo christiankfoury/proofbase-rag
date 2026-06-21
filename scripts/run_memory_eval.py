@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import argparse
 from datetime import UTC, datetime
 from pathlib import Path
 from statistics import mean
@@ -29,6 +30,12 @@ from apps.api.app.retrieval.retriever import retrieve_chunks
 BENCHMARK_PATH = Path("data/evaluation/benchmark-questions.json")
 RESULTS_PATH = Path("docs/phase-9/memory-evaluation-results.md")
 FAILED_PATH = Path("docs/phase-9/failed-memory-question-analysis.md")
+DETAIL_PATH = Path("data/evaluation/phase36-memory-evaluation.json")
+EVAL_RUN_PATH = Path("data/evaluation/eval-runs/phase36-memory-evaluation.json")
+EXTERNAL_AI_APPROVAL_MESSAGE = (
+    "The memory evaluation sends benchmark questions, previous turns, and retrieved source snippets to external "
+    "OpenAI embeddings and chat-completion APIs. Re-run with --allow-external-ai only after explicit approval."
+)
 
 
 def _load_benchmark() -> dict:
@@ -54,6 +61,20 @@ def _sum_cost(values: list[float | None]) -> float | str:
     if not real_values:
         return "pending"
     return round(sum(real_values), 6)
+
+
+def _number(value: str | float | int | None) -> float | int | str | None:
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return value
+    if value == "pending":
+        return value
+    try:
+        parsed = float(value)
+    except ValueError:
+        return value
+    return int(parsed) if parsed.is_integer() else parsed
 
 
 def _failure_type(question: dict, row: dict) -> str | None:
@@ -86,10 +107,11 @@ def _recommended_fix(failure_type: str | None) -> str:
     return fixes.get(failure_type or "", "No fix required.")
 
 
-def _write_results(summary: dict, rows: list[dict]) -> None:
-    RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+def _write_results(summary: dict, rows: list[dict], results_path: Path) -> None:
+    results_path.parent.mkdir(parents=True, exist_ok=True)
+    title = "Phase 36 Memory Evaluation Results" if summary.get("phase") == "phase-36" else "Phase 9 Memory Evaluation Results"
     lines = [
-        "# Phase 9 Memory Evaluation Results",
+        f"# {title}",
         "",
         f"Generated at: {datetime.now(UTC).isoformat()}",
         "",
@@ -133,13 +155,14 @@ def _write_results(summary: dict, rows: list[dict]) -> None:
             "- Semantic rewrite quality is approximated by expected-source retrieval success.",
         ]
     )
-    RESULTS_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    results_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def _write_failed(failed: list[dict]) -> None:
-    FAILED_PATH.parent.mkdir(parents=True, exist_ok=True)
+def _write_failed(failed: list[dict], failed_path: Path) -> None:
+    failed_path.parent.mkdir(parents=True, exist_ok=True)
+    title = "Phase 36 Failed Memory Question Analysis" if "phase-36" in str(failed_path).replace("\\", "/") else "Phase 9 Failed Memory Question Analysis"
     lines = [
-        "# Phase 9 Failed Memory Question Analysis",
+        f"# {title}",
         "",
         f"Generated at: {datetime.now(UTC).isoformat()}",
         "",
@@ -172,24 +195,127 @@ def _write_failed(failed: list[dict]) -> None:
                 "",
             ]
         )
-    FAILED_PATH.write_text("\n".join(lines), encoding="utf-8")
+    failed_path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def _dashboard_run(result: dict) -> dict:
+    summary = result["summary"]
+    failed_ids = [item["question_id"] for item in result.get("failed_questions", [])]
+    return {
+        "run_id": summary["run_id"],
+        "run_name": summary["run_name"],
+        "phase": summary["phase"],
+        "run_type": "memory_eval",
+        "timestamp": result["generated_at"],
+        "retrieval_mode": summary["retrieval_mode"],
+        "chunking_strategy": summary["chunking_strategy"],
+        "top_k": summary["top_k"],
+        "reranker": summary.get("reranker"),
+        "rerank_candidate_limit": summary.get("rerank_candidate_limit"),
+        "prompt_version": summary.get("prompt_version"),
+        "model": summary.get("model"),
+        "total_questions": summary["question_count"],
+        "source_question_count": summary.get("source_question_count"),
+        "question_filter": "conversation_memory",
+        "metrics": {
+            "followup_detection_accuracy": _number(summary["followup_detection_accuracy"]),
+            "query_rewrite_quality": _number(summary["query_rewrite_quality"]),
+            "memory_answer_accuracy": _number(summary["answer_accuracy"]),
+            "memory_citation_accuracy": _number(summary["citation_accuracy"]),
+            "memory_response_type_accuracy": _number(summary["memory_response_type_accuracy"]),
+            "memory_permission_leakage": _number(summary["memory_permission_leakage"]),
+            "hallucination_rate": _number(summary["hallucination_rate"]),
+            "final_confidence": _number(summary["final_confidence"]),
+            "input_tokens": _number(summary["input_tokens"]),
+            "output_tokens": _number(summary["output_tokens"]),
+            "estimated_cost": _number(summary["estimated_cost"]),
+            "failed_question_count": len(failed_ids),
+        },
+        "failed_questions": failed_ids,
+        "category_breakdown": {"conversation_memory": summary["question_count"]},
+        "notes": (
+            "Phase 36 expanded conversation-memory suite. Memory is used only for query rewriting; retrieved chunks "
+            "and citations remain filtered by the current user role."
+        ),
+        "sample_size": summary["question_count"],
+        "passed_count": summary["question_count"] - len(failed_ids),
+        "failed_count": len(failed_ids),
+        "benchmark_version": summary.get("benchmark_version"),
+        "run_timestamp": result["generated_at"],
+    }
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Run the conversation-memory evaluation suite.")
+    parser.add_argument("--phase", default="phase-9")
+    parser.add_argument("--run-id", default=None)
+    parser.add_argument("--run-name", default=None)
+    parser.add_argument(
+        "--retrieval-mode",
+        default="vector_only",
+        choices=["vector_only", "vector_lexical_rerank", "keyword_only", "hybrid"],
+    )
+    parser.add_argument("--chunking-strategy", default="section_based")
+    parser.add_argument("--top-k", type=int, default=5)
+    parser.add_argument("--rerank-candidate-limit", type=int, default=None)
+    parser.add_argument("--prompt-version", default=None)
+    parser.add_argument("--results-path", type=Path, default=None)
+    parser.add_argument("--failed-path", type=Path, default=None)
+    parser.add_argument("--detail-path", type=Path, default=None)
+    parser.add_argument("--eval-run-path", type=Path, default=None)
+    parser.add_argument("--budget-usd", type=float, default=None)
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--allow-external-ai",
+        action="store_true",
+        help="Confirm explicit approval to send benchmark questions, previous turns, and retrieved snippets to external AI APIs.",
+    )
+    args = parser.parse_args()
+
     benchmark = _load_benchmark()
     questions = [
         question
         for question in benchmark["questions"]
         if question["question_type"] == "conversation_memory"
     ]
+    run_id = args.run_id or ("phase36-memory-evaluation" if args.phase == "phase-36" else "phase9-memory")
+    run_name = args.run_name or ("phase36-memory-evaluation" if args.phase == "phase-36" else "phase-9-memory")
+    results_path = args.results_path or (Path("docs/phase-36/memory-evaluation-results.md") if args.phase == "phase-36" else RESULTS_PATH)
+    failed_path = args.failed_path or (Path("docs/phase-36/failed-memory-question-analysis.md") if args.phase == "phase-36" else FAILED_PATH)
+    detail_path = args.detail_path or (DETAIL_PATH if args.phase == "phase-36" else None)
+    eval_run_path = args.eval_run_path or (EVAL_RUN_PATH if args.phase == "phase-36" else None)
     config = default_retrieval_config(
-        run_name="phase-9-memory",
-        retrieval_mode="vector_only",
-        chunking_strategy="section_based",
-        top_k=5,
+        run_name=run_name,
+        retrieval_mode=args.retrieval_mode,
+        chunking_strategy=args.chunking_strategy,
+        top_k=args.top_k,
+        rerank_candidate_limit=args.rerank_candidate_limit,
     )
+    if args.dry_run:
+        print(
+            json.dumps(
+                {
+                    "run_id": run_id,
+                    "phase": args.phase,
+                    "question_count": len(questions),
+                    "config": config.__dict__,
+                    "prompt_version": args.prompt_version,
+                    "would_write": [
+                        str(results_path),
+                        str(failed_path),
+                        str(detail_path) if detail_path else None,
+                        str(eval_run_path) if eval_run_path else None,
+                    ],
+                },
+                indent=2,
+            )
+        )
+        return
+    if not args.allow_external_ai:
+        raise SystemExit(EXTERNAL_AI_APPROVAL_MESSAGE)
     rows = []
     failed = []
+    cumulative_cost = 0.0
 
     for index, question in enumerate(questions, start=1):
         print(f"[{index}/{len(questions)}] {question['question_id']} memory", flush=True)
@@ -206,6 +332,7 @@ def main() -> None:
             user_role=question["user_role"],
             memory_context=memory_text,
             original_question=question["question"],
+            prompt_version=args.prompt_version,
         )
         latency_ms = int((time.perf_counter() - started) * 1000)
         scores = score_answer(question, answer)
@@ -239,6 +366,10 @@ def main() -> None:
             **scores,
         }
         rows.append(row)
+        if row.get("estimated_cost_usd") is not None:
+            cumulative_cost += float(row["estimated_cost_usd"])
+        if args.budget_usd is not None and cumulative_cost >= args.budget_usd:
+            raise RuntimeError(f"Memory evaluation budget stop reached: ${cumulative_cost:.6f} >= ${args.budget_usd:.2f}.")
         failure = _failure_type(question, row)
         if failure:
             failed.append(
@@ -269,10 +400,19 @@ def main() -> None:
         )
 
     summary = {
+        "run_id": run_id,
+        "run_name": run_name,
+        "phase": args.phase,
+        "benchmark_version": benchmark.get("benchmark_version"),
+        "source_question_count": benchmark.get("question_count"),
         "question_count": len(rows),
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "top_k": config.top_k,
+        "reranker": config.reranker,
+        "rerank_candidate_limit": config.rerank_candidate_limit,
+        "prompt_version": args.prompt_version,
+        "model": config.model,
         "followup_detection_accuracy": _average([row["followup_detection_accuracy"] for row in rows]),
         "query_rewrite_quality": _average([row["query_rewrite_quality"] for row in rows]),
         "answer_accuracy": _average([row["answer_accuracy"] for row in rows]),
@@ -292,11 +432,29 @@ def main() -> None:
             output_tokens=summary["output_tokens"],
         )
         summary["estimated_cost"] = cost["estimated_cost_usd"] if cost["estimated_cost_usd"] is not None else "pending"
-    _write_results(summary, rows)
-    _write_failed(failed)
+    result = {
+        "generated_at": datetime.now(UTC).isoformat(),
+        "summary": summary,
+        "rows": rows,
+        "failed_questions": failed,
+    }
+    dashboard_run = _dashboard_run(result)
+    result["dashboard_run"] = dashboard_run
+    _write_results(summary, rows, results_path)
+    _write_failed(failed, failed_path)
+    if detail_path:
+        detail_path.parent.mkdir(parents=True, exist_ok=True)
+        detail_path.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    if eval_run_path:
+        eval_run_path.parent.mkdir(parents=True, exist_ok=True)
+        eval_run_path.write_text(json.dumps(dashboard_run, indent=2), encoding="utf-8")
     print(json.dumps(summary, indent=2))
-    print(f"Wrote {RESULTS_PATH}")
-    print(f"Wrote {FAILED_PATH}")
+    print(f"Wrote {results_path}")
+    print(f"Wrote {failed_path}")
+    if detail_path:
+        print(f"Wrote {detail_path}")
+    if eval_run_path:
+        print(f"Wrote {eval_run_path}")
 
 
 if __name__ == "__main__":

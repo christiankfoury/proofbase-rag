@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-21T04:23:37.768607+00:00",
+  "generated_at": "2026-06-21T04:40:28.833042+00:00",
   "source": "docs/phase-6 through docs/phase-35",
   "benchmark_context": {
     "benchmark_version": "1.1",
@@ -16,9 +16,9 @@
       "simple_factual": 30
     },
     "current_dashboard_suites": {
-      "primary_retrieval_and_answer_quality": 60,
-      "permission_safety": 10,
-      "memory_followups": 5
+      "primary_retrieval_and_answer_quality": 130,
+      "permission_safety": 20,
+      "memory_followups": 20
     }
   },
   "runs": [
@@ -951,6 +951,117 @@
       "failed_count": 16,
       "benchmark_version": "1.1",
       "run_timestamp": "2026-06-21T04:23:26.792255+00:00"
+    },
+    {
+      "run_id": "phase36-permission-evaluation",
+      "run_name": "phase36-permission-evaluation",
+      "phase": "phase-36",
+      "run_type": "permission_eval",
+      "timestamp": "2026-06-21T04:35:04.941903+00:00",
+      "retrieval_mode": "vector_lexical_rerank",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "reranker": "lexical",
+      "rerank_candidate_limit": 20,
+      "total_questions": 20,
+      "source_question_count": 130,
+      "question_filter": "permission_restricted",
+      "metrics": {
+        "restricted_question_count": 20,
+        "authorized_test_count": 20,
+        "permission_leakage_rate": 0,
+        "blocked_answer_accuracy": 1,
+        "unauthorized_chunk_exposure_rate": 0,
+        "restricted_citation_leakage_rate": 0,
+        "unauthorized_chunks_reached_generation_rate": 0,
+        "authorized_retrieval_accuracy": 1,
+        "authorized_answer_accuracy": "pending",
+        "failed_question_count": 0
+      },
+      "failed_questions": [],
+      "category_breakdown": {
+        "permission_restricted": 20
+      },
+      "notes": "Phase 36 expanded permission suite. Measures unauthorized retrieval exposure, citation leakage, pre-generation filtering, refusal accuracy, and authorized-source retrieval checks.",
+      "sample_size": 20,
+      "passed_count": 20,
+      "failed_count": 0,
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-06-21T04:35:04.941903+00:00"
+    },
+    {
+      "run_id": "phase36-memory-evaluation",
+      "run_name": "phase36-memory-evaluation",
+      "phase": "phase-36",
+      "run_type": "memory_eval",
+      "timestamp": "2026-06-21T04:38:14.595471+00:00",
+      "retrieval_mode": "vector_lexical_rerank",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "reranker": "lexical",
+      "rerank_candidate_limit": 20,
+      "prompt_version": "v7",
+      "model": "gpt-4.1-mini",
+      "total_questions": 20,
+      "source_question_count": 130,
+      "question_filter": "conversation_memory",
+      "metrics": {
+        "followup_detection_accuracy": 1,
+        "query_rewrite_quality": 1,
+        "memory_answer_accuracy": 1,
+        "memory_citation_accuracy": 1,
+        "memory_response_type_accuracy": 1,
+        "memory_permission_leakage": 0,
+        "hallucination_rate": 0,
+        "final_confidence": 0.856,
+        "input_tokens": 29783,
+        "output_tokens": 5020,
+        "estimated_cost": 0.019946,
+        "failed_question_count": 0
+      },
+      "failed_questions": [],
+      "category_breakdown": {
+        "conversation_memory": 20
+      },
+      "notes": "Phase 36 expanded conversation-memory suite. Memory is used only for query rewriting; retrieved chunks and citations remain filtered by the current user role.",
+      "sample_size": 20,
+      "passed_count": 20,
+      "failed_count": 0,
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-06-21T04:38:14.595471+00:00"
+    },
+    {
+      "run_id": "phase36-memory-permission-boundary",
+      "run_name": "phase36-memory-permission-boundary",
+      "phase": "phase-36",
+      "run_type": "memory_permission_boundary",
+      "timestamp": "2026-06-21T04:40:19.836049+00:00",
+      "retrieval_mode": "vector_lexical_rerank",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "reranker": "lexical",
+      "rerank_candidate_limit": 20,
+      "total_questions": 5,
+      "source_question_count": 5,
+      "question_filter": "memory_permission_boundary",
+      "metrics": {
+        "memory_permission_leakage": 0.0,
+        "unauthorized_chunk_exposure_rate": 0.0,
+        "restricted_citation_leakage_rate": 0.0,
+        "unauthorized_chunks_reached_generation_rate": 0.0,
+        "blocked_answer_accuracy": 1.0,
+        "failed_question_count": 0
+      },
+      "failed_questions": [],
+      "category_breakdown": {
+        "memory_permission_boundary": 5
+      },
+      "notes": "Phase 36 probes where memory context mentions restricted topics but current-role retrieval remains permission-filtered.",
+      "sample_size": 5,
+      "passed_count": 5,
+      "failed_count": 0,
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-06-21T04:40:19.836049+00:00"
     }
   ],
   "overview": {

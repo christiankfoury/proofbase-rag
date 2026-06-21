@@ -3,6 +3,8 @@ FOLLOWUP_MARKERS = {
     "it",
     "this",
     "those",
+    "they",
+    "them",
     "same",
     "also",
 }
@@ -16,6 +18,7 @@ FOLLOWUP_PHRASES = [
     "who approves",
     "what section",
     "how long",
+    "how often",
     "when does",
     "what if",
 ]
@@ -29,4 +32,3 @@ def is_followup_question(question: str, previous_turns: list[dict] | None = None
         return True
     words = {word.strip(".,?!:;") for word in normalized.split()}
     return bool(words & FOLLOWUP_MARKERS)
-

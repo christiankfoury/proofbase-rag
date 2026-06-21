@@ -29,6 +29,16 @@ def extract_previous_topic(previous_turns: list[dict]) -> str:
         ("formal performance review cycle", "formal performance review cycle"),
         ("performance review and promotion guide", "Performance Review and Promotion Guide"),
         ("parental leave", "parental leave policy"),
+        ("expense above usd 25", "expense above USD 25"),
+        ("approved expense report before payroll close", "approved expense report before payroll close"),
+        ("booking business travel", "booking business travel"),
+        ("customer contracts", "customer contracts"),
+        ("production deployment", "production deployment"),
+        ("enterprise support customer", "Enterprise support customer"),
+        ("new-hire equipment", "new-hire equipment"),
+        ("northstar standard mutual nda", "Northstar standard mutual NDA"),
+        ("public api endpoint error shapes", "public API endpoint error shapes"),
+        ("office supplies standard limit", "office supplies standard limit"),
     ]
     for marker, topic in topic_rules:
         if marker in text:
@@ -72,4 +82,3 @@ def memory_context_text(memory_context: dict) -> str:
         for source in cited_sources:
             lines.append(f"- {source.get('document_id')} / {source.get('section_heading')}")
     return "\n".join(lines)
-

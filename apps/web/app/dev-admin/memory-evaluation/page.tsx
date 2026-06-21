@@ -9,14 +9,14 @@ import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 export default async function MemoryEvaluationPage() {
   const authHeaders = await serverDemoAuthHeaders();
   const data = await getDashboardData(authHeaders);
-  const run = data.runs.find((item) => item.phase === "phase-9");
+  const run = data.runs.find((item) => item.run_id === "phase36-memory-evaluation") ?? data.runs.find((item) => item.phase === "phase-9");
   const metrics = run?.metrics ?? {};
 
   return (
     <Shell>
       <PageHeader
         title="Memory Evaluation"
-        description="Phase 9 evaluates session-level follow-up detection and query rewriting while keeping source evidence permission-filtered."
+        description="The memory suite evaluates session-level follow-up detection and query rewriting while keeping source evidence permission-filtered."
       />
       <section className="grid gap-4 md:grid-cols-3">
         <MetricCard label="Follow-up Detection" value={metrics.followup_detection_accuracy} tone="good" />

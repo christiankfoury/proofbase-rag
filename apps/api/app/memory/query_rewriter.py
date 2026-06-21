@@ -38,6 +38,36 @@ def rewrite_followup_question(question: str, previous_turns: list[dict] | None =
     elif "parental leave" in normalized_topic and "adoptive" in normalized_question:
         rewritten = "Does the parental leave policy apply to adoptive parents?"
         strategy = "parental_leave_adoptive"
+    elif "expense above usd 25" in normalized_topic and "receipt" in normalized_question:
+        rewritten = "Do expenses above USD 25 require a receipt?"
+        strategy = "expense_receipt_threshold"
+    elif "approved expense report before payroll close" in normalized_topic and "reimbursed" in normalized_question:
+        rewritten = "When are approved expense reports reimbursed if submitted at least five business days before payroll close?"
+        strategy = "expense_reimbursement_timing"
+    elif "booking business travel" in normalized_topic and "book" in normalized_question:
+        rewritten = "How far ahead should employees book business travel?"
+        strategy = "business_travel_booking_timing"
+    elif "customer contracts" in normalized_topic and "expiration" in normalized_question:
+        rewritten = "How long are customer contracts retained after expiration?"
+        strategy = "customer_contract_retention"
+    elif "production deployment" in normalized_topic and "friday" in normalized_question:
+        rewritten = "Can production deployments happen on Friday?"
+        strategy = "friday_deployment_rule"
+    elif "enterprise support customer" in normalized_topic and "updates" in normalized_question:
+        rewritten = "How often are status updates required for Enterprise support customers?"
+        strategy = "enterprise_support_update_cadence"
+    elif "new-hire equipment" in normalized_topic and "who starts" in normalized_question:
+        rewritten = "Who initiates new-hire equipment?"
+        strategy = "new_hire_equipment_owner"
+    elif "standard mutual nda" in normalized_topic and "send ours" in normalized_question:
+        rewritten = "Can Sales send Northstar's standard mutual NDA after confirming the recipient legal entity name?"
+        strategy = "standard_mutual_nda"
+    elif "public api endpoint error shapes" in normalized_topic and "fields" in normalized_question:
+        rewritten = "What fields must public API endpoint error shapes return?"
+        strategy = "api_error_shape_fields"
+    elif "office supplies standard limit" in normalized_topic and "above that limit" in normalized_question:
+        rewritten = "Who approves office supplies purchases above the standard limit?"
+        strategy = "office_supplies_approval"
     elif topic:
         rewritten = f"{question} Context: {topic}."
 
