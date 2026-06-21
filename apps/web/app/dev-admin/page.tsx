@@ -42,7 +42,7 @@ function contextLine(context?: MetricContext): string {
   const sample = context?.sample_size ?? "not measured";
   const failed = context?.failed_count ?? "not available";
   const version = context?.benchmark_version ?? "not available";
-  return `Run ${context?.run_id ?? "not available"} | n=${sample} | failed=${failed} | benchmark ${version}`;
+  return `Run: ${context?.run_id ?? "not available"} | n=${sample} | failed=${failed} | benchmark ${version}`;
 }
 
 function sortedBreakdown(breakdown?: Record<string, number | null> | null): Array<[string, number | null]> {
