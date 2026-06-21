@@ -71,6 +71,7 @@ def run_prompt_experiment(
     config: ExperimentConfig,
     question_ids: set[str] | None = None,
     question_filter: str = "all",
+    budget_usd: float | None = None,
 ) -> dict:
     benchmark = _load_benchmark()
     prompt = get_prompt(config.prompt_name, config.prompt_version)
@@ -88,6 +89,7 @@ def run_prompt_experiment(
     rows = []
     failed = []
     started_at = datetime.now(UTC).isoformat()
+    cumulative_cost = 0.0
 
     for index, question in enumerate(questions, start=1):
         print(f"[{index}/{len(questions)}] {question['question_id']} {config.prompt_version}", flush=True)
@@ -143,6 +145,12 @@ def run_prompt_experiment(
             failed.append(failed_item)
         row = {key: value for key, value in row_for_scoring.items() if key != "retrieved_chunks_raw"}
         rows.append(row)
+        if row.get("estimated_cost_usd") is not None:
+            cumulative_cost += float(row["estimated_cost_usd"])
+        if budget_usd is not None and cumulative_cost >= budget_usd:
+            raise RuntimeError(
+                f"Experiment budget stop reached: ${cumulative_cost:.6f} >= ${budget_usd:.2f}."
+            )
         print(
             f"  response={row['response_type']} answer_acc={row['answer_accuracy']} "
             f"citation_acc={row['citation_accuracy']} confidence={row['final_confidence']}",

@@ -25,6 +25,7 @@ DASHBOARD_PATH = ROOT / "data/evaluation/dashboard-summary.json"
 RUNS_DIR = ROOT / "data/evaluation/eval-runs"
 FAILED_DIR = ROOT / "data/evaluation/failed-questions"
 PROMPT_EXPERIMENT_DIR = ROOT / "data/evaluation/prompt-experiments"
+EXPANDED_BASELINE_DIR = ROOT / "data/evaluation/expanded-baseline"
 PROMPT_COMPARISON_PATH = PROMPT_EXPERIMENT_DIR / "prompt-comparison.json"
 MULTI_DOC_EVAL_PATH = ROOT / "data/evaluation/multi-doc-eval.json"
 
@@ -450,6 +451,18 @@ def _prompt_experiment_runs() -> list[dict[str, Any]]:
     return runs
 
 
+def _expanded_baseline_runs() -> list[dict[str, Any]]:
+    if not EXPANDED_BASELINE_DIR.exists():
+        return []
+    runs = []
+    for path in sorted(EXPANDED_BASELINE_DIR.glob("*.json")):
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        run = payload.get("dashboard_run")
+        if isinstance(run, dict):
+            runs.append(run)
+    return runs
+
+
 def _current_answer_run(runs: list[dict[str, Any]]) -> dict[str, Any] | None:
     candidates = [
         run
@@ -479,8 +492,12 @@ def _full_prompt_experiment_runs(runs: list[dict[str, Any]]) -> list[dict[str, A
 def _prompt_experiment_failed_items(run: dict[str, Any] | None) -> list[dict[str, Any]]:
     if not run:
         return []
-    path = PROMPT_EXPERIMENT_DIR / f"{run['run_id']}.json"
-    if not path.exists():
+    candidates = [
+        PROMPT_EXPERIMENT_DIR / f"{run['run_id']}.json",
+        EXPANDED_BASELINE_DIR / f"{run['run_id']}.json",
+    ]
+    path = next((candidate for candidate in candidates if candidate.exists()), None)
+    if path is None:
         return []
     result = json.loads(path.read_text(encoding="utf-8"))
     return [
@@ -673,6 +690,7 @@ def main() -> None:
     if len(runs) != EXPECTED_RUN_COUNT and not args.allow_partial:
         raise SystemExit(f"Expected {EXPECTED_RUN_COUNT} dashboard runs, found {len(runs)}.")
     runs.extend(_prompt_experiment_runs())
+    runs.extend(_expanded_baseline_runs())
     runs = [_annotate_run(run, current_benchmark_version=current_benchmark_version) for run in runs]
 
     current_answer_run = _current_answer_run(runs)

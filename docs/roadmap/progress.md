@@ -6,10 +6,10 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-- Current phase: Phase 32, Expanded Baseline Run.
-- Last completed phase: Phase 31, Benchmark Expansion.
-- Last verification focus: benchmark validation, dashboard export, Python compile, API import, and dashboard version-context inspection.
-- Next expected work: run baseline evaluations against the expanded benchmark only when the required OpenAI-backed workflow is approved, then export dashboard data with new run IDs and sample sizes.
+- Current phase: Phase 33, Precision@k Improvement.
+- Last completed phase: Phase 32, Expanded Baseline Run.
+- Last verification focus: expanded corpus ingestion, expanded retrieval baseline, expanded answer baseline, dashboard export, benchmark validation, Python compile, and diff checks.
+- Next expected work: improve retrieval precision from the expanded baseline while preserving recall, MRR, and permission safety.
 
 ## Phase Status
 
@@ -30,8 +30,8 @@ Update this tracker before committing each phase. Keep entries factual: record w
 | 29: Benchmark Schema Cleanup And Validation | Complete | `62e9b31` | `python scripts/validate_benchmark.py` and `python -m compileall apps scripts` passed. | Added `scripts/validate_benchmark.py`, required-field checks, unique question IDs, valid question type/difficulty/role/behavior checks, memory/permission/missing-information consistency checks, source-document reference checks against Markdown metadata, category-count reporting, Phase 29 notes, and validator references in README/demo cleanup docs. Existing benchmark content, evaluator field names, metrics, retrieval, prompts, and permissions were unchanged. |
 | 30: Enterprise Document Expansion | Complete | `78f8d78` | Markdown loader smoke loaded 19 documents; `python scripts/validate_benchmark.py`, `python -m compileall apps scripts`, API import smoke, and `git diff --check` passed. OpenAI-backed ingestion/evaluation and permission reruns were skipped. | Added finance, legal, engineering, support, and operations Markdown documents plus seeded Northstar department mappings. No metrics changed; current permission suite still covers the existing 10 restricted-access questions. |
 | 31: Benchmark Expansion | Complete | `1458976` | `python scripts/validate_benchmark.py`, `python scripts/validate_benchmark.py --json`, `python scripts/export_dashboard_data.py`, `python -m compileall apps scripts`, API import smoke, dashboard version-context inspection, and `git diff --check` passed. Expanded OpenAI-backed evaluations were not run. | Expanded benchmark version `1.1` to 130 questions with new finance, legal, engineering, support, operations, prompt-injection, and conflicting-source coverage. Existing metric scores remain from legacy run artifacts. |
-| 32: Expanded Baseline Run | Current | Pending | Not started. | Capture baseline metrics on the expanded corpus before tuning. |
-| 33: Precision@k Improvement | Planned | Pending | Not started. | Improve retrieval precision while keeping recall, MRR, and permission safety strong. |
+| 32: Expanded Baseline Run | Complete | Pending | `python scripts/ingest_markdown.py --apply-schema --chunking-strategy section_based`, `python scripts/run_phase32_expanded_baseline.py --budget-usd 10`, `python scripts/export_dashboard_data.py`, `python scripts/validate_benchmark.py`, `python -m compileall apps scripts`, and `git diff --check` passed. | Ingested 19 synthetic documents into 119 chunks/embeddings. Captured expanded benchmark `1.1` baselines: retrieval run `phase32-expanded-retrieval` over 130 questions with all-sources hit `0.967`, precision@k `0.616`, MRR `0.954`, and 3 source-coverage failures; answer run `phase32-expanded-answer-generation-v5` over 130 questions with answer accuracy `0.85`, citation accuracy `0.844`, hallucination rate `0.205`, 43 failed questions, and estimated chat cost `$0.097194`. This is a baseline, not an improvement claim. |
+| 33: Precision@k Improvement | Current | Pending | Not started. | Improve retrieval precision while keeping recall, MRR, and permission safety strong. |
 | 34: Hallucination And Abstention Reduction | Planned | Pending | Not started. | Reduce unsupported claims and improve missing-information abstention. |
 | 35: Citation Accuracy Improvement | Planned | Pending | Not started. | Improve citation-source alignment and classify citation failures. |
 | 36: Permission And Memory Evaluation Expansion | Planned | Pending | Not started. | Expand safety and memory suites and prove memory does not bypass permissions. |
