@@ -1,0 +1,500 @@
+{
+  "generated_at": "2026-06-21T01:03:23.095706+00:00",
+  "benchmark_version": "1.1",
+  "baseline_run": {
+    "run_id": "phase32-expanded-retrieval",
+    "run_name": "phase32-expanded-retrieval",
+    "retrieval_mode": "vector_only",
+    "chunking_strategy": "section_based",
+    "top_k": 5,
+    "precision_at_k": "0.616",
+    "expected_source_recall": "0.978",
+    "all_sources_hit": "0.967",
+    "mrr": "0.954"
+  },
+  "top_k_replay": [
+    {
+      "top_k": 1,
+      "source_question_count": 90,
+      "any_source_hit": 0.922,
+      "all_sources_hit": 0.689,
+      "expected_source_recall": 0.804,
+      "precision_at_k": 0.922,
+      "mrr": 0.922,
+      "failed_question_count": 28,
+      "failed_questions": [
+        "MULTI-001",
+        "MULTI-002",
+        "MULTI-003",
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-006",
+        "MULTI-007",
+        "MULTI-008",
+        "MULTI-009",
+        "MULTI-010",
+        "AMB-002",
+        "AMB-003",
+        "AMB-004",
+        "MEM-004",
+        "MEM-006",
+        "MEM-007",
+        "MULTI-011",
+        "MULTI-012",
+        "MULTI-013",
+        "MULTI-014",
+        "MULTI-015",
+        "MULTI-016",
+        "MULTI-017",
+        "MULTI-019",
+        "MULTI-020",
+        "AMB-006",
+        "ADV-001",
+        "ADV-003"
+      ],
+      "by_question_type": {
+        "ambiguous": {
+          "question_count": 10,
+          "precision_at_k": 0.8,
+          "all_sources_hit": 0.6,
+          "expected_source_recall": 0.7,
+          "mrr": 0.8,
+          "failed_question_count": 4,
+          "failed_questions": [
+            "AMB-002",
+            "AMB-003",
+            "AMB-004",
+            "AMB-006"
+          ]
+        },
+        "conflicting_source": {
+          "question_count": 5,
+          "precision_at_k": 1.0,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conversation_memory": {
+          "question_count": 20,
+          "precision_at_k": 0.85,
+          "all_sources_hit": 0.85,
+          "expected_source_recall": 0.85,
+          "mrr": 0.85,
+          "failed_question_count": 3,
+          "failed_questions": [
+            "MEM-004",
+            "MEM-006",
+            "MEM-007"
+          ]
+        },
+        "multi_document": {
+          "question_count": 20,
+          "precision_at_k": 1.0,
+          "all_sources_hit": 0.05,
+          "expected_source_recall": 0.517,
+          "mrr": 1.0,
+          "failed_question_count": 19,
+          "failed_questions": [
+            "MULTI-001",
+            "MULTI-002",
+            "MULTI-003",
+            "MULTI-004",
+            "MULTI-005",
+            "MULTI-006",
+            "MULTI-007",
+            "MULTI-008",
+            "MULTI-009",
+            "MULTI-010",
+            "MULTI-011",
+            "MULTI-012",
+            "MULTI-013",
+            "MULTI-014",
+            "MULTI-015",
+            "MULTI-016",
+            "MULTI-017",
+            "MULTI-019",
+            "MULTI-020"
+          ]
+        },
+        "prompt_injection": {
+          "question_count": 5,
+          "precision_at_k": 0.6,
+          "all_sources_hit": 0.6,
+          "expected_source_recall": 0.6,
+          "mrr": 0.6,
+          "failed_question_count": 2,
+          "failed_questions": [
+            "ADV-001",
+            "ADV-003"
+          ]
+        },
+        "simple_factual": {
+          "question_count": 30,
+          "precision_at_k": 1.0,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        }
+      },
+      "phase33_gate": {
+        "precision_target_met": true,
+        "recall_gate_met": false,
+        "mrr_gate_met": false
+      }
+    },
+    {
+      "top_k": 2,
+      "source_question_count": 90,
+      "any_source_hit": 0.978,
+      "all_sources_hit": 0.889,
+      "expected_source_recall": 0.935,
+      "precision_at_k": 0.778,
+      "mrr": 0.95,
+      "failed_question_count": 10,
+      "failed_questions": [
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-008",
+        "MEM-004",
+        "MULTI-011",
+        "MULTI-012",
+        "MULTI-013",
+        "MULTI-014",
+        "MULTI-017",
+        "ADV-003"
+      ],
+      "by_question_type": {
+        "ambiguous": {
+          "question_count": 10,
+          "precision_at_k": 0.8,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.9,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conflicting_source": {
+          "question_count": 5,
+          "precision_at_k": 0.8,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conversation_memory": {
+          "question_count": 20,
+          "precision_at_k": 0.725,
+          "all_sources_hit": 0.95,
+          "expected_source_recall": 0.95,
+          "mrr": 0.9,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "MEM-004"
+          ]
+        },
+        "multi_document": {
+          "question_count": 20,
+          "precision_at_k": 0.925,
+          "all_sources_hit": 0.6,
+          "expected_source_recall": 0.808,
+          "mrr": 1.0,
+          "failed_question_count": 8,
+          "failed_questions": [
+            "MULTI-004",
+            "MULTI-005",
+            "MULTI-008",
+            "MULTI-011",
+            "MULTI-012",
+            "MULTI-013",
+            "MULTI-014",
+            "MULTI-017"
+          ]
+        },
+        "prompt_injection": {
+          "question_count": 5,
+          "precision_at_k": 0.6,
+          "all_sources_hit": 0.8,
+          "expected_source_recall": 0.8,
+          "mrr": 0.7,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "ADV-003"
+          ]
+        },
+        "simple_factual": {
+          "question_count": 30,
+          "precision_at_k": 0.733,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        }
+      },
+      "phase33_gate": {
+        "precision_target_met": true,
+        "recall_gate_met": false,
+        "mrr_gate_met": true
+      }
+    },
+    {
+      "top_k": 3,
+      "source_question_count": 90,
+      "any_source_hit": 0.989,
+      "all_sources_hit": 0.944,
+      "expected_source_recall": 0.967,
+      "precision_at_k": 0.7,
+      "mrr": 0.954,
+      "failed_question_count": 5,
+      "failed_questions": [
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-008",
+        "MEM-004",
+        "MULTI-012"
+      ],
+      "by_question_type": {
+        "ambiguous": {
+          "question_count": 10,
+          "precision_at_k": 0.7,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.9,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conflicting_source": {
+          "question_count": 5,
+          "precision_at_k": 0.6,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conversation_memory": {
+          "question_count": 20,
+          "precision_at_k": 0.633,
+          "all_sources_hit": 0.95,
+          "expected_source_recall": 0.95,
+          "mrr": 0.9,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "MEM-004"
+          ]
+        },
+        "multi_document": {
+          "question_count": 20,
+          "precision_at_k": 0.867,
+          "all_sources_hit": 0.8,
+          "expected_source_recall": 0.9,
+          "mrr": 1.0,
+          "failed_question_count": 4,
+          "failed_questions": [
+            "MULTI-004",
+            "MULTI-005",
+            "MULTI-008",
+            "MULTI-012"
+          ]
+        },
+        "prompt_injection": {
+          "question_count": 5,
+          "precision_at_k": 0.6,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.767,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "simple_factual": {
+          "question_count": 30,
+          "precision_at_k": 0.667,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        }
+      },
+      "phase33_gate": {
+        "precision_target_met": false,
+        "recall_gate_met": true,
+        "mrr_gate_met": true
+      }
+    },
+    {
+      "top_k": 4,
+      "source_question_count": 90,
+      "any_source_hit": 0.989,
+      "all_sources_hit": 0.956,
+      "expected_source_recall": 0.972,
+      "precision_at_k": 0.647,
+      "mrr": 0.954,
+      "failed_question_count": 4,
+      "failed_questions": [
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-008",
+        "MEM-004"
+      ],
+      "by_question_type": {
+        "ambiguous": {
+          "question_count": 10,
+          "precision_at_k": 0.625,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.9,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conflicting_source": {
+          "question_count": 5,
+          "precision_at_k": 0.55,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conversation_memory": {
+          "question_count": 20,
+          "precision_at_k": 0.613,
+          "all_sources_hit": 0.95,
+          "expected_source_recall": 0.95,
+          "mrr": 0.9,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "MEM-004"
+          ]
+        },
+        "multi_document": {
+          "question_count": 20,
+          "precision_at_k": 0.8,
+          "all_sources_hit": 0.85,
+          "expected_source_recall": 0.925,
+          "mrr": 1.0,
+          "failed_question_count": 3,
+          "failed_questions": [
+            "MULTI-004",
+            "MULTI-005",
+            "MULTI-008"
+          ]
+        },
+        "prompt_injection": {
+          "question_count": 5,
+          "precision_at_k": 0.55,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.767,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "simple_factual": {
+          "question_count": 30,
+          "precision_at_k": 0.608,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        }
+      },
+      "phase33_gate": {
+        "precision_target_met": false,
+        "recall_gate_met": true,
+        "mrr_gate_met": true
+      }
+    },
+    {
+      "top_k": 5,
+      "source_question_count": 90,
+      "any_source_hit": 0.989,
+      "all_sources_hit": 0.967,
+      "expected_source_recall": 0.978,
+      "precision_at_k": 0.616,
+      "mrr": 0.954,
+      "failed_question_count": 3,
+      "failed_questions": [
+        "MULTI-005",
+        "MULTI-008",
+        "MEM-004"
+      ],
+      "by_question_type": {
+        "ambiguous": {
+          "question_count": 10,
+          "precision_at_k": 0.6,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.9,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conflicting_source": {
+          "question_count": 5,
+          "precision_at_k": 0.56,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conversation_memory": {
+          "question_count": 20,
+          "precision_at_k": 0.6,
+          "all_sources_hit": 0.95,
+          "expected_source_recall": 0.95,
+          "mrr": 0.9,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "MEM-004"
+          ]
+        },
+        "multi_document": {
+          "question_count": 20,
+          "precision_at_k": 0.75,
+          "all_sources_hit": 0.9,
+          "expected_source_recall": 0.95,
+          "mrr": 1.0,
+          "failed_question_count": 2,
+          "failed_questions": [
+            "MULTI-005",
+            "MULTI-008"
+          ]
+        },
+        "prompt_injection": {
+          "question_count": 5,
+          "precision_at_k": 0.52,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.767,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "simple_factual": {
+          "question_count": 30,
+          "precision_at_k": 0.567,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        }
+      },
+      "phase33_gate": {
+        "precision_target_met": false,
+        "recall_gate_met": true,
+        "mrr_gate_met": true
+      }
+    }
+  ],
+  "notes": [
+    "This diagnostic replays saved Phase 32 result ordering only.",
+    "It does not call OpenAI, query Postgres, or prove a live retrieval change.",
+    "Phase 33 completion still requires a measured before/after live retrieval run and permission safety verification."
+  ]
+}
