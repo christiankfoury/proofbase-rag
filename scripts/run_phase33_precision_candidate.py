@@ -125,8 +125,13 @@ def _write_runbook(config: RetrievalConfig, dry_run: bool) -> None:
         "## Required Live Commands",
         "",
         "```powershell",
-        "python scripts/run_phase33_precision_candidate.py",
-        "python scripts/run_permission_eval.py",
+        f"python scripts/run_phase33_precision_candidate.py --top-k {config.top_k} --candidate-limit {config.rerank_candidate_limit}",
+        (
+            "python scripts/run_permission_eval.py "
+            f"--retrieval-mode {config.retrieval_mode} "
+            f"--top-k {config.top_k} "
+            f"--rerank-candidate-limit {config.rerank_candidate_limit}"
+        ),
         "python scripts/export_dashboard_data.py",
         "```",
         "",

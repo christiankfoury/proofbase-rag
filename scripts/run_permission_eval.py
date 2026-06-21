@@ -26,6 +26,7 @@ from apps.api.app.retrieval.retriever import retrieve_chunks
 
 BENCHMARK_PATH = Path("data/evaluation/benchmark-questions.json")
 REPORT_PATH = Path("docs/phase-8/permission-evaluation-results.md")
+PHASE33_REPORT_PATH = Path("docs/phase-33/permission-candidate-results.md")
 
 
 def _load_benchmark() -> dict:
@@ -68,10 +69,15 @@ def _retrieved_document_ids(chunks) -> list[str]:
     return list(dict.fromkeys(chunk.document_id for chunk in chunks))
 
 
-def _write_report(summary: dict, unauthorized_rows: list[dict], authorized_rows: list[dict]) -> None:
-    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+def _write_report(summary: dict, unauthorized_rows: list[dict], authorized_rows: list[dict], report_path: Path) -> None:
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    title = (
+        "Phase 33 Permission Candidate Results"
+        if summary["retrieval_mode"] == "vector_lexical_rerank"
+        else "Phase 8 Permission Evaluation Results"
+    )
     lines = [
-        "# Phase 8 Permission Evaluation Results",
+        f"# {title}",
         "",
         f"Generated at: {datetime.now(UTC).isoformat()}",
         "",
@@ -82,6 +88,8 @@ def _write_report(summary: dict, unauthorized_rows: list[dict], authorized_rows:
         f"- Retrieval mode: {summary['retrieval_mode']}",
         f"- Chunking strategy: {summary['chunking_strategy']}",
         f"- Top K: {summary['top_k']}",
+        f"- Reranker: {summary['reranker']}",
+        f"- Rerank candidate limit: {summary['rerank_candidate_limit']}",
         f"- Permission leakage rate: {summary['permission_leakage_rate']}",
         f"- Blocked-answer accuracy: {summary['blocked_answer_accuracy']}",
         f"- Unauthorized chunk exposure rate: {summary['unauthorized_chunk_exposure_rate']}",
@@ -130,23 +138,45 @@ def _write_report(summary: dict, unauthorized_rows: list[dict], authorized_rows:
             "- Audit logs are written to `audit_logs` and do not include source text.",
         ]
     )
-    REPORT_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _default_run_name(retrieval_mode: str) -> str:
+    if retrieval_mode == "vector_lexical_rerank":
+        return "phase33-vector-lexical-rerank-permission-eval"
+    return "phase-8-permission-eval"
+
+
+def _default_report_path(retrieval_mode: str) -> Path:
+    if retrieval_mode == "vector_lexical_rerank":
+        return PHASE33_REPORT_PATH
+    return REPORT_PATH
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--retrieval-mode", default="vector_only", choices=["vector_only", "keyword_only", "hybrid"])
+    parser.add_argument(
+        "--retrieval-mode",
+        default="vector_only",
+        choices=["vector_only", "vector_lexical_rerank", "keyword_only", "hybrid"],
+    )
     parser.add_argument("--chunking-strategy", default="section_based")
     parser.add_argument("--top-k", type=int, default=5)
+    parser.add_argument("--rerank-candidate-limit", type=int, default=None)
+    parser.add_argument("--run-name", default=None)
+    parser.add_argument("--report-path", type=Path, default=None)
     parser.add_argument("--include-authorized-generation", action="store_true")
     args = parser.parse_args()
 
     benchmark = _load_benchmark()
+    run_name = args.run_name or _default_run_name(args.retrieval_mode)
+    report_path = args.report_path or _default_report_path(args.retrieval_mode)
     config = default_retrieval_config(
-        run_name="phase-8-permission-eval",
+        run_name=run_name,
         retrieval_mode=args.retrieval_mode,
         chunking_strategy=args.chunking_strategy,
         top_k=args.top_k,
+        rerank_candidate_limit=args.rerank_candidate_limit,
     )
     role_by_doc = _document_access_roles()
     permission_questions = [
@@ -225,6 +255,8 @@ def main() -> None:
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "top_k": config.top_k,
+        "reranker": config.reranker,
+        "rerank_candidate_limit": config.rerank_candidate_limit,
         "permission_leakage_rate": _average([row["permission_leakage"] for row in unauthorized_rows]),
         "blocked_answer_accuracy": _average([row["blocked_answer_accuracy"] for row in unauthorized_rows]),
         "unauthorized_chunk_exposure_rate": _average([row["unauthorized_chunk_exposure"] for row in unauthorized_rows]),
@@ -235,11 +267,10 @@ def main() -> None:
         "authorized_retrieval_accuracy": _average([row["authorized_retrieval_accuracy"] for row in authorized_rows]),
         "authorized_answer_accuracy": _average(authorized_answer_values),
     }
-    _write_report(summary, unauthorized_rows, authorized_rows)
+    _write_report(summary, unauthorized_rows, authorized_rows, report_path=report_path)
     print(json.dumps(summary, indent=2))
-    print(f"Wrote {REPORT_PATH}")
+    print(f"Wrote {report_path}")
 
 
 if __name__ == "__main__":
     main()
-

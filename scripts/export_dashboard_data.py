@@ -628,8 +628,8 @@ def _phase33_precision_readiness() -> dict[str, Any]:
             "notes": no_egress.get("notes", []),
         } if no_egress else {},
         "required_live_commands": [
-            "python scripts/run_phase33_precision_candidate.py",
-            "python scripts/run_permission_eval.py",
+            "python scripts/run_phase33_precision_candidate.py --top-k 3 --candidate-limit 20",
+            "python scripts/run_permission_eval.py --retrieval-mode vector_lexical_rerank --top-k 3 --rerank-candidate-limit 20",
             "python scripts/export_dashboard_data.py",
         ],
         "notes": [
