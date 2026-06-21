@@ -54,6 +54,8 @@ export default async function RetrievalExperimentsPage() {
   const authHeaders = await serverDemoAuthHeaders();
   const data = await getDashboardData(authHeaders);
   const retrievalRuns = data.runs.filter((run) => run.phase === "phase-6");
+  const precisionCandidate = data.runs.find((run) => run.run_id === "phase33-vector-lexical-rerank-top3");
+  const chartRuns = precisionCandidate ? [...retrievalRuns, precisionCandidate] : retrievalRuns;
   const best = retrievalRuns.find((run) => run.run_name === data.overview.best_retrieval_run);
   const vector = retrievalRuns.find((run) => run.run_name === "vector-section");
   const keyword = retrievalRuns.find((run) => run.run_name === "keyword-section");
@@ -102,10 +104,17 @@ export default async function RetrievalExperimentsPage() {
         </Card>
       </section>
       <section className="mt-8 grid gap-4 lg:grid-cols-2">
-        <RetrievalChart runs={retrievalRuns} />
+        <RetrievalChart runs={chartRuns} />
         <Card>
           <SectionHeading title="Experiment Comparisons" />
           <div className="space-y-4 text-sm text-stone-700">
+            <div>
+              <p className="font-semibold text-ink">Reranked Candidate</p>
+              <p>
+                Phase 33 added vector + lexical reranking and lifted Precision@k to{" "}
+                {formatMetric(precisionCandidate?.metrics.precision_at_k)} on the expanded benchmark.
+              </p>
+            </div>
             <div>
               <p className="font-semibold text-ink">Vector vs Hybrid</p>
               <p>
