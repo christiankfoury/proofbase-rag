@@ -1,11 +1,12 @@
 # Phase 33 Verification
 
-Generated at: 2026-06-21T01:11:39.601822+00:00
+Generated at: 2026-06-21T01:18:21.341757+00:00
 
 ## Completed Checks
 
 - `python scripts/test_phase33_reranker.py`
 - `python scripts/analyze_phase33_precision.py`
+- `python scripts/run_phase33_precision_candidate.py --dry-run`
 
 ## Diagnostic Result
 
