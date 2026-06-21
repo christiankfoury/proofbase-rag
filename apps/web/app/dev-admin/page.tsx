@@ -55,6 +55,19 @@ function gateLabel(value: boolean | null | undefined): string {
   return "pending";
 }
 
+function deltaText(value: number | null | undefined, direction?: "higher" | "lower"): string {
+  if (value === null || value === undefined) return "pending";
+  const signed = value > 0 ? `+${value.toFixed(3)}` : value.toFixed(3);
+  if (direction === "lower") return value <= 0 ? `${signed} better` : `${signed} worse`;
+  return value >= 0 ? `${signed} better` : `${signed} worse`;
+}
+
+function targetTone(passed: boolean | null | undefined): string {
+  if (passed === true) return "text-moss-dark";
+  if (passed === false) return "text-rust-dark";
+  return "text-stone-600";
+}
+
 export default async function OverviewPage() {
   const authHeaders = await serverDemoAuthHeaders();
   const data = await getDashboardData(authHeaders);
@@ -65,6 +78,11 @@ export default async function OverviewPage() {
   const currentRunCategoryBreakdown = sortedBreakdown(currentAnswerRun?.category_breakdown);
   const benchmarkCategoryBreakdown = sortedBreakdown(benchmarkContext.category_breakdown);
   const suiteSizes = Object.entries(benchmarkContext.current_dashboard_suites ?? {});
+  const scorecard = data.regression_scorecard;
+  const scorecardMetrics = scorecard?.metrics ?? [];
+  const scorecardFailures = Object.entries(scorecard?.failed_question_summary?.failure_reason_counts ?? {}).sort(([a], [b]) =>
+    a.localeCompare(b)
+  );
   const phase33 = data.phase33_precision_readiness;
   const phase33Live = phase33?.live_candidate;
   const phase33Permission = phase33?.permission_candidate;
@@ -140,7 +158,7 @@ export default async function OverviewPage() {
         <MetricCard
           label="Source Recall"
           value={metrics.retrieval_hit_rate}
-          detail="All expected sources retrieved."
+          detail="Expected-source coverage."
           context={contextLine(metricContext.retrieval_hit_rate)}
           badge="Best"
           tone="good"
@@ -193,6 +211,94 @@ export default async function OverviewPage() {
           tone="good"
         />
       </section>
+      {scorecardMetrics.length > 0 ? (
+        <section className="mt-8">
+          <Card>
+            <div className="grid gap-5 lg:grid-cols-[1.3fr_0.7fr]">
+              <div>
+                <SectionHeading
+                  title="Regression Scorecard"
+                  description="Baseline-vs-current metrics use measured run IDs, exact sample sizes, benchmark versions, and visible failures."
+                />
+                <div className="overflow-x-auto">
+                  <table className="data-table min-w-[920px]">
+                    <thead>
+                      <tr>
+                        <th>Metric</th>
+                        <th>Baseline</th>
+                        <th>Current</th>
+                        <th className="text-right">Delta</th>
+                        <th>Target</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {scorecardMetrics.map((item) => (
+                        <tr key={item.metric_key}>
+                          <td>
+                            <p className="font-medium text-ink">{item.label}</p>
+                            <p className="mt-1 text-xs text-stone-500">{item.notes}</p>
+                          </td>
+                          <td>
+                            <p className="font-medium text-ink">{formatMetric(item.baseline.value)}</p>
+                            <p className="mt-1 text-xs text-stone-500">
+                              {item.baseline.run_id ?? "not available"} | n={item.baseline.sample_size ?? "n/a"} | benchmark{" "}
+                              {item.baseline.benchmark_version ?? "n/a"}
+                            </p>
+                          </td>
+                          <td>
+                            <p className="font-medium text-ink">{formatMetric(item.current.value)}</p>
+                            <p className="mt-1 text-xs text-stone-500">
+                              {item.current.run_id ?? "not available"} | n={item.current.sample_size ?? "n/a"} | benchmark{" "}
+                              {item.current.benchmark_version ?? "n/a"}
+                            </p>
+                          </td>
+                          <td className="text-right font-medium text-ink">{deltaText(item.delta, item.direction)}</td>
+                          <td>{item.target_label ?? formatMetric(item.target)}</td>
+                          <td className={targetTone(item.target_passed)}>{gateLabel(item.target_passed)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div className="grid gap-5">
+                <div>
+                  <p className="font-semibold text-ink">Supported Claims</p>
+                  <ul className="mt-2 space-y-2 text-sm leading-6 text-stone-700">
+                    {(scorecard?.portfolio_claims ?? []).map((claim) => (
+                      <li key={claim}>{claim}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p className="font-semibold text-ink">Current Failures</p>
+                  <p className="mt-1 text-sm text-stone-600">
+                    {scorecard?.failed_question_summary?.failed_question_count ?? "not available"} failed questions in{" "}
+                    {scorecard?.failed_question_summary?.current_answer_run_id ?? "the current answer run"}.
+                  </p>
+                  <div className="mt-3 grid gap-2 text-sm">
+                    {scorecardFailures.map(([reason, count]) => (
+                      <div key={reason} className="flex justify-between gap-3 border-b border-stone-200 pb-1">
+                        <span>{formatLabel(reason)}</span>
+                        <span className="font-medium text-ink">{count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <p className="font-semibold text-ink">Limitations</p>
+                  <ul className="mt-2 space-y-2 text-sm leading-6 text-stone-700">
+                    {(scorecard?.limitations ?? []).map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </section>
+      ) : null}
       <section className="mt-8 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
         <Card>
           <SectionHeading

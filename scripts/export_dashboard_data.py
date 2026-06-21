@@ -35,6 +35,7 @@ PHASE33_PERMISSION_CANDIDATE_PATH = ROOT / "docs/phase-33/permission-candidate-r
 PHASE36_PERMISSION_RUN_PATH = RUNS_DIR / "phase36-permission-evaluation.json"
 PHASE36_MEMORY_RUN_PATH = RUNS_DIR / "phase36-memory-evaluation.json"
 PHASE36_MEMORY_PERMISSION_RUN_PATH = RUNS_DIR / "phase36-memory-permission-boundary.json"
+SCORECARD_PATH = ROOT / "data/evaluation/regression-scorecard.json"
 
 REQUIRED_REPORTS = [
     PHASE6_RESULTS,
@@ -767,12 +768,256 @@ def _metric_context(run: dict[str, Any], metric_key: str) -> dict[str, Any]:
     }
 
 
+def _metric_value(run: dict[str, Any] | None, metric_key: str) -> float | int | str | None:
+    if not run:
+        return None
+    value = run.get("metrics", {}).get(metric_key)
+    return value
+
+
+def _numeric(value: Any) -> float | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    return None
+
+
+def _scorecard_side(run: dict[str, Any] | None, metric_key: str) -> dict[str, Any]:
+    if not run:
+        return {
+            "run_id": None,
+            "run_name": None,
+            "value": None,
+            "sample_size": None,
+            "failed_count": None,
+            "benchmark_version": None,
+            "run_timestamp": None,
+        }
+    return {
+        "run_id": run.get("run_id"),
+        "run_name": run.get("run_name"),
+        "value": _metric_value(run, metric_key),
+        "sample_size": run.get("sample_size") or run.get("total_questions"),
+        "failed_count": run.get("failed_count"),
+        "benchmark_version": run.get("benchmark_version"),
+        "run_timestamp": run.get("run_timestamp") or run.get("timestamp"),
+    }
+
+
+def _target_passed(value: Any, direction: str, target: float | None) -> bool | None:
+    numeric_value = _numeric(value)
+    if numeric_value is None or target is None:
+        return None
+    if direction == "lower":
+        return numeric_value <= target
+    return numeric_value >= target
+
+
+def _scorecard_metric(
+    *,
+    metric_key: str,
+    label: str,
+    baseline: dict[str, Any] | None,
+    current: dict[str, Any] | None,
+    target: float | None,
+    target_label: str,
+    direction: str,
+    notes: str,
+) -> dict[str, Any]:
+    baseline_value = _metric_value(baseline, metric_key)
+    current_value = _metric_value(current, metric_key)
+    baseline_numeric = _numeric(baseline_value)
+    current_numeric = _numeric(current_value)
+    delta = None
+    if baseline_numeric is not None and current_numeric is not None:
+        delta = round(current_numeric - baseline_numeric, 3)
+    return {
+        "metric_key": metric_key,
+        "label": label,
+        "direction": direction,
+        "target": target,
+        "target_label": target_label,
+        "baseline": _scorecard_side(baseline, metric_key),
+        "current": _scorecard_side(current, metric_key),
+        "delta": delta,
+        "target_passed": _target_passed(current_value, direction, target),
+        "notes": notes,
+    }
+
+
+def _failure_reason_counts(failed_questions: list[dict[str, Any]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for item in failed_questions:
+        failure_type = str(item.get("failure_type") or "unknown")
+        counts[failure_type] = counts.get(failure_type, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def _regression_scorecard(
+    runs: list[dict[str, Any]],
+    failed_questions: list[dict[str, Any]],
+    benchmark_context: dict[str, Any],
+) -> dict[str, Any]:
+    by_id = {run["run_id"]: run for run in runs}
+    phase32_retrieval = by_id.get("phase32-expanded-retrieval")
+    phase33_retrieval = by_id.get("phase33-vector-lexical-rerank-top3")
+    phase32_answer = by_id.get("phase32-expanded-answer-generation-v5")
+    phase35_answer = by_id.get("phase35-citation-alignment-v7")
+    phase8_permission = by_id.get("phase8-permission-safety")
+    phase36_permission = by_id.get("phase36-permission-evaluation")
+    phase9_memory = by_id.get("phase9-memory")
+    phase36_memory = by_id.get("phase36-memory-evaluation")
+    phase36_boundary = by_id.get("phase36-memory-permission-boundary")
+
+    metrics = [
+        _scorecard_metric(
+            metric_key="expected_source_recall",
+            label="Source Recall",
+            baseline=phase32_retrieval,
+            current=phase33_retrieval,
+            target=0.95,
+            target_label=">= 0.950",
+            direction="higher",
+            notes="Retrieval comparison uses expanded benchmark v1.1 and the Phase 33 rerank candidate.",
+        ),
+        _scorecard_metric(
+            metric_key="precision_at_k",
+            label="Precision@k",
+            baseline=phase32_retrieval,
+            current=phase33_retrieval,
+            target=0.75,
+            target_label="0.750-0.850",
+            direction="higher",
+            notes="Precision improved with lexical reranking; source recall remains at the Phase 33 gate.",
+        ),
+        _scorecard_metric(
+            metric_key="mrr",
+            label="MRR / First Source Rank",
+            baseline=phase32_retrieval,
+            current=phase33_retrieval,
+            target=0.95,
+            target_label=">= 0.950",
+            direction="higher",
+            notes="Rank quality stays above the gate on expanded benchmark v1.1.",
+        ),
+        _scorecard_metric(
+            metric_key="answer_accuracy",
+            label="Answer Accuracy",
+            baseline=phase32_answer,
+            current=phase35_answer,
+            target=0.90,
+            target_label=">= 0.900",
+            direction="higher",
+            notes="Answer comparison uses full 130-question benchmark v1.1 answer runs.",
+        ),
+        _scorecard_metric(
+            metric_key="citation_accuracy",
+            label="Citation Accuracy",
+            baseline=phase32_answer,
+            current=phase35_answer,
+            target=0.92,
+            target_label=">= 0.920",
+            direction="higher",
+            notes="Citation alignment v7 exceeds the Phase 35 target on the expanded answer run.",
+        ),
+        _scorecard_metric(
+            metric_key="hallucination_rate",
+            label="Hallucination Rate",
+            baseline=phase32_answer,
+            current=phase35_answer,
+            target=0.08,
+            target_label="<= 0.080",
+            direction="lower",
+            notes="Lower is better. Current run reported no hallucination failures under the deterministic evaluator.",
+        ),
+        _scorecard_metric(
+            metric_key="permission_leakage_rate",
+            label="Permission Leakage Rate",
+            baseline=phase8_permission,
+            current=phase36_permission,
+            target=0.0,
+            target_label="= 0.000",
+            direction="lower",
+            notes="Current permission suite expands from 10 legacy restricted questions to 20 benchmark v1.1 restricted questions.",
+        ),
+        _scorecard_metric(
+            metric_key="memory_answer_accuracy",
+            label="Memory Answer Accuracy",
+            baseline=phase9_memory,
+            current=phase36_memory,
+            target=0.90,
+            target_label=">= 0.900",
+            direction="higher",
+            notes="Current memory suite expands from 5 legacy follow-ups to 20 benchmark v1.1 memory questions.",
+        ),
+    ]
+    return {
+        "phase": "phase-37",
+        "generated_at": datetime.now(UTC).isoformat(),
+        "benchmark_version": benchmark_context.get("benchmark_version"),
+        "benchmark_question_count": benchmark_context.get("corpus_question_count"),
+        "category_breakdown": benchmark_context.get("category_breakdown", {}),
+        "baseline_run_ids": [
+            run_id
+            for run_id in [
+                "phase32-expanded-retrieval",
+                "phase32-expanded-answer-generation-v5",
+                "phase8-permission-safety",
+                "phase9-memory",
+            ]
+            if by_id.get(run_id)
+        ],
+        "current_run_ids": [
+            run_id
+            for run_id in [
+                "phase33-vector-lexical-rerank-top3",
+                "phase35-citation-alignment-v7",
+                "phase36-permission-evaluation",
+                "phase36-memory-evaluation",
+                "phase36-memory-permission-boundary",
+            ]
+            if by_id.get(run_id)
+        ],
+        "metrics": metrics,
+        "failed_question_summary": {
+            "current_answer_run_id": phase35_answer.get("run_id") if phase35_answer else None,
+            "failed_question_count": len(failed_questions),
+            "failure_reason_counts": _failure_reason_counts(failed_questions),
+            "failed_question_ids": [item.get("question_id") for item in failed_questions if item.get("question_id")],
+        },
+        "safety_summary": {
+            "permission_run_id": phase36_permission.get("run_id") if phase36_permission else None,
+            "permission_sample_size": phase36_permission.get("sample_size") if phase36_permission else None,
+            "permission_leakage_rate": _metric_value(phase36_permission, "permission_leakage_rate"),
+            "memory_run_id": phase36_memory.get("run_id") if phase36_memory else None,
+            "memory_sample_size": phase36_memory.get("sample_size") if phase36_memory else None,
+            "memory_permission_leakage": _metric_value(phase36_memory, "memory_permission_leakage"),
+            "memory_boundary_run_id": phase36_boundary.get("run_id") if phase36_boundary else None,
+            "memory_boundary_sample_size": phase36_boundary.get("sample_size") if phase36_boundary else None,
+            "memory_boundary_leakage": _metric_value(phase36_boundary, "memory_permission_leakage"),
+        },
+        "portfolio_claims": [
+            "Built an evaluation-driven enterprise RAG platform with permission-aware retrieval, citation verification, conversation-memory evaluation, adversarial safety tests, and benchmark dashboard evidence.",
+            "Expanded the benchmark to 130 questions across factual, multi-document, restricted-access, missing-information, memory, ambiguous, prompt-injection, and conflicting-source scenarios.",
+            "On benchmark v1.1 answer runs, improved answer accuracy from 0.850 to 0.919, citation accuracy from 0.844 to 0.950, and hallucination rate from 0.205 to 0.000.",
+            "Maintained 0.000 permission leakage on the expanded 20-question permission suite and 0.000 memory-permission leakage on the 20-question memory suite plus 5 focused boundary probes.",
+        ],
+        "limitations": [
+            "Legacy permission and memory baselines use smaller pre-expansion suites, so their deltas should be read as coverage expansion plus safety preservation, not a same-sample accuracy comparison.",
+            "The current answer-quality run still has failed questions; the scorecard keeps failure counts and failure reasons visible.",
+            "Metrics use deterministic and heuristic evaluators over a synthetic portfolio corpus, not production traffic or human-judge labels.",
+            "Uploaded-document indexing, production SSO, real enterprise connectors, and hosted Azure deployment are not claimed as completed.",
+        ],
+    }
+
+
 def _overview(runs: list[dict[str, Any]], current_answer_run: dict[str, Any] | None) -> dict[str, Any]:
     by_id = {run["run_id"]: run for run in runs}
-    retrieval = by_id.get("phase6-vector-section", {})
-    answer = by_id.get("phase7-answer-quality", {})
-    permissions = by_id.get("phase8-permission-safety", {})
-    memory = by_id.get("phase9-memory", {})
+    retrieval = by_id.get("phase33-vector-lexical-rerank-top3") or by_id.get("phase6-vector-section", {})
+    answer = current_answer_run or by_id.get("phase7-answer-quality", {})
+    permissions = by_id.get("phase36-permission-evaluation") or by_id.get("phase8-permission-safety", {})
+    memory = by_id.get("phase36-memory-evaluation") or by_id.get("phase9-memory", {})
     current_failed_count = len(current_answer_run.get("failed_questions") or []) if current_answer_run else len(
         answer.get("failed_questions") or []
     )
@@ -794,7 +1039,8 @@ def _overview(runs: list[dict[str, Any]], current_answer_run: dict[str, Any] | N
             ],
         },
         "headline_metrics": {
-            "retrieval_hit_rate": retrieval.get("metrics", {}).get("all_sources_hit"),
+            "retrieval_hit_rate": retrieval.get("metrics", {}).get("expected_source_recall")
+            or retrieval.get("metrics", {}).get("all_sources_hit"),
             "precision_at_k": retrieval.get("metrics", {}).get("precision_at_k"),
             "mrr": retrieval.get("metrics", {}).get("mrr"),
             "answer_accuracy": answer.get("metrics", {}).get("answer_accuracy"),
@@ -804,7 +1050,7 @@ def _overview(runs: list[dict[str, Any]], current_answer_run: dict[str, Any] | N
             "memory_accuracy": memory.get("metrics", {}).get("memory_answer_accuracy"),
         },
         "metric_context": {
-            "retrieval_hit_rate": _metric_context(retrieval, "all_sources_hit"),
+            "retrieval_hit_rate": _metric_context(retrieval, "expected_source_recall"),
             "precision_at_k": _metric_context(retrieval, "precision_at_k"),
             "mrr": _metric_context(retrieval, "mrr"),
             "answer_accuracy": _metric_context(answer, "answer_accuracy"),
@@ -899,16 +1145,18 @@ def main() -> None:
         if current_answer_run
         else _failed_items(phase7_failed, "phase-7") + _failed_items(phase9_failed, "phase-9")
     )
+    regression_scorecard = _regression_scorecard(runs, failed_questions, benchmark_context)
     prompt_comparison = _prompt_comparison()
     multi_doc_comparison = _multi_doc_comparison()
     phase33_precision_readiness = _phase33_precision_readiness()
     dashboard = {
         "generated_at": datetime.now(UTC).isoformat(),
-        "source": "docs/phase-6 through docs/phase-35",
+        "source": "docs/phase-6 through docs/phase-36",
         "benchmark_context": benchmark_context,
         "runs": runs,
         "overview": _overview(runs, current_answer_run),
         "comparisons": _comparisons(runs),
+        "regression_scorecard": regression_scorecard,
         "prompt_comparison": prompt_comparison,
         "multi_doc_comparison": multi_doc_comparison,
         "phase33_precision_readiness": phase33_precision_readiness,
@@ -925,6 +1173,7 @@ def main() -> None:
     RUNS_DIR.mkdir(parents=True, exist_ok=True)
     FAILED_DIR.mkdir(parents=True, exist_ok=True)
     DASHBOARD_PATH.write_text(json.dumps(dashboard, indent=2), encoding="utf-8")
+    SCORECARD_PATH.write_text(json.dumps(regression_scorecard, indent=2), encoding="utf-8")
 
     for run in runs:
         (RUNS_DIR / f"{run['run_id']}.json").write_text(json.dumps(run, indent=2), encoding="utf-8")
@@ -932,6 +1181,7 @@ def main() -> None:
 
     print(json.dumps({"run_count": len(runs), "failed_question_count": len(failed_questions)}, indent=2))
     print(f"Wrote {DASHBOARD_PATH}")
+    print(f"Wrote {SCORECARD_PATH}")
     print(f"Wrote {RUNS_DIR}")
     print(f"Wrote {FAILED_DIR / 'failed-questions.json'}")
 

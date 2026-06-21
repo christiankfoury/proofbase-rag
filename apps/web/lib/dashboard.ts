@@ -167,6 +167,39 @@ export type BenchmarkContext = {
   current_dashboard_suites?: Record<string, number | null> | null;
 };
 
+export type RegressionScorecardMetric = {
+  metric_key: string;
+  label: string;
+  direction: "higher" | "lower";
+  target?: number | null;
+  target_label?: string | null;
+  baseline: MetricContext & { value?: number | string | null };
+  current: MetricContext & { value?: number | string | null };
+  delta?: number | null;
+  target_passed?: boolean | null;
+  notes?: string | null;
+};
+
+export type RegressionScorecard = {
+  phase?: string;
+  generated_at?: string | null;
+  benchmark_version?: string | null;
+  benchmark_question_count?: number | null;
+  category_breakdown?: Record<string, number | null> | null;
+  baseline_run_ids?: string[];
+  current_run_ids?: string[];
+  metrics?: RegressionScorecardMetric[];
+  failed_question_summary?: {
+    current_answer_run_id?: string | null;
+    failed_question_count?: number | null;
+    failure_reason_counts?: Record<string, number>;
+    failed_question_ids?: string[];
+  };
+  safety_summary?: Record<string, number | string | null | undefined>;
+  portfolio_claims?: string[];
+  limitations?: string[];
+};
+
 export type DashboardData = {
   generated_at: string;
   benchmark_context?: BenchmarkContext;
@@ -183,6 +216,7 @@ export type DashboardData = {
     metric_context?: Record<string, MetricContext>;
   };
   comparisons: Record<string, { summary: string; runs?: string[]; baseline?: string; current?: string }>;
+  regression_scorecard?: RegressionScorecard;
   prompt_comparison?: PromptComparison;
   multi_doc_comparison?: MultiDocComparison;
   phase33_precision_readiness?: Phase33PrecisionReadiness;
@@ -204,6 +238,7 @@ function emptyDashboardData(): DashboardData {
     },
     benchmark_context: {},
     comparisons: {},
+    regression_scorecard: {},
     phase33_precision_readiness: {},
     runs: [],
     failed_questions: [],
@@ -226,6 +261,7 @@ export async function getDashboardData(headers: HeadersInit = {}): Promise<Dashb
     overview: compare.overview,
     benchmark_context: compare.benchmark_context ?? summary.benchmark_context ?? {},
     comparisons: compare.comparisons,
+    regression_scorecard: compare.regression_scorecard ?? summary.regression_scorecard,
     prompt_comparison: compare.prompt_comparison,
     multi_doc_comparison: compare.multi_doc_comparison,
     phase33_precision_readiness: compare.phase33_precision_readiness ?? summary.phase33_precision_readiness,
