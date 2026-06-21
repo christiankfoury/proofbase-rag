@@ -68,6 +68,18 @@ function targetTone(passed: boolean | null | undefined): string {
   return "text-stone-600";
 }
 
+function HelpMarker({ label }: { label: string }) {
+  return (
+    <span
+      aria-label={label}
+      title={label}
+      className="ml-1 inline-flex h-4 w-4 cursor-help items-center justify-center rounded-full border border-stone-300 text-[10px] font-semibold text-stone-500"
+    >
+      ?
+    </span>
+  );
+}
+
 export default async function OverviewPage() {
   const authHeaders = await serverDemoAuthHeaders();
   const data = await getDashboardData(authHeaders);
@@ -225,7 +237,10 @@ export default async function OverviewPage() {
                     <thead>
                       <tr>
                         <th>Metric</th>
-                        <th>Baseline</th>
+                        <th>
+                          Pre-Optimization Baseline
+                          <HelpMarker label="Baseline runs were captured before retrieval reranking, answer grounding, citation alignment, and expanded permission/memory evaluations." />
+                        </th>
                         <th>Current</th>
                         <th className="text-right">Delta</th>
                         <th>Target</th>
