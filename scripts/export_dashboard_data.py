@@ -35,6 +35,7 @@ PHASE33_PERMISSION_CANDIDATE_PATH = ROOT / "docs/phase-33/permission-candidate-r
 PHASE36_PERMISSION_RUN_PATH = RUNS_DIR / "phase36-permission-evaluation.json"
 PHASE36_MEMORY_RUN_PATH = RUNS_DIR / "phase36-memory-evaluation.json"
 PHASE36_MEMORY_PERMISSION_RUN_PATH = RUNS_DIR / "phase36-memory-permission-boundary.json"
+PHASE38_PERMISSION_RUN_PATH = RUNS_DIR / "phase38-permission-evaluation.json"
 SCORECARD_PATH = ROOT / "data/evaluation/regression-scorecard.json"
 
 REQUIRED_REPORTS = [
@@ -471,9 +472,14 @@ def _expanded_baseline_runs() -> list[dict[str, Any]]:
     return runs
 
 
-def _phase36_runs() -> list[dict[str, Any]]:
+def _safety_runs() -> list[dict[str, Any]]:
     runs = []
-    for path in [PHASE36_PERMISSION_RUN_PATH, PHASE36_MEMORY_RUN_PATH, PHASE36_MEMORY_PERMISSION_RUN_PATH]:
+    for path in [
+        PHASE36_PERMISSION_RUN_PATH,
+        PHASE36_MEMORY_RUN_PATH,
+        PHASE36_MEMORY_PERMISSION_RUN_PATH,
+        PHASE38_PERMISSION_RUN_PATH,
+    ]:
         if path.exists():
             payload = json.loads(path.read_text(encoding="utf-8"))
             if isinstance(payload, dict):
@@ -863,12 +869,14 @@ def _regression_scorecard(
     phase32_retrieval = by_id.get("phase32-expanded-retrieval")
     phase33_retrieval = by_id.get("phase33-vector-lexical-rerank-top3")
     phase32_answer = by_id.get("phase32-expanded-answer-generation-v5")
+    current_answer = _current_answer_run(runs)
     phase35_answer = by_id.get("phase35-citation-alignment-v7")
     phase8_permission = by_id.get("phase8-permission-safety")
     phase36_permission = by_id.get("phase36-permission-evaluation")
     phase9_memory = by_id.get("phase9-memory")
     phase36_memory = by_id.get("phase36-memory-evaluation")
     phase36_boundary = by_id.get("phase36-memory-permission-boundary")
+    phase38_permission = by_id.get("phase38-permission-evaluation")
 
     metrics = [
         _scorecard_metric(
@@ -905,7 +913,7 @@ def _regression_scorecard(
             metric_key="answer_accuracy",
             label="Answer Accuracy",
             baseline=phase32_answer,
-            current=phase35_answer,
+            current=current_answer or phase35_answer,
             target=0.90,
             target_label=">= 0.900",
             direction="higher",
@@ -915,17 +923,17 @@ def _regression_scorecard(
             metric_key="citation_accuracy",
             label="Citation Accuracy",
             baseline=phase32_answer,
-            current=phase35_answer,
+            current=current_answer or phase35_answer,
             target=0.92,
             target_label=">= 0.920",
             direction="higher",
-            notes="Citation alignment v7 exceeds the Phase 35 target on the expanded answer run.",
+            notes="The current full answer-quality run exceeds the citation target on expanded benchmark v1.1.",
         ),
         _scorecard_metric(
             metric_key="hallucination_rate",
             label="Hallucination Rate",
             baseline=phase32_answer,
-            current=phase35_answer,
+            current=current_answer or phase35_answer,
             target=0.08,
             target_label="<= 0.080",
             direction="lower",
@@ -935,11 +943,11 @@ def _regression_scorecard(
             metric_key="permission_leakage_rate",
             label="Permission Leakage Rate",
             baseline=phase8_permission,
-            current=phase36_permission,
+            current=phase38_permission or phase36_permission,
             target=0.0,
             target_label="= 0.000",
             direction="lower",
-            notes="Current permission suite expands from 10 legacy restricted questions to 20 benchmark v1.1 restricted questions.",
+            notes="Current permission suite uses 20 benchmark v1.1 restricted questions with the latest Phase 38 retrieval configuration.",
         ),
         _scorecard_metric(
             metric_key="memory_answer_accuracy",
@@ -972,24 +980,25 @@ def _regression_scorecard(
             run_id
             for run_id in [
                 "phase33-vector-lexical-rerank-top3",
-                "phase35-citation-alignment-v7",
+                (current_answer or {}).get("run_id") or "phase35-citation-alignment-v7",
                 "phase36-permission-evaluation",
                 "phase36-memory-evaluation",
                 "phase36-memory-permission-boundary",
+                "phase38-permission-evaluation",
             ]
             if by_id.get(run_id)
         ],
         "metrics": metrics,
         "failed_question_summary": {
-            "current_answer_run_id": phase35_answer.get("run_id") if phase35_answer else None,
+            "current_answer_run_id": (current_answer or phase35_answer or {}).get("run_id"),
             "failed_question_count": len(failed_questions),
             "failure_reason_counts": _failure_reason_counts(failed_questions),
             "failed_question_ids": [item.get("question_id") for item in failed_questions if item.get("question_id")],
         },
         "safety_summary": {
-            "permission_run_id": phase36_permission.get("run_id") if phase36_permission else None,
-            "permission_sample_size": phase36_permission.get("sample_size") if phase36_permission else None,
-            "permission_leakage_rate": _metric_value(phase36_permission, "permission_leakage_rate"),
+            "permission_run_id": (phase38_permission or phase36_permission or {}).get("run_id"),
+            "permission_sample_size": (phase38_permission or phase36_permission or {}).get("sample_size"),
+            "permission_leakage_rate": _metric_value(phase38_permission or phase36_permission, "permission_leakage_rate"),
             "memory_run_id": phase36_memory.get("run_id") if phase36_memory else None,
             "memory_sample_size": phase36_memory.get("sample_size") if phase36_memory else None,
             "memory_permission_leakage": _metric_value(phase36_memory, "memory_permission_leakage"),
@@ -1000,8 +1009,8 @@ def _regression_scorecard(
         "portfolio_claims": [
             "Built an evaluation-driven enterprise RAG platform with permission-aware retrieval, citation verification, conversation-memory evaluation, adversarial safety tests, and benchmark dashboard evidence.",
             "Expanded the benchmark to 130 questions across factual, multi-document, restricted-access, missing-information, memory, ambiguous, prompt-injection, and conflicting-source scenarios.",
-            "On benchmark v1.1 answer runs, improved answer accuracy from 0.850 to 0.919, citation accuracy from 0.844 to 0.950, and hallucination rate from 0.205 to 0.000.",
-            "Maintained 0.000 permission leakage on the expanded 20-question permission suite and 0.000 memory-permission leakage on the 20-question memory suite plus 5 focused boundary probes.",
+            "On benchmark v1.1 answer runs, improved answer accuracy, citation accuracy, and hallucination rate versus the Phase 32 expanded baseline while keeping current failed questions visible.",
+            "Maintained 0.000 permission leakage on the latest 20-question permission suite and 0.000 memory-permission leakage on the 20-question memory suite plus 5 focused boundary probes.",
         ],
         "limitations": [
             "Legacy permission and memory baselines use smaller pre-expansion suites, so their deltas should be read as coverage expansion plus safety preservation, not a same-sample accuracy comparison.",
@@ -1136,7 +1145,7 @@ def main() -> None:
         raise SystemExit(f"Expected {EXPECTED_RUN_COUNT} dashboard runs, found {len(runs)}.")
     runs.extend(_prompt_experiment_runs())
     runs.extend(_expanded_baseline_runs())
-    runs.extend(_phase36_runs())
+    runs.extend(_safety_runs())
     runs = [_annotate_run(run, current_benchmark_version=current_benchmark_version) for run in runs]
 
     current_answer_run = _current_answer_run(runs)

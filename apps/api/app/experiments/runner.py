@@ -18,6 +18,8 @@ from apps.api.app.evaluation.metrics import (
 )
 from apps.api.app.experiments.config import ExperimentConfig
 from apps.api.app.generation.answer_generator import generate_answer, retrieved_chunks_payload
+from apps.api.app.memory.context_builder import build_memory_context, memory_context_text
+from apps.api.app.memory.query_rewriter import rewrite_followup_question
 from apps.api.app.prompts.prompt_registry import get_prompt
 from apps.api.app.retrieval.config import RetrievalConfig
 from apps.api.app.retrieval.retriever import retrieve_chunks
@@ -32,12 +34,18 @@ def _load_benchmark() -> dict:
     return json.loads(BENCHMARK_PATH.read_text(encoding="utf-8"))
 
 
-def _query_with_memory(question: dict) -> str:
+def _query_plan(question: dict) -> dict:
     previous_turns = question.get("previous_turns") or []
-    if not previous_turns:
-        return question["question"]
-    context = "\n".join(f"{turn['role']}: {turn['content']}" for turn in previous_turns)
-    return f"Previous conversation:\n{context}\n\nFollow-up question:\n{question['question']}"
+    rewrite = rewrite_followup_question(question["question"], previous_turns)
+    memory_context = build_memory_context(previous_turns) if rewrite["memory_used"] else {}
+    return {
+        "original_question": rewrite["original_question"],
+        "query_text": rewrite["rewritten_question"],
+        "is_followup": rewrite["is_followup"],
+        "memory_used": rewrite["memory_used"],
+        "rewrite_strategy": rewrite["rewrite_strategy"],
+        "memory_context": memory_context_text(memory_context),
+    }
 
 
 def _retrieval_expected_documents(question: dict) -> list[str]:
@@ -96,7 +104,8 @@ def run_prompt_experiment(
     for index, question in enumerate(questions, start=1):
         print(f"[{index}/{len(questions)}] {question['question_id']} {config.prompt_version}", flush=True)
         started = time.perf_counter()
-        query_text = _query_with_memory(question)
+        query_plan = _query_plan(question)
+        query_text = query_plan["query_text"]
         chunks = retrieve_chunks(query_text, question["user_role"], retrieval_config)
         answer = generate_answer(
             query_text,
@@ -107,6 +116,8 @@ def run_prompt_experiment(
             prompt_version=config.prompt_version,
             model=config.model,
             temperature=config.temperature,
+            memory_context=query_plan["memory_context"],
+            original_question=query_plan["original_question"],
         )
         latency_ms = int((time.perf_counter() - started) * 1000)
         expected_docs = _retrieval_expected_documents(question)
@@ -140,6 +151,11 @@ def run_prompt_experiment(
             "prompt_version": answer.get("prompt_version"),
             "model": answer.get("model"),
             "temperature": answer.get("temperature"),
+            "original_question": query_plan["original_question"],
+            "rewritten_question": query_text,
+            "is_followup": query_plan["is_followup"],
+            "memory_used": query_plan["memory_used"],
+            "rewrite_strategy": query_plan["rewrite_strategy"],
             **scores,
         }
         failed_item = failed_question_item(question, row_for_scoring, scores)

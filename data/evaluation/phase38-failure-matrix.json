@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-06-21T18:43:34.659637+00:00",
+  "source_path": "data/evaluation/failed-questions/failed-questions.json",
+  "source_revision": "HEAD",
+  "source_run_id": "phase35-citation-alignment-v7",
+  "source_benchmark_version": "1.1",
+  "source_failed_question_count": 16,
+  "buckets": [
+    {
+      "failure_type": "ambiguity_failure",
+      "count": 5,
+      "question_ids": [
+        "AMB-006",
+        "AMB-007",
+        "AMB-008",
+        "AMB-009",
+        "AMB-010"
+      ],
+      "primary_remediation": "Return a clarification before generation when approval context is underspecified."
+    },
+    {
+      "failure_type": "incomplete_answer",
+      "count": 2,
+      "question_ids": [
+        "MULTI-007",
+        "ADV-005"
+      ],
+      "primary_remediation": "Prompt for all supported required facts and exact thresholds when evidence is present."
+    },
+    {
+      "failure_type": "multi_document_failure",
+      "count": 3,
+      "question_ids": [
+        "MULTI-005",
+        "MULTI-008",
+        "MULTI-013"
+      ],
+      "primary_remediation": "Keep visible for Phase 39 query decomposition and source-coverage planning."
+    },
+    {
+      "failure_type": "retrieval_miss",
+      "count": 1,
+      "question_ids": [
+        "MEM-004"
+      ],
+      "primary_remediation": "Use the same memory-aware query rewrite path as the live assistant."
+    },
+    {
+      "failure_type": "unsupported_answer",
+      "count": 2,
+      "question_ids": [
+        "MULTI-020",
+        "ADV-001"
+      ],
+      "primary_remediation": "Treat adversarial source instructions as evidence, not assistant instructions."
+    },
+    {
+      "failure_type": "wrong_citation",
+      "count": 3,
+      "question_ids": [
+        "MULTI-004",
+        "MULTI-014",
+        "MULTI-017"
+      ],
+      "primary_remediation": "Prefer exact supporting chunks and backfill citations only from retrieved, permission-filtered chunks."
+    }
+  ]
+}

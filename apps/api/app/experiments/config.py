@@ -38,6 +38,7 @@ def prompt_experiment_config(prompt_version: str) -> ExperimentConfig:
         "v5": "Targeted unsupported-answer cleanup for failed-question backlog.",
         "v6": "Phase 34 grounded abstention candidate. Separates unavailable details from unsupported answer claims.",
         "v7": "Phase 35 citation-alignment candidate. Preserves grounded abstention and tightens multi-source citation coverage.",
+        "v8": "Phase 38 answer-quality remediation candidate. Preserves citation alignment while tightening completeness and adversarial-source behavior.",
     }.get(prompt_version, prompt.change_notes)
     return ExperimentConfig(
         experiment_id=f"phase11-answer-generation-{prompt_version}",
@@ -50,4 +51,4 @@ def prompt_experiment_config(prompt_version: str) -> ExperimentConfig:
 
 
 def default_prompt_experiment_configs() -> list[ExperimentConfig]:
-    return [prompt_experiment_config(version) for version in ["v1", "v2", "v3", "v5", "v6", "v7"]]
+    return [prompt_experiment_config(version) for version in ["v1", "v2", "v3", "v5", "v6", "v7", "v8"]]

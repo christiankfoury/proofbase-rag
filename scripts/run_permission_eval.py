@@ -92,7 +92,9 @@ def _retrieved_document_ids(chunks) -> list[str]:
 def _write_report(summary: dict, unauthorized_rows: list[dict], authorized_rows: list[dict], report_path: Path) -> None:
     report_path.parent.mkdir(parents=True, exist_ok=True)
     normalized_report_path = str(report_path).replace("\\", "/")
-    if "phase-36" in normalized_report_path:
+    if "phase-38" in normalized_report_path:
+        title = "Phase 38 Permission Safety Results"
+    elif "phase-36" in normalized_report_path:
         title = "Phase 36 Permission Safety Results"
     elif "phase-34" in normalized_report_path:
         title = "Phase 34 Permission Safety Results"

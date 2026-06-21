@@ -6,7 +6,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     database_url: str = "postgresql://postgres:postgres@localhost:5432/enterprise_knowledge_agent"
-    openai_api_key: str = ""
+    openai_api_key: str = Field(
+        default="",
+        validation_alias=AliasChoices("OPENAI_API_KEY", "openai_api_key"),
+    )
     openai_embedding_model: str = "text-embedding-3-small"
     openai_chat_model: str = Field(
         default="gpt-4.1-mini",

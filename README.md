@@ -2,7 +2,7 @@
 
 Enterprise Knowledge Agent is a portfolio-grade enterprise RAG system that simulates a secure internal company assistant. Users work inside project and department knowledge spaces, ask scoped questions across synthetic HR, IT/security, sales, manager, finance, legal, engineering, support, operations, HR admin, and IT admin documents, and receive cited, permission-aware answers.
 
-This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, local demo auth, project workspaces, department document libraries, PDF-to-Markdown review uploads, scoped retrieval, a 130-question benchmark corpus with legacy 60-question primary evaluation runs, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, human review workflows, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
+This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, local demo auth, project workspaces, department document libraries, PDF-to-Markdown review uploads, scoped retrieval, a 130-question benchmark corpus with current benchmark v1.1 retrieval and answer-quality runs, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, human review workflows, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
 
 ## Recruiter Summary
 
@@ -14,7 +14,7 @@ The main portfolio story:
 
 ## Why This Is Not A Basic Chatbot
 
-- Evaluation-first: a 130-question benchmark corpus measures retrieval, answer quality, citations, permissions, memory, missing information, multi-document reasoning, prompt-injection handling, and conflicting-source handling; current measured dashboard runs still use the legacy 60-question primary suites, with separate permission and memory suites.
+- Evaluation-first: a 130-question benchmark corpus measures retrieval, answer quality, citations, permissions, memory, missing information, multi-document reasoning, prompt-injection handling, and conflicting-source handling; current retrieval and answer-quality scorecard runs use benchmark v1.1, with separate permission and memory safety suites.
 - Product-shaped: projects, departments, document libraries, PDF extraction review, and scoped assistant controls make the demo feel like a real internal app.
 - Permission-aware: restricted documents are filtered before generation, and permission leakage is evaluated separately.
 - Citation-focused: generated answers include citations and citation validation.
@@ -103,7 +103,7 @@ More detail:
 
 ## Evaluation Benchmark
 
-The benchmark corpus contains 130 synthetic enterprise questions. Current primary retrieval and answer-quality dashboard runs still come from legacy 60-question pre-expansion subsets, while permission safety and memory have separate smaller suites.
+The benchmark corpus contains 130 synthetic enterprise questions. Current retrieval and answer-quality scorecard runs use benchmark v1.1 over the full 130-question corpus, while permission safety and memory use separate focused suites.
 
 The corpus covers:
 
@@ -135,7 +135,7 @@ Benchmark artifacts:
 
 ## Final Metrics
 
-All numbers below come from existing evaluation outputs produced before the Phase 31 benchmark expansion. They do not all use the same sample size: the active benchmark source corpus has 130 questions, primary retrieval and answer-quality dashboard runs use legacy 60-question subsets, permission safety uses 10 restricted-access questions, and the current memory page reports a 5-question follow-up suite. Chat-generation cost is estimated from configured model pricing; embedding and infrastructure cost are still future work.
+All numbers below come from existing evaluation outputs and do not all use the same sample size. The current retrieval and answer-quality scorecard runs use benchmark v1.1 over 130 questions, permission safety uses 20 restricted-access questions, and memory evaluation uses a separate 20-question follow-up suite plus focused boundary probes. Chat-generation cost is estimated from configured model pricing; embedding and infrastructure cost are still future work.
 
 ### Retrieval
 
@@ -152,23 +152,24 @@ Source: [Phase 6 Evaluation Results](docs/phase-6/evaluation-results.md)
 
 | Metric | Value | Run | Sample |
 |---|---:|---|---:|
-| Answer accuracy | `0.829` | `phase7-answer-quality` | 60 |
-| Citation accuracy | `0.857` | `phase7-answer-quality` | 60 |
-| Hallucination rate | `0.156` | `phase7-answer-quality` | 60 |
+| Answer accuracy | `0.975` | `phase38-answer-quality-remediation-v8` | 130 |
+| Citation accuracy | `0.969` | `phase38-answer-quality-remediation-v8` | 130 |
+| Hallucination rate | `0.000` | `phase38-answer-quality-remediation-v8` | 130 |
+| Failed questions | `6` | `phase38-answer-quality-remediation-v8` | 130 |
 
-Source: [Phase 7 Evaluation Results](docs/phase-7/evaluation-results.md)
+Source: [Phase 38 Evaluation Results](docs/phase-38/answer-quality-remediation-results.md)
 
 ### Permission Safety
 
 | Metric | Value | Run | Sample |
 |---|---:|---|---:|
-| Permission leakage rate | `0.000` | `phase8-permission-safety` | 10 |
-| Blocked-answer accuracy | `1.000` | `phase8-permission-safety` | 10 |
-| Unauthorized chunk exposure rate | `0.000` | `phase8-permission-safety` | 10 |
-| Restricted citation leakage rate | `0.000` | `phase8-permission-safety` | 10 |
-| Unauthorized chunks reached generation rate | `0.000` | `phase8-permission-safety` | 10 |
+| Permission leakage rate | `0.000` | `phase38-permission-evaluation` | 20 |
+| Blocked-answer accuracy | `1.000` | `phase38-permission-evaluation` | 20 |
+| Unauthorized chunk exposure rate | `0.000` | `phase38-permission-evaluation` | 20 |
+| Restricted citation leakage rate | `0.000` | `phase38-permission-evaluation` | 20 |
+| Unauthorized chunks reached generation rate | `0.000` | `phase38-permission-evaluation` | 20 |
 
-Source: [Phase 8 Permission Evaluation Results](docs/phase-8/permission-evaluation-results.md)
+Source: [Phase 38 Permission Evaluation Results](docs/phase-38/permission-safety-results.md)
 
 ### Conversation Memory
 
@@ -368,7 +369,7 @@ Open the dashboard after exporting data. Run the benchmark validator before publ
 - There are no real SharePoint, Slack, Teams, Google Drive, or HRIS connectors yet.
 - Raw document storage still uses repository files, not Azure Blob Storage.
 - Chat-generation cost is estimated from configured model pricing; embedding, hosting, and Azure infrastructure costs are not included yet.
-- `MULTI-005` still fails due to a `SALES-002` retrieval miss.
+- The current answer-quality run still has 6 failed questions, concentrated in multi-document source coverage and citation-source completeness.
 - Multi-document detection is heuristic.
 - The `/chat` page is a demo UI backed by local demo auth, not a production end-user assistant with SSO/session hardening.
 - Project-scoped retrieval is implemented for `/chat` and `POST /query` when a scope is supplied. Dev/Admin benchmark tools can still use the global retrieval path when no scope is supplied.

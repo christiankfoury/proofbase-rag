@@ -34,7 +34,7 @@ The App side surfaces projects, departments, document libraries, PDF-to-Markdown
 
 ## Evaluation-First Approach
 
-Before optimizing the system, I created a benchmark source corpus that now contains 130 questions. The current primary retrieval and answer-quality dashboard runs still use legacy 60-question pre-expansion subsets, with separate 10-question permission safety and 5-question memory suites covering:
+Before optimizing the system, I created a benchmark source corpus that now contains 130 questions. The current retrieval and answer-quality scorecard runs use benchmark v1.1, with separate permission safety and memory suites covering:
 
 - Simple factual questions.
 - Multi-document questions.
@@ -73,9 +73,10 @@ Retrieval:
 
 Answer quality:
 
-- Answer accuracy: `0.829`
-- Citation accuracy: `0.857`
-- Hallucination rate: `0.156`
+- Answer accuracy: `0.975`
+- Citation accuracy: `0.969`
+- Hallucination rate: `0.000`
+- Current failed questions: `6`
 
 Permission safety:
 
