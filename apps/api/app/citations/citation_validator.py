@@ -11,18 +11,21 @@ STOP_WORDS = {
     "and",
     "are",
     "available",
+    "based",
     "because",
     "been",
     "but",
     "can",
     "could",
     "does",
+    "evidence",
     "for",
     "from",
     "has",
     "have",
     "how",
     "into",
+    "limited",
     "may",
     "must",
     "not",
@@ -33,6 +36,7 @@ STOP_WORDS = {
     "their",
     "this",
     "through",
+    "supporting",
     "with",
     "within",
     "would",
@@ -52,13 +56,24 @@ def _chunk_lookup(chunks: list[RetrievedChunk]) -> dict[str, RetrievedChunk]:
     return {chunk.chunk_id: chunk for chunk in chunks}
 
 
+def _claim_segments(answer: str) -> list[str]:
+    normalized = re.sub(r"^based on limited supporting evidence,\s*", "", answer.strip(), flags=re.IGNORECASE)
+    segments = [segment.strip() for segment in re.split(r"(?<=[.!?])\s+", normalized) if segment.strip()]
+    return segments or [normalized]
+
+
 def _confidence_from_overlap(answer: str, citation_text: str, chunk: RetrievedChunk) -> float:
-    answer_terms = _terms(answer)
+    answer_terms = [_terms(answer), *[_terms(segment) for segment in _claim_segments(answer)]]
     evidence_terms = _terms(f"{citation_text} {chunk.content}")
-    if not answer_terms:
+    overlap_scores = [
+        len(claim_terms & evidence_terms) / len(claim_terms)
+        for claim_terms in answer_terms
+        if claim_terms
+    ]
+    if not overlap_scores:
         overlap_score = 0.0
     else:
-        overlap_score = len(answer_terms & evidence_terms) / len(answer_terms)
+        overlap_score = max(overlap_scores)
     rank_score = max(0.0, 1.0 - ((chunk.rank - 1) * 0.12))
     retrieval_score = min(max(chunk.score, 0.0), 1.0)
     return round((0.55 * overlap_score) + (0.25 * rank_score) + (0.20 * retrieval_score), 3)

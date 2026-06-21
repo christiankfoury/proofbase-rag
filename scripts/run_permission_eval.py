@@ -75,11 +75,12 @@ def _retrieved_document_ids(chunks) -> list[str]:
 
 def _write_report(summary: dict, unauthorized_rows: list[dict], authorized_rows: list[dict], report_path: Path) -> None:
     report_path.parent.mkdir(parents=True, exist_ok=True)
-    title = (
-        "Phase 33 Permission Candidate Results"
-        if summary["retrieval_mode"] == "vector_lexical_rerank"
-        else "Phase 8 Permission Evaluation Results"
-    )
+    if "phase-34" in str(report_path).replace("\\", "/"):
+        title = "Phase 34 Permission Safety Results"
+    elif summary["retrieval_mode"] == "vector_lexical_rerank":
+        title = "Phase 33 Permission Candidate Results"
+    else:
+        title = "Phase 8 Permission Evaluation Results"
     lines = [
         f"# {title}",
         "",

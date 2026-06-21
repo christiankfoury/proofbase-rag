@@ -87,6 +87,17 @@ MISSING_PATTERNS = [
     "prior hr investigations",
     "investigation outcome",
     "investigation outcomes",
+    "who exactly is listed",
+    "listed in the legal signature authority register",
+    "named signatories",
+    "exact signatories",
+    "exact payroll-close change-freeze dates",
+    "final root cause for the current customer incident",
+    "apply for a company credit card",
+    "pre-approved for data residency commitments",
+    "payroll deduction amount",
+    "private step-by-step rollback checklist",
+    "reimbursement limit applies to family travel",
 ]
 
 AMBIGUOUS_PATTERNS = [

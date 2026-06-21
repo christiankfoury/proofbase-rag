@@ -13,6 +13,8 @@ class ExperimentConfig:
     retrieval_mode: str = "vector_only"
     chunking_strategy: str = "section_based"
     top_k: int = 5
+    reranker: str | None = None
+    rerank_candidate_limit: int | None = None
     prompt_name: str = "answer_generation"
     prompt_version: str = "v1"
     model: str = "gpt-4.1-mini"
@@ -34,6 +36,7 @@ def prompt_experiment_config(prompt_version: str) -> ExperimentConfig:
         "v2": "Stricter citation requirements and multi-document citation expectations.",
         "v3": "Stricter not-found and unsupported-claim behavior.",
         "v5": "Targeted unsupported-answer cleanup for failed-question backlog.",
+        "v6": "Phase 34 grounded abstention candidate. Separates unavailable details from unsupported answer claims.",
     }.get(prompt_version, prompt.change_notes)
     return ExperimentConfig(
         experiment_id=f"phase11-answer-generation-{prompt_version}",
@@ -46,4 +49,4 @@ def prompt_experiment_config(prompt_version: str) -> ExperimentConfig:
 
 
 def default_prompt_experiment_configs() -> list[ExperimentConfig]:
-    return [prompt_experiment_config(version) for version in ["v1", "v2", "v3", "v5"]]
+    return [prompt_experiment_config(version) for version in ["v1", "v2", "v3", "v5", "v6"]]

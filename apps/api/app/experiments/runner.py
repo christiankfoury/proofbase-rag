@@ -83,6 +83,8 @@ def run_prompt_experiment(
         retrieval_mode=config.retrieval_mode,
         chunking_strategy=config.chunking_strategy,
         top_k=config.top_k,
+        reranker=config.reranker,
+        rerank_candidate_limit=config.rerank_candidate_limit,
         prompt_version=config.prompt_version,
         model=config.model,
     )
