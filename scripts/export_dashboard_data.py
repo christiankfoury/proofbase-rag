@@ -29,6 +29,7 @@ EXPANDED_BASELINE_DIR = ROOT / "data/evaluation/expanded-baseline"
 PROMPT_COMPARISON_PATH = PROMPT_EXPERIMENT_DIR / "prompt-comparison.json"
 MULTI_DOC_EVAL_PATH = ROOT / "data/evaluation/multi-doc-eval.json"
 PHASE33_DIAGNOSTICS_PATH = ROOT / "data/evaluation/phase33-precision-diagnostics.json"
+PHASE33_NO_EGRESS_PATH = ROOT / "data/evaluation/phase33-no-egress-candidates.json"
 
 REQUIRED_REPORTS = [
     PHASE6_RESULTS,
@@ -554,6 +555,7 @@ def _phase33_precision_readiness() -> dict[str, Any]:
         return {}
 
     diagnostics = json.loads(PHASE33_DIAGNOSTICS_PATH.read_text(encoding="utf-8"))
+    no_egress = json.loads(PHASE33_NO_EGRESS_PATH.read_text(encoding="utf-8")) if PHASE33_NO_EGRESS_PATH.exists() else {}
     top_k_replay = diagnostics.get("top_k_replay") or []
     rerank_replay = diagnostics.get("saved_top5_lexical_rerank_replay") or []
     baseline = diagnostics.get("baseline_run") or {}
@@ -608,6 +610,22 @@ def _phase33_precision_readiness() -> dict[str, Any]:
         "best_saved_top5_lexical_rerank_replay": best_gate_preserving(rerank_replay),
         "top_k_replay": candidate_summary(top_k_replay),
         "saved_top5_lexical_rerank_replay": candidate_summary(rerank_replay),
+        "no_egress_keyword_candidates": {
+            "generated_at": no_egress.get("generated_at"),
+            "method": no_egress.get("method"),
+            "network_api_use": no_egress.get("network_api_use"),
+            "answer_generation": no_egress.get("answer_generation"),
+            "candidates": [
+                {
+                    "top_k": candidate.get("top_k"),
+                    "metrics": candidate.get("metrics"),
+                    "phase33_gate": candidate.get("phase33_gate"),
+                    "permission_boundary": candidate.get("permission_boundary"),
+                }
+                for candidate in no_egress.get("candidates", [])
+            ],
+            "notes": no_egress.get("notes", []),
+        } if no_egress else {},
         "required_live_commands": [
             "python scripts/run_phase33_precision_candidate.py",
             "python scripts/run_permission_eval.py",

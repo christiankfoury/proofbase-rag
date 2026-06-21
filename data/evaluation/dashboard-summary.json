@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-21T01:26:50.735122+00:00",
+  "generated_at": "2026-06-21T01:37:16.184977+00:00",
   "source": "docs/phase-6 through docs/phase-33",
   "benchmark_context": {
     "benchmark_version": "1.1",
@@ -1257,6 +1257,139 @@
         "meets_mrr_gate": true
       }
     ],
+    "no_egress_keyword_candidates": {
+      "generated_at": "2026-06-21T01:36:46.248056+00:00",
+      "method": "keyword_only_top_k_sweep",
+      "network_api_use": "none",
+      "answer_generation": "skipped",
+      "candidates": [
+        {
+          "top_k": 1,
+          "metrics": {
+            "any_source_hit": 0.878,
+            "all_sources_hit": 0.656,
+            "expected_source_recall": 0.765,
+            "precision_at_k": 0.878,
+            "mrr": 0.878,
+            "average_latency_ms": 135.869,
+            "failed_question_count": 31
+          },
+          "phase33_gate": {
+            "precision_target_met": true,
+            "recall_gate_met": false,
+            "mrr_gate_met": false
+          },
+          "permission_boundary": {
+            "restricted_question_count": 20,
+            "unauthorized_chunk_exposure_rate": 0.0,
+            "unauthorized_chunks_reached_generation_rate": 0.0,
+            "exposed_questions": [],
+            "unauthorized_generation_questions": []
+          }
+        },
+        {
+          "top_k": 2,
+          "metrics": {
+            "any_source_hit": 0.933,
+            "all_sources_hit": 0.756,
+            "expected_source_recall": 0.846,
+            "precision_at_k": 0.678,
+            "mrr": 0.906,
+            "average_latency_ms": 143.254,
+            "failed_question_count": 22
+          },
+          "phase33_gate": {
+            "precision_target_met": false,
+            "recall_gate_met": false,
+            "mrr_gate_met": false
+          },
+          "permission_boundary": {
+            "restricted_question_count": 20,
+            "unauthorized_chunk_exposure_rate": 0.0,
+            "unauthorized_chunks_reached_generation_rate": 0.0,
+            "exposed_questions": [],
+            "unauthorized_generation_questions": []
+          }
+        },
+        {
+          "top_k": 3,
+          "metrics": {
+            "any_source_hit": 0.978,
+            "all_sources_hit": 0.844,
+            "expected_source_recall": 0.911,
+            "precision_at_k": 0.607,
+            "mrr": 0.92,
+            "average_latency_ms": 137.669,
+            "failed_question_count": 14
+          },
+          "phase33_gate": {
+            "precision_target_met": false,
+            "recall_gate_met": false,
+            "mrr_gate_met": false
+          },
+          "permission_boundary": {
+            "restricted_question_count": 20,
+            "unauthorized_chunk_exposure_rate": 0.0,
+            "unauthorized_chunks_reached_generation_rate": 0.0,
+            "exposed_questions": [],
+            "unauthorized_generation_questions": []
+          }
+        },
+        {
+          "top_k": 4,
+          "metrics": {
+            "any_source_hit": 0.989,
+            "all_sources_hit": 0.933,
+            "expected_source_recall": 0.961,
+            "precision_at_k": 0.561,
+            "mrr": 0.921,
+            "average_latency_ms": 137.354,
+            "failed_question_count": 6
+          },
+          "phase33_gate": {
+            "precision_target_met": false,
+            "recall_gate_met": true,
+            "mrr_gate_met": false
+          },
+          "permission_boundary": {
+            "restricted_question_count": 20,
+            "unauthorized_chunk_exposure_rate": 0.0,
+            "unauthorized_chunks_reached_generation_rate": 0.0,
+            "exposed_questions": [],
+            "unauthorized_generation_questions": []
+          }
+        },
+        {
+          "top_k": 5,
+          "metrics": {
+            "any_source_hit": 1.0,
+            "all_sources_hit": 0.956,
+            "expected_source_recall": 0.978,
+            "precision_at_k": 0.513,
+            "mrr": 0.923,
+            "average_latency_ms": 140.0,
+            "failed_question_count": 4
+          },
+          "phase33_gate": {
+            "precision_target_met": false,
+            "recall_gate_met": true,
+            "mrr_gate_met": false
+          },
+          "permission_boundary": {
+            "restricted_question_count": 20,
+            "unauthorized_chunk_exposure_rate": 0.0,
+            "unauthorized_chunks_reached_generation_rate": 0.0,
+            "exposed_questions": [],
+            "unauthorized_generation_questions": []
+          }
+        }
+      ],
+      "notes": [
+        "Keyword-only retrieval is a no-egress local baseline and does not call OpenAI embeddings.",
+        "No candidate satisfies precision, recall, and MRR gates together.",
+        "Permission-boundary metrics are retrieval-only and do not measure answer refusal or citation leakage."
+      ]
+    },
     "required_live_commands": [
       "python scripts/run_phase33_precision_candidate.py",
       "python scripts/run_permission_eval.py",
