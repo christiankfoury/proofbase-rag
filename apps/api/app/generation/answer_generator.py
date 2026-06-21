@@ -6,7 +6,7 @@ from openai import OpenAI
 
 from apps.api.app.audit.audit_logger import log_audit_event
 from apps.api.app.citations.citation_formatter import fallback_citation
-from apps.api.app.citations.citation_validator import validate_citations
+from apps.api.app.citations.citation_validator import claim_overlap_score, citation_support_confidence, validate_citations
 from apps.api.app.confidence.confidence_scorer import final_confidence
 from apps.api.app.costing.estimator import estimate_chat_cost
 from apps.api.app.core.config import get_settings
@@ -75,12 +75,13 @@ MISSING_PATTERNS = [
     "immigration",
     "exact pricing",
     "pricing table",
-    "roadmap",
+    "which roadmap features are committed",
     "customer-specific",
     "contract commitment",
-    "password",
-    "token",
-    "secret",
+    "production admin passwords",
+    "admin passwords",
+    "access tokens",
+    "secrets",
     "severity scoring",
     "detailed outcomes",
     "hr investigations",
@@ -107,6 +108,11 @@ AMBIGUOUS_PATTERNS = [
     "expense a course",
     "move this opportunity to proposal",
 ]
+
+CITATION_BACKFILL_RESPONSE_TYPES = {RESPONSE_ANSWER, RESPONSE_PARTIAL_ANSWER}
+CITATION_BACKFILL_MIN_CONFIDENCE = 0.58
+CITATION_BACKFILL_MIN_OVERLAP = 0.28
+CITATION_BACKFILL_LIMIT = 3
 
 
 def _parse_json_object(text: str) -> dict | None:
@@ -305,6 +311,65 @@ def _citations_from_structured_response(parsed: dict, chunks: list[RetrievedChun
     return citations
 
 
+def _backfill_supporting_citations(
+    answer: str,
+    response_type: str,
+    citations: list[dict],
+    chunks: list[RetrievedChunk],
+) -> list[dict]:
+    if response_type not in CITATION_BACKFILL_RESPONSE_TYPES or not answer.strip() or not chunks:
+        return citations
+
+    seen_chunk_ids = {str(citation.get("chunk_id")) for citation in citations if citation.get("chunk_id")}
+    seen_document_ids = {str(citation.get("document_id")) for citation in citations if citation.get("document_id")}
+    candidates = []
+    for chunk in chunks:
+        if chunk.chunk_id in seen_chunk_ids:
+            continue
+        citation_text = chunk.content[:240]
+        confidence = citation_support_confidence(answer, citation_text, chunk)
+        overlap = claim_overlap_score(answer, chunk.content)
+        if confidence < CITATION_BACKFILL_MIN_CONFIDENCE or overlap < CITATION_BACKFILL_MIN_OVERLAP:
+            continue
+        candidates.append(
+            {
+                "chunk": chunk,
+                "confidence": confidence,
+                "overlap": overlap,
+                "adds_document": chunk.document_id not in seen_document_ids,
+            }
+        )
+
+    candidates.sort(
+        key=lambda item: (
+            1 if item["adds_document"] else 0,
+            item["confidence"],
+            item["overlap"],
+            item["chunk"].score,
+        ),
+        reverse=True,
+    )
+
+    backfilled = list(citations)
+    added = 0
+    for candidate in candidates:
+        chunk = candidate["chunk"]
+        if chunk.chunk_id in seen_chunk_ids:
+            continue
+        if chunk.document_id in seen_document_ids:
+            continue
+        citation = fallback_citation(chunk)
+        citation["citation_type"] = "verified_backfill"
+        citation["confidence"] = candidate["confidence"]
+        backfilled.append(citation)
+        seen_chunk_ids.add(chunk.chunk_id)
+        seen_document_ids.add(chunk.document_id)
+        added += 1
+        if added >= CITATION_BACKFILL_LIMIT:
+            break
+    return backfilled
+
+
 def classify_behavior(answer: str, fallback: str = "answer") -> str:
     normalized = answer.lower()
     restricted_markers = [
@@ -457,6 +522,7 @@ def generate_answer(
         supported_claims = []
         unsupported_claims = ["Model did not return structured JSON."]
 
+    citations = _backfill_supporting_citations(answer, response_type, citations, chunks)
     validation = validate_citations(answer, citations, chunks)
     unsupported_claims = list(dict.fromkeys(unsupported_claims + validation["unsupported_claims"]))
     response_type = _adjust_response_type(response_type, validation["citation_confidence"], unsupported_claims, multi_doc=multi_doc)

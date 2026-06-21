@@ -148,6 +148,11 @@ export type EnrichedFailure = {
   actual_answer?: string;
   actual_citations?: Citation[];
   actual_citation_documents?: string[];
+  citation_failure_categories?: string[];
+  citation_failure_labels?: string[];
+  missing_citation_documents?: string[];
+  unexpected_citation_documents?: string[];
+  restricted_citation_documents?: string[];
   retrieved_documents?: string[];
   retrieved_chunks?: RetrievedChunk[];
   confidence?: number | null;

@@ -1,0 +1,699 @@
+{
+  "generated_at": "2026-06-21T04:23:37.749519+00:00",
+  "source_run": "data\\evaluation\\expanded-baseline\\phase35-citation-alignment-v7.json",
+  "run_id": "phase35-citation-alignment-v7",
+  "run_name": "citation-alignment-v7",
+  "citation_accuracy": 0.95,
+  "hallucination_rate": 0.0,
+  "failed_question_count": 16,
+  "citation_failure_question_count": 23,
+  "category_counts": {
+    "citation_attached_to_unsupported_claim": 1,
+    "citation_missing": 7,
+    "right_document_wrong_chunk": 12,
+    "wrong_document_cited": 9
+  },
+  "failures": [
+    {
+      "question_id": "FACT-001",
+      "question_type": "simple_factual",
+      "expected_sources": [
+        "HR-001"
+      ],
+      "citation_documents": [
+        "HR-001",
+        "HR-003"
+      ],
+      "retrieved_documents": [
+        "HR-001",
+        "HR-003",
+        "HR-002",
+        "HR-004"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "wrong_document_cited"
+      ],
+      "citation_failure_labels": [
+        "Wrong document cited"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [
+        "HR-003"
+      ],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "FACT-011",
+      "question_type": "simple_factual",
+      "expected_sources": [
+        "HR-004"
+      ],
+      "citation_documents": [
+        "HR-004",
+        "FIN-001"
+      ],
+      "retrieved_documents": [
+        "HR-004",
+        "FIN-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "wrong_document_cited"
+      ],
+      "citation_failure_labels": [
+        "Wrong document cited"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [
+        "FIN-001"
+      ],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "FACT-013",
+      "question_type": "simple_factual",
+      "expected_sources": [
+        "IT-001"
+      ],
+      "citation_documents": [
+        "IT-001",
+        "IT-003"
+      ],
+      "retrieved_documents": [
+        "IT-001",
+        "IT-003"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "wrong_document_cited"
+      ],
+      "citation_failure_labels": [
+        "Wrong document cited"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [
+        "IT-003"
+      ],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "FACT-015",
+      "question_type": "simple_factual",
+      "expected_sources": [
+        "IT-003"
+      ],
+      "citation_documents": [
+        "IT-003",
+        "HR-001"
+      ],
+      "retrieved_documents": [
+        "IT-003",
+        "HR-001",
+        "IT-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "wrong_document_cited"
+      ],
+      "citation_failure_labels": [
+        "Wrong document cited"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [
+        "HR-001"
+      ],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MULTI-001",
+      "question_type": "multi_document",
+      "expected_sources": [
+        "HR-003",
+        "IT-002"
+      ],
+      "citation_documents": [
+        "HR-003",
+        "IT-002"
+      ],
+      "retrieved_documents": [
+        "HR-003",
+        "IT-002"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "right_document_wrong_chunk"
+      ],
+      "citation_failure_labels": [
+        "Right document but wrong chunk"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MULTI-004",
+      "question_type": "multi_document",
+      "expected_sources": [
+        "SALES-002",
+        "SALES-003"
+      ],
+      "citation_documents": [
+        "SALES-003"
+      ],
+      "retrieved_documents": [
+        "SALES-003",
+        "SALES-001",
+        "SALES-002"
+      ],
+      "citation_accuracy": 0.5,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "citation_missing"
+      ],
+      "citation_failure_labels": [
+        "Citation missing"
+      ],
+      "missing_citation_documents": [
+        "SALES-002"
+      ],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MULTI-005",
+      "question_type": "multi_document",
+      "expected_sources": [
+        "SALES-001",
+        "SALES-002"
+      ],
+      "citation_documents": [
+        "SALES-001"
+      ],
+      "retrieved_documents": [
+        "SALES-001",
+        "LEGAL-001"
+      ],
+      "citation_accuracy": 0.5,
+      "answer_accuracy": 0.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "right_document_wrong_chunk",
+        "citation_missing"
+      ],
+      "citation_failure_labels": [
+        "Right document but wrong chunk",
+        "Citation missing"
+      ],
+      "missing_citation_documents": [
+        "SALES-002"
+      ],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MULTI-006",
+      "question_type": "multi_document",
+      "expected_sources": [
+        "MGR-001",
+        "MGR-002"
+      ],
+      "citation_documents": [
+        "MGR-002",
+        "MGR-001"
+      ],
+      "retrieved_documents": [
+        "MGR-002",
+        "MGR-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "right_document_wrong_chunk"
+      ],
+      "citation_failure_labels": [
+        "Right document but wrong chunk"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MULTI-007",
+      "question_type": "multi_document",
+      "expected_sources": [
+        "HR-003",
+        "IT-002"
+      ],
+      "citation_documents": [
+        "IT-002",
+        "HR-003"
+      ],
+      "retrieved_documents": [
+        "HR-003",
+        "IT-002",
+        "HR-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 0.5,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "right_document_wrong_chunk"
+      ],
+      "citation_failure_labels": [
+        "Right document but wrong chunk"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MULTI-008",
+      "question_type": "multi_document",
+      "expected_sources": [
+        "HR-001",
+        "HR-004"
+      ],
+      "citation_documents": [
+        "HR-004"
+      ],
+      "retrieved_documents": [
+        "HR-004",
+        "IT-001"
+      ],
+      "citation_accuracy": 0.5,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "right_document_wrong_chunk",
+        "citation_missing"
+      ],
+      "citation_failure_labels": [
+        "Right document but wrong chunk",
+        "Citation missing"
+      ],
+      "missing_citation_documents": [
+        "HR-001"
+      ],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MEM-003",
+      "question_type": "conversation_memory",
+      "expected_sources": [
+        "IT-002"
+      ],
+      "citation_documents": [
+        "IT-002",
+        "HR-003",
+        "IT-001"
+      ],
+      "retrieved_documents": [
+        "IT-002",
+        "HR-003",
+        "IT-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "wrong_document_cited"
+      ],
+      "citation_failure_labels": [
+        "Wrong document cited"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [
+        "HR-003",
+        "IT-001"
+      ],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MEM-004",
+      "question_type": "conversation_memory",
+      "expected_sources": [
+        "SALES-002"
+      ],
+      "citation_documents": [],
+      "retrieved_documents": [
+        "SALES-001",
+        "LEGAL-001"
+      ],
+      "citation_accuracy": 0.0,
+      "answer_accuracy": 0.0,
+      "hallucination_rate": null,
+      "citation_failure_categories": [
+        "citation_missing",
+        "citation_attached_to_unsupported_claim"
+      ],
+      "citation_failure_labels": [
+        "Citation missing",
+        "Citation attached to unsupported claim"
+      ],
+      "missing_citation_documents": [
+        "SALES-002"
+      ],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MEM-006",
+      "question_type": "conversation_memory",
+      "expected_sources": [
+        "IT-001"
+      ],
+      "citation_documents": [
+        "IT-001",
+        "IT-003"
+      ],
+      "retrieved_documents": [
+        "IT-001",
+        "IT-003"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "wrong_document_cited"
+      ],
+      "citation_failure_labels": [
+        "Wrong document cited"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [
+        "IT-003"
+      ],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MEM-008",
+      "question_type": "conversation_memory",
+      "expected_sources": [
+        "SALES-001"
+      ],
+      "citation_documents": [
+        "SALES-001"
+      ],
+      "retrieved_documents": [
+        "SALES-001",
+        "SUPPORT-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "right_document_wrong_chunk"
+      ],
+      "citation_failure_labels": [
+        "Right document but wrong chunk"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MULTI-013",
+      "question_type": "multi_document",
+      "expected_sources": [
+        "SUPPORT-001",
+        "ENG-001"
+      ],
+      "citation_documents": [
+        "SUPPORT-001"
+      ],
+      "retrieved_documents": [
+        "SUPPORT-001",
+        "MGR-001"
+      ],
+      "citation_accuracy": 0.5,
+      "answer_accuracy": 0.5,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "right_document_wrong_chunk",
+        "citation_missing"
+      ],
+      "citation_failure_labels": [
+        "Right document but wrong chunk",
+        "Citation missing"
+      ],
+      "missing_citation_documents": [
+        "ENG-001"
+      ],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MULTI-014",
+      "question_type": "multi_document",
+      "expected_sources": [
+        "SUPPORT-001",
+        "LEGAL-001"
+      ],
+      "citation_documents": [
+        "SUPPORT-001"
+      ],
+      "retrieved_documents": [
+        "SUPPORT-001",
+        "LEGAL-001"
+      ],
+      "citation_accuracy": 0.5,
+      "answer_accuracy": 0.5,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "citation_missing"
+      ],
+      "citation_failure_labels": [
+        "Citation missing"
+      ],
+      "missing_citation_documents": [
+        "LEGAL-001"
+      ],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MULTI-017",
+      "question_type": "multi_document",
+      "expected_sources": [
+        "ENG-001",
+        "IT-003"
+      ],
+      "citation_documents": [
+        "ENG-001",
+        "IT-ADMIN-001"
+      ],
+      "retrieved_documents": [
+        "ENG-001",
+        "IT-ADMIN-001",
+        "IT-003",
+        "IT-002"
+      ],
+      "citation_accuracy": 0.5,
+      "answer_accuracy": 0.5,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "wrong_document_cited",
+        "citation_missing"
+      ],
+      "citation_failure_labels": [
+        "Wrong document cited",
+        "Citation missing"
+      ],
+      "missing_citation_documents": [
+        "IT-003"
+      ],
+      "unexpected_citation_documents": [
+        "IT-ADMIN-001"
+      ],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MULTI-020",
+      "question_type": "multi_document",
+      "expected_sources": [
+        "FIN-001",
+        "OPS-001"
+      ],
+      "citation_documents": [
+        "OPS-001",
+        "FIN-001"
+      ],
+      "retrieved_documents": [
+        "OPS-001",
+        "FIN-001",
+        "IT-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 0.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "right_document_wrong_chunk"
+      ],
+      "citation_failure_labels": [
+        "Right document but wrong chunk"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "MEM-020",
+      "question_type": "conversation_memory",
+      "expected_sources": [
+        "FIN-001"
+      ],
+      "citation_documents": [
+        "FIN-001"
+      ],
+      "retrieved_documents": [
+        "FIN-001",
+        "OPS-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "right_document_wrong_chunk"
+      ],
+      "citation_failure_labels": [
+        "Right document but wrong chunk"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "ADV-001",
+      "question_type": "prompt_injection",
+      "expected_sources": [
+        "LEGAL-001"
+      ],
+      "citation_documents": [
+        "LEGAL-001"
+      ],
+      "retrieved_documents": [
+        "LEGAL-001",
+        "ENG-001",
+        "MGR-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 0.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "right_document_wrong_chunk"
+      ],
+      "citation_failure_labels": [
+        "Right document but wrong chunk"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "ADV-003",
+      "question_type": "prompt_injection",
+      "expected_sources": [
+        "LEGAL-001"
+      ],
+      "citation_documents": [
+        "SALES-001",
+        "LEGAL-001",
+        "SALES-003",
+        "SUPPORT-001"
+      ],
+      "retrieved_documents": [
+        "SALES-003",
+        "SALES-001",
+        "LEGAL-001",
+        "SUPPORT-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "wrong_document_cited"
+      ],
+      "citation_failure_labels": [
+        "Wrong document cited"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [
+        "SALES-001",
+        "SALES-003",
+        "SUPPORT-001"
+      ],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "ADV-004",
+      "question_type": "prompt_injection",
+      "expected_sources": [
+        "SUPPORT-001"
+      ],
+      "citation_documents": [
+        "SUPPORT-001"
+      ],
+      "retrieved_documents": [
+        "SUPPORT-001",
+        "LEGAL-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "right_document_wrong_chunk"
+      ],
+      "citation_failure_labels": [
+        "Right document but wrong chunk"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": []
+    },
+    {
+      "question_id": "CONF-001",
+      "question_type": "conflicting_source",
+      "expected_sources": [
+        "FIN-001"
+      ],
+      "citation_documents": [
+        "FIN-001",
+        "OPS-001"
+      ],
+      "retrieved_documents": [
+        "FIN-001",
+        "OPS-001"
+      ],
+      "citation_accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "citation_failure_categories": [
+        "wrong_document_cited",
+        "right_document_wrong_chunk"
+      ],
+      "citation_failure_labels": [
+        "Wrong document cited",
+        "Right document but wrong chunk"
+      ],
+      "missing_citation_documents": [],
+      "unexpected_citation_documents": [
+        "OPS-001"
+      ],
+      "restricted_citation_documents": []
+    }
+  ]
+}

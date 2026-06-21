@@ -79,6 +79,8 @@ export function FailedQuestionsClient({ failures }: { failures: EnrichedFailure[
                     <p className="mt-2 text-sm text-stone-700">{(item.expected_source_document ?? []).join(", ") || "n/a"}</p>
                     <h4 className="mt-4 font-semibold text-ink">Actual Citation Documents</h4>
                     <p className="mt-2 text-sm text-stone-700">{(item.actual_citation_documents ?? []).join(", ") || "n/a"}</p>
+                    <h4 className="mt-4 font-semibold text-ink">Citation Failure Categories</h4>
+                    <p className="mt-2 text-sm text-stone-700">{(item.citation_failure_labels ?? item.citation_failure_categories ?? []).join(", ") || "n/a"}</p>
                   </section>
                   <section className="rounded border border-stone-300 p-4">
                     <h4 className="font-semibold text-ink">Scoring</h4>
@@ -87,6 +89,12 @@ export function FailedQuestionsClient({ failures }: { failures: EnrichedFailure[
                       <p>Answer confidence: {formatMetric(item.answer_confidence)}</p>
                       <p>Final confidence: {formatMetric(item.confidence)}</p>
                       <p>Expected behavior: {formatLabel(item.expected_behavior)}</p>
+                    </div>
+                    <h4 className="mt-4 font-semibold text-ink">Citation Document Gaps</h4>
+                    <div className="mt-2 space-y-1 text-sm text-stone-700">
+                      <p>Missing: {(item.missing_citation_documents ?? []).join(", ") || "None"}</p>
+                      <p>Unexpected: {(item.unexpected_citation_documents ?? []).join(", ") || "None"}</p>
+                      <p>Restricted: {(item.restricted_citation_documents ?? []).join(", ") || "None"}</p>
                     </div>
                   </section>
                 </div>

@@ -890,7 +890,7 @@ def main() -> None:
     phase33_precision_readiness = _phase33_precision_readiness()
     dashboard = {
         "generated_at": datetime.now(UTC).isoformat(),
-        "source": "docs/phase-6 through docs/phase-33",
+        "source": "docs/phase-6 through docs/phase-35",
         "benchmark_context": benchmark_context,
         "runs": runs,
         "overview": _overview(runs, current_answer_run),
@@ -903,7 +903,7 @@ def main() -> None:
             "All dashboard values are exported from existing evaluation result files.",
             "Estimated cost is calculated from configured chat model pricing where token counts are available.",
             "Answer-quality metrics use deterministic and heuristic scoring, not a human judge.",
-            "Phase 33 precision readiness is diagnostic-only until a live retrieval run and permission safety rerun pass.",
+            "Phase 33 precision readiness is retained as provenance for the retrieval candidate used by later answer-quality runs.",
         ],
     }
 

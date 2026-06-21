@@ -1,3 +1,4 @@
+from apps.api.app.evaluation.citation_failures import citation_failure_summary
 from apps.api.app.evaluation.metrics import all_sources_hit
 
 
@@ -48,6 +49,7 @@ def failed_question_item(question: dict, result: dict, scores: dict) -> dict | N
     failure = failure_type(question, result, scores)
     if not failure:
         return None
+    citation_summary = citation_failure_summary(question, result)
     return {
         "question_id": question["question_id"],
         "question": question["question"],
@@ -66,5 +68,6 @@ def failed_question_item(question: dict, result: dict, scores: dict) -> dict | N
         "citation_confidence": result["citation_confidence"],
         "answer_confidence": result["answer_confidence"],
         "failure_type": failure,
+        **citation_summary,
         "recommended_fix": recommended_fix(failure),
     }

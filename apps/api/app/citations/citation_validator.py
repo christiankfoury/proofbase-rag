@@ -62,21 +62,27 @@ def _claim_segments(answer: str) -> list[str]:
     return segments or [normalized]
 
 
+def claim_overlap_score(answer: str, evidence: str) -> float:
+    evidence_terms = _terms(evidence)
+    if not evidence_terms:
+        return 0.0
+    overlap_scores = []
+    for claim_terms in [_terms(answer), *[_terms(segment) for segment in _claim_segments(answer)]]:
+        if claim_terms:
+            overlap_scores.append(len(claim_terms & evidence_terms) / len(claim_terms))
+    return round(max(overlap_scores) if overlap_scores else 0.0, 3)
+
+
 def _confidence_from_overlap(answer: str, citation_text: str, chunk: RetrievedChunk) -> float:
-    answer_terms = [_terms(answer), *[_terms(segment) for segment in _claim_segments(answer)]]
     evidence_terms = _terms(f"{citation_text} {chunk.content}")
-    overlap_scores = [
-        len(claim_terms & evidence_terms) / len(claim_terms)
-        for claim_terms in answer_terms
-        if claim_terms
-    ]
-    if not overlap_scores:
-        overlap_score = 0.0
-    else:
-        overlap_score = max(overlap_scores)
+    overlap_score = claim_overlap_score(answer, " ".join(evidence_terms))
     rank_score = max(0.0, 1.0 - ((chunk.rank - 1) * 0.12))
     retrieval_score = min(max(chunk.score, 0.0), 1.0)
     return round((0.55 * overlap_score) + (0.25 * rank_score) + (0.20 * retrieval_score), 3)
+
+
+def citation_support_confidence(answer: str, citation_text: str, chunk: RetrievedChunk) -> float:
+    return _confidence_from_overlap(answer, citation_text, chunk)
 
 
 def validate_citations(answer: str, citations: list[dict], chunks: list[RetrievedChunk]) -> dict:
