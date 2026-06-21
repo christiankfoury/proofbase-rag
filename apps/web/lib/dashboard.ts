@@ -101,13 +101,38 @@ export type Phase33PrecisionReadiness = {
     expected_source_recall_minimum?: number | null;
     mrr_minimum?: number | null;
     permission_leakage_rate?: number | null;
+    blocked_answer_accuracy_target?: number | null;
   };
+  live_candidate?: Phase33LiveCandidate | null;
+  permission_candidate?: Phase33PermissionCandidate | null;
   best_top_k_replay?: Phase33ReplaySummary | null;
   best_saved_top5_lexical_rerank_replay?: Phase33ReplaySummary | null;
   top_k_replay?: Phase33ReplaySummary[];
   saved_top5_lexical_rerank_replay?: Phase33ReplaySummary[];
   required_live_commands?: string[];
   notes?: string[];
+};
+
+export type Phase33LiveCandidate = Phase33ReplaySummary & {
+  run_uuid?: string | null;
+  run_name?: string | null;
+  generated_at?: string | null;
+  question_count?: number | null;
+  retrieval_mode?: string | null;
+  average_latency_ms?: number | null;
+  failed_question_ids?: string[];
+};
+
+export type Phase33PermissionCandidate = {
+  restricted_question_count?: number | null;
+  authorized_test_count?: number | null;
+  permission_leakage_rate?: number | null;
+  blocked_answer_accuracy?: number | null;
+  unauthorized_chunk_exposure_rate?: number | null;
+  restricted_citation_leakage_rate?: number | null;
+  unauthorized_chunks_reached_generation_rate?: number | null;
+  authorized_retrieval_accuracy?: number | null;
+  authorized_answer_accuracy?: number | null;
 };
 
 export type Phase33ReplaySummary = {

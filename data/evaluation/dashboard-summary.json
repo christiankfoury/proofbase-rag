@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-21T02:01:38.658889+00:00",
+  "generated_at": "2026-06-21T02:51:03.907535+00:00",
   "source": "docs/phase-6 through docs/phase-33",
   "benchmark_context": {
     "benchmark_version": "1.1",
@@ -747,6 +747,56 @@
       "failed_count": 3,
       "benchmark_version": "1.1",
       "run_timestamp": "2026-06-21T00:19:11.085438+00:00"
+    },
+    {
+      "run_id": "phase33-vector-lexical-rerank-top3",
+      "run_name": "precision-candidate-vector-lexical-rerank-top3",
+      "phase": "phase-33",
+      "run_type": "retrieval_eval",
+      "timestamp": "2026-06-21T02:39:33.851569+00:00",
+      "retrieval_mode": "vector_lexical_rerank",
+      "chunking_strategy": "section_based",
+      "top_k": 3,
+      "reranker": "lexical",
+      "rerank_candidate_limit": 20,
+      "prompt_version": null,
+      "model": null,
+      "total_questions": 130,
+      "source_question_count": 130,
+      "metrics": {
+        "any_source_hit": 0.978,
+        "all_sources_hit": 0.922,
+        "expected_source_recall": 0.95,
+        "precision_at_k": 0.778,
+        "mrr": 0.965,
+        "average_latency_ms": 840.5,
+        "failed_question_count": 7
+      },
+      "failed_questions": [
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-008",
+        "MULTI-010",
+        "AMB-004",
+        "MEM-004",
+        "MULTI-013"
+      ],
+      "category_breakdown": {
+        "ambiguous": 10,
+        "conflicting_source": 5,
+        "conversation_memory": 20,
+        "missing_information": 20,
+        "multi_document": 20,
+        "permission_restricted": 20,
+        "prompt_injection": 5,
+        "simple_factual": 30
+      },
+      "notes": "Phase 33 retrieval-only candidate over benchmark v1.1. Uses the opt-in vector_lexical_rerank mode with permission-filtered vector candidates reranked deterministically before top-k trimming. This run is only publishable as an improvement if the permission safety suite also remains at zero leakage.",
+      "sample_size": 130,
+      "passed_count": 123,
+      "failed_count": 7,
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-06-21T02:39:33.851569+00:00"
     }
   ],
   "overview": {
@@ -1105,21 +1155,59 @@
     "hallucination_regression": true
   },
   "phase33_precision_readiness": {
-    "status": "in_progress",
+    "status": "complete",
     "phase": "phase-33",
-    "generated_at": "2026-06-21T01:59:06.594404+00:00",
+    "generated_at": "2026-06-21T02:01:38.711398+00:00",
     "benchmark_version": "1.1",
-    "diagnostic_source": "saved Phase 32 artifact replay",
+    "diagnostic_source": "live candidate run plus saved Phase 32 artifact replay",
     "input_run_id": "phase32-expanded-retrieval",
     "candidate_mode": "vector_lexical_rerank",
     "candidate_run_id": "phase33-vector-lexical-rerank-top3",
-    "live_run_required": true,
-    "publishable_improvement": false,
+    "live_run_required": false,
+    "publishable_improvement": true,
     "gates": {
       "precision_at_k_target": 0.75,
       "expected_source_recall_minimum": 0.95,
       "mrr_minimum": 0.95,
-      "permission_leakage_rate": 0.0
+      "permission_leakage_rate": 0.0,
+      "blocked_answer_accuracy_target": 1.0
+    },
+    "live_candidate": {
+      "run_uuid": "561d0d0a-e2b4-4d43-8a4a-2ec134773e36",
+      "run_name": "phase33-vector-lexical-rerank-top3",
+      "generated_at": "2026-06-21T02:39:33.851569+00:00",
+      "question_count": 130,
+      "retrieval_mode": "vector_lexical_rerank",
+      "top_k": 3,
+      "precision_at_k": 0.778,
+      "expected_source_recall": 0.95,
+      "all_sources_hit": 0.922,
+      "mrr": 0.965,
+      "average_latency_ms": 840.5,
+      "failed_question_count": 7,
+      "failed_question_ids": [
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-008",
+        "MULTI-010",
+        "AMB-004",
+        "MEM-004",
+        "MULTI-013"
+      ],
+      "meets_precision_target": true,
+      "meets_recall_gate": true,
+      "meets_mrr_gate": true
+    },
+    "permission_candidate": {
+      "restricted_question_count": 20.0,
+      "authorized_test_count": 20.0,
+      "permission_leakage_rate": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunk_exposure_rate": 0.0,
+      "restricted_citation_leakage_rate": 0.0,
+      "unauthorized_chunks_reached_generation_rate": 0.0,
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": null
     },
     "best_top_k_replay": {
       "top_k": 3,
@@ -1401,9 +1489,9 @@
       "python scripts/export_dashboard_data.py"
     ],
     "notes": [
-      "This block is diagnostic readiness evidence, not a completed live retrieval improvement.",
-      "The lexical rerank replay only reorders chunks already present in the saved Phase 32 top-5 artifact.",
-      "Phase 33 completion still requires a live retrieval run plus permission safety verification."
+      "The live Phase 33 candidate is publishable only when retrieval gates and permission safety gates pass together.",
+      "The saved replay remains visible as provenance for why the live candidate was selected.",
+      "Authorized answer accuracy remains pending by default to avoid extra chat-completion cost."
     ]
   },
   "failed_questions": [

@@ -1,6 +1,6 @@
 # Phase 33 Precision Candidate Runbook
 
-Generated at: 2026-06-21T01:58:58.055803+00:00
+Generated at: 2026-06-21T02:39:33.851569+00:00
 
 ## Candidate Config
 
@@ -28,5 +28,6 @@ python scripts/export_dashboard_data.py
 
 ## Current Status
 
-- Dry run only.
+- Live run completed; inspect `precision-candidate-results.md`, `permission-candidate-results.md`, and exported dashboard data.
+- Phase 33 retrieval gates and permission safety gates passed for `phase33-vector-lexical-rerank-top3`.
 - OpenAI-backed retrieval sends benchmark questions to the embedding API; the live commands require `--allow-external-embeddings` and should run only after explicit approval.

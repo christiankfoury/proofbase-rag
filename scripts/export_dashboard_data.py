@@ -30,6 +30,8 @@ PROMPT_COMPARISON_PATH = PROMPT_EXPERIMENT_DIR / "prompt-comparison.json"
 MULTI_DOC_EVAL_PATH = ROOT / "data/evaluation/multi-doc-eval.json"
 PHASE33_DIAGNOSTICS_PATH = ROOT / "data/evaluation/phase33-precision-diagnostics.json"
 PHASE33_NO_EGRESS_PATH = ROOT / "data/evaluation/phase33-no-egress-candidates.json"
+PHASE33_LIVE_CANDIDATE_PATH = EXPANDED_BASELINE_DIR / "phase33-vector-lexical-rerank-top3.json"
+PHASE33_PERMISSION_CANDIDATE_PATH = ROOT / "docs/phase-33/permission-candidate-results.md"
 
 REQUIRED_REPORTS = [
     PHASE6_RESULTS,
@@ -589,23 +591,115 @@ def _phase33_precision_readiness() -> dict[str, Any]:
             return None
         return max(eligible, key=lambda row: row.get("precision_at_k") or 0)
 
+    def metric_float(value: Any) -> float | None:
+        if value is None or value == "pending":
+            return None
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return None
+
+    live_candidate: dict[str, Any] | None = None
+    if PHASE33_LIVE_CANDIDATE_PATH.exists():
+        live_data = json.loads(PHASE33_LIVE_CANDIDATE_PATH.read_text(encoding="utf-8"))
+        summary = live_data.get("summary") or {}
+        results = summary.get("results") or []
+        questions = {
+            question.get("question_id"): question
+            for question in _load_benchmark().get("questions", [])
+            if question.get("question_id")
+        }
+        failed_question_ids = [
+            row.get("question_id")
+            for row in results
+            if row.get("question_id")
+            and questions.get(row.get("question_id"), {}).get("question_type")
+            not in {"permission_restricted", "missing_information"}
+            and questions.get(row.get("question_id"), {}).get("expected_source_document")
+            and row.get("all_sources_hit") is not None
+            and row.get("all_sources_hit") < 1.0
+        ]
+        precision = metric_float(summary.get("precision_at_k"))
+        recall = metric_float(summary.get("expected_source_recall"))
+        mrr = metric_float(summary.get("mrr"))
+        live_candidate = {
+            "run_uuid": summary.get("run_id"),
+            "run_name": summary.get("run_name"),
+            "generated_at": live_data.get("generated_at"),
+            "question_count": summary.get("question_count"),
+            "retrieval_mode": summary.get("retrieval_mode"),
+            "top_k": summary.get("top_k"),
+            "precision_at_k": precision,
+            "expected_source_recall": recall,
+            "all_sources_hit": metric_float(summary.get("all_sources_hit")),
+            "mrr": mrr,
+            "average_latency_ms": metric_float(summary.get("average_latency_ms")),
+            "failed_question_count": len(failed_question_ids),
+            "failed_question_ids": failed_question_ids,
+            "meets_precision_target": precision is not None and precision >= 0.75,
+            "meets_recall_gate": recall is not None and recall >= 0.95,
+            "meets_mrr_gate": mrr is not None and mrr >= 0.95,
+        }
+
+    permission_candidate: dict[str, Any] | None = None
+    if PHASE33_PERMISSION_CANDIDATE_PATH.exists():
+        permission_metrics: dict[str, str] = {}
+        for line in PHASE33_PERMISSION_CANDIDATE_PATH.read_text(encoding="utf-8").splitlines():
+            match = re.match(r"^- ([^:]+): (.+)$", line.strip())
+            if match:
+                key = match.group(1).lower().replace(" ", "_").replace("-", "_")
+                permission_metrics[key] = match.group(2)
+        permission_candidate = {
+            "restricted_question_count": metric_float(permission_metrics.get("restricted_benchmark_questions_tested")),
+            "authorized_test_count": metric_float(permission_metrics.get("authorized_source_access_tests")),
+            "permission_leakage_rate": metric_float(permission_metrics.get("permission_leakage_rate")),
+            "blocked_answer_accuracy": metric_float(permission_metrics.get("blocked_answer_accuracy")),
+            "unauthorized_chunk_exposure_rate": metric_float(permission_metrics.get("unauthorized_chunk_exposure_rate")),
+            "restricted_citation_leakage_rate": metric_float(permission_metrics.get("restricted_citation_leakage_rate")),
+            "unauthorized_chunks_reached_generation_rate": metric_float(
+                permission_metrics.get("unauthorized_chunks_reached_generation_rate")
+            ),
+            "authorized_retrieval_accuracy": metric_float(permission_metrics.get("authorized_retrieval_accuracy")),
+            "authorized_answer_accuracy": metric_float(permission_metrics.get("authorized_answer_accuracy")),
+        }
+
+    live_gates_pass = bool(
+        live_candidate
+        and live_candidate.get("meets_precision_target")
+        and live_candidate.get("meets_recall_gate")
+        and live_candidate.get("meets_mrr_gate")
+    )
+    permission_gates_pass = bool(
+        permission_candidate
+        and permission_candidate.get("permission_leakage_rate") == 0.0
+        and permission_candidate.get("blocked_answer_accuracy") == 1.0
+        and permission_candidate.get("unauthorized_chunk_exposure_rate") == 0.0
+        and permission_candidate.get("restricted_citation_leakage_rate") == 0.0
+        and permission_candidate.get("unauthorized_chunks_reached_generation_rate") == 0.0
+        and permission_candidate.get("authorized_retrieval_accuracy") == 1.0
+    )
+    phase33_complete = live_gates_pass and permission_gates_pass
+
     return {
-        "status": "in_progress",
+        "status": "complete" if phase33_complete else "in_progress",
         "phase": "phase-33",
         "generated_at": diagnostics.get("generated_at"),
         "benchmark_version": diagnostics.get("benchmark_version"),
-        "diagnostic_source": "saved Phase 32 artifact replay",
+        "diagnostic_source": "live candidate run plus saved Phase 32 artifact replay",
         "input_run_id": baseline.get("run_id"),
         "candidate_mode": "vector_lexical_rerank",
         "candidate_run_id": "phase33-vector-lexical-rerank-top3",
-        "live_run_required": True,
-        "publishable_improvement": False,
+        "live_run_required": not phase33_complete,
+        "publishable_improvement": phase33_complete,
         "gates": {
             "precision_at_k_target": 0.75,
             "expected_source_recall_minimum": 0.95,
             "mrr_minimum": 0.95,
             "permission_leakage_rate": 0.0,
+            "blocked_answer_accuracy_target": 1.0,
         },
+        "live_candidate": live_candidate,
+        "permission_candidate": permission_candidate,
         "best_top_k_replay": best_gate_preserving(top_k_replay),
         "best_saved_top5_lexical_rerank_replay": best_gate_preserving(rerank_replay),
         "saved_top5_lexical_rerank_config": diagnostics.get("saved_top5_lexical_rerank_config", {}),
@@ -633,9 +727,9 @@ def _phase33_precision_readiness() -> dict[str, Any]:
             "python scripts/export_dashboard_data.py",
         ],
         "notes": [
-            "This block is diagnostic readiness evidence, not a completed live retrieval improvement.",
-            "The lexical rerank replay only reorders chunks already present in the saved Phase 32 top-5 artifact.",
-            "Phase 33 completion still requires a live retrieval run plus permission safety verification.",
+            "The live Phase 33 candidate is publishable only when retrieval gates and permission safety gates pass together.",
+            "The saved replay remains visible as provenance for why the live candidate was selected.",
+            "Authorized answer accuracy remains pending by default to avoid extra chat-completion cost.",
         ],
     }
 

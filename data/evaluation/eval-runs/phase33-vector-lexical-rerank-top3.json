@@ -1,0 +1,50 @@
+{
+  "run_id": "phase33-vector-lexical-rerank-top3",
+  "run_name": "precision-candidate-vector-lexical-rerank-top3",
+  "phase": "phase-33",
+  "run_type": "retrieval_eval",
+  "timestamp": "2026-06-21T02:39:33.851569+00:00",
+  "retrieval_mode": "vector_lexical_rerank",
+  "chunking_strategy": "section_based",
+  "top_k": 3,
+  "reranker": "lexical",
+  "rerank_candidate_limit": 20,
+  "prompt_version": null,
+  "model": null,
+  "total_questions": 130,
+  "source_question_count": 130,
+  "metrics": {
+    "any_source_hit": 0.978,
+    "all_sources_hit": 0.922,
+    "expected_source_recall": 0.95,
+    "precision_at_k": 0.778,
+    "mrr": 0.965,
+    "average_latency_ms": 840.5,
+    "failed_question_count": 7
+  },
+  "failed_questions": [
+    "MULTI-004",
+    "MULTI-005",
+    "MULTI-008",
+    "MULTI-010",
+    "AMB-004",
+    "MEM-004",
+    "MULTI-013"
+  ],
+  "category_breakdown": {
+    "ambiguous": 10,
+    "conflicting_source": 5,
+    "conversation_memory": 20,
+    "missing_information": 20,
+    "multi_document": 20,
+    "permission_restricted": 20,
+    "prompt_injection": 5,
+    "simple_factual": 30
+  },
+  "notes": "Phase 33 retrieval-only candidate over benchmark v1.1. Uses the opt-in vector_lexical_rerank mode with permission-filtered vector candidates reranked deterministically before top-k trimming. This run is only publishable as an improvement if the permission safety suite also remains at zero leakage.",
+  "sample_size": 130,
+  "passed_count": 123,
+  "failed_count": 7,
+  "benchmark_version": "1.1",
+  "run_timestamp": "2026-06-21T02:39:33.851569+00:00"
+}

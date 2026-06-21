@@ -6,6 +6,6 @@
 - [x] Implement an opt-in lexical reranking candidate.
 - [x] Add same-document coherence boost to the lexical reranking candidate.
 - [x] Add a dry-runnable Phase 33 live evaluation harness.
-- [ ] Run before/after retrieval evaluation on benchmark v1.1.
-- [ ] Verify source recall >= 0.95, MRR >= 0.95, Precision@k >= 0.75, and permission leakage = 0.000.
-- [ ] Export dashboard data with measured Phase 33 run IDs.
+- [x] Run before/after retrieval evaluation on benchmark v1.1.
+- [x] Verify source recall >= 0.95, MRR >= 0.95, Precision@k >= 0.75, and permission leakage = 0.000.
+- [x] Export dashboard data with measured Phase 33 run IDs.

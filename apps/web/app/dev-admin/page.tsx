@@ -66,7 +66,10 @@ export default async function OverviewPage() {
   const benchmarkCategoryBreakdown = sortedBreakdown(benchmarkContext.category_breakdown);
   const suiteSizes = Object.entries(benchmarkContext.current_dashboard_suites ?? {});
   const phase33 = data.phase33_precision_readiness;
+  const phase33Live = phase33?.live_candidate;
+  const phase33Permission = phase33?.permission_candidate;
   const phase33Replay = phase33?.best_saved_top5_lexical_rerank_replay;
+  const phase33Primary = phase33Live ?? phase33Replay;
   const phase33Commands = phase33?.required_live_commands ?? [];
   const progressSummary = data.overview.progress_summary ?? {
     improved: [
@@ -285,10 +288,10 @@ export default async function OverviewPage() {
       </Card>
       {phase33 && Object.keys(phase33).length > 0 ? (
         <section className="mt-8 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-          <Card tone="warn">
+          <Card tone={phase33.publishable_improvement ? "good" : "warn"}>
             <SectionHeading
-              title="Phase 33 Candidate Readiness"
-              description="Saved-artifact replay is visible here so the precision work can be reviewed before the live run."
+              title="Phase 33 Precision Candidate"
+              description="Live retrieval and permission gates are shown first; saved replay remains as candidate-selection evidence."
             />
             <dl className="grid gap-3 text-sm">
               <div className="flex items-center justify-between gap-4">
@@ -311,6 +314,10 @@ export default async function OverviewPage() {
                 <dt className="text-stone-600">Benchmark</dt>
                 <dd className="font-semibold text-ink">{phase33.benchmark_version ?? "not available"}</dd>
               </div>
+              <div className="flex items-center justify-between gap-4">
+                <dt className="text-stone-600">Live run</dt>
+                <dd className="font-semibold text-ink">{phase33Live?.run_name ?? phase33.candidate_run_id ?? "not available"}</dd>
+              </div>
             </dl>
             <p className="mt-4 text-xs leading-5 text-stone-600">
               Source: {phase33.diagnostic_source ?? "not available"} from {phase33.input_run_id ?? "not available"}.
@@ -318,33 +325,37 @@ export default async function OverviewPage() {
           </Card>
           <Card>
             <SectionHeading
-              title="Best Saved Rerank Replay"
-              description="These numbers reorder only the saved Phase 32 top-5 chunks; live retrieval and permission safety are still pending."
+              title={phase33Live ? "Live Candidate Gates" : "Best Saved Rerank Replay"}
+              description={
+                phase33Live
+                  ? "These metrics come from the live vector/lexical rerank run and matching permission safety report."
+                  : "These numbers reorder only the saved Phase 32 top-5 chunks; live retrieval and permission safety are still pending."
+              }
             />
             <div className="grid gap-3 sm:grid-cols-4">
               {[
                 {
                   label: "Precision@k",
-                  value: phase33Replay?.precision_at_k,
+                  value: phase33Primary?.precision_at_k,
                   detail: `Target ${formatMetric(phase33.gates?.precision_at_k_target)}`,
-                  passed: phase33Replay?.meets_precision_target,
+                  passed: phase33Primary?.meets_precision_target,
                 },
                 {
                   label: "Source Recall",
-                  value: phase33Replay?.expected_source_recall,
+                  value: phase33Primary?.expected_source_recall,
                   detail: `Gate ${formatMetric(phase33.gates?.expected_source_recall_minimum)}`,
-                  passed: phase33Replay?.meets_recall_gate,
+                  passed: phase33Primary?.meets_recall_gate,
                 },
                 {
                   label: "MRR",
-                  value: phase33Replay?.mrr,
+                  value: phase33Primary?.mrr,
                   detail: `Gate ${formatMetric(phase33.gates?.mrr_minimum)}`,
-                  passed: phase33Replay?.meets_mrr_gate,
+                  passed: phase33Primary?.meets_mrr_gate,
                 },
                 {
                   label: "Failed Source Questions",
-                  value: phase33Replay?.failed_question_count,
-                  detail: `Top-k ${phase33Replay?.top_k ?? "pending"}`,
+                  value: phase33Primary?.failed_question_count,
+                  detail: `Top-k ${phase33Primary?.top_k ?? "pending"}`,
                   passed: undefined,
                 },
               ].map((item) => (
@@ -370,34 +381,40 @@ export default async function OverviewPage() {
                 <tbody>
                   <tr>
                     <td>Precision@k</td>
-                    <td className="text-right">{formatMetric(phase33Replay?.precision_at_k)}</td>
+                    <td className="text-right">{formatMetric(phase33Primary?.precision_at_k)}</td>
                     <td className="text-right">{formatMetric(phase33.gates?.precision_at_k_target)}</td>
-                    <td>{gateLabel(phase33Replay?.meets_precision_target)}</td>
+                    <td>{gateLabel(phase33Primary?.meets_precision_target)}</td>
                   </tr>
                   <tr>
                     <td>Source recall</td>
-                    <td className="text-right">{formatMetric(phase33Replay?.expected_source_recall)}</td>
+                    <td className="text-right">{formatMetric(phase33Primary?.expected_source_recall)}</td>
                     <td className="text-right">{formatMetric(phase33.gates?.expected_source_recall_minimum)}</td>
-                    <td>{gateLabel(phase33Replay?.meets_recall_gate)}</td>
+                    <td>{gateLabel(phase33Primary?.meets_recall_gate)}</td>
                   </tr>
                   <tr>
                     <td>MRR</td>
-                    <td className="text-right">{formatMetric(phase33Replay?.mrr)}</td>
+                    <td className="text-right">{formatMetric(phase33Primary?.mrr)}</td>
                     <td className="text-right">{formatMetric(phase33.gates?.mrr_minimum)}</td>
-                    <td>{gateLabel(phase33Replay?.meets_mrr_gate)}</td>
+                    <td>{gateLabel(phase33Primary?.meets_mrr_gate)}</td>
                   </tr>
                   <tr>
                     <td>Permission leakage</td>
-                    <td className="text-right">pending</td>
+                    <td className="text-right">{formatMetric(phase33Permission?.permission_leakage_rate)}</td>
                     <td className="text-right">{formatMetric(phase33.gates?.permission_leakage_rate)}</td>
-                    <td>pending live run</td>
+                    <td>{gateLabel(phase33Permission?.permission_leakage_rate === 0)}</td>
+                  </tr>
+                  <tr>
+                    <td>Blocked-answer accuracy</td>
+                    <td className="text-right">{formatMetric(phase33Permission?.blocked_answer_accuracy)}</td>
+                    <td className="text-right">{formatMetric(phase33.gates?.blocked_answer_accuracy_target)}</td>
+                    <td>{gateLabel(phase33Permission?.blocked_answer_accuracy === 1)}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             {phase33Commands.length > 0 ? (
               <div className="mt-5">
-                <p className="font-semibold text-ink">Required live checks</p>
+                <p className="font-semibold text-ink">{phase33.live_run_required ? "Required live checks" : "Completed live checks"}</p>
                 <ul className="mt-2 space-y-2 text-sm text-stone-700">
                   {phase33Commands.map((command) => (
                     <li key={command}>

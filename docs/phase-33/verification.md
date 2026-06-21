@@ -1,17 +1,20 @@
 # Phase 33 Verification
 
-Generated at: 2026-06-21T02:01:38.711398+00:00
+Generated at: 2026-06-21T02:47:01.241748+00:00
 
 ## Completed Checks
 
 - `python scripts/test_phase33_reranker.py`
 - `python scripts/test_phase33_precision_candidate_config.py`
 - `python scripts/test_phase33_permission_eval_config.py`
+- `python scripts/test_phase33_restricted_policy.py`
 - `python scripts/run_phase33_precision_candidate.py` guarded no-approval check
 - `python scripts/run_permission_eval.py --retrieval-mode vector_lexical_rerank --top-k 3 --rerank-candidate-limit 20` guarded no-approval check
 - `python scripts/run_permission_eval.py --help`
 - `python scripts/analyze_phase33_precision.py`
 - `python scripts/run_phase33_precision_candidate.py --dry-run`
+- `python scripts/run_phase33_precision_candidate.py --top-k 3 --candidate-limit 20 --allow-external-embeddings`
+- `python scripts/run_permission_eval.py --retrieval-mode vector_lexical_rerank --top-k 3 --rerank-candidate-limit 20 --allow-external-embeddings`
 - `python scripts/run_phase33_no_egress_candidates.py`
 - `python scripts/export_dashboard_data.py`
 - `python scripts/validate_benchmark.py`
@@ -27,6 +30,7 @@ Generated at: 2026-06-21T02:01:38.711398+00:00
 - No-egress keyword-only retrieval-boundary checks showed unauthorized chunk exposure `0.000` and unauthorized chunks reached generation `0.000` for the restricted benchmark questions.
 - Local reranker regression checks confirm the reranker only sees permission-filtered chunks in the test fixture.
 - The precision and permission candidate commands now require `--allow-external-embeddings` before any live `vector_lexical_rerank` run can send benchmark question text to the embeddings API.
-- The permission evaluator supports the `vector_lexical_rerank` candidate command with top-k `3` and rerank candidate limit `20`, but that live permission run was not executed.
-- OpenAI-backed live retrieval rerun was attempted, but approval was rejected because it would send benchmark question text to the external embeddings API. It still requires explicit user approval after the data-egress risk is understood.
-- Full permission safety with answer/refusal and citation checks was not re-run because the existing script can call answer generation; the no-egress permission result above is retrieval-boundary-only.
+- The permission evaluator supports the `vector_lexical_rerank` candidate command with top-k `3` and rerank candidate limit `20`.
+- After explicit approval, the live `vector_lexical_rerank` top-k `3` candidate over benchmark v1.1 produced Precision@k `0.778`, expected-source recall `0.950`, MRR `0.965`, and 7 failed source-coverage questions, passing the Phase 33 retrieval gates.
+- Matching live permission safety over 20 restricted questions produced permission leakage `0.000`, blocked-answer accuracy `1.000`, unauthorized chunk exposure `0.000`, restricted citation leakage `0.000`, unauthorized chunks reached generation `0.000`, and authorized retrieval accuracy `1.000`.
+- Authorized answer accuracy remains `pending` by default to avoid extra chat-completion cost; source access for authorized roles was measured and passed.
