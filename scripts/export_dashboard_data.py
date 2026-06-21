@@ -28,6 +28,7 @@ PROMPT_EXPERIMENT_DIR = ROOT / "data/evaluation/prompt-experiments"
 EXPANDED_BASELINE_DIR = ROOT / "data/evaluation/expanded-baseline"
 PROMPT_COMPARISON_PATH = PROMPT_EXPERIMENT_DIR / "prompt-comparison.json"
 MULTI_DOC_EVAL_PATH = ROOT / "data/evaluation/multi-doc-eval.json"
+PHASE33_DIAGNOSTICS_PATH = ROOT / "data/evaluation/phase33-precision-diagnostics.json"
 
 REQUIRED_REPORTS = [
     PHASE6_RESULTS,
@@ -548,6 +549,78 @@ def _multi_doc_comparison() -> dict[str, Any]:
     }
 
 
+def _phase33_precision_readiness() -> dict[str, Any]:
+    if not PHASE33_DIAGNOSTICS_PATH.exists():
+        return {}
+
+    diagnostics = json.loads(PHASE33_DIAGNOSTICS_PATH.read_text(encoding="utf-8"))
+    top_k_replay = diagnostics.get("top_k_replay") or []
+    rerank_replay = diagnostics.get("saved_top5_lexical_rerank_replay") or []
+    baseline = diagnostics.get("baseline_run") or {}
+
+    def candidate_summary(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        summary = []
+        for row in rows:
+            gate = row.get("phase33_gate") or {}
+            summary.append(
+                {
+                    "top_k": row.get("top_k"),
+                    "precision_at_k": row.get("precision_at_k"),
+                    "expected_source_recall": row.get("expected_source_recall"),
+                    "all_sources_hit": row.get("all_sources_hit"),
+                    "mrr": row.get("mrr"),
+                    "failed_question_count": row.get("failed_question_count"),
+                    "meets_precision_target": gate.get("precision_target_met"),
+                    "meets_recall_gate": gate.get("recall_gate_met"),
+                    "meets_mrr_gate": gate.get("mrr_gate_met"),
+                }
+            )
+        return summary
+
+    def best_gate_preserving(rows: list[dict[str, Any]]) -> dict[str, Any] | None:
+        eligible = [
+            row
+            for row in candidate_summary(rows)
+            if row.get("meets_recall_gate") and row.get("meets_mrr_gate")
+        ]
+        if not eligible:
+            return None
+        return max(eligible, key=lambda row: row.get("precision_at_k") or 0)
+
+    return {
+        "status": "in_progress",
+        "phase": "phase-33",
+        "generated_at": diagnostics.get("generated_at"),
+        "benchmark_version": diagnostics.get("benchmark_version"),
+        "diagnostic_source": "saved Phase 32 artifact replay",
+        "input_run_id": baseline.get("run_id"),
+        "candidate_mode": "vector_lexical_rerank",
+        "candidate_run_id": "phase33-vector-lexical-rerank-top3",
+        "live_run_required": True,
+        "publishable_improvement": False,
+        "gates": {
+            "precision_at_k_target": 0.75,
+            "expected_source_recall_minimum": 0.95,
+            "mrr_minimum": 0.95,
+            "permission_leakage_rate": 0.0,
+        },
+        "best_top_k_replay": best_gate_preserving(top_k_replay),
+        "best_saved_top5_lexical_rerank_replay": best_gate_preserving(rerank_replay),
+        "top_k_replay": candidate_summary(top_k_replay),
+        "saved_top5_lexical_rerank_replay": candidate_summary(rerank_replay),
+        "required_live_commands": [
+            "python scripts/run_phase33_precision_candidate.py",
+            "python scripts/run_permission_eval.py",
+            "python scripts/export_dashboard_data.py",
+        ],
+        "notes": [
+            "This block is diagnostic readiness evidence, not a completed live retrieval improvement.",
+            "The lexical rerank replay only reorders chunks already present in the saved Phase 32 top-5 artifact.",
+            "Phase 33 completion still requires a live retrieval run plus permission safety verification.",
+        ],
+    }
+
+
 def _prompt_comparison() -> dict[str, Any]:
     if not PROMPT_COMPARISON_PATH.exists():
         return {"best": {}, "comparisons": [], "prompt_versions": []}
@@ -701,20 +774,23 @@ def main() -> None:
     )
     prompt_comparison = _prompt_comparison()
     multi_doc_comparison = _multi_doc_comparison()
+    phase33_precision_readiness = _phase33_precision_readiness()
     dashboard = {
         "generated_at": datetime.now(UTC).isoformat(),
-        "source": "docs/phase-6 through docs/phase-16",
+        "source": "docs/phase-6 through docs/phase-33",
         "benchmark_context": benchmark_context,
         "runs": runs,
         "overview": _overview(runs, current_answer_run),
         "comparisons": _comparisons(runs),
         "prompt_comparison": prompt_comparison,
         "multi_doc_comparison": multi_doc_comparison,
+        "phase33_precision_readiness": phase33_precision_readiness,
         "failed_questions": failed_questions,
         "notes": [
             "All dashboard values are exported from existing evaluation result files.",
             "Estimated cost is calculated from configured chat model pricing where token counts are available.",
             "Answer-quality metrics use deterministic and heuristic scoring, not a human judge.",
+            "Phase 33 precision readiness is diagnostic-only until a live retrieval run and permission safety rerun pass.",
         ],
     }
 

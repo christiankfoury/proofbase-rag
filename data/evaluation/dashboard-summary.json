@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-21T00:31:17.331439+00:00",
-  "source": "docs/phase-6 through docs/phase-16",
+  "generated_at": "2026-06-21T01:26:50.735122+00:00",
+  "source": "docs/phase-6 through docs/phase-33",
   "benchmark_context": {
     "benchmark_version": "1.1",
     "source_corpus": "data/synthetic-documents",
@@ -1104,6 +1104,170 @@
     ],
     "hallucination_regression": true
   },
+  "phase33_precision_readiness": {
+    "status": "in_progress",
+    "phase": "phase-33",
+    "generated_at": "2026-06-21T01:21:57.263664+00:00",
+    "benchmark_version": "1.1",
+    "diagnostic_source": "saved Phase 32 artifact replay",
+    "input_run_id": "phase32-expanded-retrieval",
+    "candidate_mode": "vector_lexical_rerank",
+    "candidate_run_id": "phase33-vector-lexical-rerank-top3",
+    "live_run_required": true,
+    "publishable_improvement": false,
+    "gates": {
+      "precision_at_k_target": 0.75,
+      "expected_source_recall_minimum": 0.95,
+      "mrr_minimum": 0.95,
+      "permission_leakage_rate": 0.0
+    },
+    "best_top_k_replay": {
+      "top_k": 3,
+      "precision_at_k": 0.7,
+      "expected_source_recall": 0.967,
+      "all_sources_hit": 0.944,
+      "mrr": 0.954,
+      "failed_question_count": 5,
+      "meets_precision_target": false,
+      "meets_recall_gate": true,
+      "meets_mrr_gate": true
+    },
+    "best_saved_top5_lexical_rerank_replay": {
+      "top_k": 3,
+      "precision_at_k": 0.73,
+      "expected_source_recall": 0.95,
+      "all_sources_hit": 0.922,
+      "mrr": 0.959,
+      "failed_question_count": 7,
+      "meets_precision_target": false,
+      "meets_recall_gate": true,
+      "meets_mrr_gate": true
+    },
+    "top_k_replay": [
+      {
+        "top_k": 1,
+        "precision_at_k": 0.922,
+        "expected_source_recall": 0.804,
+        "all_sources_hit": 0.689,
+        "mrr": 0.922,
+        "failed_question_count": 28,
+        "meets_precision_target": true,
+        "meets_recall_gate": false,
+        "meets_mrr_gate": false
+      },
+      {
+        "top_k": 2,
+        "precision_at_k": 0.778,
+        "expected_source_recall": 0.935,
+        "all_sources_hit": 0.889,
+        "mrr": 0.95,
+        "failed_question_count": 10,
+        "meets_precision_target": true,
+        "meets_recall_gate": false,
+        "meets_mrr_gate": true
+      },
+      {
+        "top_k": 3,
+        "precision_at_k": 0.7,
+        "expected_source_recall": 0.967,
+        "all_sources_hit": 0.944,
+        "mrr": 0.954,
+        "failed_question_count": 5,
+        "meets_precision_target": false,
+        "meets_recall_gate": true,
+        "meets_mrr_gate": true
+      },
+      {
+        "top_k": 4,
+        "precision_at_k": 0.647,
+        "expected_source_recall": 0.972,
+        "all_sources_hit": 0.956,
+        "mrr": 0.954,
+        "failed_question_count": 4,
+        "meets_precision_target": false,
+        "meets_recall_gate": true,
+        "meets_mrr_gate": true
+      },
+      {
+        "top_k": 5,
+        "precision_at_k": 0.616,
+        "expected_source_recall": 0.978,
+        "all_sources_hit": 0.967,
+        "mrr": 0.954,
+        "failed_question_count": 3,
+        "meets_precision_target": false,
+        "meets_recall_gate": true,
+        "meets_mrr_gate": true
+      }
+    ],
+    "saved_top5_lexical_rerank_replay": [
+      {
+        "top_k": 1,
+        "precision_at_k": 0.944,
+        "expected_source_recall": 0.826,
+        "all_sources_hit": 0.711,
+        "mrr": 0.944,
+        "failed_question_count": 26,
+        "meets_precision_target": true,
+        "meets_recall_gate": false,
+        "meets_mrr_gate": false
+      },
+      {
+        "top_k": 2,
+        "precision_at_k": 0.8,
+        "expected_source_recall": 0.913,
+        "all_sources_hit": 0.856,
+        "mrr": 0.956,
+        "failed_question_count": 13,
+        "meets_precision_target": true,
+        "meets_recall_gate": false,
+        "meets_mrr_gate": true
+      },
+      {
+        "top_k": 3,
+        "precision_at_k": 0.73,
+        "expected_source_recall": 0.95,
+        "all_sources_hit": 0.922,
+        "mrr": 0.959,
+        "failed_question_count": 7,
+        "meets_precision_target": false,
+        "meets_recall_gate": true,
+        "meets_mrr_gate": true
+      },
+      {
+        "top_k": 4,
+        "precision_at_k": 0.686,
+        "expected_source_recall": 0.95,
+        "all_sources_hit": 0.922,
+        "mrr": 0.959,
+        "failed_question_count": 7,
+        "meets_precision_target": false,
+        "meets_recall_gate": true,
+        "meets_mrr_gate": true
+      },
+      {
+        "top_k": 5,
+        "precision_at_k": 0.616,
+        "expected_source_recall": 0.978,
+        "all_sources_hit": 0.967,
+        "mrr": 0.961,
+        "failed_question_count": 3,
+        "meets_precision_target": false,
+        "meets_recall_gate": true,
+        "meets_mrr_gate": true
+      }
+    ],
+    "required_live_commands": [
+      "python scripts/run_phase33_precision_candidate.py",
+      "python scripts/run_permission_eval.py",
+      "python scripts/export_dashboard_data.py"
+    ],
+    "notes": [
+      "This block is diagnostic readiness evidence, not a completed live retrieval improvement.",
+      "The lexical rerank replay only reorders chunks already present in the saved Phase 32 top-5 artifact.",
+      "Phase 33 completion still requires a live retrieval run plus permission safety verification."
+    ]
+  },
   "failed_questions": [
     {
       "question_id": "FACT-012",
@@ -2139,6 +2303,7 @@
   "notes": [
     "All dashboard values are exported from existing evaluation result files.",
     "Estimated cost is calculated from configured chat model pricing where token counts are available.",
-    "Answer-quality metrics use deterministic and heuristic scoring, not a human judge."
+    "Answer-quality metrics use deterministic and heuristic scoring, not a human judge.",
+    "Phase 33 precision readiness is diagnostic-only until a live retrieval run and permission safety rerun pass."
   ]
 }

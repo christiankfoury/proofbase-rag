@@ -405,6 +405,7 @@ def evaluation_summary(user: Annotated[dict, Depends(current_admin_user)]) -> di
         "generated_at": data["generated_at"],
         "overview": data["overview"],
         "benchmark_context": data.get("benchmark_context", {}),
+        "phase33_precision_readiness": data.get("phase33_precision_readiness", {}),
         "run_count": len(data["runs"]),
         "failed_question_count": len(data["failed_questions"]),
         "notes": data["notes"],
@@ -477,6 +478,7 @@ def evaluation_compare(user: Annotated[dict, Depends(current_admin_user)]) -> di
         "comparisons": data["comparisons"],
         "prompt_comparison": data.get("prompt_comparison", {}),
         "multi_doc_comparison": data.get("multi_doc_comparison", {}),
+        "phase33_precision_readiness": data.get("phase33_precision_readiness", {}),
         "runs": data["runs"],
     }
 

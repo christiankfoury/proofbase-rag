@@ -5,7 +5,7 @@ import { Shell } from "@/components/Shell";
 import { PageHeader } from "@/components/PageHeader";
 import { Card } from "@/components/Card";
 import { SectionHeading } from "@/components/SectionHeading";
-import { formatDateTime, formatLabel, getDashboardData, MetricContext } from "@/lib/dashboard";
+import { formatDateTime, formatLabel, formatMetric, getDashboardData, MetricContext } from "@/lib/dashboard";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 import Link from "next/link";
 
@@ -49,6 +49,12 @@ function sortedBreakdown(breakdown?: Record<string, number | null> | null): Arra
   return Object.entries(breakdown ?? {}).sort(([a], [b]) => a.localeCompare(b));
 }
 
+function gateLabel(value: boolean | null | undefined): string {
+  if (value === true) return "pass";
+  if (value === false) return "fail";
+  return "pending";
+}
+
 export default async function OverviewPage() {
   const authHeaders = await serverDemoAuthHeaders();
   const data = await getDashboardData(authHeaders);
@@ -59,6 +65,9 @@ export default async function OverviewPage() {
   const currentRunCategoryBreakdown = sortedBreakdown(currentAnswerRun?.category_breakdown);
   const benchmarkCategoryBreakdown = sortedBreakdown(benchmarkContext.category_breakdown);
   const suiteSizes = Object.entries(benchmarkContext.current_dashboard_suites ?? {});
+  const phase33 = data.phase33_precision_readiness;
+  const phase33Replay = phase33?.best_saved_top5_lexical_rerank_replay;
+  const phase33Commands = phase33?.required_live_commands ?? [];
   const progressSummary = data.overview.progress_summary ?? {
     improved: [
       "Permission tests reached zero leakage.",
@@ -274,6 +283,133 @@ export default async function OverviewPage() {
           Vector retrieval with section-based chunks remains the best overall configuration; hybrid did not outperform it on this corpus.
         </p>
       </Card>
+      {phase33 && Object.keys(phase33).length > 0 ? (
+        <section className="mt-8 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+          <Card tone="warn">
+            <SectionHeading
+              title="Phase 33 Candidate Readiness"
+              description="Saved-artifact replay is visible here so the precision work can be reviewed before the live run."
+            />
+            <dl className="grid gap-3 text-sm">
+              <div className="flex items-center justify-between gap-4">
+                <dt className="text-stone-600">Status</dt>
+                <dd className="font-semibold text-rust-dark">{formatLabel(phase33.status)}</dd>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <dt className="text-stone-600">Candidate mode</dt>
+                <dd className="font-semibold text-ink">{phase33.candidate_mode ?? "not available"}</dd>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <dt className="text-stone-600">Live run required</dt>
+                <dd className="font-semibold text-ink">{phase33.live_run_required ? "yes" : "no"}</dd>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <dt className="text-stone-600">Publishable improvement</dt>
+                <dd className="font-semibold text-ink">{phase33.publishable_improvement ? "yes" : "no"}</dd>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <dt className="text-stone-600">Benchmark</dt>
+                <dd className="font-semibold text-ink">{phase33.benchmark_version ?? "not available"}</dd>
+              </div>
+            </dl>
+            <p className="mt-4 text-xs leading-5 text-stone-600">
+              Source: {phase33.diagnostic_source ?? "not available"} from {phase33.input_run_id ?? "not available"}.
+            </p>
+          </Card>
+          <Card>
+            <SectionHeading
+              title="Best Saved Rerank Replay"
+              description="These numbers reorder only the saved Phase 32 top-5 chunks; live retrieval and permission safety are still pending."
+            />
+            <div className="grid gap-3 sm:grid-cols-4">
+              {[
+                {
+                  label: "Precision@k",
+                  value: phase33Replay?.precision_at_k,
+                  detail: `Target ${formatMetric(phase33.gates?.precision_at_k_target)}`,
+                  passed: phase33Replay?.meets_precision_target,
+                },
+                {
+                  label: "Source Recall",
+                  value: phase33Replay?.expected_source_recall,
+                  detail: `Gate ${formatMetric(phase33.gates?.expected_source_recall_minimum)}`,
+                  passed: phase33Replay?.meets_recall_gate,
+                },
+                {
+                  label: "MRR",
+                  value: phase33Replay?.mrr,
+                  detail: `Gate ${formatMetric(phase33.gates?.mrr_minimum)}`,
+                  passed: phase33Replay?.meets_mrr_gate,
+                },
+                {
+                  label: "Failed Source Questions",
+                  value: phase33Replay?.failed_question_count,
+                  detail: `Top-k ${phase33Replay?.top_k ?? "pending"}`,
+                  passed: undefined,
+                },
+              ].map((item) => (
+                <div key={item.label} className="rounded-md border border-stone-200 bg-stone-50 p-3">
+                  <p className="text-xs font-medium text-steel">{item.label}</p>
+                  <p className={item.passed === false ? "mt-1 text-2xl font-semibold text-rust-dark" : "mt-1 text-2xl font-semibold text-ink"}>
+                    {formatMetric(item.value)}
+                  </p>
+                  <p className="mt-1 text-xs text-stone-600">{item.detail}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-5 overflow-x-auto">
+              <table className="data-table min-w-[620px]">
+                <thead>
+                  <tr>
+                    <th>Gate</th>
+                    <th className="text-right">Value</th>
+                    <th className="text-right">Required</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Precision@k</td>
+                    <td className="text-right">{formatMetric(phase33Replay?.precision_at_k)}</td>
+                    <td className="text-right">{formatMetric(phase33.gates?.precision_at_k_target)}</td>
+                    <td>{gateLabel(phase33Replay?.meets_precision_target)}</td>
+                  </tr>
+                  <tr>
+                    <td>Source recall</td>
+                    <td className="text-right">{formatMetric(phase33Replay?.expected_source_recall)}</td>
+                    <td className="text-right">{formatMetric(phase33.gates?.expected_source_recall_minimum)}</td>
+                    <td>{gateLabel(phase33Replay?.meets_recall_gate)}</td>
+                  </tr>
+                  <tr>
+                    <td>MRR</td>
+                    <td className="text-right">{formatMetric(phase33Replay?.mrr)}</td>
+                    <td className="text-right">{formatMetric(phase33.gates?.mrr_minimum)}</td>
+                    <td>{gateLabel(phase33Replay?.meets_mrr_gate)}</td>
+                  </tr>
+                  <tr>
+                    <td>Permission leakage</td>
+                    <td className="text-right">pending</td>
+                    <td className="text-right">{formatMetric(phase33.gates?.permission_leakage_rate)}</td>
+                    <td>pending live run</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            {phase33Commands.length > 0 ? (
+              <div className="mt-5">
+                <p className="font-semibold text-ink">Required live checks</p>
+                <ul className="mt-2 space-y-2 text-sm text-stone-700">
+                  {phase33Commands.map((command) => (
+                    <li key={command}>
+                      <code className="rounded bg-stone-100 px-1 py-0.5">{command}</code>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </Card>
+        </section>
+      ) : null}
       <section className="mt-8 grid gap-4 lg:grid-cols-2">
         <RetrievalChart runs={data.runs} />
         <Card>

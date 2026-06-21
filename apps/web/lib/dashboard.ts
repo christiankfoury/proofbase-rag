@@ -85,6 +85,43 @@ export type MultiDocComparison = {
   hallucination_regression?: boolean;
 };
 
+export type Phase33PrecisionReadiness = {
+  status?: string;
+  phase?: string;
+  generated_at?: string | null;
+  benchmark_version?: string | null;
+  diagnostic_source?: string | null;
+  input_run_id?: string | null;
+  candidate_mode?: string | null;
+  candidate_run_id?: string | null;
+  live_run_required?: boolean;
+  publishable_improvement?: boolean;
+  gates?: {
+    precision_at_k_target?: number | null;
+    expected_source_recall_minimum?: number | null;
+    mrr_minimum?: number | null;
+    permission_leakage_rate?: number | null;
+  };
+  best_top_k_replay?: Phase33ReplaySummary | null;
+  best_saved_top5_lexical_rerank_replay?: Phase33ReplaySummary | null;
+  top_k_replay?: Phase33ReplaySummary[];
+  saved_top5_lexical_rerank_replay?: Phase33ReplaySummary[];
+  required_live_commands?: string[];
+  notes?: string[];
+};
+
+export type Phase33ReplaySummary = {
+  top_k?: number | null;
+  precision_at_k?: number | null;
+  expected_source_recall?: number | null;
+  all_sources_hit?: number | null;
+  mrr?: number | null;
+  failed_question_count?: number | null;
+  meets_precision_target?: boolean | null;
+  meets_recall_gate?: boolean | null;
+  meets_mrr_gate?: boolean | null;
+};
+
 export type MetricContext = {
   run_id?: string | null;
   run_name?: string | null;
@@ -123,6 +160,7 @@ export type DashboardData = {
   comparisons: Record<string, { summary: string; runs?: string[]; baseline?: string; current?: string }>;
   prompt_comparison?: PromptComparison;
   multi_doc_comparison?: MultiDocComparison;
+  phase33_precision_readiness?: Phase33PrecisionReadiness;
   runs: EvalRun[];
   failed_questions: FailedQuestion[];
   notes: string[];
@@ -141,6 +179,7 @@ function emptyDashboardData(): DashboardData {
     },
     benchmark_context: {},
     comparisons: {},
+    phase33_precision_readiness: {},
     runs: [],
     failed_questions: [],
     notes: [],
@@ -164,6 +203,7 @@ export async function getDashboardData(headers: HeadersInit = {}): Promise<Dashb
     comparisons: compare.comparisons,
     prompt_comparison: compare.prompt_comparison,
     multi_doc_comparison: compare.multi_doc_comparison,
+    phase33_precision_readiness: compare.phase33_precision_readiness ?? summary.phase33_precision_readiness,
     runs: compare.runs,
     failed_questions: failed.failed_questions,
     notes: summary.notes ?? [],
