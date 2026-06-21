@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from apps.api.app.permissions.permission_filter import build_permission_trace
 from apps.api.app.retrieval.reranker import lexical_overlap_score, rerank_chunks
 from apps.api.app.retrieval.types import RetrievedChunk
 
@@ -18,6 +19,8 @@ def _chunk(
     heading: str,
     content: str,
     score: float,
+    access_roles: list[str] | None = None,
+    restricted: bool = False,
 ) -> RetrievedChunk:
     return RetrievedChunk(
         chunk_id=chunk_id,
@@ -25,9 +28,9 @@ def _chunk(
         document_title=title,
         section_heading=heading,
         content=content,
-        access_roles=["Employee"],
-        restricted=False,
-        sensitivity="internal",
+        access_roles=access_roles or ["Employee"],
+        restricted=restricted,
+        sensitivity="restricted" if restricted else "internal",
         rank=0,
         score=score,
         vector_score=score,
@@ -76,10 +79,56 @@ def test_rerank_preserves_vector_order_without_overlap() -> None:
     assert [chunk.chunk_id for chunk in reranked] == ["chunk-1", "chunk-2"]
 
 
+def test_rerank_only_sees_permission_filtered_chunks() -> None:
+    candidate_rows = [
+        {
+            "chunk_id": "restricted-1",
+            "document_id": "MGR-001",
+            "access_roles": ["Manager"],
+            "restricted": True,
+            "sensitivity": "restricted",
+        },
+        {
+            "chunk_id": "allowed-1",
+            "document_id": "HR-004",
+            "access_roles": ["Employee"],
+            "restricted": False,
+            "sensitivity": "internal",
+        },
+    ]
+    allowed_chunks = [
+        _chunk(
+            "allowed-1",
+            "HR-004",
+            "Benefits Overview",
+            "Learning Budget",
+            "Employees may use the learning budget for approved courses.",
+            0.62,
+            access_roles=["Employee"],
+        )
+    ]
+
+    trace = build_permission_trace(
+        user_role="Employee",
+        retrieval_mode="vector_lexical_rerank",
+        candidate_rows=candidate_rows,
+        allowed_chunks=allowed_chunks,
+    )
+    reranked = rerank_chunks("Can I use my learning budget for a course?", allowed_chunks)
+
+    assert trace.blocked_chunks_count == 1
+    assert trace.blocked_document_ids == ["MGR-001"]
+    assert not trace.unauthorized_chunks_reached_generation
+    assert [chunk.document_id for chunk in reranked] == ["HR-004"]
+    assert all("Employee" in chunk.access_roles for chunk in reranked)
+    assert all(not chunk.restricted for chunk in reranked)
+
+
 def main() -> None:
     test_lexical_overlap_weights_headings()
     test_rerank_prefers_strong_lexical_match()
     test_rerank_preserves_vector_order_without_overlap()
+    test_rerank_only_sees_permission_filtered_chunks()
     print("Phase 33 reranker tests passed")
 
 
