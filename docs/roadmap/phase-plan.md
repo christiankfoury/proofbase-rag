@@ -318,7 +318,7 @@ Questions before starting:
 
 ## Phases 28-37: Evaluation And Credibility Improvement Roadmap
 
-After Phase 27, continue from `docs/roadmap/phases-improvement.md`. That document is the executable source of truth for the next improvement sequence.
+After Phase 27, `docs/roadmap/phases-improvement.md` was the executable source of truth for the evaluation and credibility improvement sequence.
 
 Phase mapping:
 
@@ -340,6 +340,25 @@ Implementation rule:
 - Capture an expanded baseline before retrieval or prompt tuning.
 - Do not publish target-metric claims until phase notes and dashboard run IDs prove them.
 - Preserve zero permission leakage as a hard gate for every quality phase.
+
+## Phases 38-40: Post-Phase 37 Remediation Roadmap
+
+After Phase 37, continue from `docs/roadmap/post-phase-37-remediation-plan.md`. That document is the executable source of truth for the next remediation sequence.
+
+Phase mapping:
+
+- Phase 38: Answer-Quality Failure Remediation.
+- Phase 39: Multi-Document And Ambiguity Orchestration.
+- Phase 40: Uploaded-Document Local E2E Workflow.
+
+Implementation rule:
+
+- Start from the measured `phase35-citation-alignment-v7` answer-quality backlog: benchmark `1.1`, sample size `130`, and `16` failed questions.
+- Use a code-first benchmark policy; change benchmark expectations only for documented defects.
+- Target `<=8` answer-quality failures before claiming Phase 38 success.
+- Use strict ambiguity behavior for underspecified questions that should ask for clarification.
+- Finish upload -> review -> approve/index -> ask locally before adding Azure Blob Storage or AI Markdown cleanup.
+- Preserve zero permission leakage as a hard gate for every remediation phase.
 
 ## Promotion Gates For Every Future Phase
 

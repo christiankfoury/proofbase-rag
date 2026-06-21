@@ -84,7 +84,7 @@ When there is a tradeoff between a technically interesting feature and a more pr
 
 ## Post-Phase 27 Improvement Focus
 
-After Phase 27, continue with `docs/roadmap/phases-improvement.md`. The next sequence is evaluation-driven:
+After Phase 27, `docs/roadmap/phases-improvement.md` defined the completed evaluation-driven sequence:
 
 - Phase 28: dashboard transparency and metric context.
 - Phase 29: benchmark schema cleanup and validation.
@@ -97,7 +97,19 @@ After Phase 27, continue with `docs/roadmap/phases-improvement.md`. The next seq
 - Phase 36: permission and memory evaluation expansion.
 - Phase 37: regression scorecard.
 
-Do not tune retrieval or prompts blindly. Make the dashboard and benchmark defensible first, expand the source corpus and tests, then optimize against measured before/after runs.
+Those phases made the dashboard and benchmark defensible, expanded the source corpus and tests, captured measured before/after runs, and produced the current regression scorecard.
+
+## Post-Phase 37 Remediation Focus
+
+After Phase 37, continue with `docs/roadmap/post-phase-37-remediation-plan.md`. The next sequence is remediation-driven:
+
+- Phase 38: answer-quality failure remediation.
+- Phase 39: multi-document and ambiguity orchestration.
+- Phase 40: uploaded-document Local E2E workflow.
+
+Start from the current measured answer-quality backlog: `phase35-citation-alignment-v7`, benchmark `1.1`, sample size `130`, and `16` failed questions. Keep the code-first benchmark policy: do not change expected answers, expected behavior, or expected sources unless a clear benchmark defect is proven and documented separately.
+
+For Phase 38, target `<=8` failed answer-quality cases without weakening citation standards, hallucination controls, or permission safety. For Phase 39, use strict ambiguity behavior: when intent is underspecified, return a clarifying question instead of answering. For Phase 40, complete upload -> review -> approve/index -> ask with local/Postgres storage and guarded OpenAI embeddings; keep Azure Blob Storage and AI Markdown cleanup as future improvements.
 
 ### 1. Plan
 
@@ -281,6 +293,7 @@ Ask before implementing when the answer affects:
 - Feature use cases: `docs/roadmap/feature-use-cases.md`
 - Future phases: `docs/roadmap/phase-plan.md`
 - Post-Phase 27 improvement roadmap: `docs/roadmap/phases-improvement.md`
+- Post-Phase 37 remediation roadmap: `docs/roadmap/post-phase-37-remediation-plan.md`
 - Roadmap progress tracker: `docs/roadmap/progress.md`
 - Current demo guide: `docs/demo/interactive-demo-guide.md`
 - Current failure analysis: `docs/phase-17/failed-question-cause-analysis.md`

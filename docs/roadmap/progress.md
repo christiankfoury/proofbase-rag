@@ -1,15 +1,15 @@
 # Roadmap Progress Tracker
 
-This file is the durable source of truth for roadmap progress. At the start of each phase, read this file with `agent.md`, `docs/roadmap/phase-plan.md`, `docs/roadmap/phases-improvement.md`, the latest `docs/phase-*` notes, and recent Git history.
+This file is the durable source of truth for roadmap progress. At the start of each phase, read this file with `AGENTS.md`, `docs/roadmap/phase-plan.md`, `docs/roadmap/phases-improvement.md`, `docs/roadmap/post-phase-37-remediation-plan.md`, the latest `docs/phase-*` notes, and recent Git history.
 
 Update this tracker before committing each phase. Keep entries factual: record what was implemented, what was verified, what was skipped, and which commit or commits contain the work.
 
 ## Current Position
 
-- Current phase: All planned post-Phase 27 improvement phases complete.
+- Current phase: Phase 38 remediation planning is ready; implementation has not started.
 - Last completed phase: Phase 37, Regression Scorecard.
 - Last verification focus: Phase 37 dashboard scorecard export, benchmark validation, compile checks, Docker Compose config, diff hygiene, and web build.
-- Next expected work: completion audit against `AGENTS.md`; future work is follow-up backlog beyond the Phase 28-37 roadmap.
+- Next expected work: Phase 38, answer-quality failure remediation, using `docs/roadmap/post-phase-37-remediation-plan.md` as the active roadmap.
 
 ## Phase Status
 
