@@ -45,6 +45,8 @@ def _create_run(config: RetrievalConfig, retrieval_only: bool = False) -> str:
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "top_k": config.top_k,
+        "reranker": config.reranker,
+        "rerank_candidate_limit": config.rerank_candidate_limit,
         "vector_weight": config.vector_weight,
         "keyword_weight": config.keyword_weight,
         "prompt_version": config.prompt_version,

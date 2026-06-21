@@ -3,6 +3,7 @@ from apps.api.app.db.session import get_connection
 from apps.api.app.embeddings.openai_embeddings import embed_text, to_vector_literal
 from apps.api.app.permissions.permission_filter import build_permission_trace, log_permission_trace
 from apps.api.app.permissions.roles import role_variants
+from apps.api.app.retrieval.reranker import rerank_chunks
 from apps.api.app.retrieval.types import RetrievedChunk
 
 
@@ -13,10 +14,13 @@ def retrieve_chunks(
     chunking_strategy: str = "section_based",
     project_id: str | None = None,
     department_id: str | None = None,
+    reranker: str | None = None,
+    rerank_candidate_limit: int | None = None,
 ) -> list[RetrievedChunk]:
     settings = get_settings()
     limit = top_k or settings.default_top_k
     candidate_limit = max(limit * 4, 20)
+    allowed_limit = rerank_candidate_limit or (candidate_limit if reranker else limit)
     query_embedding = to_vector_literal(embed_text(question))
     roles = role_variants(user_role)
     scope_sql, scope_params = _scope_filter(project_id=project_id, department_id=department_id)
@@ -77,7 +81,7 @@ def retrieve_chunks(
         ).fetchall()
         rows = conn.execute(
             allowed_sql,
-            (query_embedding, roles, settings.openai_embedding_model, chunking_strategy, *scope_params, query_embedding, limit),
+            (query_embedding, roles, settings.openai_embedding_model, chunking_strategy, *scope_params, query_embedding, allowed_limit),
         ).fetchall()
 
     chunks = [
@@ -99,9 +103,14 @@ def retrieve_chunks(
         )
         for index, row in enumerate(rows)
     ]
+    if reranker == "lexical":
+        chunks = rerank_chunks(question, chunks)[:limit]
+    elif reranker:
+        raise ValueError(f"Unsupported reranker: {reranker}")
+
     trace = build_permission_trace(
         user_role=user_role,
-        retrieval_mode="vector_only",
+        retrieval_mode="vector_lexical_rerank" if reranker == "lexical" else "vector_only",
         candidate_rows=candidate_rows,
         allowed_chunks=chunks,
     )

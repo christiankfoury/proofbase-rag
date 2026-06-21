@@ -10,7 +10,7 @@ def retrieve_chunks(
 ) -> list[RetrievedChunk]:
     active_config = config or default_retrieval_config()
 
-    if active_config.retrieval_mode == "vector_only":
+    if active_config.retrieval_mode in {"vector_only", "vector_lexical_rerank"}:
         return vector_retriever.retrieve_chunks(
             question,
             user_role,
@@ -18,6 +18,8 @@ def retrieve_chunks(
             chunking_strategy=active_config.chunking_strategy,
             project_id=active_config.project_id,
             department_id=active_config.department_id,
+            reranker="lexical" if active_config.retrieval_mode == "vector_lexical_rerank" else active_config.reranker,
+            rerank_candidate_limit=active_config.rerank_candidate_limit,
         )
     if active_config.retrieval_mode == "keyword_only":
         return keyword_retriever.retrieve_chunks(

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-21T01:03:23.095706+00:00",
+  "generated_at": "2026-06-21T01:11:39.601822+00:00",
   "benchmark_version": "1.1",
   "baseline_run": {
     "run_id": "phase32-expanded-retrieval",
@@ -492,9 +492,511 @@
       }
     }
   ],
+  "saved_top5_lexical_rerank_replay": [
+    {
+      "top_k": 1,
+      "source_question_count": 90,
+      "any_source_hit": 0.944,
+      "all_sources_hit": 0.711,
+      "expected_source_recall": 0.826,
+      "precision_at_k": 0.944,
+      "mrr": 0.944,
+      "failed_question_count": 26,
+      "failed_questions": [
+        "MULTI-001",
+        "MULTI-002",
+        "MULTI-003",
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-006",
+        "MULTI-007",
+        "MULTI-008",
+        "MULTI-009",
+        "MULTI-010",
+        "AMB-002",
+        "AMB-003",
+        "AMB-004",
+        "MEM-004",
+        "FACT-029",
+        "MULTI-011",
+        "MULTI-012",
+        "MULTI-013",
+        "MULTI-014",
+        "MULTI-015",
+        "MULTI-016",
+        "MULTI-017",
+        "MULTI-019",
+        "MULTI-020",
+        "AMB-006",
+        "ADV-003"
+      ],
+      "by_question_type": {
+        "ambiguous": {
+          "question_count": 10,
+          "precision_at_k": 0.8,
+          "all_sources_hit": 0.6,
+          "expected_source_recall": 0.7,
+          "mrr": 0.8,
+          "failed_question_count": 4,
+          "failed_questions": [
+            "AMB-002",
+            "AMB-003",
+            "AMB-004",
+            "AMB-006"
+          ]
+        },
+        "conflicting_source": {
+          "question_count": 5,
+          "precision_at_k": 1.0,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conversation_memory": {
+          "question_count": 20,
+          "precision_at_k": 0.95,
+          "all_sources_hit": 0.95,
+          "expected_source_recall": 0.95,
+          "mrr": 0.95,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "MEM-004"
+          ]
+        },
+        "multi_document": {
+          "question_count": 20,
+          "precision_at_k": 1.0,
+          "all_sources_hit": 0.05,
+          "expected_source_recall": 0.517,
+          "mrr": 1.0,
+          "failed_question_count": 19,
+          "failed_questions": [
+            "MULTI-001",
+            "MULTI-002",
+            "MULTI-003",
+            "MULTI-004",
+            "MULTI-005",
+            "MULTI-006",
+            "MULTI-007",
+            "MULTI-008",
+            "MULTI-009",
+            "MULTI-010",
+            "MULTI-011",
+            "MULTI-012",
+            "MULTI-013",
+            "MULTI-014",
+            "MULTI-015",
+            "MULTI-016",
+            "MULTI-017",
+            "MULTI-019",
+            "MULTI-020"
+          ]
+        },
+        "prompt_injection": {
+          "question_count": 5,
+          "precision_at_k": 0.8,
+          "all_sources_hit": 0.8,
+          "expected_source_recall": 0.8,
+          "mrr": 0.8,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "ADV-003"
+          ]
+        },
+        "simple_factual": {
+          "question_count": 30,
+          "precision_at_k": 0.967,
+          "all_sources_hit": 0.967,
+          "expected_source_recall": 0.967,
+          "mrr": 0.967,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "FACT-029"
+          ]
+        }
+      },
+      "phase33_gate": {
+        "precision_target_met": true,
+        "recall_gate_met": false,
+        "mrr_gate_met": false
+      },
+      "method": "saved_top5_lexical_rerank"
+    },
+    {
+      "top_k": 2,
+      "source_question_count": 90,
+      "any_source_hit": 0.967,
+      "all_sources_hit": 0.856,
+      "expected_source_recall": 0.913,
+      "precision_at_k": 0.8,
+      "mrr": 0.956,
+      "failed_question_count": 13,
+      "failed_questions": [
+        "MULTI-003",
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-006",
+        "MULTI-008",
+        "MULTI-010",
+        "AMB-004",
+        "MEM-004",
+        "MULTI-011",
+        "MULTI-012",
+        "MULTI-013",
+        "MULTI-017",
+        "ADV-003"
+      ],
+      "by_question_type": {
+        "ambiguous": {
+          "question_count": 10,
+          "precision_at_k": 0.8,
+          "all_sources_hit": 0.9,
+          "expected_source_recall": 0.9,
+          "mrr": 0.85,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "AMB-004"
+          ]
+        },
+        "conflicting_source": {
+          "question_count": 5,
+          "precision_at_k": 0.9,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conversation_memory": {
+          "question_count": 20,
+          "precision_at_k": 0.775,
+          "all_sources_hit": 0.95,
+          "expected_source_recall": 0.95,
+          "mrr": 0.95,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "MEM-004"
+          ]
+        },
+        "multi_document": {
+          "question_count": 20,
+          "precision_at_k": 0.925,
+          "all_sources_hit": 0.5,
+          "expected_source_recall": 0.758,
+          "mrr": 1.0,
+          "failed_question_count": 10,
+          "failed_questions": [
+            "MULTI-003",
+            "MULTI-004",
+            "MULTI-005",
+            "MULTI-006",
+            "MULTI-008",
+            "MULTI-010",
+            "MULTI-011",
+            "MULTI-012",
+            "MULTI-013",
+            "MULTI-017"
+          ]
+        },
+        "prompt_injection": {
+          "question_count": 5,
+          "precision_at_k": 0.6,
+          "all_sources_hit": 0.8,
+          "expected_source_recall": 0.8,
+          "mrr": 0.8,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "ADV-003"
+          ]
+        },
+        "simple_factual": {
+          "question_count": 30,
+          "precision_at_k": 0.75,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.983,
+          "failed_question_count": 0,
+          "failed_questions": []
+        }
+      },
+      "phase33_gate": {
+        "precision_target_met": true,
+        "recall_gate_met": false,
+        "mrr_gate_met": true
+      },
+      "method": "saved_top5_lexical_rerank"
+    },
+    {
+      "top_k": 3,
+      "source_question_count": 90,
+      "any_source_hit": 0.978,
+      "all_sources_hit": 0.922,
+      "expected_source_recall": 0.95,
+      "precision_at_k": 0.73,
+      "mrr": 0.959,
+      "failed_question_count": 7,
+      "failed_questions": [
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-008",
+        "MULTI-010",
+        "AMB-004",
+        "MEM-004",
+        "MULTI-013"
+      ],
+      "by_question_type": {
+        "ambiguous": {
+          "question_count": 10,
+          "precision_at_k": 0.7,
+          "all_sources_hit": 0.9,
+          "expected_source_recall": 0.9,
+          "mrr": 0.85,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "AMB-004"
+          ]
+        },
+        "conflicting_source": {
+          "question_count": 5,
+          "precision_at_k": 0.667,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conversation_memory": {
+          "question_count": 20,
+          "precision_at_k": 0.683,
+          "all_sources_hit": 0.95,
+          "expected_source_recall": 0.95,
+          "mrr": 0.95,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "MEM-004"
+          ]
+        },
+        "multi_document": {
+          "question_count": 20,
+          "precision_at_k": 0.9,
+          "all_sources_hit": 0.75,
+          "expected_source_recall": 0.875,
+          "mrr": 1.0,
+          "failed_question_count": 5,
+          "failed_questions": [
+            "MULTI-004",
+            "MULTI-005",
+            "MULTI-008",
+            "MULTI-010",
+            "MULTI-013"
+          ]
+        },
+        "prompt_injection": {
+          "question_count": 5,
+          "precision_at_k": 0.6,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.867,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "simple_factual": {
+          "question_count": 30,
+          "precision_at_k": 0.689,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.983,
+          "failed_question_count": 0,
+          "failed_questions": []
+        }
+      },
+      "phase33_gate": {
+        "precision_target_met": false,
+        "recall_gate_met": true,
+        "mrr_gate_met": true
+      },
+      "method": "saved_top5_lexical_rerank"
+    },
+    {
+      "top_k": 4,
+      "source_question_count": 90,
+      "any_source_hit": 0.978,
+      "all_sources_hit": 0.922,
+      "expected_source_recall": 0.95,
+      "precision_at_k": 0.686,
+      "mrr": 0.959,
+      "failed_question_count": 7,
+      "failed_questions": [
+        "MULTI-004",
+        "MULTI-005",
+        "MULTI-008",
+        "MULTI-010",
+        "AMB-004",
+        "MEM-004",
+        "MULTI-013"
+      ],
+      "by_question_type": {
+        "ambiguous": {
+          "question_count": 10,
+          "precision_at_k": 0.65,
+          "all_sources_hit": 0.9,
+          "expected_source_recall": 0.9,
+          "mrr": 0.85,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "AMB-004"
+          ]
+        },
+        "conflicting_source": {
+          "question_count": 5,
+          "precision_at_k": 0.65,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conversation_memory": {
+          "question_count": 20,
+          "precision_at_k": 0.688,
+          "all_sources_hit": 0.95,
+          "expected_source_recall": 0.95,
+          "mrr": 0.95,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "MEM-004"
+          ]
+        },
+        "multi_document": {
+          "question_count": 20,
+          "precision_at_k": 0.8,
+          "all_sources_hit": 0.75,
+          "expected_source_recall": 0.875,
+          "mrr": 1.0,
+          "failed_question_count": 5,
+          "failed_questions": [
+            "MULTI-004",
+            "MULTI-005",
+            "MULTI-008",
+            "MULTI-010",
+            "MULTI-013"
+          ]
+        },
+        "prompt_injection": {
+          "question_count": 5,
+          "precision_at_k": 0.6,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.867,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "simple_factual": {
+          "question_count": 30,
+          "precision_at_k": 0.642,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.983,
+          "failed_question_count": 0,
+          "failed_questions": []
+        }
+      },
+      "phase33_gate": {
+        "precision_target_met": false,
+        "recall_gate_met": true,
+        "mrr_gate_met": true
+      },
+      "method": "saved_top5_lexical_rerank"
+    },
+    {
+      "top_k": 5,
+      "source_question_count": 90,
+      "any_source_hit": 0.989,
+      "all_sources_hit": 0.967,
+      "expected_source_recall": 0.978,
+      "precision_at_k": 0.616,
+      "mrr": 0.961,
+      "failed_question_count": 3,
+      "failed_questions": [
+        "MULTI-005",
+        "MULTI-008",
+        "MEM-004"
+      ],
+      "by_question_type": {
+        "ambiguous": {
+          "question_count": 10,
+          "precision_at_k": 0.6,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.87,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conflicting_source": {
+          "question_count": 5,
+          "precision_at_k": 0.56,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 1.0,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "conversation_memory": {
+          "question_count": 20,
+          "precision_at_k": 0.6,
+          "all_sources_hit": 0.95,
+          "expected_source_recall": 0.95,
+          "mrr": 0.95,
+          "failed_question_count": 1,
+          "failed_questions": [
+            "MEM-004"
+          ]
+        },
+        "multi_document": {
+          "question_count": 20,
+          "precision_at_k": 0.75,
+          "all_sources_hit": 0.9,
+          "expected_source_recall": 0.95,
+          "mrr": 1.0,
+          "failed_question_count": 2,
+          "failed_questions": [
+            "MULTI-005",
+            "MULTI-008"
+          ]
+        },
+        "prompt_injection": {
+          "question_count": 5,
+          "precision_at_k": 0.52,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.867,
+          "failed_question_count": 0,
+          "failed_questions": []
+        },
+        "simple_factual": {
+          "question_count": 30,
+          "precision_at_k": 0.567,
+          "all_sources_hit": 1.0,
+          "expected_source_recall": 1.0,
+          "mrr": 0.983,
+          "failed_question_count": 0,
+          "failed_questions": []
+        }
+      },
+      "phase33_gate": {
+        "precision_target_met": false,
+        "recall_gate_met": true,
+        "mrr_gate_met": true
+      },
+      "method": "saved_top5_lexical_rerank"
+    }
+  ],
   "notes": [
     "This diagnostic replays saved Phase 32 result ordering only.",
     "It does not call OpenAI, query Postgres, or prove a live retrieval change.",
+    "Lexical rerank replay is limited to chunks already present in the saved top-5 artifact.",
     "Phase 33 completion still requires a measured before/after live retrieval run and permission safety verification."
   ]
 }

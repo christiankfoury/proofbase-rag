@@ -2,13 +2,19 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from statistics import mean
 from typing import Any
 
-
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from apps.api.app.retrieval.reranker import rerank_chunks
+from apps.api.app.retrieval.types import RetrievedChunk
+
+
 BENCHMARK_PATH = ROOT / "data/evaluation/benchmark-questions.json"
 BASELINE_PATH = ROOT / "data/evaluation/expanded-baseline/phase32-expanded-retrieval.json"
 OUTPUT_PATH = ROOT / "data/evaluation/phase33-precision-diagnostics.json"
@@ -134,6 +140,67 @@ def _metrics_for_k(rows: list[dict[str, Any]], questions: dict[str, dict[str, An
     }
 
 
+def _query_with_memory(question: dict[str, Any]) -> str:
+    previous_turns = question.get("previous_turns") or []
+    if not previous_turns:
+        return str(question["question"])
+    context = "\n".join(f"{turn['role']}: {turn['content']}" for turn in previous_turns)
+    return f"Previous conversation:\n{context}\n\nFollow-up question:\n{question['question']}"
+
+
+def _chunk_from_saved(row: dict[str, Any]) -> RetrievedChunk:
+    return RetrievedChunk(
+        chunk_id=str(row["chunk_id"]),
+        document_id=str(row["document_id"]),
+        document_title=str(row.get("document_title") or row["document_id"]),
+        section_heading=str(row.get("section_heading") or ""),
+        content=str(row.get("content") or row.get("content_preview") or ""),
+        access_roles=list(row.get("access_roles") or []),
+        restricted=bool(row.get("restricted")),
+        sensitivity=str(row.get("sensitivity") or "internal"),
+        rank=int(row.get("rank") or 0),
+        score=float(row.get("score") or 0.0),
+        vector_score=float(row.get("vector_score") or row.get("score") or 0.0),
+        keyword_score=row.get("keyword_score"),
+        hybrid_score=row.get("hybrid_score"),
+        retrieval_source=str(row.get("retrieval_source") or "vector"),
+    )
+
+
+def _metrics_for_saved_rerank(rows: list[dict[str, Any]], questions: dict[str, dict[str, Any]], k: int) -> dict[str, Any]:
+    reranked_rows: list[dict[str, Any]] = []
+    for row in rows:
+        question = questions[row["question_id"]]
+        chunks = [_chunk_from_saved(chunk) for chunk in row.get("retrieved_chunks") or []]
+        reranked = rerank_chunks(_query_with_memory(question), chunks)
+        reranked_rows.append(
+            {
+                **row,
+                "retrieved_chunks": [
+                    {
+                        "chunk_id": chunk.chunk_id,
+                        "document_id": chunk.document_id,
+                        "document_title": chunk.document_title,
+                        "section_heading": chunk.section_heading,
+                        "access_roles": chunk.access_roles,
+                        "restricted": chunk.restricted,
+                        "sensitivity": chunk.sensitivity,
+                        "rank": chunk.rank,
+                        "score": chunk.score,
+                        "vector_score": chunk.vector_score,
+                        "keyword_score": chunk.keyword_score,
+                        "hybrid_score": chunk.hybrid_score,
+                        "retrieval_source": chunk.retrieval_source,
+                    }
+                    for chunk in reranked
+                ],
+            }
+        )
+    metrics = _metrics_for_k(reranked_rows, questions, k)
+    metrics["method"] = "saved_top5_lexical_rerank"
+    return metrics
+
+
 def _candidate_summary(metrics_by_k: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [
         {
@@ -198,6 +265,40 @@ def _write_report(result: dict[str, Any], report_path: Path) -> None:
     lines.extend(
         [
             "",
+            "## Saved Top-5 Lexical Rerank Replay",
+            "",
+            "This replay applies the Phase 33 lexical reranker to the saved top-5 chunks from Phase 32. It cannot evaluate chunks outside that saved top-5 pool.",
+            "",
+            "| Top K | Precision@k | Source Recall | All-Sources Hit | MRR | Failed Source Questions | Precision Target | Recall Gate | MRR Gate |",
+            "| ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |",
+        ]
+    )
+    for row in _candidate_summary(result["saved_top5_lexical_rerank_replay"]):
+        lines.append(
+            "| {top_k} | {precision_at_k:.3f} | {expected_source_recall:.3f} | {all_sources_hit:.3f} | {mrr:.3f} | {failed_question_count} | {precision} | {recall} | {mrr_gate} |".format(
+                top_k=row["top_k"],
+                precision_at_k=row["precision_at_k"],
+                expected_source_recall=row["expected_source_recall"],
+                all_sources_hit=row["all_sources_hit"],
+                mrr=row["mrr"],
+                failed_question_count=row["failed_question_count"],
+                precision="pass" if row["meets_phase33_precision_target"] else "fail",
+                recall="pass" if row["meets_phase33_recall_gate"] else "fail",
+                mrr_gate="pass" if row["meets_phase33_mrr_gate"] else "fail",
+            )
+        )
+
+    best_reranked = max(
+        _candidate_summary(result["saved_top5_lexical_rerank_replay"]),
+        key=lambda row: (
+            row["meets_phase33_recall_gate"],
+            row["meets_phase33_mrr_gate"],
+            row["precision_at_k"],
+        ),
+    )
+    lines.extend(
+        [
+            "",
             "## Findings",
             "",
             f"- Highest replayed precision is top-{best_precision['top_k']} at `{best_precision['precision_at_k']:.3f}`, but recall is `{best_precision['expected_source_recall']:.3f}`.",
@@ -209,6 +310,7 @@ def _write_report(result: dict[str, Any], report_path: Path) -> None:
         )
     lines.extend(
         [
+            f"- Saved top-5 lexical rerank replay reaches Precision@k `{best_reranked['precision_at_k']:.3f}` at top-{best_reranked['top_k']} with recall `{best_reranked['expected_source_recall']:.3f}`.",
             "- A top-k-only change does not meet all Phase 33 targets. The next implementation step needs a ranking or filtering change verified by a live retrieval run.",
             "- Permission leakage is not measured by this replay; Phase 33 completion still requires the permission safety check or an equivalent live safety run.",
             "",
@@ -236,7 +338,7 @@ def _write_checklist(path: Path) -> None:
                 "- [x] Start from Phase 32 expanded retrieval baseline.",
                 "- [x] Add no-network precision diagnostics for saved baseline artifacts.",
                 "- [x] Identify whether top-k-only tuning can satisfy Phase 33 gates.",
-                "- [ ] Implement a live retrieval ranking or filtering change.",
+                "- [x] Implement an opt-in lexical reranking candidate.",
                 "- [ ] Run before/after retrieval evaluation on benchmark v1.1.",
                 "- [ ] Verify source recall >= 0.95, MRR >= 0.95, Precision@k >= 0.75, and permission leakage = 0.000.",
                 "- [ ] Export dashboard data with measured Phase 33 run IDs.",
@@ -262,6 +364,7 @@ def _write_verification(path: Path, result: dict[str, Any]) -> None:
         "",
         "## Completed Checks",
         "",
+        "- `python scripts/test_phase33_reranker.py`",
         "- `python scripts/analyze_phase33_precision.py`",
         "",
         "## Diagnostic Result",
@@ -274,6 +377,7 @@ def _write_verification(path: Path, result: dict[str, Any]) -> None:
     lines.extend(
         [
             "- Top-k-only replay does not meet the Phase 33 Precision@k target of `0.75` while preserving recall and MRR.",
+            "- Saved top-5 lexical rerank replay is included as a deterministic candidate check, but it cannot inspect chunks outside the saved top-5 pool.",
             "- OpenAI-backed live retrieval reruns were skipped because external API use was not approved for this continuation.",
             "- Permission safety was not re-run in this diagnostic-only step.",
             "",
@@ -288,6 +392,7 @@ def run(output_path: Path = OUTPUT_PATH, report_path: Path = REPORT_PATH) -> dic
     questions = _benchmark_by_id(benchmark)
     rows = _result_rows(baseline)
     top_k_replay = [_metrics_for_k(rows, questions, k) for k in range(1, 6)]
+    saved_top5_lexical_rerank_replay = [_metrics_for_saved_rerank(rows, questions, k) for k in range(1, 6)]
     result = {
         "generated_at": datetime.now(UTC).isoformat(),
         "benchmark_version": benchmark.get("benchmark_version"),
@@ -303,9 +408,11 @@ def run(output_path: Path = OUTPUT_PATH, report_path: Path = REPORT_PATH) -> dic
             "mrr": baseline.get("summary", {}).get("mrr"),
         },
         "top_k_replay": top_k_replay,
+        "saved_top5_lexical_rerank_replay": saved_top5_lexical_rerank_replay,
         "notes": [
             "This diagnostic replays saved Phase 32 result ordering only.",
             "It does not call OpenAI, query Postgres, or prove a live retrieval change.",
+            "Lexical rerank replay is limited to chunks already present in the saved top-5 artifact.",
             "Phase 33 completion still requires a measured before/after live retrieval run and permission safety verification.",
         ],
     }
@@ -323,7 +430,17 @@ def main() -> None:
     parser.add_argument("--report", type=Path, default=REPORT_PATH)
     args = parser.parse_args()
     result = run(output_path=args.output, report_path=args.report)
-    print(json.dumps({"output": str(args.output), "report": str(args.report), "top_k_replay": _candidate_summary(result["top_k_replay"])}, indent=2))
+    print(
+        json.dumps(
+            {
+                "output": str(args.output),
+                "report": str(args.report),
+                "top_k_replay": _candidate_summary(result["top_k_replay"]),
+                "saved_top5_lexical_rerank_replay": _candidate_summary(result["saved_top5_lexical_rerank_replay"]),
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":
