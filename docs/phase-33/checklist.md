@@ -4,6 +4,7 @@
 - [x] Add no-network precision diagnostics for saved baseline artifacts.
 - [x] Identify whether top-k-only tuning can satisfy Phase 33 gates.
 - [x] Implement an opt-in lexical reranking candidate.
+- [x] Add same-document coherence boost to the lexical reranking candidate.
 - [x] Add a dry-runnable Phase 33 live evaluation harness.
 - [ ] Run before/after retrieval evaluation on benchmark v1.1.
 - [ ] Verify source recall >= 0.95, MRR >= 0.95, Precision@k >= 0.75, and permission leakage = 0.000.

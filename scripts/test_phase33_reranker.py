@@ -79,6 +79,16 @@ def test_rerank_preserves_vector_order_without_overlap() -> None:
     assert [chunk.chunk_id for chunk in reranked] == ["chunk-1", "chunk-2"]
 
 
+def test_rerank_boosts_chunks_from_lead_document() -> None:
+    chunks = [
+        _chunk("chunk-1", "IT-001", "Acceptable Use Policy", "AI Tool Usage", "Approved AI tools.", 0.8),
+        _chunk("chunk-2", "IT-003", "Data Classification and Handling Policy", "AI and Automation", "Confidential data rules.", 0.73),
+        _chunk("chunk-3", "IT-001", "Acceptable Use Policy", "Approved Software", "Software approval list.", 0.71),
+    ]
+    reranked = rerank_chunks("Can employees use approved AI tools?", chunks)
+    assert [chunk.chunk_id for chunk in reranked[:3]] == ["chunk-1", "chunk-3", "chunk-2"]
+
+
 def test_rerank_only_sees_permission_filtered_chunks() -> None:
     candidate_rows = [
         {
@@ -128,6 +138,7 @@ def main() -> None:
     test_lexical_overlap_weights_headings()
     test_rerank_prefers_strong_lexical_match()
     test_rerank_preserves_vector_order_without_overlap()
+    test_rerank_boosts_chunks_from_lead_document()
     test_rerank_only_sees_permission_filtered_chunks()
     print("Phase 33 reranker tests passed")
 

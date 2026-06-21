@@ -608,6 +608,7 @@ def _phase33_precision_readiness() -> dict[str, Any]:
         },
         "best_top_k_replay": best_gate_preserving(top_k_replay),
         "best_saved_top5_lexical_rerank_replay": best_gate_preserving(rerank_replay),
+        "saved_top5_lexical_rerank_config": diagnostics.get("saved_top5_lexical_rerank_config", {}),
         "top_k_replay": candidate_summary(top_k_replay),
         "saved_top5_lexical_rerank_replay": candidate_summary(rerank_replay),
         "no_egress_keyword_candidates": {

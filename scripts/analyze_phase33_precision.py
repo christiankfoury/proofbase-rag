@@ -11,7 +11,12 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from apps.api.app.retrieval.reranker import rerank_chunks
+from apps.api.app.retrieval.reranker import (
+    DEFAULT_LEXICAL_WEIGHT,
+    DEFAULT_SAME_DOCUMENT_BOOST,
+    DEFAULT_VECTOR_WEIGHT,
+    rerank_chunks,
+)
 from apps.api.app.retrieval.types import RetrievedChunk
 
 
@@ -198,6 +203,11 @@ def _metrics_for_saved_rerank(rows: list[dict[str, Any]], questions: dict[str, d
         )
     metrics = _metrics_for_k(reranked_rows, questions, k)
     metrics["method"] = "saved_top5_lexical_rerank"
+    metrics["reranker_config"] = {
+        "vector_weight": DEFAULT_VECTOR_WEIGHT,
+        "lexical_weight": DEFAULT_LEXICAL_WEIGHT,
+        "same_document_boost": DEFAULT_SAME_DOCUMENT_BOOST,
+    }
     return metrics
 
 
@@ -268,6 +278,7 @@ def _write_report(result: dict[str, Any], report_path: Path) -> None:
             "## Saved Top-5 Lexical Rerank Replay",
             "",
             "This replay applies the Phase 33 lexical reranker to the saved top-5 chunks from Phase 32. It cannot evaluate chunks outside that saved top-5 pool.",
+            f"Reranker config: vector weight `{DEFAULT_VECTOR_WEIGHT}`, lexical weight `{DEFAULT_LEXICAL_WEIGHT}`, same-document boost `{DEFAULT_SAME_DOCUMENT_BOOST}`.",
             "",
             "| Top K | Precision@k | Source Recall | All-Sources Hit | MRR | Failed Source Questions | Precision Target | Recall Gate | MRR Gate |",
             "| ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |",
@@ -311,7 +322,8 @@ def _write_report(result: dict[str, Any], report_path: Path) -> None:
     lines.extend(
         [
             f"- Saved top-5 lexical rerank replay reaches Precision@k `{best_reranked['precision_at_k']:.3f}` at top-{best_reranked['top_k']} with recall `{best_reranked['expected_source_recall']:.3f}`.",
-            "- A top-k-only change does not meet all Phase 33 targets. The next implementation step needs a ranking or filtering change verified by a live retrieval run.",
+            "- The saved-artifact replay now clears the Phase 33 retrieval gates, but it is not a live retrieval result.",
+            "- The next implementation step still needs a live retrieval run and full permission safety verification before promotion.",
             "- Permission leakage is not measured by this replay; Phase 33 completion still requires the permission safety check or an equivalent live safety run.",
             "",
             "## Failed Questions At Best Gated Cut",
@@ -339,6 +351,7 @@ def _write_checklist(path: Path) -> None:
                 "- [x] Add no-network precision diagnostics for saved baseline artifacts.",
                 "- [x] Identify whether top-k-only tuning can satisfy Phase 33 gates.",
                 "- [x] Implement an opt-in lexical reranking candidate.",
+                "- [x] Add same-document coherence boost to the lexical reranking candidate.",
                 "- [x] Add a dry-runnable Phase 33 live evaluation harness.",
                 "- [ ] Run before/after retrieval evaluation on benchmark v1.1.",
                 "- [ ] Verify source recall >= 0.95, MRR >= 0.95, Precision@k >= 0.75, and permission leakage = 0.000.",
@@ -368,6 +381,11 @@ def _write_verification(path: Path, result: dict[str, Any]) -> None:
         "- `python scripts/test_phase33_reranker.py`",
         "- `python scripts/analyze_phase33_precision.py`",
         "- `python scripts/run_phase33_precision_candidate.py --dry-run`",
+        "- `python scripts/run_phase33_no_egress_candidates.py`",
+        "- `python scripts/export_dashboard_data.py`",
+        "- `python scripts/validate_benchmark.py`",
+        "- `python -m compileall apps scripts`",
+        "- `cd apps/web; $env:NEXT_DIST_DIR='.next-codex-build'; npm run build`",
         "",
         "## Diagnostic Result",
         "",
@@ -379,10 +397,12 @@ def _write_verification(path: Path, result: dict[str, Any]) -> None:
     lines.extend(
         [
             "- Top-k-only replay does not meet the Phase 33 Precision@k target of `0.75` while preserving recall and MRR.",
-            "- Saved top-5 lexical rerank replay is included as a deterministic candidate check, but it cannot inspect chunks outside the saved top-5 pool.",
+            f"- Saved top-5 lexical rerank replay with same-document boost reaches top-3 Precision@k `{max(_candidate_summary(result['saved_top5_lexical_rerank_replay']), key=lambda row: (row['meets_phase33_recall_gate'], row['meets_phase33_mrr_gate'], row['precision_at_k']))['precision_at_k']:.3f}` while preserving recall and MRR gates, but it cannot inspect chunks outside the saved top-5 pool.",
+            "- No-egress keyword-only top-k sweep was run locally against Postgres full-text retrieval. No candidate satisfies all Phase 33 retrieval gates: top-1 reaches Precision@k `0.878` but recall is `0.765`; top-4 preserves recall at `0.961` but Precision@k is `0.561` and MRR is `0.921`.",
+            "- No-egress keyword-only retrieval-boundary checks showed unauthorized chunk exposure `0.000` and unauthorized chunks reached generation `0.000` for the restricted benchmark questions.",
             "- Local reranker regression checks confirm the reranker only sees permission-filtered chunks in the test fixture.",
-            "- OpenAI-backed live retrieval reruns were skipped because external API use was not approved for this continuation.",
-            "- Permission safety was not re-run in this diagnostic-only step.",
+            "- OpenAI-backed live retrieval rerun was attempted, but approval was rejected because it would send benchmark question text to the external embeddings API. It still requires explicit user approval after the data-egress risk is understood.",
+            "- Full permission safety with answer/refusal and citation checks was not re-run because the existing script can call answer generation; the no-egress permission result above is retrieval-boundary-only.",
             "",
         ]
     )
@@ -412,6 +432,11 @@ def run(output_path: Path = OUTPUT_PATH, report_path: Path = REPORT_PATH) -> dic
         },
         "top_k_replay": top_k_replay,
         "saved_top5_lexical_rerank_replay": saved_top5_lexical_rerank_replay,
+        "saved_top5_lexical_rerank_config": {
+            "vector_weight": DEFAULT_VECTOR_WEIGHT,
+            "lexical_weight": DEFAULT_LEXICAL_WEIGHT,
+            "same_document_boost": DEFAULT_SAME_DOCUMENT_BOOST,
+        },
         "notes": [
             "This diagnostic replays saved Phase 32 result ordering only.",
             "It does not call OpenAI, query Postgres, or prove a live retrieval change.",

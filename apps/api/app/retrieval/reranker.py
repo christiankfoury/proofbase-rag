@@ -39,6 +39,9 @@ STOP_WORDS = {
 }
 
 TOKEN_PATTERN = re.compile(r"[a-z0-9]+")
+DEFAULT_VECTOR_WEIGHT = 1.0
+DEFAULT_LEXICAL_WEIGHT = 0.04
+DEFAULT_SAME_DOCUMENT_BOOST = 0.03
 
 
 def tokenize(text: str) -> list[str]:
@@ -72,8 +75,9 @@ def rerank_chunks(
     query: str,
     chunks: list[RetrievedChunk],
     *,
-    vector_weight: float = 1.0,
-    lexical_weight: float = 0.08,
+    vector_weight: float = DEFAULT_VECTOR_WEIGHT,
+    lexical_weight: float = DEFAULT_LEXICAL_WEIGHT,
+    same_document_boost: float = DEFAULT_SAME_DOCUMENT_BOOST,
 ) -> list[RetrievedChunk]:
     if not chunks:
         return []
@@ -85,6 +89,17 @@ def rerank_chunks(
         combined_score = (vector_weight * vector_score) + (lexical_weight * lexical_score)
         scored.append((combined_score, -index, chunk, lexical_score))
 
+    scored.sort(key=lambda item: (item[0], item[1]), reverse=True)
+    lead_document_id = scored[0][2].document_id
+    scored = [
+        (
+            combined_score + (same_document_boost if chunk.document_id == lead_document_id else 0.0),
+            stable_order,
+            chunk,
+            lexical_score,
+        )
+        for combined_score, stable_order, chunk, lexical_score in scored
+    ]
     scored.sort(key=lambda item: (item[0], item[1]), reverse=True)
     return [
         dataclasses.replace(
