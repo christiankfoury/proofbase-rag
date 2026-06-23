@@ -247,15 +247,21 @@ function emptyDashboardData(): DashboardData {
 }
 
 export async function getDashboardData(headers: HeadersInit = {}): Promise<DashboardData> {
-  const response = await fetch(`${API_BASE}/evaluation/compare`, { cache: "no-store", headers });
-  if (!response.ok) {
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE}/evaluation/compare`, { cache: "no-store", headers });
+  } catch {
     return emptyDashboardData();
   }
+  if (!response.ok) return emptyDashboardData();
+
   const compare = await response.json();
-  const failedResponse = await fetch(`${API_BASE}/evaluation/failed-questions`, { cache: "no-store", headers });
-  const summaryResponse = await fetch(`${API_BASE}/evaluation/summary`, { cache: "no-store", headers });
-  const failed = failedResponse.ok ? await failedResponse.json() : { failed_questions: [] };
-  const summary = summaryResponse.ok ? await summaryResponse.json() : { generated_at: "", notes: [] };
+  const [failedResponse, summaryResponse] = await Promise.all([
+    fetch(`${API_BASE}/evaluation/failed-questions`, { cache: "no-store", headers }).catch(() => null),
+    fetch(`${API_BASE}/evaluation/summary`, { cache: "no-store", headers }).catch(() => null),
+  ]);
+  const failed = failedResponse?.ok ? await failedResponse.json() : { failed_questions: [] };
+  const summary = summaryResponse?.ok ? await summaryResponse.json() : { generated_at: "", notes: [] };
   return {
     generated_at: summary.generated_at,
     overview: compare.overview,
