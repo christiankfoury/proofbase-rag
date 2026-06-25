@@ -183,6 +183,81 @@ export async function queryRag(payload: QueryRequest): Promise<QueryResponse> {
   });
 }
 
+export type QueryStreamHandlers = {
+  onStatus?: (status: string, message?: string) => void;
+  onDelta?: (delta: string) => void;
+  onMetadata?: (response: QueryResponse) => void;
+};
+
+function parseSseBlock(block: string): { event: string; data: unknown } | null {
+  const lines = block.split(/\r?\n/);
+  let event = "message";
+  const dataLines: string[] = [];
+  for (const line of lines) {
+    if (line.startsWith("event:")) event = line.slice("event:".length).trim();
+    if (line.startsWith("data:")) dataLines.push(line.slice("data:".length).trimStart());
+  }
+  if (!dataLines.length) return null;
+  try {
+    return { event, data: JSON.parse(dataLines.join("\n")) };
+  } catch {
+    return null;
+  }
+}
+
+export async function queryRagStream(payload: QueryRequest, handlers: QueryStreamHandlers = {}): Promise<QueryResponse> {
+  const response = await fetch(`${API_BASE}/query/stream`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "text/event-stream",
+      ...demoAuthHeaders(),
+    },
+  });
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(detail || `Request failed with ${response.status}`);
+  }
+  if (!response.body) throw new Error("Streaming response is unavailable.");
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let finalResponse: QueryResponse | null = null;
+  let streamError: string | null = null;
+
+  function consume(block: string) {
+    const parsed = parseSseBlock(block);
+    if (!parsed) return;
+    const data = parsed.data as Record<string, unknown>;
+    if (parsed.event === "status") {
+      handlers.onStatus?.(String(data.status ?? "status"), typeof data.message === "string" ? data.message : undefined);
+    } else if (parsed.event === "answer_delta") {
+      const delta = typeof data.delta === "string" ? data.delta : "";
+      if (delta) handlers.onDelta?.(delta);
+    } else if (parsed.event === "metadata") {
+      finalResponse = data as QueryResponse;
+      handlers.onMetadata?.(finalResponse);
+    } else if (parsed.event === "error") {
+      streamError = typeof data.message === "string" ? data.message : "Streaming query failed.";
+    }
+  }
+
+  while (true) {
+    const { done, value } = await reader.read();
+    buffer += decoder.decode(value ?? new Uint8Array(), { stream: !done });
+    const blocks = buffer.split(/\r?\n\r?\n/);
+    buffer = blocks.pop() ?? "";
+    blocks.forEach(consume);
+    if (done) break;
+  }
+  if (buffer.trim()) consume(buffer);
+  if (streamError) throw new Error(streamError);
+  if (!finalResponse) throw new Error("Streaming query ended before final metadata arrived.");
+  return finalResponse;
+}
+
 export async function createChatSession(payload: { user_role?: string; user_id?: string | null } = {}): Promise<{ session_id: string; user_role: string; user_id?: string }> {
   return requestJson("/chat/sessions", {
     method: "POST",

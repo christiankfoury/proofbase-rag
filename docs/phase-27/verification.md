@@ -20,7 +20,7 @@ FastAPI `TestClient` checks passed:
 - Emma Employee could open seeded Northstar Analytics project data.
 - Gus Guest received `403` for Northstar Analytics project data.
 - Emma Employee received `403` for Dev/Admin evaluation summary.
-- Kai Knowledge Manager received `200` for Dev/Admin evaluation summary.
+- Kai Admin received `200` for Dev/Admin evaluation summary.
 
 ## Role Derivation Smoke Check
 

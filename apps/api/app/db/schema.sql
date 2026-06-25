@@ -22,7 +22,7 @@ values
   ('00000000-0000-0000-0000-000000002703', 'Mina Manager', 'manager@northstar.example', 'Manager', false),
   ('00000000-0000-0000-0000-000000002704', 'Harper HR Admin', 'hr-admin@northstar.example', 'HR Admin', false),
   ('00000000-0000-0000-0000-000000002705', 'Ira IT Admin', 'it-admin@northstar.example', 'IT Admin', false),
-  ('00000000-0000-0000-0000-000000002706', 'Kai Knowledge Manager', 'knowledge-manager@northstar.example', 'Knowledge Manager', true),
+  ('00000000-0000-0000-0000-000000002706', 'Kai Admin', 'admin@northstar.example', 'Admin', true),
   ('00000000-0000-0000-0000-000000002707', 'Gus Guest', 'guest@external.example', 'Employee', false)
 on conflict (id) do update set
   display_name = excluded.display_name,

@@ -239,7 +239,7 @@ def create_pending_review_document(
             """,
             (
                 document_id,
-                "Knowledge Manager",
+                "Admin",
                 _hash_text(extracted_markdown),
                 extracted_markdown,
                 json.dumps(version_metadata, default=str),

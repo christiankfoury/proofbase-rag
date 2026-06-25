@@ -233,7 +233,7 @@ export function RetrievalPlaygroundClient({
         profile_name: selected.profile.name,
         decision: reviewDecision,
         question,
-        user_role: "Knowledge Manager",
+        user_role: "Admin",
         primary_metric: "source_coverage",
         expected_sources: expectedSources,
         notes: reviewNotes,

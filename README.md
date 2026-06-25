@@ -296,7 +296,7 @@ Open:
 - API health: `http://localhost:8000/health`
 - API readiness: `http://localhost:8000/ready`
 
-The local demo defaults to Emma Employee. Use the header selector in the web app to switch demo users, including Kai Knowledge Manager for Dev/Admin access and Gus Guest for unauthorized-access checks.
+The local demo defaults to Emma Employee. Use the header selector in the web app to switch demo users, including Kai Admin for Dev/Admin access and Gus Guest for unauthorized-access checks.
 
 If port `3000` is already in use, set `WEB_PORT=3001` in `.env` and open `http://localhost:3001`.
 

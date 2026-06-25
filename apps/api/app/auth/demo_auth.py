@@ -112,7 +112,7 @@ def accessible_project_ids(user: dict[str, Any]) -> set[str] | None:
 
 def require_admin(user: dict[str, Any]) -> None:
     if not user["is_admin"]:
-        raise HTTPException(status_code=403, detail="Dev & Admin access requires the Knowledge Manager demo user.")
+        raise HTTPException(status_code=403, detail="Dev & Admin access requires the Admin demo user.")
 
 
 def require_project_member(user: dict[str, Any], project_id: str) -> dict[str, Any] | None:

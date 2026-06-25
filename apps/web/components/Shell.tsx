@@ -212,6 +212,7 @@ export function Shell({ children }: { children: ReactNode }) {
   const [breadcrumbHighlightWidth, setBreadcrumbHighlightWidth] = useState(0);
   const headerContext = useMemo(() => ({ setHeader }), []);
   const breadcrumbs = useMemo(() => breadcrumbForPath(pathname ?? "/", header.title), [pathname, header.title]);
+  const isFullWidthRoute = pathname === "/chat";
   const isDevAdminRoute = Boolean(pathname?.startsWith("/dev-admin"));
   const devAdminChecking = isDevAdminRoute && ((!currentUser && !authError) || isRouteRefreshPending);
   const devAdminBlocked = isDevAdminRoute && currentUser && !currentUser.is_admin;
@@ -337,7 +338,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </aside>
         <div className="min-w-0">
           <header className={`border-b border-stone-300 bg-white py-2 ${pageStyles.chrome}`}>
-            <div className={pageStyles.headerInner}>
+            <div className={isFullWidthRoute ? "flex min-h-10 w-full items-center justify-between gap-4" : pageStyles.headerInner}>
               <div className="flex min-w-0 items-center gap-3">
                 <button
                   type="button"
@@ -432,9 +433,9 @@ export function Shell({ children }: { children: ReactNode }) {
               ) : devAdminBlocked ? (
                 <div className="card max-w-3xl">
                   <p className="text-xs font-semibold uppercase tracking-wide text-rust">Access denied</p>
-                  <h2 className="mt-2 text-2xl font-semibold text-ink">Dev & Admin requires Knowledge Manager access</h2>
+                  <h2 className="mt-2 text-2xl font-semibold text-ink">Dev & Admin requires Admin access</h2>
                   <p className="mt-3 text-stone-700">
-                    {currentUser.display_name} is signed in as {currentUser.business_role}. Switch to Kai Knowledge Manager to review evaluation runs,
+                    {currentUser.display_name} is signed in as {currentUser.business_role}. Switch to Kai Admin to review evaluation runs,
                     audit logs, observability, and admin-only simulation tools.
                   </p>
                 </div>

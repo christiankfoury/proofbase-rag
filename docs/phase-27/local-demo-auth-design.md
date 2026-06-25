@@ -17,7 +17,7 @@ The schema seeds `demo_users` and `project_memberships`.
 | Mina Manager | Manager | No | Viewer |
 | Harper HR Admin | HR Admin | No | Viewer |
 | Ira IT Admin | IT Admin | No | Viewer |
-| Kai Knowledge Manager | Knowledge Manager | Yes | Owner |
+| Kai Admin | Admin | Yes | Owner |
 | Gus Guest | Employee | No | None |
 
 `DEFAULT_DEMO_USER_ID` controls the fallback user when no `X-Demo-User-Id` header is supplied. The default is Emma Employee.

@@ -7,7 +7,7 @@
 - Added `GET /auth/demo-users` and `GET /auth/me`.
 - Added server-side membership checks for project, department, document-library, upload, and mutation routes.
 - Changed project-scoped `/query` to derive `user_role` from the resolved demo user.
-- Gated Dev/Admin API surfaces to the Knowledge Manager admin persona.
+- Gated Dev/Admin API surfaces to the Admin persona.
 - Added a header signed-in-as selector.
 - Mirrored selected demo identity to a cookie for server-rendered Dev/Admin fetches.
 - Replaced Chat Demo role selection with read-only signed-in role context.
@@ -24,4 +24,4 @@
 
 ## Recruiter Demo Note
 
-Use the header selector to switch between demo users. Emma Employee can use the App workspace and scoped chat. Gus Guest demonstrates project denial. Kai Knowledge Manager can access Dev/Admin evidence tools.
+Use the header selector to switch between demo users. Emma Employee can use the App workspace and scoped chat. Gus Guest demonstrates project denial. Kai Admin can access Dev/Admin evidence tools.

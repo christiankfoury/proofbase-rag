@@ -5,10 +5,7 @@ import { ChatDemoClient } from "./ChatDemoClient";
 export default function ChatDemoPage() {
   return (
     <Shell>
-      <PageHeader
-        title="Chat Demo"
-        description="Ask the enterprise RAG API live from a selected project or department, switch demo users, inspect citations and retrieved context, and submit feedback. This is a recruiter demo UI backed by local demo auth, not production SSO."
-      />
+      <PageHeader title="Chat Demo" />
       <ChatDemoClient />
     </Shell>
   );

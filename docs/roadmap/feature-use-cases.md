@@ -9,15 +9,14 @@ These use cases define the planned App-side features and the supporting Dev/Admi
 | Role | Purpose |
 |---|---|
 | Employee | Asks questions in project and department workspaces. |
-| Knowledge Manager | Creates projects, departments, uploads documents, and reviews extracted Markdown. |
 | Department Owner | Manages documents and source coverage for one department. |
-| Admin | Manages roles, permissions, ingestion, audits, and system settings. |
+| Admin | Creates projects, departments, uploads documents, reviews extracted Markdown, and manages roles, permissions, ingestion, audits, and system settings. |
 | RAG Evaluator | Reviews algorithm comparison, benchmark failures, and quality regressions. |
 | Recruiter/Reviewer | Views the polished demo flow and understands the system quickly. |
 
 ## UC-01: Create A Project
 
-User: Knowledge Manager.
+User: Admin.
 
 Goal: Create a new knowledge workspace.
 
@@ -42,7 +41,7 @@ Validation:
 
 ## UC-02: Manage Project Details
 
-User: Knowledge Manager.
+User: Admin.
 
 Goal: Keep project metadata accurate.
 
@@ -66,7 +65,7 @@ Validation:
 
 ## UC-03: Create Departments With Icons
 
-User: Knowledge Manager or Department Owner.
+User: Admin or Department Owner.
 
 Goal: Organize project knowledge into recognizable business areas.
 
@@ -91,7 +90,7 @@ Validation:
 
 ## UC-04: Upload Files Into A Department
 
-User: Knowledge Manager or Department Owner.
+User: Admin or Department Owner.
 
 Goal: Add knowledge to a project department.
 
@@ -117,7 +116,7 @@ Validation:
 
 ## UC-05: Convert PDF To Reviewable Markdown
 
-User: Knowledge Manager.
+User: Admin.
 
 Goal: Turn a PDF into clean text for chunking and citation.
 
@@ -321,4 +320,3 @@ Validation:
 - Demo can be completed in five minutes.
 - Screenshots show both App and Dev/Admin surfaces.
 - No page requires reading README to understand the core value.
-

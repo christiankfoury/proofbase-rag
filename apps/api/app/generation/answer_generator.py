@@ -1,6 +1,7 @@
 from dataclasses import asdict
 import json
 import re
+from collections.abc import Iterator
 
 from openai import OpenAI
 
@@ -524,6 +525,136 @@ def classify_behavior(answer: str, fallback: str = "answer") -> str:
     return fallback
 
 
+class _AnswerFieldDeltaExtractor:
+    def __init__(self) -> None:
+        self.buffer = ""
+        self.in_answer = False
+        self.done = False
+        self.escape = False
+        self.unicode_escape: str | None = None
+
+    def push(self, text: str) -> str:
+        if self.done:
+            return ""
+        if not self.in_answer:
+            self.buffer += text
+            key_index = self.buffer.find('"answer"')
+            if key_index == -1:
+                self.buffer = self.buffer[-32:]
+                return ""
+            colon_index = self.buffer.find(":", key_index + len('"answer"'))
+            if colon_index == -1:
+                return ""
+            quote_index = self.buffer.find('"', colon_index + 1)
+            if quote_index == -1:
+                return ""
+            self.in_answer = True
+            text = self.buffer[quote_index + 1 :]
+            self.buffer = ""
+
+        output = []
+        for char in text:
+            if self.unicode_escape is not None:
+                self.unicode_escape += char
+                if len(self.unicode_escape) == 4:
+                    try:
+                        output.append(chr(int(self.unicode_escape, 16)))
+                    except ValueError:
+                        output.append(f"\\u{self.unicode_escape}")
+                    self.unicode_escape = None
+                    self.escape = False
+                continue
+            if self.escape:
+                if char == "u":
+                    self.unicode_escape = ""
+                    continue
+                output.append(
+                    {
+                        '"': '"',
+                        "\\": "\\",
+                        "/": "/",
+                        "b": "\b",
+                        "f": "\f",
+                        "n": "\n",
+                        "r": "\r",
+                        "t": "\t",
+                    }.get(char, char)
+                )
+                self.escape = False
+                continue
+            if char == "\\":
+                self.escape = True
+                continue
+            if char == '"':
+                self.done = True
+                break
+            output.append(char)
+        return "".join(output)
+
+
+def _finalize_generated_answer(
+    raw_answer: str,
+    chunks: list[RetrievedChunk],
+    usage,
+    selected_model: str,
+    prompt_metadata: dict,
+    multi_doc: bool = False,
+) -> dict:
+    parsed = _parse_json_object(raw_answer)
+    if parsed:
+        answer = str(parsed.get("answer") or "")
+        response_type = str(parsed.get("response_type") or RESPONSE_ANSWER)
+        if response_type not in SUPPORTED_RESPONSE_TYPES:
+            response_type = RESPONSE_ANSWER
+        citations = _citations_from_structured_response(parsed, chunks)
+        supported_claims = [str(claim) for claim in parsed.get("supported_claims") or []]
+        unsupported_claims = [str(claim) for claim in parsed.get("unsupported_claims") or []]
+    else:
+        answer = raw_answer
+        response_type = RESPONSE_NOT_FOUND if classify_behavior(answer) == "say_not_found" else RESPONSE_ANSWER
+        citations = citations_from_answer(answer, chunks, include_fallback=False)
+        supported_claims = []
+        unsupported_claims = ["Model did not return structured JSON."]
+
+    citations = _backfill_supporting_citations(answer, response_type, citations, chunks)
+    validation = validate_citations(answer, citations, chunks)
+    unsupported_claims = list(dict.fromkeys(unsupported_claims + validation["unsupported_claims"]))
+    response_type = _adjust_response_type(response_type, validation["citation_confidence"], unsupported_claims, multi_doc=multi_doc)
+    answer = _adjust_answer_text(answer, response_type, validation["citation_confidence"], multi_doc=multi_doc)
+    if response_type == RESPONSE_NOT_FOUND:
+        validation = {
+            "citations": [],
+            "citation_confidence": 0.0,
+            "supported_claims": [],
+            "unsupported_claims": [],
+            "validation_notes": "Retrieved context did not provide enough support for the requested answer.",
+        }
+        supported_claims = []
+        unsupported_claims = []
+    confidence = final_confidence(response_type, chunks, validation["citation_confidence"], unsupported_claims)
+
+    input_tokens = usage.prompt_tokens if usage else None
+    output_tokens = usage.completion_tokens if usage else None
+    return {
+        "answer": answer,
+        "response_type": response_type,
+        "behavior": response_type_to_behavior(response_type),
+        "citations": validation["citations"],
+        "supported_claims": list(dict.fromkeys(supported_claims + validation["supported_claims"])),
+        "unsupported_claims": unsupported_claims,
+        "validation_notes": validation["validation_notes"],
+        "input_tokens": input_tokens,
+        "output_tokens": output_tokens,
+        **estimate_chat_cost(
+            model=selected_model,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+        ),
+        **prompt_metadata,
+        **confidence,
+    }
+
+
 def generate_answer(
     question: str,
     chunks: list[RetrievedChunk],
@@ -632,57 +763,161 @@ def generate_answer(
     )
     usage = response.usage
     raw_answer = response.choices[0].message.content or ""
-    parsed = _parse_json_object(raw_answer)
-    if parsed:
-        answer = str(parsed.get("answer") or "")
-        response_type = str(parsed.get("response_type") or RESPONSE_ANSWER)
-        if response_type not in SUPPORTED_RESPONSE_TYPES:
-            response_type = RESPONSE_ANSWER
-        citations = _citations_from_structured_response(parsed, chunks)
-        supported_claims = [str(claim) for claim in parsed.get("supported_claims") or []]
-        unsupported_claims = [str(claim) for claim in parsed.get("unsupported_claims") or []]
-    else:
-        answer = raw_answer
-        response_type = RESPONSE_NOT_FOUND if classify_behavior(answer) == "say_not_found" else RESPONSE_ANSWER
-        citations = citations_from_answer(answer, chunks, include_fallback=False)
-        supported_claims = []
-        unsupported_claims = ["Model did not return structured JSON."]
+    return _finalize_generated_answer(raw_answer, chunks, usage, selected_model, prompt_metadata, multi_doc=multi_doc)
 
-    citations = _backfill_supporting_citations(answer, response_type, citations, chunks)
-    validation = validate_citations(answer, citations, chunks)
-    unsupported_claims = list(dict.fromkeys(unsupported_claims + validation["unsupported_claims"]))
-    response_type = _adjust_response_type(response_type, validation["citation_confidence"], unsupported_claims, multi_doc=multi_doc)
-    answer = _adjust_answer_text(answer, response_type, validation["citation_confidence"], multi_doc=multi_doc)
-    if response_type == RESPONSE_NOT_FOUND:
-        validation = {
+
+def generate_answer_stream(
+    question: str,
+    chunks: list[RetrievedChunk],
+    expected_behavior: str | None = None,
+    user_role: str | None = None,
+    memory_context: str | None = None,
+    original_question: str | None = None,
+    prompt_name: str = "answer_generation",
+    prompt_version: str | None = None,
+    model: str | None = None,
+    temperature: float | None = None,
+    multi_doc: bool = False,
+    grouped_docs: list[dict] | None = None,
+) -> Iterator[dict]:
+    settings = get_settings()
+    prompt = get_prompt(prompt_name, prompt_version)
+    selected_model = model or prompt.model or settings.openai_chat_model
+    selected_temperature = prompt.temperature if temperature is None else temperature
+    prompt_metadata = _prompt_metadata(prompt, selected_model, selected_temperature)
+
+    if user_role and chunks:
+        from apps.api.app.permissions.access_control import unauthorized_chunks
+
+        unauthorized = unauthorized_chunks(chunks, user_role)
+        if unauthorized:
+            log_audit_event(
+                action="unauthorized_chunks_reached_generation",
+                user_role=user_role,
+                resource_type="generation",
+                outcome="blocked",
+                reason="retriever_returned_disallowed_chunks",
+                metadata={
+                    "blocked_document_ids": list(dict.fromkeys(chunk.document_id for chunk in unauthorized)),
+                    "blocked_chunks_count": len(unauthorized),
+                },
+            )
+            response_type = RESPONSE_REFUSE_NO_ACCESS
+            confidence = final_confidence(response_type, [], 0.0, [])
+            answer = {
+                "answer": "I cannot answer this because your role does not have access to the required document.",
+                "response_type": response_type,
+                "behavior": response_type_to_behavior(response_type),
+                "citations": [],
+                "supported_claims": [],
+                "unsupported_claims": [],
+                "validation_notes": "Unauthorized chunks were blocked before generation.",
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "estimated_cost_usd": None,
+                **prompt_metadata,
+                **_zero_cost(selected_model),
+                **confidence,
+            }
+            yield {"type": "answer_delta", "delta": answer["answer"]}
+            yield {"type": "final", "answer": answer}
+            return
+
+    policy_response = _policy_response(question, chunks, user_role=user_role)
+    if policy_response:
+        answer = {**policy_response, **prompt_metadata, **_zero_cost(selected_model)}
+        yield {"type": "answer_delta", "delta": answer["answer"]}
+        yield {"type": "final", "answer": answer}
+        return
+
+    if not chunks:
+        response_type = RESPONSE_REFUSE_NO_ACCESS if expected_behavior == "refuse_no_access" else RESPONSE_NOT_FOUND
+        answer_text = (
+            "I could not find this in the available documents."
+            if response_type == RESPONSE_NOT_FOUND
+            else "You do not have access to the required information."
+        )
+        confidence = final_confidence(response_type, [], 0.0, [])
+        answer = {
+            "answer": answer_text,
+            "response_type": response_type,
+            "behavior": response_type_to_behavior(response_type),
             "citations": [],
-            "citation_confidence": 0.0,
             "supported_claims": [],
             "unsupported_claims": [],
-            "validation_notes": "Retrieved context did not provide enough support for the requested answer.",
+            "validation_notes": "No retrieved chunks were available.",
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": None,
+            **prompt_metadata,
+            **_zero_cost(selected_model),
+            **confidence,
         }
-        supported_claims = []
-        unsupported_claims = []
-    confidence = final_confidence(response_type, chunks, validation["citation_confidence"], unsupported_claims)
+        yield {"type": "answer_delta", "delta": answer_text}
+        yield {"type": "final", "answer": answer}
+        return
 
-    return {
-        "answer": answer,
-        "response_type": response_type,
-        "behavior": response_type_to_behavior(response_type),
-        "citations": validation["citations"],
-        "supported_claims": list(dict.fromkeys(supported_claims + validation["supported_claims"])),
-        "unsupported_claims": unsupported_claims,
-        "validation_notes": validation["validation_notes"],
-        "input_tokens": usage.prompt_tokens if usage else None,
-        "output_tokens": usage.completion_tokens if usage else None,
-        **estimate_chat_cost(
+    if grouped_docs is not None:
+        from apps.api.app.generation.prompts import build_multi_doc_user_prompt
+
+        user_prompt = build_multi_doc_user_prompt(
+            question,
+            grouped_docs,
+            memory_context=memory_context,
+            original_question=original_question,
+        )
+    else:
+        user_prompt = build_answer_user_prompt(
+            question,
+            chunks,
+            memory_context=memory_context,
+            original_question=original_question,
+        )
+
+    try:
+        stream = _client().chat.completions.create(
             model=selected_model,
-            input_tokens=usage.prompt_tokens if usage else None,
-            output_tokens=usage.completion_tokens if usage else None,
-        ),
-        **prompt_metadata,
-        **confidence,
-    }
+            temperature=selected_temperature,
+            messages=[
+                {"role": "system", "content": prompt.content},
+                {"role": "user", "content": user_prompt},
+            ],
+            stream=True,
+            stream_options={"include_usage": True},
+        )
+    except TypeError:
+        stream = _client().chat.completions.create(
+            model=selected_model,
+            temperature=selected_temperature,
+            messages=[
+                {"role": "system", "content": prompt.content},
+                {"role": "user", "content": user_prompt},
+            ],
+            stream=True,
+        )
+
+    raw_parts = []
+    usage = None
+    extractor = _AnswerFieldDeltaExtractor()
+    for chunk in stream:
+        chunk_usage = getattr(chunk, "usage", None)
+        if chunk_usage is not None:
+            usage = chunk_usage
+        choices = getattr(chunk, "choices", None) or []
+        if not choices:
+            continue
+        delta = getattr(choices[0], "delta", None)
+        content = getattr(delta, "content", None) if delta is not None else None
+        if content is None:
+            continue
+        raw_parts.append(content)
+        answer_delta = extractor.push(content)
+        if answer_delta:
+            yield {"type": "answer_delta", "delta": answer_delta}
+
+    yield {"type": "status", "status": "validation_started", "message": "Validating citations and confidence."}
+    raw_answer = "".join(raw_parts)
+    yield {"type": "final", "answer": _finalize_generated_answer(raw_answer, chunks, usage, selected_model, prompt_metadata, multi_doc=multi_doc)}
 
 
 def _adjust_response_type(
