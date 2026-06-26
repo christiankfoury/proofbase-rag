@@ -204,4 +204,3 @@ Recommended verification:
 3. Add a pre-generation ambiguity classifier that returns `clarify` before retrieval/generation when intent is underspecified.
 4. Keep permission evaluation as a hard gate for any orchestration change.
 5. Preserve honest dashboard language: run ID, sample size, benchmark version, and limitations.
-

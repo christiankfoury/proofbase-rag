@@ -131,4 +131,3 @@ The permission model is strong for the synthetic demo and benchmark:
 - permission evaluation artifacts
 
 It is not production identity yet. Local demo auth is not SSO, and real enterprise connector permissions are planned, not implemented.
-

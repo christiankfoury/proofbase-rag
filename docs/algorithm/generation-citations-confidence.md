@@ -191,4 +191,3 @@ The latest Phase 38 answer run reported hallucination rate `0.000` over 130 ques
 | `phase38-answer-quality-remediation-v8` | 130 | `0.975` | `0.969` | `0.000` | 6 |
 
 The remaining Phase 38 failed questions are concentrated in multi-document and citation-source completeness cases.
-

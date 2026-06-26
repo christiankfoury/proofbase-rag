@@ -140,4 +140,3 @@ These metrics judge document-level coverage, not whether the exact sentence was 
 | Lexical rerank | Better Precision@k and section/title matching. | Does not plan for all documents needed by a multi-part question. |
 | Strict department filter | Clear project/department isolation. | A user may miss relevant cross-department evidence unless asking at project scope. |
 | Heuristic multi-doc detection | Cheap and understandable. | It can miss multi-document questions with new wording. |
-

@@ -195,4 +195,3 @@ Answer runs estimate chat-generation cost from configured model pricing. They ex
 - cached-input or batch discounts
 
 Evaluation runners that call OpenAI use explicit approval flags or budget guardrails in later phases.
-

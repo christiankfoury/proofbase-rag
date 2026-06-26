@@ -92,4 +92,3 @@ These are measured outputs over a synthetic benchmark, not production guarantees
 | Production SSO and real enterprise connectors | Planned. |
 | Multi-document decomposition | Implemented as a heuristic plus OpenAI query decomposer, but Phase 39 remains next for stronger orchestration. |
 | Evaluation dashboard | Implemented from existing evaluation artifacts. |
-

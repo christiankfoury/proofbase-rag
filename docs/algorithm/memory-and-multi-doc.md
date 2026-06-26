@@ -160,4 +160,3 @@ Phase 39 is the right next implementation phase because current failures are con
 - verify each required source is represented
 - clarify underspecified intent before generation
 - keep permission filtering before every synthesis step
-

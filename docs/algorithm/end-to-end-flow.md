@@ -128,4 +128,3 @@ The API response includes:
 The answer generator's context comes from `RetrievedChunk` objects returned by the retriever. That means the main permission boundary is before generation, not after generation.
 
 The code also logs retrieved chunk IDs and document IDs for observability, but it does not need to log full source text to prove which evidence was used.
-
