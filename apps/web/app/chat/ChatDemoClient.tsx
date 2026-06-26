@@ -859,12 +859,12 @@ export function ChatDemoClient() {
                     key={preset.label}
                     type="button"
                     onClick={() => applyPreset(preset)}
-                    className={`group rounded-md border px-3 py-3 text-left transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss ${preset.tone}`}
+                    className={`group rounded-md border px-3 py-3 text-left transition-[border-color,filter] hover:border-ink/40 hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss ${preset.tone}`}
                     aria-label={`Insert question: ${preset.question}`}
                   >
                     <span className="flex items-center justify-between gap-3">
                       <span className="text-sm font-semibold">{preset.label}</span>
-                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/80 shadow-sm ring-1 ring-black/10 transition-transform group-hover:scale-105">
+                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/80 shadow-sm ring-1 ring-black/10">
                         <MousePointerClick className="h-4 w-4" aria-hidden="true" />
                       </span>
                     </span>
@@ -1095,12 +1095,12 @@ export function ChatDemoClient() {
                   key={preset.label}
                   type="button"
                   onClick={() => applyPreset(preset)}
-                  className={`group rounded-md border px-3 py-3 text-left transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss ${preset.tone}`}
+                  className={`group rounded-md border px-3 py-3 text-left transition-[border-color,filter] hover:border-ink/40 hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss ${preset.tone}`}
                   aria-label={`Insert question: ${preset.question}`}
                 >
                   <span className="flex items-center justify-between gap-3">
                     <span className="text-sm font-semibold">{preset.label}</span>
-                    <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/80 shadow-sm ring-1 ring-black/10 transition-transform group-hover:scale-105">
+                    <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/80 shadow-sm ring-1 ring-black/10">
                       <MousePointerClick className="h-4 w-4" aria-hidden="true" />
                     </span>
                   </span>
