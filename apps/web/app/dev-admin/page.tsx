@@ -4,8 +4,10 @@ import { RunTable } from "@/components/RunTable";
 import { Shell } from "@/components/Shell";
 import { PageHeader } from "@/components/PageHeader";
 import { Card } from "@/components/Card";
+import { RunLabel } from "@/components/PhaseLabel";
 import { SectionHeading } from "@/components/SectionHeading";
 import { formatDateTime, formatIntegerMetric, formatLabel, formatMetric, getDashboardData, MetricContext } from "@/lib/dashboard";
+import { formatPhaseLabel, formatRunLabel } from "@/lib/phases";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 import Link from "next/link";
 
@@ -42,7 +44,7 @@ function contextLine(context?: MetricContext): string {
   const sample = context?.sample_size ?? "not measured";
   const failed = context?.failed_count ?? "not available";
   const version = context?.benchmark_version ?? "not available";
-  return `Run: ${context?.run_id ?? "not available"} | n=${sample} | failed=${failed} | benchmark ${version}`;
+  return `Run: ${formatRunLabel(context)} | n=${sample} | failed=${failed} | benchmark ${version}`;
 }
 
 function sortedBreakdown(breakdown?: Record<string, number | null> | null): Array<[string, number | null]> {
@@ -257,16 +259,18 @@ export default async function OverviewPage() {
                           <td>
                             <p className="font-medium text-ink">{formatMetric(item.baseline.value)}</p>
                             <p className="mt-1 text-xs text-stone-500">
-                              {item.baseline.run_id ?? "not available"} | n={item.baseline.sample_size ?? "n/a"} | benchmark{" "}
+                              {formatRunLabel(item.baseline)} | n={item.baseline.sample_size ?? "n/a"} | benchmark{" "}
                               {item.baseline.benchmark_version ?? "n/a"}
                             </p>
+                            {item.baseline.run_id ? <p className="mt-1 text-xs text-stone-400">{item.baseline.run_id}</p> : null}
                           </td>
                           <td>
                             <p className="font-medium text-ink">{formatMetric(item.current.value)}</p>
                             <p className="mt-1 text-xs text-stone-500">
-                              {item.current.run_id ?? "not available"} | n={item.current.sample_size ?? "n/a"} | benchmark{" "}
+                              {formatRunLabel(item.current)} | n={item.current.sample_size ?? "n/a"} | benchmark{" "}
                               {item.current.benchmark_version ?? "n/a"}
                             </p>
+                            {item.current.run_id ? <p className="mt-1 text-xs text-stone-400">{item.current.run_id}</p> : null}
                           </td>
                           <td className="text-right font-medium text-ink">{deltaText(item.delta, item.direction)}</td>
                           <td>{item.target_label ?? formatMetric(item.target)}</td>
@@ -290,7 +294,7 @@ export default async function OverviewPage() {
                   <p className="font-semibold text-ink">Current Failures</p>
                   <p className="mt-1 text-sm text-stone-600">
                     {scorecard?.failed_question_summary?.failed_question_count ?? "not available"} failed questions in{" "}
-                    {scorecard?.failed_question_summary?.current_answer_run_id ?? "the current answer run"}.
+                    {formatRunLabel(scorecard?.failed_question_summary?.current_answer_run_id ?? null)}.
                   </p>
                   <div className="mt-3 grid gap-2 text-sm">
                     {scorecardFailures.map(([reason, count]) => (
@@ -325,7 +329,7 @@ export default async function OverviewPage() {
               <thead>
                 <tr>
                   <th>Metric</th>
-                  <th>Run ID</th>
+                  <th>Run</th>
                   <th className="text-right">Sample</th>
                   <th className="text-right">Passed</th>
                   <th className="text-right">Failed</th>
@@ -339,7 +343,9 @@ export default async function OverviewPage() {
                   return (
                     <tr key={key}>
                       <td className="font-medium text-ink">{label}</td>
-                      <td>{context?.run_id ?? "not available"}</td>
+                      <td>
+                        <RunLabel run={context} />
+                      </td>
                       <td className="text-right">{context?.sample_size ?? "not measured"}</td>
                       <td className="text-right">{context?.passed_count ?? "not available"}</td>
                       <td className="text-right">{context?.failed_count ?? "not available"}</td>
@@ -384,7 +390,8 @@ export default async function OverviewPage() {
           <div className="mt-5">
             <p className="font-semibold text-ink">Current answer run categories</p>
             <p className="mt-1 text-xs text-stone-500">
-              {currentAnswerRun?.run_id ?? "not available"}
+              {formatRunLabel(currentAnswerRun)}
+              {currentAnswerRun?.run_id ? <span className="block text-stone-400">{currentAnswerRun.run_id}</span> : null}
             </p>
             <div className="mt-2 grid grid-cols-2 gap-2 text-sm text-stone-700">
               {currentRunCategoryBreakdown.length > 0 ? (
@@ -405,7 +412,7 @@ export default async function OverviewPage() {
         <section className="mt-8 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
           <Card tone={phase33.publishable_improvement ? "good" : "warn"}>
             <SectionHeading
-              title="Phase 33 Precision Candidate"
+              title={formatPhaseLabel("phase-33")}
               description="Live retrieval and permission gates are shown first; saved replay remains as candidate-selection evidence."
             />
             <dl className="grid gap-3 text-sm">
@@ -431,11 +438,12 @@ export default async function OverviewPage() {
               </div>
               <div className="flex items-center justify-between gap-4">
                 <dt className="text-stone-600">Live run</dt>
-                <dd className="font-semibold text-ink">{phase33Live?.run_name ?? phase33.candidate_run_id ?? "not available"}</dd>
+                <dd className="font-semibold text-ink">{formatRunLabel(phase33Live?.run_name ?? phase33.candidate_run_id ?? null)}</dd>
               </div>
             </dl>
             <p className="mt-4 text-xs leading-5 text-stone-600">
-              Source: {phase33.diagnostic_source ?? "not available"} from {phase33.input_run_id ?? "not available"}.
+              Source: {phase33.diagnostic_source ?? "not available"} from {formatRunLabel(phase33.input_run_id ?? null)}
+              {phase33.input_run_id ? <span className="block text-stone-400">{phase33.input_run_id}</span> : null}
             </p>
           </Card>
           <Card>
@@ -444,7 +452,7 @@ export default async function OverviewPage() {
               description={
                 phase33Live
                   ? "These metrics come from the live vector/lexical rerank run and matching permission safety report."
-                  : "These numbers reorder only the saved Phase 32 top-5 chunks; live retrieval and permission safety are still pending."
+                  : `These numbers reorder only the saved ${formatPhaseLabel("phase-32")} top-5 chunks; live retrieval and permission safety are still pending.`
               }
             />
             <div className="grid gap-3 sm:grid-cols-4">

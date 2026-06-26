@@ -1,6 +1,7 @@
 import { Card } from "@/components/Card";
 import { MetricCard } from "@/components/MetricCard";
 import { PageHeader } from "@/components/PageHeader";
+import { PhaseLabel, RunLabel } from "@/components/PhaseLabel";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { formatLabel, getDashboardData } from "@/lib/dashboard";
@@ -30,6 +31,10 @@ export default async function MemoryEvaluationPage() {
         <Card>
           <SectionHeading title="What Was Tested" />
           <ul className="space-y-2 text-sm text-stone-700">
+            <li>
+              Run: <RunLabel run={run} showRaw={false} />{" "}
+              <span className="text-stone-500">(<PhaseLabel phase={run?.phase} />)</span>
+            </li>
             <li>{run?.total_questions ?? "pending"} conversation-memory benchmark questions.</li>
             <li>Previous benchmark turns were included as session context.</li>
             <li>Retrieval mode: {formatLabel(run?.retrieval_mode)}.</li>

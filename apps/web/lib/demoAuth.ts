@@ -1,3 +1,5 @@
+import { formatPhaseLabel } from "@/lib/phases";
+
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 export const DEMO_USER_HEADER = "X-Demo-User-Id";
 export const DEMO_USER_STORAGE_KEY = "eka-demo-user-id";
@@ -43,7 +45,7 @@ export function demoAuthHeaders(userId = selectedDemoUserId()): Record<string, s
 
 export async function fetchDemoUsers(): Promise<DemoUser[]> {
   const response = await fetch(`${API_BASE}/auth/demo-users`, { cache: "no-store" });
-  if (!response.ok) throw new Error("Demo users are unavailable. Apply the Phase 27 schema first.");
+  if (!response.ok) throw new Error(`Demo users are unavailable. Apply the ${formatPhaseLabel("phase-27")} schema first.`);
   const payload = (await response.json()) as { users: DemoUser[] };
   return payload.users;
 }

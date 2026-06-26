@@ -2,10 +2,12 @@ import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
 import { MetricCard } from "@/components/MetricCard";
 import { PageHeader } from "@/components/PageHeader";
+import { RunLabel } from "@/components/PhaseLabel";
 import { RetrievalChart } from "@/components/RetrievalChart";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { EvalRun, formatIntegerMetric, formatLabel, formatMetric, formatTableMetric, getDashboardData } from "@/lib/dashboard";
+import { formatPhaseLabel, formatRunLabel } from "@/lib/phases";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 function RetrievalExperimentTable({ runs }: { runs: EvalRun[] }) {
@@ -36,9 +38,10 @@ function RetrievalExperimentTable({ runs }: { runs: EvalRun[] }) {
             <tr key={run.run_id}>
               <td className="whitespace-nowrap font-medium text-ink">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span>{run.run_name}</span>
+                  <RunLabel run={run} showRaw={false} />
                   {run.run_id === "phase33-vector-lexical-rerank-top3" ? <Badge tone="solid">Best precision</Badge> : null}
                 </div>
+                <p className="mt-1 text-xs font-normal text-stone-500">{run.run_id}</p>
               </td>
               <td className="whitespace-nowrap">{formatLabel(run.retrieval_mode)}</td>
               <td className="whitespace-nowrap">{formatLabel(run.chunking_strategy)}</td>
@@ -79,10 +82,10 @@ export default async function RetrievalExperimentsPage() {
     <Shell>
       <PageHeader
         title="Retrieval Experiments"
-        description="Compare retrieval profiles across legacy Phase 6 experiments and the current expanded benchmark candidate."
+        description={`Compare retrieval profiles across ${formatPhaseLabel("phase-6")} experiments and the current expanded benchmark candidate.`}
       />
       <section className="grid gap-4 md:grid-cols-3">
-        <MetricCard label="Best Precision Run" value={bestPrecisionRun?.run_name} detail={`Benchmark ${bestPrecisionRun?.benchmark_version ?? "n/a"} / n=${bestPrecisionRun?.sample_size ?? bestPrecisionRun?.total_questions ?? "n/a"}.`} badge="Best" tone="good" />
+        <MetricCard label="Best Precision Run" value={formatRunLabel(bestPrecisionRun)} detail={`Benchmark ${bestPrecisionRun?.benchmark_version ?? "n/a"} / n=${bestPrecisionRun?.sample_size ?? bestPrecisionRun?.total_questions ?? "n/a"}.`} badge="Best" tone="good" />
         <MetricCard label="Precision@k" value={bestPrecisionRun?.metrics.precision_at_k} detail="Highest score in this comparison." />
         <MetricCard label="MRR" value={bestPrecisionRun?.metrics.mrr} detail="Same current best-precision run." />
         <MetricCard label="Source Recall" value={bestPrecisionRun?.metrics.expected_source_recall} detail="Expected-source recall for the current reference run." />
@@ -94,14 +97,14 @@ export default async function RetrievalExperimentsPage() {
           <SectionHeading title="Experiment Setup" />
           <ul className="space-y-2 text-sm text-stone-700">
             <li>
-              Legacy Phase 6 comparison: {vector?.total_questions ?? "pending"} benchmark {vector?.benchmark_version ?? "n/a"} retrieval questions.
+              {formatPhaseLabel("phase-6")} comparison: {vector?.total_questions ?? "pending"} benchmark {vector?.benchmark_version ?? "n/a"} retrieval questions.
             </li>
             <li>
               Current expanded benchmark: {currentBenchmarkCount ?? "pending"} benchmark {currentBenchmarkVersion ?? "n/a"} questions.
             </li>
             <li>Compared retrieval-only metrics to avoid extra generation cost.</li>
             <li>
-              Top K: legacy profiles use {vector?.top_k ?? "pending"} chunks; the Phase 33 reranked candidate uses{" "}
+              Top K: baseline profiles use {vector?.top_k ?? "pending"} chunks; the {formatPhaseLabel("phase-33")} reranked candidate uses{" "}
               {precisionCandidate?.top_k ?? "pending"}.
             </li>
             <li>Permission and missing-info questions are excluded from retrieval averages.</li>
@@ -132,7 +135,7 @@ export default async function RetrievalExperimentsPage() {
             <div>
               <p className="font-semibold text-ink">Reranked Candidate</p>
               <p>
-                Phase 33 added vector + lexical reranking and lifted Precision@k to{" "}
+                {formatPhaseLabel("phase-33")} added vector + lexical reranking and lifted Precision@k to{" "}
                 {formatMetric(precisionCandidate?.metrics.precision_at_k)} on benchmark {precisionCandidate?.benchmark_version ?? "n/a"} with{" "}
                 n={precisionCandidate?.sample_size ?? precisionCandidate?.total_questions ?? "n/a"}.
               </p>
@@ -148,7 +151,7 @@ export default async function RetrievalExperimentsPage() {
               <p className="font-semibold text-ink">Keyword-only</p>
               <p>
                 Keyword-only was much faster at {formatMetric(keyword?.metrics.average_latency_ms)} ms average latency, but weaker on
-                Precision@k at {formatMetric(keyword?.metrics.precision_at_k)} in the legacy Phase 6 run.
+                Precision@k at {formatMetric(keyword?.metrics.precision_at_k)} in the {formatPhaseLabel("phase-6")} run.
               </p>
             </div>
             <div>
@@ -164,12 +167,12 @@ export default async function RetrievalExperimentsPage() {
       <Card className="mt-8">
         <SectionHeading title="Current Takeaway" />
         <p className="text-stone-700">
-          The Phase 33 vector + lexical reranked candidate is the current retrieval-quality reference for the expanded benchmark.
-          The Phase 6 profiles remain useful historical comparisons, but they should not override the v1.1 result.
+          The {formatPhaseLabel("phase-33")} vector + lexical reranked candidate is the current retrieval-quality reference for the expanded benchmark.
+          The {formatPhaseLabel("phase-6")} profiles remain useful historical comparisons, but they should not override the v1.1 result.
         </p>
       </Card>
       <section className="mt-8">
-        <SectionHeading title="Retrieval-Only Results" description="Sorted by Precision@k. Phase 6 rows are benchmark v1.0; the reranked candidate is benchmark v1.1." />
+        <SectionHeading title="Retrieval-Only Results" description={`${formatPhaseLabel("phase-6")} rows are benchmark v1.0; the reranked candidate is benchmark v1.1. Sorted by Precision@k.`} />
         <RetrievalExperimentTable runs={chartRuns} />
       </section>
     </Shell>

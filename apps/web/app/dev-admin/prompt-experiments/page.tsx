@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { EvalRun, formatLabel, formatTableMetric, getDashboardData, riskRateClass } from "@/lib/dashboard";
+import { formatPhaseLabel } from "@/lib/phases";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 function PromptExperimentTable({ runs }: { runs: EvalRun[] }) {
@@ -63,7 +64,7 @@ export default async function PromptExperimentsPage() {
     <Shell>
       <PageHeader
         title="Prompt Experiments"
-        description="Phase 11 compares answer-generation prompt versions against the same 60-question benchmark so prompt changes are measured instead of changed blindly."
+        description={`${formatPhaseLabel("phase-11")} compares answer-generation prompt versions against the same benchmark so prompt changes are measured instead of changed blindly.`}
       />
 
       <section className="grid gap-4 md:grid-cols-3">

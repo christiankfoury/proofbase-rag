@@ -1,6 +1,6 @@
 # Interactive Demo Guide
 
-This guide walks through the recruiter-facing interactive demo pages added after the Docker and portfolio packaging phases.
+This guide walks through the recruiter-facing interactive demo pages added after Docker And Azure Readiness (Phase 14) and portfolio packaging work.
 
 ## Start The Demo
 
@@ -31,11 +31,11 @@ Open `http://localhost:3000`.
 | Chat Demo | `/chat` | Live scoped RAG query, project and department selection, role selection, citations, confidence, latency, retrieved context, and feedback. |
 | Dev/Admin Overview | `/dev-admin` | Final metrics with run IDs, timestamps, sample sizes, benchmark version, category breakdown, and evaluation-first proof. |
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts with explicit pass/fail counts. |
-| Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows when detailed JSON exists. |
+| Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows for Answer Generation v1 (`phase11-answer-generation-v1`) when detailed JSON exists. |
 | Failed Questions | `/dev-admin/failed-questions` | Expandable failure analysis with expected answer, actual answer, citations, fixes, and human review labels. |
 | Algorithm Quality Lab | `/dev-admin/retrieval-playground` | Named retrieval profiles, historical metrics, live source/citation coverage, known failures, and review notes. |
 | Permission Demo | `/dev-admin/permission-demo` | Same restricted question across Employee, Sales Representative, Manager, and HR Admin. |
-| Multi-Doc | `/dev-admin/multi-doc` | Phase 13 before/after multi-document metrics. |
+| Multi-Doc | `/dev-admin/multi-doc` | Multi-Document Reasoning (Phase 13) before/after metrics. |
 | Observability | `/dev-admin/observability` | Live request logs, latency, confidence, and token summaries. |
 | Feedback | `/dev-admin/feedback` | Human feedback summaries and negative-feedback review decisions. |
 | Audit Logs | `/dev-admin/audit` | Security-relevant audit events. |

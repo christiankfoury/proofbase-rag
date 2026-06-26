@@ -98,7 +98,7 @@ More detail:
 - [Database Schema](docs/phase-4/database-schema.md)
 - [Retrieval Pipeline](docs/phase-4/retrieval-pipeline.md)
 - [Permissions Design](docs/phase-4/permissions-design.md)
-- [Phase 14 Deployment Architecture](docs/phase-14/deployment-architecture.md)
+- [Docker And Azure Readiness (Phase 14) Deployment Architecture](docs/phase-14/deployment-architecture.md)
 - [Demo Architecture Diagram Guide](docs/demo/architecture-diagram.md)
 
 ## Evaluation Benchmark
@@ -141,48 +141,48 @@ All numbers below come from existing evaluation outputs and do not all use the s
 
 | Metric | Value | Run | Sample |
 |---|---:|---|---:|
-| Best retrieval configuration | `vector-section` | `phase6-vector-section` | 60 |
-| All-sources retrieval hit | `0.975` | `phase6-vector-section` | 60 |
-| Precision@k | `0.650` | `phase6-vector-section` | 60 |
-| MRR | `0.980` | `phase6-vector-section` | 60 |
+| Current retrieval reference | `vector + lexical rerank` | Lexical Rerank Candidate top-3 (`phase33-vector-lexical-rerank-top3`) | 130 |
+| All-sources retrieval hit | `0.922` | Lexical Rerank Candidate top-3 (`phase33-vector-lexical-rerank-top3`) | 130 |
+| Precision@k | `0.778` | Lexical Rerank Candidate top-3 (`phase33-vector-lexical-rerank-top3`) | 130 |
+| MRR | `0.965` | Lexical Rerank Candidate top-3 (`phase33-vector-lexical-rerank-top3`) | 130 |
 
-Source: [Phase 6 Evaluation Results](docs/phase-6/evaluation-results.md)
+Source: [Lexical Rerank Candidate (Phase 33) Results](docs/phase-33/precision-candidate-results.md)
 
 ### Answer Quality
 
 | Metric | Value | Run | Sample |
 |---|---:|---|---:|
-| Answer accuracy | `0.975` | `phase38-answer-quality-remediation-v8` | 130 |
-| Citation accuracy | `0.969` | `phase38-answer-quality-remediation-v8` | 130 |
-| Hallucination rate | `0.000` | `phase38-answer-quality-remediation-v8` | 130 |
-| Failed questions | `6` | `phase38-answer-quality-remediation-v8` | 130 |
+| Answer accuracy | `0.975` | Answer Quality Remediation v8 (`phase38-answer-quality-remediation-v8`) | 130 |
+| Citation accuracy | `0.969` | Answer Quality Remediation v8 (`phase38-answer-quality-remediation-v8`) | 130 |
+| Hallucination rate | `0.000` | Answer Quality Remediation v8 (`phase38-answer-quality-remediation-v8`) | 130 |
+| Failed questions | `6` | Answer Quality Remediation v8 (`phase38-answer-quality-remediation-v8`) | 130 |
 
-Source: [Phase 38 Evaluation Results](docs/phase-38/answer-quality-remediation-results.md)
+Source: [Answer Quality Remediation (Phase 38) Evaluation Results](docs/phase-38/answer-quality-remediation-results.md)
 
 ### Permission Safety
 
 | Metric | Value | Run | Sample |
 |---|---:|---|---:|
-| Permission leakage rate | `0.000` | `phase38-permission-evaluation` | 20 |
-| Blocked-answer accuracy | `1.000` | `phase38-permission-evaluation` | 20 |
-| Unauthorized chunk exposure rate | `0.000` | `phase38-permission-evaluation` | 20 |
-| Restricted citation leakage rate | `0.000` | `phase38-permission-evaluation` | 20 |
-| Unauthorized chunks reached generation rate | `0.000` | `phase38-permission-evaluation` | 20 |
+| Permission leakage rate | `0.000` | Permission Safety Remediation (`phase38-permission-evaluation`) | 20 |
+| Blocked-answer accuracy | `1.000` | Permission Safety Remediation (`phase38-permission-evaluation`) | 20 |
+| Unauthorized chunk exposure rate | `0.000` | Permission Safety Remediation (`phase38-permission-evaluation`) | 20 |
+| Restricted citation leakage rate | `0.000` | Permission Safety Remediation (`phase38-permission-evaluation`) | 20 |
+| Unauthorized chunks reached generation rate | `0.000` | Permission Safety Remediation (`phase38-permission-evaluation`) | 20 |
 
-Source: [Phase 38 Permission Evaluation Results](docs/phase-38/permission-safety-results.md)
+Source: [Answer Quality Remediation (Phase 38) Permission Evaluation Results](docs/phase-38/permission-safety-results.md)
 
 ### Conversation Memory
 
 | Metric | Value | Run | Sample |
 |---|---:|---|---:|
-| Follow-up detection accuracy | `1.000` | `phase9-memory` | 5 |
-| Query rewrite quality | `1.000` | `phase9-memory` | 5 |
-| Memory answer accuracy | `1.000` | `phase9-memory` | 5 |
-| Memory citation accuracy | `1.000` | `phase9-memory` | 5 |
-| Memory response type accuracy | `1.000` | `phase9-memory` | 5 |
-| Memory permission leakage | `0.000` | `phase9-memory` | 5 |
+| Follow-up detection accuracy | `1.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
+| Query rewrite quality | `1.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
+| Memory answer accuracy | `1.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
+| Memory citation accuracy | `1.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
+| Memory response type accuracy | `1.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
+| Memory permission leakage | `0.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
 
-Source: [Phase 9 Memory Evaluation Results](docs/phase-9/memory-evaluation-results.md)
+Source: [Conversation Memory Baseline (Phase 9) Evaluation Results](docs/phase-9/memory-evaluation-results.md)
 
 ### Multi-Document Reasoning
 
@@ -211,7 +211,7 @@ Source: [Multi-Doc Evaluation JSON](data/evaluation/multi-doc-eval.json)
 | Azure deployment | Azure-ready, not deployed |
 | Chat cost tracking | Estimated from configured model pricing |
 
-Source: [Phase 14 Smoke Test Results](docs/phase-14/smoke-test-results.md)
+Source: [Docker And Azure Readiness (Phase 14) Smoke Test Results](docs/phase-14/smoke-test-results.md)
 
 ## App And Dev/Admin UI
 
@@ -229,7 +229,7 @@ Dev/Admin routes:
 
 - `/dev-admin` overview metrics and measured RAG progress.
 - `/dev-admin/runs` evaluation run comparison.
-- `/dev-admin/evaluation/runs/phase11-answer-generation-v1` per-question benchmark explorer for detailed runs.
+- `/dev-admin/evaluation/runs/phase11-answer-generation-v1` per-question benchmark explorer for Answer Generation v1 (`phase11-answer-generation-v1`).
 - `/dev-admin/failed-questions` expandable failure backlog with expected answers, actual answers, citations, fixes, and human review labels.
 - `/dev-admin/retrieval-playground` Algorithm Quality Lab with named profiles, historical metrics, live source coverage, known failures, cost/latency signals, and review notes.
 - `/dev-admin/permission-demo` role comparison for restricted questions.
@@ -316,7 +316,7 @@ docker compose run --rm api python scripts/ingest_markdown.py --apply-schema --c
 
 The ingestion command calls the OpenAI embeddings API, so `OPENAI_API_KEY` must be configured.
 
-The seeded corpus currently contains 19 synthetic Markdown documents. Current dashboard metrics still come from the existing evaluation artifacts; the expanded Phase 30 documents are ready for ingestion and future benchmark expansion, but they do not change measured retrieval, answer-quality, permission, or memory scores until new run artifacts are created.
+The seeded corpus currently contains 19 synthetic Markdown documents. Current dashboard metrics still come from the existing evaluation artifacts; the expanded Enterprise Document Expansion (Phase 30) documents are ready for ingestion and future benchmark expansion, but they do not change measured retrieval, answer-quality, permission, or memory scores until new run artifacts are created.
 
 ## Smoke Test
 
@@ -398,32 +398,32 @@ Open the dashboard after exporting data. Run the benchmark validator before publ
 
 Phase artifacts are preserved for review:
 
-- [Phase 1](docs/phase-1/product-scope.md): product scope, personas, success metrics.
-- [Phase 2](docs/phase-2/document-inventory.md): synthetic corpus and access model.
-- [Phase 3](docs/phase-3/benchmark-design.md): benchmark and scoring rubric.
-- [Phase 4](docs/phase-4/architecture-overview.md): architecture, schema, APIs, retrieval, permissions.
-- [Phase 5](docs/phase-5/baseline-rag-implementation.md): baseline RAG.
-- [Phase 6](docs/phase-6/evaluation-results.md): retrieval experiments.
-- [Phase 7](docs/phase-7/evaluation-results.md): answer generation, citations, confidence.
-- [Phase 8](docs/phase-8/permission-evaluation-results.md): permission safety.
-- [Phase 9](docs/phase-9/memory-evaluation-results.md): conversation memory.
-- [Phase 10](docs/phase-10/evaluation-dashboard-design.md): dashboard.
-- [Phase 11](docs/phase-11/prompt-experiment-results.md): prompt experiments.
-- [Phase 12](docs/phase-12/observability-design.md): feedback, observability, audit.
-- [Phase 13](docs/phase-13/multi-document-reasoning-design.md): multi-document reasoning.
-- [Phase 14](docs/phase-14/docker-local-setup.md): Docker and Azure readiness.
-- [Phase 15 Interactive UX](docs/phase-15/interactive-demo-ux.md): recruiter-facing interactive demo.
-- [Phase 16](docs/phase-16/cost-tracking.md): chat-generation cost tracking.
-- [Phase 18](docs/phase-18/app-admin-navigation-design.md): App and Dev/Admin navigation split.
-- [Phase 19](docs/phase-19/project-workspace-design.md): project workspace model and UI.
-- [Phase 20](docs/phase-20/department-workspace-design.md): department workspace model and UI.
-- [Phase 21](docs/phase-21/document-library-design.md): document library and ingestion status planning.
-- [Phase 22](docs/phase-22/pdf-extraction-design.md): PDF upload and deterministic Markdown extraction.
-- [Phase 23](docs/phase-23/project-scoped-rag-design.md): project- and department-scoped retrieval.
-- [Phase 24](docs/phase-24/algorithm-quality-lab-design.md): named retrieval profiles and algorithm review workflow.
-- [Phase 25](docs/phase-25/result-verification-review-design.md): human review labels for failed questions and feedback-derived candidates.
-- [Phase 26](docs/phase-26/recruiter-presentation-polish.md): recruiter presentation polish, five-minute demo path, screenshot checklist, and limitations alignment.
-- [Phase 27](docs/phase-27/local-demo-auth-design.md): local demo auth, project memberships, server-side role derivation, and Dev/Admin gating.
+- [Product Scope (Phase 1)](docs/phase-1/product-scope.md): product scope, personas, success metrics.
+- [Document Inventory (Phase 2)](docs/phase-2/document-inventory.md): synthetic corpus and access model.
+- [Benchmark Design (Phase 3)](docs/phase-3/benchmark-design.md): benchmark and scoring rubric.
+- [System Architecture (Phase 4)](docs/phase-4/architecture-overview.md): architecture, schema, APIs, retrieval, permissions.
+- [Baseline RAG (Phase 5)](docs/phase-5/baseline-rag-implementation.md): baseline RAG.
+- [Retrieval Baseline (Phase 6)](docs/phase-6/evaluation-results.md): retrieval experiments.
+- [Answer Generation Baseline (Phase 7)](docs/phase-7/evaluation-results.md): answer generation, citations, confidence.
+- [Permission Safety Baseline (Phase 8)](docs/phase-8/permission-evaluation-results.md): permission safety.
+- [Conversation Memory Baseline (Phase 9)](docs/phase-9/memory-evaluation-results.md): conversation memory.
+- [Evaluation Dashboard (Phase 10)](docs/phase-10/evaluation-dashboard-design.md): dashboard.
+- [Prompt Experiments (Phase 11)](docs/phase-11/prompt-experiment-results.md): prompt experiments.
+- [Observability And Audit (Phase 12)](docs/phase-12/observability-design.md): feedback, observability, audit.
+- [Multi-Document Reasoning (Phase 13)](docs/phase-13/multi-document-reasoning-design.md): multi-document reasoning.
+- [Docker And Azure Readiness (Phase 14)](docs/phase-14/docker-local-setup.md): Docker and Azure readiness.
+- [Interactive Demo UX (Phase 15)](docs/phase-15/interactive-demo-ux.md): recruiter-facing interactive demo.
+- [Cost Tracking (Phase 16)](docs/phase-16/cost-tracking.md): chat-generation cost tracking.
+- [App And Dev/Admin Navigation (Phase 18)](docs/phase-18/app-admin-navigation-design.md): App and Dev/Admin navigation split.
+- [Project Workspace (Phase 19)](docs/phase-19/project-workspace-design.md): project workspace model and UI.
+- [Department Workspace (Phase 20)](docs/phase-20/department-workspace-design.md): department workspace model and UI.
+- [Document Library (Phase 21)](docs/phase-21/document-library-design.md): document library and ingestion status planning.
+- [PDF Extraction (Phase 22)](docs/phase-22/pdf-extraction-design.md): PDF upload and deterministic Markdown extraction.
+- [Project-Scoped RAG (Phase 23)](docs/phase-23/project-scoped-rag-design.md): project- and department-scoped retrieval.
+- [Algorithm Quality Lab (Phase 24)](docs/phase-24/algorithm-quality-lab-design.md): named retrieval profiles and algorithm review workflow.
+- [Human Review Workflow (Phase 25)](docs/phase-25/result-verification-review-design.md): human review labels for failed questions and feedback-derived candidates.
+- [Recruiter Presentation Polish (Phase 26)](docs/phase-26/recruiter-presentation-polish.md): recruiter presentation polish, five-minute demo path, screenshot checklist, and limitations alignment.
+- [Local Demo Auth (Phase 27)](docs/phase-27/local-demo-auth-design.md): local demo auth, project memberships, server-side role derivation, and Dev/Admin gating.
 
 ## Final Portfolio Description
 

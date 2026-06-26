@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { getDashboardData, formatTableMetric, type MultiDocComparison } from "@/lib/dashboard";
+import { formatPhaseLabel } from "@/lib/phases";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 const METRICS: { key: keyof NonNullable<MultiDocComparison["baseline"]>; label: string; higherIsBetter: boolean }[] = [
@@ -50,7 +51,7 @@ export default async function MultiDocPage() {
     <Shell>
       <PageHeader
         title="Multi-Document Reasoning"
-        description="Phase 13 adds query decomposition, multi-source retrieval, and grouped evidence context to fix questions that require synthesizing answers from two or more source documents. Evaluated on 10 MULTI benchmark questions against a single-query baseline."
+        description={`${formatPhaseLabel("phase-13")} adds query decomposition, multi-source retrieval, and grouped evidence context to fix questions that require synthesizing answers from two or more source documents. Evaluated on 10 MULTI benchmark questions against a single-query baseline.`}
       />
 
       <section>

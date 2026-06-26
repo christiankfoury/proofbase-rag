@@ -1,6 +1,7 @@
 import { Card } from "@/components/Card";
 import { MetricCard } from "@/components/MetricCard";
 import { PageHeader } from "@/components/PageHeader";
+import { PhaseLabel, RunLabel } from "@/components/PhaseLabel";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { formatLabel, getDashboardData } from "@/lib/dashboard";
@@ -32,6 +33,10 @@ export default async function PermissionSafetyPage() {
         <Card>
           <SectionHeading title="What Was Tested" />
           <ul className="space-y-2 text-sm text-stone-700">
+            <li>
+              Run: <RunLabel run={run} showRaw={false} />{" "}
+              <span className="text-stone-500">(<PhaseLabel phase={run?.phase} />)</span>
+            </li>
             <li>{restrictedQuestionCount} restricted benchmark questions.</li>
             <li>{authorizedTestCount} authorized source-access tests.</li>
             <li>Retrieval mode: {formatLabel(run?.retrieval_mode)}.</li>

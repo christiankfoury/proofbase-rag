@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Badge, BadgeTone } from "@/components/Badge";
 import { Card } from "@/components/Card";
 import { EvaluationReviewPanel } from "@/components/EvaluationReviewPanel";
+import { PhaseLabel } from "@/components/PhaseLabel";
 import { CitationTable, RetrievedContext } from "@/components/QueryResultPanel";
 import { EnrichedFailure } from "@/lib/api";
 import { formatLabel, formatMetric } from "@/lib/dashboard";
@@ -52,7 +53,7 @@ export function FailedQuestionsClient({ failures }: { failures: EnrichedFailure[
                   <p className="mt-2 max-w-4xl text-sm text-stone-700">{item.question ?? "Question text unavailable."}</p>
                 </div>
                 <div className="text-right text-sm text-stone-600">
-                  <p>{item.phase}</p>
+                  <p><PhaseLabel phase={item.phase} /></p>
                   <p>{formatLabel(item.actual_response_type)}</p>
                 </div>
               </div>

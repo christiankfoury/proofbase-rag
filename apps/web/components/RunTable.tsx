@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Badge } from "@/components/Badge";
+import { PhaseLabel, RunLabel } from "@/components/PhaseLabel";
 import { EvalRun, formatDateTime, formatLabel, formatTableMetric, riskRateClass } from "@/lib/dashboard";
 
 function formatCost(value: number | string | null | undefined): string {
@@ -107,7 +108,7 @@ export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?:
                       href={`/dev-admin/evaluation/runs/${encodeURIComponent(run.run_id)}`}
                       className="rounded underline decoration-stone-400 underline-offset-4 hover:text-moss-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss"
                     >
-                      {run.run_name}
+                      <RunLabel run={run} showRaw={false} />
                     </Link>
                     {run.run_name === bestRunName ? <Badge tone="solid">Best config</Badge> : null}
                     {run.question_filter && run.question_filter !== "all" ? (
@@ -121,7 +122,7 @@ export function RunTable({ runs, bestRunName }: { runs: EvalRun[]; bestRunName?:
                   </div>
                 </td>
                 <td className="text-xs text-stone-600">{run.run_id}</td>
-                <td>{run.phase}</td>
+                <td><PhaseLabel phase={run.phase} /></td>
                 <td>{formatDateTime(run.run_timestamp ?? run.timestamp)}</td>
                 <td className="text-right">{run.sample_size ?? run.total_questions ?? "not measured"}</td>
                 <td className="text-right">{run.passed_count ?? "not available"}</td>

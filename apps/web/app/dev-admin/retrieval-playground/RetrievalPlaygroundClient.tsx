@@ -4,6 +4,7 @@ import { FormEvent, useMemo, useState } from "react";
 import { Badge, BadgeTone } from "@/components/Badge";
 import { Card } from "@/components/Card";
 import { MetricCard } from "@/components/MetricCard";
+import { RunLabel } from "@/components/PhaseLabel";
 import { RetrievedContext } from "@/components/QueryResultPanel";
 import { Citation, QueryResponse, UserRole, queryRag, submitAlgorithmReview } from "@/lib/api";
 import { EvalRun, FailedQuestion, formatLabel, formatMetric, formatTableMetric } from "@/lib/dashboard";
@@ -157,7 +158,7 @@ function HistoricalProfileTable({ runs }: { runs: EvalRun[] }) {
                 <p className="font-semibold text-ink">{profile.label}</p>
                 <p className="max-w-[300px] text-xs text-stone-600">{profile.summary}</p>
               </td>
-              <td>{run?.run_name ?? "No retrieval-only benchmark yet"}</td>
+              <td>{run ? <RunLabel run={run} /> : "No retrieval-only benchmark yet"}</td>
               <td className="text-right">{formatTableMetric(run?.metrics.all_sources_hit)}</td>
               <td className="text-right">{formatTableMetric(run?.metrics.expected_source_recall)}</td>
               <td className="text-right">{formatTableMetric(run?.metrics.precision_at_k)}</td>

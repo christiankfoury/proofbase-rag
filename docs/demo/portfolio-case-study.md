@@ -45,7 +45,7 @@ Before optimizing the system, I created a benchmark source corpus that now conta
 - Prompt-injection and adversarial-source questions.
 - Conflicting-source and versioned-policy questions.
 
-Each phase improved one measurable part of the system and preserved the evaluation artifacts. This made the project easier to debug and easier to explain.
+Each named phase, such as Retrieval Baseline (Phase 6), Lexical Rerank Candidate (Phase 33), and Answer Quality Remediation (Phase 38), improved one measurable part of the system and preserved the evaluation artifacts. This made the project easier to debug and easier to explain.
 
 ## Experiments Performed
 
