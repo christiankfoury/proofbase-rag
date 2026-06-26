@@ -33,7 +33,7 @@ export default async function FailedQuestionsPage() {
       />
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         {summary.map((item) => (
-          <MetricCard key={item.label} label={item.label} value={item.value} detail={item.detail} tone={item.tone} />
+          <MetricCard key={item.label} label={item.label} value={item.value} detail={item.detail} tone={item.tone} format="integer" />
         ))}
       </section>
       <div className="mt-8">

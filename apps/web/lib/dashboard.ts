@@ -271,13 +271,23 @@ export async function getDashboardData(headers: HeadersInit = {}): Promise<Dashb
   };
 }
 
+const integerFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+
+export function formatIntegerMetric(value: number | string | null | undefined, emptyValue = "pending"): string {
+  if (value === null || value === undefined || value === "") return emptyValue;
+  if (typeof value === "number") return Number.isFinite(value) ? integerFormatter.format(Math.round(value)) : emptyValue;
+  if (value.toLowerCase() === "pending" && emptyValue === "-") return "-";
+  return value;
+}
+
 export function formatMetric(value: number | string | null | undefined): string {
   if (value === null || value === undefined || value === "") return "pending";
   if (typeof value === "number") return value.toFixed(3);
   return value;
 }
 
-export function formatTableMetric(value: number | string | null | undefined): string {
+export function formatTableMetric(value: number | string | null | undefined, options: { integer?: boolean } = {}): string {
+  if (options.integer) return formatIntegerMetric(value, "-");
   if (value === null || value === undefined || value === "") return "-";
   if (typeof value === "string" && value.toLowerCase() === "pending") return "-";
   if (typeof value === "number") return value.toFixed(3);

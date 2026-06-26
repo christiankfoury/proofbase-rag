@@ -828,7 +828,7 @@ export function ChatDemoClient() {
             <IconButton label="Run memory scenario" onClick={runMemoryScenario} disabled={loading || !selectedProjectId}>
               <History className="h-4 w-4" />
             </IconButton>
-            <IconButton label="Evidence settings" onClick={() => setSettingsOpen(true)}>
+            <IconButton label="Copy latest answer" onClick={() => latestResultMessage && copyAnswer(latestResultMessage)} disabled={!latestResultMessage}>
               <Clipboard className="h-4 w-4" />
             </IconButton>
             <IconButton label="Open settings" onClick={() => setSettingsOpen(true)}>
@@ -988,7 +988,7 @@ export function ChatDemoClient() {
               </button>
             ))}
           </div>
-          <div className="flex items-end gap-3 rounded-md border border-stone-300 bg-stone-50 p-2 shadow-sm focus-within:ring-2 focus-within:ring-moss">
+          <div className="flex items-end gap-3 rounded-md border border-stone-300 bg-white p-2 shadow-sm focus-within:ring-2 focus-within:ring-moss">
             <textarea
               value={question}
               onChange={(event) => setQuestion(event.target.value)}

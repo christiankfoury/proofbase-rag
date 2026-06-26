@@ -43,7 +43,7 @@ function PromptExperimentTable({ runs }: { runs: EvalRun[] }) {
               </td>
               <td className="text-right">{formatTableMetric(run.metrics.response_type_accuracy)}</td>
               <td className="text-right">{formatTableMetric(run.metrics.final_confidence)}</td>
-              <td className="text-right">{formatTableMetric(run.metrics.failed_question_count)}</td>
+              <td className="text-right">{formatTableMetric(run.metrics.failed_question_count, { integer: true })}</td>
             </tr>
           ))}
         </tbody>

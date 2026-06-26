@@ -259,10 +259,10 @@ export function RetrievalPlaygroundClient({
   return (
     <section className="space-y-6">
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <MetricCard label="Named profiles" value={profiles.length} detail="Compared with one shared query shape." />
-        <MetricCard label="Historical runs" value={historicalRuns.length} detail="Existing retrieval-only benchmarks." tone="good" />
-        <MetricCard label="Known multi-doc misses" value={failureBuckets.multi_document_failure} detail="Must remain visible during promotion." tone="warn" />
-        <MetricCard label="Citation issue backlog" value={failureBuckets.wrong_citation} detail="Profile wins still need citation review." tone="warn" />
+        <MetricCard label="Named profiles" value={profiles.length} detail="Compared with one shared query shape." format="integer" />
+        <MetricCard label="Historical runs" value={historicalRuns.length} detail="Existing retrieval-only benchmarks." tone="good" format="integer" />
+        <MetricCard label="Known multi-doc misses" value={failureBuckets.multi_document_failure} detail="Must remain visible during promotion." tone="warn" format="integer" />
+        <MetricCard label="Citation issue backlog" value={failureBuckets.wrong_citation} detail="Profile wins still need citation review." tone="warn" format="integer" />
       </section>
 
       <Card>

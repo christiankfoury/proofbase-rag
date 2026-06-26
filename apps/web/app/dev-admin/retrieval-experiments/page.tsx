@@ -5,10 +5,16 @@ import { PageHeader } from "@/components/PageHeader";
 import { RetrievalChart } from "@/components/RetrievalChart";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
-import { EvalRun, formatLabel, formatMetric, formatTableMetric, getDashboardData } from "@/lib/dashboard";
+import { EvalRun, formatIntegerMetric, formatLabel, formatMetric, formatTableMetric, getDashboardData } from "@/lib/dashboard";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 function RetrievalExperimentTable({ runs }: { runs: EvalRun[] }) {
+  const sortedRuns = [...runs].sort((a, b) => {
+    const aPrecision = typeof a.metrics.precision_at_k === "number" ? a.metrics.precision_at_k : -1;
+    const bPrecision = typeof b.metrics.precision_at_k === "number" ? b.metrics.precision_at_k : -1;
+    return bPrecision - aPrecision;
+  });
+
   return (
     <div className="overflow-x-auto rounded-md border border-stone-300 bg-white shadow-card">
       <table className="data-table min-w-[980px]">
@@ -26,12 +32,12 @@ function RetrievalExperimentTable({ runs }: { runs: EvalRun[] }) {
           </tr>
         </thead>
         <tbody>
-          {runs.map((run) => (
+          {sortedRuns.map((run) => (
             <tr key={run.run_id}>
               <td className="whitespace-nowrap font-medium text-ink">
                 <div className="flex flex-wrap items-center gap-2">
                   <span>{run.run_name}</span>
-                  {run.run_name === "vector-section" ? <Badge tone="solid">Current default</Badge> : null}
+                  {run.run_id === "phase33-vector-lexical-rerank-top3" ? <Badge tone="solid">Best precision</Badge> : null}
                 </div>
               </td>
               <td className="whitespace-nowrap">{formatLabel(run.retrieval_mode)}</td>
@@ -41,7 +47,7 @@ function RetrievalExperimentTable({ runs }: { runs: EvalRun[] }) {
               <td className="text-right">{formatTableMetric(run.metrics.precision_at_k)}</td>
               <td className="text-right">{formatTableMetric(run.metrics.mrr)}</td>
               <td className="text-right">{formatTableMetric(run.metrics.average_latency_ms)} ms</td>
-              <td>{run.failed_questions?.length ? run.failed_questions.join(", ") : "None"}</td>
+              <td>{run.failed_questions?.length ? run.failed_questions.join(", ") : run.metrics.failed_question_count ? formatIntegerMetric(run.metrics.failed_question_count) : "None"}</td>
             </tr>
           ))}
         </tbody>
@@ -56,33 +62,48 @@ export default async function RetrievalExperimentsPage() {
   const retrievalRuns = data.runs.filter((run) => run.phase === "phase-6");
   const precisionCandidate = data.runs.find((run) => run.run_id === "phase33-vector-lexical-rerank-top3");
   const chartRuns = precisionCandidate ? [...retrievalRuns, precisionCandidate] : retrievalRuns;
-  const best = retrievalRuns.find((run) => run.run_name === data.overview.best_retrieval_run);
   const vector = retrievalRuns.find((run) => run.run_name === "vector-section");
   const keyword = retrievalRuns.find((run) => run.run_name === "keyword-section");
   const hybrid = retrievalRuns.find((run) => run.run_name === "hybrid-section-0.5");
   const fixed = retrievalRuns.find((run) => run.run_name === "vector-fixed-size");
+  const bestPrecisionRun = [...chartRuns].sort((a, b) => {
+    const aPrecision = typeof a.metrics.precision_at_k === "number" ? a.metrics.precision_at_k : -1;
+    const bPrecision = typeof b.metrics.precision_at_k === "number" ? b.metrics.precision_at_k : -1;
+    return bPrecision - aPrecision;
+  })[0];
+  const currentBenchmarkCount =
+    data.benchmark_context?.corpus_question_count ?? precisionCandidate?.source_question_count ?? precisionCandidate?.total_questions;
+  const currentBenchmarkVersion = data.benchmark_context?.benchmark_version ?? precisionCandidate?.benchmark_version;
 
   return (
     <Shell>
       <PageHeader
         title="Retrieval Experiments"
-        description="Phase 6 compared vector, keyword, and hybrid retrieval across section-based and fixed-size chunking."
+        description="Compare retrieval profiles across legacy Phase 6 experiments and the current expanded benchmark candidate."
       />
       <section className="grid gap-4 md:grid-cols-3">
-        <MetricCard label="Best Run" value={best?.run_name} detail="Selected by overall retrieval profile." badge="Best" tone="good" />
-        <MetricCard label="Best Precision@k" value={best?.metrics.precision_at_k} />
-        <MetricCard label="Best MRR" value={best?.metrics.mrr} />
-        <MetricCard label="Vector Latency" value={`${formatMetric(vector?.metrics.average_latency_ms)} ms`} detail="Average retrieval latency." />
-        <MetricCard label="Keyword Latency" value={`${formatMetric(keyword?.metrics.average_latency_ms)} ms`} detail="Fastest but lower precision." />
-        <MetricCard label="Hybrid Latency" value={`${formatMetric(hybrid?.metrics.average_latency_ms)} ms`} detail="Comparable hit rate, higher latency." />
+        <MetricCard label="Best Precision Run" value={bestPrecisionRun?.run_name} detail={`Benchmark ${bestPrecisionRun?.benchmark_version ?? "n/a"} / n=${bestPrecisionRun?.sample_size ?? bestPrecisionRun?.total_questions ?? "n/a"}.`} badge="Best" tone="good" />
+        <MetricCard label="Precision@k" value={bestPrecisionRun?.metrics.precision_at_k} detail="Highest score in this comparison." />
+        <MetricCard label="MRR" value={bestPrecisionRun?.metrics.mrr} detail="Same current best-precision run." />
+        <MetricCard label="Source Recall" value={bestPrecisionRun?.metrics.expected_source_recall} detail="Expected-source recall for the current reference run." />
+        <MetricCard label="Avg Latency" value={`${formatMetric(bestPrecisionRun?.metrics.average_latency_ms)} ms`} detail="Average retrieval latency for the current reference run." />
+        <MetricCard label="Source Failures" value={bestPrecisionRun?.metrics.failed_question_count ?? bestPrecisionRun?.failed_questions?.length} detail="Source-coverage misses in the current reference run." tone="warn" format="integer" />
       </section>
       <section className="mt-8 grid gap-4 lg:grid-cols-3">
         <Card>
           <SectionHeading title="Experiment Setup" />
           <ul className="space-y-2 text-sm text-stone-700">
-            <li>Benchmark: {vector?.total_questions ?? "pending"} enterprise questions.</li>
+            <li>
+              Legacy Phase 6 comparison: {vector?.total_questions ?? "pending"} benchmark {vector?.benchmark_version ?? "n/a"} retrieval questions.
+            </li>
+            <li>
+              Current expanded benchmark: {currentBenchmarkCount ?? "pending"} benchmark {currentBenchmarkVersion ?? "n/a"} questions.
+            </li>
             <li>Compared retrieval-only metrics to avoid extra generation cost.</li>
-            <li>Top K: {vector?.top_k ?? "pending"} chunks per question.</li>
+            <li>
+              Top K: legacy profiles use {vector?.top_k ?? "pending"} chunks; the Phase 33 reranked candidate uses{" "}
+              {precisionCandidate?.top_k ?? "pending"}.
+            </li>
             <li>Permission and missing-info questions are excluded from retrieval averages.</li>
           </ul>
         </Card>
@@ -96,10 +117,10 @@ export default async function RetrievalExperimentsPage() {
           </ul>
         </Card>
         <Card tone="warn">
-          <SectionHeading title="Main Failure" />
+          <SectionHeading title="Remaining Gaps" />
           <p className="text-sm text-stone-700">
-            `MULTI-005` remains the key unresolved case for the best run. That points toward query decomposition or stronger
-            multi-document retrieval logic rather than simple score blending.
+            The current best-precision run still has {formatIntegerMetric(bestPrecisionRun?.metrics.failed_question_count ?? bestPrecisionRun?.failed_questions?.length)} source-coverage misses, mostly in multi-document,
+            memory, and ambiguity cases. That points toward orchestration improvements rather than another simple score blend.
           </p>
         </Card>
       </section>
@@ -112,21 +133,22 @@ export default async function RetrievalExperimentsPage() {
               <p className="font-semibold text-ink">Reranked Candidate</p>
               <p>
                 Phase 33 added vector + lexical reranking and lifted Precision@k to{" "}
-                {formatMetric(precisionCandidate?.metrics.precision_at_k)} on the expanded benchmark.
+                {formatMetric(precisionCandidate?.metrics.precision_at_k)} on benchmark {precisionCandidate?.benchmark_version ?? "n/a"} with{" "}
+                n={precisionCandidate?.sample_size ?? precisionCandidate?.total_questions ?? "n/a"}.
               </p>
             </div>
             <div>
-              <p className="font-semibold text-ink">Vector vs Hybrid</p>
+              <p className="font-semibold text-ink">Legacy Vector vs Hybrid</p>
               <p>
                 Hybrid matched the vector hit rate but lowered Precision@k from {formatMetric(vector?.metrics.precision_at_k)} to{" "}
-                {formatMetric(hybrid?.metrics.precision_at_k)}.
+                {formatMetric(hybrid?.metrics.precision_at_k)} on the older benchmark {vector?.benchmark_version ?? "n/a"} comparison.
               </p>
             </div>
             <div>
               <p className="font-semibold text-ink">Keyword-only</p>
               <p>
                 Keyword-only was much faster at {formatMetric(keyword?.metrics.average_latency_ms)} ms average latency, but weaker on
-                Precision@k at {formatMetric(keyword?.metrics.precision_at_k)}.
+                Precision@k at {formatMetric(keyword?.metrics.precision_at_k)} in the legacy Phase 6 run.
               </p>
             </div>
             <div>
@@ -140,19 +162,15 @@ export default async function RetrievalExperimentsPage() {
         </Card>
       </section>
       <Card className="mt-8">
-        <SectionHeading title="Honest Conclusion" />
-        <p className="text-stone-700">{data.overview.retrieval_conclusion}</p>
-      </Card>
-      <Card tone="good" className="mt-8">
-        <SectionHeading title="Decision" />
+        <SectionHeading title="Current Takeaway" />
         <p className="text-stone-700">
-          Use <span className="font-semibold">vector-section</span> as the current default retrieval configuration. Keep hybrid as an
-          experiment, not the default, until it improves Precision@k or multi-document recall.
+          The Phase 33 vector + lexical reranked candidate is the current retrieval-quality reference for the expanded benchmark.
+          The Phase 6 profiles remain useful historical comparisons, but they should not override the v1.1 result.
         </p>
       </Card>
       <section className="mt-8">
-        <SectionHeading title="Retrieval-Only Results" />
-        <RetrievalExperimentTable runs={retrievalRuns} />
+        <SectionHeading title="Retrieval-Only Results" description="Sorted by Precision@k. Phase 6 rows are benchmark v1.0; the reranked candidate is benchmark v1.1." />
+        <RetrievalExperimentTable runs={chartRuns} />
       </section>
     </Shell>
   );

@@ -5,7 +5,7 @@ import { Shell } from "@/components/Shell";
 import { PageHeader } from "@/components/PageHeader";
 import { Card } from "@/components/Card";
 import { SectionHeading } from "@/components/SectionHeading";
-import { formatDateTime, formatLabel, formatMetric, getDashboardData, MetricContext } from "@/lib/dashboard";
+import { formatDateTime, formatIntegerMetric, formatLabel, formatMetric, getDashboardData, MetricContext } from "@/lib/dashboard";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 import Link from "next/link";
 
@@ -478,12 +478,13 @@ export default async function OverviewPage() {
                   value: phase33Primary?.failed_question_count,
                   detail: `Top-k ${phase33Primary?.top_k ?? "pending"}`,
                   passed: undefined,
+                  integer: true,
                 },
               ].map((item) => (
                 <div key={item.label} className="rounded-md border border-stone-200 bg-stone-50 p-3">
                   <p className="text-xs font-medium text-steel">{item.label}</p>
                   <p className={item.passed === false ? "mt-1 text-2xl font-semibold text-rust-dark" : "mt-1 text-2xl font-semibold text-ink"}>
-                    {formatMetric(item.value)}
+                    {item.integer ? formatIntegerMetric(item.value) : formatMetric(item.value)}
                   </p>
                   <p className="mt-1 text-xs text-stone-600">{item.detail}</p>
                 </div>

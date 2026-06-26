@@ -23,9 +23,9 @@ export default async function FeedbackPage() {
       />
 
       <section className="grid gap-4 md:grid-cols-3">
-        <MetricCard label="Total Feedback" value={summary.total} />
-        <MetricCard label="Thumbs Up" value={summary.thumbs_up} tone="good" />
-        <MetricCard label="Thumbs Down" value={summary.thumbs_down} tone={summary.thumbs_down > 0 ? "warn" : "neutral"} />
+        <MetricCard label="Total Feedback" value={summary.total} format="integer" />
+        <MetricCard label="Thumbs Up" value={summary.thumbs_up} tone="good" format="integer" />
+        <MetricCard label="Thumbs Down" value={summary.thumbs_down} tone={summary.thumbs_down > 0 ? "warn" : "neutral"} format="integer" />
       </section>
 
       {summary.total === 0 && (

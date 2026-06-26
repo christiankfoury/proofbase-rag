@@ -7,7 +7,7 @@ const chartRuns = [
   {
     runId: "phase6-vector-section",
     label: "vector-section",
-    badge: "Legacy best",
+    badge: null,
     color: "bg-moss",
   },
   {
@@ -36,13 +36,18 @@ export function RetrievalChart({ runs }: { runs: EvalRun[] }) {
       const run = runs.find((candidate) => candidate.run_id === item.runId);
       return run ? { ...item, run } : null;
     })
-    .filter((item): item is (typeof chartRuns)[number] & { run: EvalRun } => item !== null);
+    .filter((item): item is (typeof chartRuns)[number] & { run: EvalRun } => item !== null)
+    .sort((a, b) => {
+      const aPrecision = typeof a.run.metrics.precision_at_k === "number" ? a.run.metrics.precision_at_k : -1;
+      const bPrecision = typeof b.run.metrics.precision_at_k === "number" ? b.run.metrics.precision_at_k : -1;
+      return bPrecision - aPrecision;
+    });
 
   return (
     <Card>
       <SectionHeading
         title="Retrieval Precision Comparison"
-        description="Legacy Phase 6 retrieval profiles compared with the Phase 33 reranked candidate."
+        description="Profiles ranked from strongest to weakest by Precision@k."
       />
       <div className="space-y-4">
         {selected.map((item) => {

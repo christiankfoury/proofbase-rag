@@ -70,15 +70,16 @@ export default async function MultiDocPage() {
                 const b = baseline[key] as number | null | undefined;
                 const m = multi_doc[key] as number | null | undefined;
                 const d = delta(b, m, higherIsBetter);
+                const integer = key === "failed_question_count";
                 return (
                   <tr key={key}>
                     <td>{label}</td>
-                    <td className="text-right">{formatTableMetric(b)}</td>
-                    <td className="text-right font-medium text-ink">{formatTableMetric(m)}</td>
+                    <td className="text-right">{formatTableMetric(b, { integer })}</td>
+                    <td className="text-right font-medium text-ink">{formatTableMetric(m, { integer })}</td>
                     <td className={`text-right font-semibold ${
                       d?.better ? "text-moss-dark" : d?.worse ? "text-rust-dark" : "text-stone-500"
                     }`}>
-                      {d == null ? "-" : d.diff === 0 ? "±0" : `${d.diff > 0 ? "+" : ""}${typeof m === "number" && typeof b === "number" && !Number.isInteger(b) ? d.diff.toFixed(3) : d.diff}`}
+                      {d == null ? "-" : d.diff === 0 ? "±0" : `${d.diff > 0 ? "+" : ""}${integer ? Math.round(d.diff) : d.diff.toFixed(3)}`}
                     </td>
                   </tr>
                 );

@@ -1,4 +1,4 @@
-import { formatMetric } from "@/lib/dashboard";
+import { formatIntegerMetric, formatMetric } from "@/lib/dashboard";
 
 export function MetricCard({
   label,
@@ -7,6 +7,7 @@ export function MetricCard({
   context,
   badge,
   tone = "neutral",
+  format = "metric",
 }: {
   label: string;
   value: number | string | null | undefined;
@@ -14,6 +15,7 @@ export function MetricCard({
   context?: string;
   badge?: string;
   tone?: "neutral" | "good" | "warn" | "risk";
+  format?: "metric" | "integer";
 }) {
   const styles = {
     neutral: { border: "border-stone-300", bg: "bg-white", value: "text-ink" },
@@ -32,7 +34,9 @@ export function MetricCard({
           </span>
         ) : null}
       </div>
-      <p className={`mt-2 text-3xl font-semibold ${styles.value}`}>{formatMetric(value)}</p>
+      <p className={`mt-2 text-3xl font-semibold ${styles.value}`}>
+        {format === "integer" ? formatIntegerMetric(value) : formatMetric(value)}
+      </p>
       {detail ? <p className="mt-2 text-sm text-stone-600">{detail}</p> : null}
       {context ? <p className="mt-2 text-xs leading-5 text-stone-500">{context}</p> : null}
     </section>
