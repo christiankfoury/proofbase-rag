@@ -1,4 +1,5 @@
 import { formatIntegerMetric, formatMetric } from "@/lib/dashboard";
+import type { ReactNode } from "react";
 
 export function MetricCard({
   label,
@@ -11,8 +12,8 @@ export function MetricCard({
 }: {
   label: string;
   value: number | string | null | undefined;
-  detail?: string;
-  context?: string;
+  detail?: ReactNode;
+  context?: ReactNode;
   badge?: string;
   tone?: "neutral" | "good" | "warn" | "risk";
   format?: "metric" | "integer";

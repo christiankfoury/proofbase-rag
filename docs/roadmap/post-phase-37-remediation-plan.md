@@ -20,6 +20,12 @@ The starting measurement is the Phase 35 current answer-quality run:
 
 Do not treat this roadmap as permission to hide failures or move targets. Improvements must be measured against the current benchmark and recorded with run IDs, sample sizes, benchmark versions, and skipped checks.
 
+## Documentation-First Algorithm Audit
+
+The user may run a documentation-first algorithm explanation pass before Phase 39 implementation. That pass should use `docs/roadmap/algorithm-explanation-audit-plan.md`.
+
+The audit should explain the current algorithm and identify risks without changing runtime behavior, benchmark labels, prompts, retrieval, or permission controls. If the audit finds a correctness or permission issue that should change Phase 39 priorities, update this roadmap and `docs/roadmap/progress.md` before implementation.
+
 ## Current Failure Matrix
 
 The current answer-quality backlog comes from `data/evaluation/failed-questions/failed-questions.json`.

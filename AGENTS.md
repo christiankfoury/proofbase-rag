@@ -111,6 +111,48 @@ Start from the current measured answer-quality backlog: `phase35-citation-alignm
 
 For Phase 38, target `<=8` failed answer-quality cases without weakening citation standards, hallucination controls, or permission safety. For Phase 39, use strict ambiguity behavior: when intent is underspecified, return a clarifying question instead of answering. For Phase 40, complete upload -> review -> approve/index -> ask with local/Postgres storage and guarded OpenAI embeddings; keep Azure Blob Storage and AI Markdown cleanup as future improvements.
 
+## Algorithm Explanation And Audit Mode
+
+When the user starts a new chat to understand whether the algorithm makes sense, treat it as a documentation and reasoning pass before changing behavior.
+
+Primary goal:
+
+- Read the actual code paths for ingestion, retrieval, permission filtering, query orchestration, answer generation, citation validation, confidence scoring, memory rewriting, and evaluation.
+- Explain the algorithm in beginner-readable Markdown documents under `docs/algorithm/`.
+- Identify confusing design choices, hidden assumptions, and possible improvement areas, but do not change runtime behavior unless the user explicitly asks.
+
+Required source review:
+
+- `apps/api/app/main.py`
+- `apps/api/app/retrieval`
+- `apps/api/app/services`
+- `apps/api/app/prompts`
+- `apps/api/app/evaluation`
+- `scripts/run_*eval*.py`
+- `scripts/export_dashboard_data.py`
+- `data/evaluation`
+- relevant `docs/phase-*` notes for the current measured runs
+
+Recommended document set:
+
+- `docs/algorithm/README.md`: reading order and mental model.
+- `docs/algorithm/end-to-end-flow.md`: request lifecycle from user question to answer.
+- `docs/algorithm/retrieval-and-ranking.md`: vector, keyword, hybrid, rerank, top-k, and source coverage.
+- `docs/algorithm/permissions-and-scope.md`: project, department, role, and pre-generation filtering.
+- `docs/algorithm/generation-citations-confidence.md`: prompt versioning, answer types, citation selection, validation, and confidence.
+- `docs/algorithm/memory-and-multi-doc.md`: memory rewrite boundaries, multi-document orchestration, and ambiguity behavior.
+- `docs/algorithm/evaluation-metrics.md`: benchmark structure, metrics, run IDs, dashboards, and what each score does or does not prove.
+- `docs/algorithm/review-findings.md`: plain-language findings, risks, tradeoffs, and recommended next improvements.
+
+Documentation rules:
+
+- Keep explanations grounded in the code and measured artifacts.
+- Use diagrams or step lists when they make the flow easier to understand.
+- Distinguish implemented behavior from planned behavior.
+- Do not invent algorithm strengths or production claims.
+- Preserve zero permission leakage as a hard design requirement.
+- If the docs identify a bug or questionable design, record it as a finding with file references and suggested verification instead of silently changing code.
+
 ### 1. Plan
 
 Before changing code, read the relevant context:
@@ -294,6 +336,7 @@ Ask before implementing when the answer affects:
 - Future phases: `docs/roadmap/phase-plan.md`
 - Post-Phase 27 improvement roadmap: `docs/roadmap/phases-improvement.md`
 - Post-Phase 37 remediation roadmap: `docs/roadmap/post-phase-37-remediation-plan.md`
+- Algorithm explanation audit plan: `docs/roadmap/algorithm-explanation-audit-plan.md`
 - Roadmap progress tracker: `docs/roadmap/progress.md`
 - Current demo guide: `docs/demo/interactive-demo-guide.md`
 - Current failure analysis: `docs/phase-17/failed-question-cause-analysis.md`

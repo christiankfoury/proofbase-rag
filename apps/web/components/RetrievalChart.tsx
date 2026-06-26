@@ -1,8 +1,8 @@
 import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
+import { PhaseLabel } from "@/components/PhaseLabel";
 import { SectionHeading } from "@/components/SectionHeading";
 import { EvalRun, formatTableMetric } from "@/lib/dashboard";
-import { formatPhaseLabel } from "@/lib/phases";
 
 const chartRuns = [
   {
@@ -60,7 +60,7 @@ export function RetrievalChart({ runs }: { runs: EvalRun[] }) {
                   <span className="font-medium text-ink">{item.label}</span>
                   {item.badge ? <Badge tone="solid">{item.badge}</Badge> : null}
                   <span className="text-xs text-stone-500">
-                    {formatPhaseLabel(item.run.phase)} | n={item.run.sample_size ?? item.run.total_questions ?? "n/a"} | benchmark{" "}
+                    <PhaseLabel phase={item.run.phase} /> | n={item.run.sample_size ?? item.run.total_questions ?? "n/a"} | benchmark{" "}
                     {item.run.benchmark_version ?? "n/a"}
                   </span>
                 </div>

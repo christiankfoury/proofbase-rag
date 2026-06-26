@@ -31,6 +31,29 @@ const emptyForm: ProjectFormState = {
   default_retrieval_profile: "vector-section",
 };
 
+const retrievalProfileOptions = [
+  {
+    value: "vector-section",
+    label: "Vector section",
+    detail: "Current stable default for project-scoped chat.",
+  },
+  {
+    value: "keyword-section",
+    label: "Keyword section",
+    detail: "Lexical baseline for exact policy terms.",
+  },
+  {
+    value: "hybrid-section-0.5",
+    label: "Hybrid 50/50",
+    detail: "Blends vector and keyword scores.",
+  },
+  {
+    value: "vector-lexical-rerank",
+    label: "Vector + lexical rerank",
+    detail: "Best measured precision candidate; available as an explicit project setting.",
+  },
+];
+
 type DepartmentFormState = {
   name: string;
   icon: DepartmentIcon;
@@ -59,6 +82,10 @@ function statusTone(status: Project["status"]) {
 
 function formatLabel(value: string): string {
   return value.replaceAll("_", " ").replaceAll("-", " ");
+}
+
+function retrievalProfileLabel(value: string): string {
+  return retrievalProfileOptions.find((option) => option.value === value)?.label ?? formatLabel(value);
 }
 
 function iconLabel(icon: string): string {
@@ -354,7 +381,8 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                 </div>
                 <div className="rounded border border-stone-200 bg-stone-50 p-3">
                   <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Retrieval profile</p>
-                  <p className="mt-1 text-lg font-semibold text-ink">{activeProject.default_retrieval_profile}</p>
+                  <p className="mt-1 text-lg font-semibold text-ink">{retrievalProfileLabel(activeProject.default_retrieval_profile)}</p>
+                  <p className="mt-1 text-xs text-stone-500">{activeProject.default_retrieval_profile}</p>
                 </div>
               </div>
             </div>
@@ -527,13 +555,23 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                     </label>
                     <label className="block">
                       <span className="text-sm font-medium text-stone-700">Default retrieval profile</span>
-                      <input
+                      <select
                         className="field mt-1 w-full"
                         value={editForm.default_retrieval_profile}
                         onChange={(event) =>
                           setEditForm((form) => ({ ...form, default_retrieval_profile: event.target.value }))
                         }
-                      />
+                      >
+                        {retrievalProfileOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                      <span className="mt-1 block text-xs text-stone-500">
+                        {retrievalProfileOptions.find((option) => option.value === editForm.default_retrieval_profile)?.detail ??
+                          "Custom profile saved on this project."}
+                      </span>
                     </label>
                   </div>
                   <div className="mt-4 flex flex-wrap gap-3">

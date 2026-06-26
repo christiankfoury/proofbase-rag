@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { BookOpen, Gauge, MessageSquare, ShieldCheck } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import type { ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
 import {
   DEMO_USER_CHANGED_EVENT,
   fetchCurrentDemoUser,
@@ -14,9 +16,16 @@ import {
 } from "@/lib/demoAuth";
 import type { DemoUser } from "@/lib/demoAuth";
 
-const navGroups = [
+type NavGroup = {
+  title: string;
+  icon: LucideIcon;
+  links: Array<[string, string]>;
+};
+
+const navGroups: NavGroup[] = [
   {
     title: "App",
+    icon: MessageSquare,
     links: [
       ["Home", "/"],
       ["Project Workspaces", "/projects"],
@@ -25,6 +34,7 @@ const navGroups = [
   },
   {
     title: "Dev & Admin",
+    icon: Gauge,
     links: [
       ["Measured Enterprise RAG Progress", "/dev-admin"],
       ["Run Comparison", "/dev-admin/runs"],
@@ -39,9 +49,16 @@ const navGroups = [
   },
   {
     title: "Deep Evaluation",
+    icon: BookOpen,
     links: [
       ["Retrieval Experiments", "/dev-admin/retrieval-experiments"],
       ["Prompt Experiments", "/dev-admin/prompt-experiments"],
+    ],
+  },
+  {
+    title: "Security",
+    icon: ShieldCheck,
+    links: [
       ["Permission Safety", "/dev-admin/permission-safety"],
       ["Memory Evaluation", "/dev-admin/memory-evaluation"],
     ],
@@ -54,7 +71,7 @@ const navStyles = {
   chrome: "px-5 py-5 md:px-6 xl:px-7",
   description: "mt-2 text-sm leading-6 text-stone-600 md:text-[15px] xl:text-base",
   nav: "space-y-7 px-5 pb-6 text-[15px] md:px-6 md:text-base xl:px-7 xl:text-[17px]",
-  groupLabel: "mb-2 text-xs font-semibold uppercase tracking-wide text-stone-500 md:text-[13px]",
+  groupLabel: "mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-stone-500 md:text-[13px]",
   linkBase:
     "block whitespace-nowrap rounded border px-3 py-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 md:px-3.5 md:py-2.5",
   linkActive: "border-moss bg-moss-soft text-moss-dark",
@@ -315,7 +332,10 @@ export function Shell({ children }: { children: ReactNode }) {
           <nav id="primary-navigation" className={navStyles.nav}>
             {navGroups.map((group) => (
               <div key={group.title}>
-                <p className={navStyles.groupLabel}>{group.title}</p>
+                <p className={navStyles.groupLabel}>
+                  <group.icon className="h-4 w-4 text-moss-dark" aria-hidden="true" />
+                  <span>{group.title}</span>
+                </p>
                 <div className="space-y-1">
                   {group.links.map(([label, href]) => {
                     const active = isActiveNavLink(pathname, href);

@@ -2,10 +2,10 @@ import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
 import { MetricCard } from "@/components/MetricCard";
 import { PageHeader } from "@/components/PageHeader";
+import { PhaseLabel } from "@/components/PhaseLabel";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { EvalRun, formatLabel, formatTableMetric, getDashboardData, riskRateClass } from "@/lib/dashboard";
-import { formatPhaseLabel } from "@/lib/phases";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 function PromptExperimentTable({ runs }: { runs: EvalRun[] }) {
@@ -64,7 +64,12 @@ export default async function PromptExperimentsPage() {
     <Shell>
       <PageHeader
         title="Prompt Experiments"
-        description={`${formatPhaseLabel("phase-11")} compares answer-generation prompt versions against the same benchmark so prompt changes are measured instead of changed blindly.`}
+        description={
+          <p>
+            <PhaseLabel phase="phase-11" /> compares answer-generation prompt versions against the same benchmark so prompt changes are
+            measured instead of changed blindly.
+          </p>
+        }
       />
 
       <section className="grid gap-4 md:grid-cols-3">

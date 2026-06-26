@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useState } from "react";
 import { Badge, BadgeTone } from "@/components/Badge";
 import { Card } from "@/components/Card";
 import { MetricCard } from "@/components/MetricCard";
@@ -57,6 +57,34 @@ const profiles: Profile[] = [
   },
 ];
 
+type SourceOption = {
+  id: string;
+  label: string;
+  group: string;
+};
+
+const sourceOptions: SourceOption[] = [
+  { id: "HR-001", label: "Employee Handbook", group: "People Operations" },
+  { id: "HR-002", label: "Leave And Time Off Policy", group: "People Operations" },
+  { id: "HR-003", label: "Remote And Hybrid Work Policy", group: "People Operations" },
+  { id: "HR-004", label: "Benefits Overview", group: "People Operations" },
+  { id: "MGR-001", label: "Manager Playbook", group: "Management" },
+  { id: "MGR-002", label: "Promotion Calibration Guide", group: "Management" },
+  { id: "IT-001", label: "Security Acceptable Use Policy", group: "IT And Security" },
+  { id: "IT-002", label: "Device Security Policy", group: "IT And Security" },
+  { id: "IT-003", label: "Approved AI Tools Policy", group: "IT And Security" },
+  { id: "HR-ADMIN-001", label: "HR Admin Operations Guide", group: "Admin" },
+  { id: "IT-ADMIN-001", label: "IT Admin Operations Guide", group: "Admin" },
+  { id: "SALES-001", label: "Sales Playbook", group: "Sales" },
+  { id: "SALES-002", label: "Product Positioning And FAQ", group: "Sales" },
+  { id: "SALES-003", label: "Competitive Battlecard", group: "Sales" },
+  { id: "FIN-001", label: "Expense And Purchasing Policy", group: "Finance" },
+  { id: "LEGAL-001", label: "Legal Review And NDA Policy", group: "Legal" },
+  { id: "ENG-001", label: "Engineering Release Policy", group: "Engineering" },
+  { id: "SUPPORT-001", label: "Support Escalation Guide", group: "Support" },
+  { id: "OPS-001", label: "Operations Continuity Plan", group: "Operations" },
+];
+
 type ProfileResult = {
   profile: Profile;
   result?: QueryResponse;
@@ -74,13 +102,6 @@ function formatLatency(value: number | null | undefined): string {
 function formatUsd(value: number | null | undefined): string {
   if (value === null || value === undefined) return "pending";
   return `$${value.toFixed(6)}`;
-}
-
-function parseExpectedSources(value: string): string[] {
-  return value
-    .split(/[,\n]/)
-    .map((item) => item.trim())
-    .filter(Boolean);
 }
 
 function uniqueDocumentsFromCitations(citations: Citation[]): string[] {
@@ -108,6 +129,115 @@ function profileOutcome(result: QueryResponse | undefined, expectedSources: stri
   if (result.response_type === "not_found" || result.response_type === "partial_answer") return { text: "Needs answer review", tone: "warn" };
   if ((result.final_confidence ?? 0) < 0.7) return { text: "Low confidence", tone: "info" };
   return { text: "Candidate on this query", tone: "good" };
+}
+
+function sourceOptionLabel(sourceId: string): string {
+  const option = sourceOptions.find((item) => item.id === sourceId);
+  return option ? `${option.id} - ${option.label}` : sourceId;
+}
+
+function ExpectedSourcePicker({
+  selected,
+  onChange,
+}: {
+  selected: string[];
+  onChange: (selected: string[]) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const selectedSet = new Set(selected);
+  const groups = Array.from(new Set(sourceOptions.map((option) => option.group)));
+
+  function toggleSource(sourceId: string) {
+    if (selectedSet.has(sourceId)) {
+      onChange(selected.filter((item) => item !== sourceId));
+      return;
+    }
+    onChange([...selected, sourceId]);
+  }
+
+  function removeSource(sourceId: string) {
+    onChange(selected.filter((item) => item !== sourceId));
+  }
+
+  return (
+    <div className="relative">
+      <div className="field flex min-h-10 w-full flex-wrap items-center gap-2 text-left" aria-label="Expected source documents">
+        {selected.length ? (
+          selected.map((sourceId) => (
+            <span
+              key={sourceId}
+              className="inline-flex max-w-full items-center gap-1 rounded-full border border-moss bg-moss-soft px-2.5 py-1 text-xs font-semibold text-moss-dark"
+            >
+              <span className="truncate">{sourceOptionLabel(sourceId)}</span>
+              <button
+                type="button"
+                className="rounded-full px-1 text-moss-dark hover:bg-white/70"
+                aria-label={`Remove ${sourceId}`}
+                onClick={() => removeSource(sourceId)}
+              >
+                x
+              </button>
+            </span>
+          ))
+        ) : (
+          <span className="text-stone-500">Select expected source documents</span>
+        )}
+        <button
+          type="button"
+          className="ml-auto rounded border border-stone-300 bg-white px-2.5 py-1 text-xs font-semibold text-steel-dark hover:border-steel hover:bg-steel-soft"
+          onClick={() => setOpen((value) => !value)}
+          aria-expanded={open}
+          aria-haspopup="listbox"
+        >
+          Choose
+        </button>
+      </div>
+      {open ? (
+        <div className="absolute left-0 top-[calc(100%+0.35rem)] z-30 max-h-96 w-[min(760px,calc(100vw-3rem))] overflow-y-auto rounded-md border border-stone-300 bg-white p-3 shadow-xl">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Expected source documents</p>
+            {selected.length ? (
+              <button type="button" className="text-xs font-semibold text-rust-dark hover:underline" onClick={() => onChange([])}>
+                Clear
+              </button>
+            ) : null}
+          </div>
+          <div className="space-y-4" role="listbox" aria-label="Expected source documents" aria-multiselectable="true">
+            {groups.map((group) => (
+              <section key={group}>
+                <p className="mb-2 text-xs font-semibold text-steel-dark">{group}</p>
+                <div className="flex flex-wrap gap-2">
+                  {sourceOptions
+                    .filter((option) => option.group === group)
+                    .map((option) => {
+                      const active = selectedSet.has(option.id);
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          role="option"
+                          aria-selected={active}
+                          onClick={() => toggleSource(option.id)}
+                          className={`inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition-colors ${
+                            active
+                              ? "border-moss bg-moss-soft font-semibold text-moss-dark"
+                              : "border-stone-300 bg-white text-stone-700 hover:border-steel hover:bg-steel-soft"
+                          }`}
+                        >
+                          <span>{option.id}</span>
+                          <span className="text-xs">{option.label}</span>
+                          {active ? <span className="text-xs">x</span> : null}
+                        </button>
+                      );
+                    })}
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 function CompactCitations({ citations }: { citations: Citation[] }) {
@@ -181,7 +311,7 @@ export function RetrievalPlaygroundClient({
   failures: FailedQuestion[];
 }) {
   const [question, setQuestion] = useState("If I work remotely, what approval and device security expectations apply?");
-  const [expectedSourcesInput, setExpectedSourcesInput] = useState("HR-003, IT-002");
+  const [expectedSources, setExpectedSources] = useState(["HR-003", "IT-002"]);
   const [role, setRole] = useState<UserRole>("Employee");
   const [results, setResults] = useState<ProfileResult[]>(profiles.map((profile) => ({ profile })));
   const [loading, setLoading] = useState(false);
@@ -190,7 +320,6 @@ export function RetrievalPlaygroundClient({
   const [reviewNotes, setReviewNotes] = useState("");
   const [reviewStatus, setReviewStatus] = useState<string | null>(null);
 
-  const expectedSources = useMemo(() => parseExpectedSources(expectedSourcesInput), [expectedSourcesInput]);
   const knownMultiDocFailure = failures.find((failure) => failure.question_id === "MULTI-005");
   const hasLiveResult = results.some((item) => item.result);
   const failureBuckets = {
@@ -268,15 +397,9 @@ export function RetrievalPlaygroundClient({
       </section>
 
       <Card>
-        <div className="grid gap-3 xl:grid-cols-[1fr_220px_160px_auto]">
+        <div className="grid gap-3 xl:grid-cols-[1fr_minmax(360px,0.7fr)_160px_auto]">
           <input value={question} onChange={(event) => setQuestion(event.target.value)} className="field" />
-          <input
-            value={expectedSourcesInput}
-            onChange={(event) => setExpectedSourcesInput(event.target.value)}
-            className="field"
-            aria-label="Expected source documents"
-            placeholder="Expected docs, e.g. HR-003, IT-002"
-          />
+          <ExpectedSourcePicker selected={expectedSources} onChange={setExpectedSources} />
           <select value={role} onChange={(event) => setRole(event.target.value as UserRole)} className="field" aria-label="Admin simulation role">
             <option>Employee</option>
             <option>Sales Representative</option>

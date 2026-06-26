@@ -1,8 +1,8 @@
 import { MetricCard } from "@/components/MetricCard";
 import { PageHeader } from "@/components/PageHeader";
+import { PhaseLabel } from "@/components/PhaseLabel";
 import { Shell } from "@/components/Shell";
 import { getEnrichedFailures } from "@/lib/api";
-import { formatPhaseLabel } from "@/lib/phases";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 import { FailedQuestionsClient } from "./FailedQuestionsClient";
 
@@ -21,7 +21,12 @@ export default async function FailedQuestionsPage() {
   const summary = [
     { label: "Total failures", value: failures.length, detail: "Open improvement backlog.", tone: "neutral" as const },
     { label: "Multi-doc failures", value: countFailures(failures, "multi_document_failure"), detail: "Requires better multi-source retrieval and synthesis.", tone: "warn" as const },
-    { label: "Citation issues", value: countCitationCategoryRows(failures) || countFailures(failures, "wrong_citation"), detail: `Rows with a ${formatPhaseLabel("phase-35")} citation category.`, tone: "warn" as const },
+    {
+      label: "Citation issues",
+      value: countCitationCategoryRows(failures) || countFailures(failures, "wrong_citation"),
+      detail: <>Rows with a <PhaseLabel phase="phase-35" /> citation category.</>,
+      tone: "warn" as const,
+    },
     { label: "Unsupported answers", value: countFailures(failures, "unsupported_answer"), detail: "Answer support or confidence is weak.", tone: "warn" as const },
     { label: "Answer downgrades", value: countFailures(failures, "answer_not_generated"), detail: "Answerable question returned not found.", tone: "warn" as const },
   ];

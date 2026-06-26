@@ -360,6 +360,24 @@ Implementation rule:
 - Finish upload -> review -> approve/index -> ask locally before adding Azure Blob Storage or AI Markdown cleanup.
 - Preserve zero permission leakage as a hard gate for every remediation phase.
 
+## Cross-Cutting Algorithm Explanation Audit
+
+Before or between implementation phases, the user may request a documentation-first review of the current algorithm. Use `docs/roadmap/algorithm-explanation-audit-plan.md` for that work.
+
+Purpose:
+
+- Explain the implemented RAG algorithm in Markdown documents that a portfolio reviewer or developer can understand.
+- Review the actual code paths before writing explanations.
+- Identify design risks, confusing areas, and improvement opportunities.
+- Preserve a clear boundary between documentation findings and runtime behavior changes.
+
+Rules:
+
+- Do not change retrieval, prompts, permissions, benchmark expectations, or metrics during the explanation pass unless the user explicitly asks for implementation.
+- Keep explanations grounded in code references and measured artifacts.
+- Put output documents under `docs/algorithm/`.
+- Phase 39 remains the next remediation implementation phase unless the audit finds a more urgent correctness or permission issue.
+
 ## Promotion Gates For Every Future Phase
 
 Each phase must answer:

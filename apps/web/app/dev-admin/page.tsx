@@ -4,10 +4,10 @@ import { RunTable } from "@/components/RunTable";
 import { Shell } from "@/components/Shell";
 import { PageHeader } from "@/components/PageHeader";
 import { Card } from "@/components/Card";
-import { RunLabel } from "@/components/PhaseLabel";
+import { PhaseLabel, RunLabel } from "@/components/PhaseLabel";
 import { SectionHeading } from "@/components/SectionHeading";
 import { formatDateTime, formatIntegerMetric, formatLabel, formatMetric, getDashboardData, MetricContext } from "@/lib/dashboard";
-import { formatPhaseLabel, formatRunLabel } from "@/lib/phases";
+import { formatRunLabel } from "@/lib/phases";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 import Link from "next/link";
 
@@ -412,7 +412,7 @@ export default async function OverviewPage() {
         <section className="mt-8 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
           <Card tone={phase33.publishable_improvement ? "good" : "warn"}>
             <SectionHeading
-              title={formatPhaseLabel("phase-33")}
+              title={<PhaseLabel phase="phase-33" />}
               description="Live retrieval and permission gates are shown first; saved replay remains as candidate-selection evidence."
             />
             <dl className="grid gap-3 text-sm">
@@ -452,7 +452,12 @@ export default async function OverviewPage() {
               description={
                 phase33Live
                   ? "These metrics come from the live vector/lexical rerank run and matching permission safety report."
-                  : `These numbers reorder only the saved ${formatPhaseLabel("phase-32")} top-5 chunks; live retrieval and permission safety are still pending.`
+                  : (
+                    <>
+                      These numbers reorder only the saved <PhaseLabel phase="phase-32" /> top-5 chunks; live retrieval and permission safety
+                      are still pending.
+                    </>
+                  )
               }
             />
             <div className="grid gap-3 sm:grid-cols-4">

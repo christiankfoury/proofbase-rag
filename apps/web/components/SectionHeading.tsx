@@ -1,10 +1,12 @@
+import type { ReactNode } from "react";
+
 export function SectionHeading({
   title,
   description,
   className = "",
 }: {
-  title: string;
-  description?: string;
+  title: ReactNode;
+  description?: ReactNode;
   className?: string;
 }) {
   return (

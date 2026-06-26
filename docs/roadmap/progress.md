@@ -9,7 +9,7 @@ Update this tracker before committing each phase. Keep entries factual: record w
 - Current phase: Phase 39 is ready; implementation has not started.
 - Last completed phase: Phase 38, Answer-Quality Failure Remediation.
 - Last verification focus: Phase 38 answer-quality remediation run, permission safety gate, dashboard export, benchmark validation, compile checks, Docker Compose config, diff hygiene, and web build.
-- Next expected work: Phase 39, multi-document and ambiguity orchestration, using `docs/roadmap/post-phase-37-remediation-plan.md` as the active roadmap.
+- Next expected work: user-requested documentation pass to explain and audit the current algorithm, using `docs/roadmap/algorithm-explanation-audit-plan.md`. Phase 39, multi-document and ambiguity orchestration, remains the next implementation phase after that pass unless the audit finds a more urgent correctness or permission issue.
 
 ## Phase Status
 

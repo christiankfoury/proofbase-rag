@@ -2,12 +2,12 @@ import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
 import { MetricCard } from "@/components/MetricCard";
 import { PageHeader } from "@/components/PageHeader";
-import { RunLabel } from "@/components/PhaseLabel";
+import { PhaseLabel, RunLabel } from "@/components/PhaseLabel";
 import { RetrievalChart } from "@/components/RetrievalChart";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { EvalRun, formatIntegerMetric, formatLabel, formatMetric, formatTableMetric, getDashboardData } from "@/lib/dashboard";
-import { formatPhaseLabel, formatRunLabel } from "@/lib/phases";
+import { formatRunLabel } from "@/lib/phases";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 
 function RetrievalExperimentTable({ runs }: { runs: EvalRun[] }) {
@@ -82,7 +82,11 @@ export default async function RetrievalExperimentsPage() {
     <Shell>
       <PageHeader
         title="Retrieval Experiments"
-        description={`Compare retrieval profiles across ${formatPhaseLabel("phase-6")} experiments and the current expanded benchmark candidate.`}
+        description={
+          <p>
+            Compare retrieval profiles across <PhaseLabel phase="phase-6" /> experiments and the current expanded benchmark candidate.
+          </p>
+        }
       />
       <section className="grid gap-4 md:grid-cols-3">
         <MetricCard label="Best Precision Run" value={formatRunLabel(bestPrecisionRun)} detail={`Benchmark ${bestPrecisionRun?.benchmark_version ?? "n/a"} / n=${bestPrecisionRun?.sample_size ?? bestPrecisionRun?.total_questions ?? "n/a"}.`} badge="Best" tone="good" />
@@ -97,14 +101,14 @@ export default async function RetrievalExperimentsPage() {
           <SectionHeading title="Experiment Setup" />
           <ul className="space-y-2 text-sm text-stone-700">
             <li>
-              {formatPhaseLabel("phase-6")} comparison: {vector?.total_questions ?? "pending"} benchmark {vector?.benchmark_version ?? "n/a"} retrieval questions.
+              <PhaseLabel phase="phase-6" /> comparison: {vector?.total_questions ?? "pending"} benchmark {vector?.benchmark_version ?? "n/a"} retrieval questions.
             </li>
             <li>
               Current expanded benchmark: {currentBenchmarkCount ?? "pending"} benchmark {currentBenchmarkVersion ?? "n/a"} questions.
             </li>
             <li>Compared retrieval-only metrics to avoid extra generation cost.</li>
             <li>
-              Top K: baseline profiles use {vector?.top_k ?? "pending"} chunks; the {formatPhaseLabel("phase-33")} reranked candidate uses{" "}
+              Top K: baseline profiles use {vector?.top_k ?? "pending"} chunks; the <PhaseLabel phase="phase-33" /> reranked candidate uses{" "}
               {precisionCandidate?.top_k ?? "pending"}.
             </li>
             <li>Permission and missing-info questions are excluded from retrieval averages.</li>
@@ -135,7 +139,7 @@ export default async function RetrievalExperimentsPage() {
             <div>
               <p className="font-semibold text-ink">Reranked Candidate</p>
               <p>
-                {formatPhaseLabel("phase-33")} added vector + lexical reranking and lifted Precision@k to{" "}
+                <PhaseLabel phase="phase-33" /> added vector + lexical reranking and lifted Precision@k to{" "}
                 {formatMetric(precisionCandidate?.metrics.precision_at_k)} on benchmark {precisionCandidate?.benchmark_version ?? "n/a"} with{" "}
                 n={precisionCandidate?.sample_size ?? precisionCandidate?.total_questions ?? "n/a"}.
               </p>
@@ -151,7 +155,7 @@ export default async function RetrievalExperimentsPage() {
               <p className="font-semibold text-ink">Keyword-only</p>
               <p>
                 Keyword-only was much faster at {formatMetric(keyword?.metrics.average_latency_ms)} ms average latency, but weaker on
-                Precision@k at {formatMetric(keyword?.metrics.precision_at_k)} in the {formatPhaseLabel("phase-6")} run.
+                Precision@k at {formatMetric(keyword?.metrics.precision_at_k)} in the <PhaseLabel phase="phase-6" /> run.
               </p>
             </div>
             <div>
@@ -167,12 +171,19 @@ export default async function RetrievalExperimentsPage() {
       <Card className="mt-8">
         <SectionHeading title="Current Takeaway" />
         <p className="text-stone-700">
-          The {formatPhaseLabel("phase-33")} vector + lexical reranked candidate is the current retrieval-quality reference for the expanded benchmark.
-          The {formatPhaseLabel("phase-6")} profiles remain useful historical comparisons, but they should not override the v1.1 result.
+          The <PhaseLabel phase="phase-33" /> vector + lexical reranked candidate is the current retrieval-quality reference for the expanded benchmark.
+          The <PhaseLabel phase="phase-6" /> profiles remain useful historical comparisons, but they should not override the v1.1 result.
         </p>
       </Card>
       <section className="mt-8">
-        <SectionHeading title="Retrieval-Only Results" description={`${formatPhaseLabel("phase-6")} rows are benchmark v1.0; the reranked candidate is benchmark v1.1. Sorted by Precision@k.`} />
+        <SectionHeading
+          title="Retrieval-Only Results"
+          description={
+            <>
+              <PhaseLabel phase="phase-6" /> rows are benchmark v1.0; the reranked candidate is benchmark v1.1. Sorted by Precision@k.
+            </>
+          }
+        />
         <RetrievalExperimentTable runs={chartRuns} />
       </section>
     </Shell>
