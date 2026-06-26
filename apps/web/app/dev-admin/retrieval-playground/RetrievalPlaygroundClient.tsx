@@ -191,6 +191,7 @@ export function RetrievalPlaygroundClient({
 
   const expectedSources = useMemo(() => parseExpectedSources(expectedSourcesInput), [expectedSourcesInput]);
   const knownMultiDocFailure = failures.find((failure) => failure.question_id === "MULTI-005");
+  const hasLiveResult = results.some((item) => item.result);
   const failureBuckets = {
     multi_document_failure: failures.filter((failure) => failure.failure_type === "multi_document_failure").length,
     wrong_citation: failures.filter((failure) => failure.failure_type === "wrong_citation").length,
@@ -294,6 +295,64 @@ export function RetrievalPlaygroundClient({
       </Card>
 
       <section>
+        <h3 className="mb-3 text-xl font-semibold text-ink">Live Profile Results</h3>
+        <div className="grid gap-5 xl:grid-cols-2">
+          {results.map(({ profile, result, error }) => {
+            const outcome = profileOutcome(result, expectedSources);
+            const retrievedDocuments = uniqueDocumentsFromResult(result);
+            const citedDocuments = result ? uniqueDocumentsFromCitations(result.citations) : [];
+            return (
+              <Card key={profile.name} tone={outcome.tone === "good" ? "good" : "neutral"}>
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="text-xl font-semibold text-ink">{profile.label}</h3>
+                      <Badge tone={outcome.tone}>{outcome.text}</Badge>
+                    </div>
+                    <p className="mt-1 text-sm text-stone-600">{profile.summary}</p>
+                  </div>
+                  {result ? (
+                    <div className="text-right text-xs text-stone-600">
+                      <p>{formatLabel(result.response_type)}</p>
+                      <p>{formatLatency(result.total_latency_ms)}</p>
+                    </div>
+                  ) : null}
+                </div>
+                {error ? <p className="mt-4 rounded border border-rust bg-rust-soft p-3 text-sm font-medium text-rust-dark">{error}</p> : null}
+                {result ? (
+                  <div className="mt-4 space-y-4">
+                    <div className="grid gap-2 text-xs text-stone-700 md:grid-cols-3">
+                      <span>Retrieved coverage: {formatMetric(coverage(expectedSources, retrievedDocuments))}</span>
+                      <span>Citation coverage: {formatMetric(coverage(expectedSources, citedDocuments))}</span>
+                      <span>Final confidence: {formatMetric(result.final_confidence)}</span>
+                      <span>Cost: {formatUsd(result.estimated_cost_usd)}</span>
+                      <span>Chunks: {result.retrieved_chunks.length}</span>
+                      <span>Leakage: {result.permission_check.unauthorized_chunks_reached_generation ? "yes" : "no"}</span>
+                    </div>
+                    <p className="line-clamp-6 text-sm leading-6 text-stone-800">{result.answer}</p>
+                    <div>
+                      <h4 className="mb-2 font-semibold text-ink">Citations</h4>
+                      <CompactCitations citations={result.citations} />
+                    </div>
+                    <details className="rounded border border-stone-300 p-4">
+                      <summary className="cursor-pointer font-semibold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss">
+                        Top Retrieved Chunks
+                      </summary>
+                      <div className="mt-3">
+                        <RetrievedContext chunks={result.retrieved_chunks.slice(0, 4)} />
+                      </div>
+                    </details>
+                  </div>
+                ) : (
+                  <p className="mt-4 text-sm text-stone-600">Run the profiles to populate this result.</p>
+                )}
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+
+      <section>
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-xl font-semibold text-ink">Historical Profile Evidence</h3>
           <Badge tone="solid">Real exported metrics</Badge>
@@ -310,79 +369,29 @@ export function RetrievalPlaygroundClient({
         </Card>
       ) : null}
 
-      <div className="grid gap-5 xl:grid-cols-2">
-        {results.map(({ profile, result, error }) => {
-          const outcome = profileOutcome(result, expectedSources);
-          const retrievedDocuments = uniqueDocumentsFromResult(result);
-          const citedDocuments = result ? uniqueDocumentsFromCitations(result.citations) : [];
-          return (
-            <Card key={profile.name} tone={outcome.tone === "good" ? "good" : "neutral"}>
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-xl font-semibold text-ink">{profile.label}</h3>
-                    <Badge tone={outcome.tone}>{outcome.text}</Badge>
-                  </div>
-                  <p className="mt-1 text-sm text-stone-600">{profile.summary}</p>
-                </div>
-                {result ? (
-                  <div className="text-right text-xs text-stone-600">
-                    <p>{formatLabel(result.response_type)}</p>
-                    <p>{formatLatency(result.total_latency_ms)}</p>
-                  </div>
-                ) : null}
-              </div>
-              {error ? <p className="mt-4 rounded border border-rust bg-rust-soft p-3 text-sm font-medium text-rust-dark">{error}</p> : null}
-              {result ? (
-                <div className="mt-4 space-y-4">
-                  <div className="grid gap-2 text-xs text-stone-700 md:grid-cols-3">
-                    <span>Retrieved coverage: {formatMetric(coverage(expectedSources, retrievedDocuments))}</span>
-                    <span>Citation coverage: {formatMetric(coverage(expectedSources, citedDocuments))}</span>
-                    <span>Final confidence: {formatMetric(result.final_confidence)}</span>
-                    <span>Cost: {formatUsd(result.estimated_cost_usd)}</span>
-                    <span>Chunks: {result.retrieved_chunks.length}</span>
-                    <span>Leakage: {result.permission_check.unauthorized_chunks_reached_generation ? "yes" : "no"}</span>
-                  </div>
-                  <p className="line-clamp-6 text-sm leading-6 text-stone-800">{result.answer}</p>
-                  <div>
-                    <h4 className="mb-2 font-semibold text-ink">Citations</h4>
-                    <CompactCitations citations={result.citations} />
-                  </div>
-                  <details className="rounded border border-stone-300 p-4">
-                    <summary className="cursor-pointer font-semibold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss">
-                      Top Retrieved Chunks
-                    </summary>
-                    <div className="mt-3">
-                      <RetrievedContext chunks={result.retrieved_chunks.slice(0, 4)} />
-                    </div>
-                  </details>
-                </div>
-              ) : (
-                <p className="mt-4 text-sm text-stone-600">Run the profiles to populate this result.</p>
-              )}
-            </Card>
-          );
-        })}
-      </div>
-
-      <Card>
-        <h3 className="text-lg font-semibold text-ink">Review Note</h3>
-        <form onSubmit={submitReview} className="mt-3 grid gap-3 lg:grid-cols-[220px_180px_1fr_auto]">
-          <select value={reviewProfileName} onChange={(event) => setReviewProfileName(event.target.value)} className="field">
-            {profiles.map((profile) => (
-              <option key={profile.name} value={profile.name}>{profile.label}</option>
-            ))}
-          </select>
-          <select value={reviewDecision} onChange={(event) => setReviewDecision(event.target.value as ReviewDecision)} className="field">
-            <option value="review_only">Review only</option>
-            <option value="candidate">Candidate</option>
-            <option value="rejected">Rejected</option>
-          </select>
-          <input value={reviewNotes} onChange={(event) => setReviewNotes(event.target.value)} className="field" placeholder="Promotion rationale or rejection reason" />
-          <button type="submit" className="btn-accent">Record review</button>
-        </form>
-        {reviewStatus ? <p className="mt-2 text-sm text-stone-700">{reviewStatus}</p> : null}
-      </Card>
+      {hasLiveResult ? (
+        <Card>
+          <h3 className="text-lg font-semibold text-ink">Record Result Review</h3>
+          <p className="mt-1 text-sm text-stone-600">
+            Save an audit note for one live profile result. This does not promote a profile globally.
+          </p>
+          <form onSubmit={submitReview} className="mt-3 grid gap-3 lg:grid-cols-[220px_180px_1fr_auto]">
+            <select value={reviewProfileName} onChange={(event) => setReviewProfileName(event.target.value)} className="field">
+              {profiles.map((profile) => (
+                <option key={profile.name} value={profile.name}>{profile.label}</option>
+              ))}
+            </select>
+            <select value={reviewDecision} onChange={(event) => setReviewDecision(event.target.value as ReviewDecision)} className="field">
+              <option value="review_only">Review only</option>
+              <option value="candidate">Candidate</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            <input value={reviewNotes} onChange={(event) => setReviewNotes(event.target.value)} className="field" placeholder="Why this result should be reviewed, rejected, or considered a candidate" />
+            <button type="submit" className="btn-accent">Record note</button>
+          </form>
+          {reviewStatus ? <p className="mt-2 text-sm text-stone-700">{reviewStatus}</p> : null}
+        </Card>
+      ) : null}
     </section>
   );
 }

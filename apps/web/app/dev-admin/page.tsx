@@ -401,12 +401,6 @@ export default async function OverviewPage() {
           </div>
         </Card>
       </section>
-      <Card tone="good" className="mt-8">
-        <SectionHeading title="Experiment Conclusion" />
-        <p className="text-stone-700">
-          Vector retrieval with section-based chunks remains the best overall configuration; hybrid did not outperform it on this corpus.
-        </p>
-      </Card>
       {phase33 && Object.keys(phase33).length > 0 ? (
         <section className="mt-8 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
           <Card tone={phase33.publishable_improvement ? "good" : "warn"}>
