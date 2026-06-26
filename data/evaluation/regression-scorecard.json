@@ -1,6 +1,6 @@
 {
   "phase": "phase-37",
-  "generated_at": "2026-06-21T18:42:38.107116+00:00",
+  "generated_at": "2026-06-26T04:54:07.380359+00:00",
   "benchmark_version": "1.1",
   "benchmark_question_count": 130,
   "category_breakdown": {
@@ -25,7 +25,8 @@
     "phase36-permission-evaluation",
     "phase36-memory-evaluation",
     "phase36-memory-permission-boundary",
-    "phase38-permission-evaluation"
+    "phase38-permission-evaluation",
+    "phase39-permission-evaluation"
   ],
   "metrics": [
     {
@@ -130,13 +131,13 @@
       "current": {
         "run_id": "phase38-answer-quality-remediation-v8",
         "run_name": "answer-quality-remediation-v8",
-        "value": 0.975,
+        "value": 0.969,
         "sample_size": 130,
-        "failed_count": 6,
+        "failed_count": 7,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-21T18:41:42.105451+00:00"
+        "run_timestamp": "2026-06-26T04:43:37.777768+00:00"
       },
-      "delta": 0.125,
+      "delta": 0.119,
       "target_passed": true,
       "notes": "Answer comparison uses full 130-question benchmark v1.1 answer runs."
     },
@@ -158,13 +159,13 @@
       "current": {
         "run_id": "phase38-answer-quality-remediation-v8",
         "run_name": "answer-quality-remediation-v8",
-        "value": 0.969,
+        "value": 0.963,
         "sample_size": 130,
-        "failed_count": 6,
+        "failed_count": 7,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-21T18:41:42.105451+00:00"
+        "run_timestamp": "2026-06-26T04:43:37.777768+00:00"
       },
-      "delta": 0.125,
+      "delta": 0.119,
       "target_passed": true,
       "notes": "The current full answer-quality run exceeds the citation target on expanded benchmark v1.1."
     },
@@ -188,9 +189,9 @@
         "run_name": "answer-quality-remediation-v8",
         "value": 0.0,
         "sample_size": 130,
-        "failed_count": 6,
+        "failed_count": 7,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-21T18:41:42.105451+00:00"
+        "run_timestamp": "2026-06-26T04:43:37.777768+00:00"
       },
       "delta": -0.205,
       "target_passed": true,
@@ -212,17 +213,17 @@
         "run_timestamp": "2026-06-09T23:25:41.444019+00:00"
       },
       "current": {
-        "run_id": "phase38-permission-evaluation",
-        "run_name": "phase38-permission-evaluation",
+        "run_id": "phase39-permission-evaluation",
+        "run_name": "phase39-permission-evaluation",
         "value": 0,
         "sample_size": 20,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-21T18:42:30.509651+00:00"
+        "run_timestamp": "2026-06-26T04:44:28.909501+00:00"
       },
       "delta": 0.0,
       "target_passed": true,
-      "notes": "Current permission suite uses 20 benchmark v1.1 restricted questions with the latest Phase 38 retrieval configuration."
+      "notes": "Current permission suite uses 20 benchmark v1.1 restricted questions with the latest verified retrieval configuration."
     },
     {
       "metric_key": "memory_answer_accuracy",
@@ -255,15 +256,16 @@
   ],
   "failed_question_summary": {
     "current_answer_run_id": "phase38-answer-quality-remediation-v8",
-    "failed_question_count": 6,
+    "failed_question_count": 7,
     "failure_reason_counts": {
-      "incomplete_answer": 1,
       "multi_document_failure": 3,
-      "wrong_citation": 2
+      "unsupported_answer": 1,
+      "wrong_citation": 3
     },
     "failed_question_ids": [
       "MULTI-004",
       "MULTI-005",
+      "MULTI-006",
       "MULTI-008",
       "MULTI-013",
       "MULTI-017",
@@ -271,7 +273,7 @@
     ]
   },
   "safety_summary": {
-    "permission_run_id": "phase38-permission-evaluation",
+    "permission_run_id": "phase39-permission-evaluation",
     "permission_sample_size": 20,
     "permission_leakage_rate": 0,
     "memory_run_id": "phase36-memory-evaluation",
@@ -291,6 +293,6 @@
     "Legacy permission and memory baselines use smaller pre-expansion suites, so their deltas should be read as coverage expansion plus safety preservation, not a same-sample accuracy comparison.",
     "The current answer-quality run still has failed questions; the scorecard keeps failure counts and failure reasons visible.",
     "Metrics use deterministic and heuristic evaluators over a synthetic portfolio corpus, not production traffic or human-judge labels.",
-    "Uploaded-document indexing, production SSO, real enterprise connectors, and hosted Azure deployment are not claimed as completed."
+    "Local uploaded-document upload, review, approve/index, and scoped asking are verified; editable Markdown review, production SSO, real enterprise connectors, Azure Blob Storage, and hosted Azure deployment remain future work."
   ]
 }

@@ -2,7 +2,7 @@
 
 ## Goal
 
-Start the local uploaded-document workflow from upload to review, approve/index, and scoped asking.
+Complete the local uploaded-document workflow from upload to review, approve/index, and scoped asking.
 
 ## Completed In This Slice
 
@@ -15,16 +15,15 @@ Start the local uploaded-document workflow from upload to review, approve/index,
 - [x] Added scoped chat link from indexed department documents.
 - [x] Added `/chat?project=...&department=...` scope initialization.
 - [x] Added mocked local tests for successful indexing and embedding failure handling.
+- [x] Ran live local upload -> approve/index -> scoped ask with OpenAI embeddings and chat completion.
+- [x] Verified the uploaded document was not searchable before approval, then was indexed, retrieved, and cited after approval.
 
 ## Pending
 
-- [ ] Run a live local Postgres upload -> approve/index check.
-- [ ] Run a scoped question against an approved uploaded document with OpenAI embeddings available.
-- [ ] Add richer retry/status UX if live testing uncovers long-running indexing needs.
 - [ ] Consider editable Markdown review in a later phase; this slice approves extracted Markdown as-is.
 
 ## Notes
 
 - Uploaded documents remain unsearchable before approval because retrieval only uses `indexed` current versions.
 - The endpoint uses the existing retrieval safety boundary: project, department, current-version, and role filters still apply before generation.
-- Live OpenAI-backed verification was skipped by instruction.
+- Live OpenAI-backed verification passed after explicit approval.

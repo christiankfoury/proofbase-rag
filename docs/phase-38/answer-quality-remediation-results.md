@@ -1,6 +1,6 @@
 # Phase 38 Answer-Quality Remediation Results
 
-Generated at: 2026-06-21T18:41:42.141510+00:00
+Generated at: 2026-06-26T04:43:37.833329+00:00
 
 ## Candidate
 
@@ -13,38 +13,38 @@ Generated at: 2026-06-21T18:41:42.141510+00:00
 - Rerank candidate limit: `20`
 - Prompt version: `v8`
 - Model: `gpt-4.1-mini`
-- Estimated chat cost: `0.08536`
+- Estimated chat cost: `0.086106`
 
 ## Before / After
 
 | Metric | Phase 35 Current | Phase 38 Candidate |
 |---|---:|---:|
-| answer_accuracy | `0.919` | `0.975` |
-| citation_accuracy | `0.95` | `0.969` |
-| faithfulness | `0.88` | `0.884` |
+| answer_accuracy | `0.919` | `0.969` |
+| citation_accuracy | `0.95` | `0.963` |
+| faithfulness | `0.88` | `0.883` |
 | hallucination_rate | `0.0` | `0.0` |
 | response_type_accuracy | `0.881` | `0.923` |
 | refusal_accuracy | `1.0` | `1.0` |
 | not_found_accuracy | `1.0` | `1.0` |
 | clarification_accuracy | `0.5` | `1.0` |
-| failed_question_count | `16` | `6` |
-| estimated_cost | `0.092994` | `0.08536` |
+| failed_question_count | `16` | `7` |
+| estimated_cost | `0.092994` | `0.086106` |
 
 ## Failure Buckets
 
 | Failure type | Phase 35 Current | Phase 38 Candidate |
 |---|---:|---:|
 | ambiguity_failure | `5` | `0` |
-| incomplete_answer | `2` | `1` |
+| incomplete_answer | `2` | `0` |
 | multi_document_failure | `3` | `3` |
 | retrieval_miss | `1` | `0` |
-| unsupported_answer | `2` | `0` |
-| wrong_citation | `3` | `2` |
+| unsupported_answer | `2` | `1` |
+| wrong_citation | `3` | `3` |
 
 ## Failed Questions
 
-- Failed count: `6`
-- Failed IDs: `MULTI-004, MULTI-005, MULTI-008, MULTI-013, MULTI-017, MULTI-020`
+- Failed count: `7`
+- Failed IDs: `MULTI-004, MULTI-005, MULTI-006, MULTI-008, MULTI-013, MULTI-017, MULTI-020`
 
 ## Notes
 

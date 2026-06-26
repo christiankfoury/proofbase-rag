@@ -36,6 +36,7 @@ PHASE36_PERMISSION_RUN_PATH = RUNS_DIR / "phase36-permission-evaluation.json"
 PHASE36_MEMORY_RUN_PATH = RUNS_DIR / "phase36-memory-evaluation.json"
 PHASE36_MEMORY_PERMISSION_RUN_PATH = RUNS_DIR / "phase36-memory-permission-boundary.json"
 PHASE38_PERMISSION_RUN_PATH = RUNS_DIR / "phase38-permission-evaluation.json"
+PHASE39_PERMISSION_RUN_PATH = RUNS_DIR / "phase39-permission-evaluation.json"
 SCORECARD_PATH = ROOT / "data/evaluation/regression-scorecard.json"
 
 REQUIRED_REPORTS = [
@@ -479,6 +480,7 @@ def _safety_runs() -> list[dict[str, Any]]:
         PHASE36_MEMORY_RUN_PATH,
         PHASE36_MEMORY_PERMISSION_RUN_PATH,
         PHASE38_PERMISSION_RUN_PATH,
+        PHASE39_PERMISSION_RUN_PATH,
     ]:
         if path.exists():
             payload = json.loads(path.read_text(encoding="utf-8"))
@@ -877,6 +879,8 @@ def _regression_scorecard(
     phase36_memory = by_id.get("phase36-memory-evaluation")
     phase36_boundary = by_id.get("phase36-memory-permission-boundary")
     phase38_permission = by_id.get("phase38-permission-evaluation")
+    phase39_permission = by_id.get("phase39-permission-evaluation")
+    current_permission = phase39_permission or phase38_permission or phase36_permission
 
     metrics = [
         _scorecard_metric(
@@ -943,11 +947,11 @@ def _regression_scorecard(
             metric_key="permission_leakage_rate",
             label="Permission Leakage Rate",
             baseline=phase8_permission,
-            current=phase38_permission or phase36_permission,
+            current=current_permission,
             target=0.0,
             target_label="= 0.000",
             direction="lower",
-            notes="Current permission suite uses 20 benchmark v1.1 restricted questions with the latest Phase 38 retrieval configuration.",
+            notes="Current permission suite uses 20 benchmark v1.1 restricted questions with the latest verified retrieval configuration.",
         ),
         _scorecard_metric(
             metric_key="memory_answer_accuracy",
@@ -985,6 +989,7 @@ def _regression_scorecard(
                 "phase36-memory-evaluation",
                 "phase36-memory-permission-boundary",
                 "phase38-permission-evaluation",
+                "phase39-permission-evaluation",
             ]
             if by_id.get(run_id)
         ],
@@ -996,9 +1001,9 @@ def _regression_scorecard(
             "failed_question_ids": [item.get("question_id") for item in failed_questions if item.get("question_id")],
         },
         "safety_summary": {
-            "permission_run_id": (phase38_permission or phase36_permission or {}).get("run_id"),
-            "permission_sample_size": (phase38_permission or phase36_permission or {}).get("sample_size"),
-            "permission_leakage_rate": _metric_value(phase38_permission or phase36_permission, "permission_leakage_rate"),
+            "permission_run_id": (current_permission or {}).get("run_id"),
+            "permission_sample_size": (current_permission or {}).get("sample_size"),
+            "permission_leakage_rate": _metric_value(current_permission, "permission_leakage_rate"),
             "memory_run_id": phase36_memory.get("run_id") if phase36_memory else None,
             "memory_sample_size": phase36_memory.get("sample_size") if phase36_memory else None,
             "memory_permission_leakage": _metric_value(phase36_memory, "memory_permission_leakage"),
@@ -1016,7 +1021,7 @@ def _regression_scorecard(
             "Legacy permission and memory baselines use smaller pre-expansion suites, so their deltas should be read as coverage expansion plus safety preservation, not a same-sample accuracy comparison.",
             "The current answer-quality run still has failed questions; the scorecard keeps failure counts and failure reasons visible.",
             "Metrics use deterministic and heuristic evaluators over a synthetic portfolio corpus, not production traffic or human-judge labels.",
-            "Uploaded-document indexing, production SSO, real enterprise connectors, and hosted Azure deployment are not claimed as completed.",
+            "Local uploaded-document upload, review, approve/index, and scoped asking are verified; editable Markdown review, production SSO, real enterprise connectors, Azure Blob Storage, and hosted Azure deployment remain future work.",
         ],
     }
 
@@ -1025,7 +1030,12 @@ def _overview(runs: list[dict[str, Any]], current_answer_run: dict[str, Any] | N
     by_id = {run["run_id"]: run for run in runs}
     retrieval = by_id.get("phase33-vector-lexical-rerank-top3") or by_id.get("phase6-vector-section", {})
     answer = current_answer_run or by_id.get("phase7-answer-quality", {})
-    permissions = by_id.get("phase36-permission-evaluation") or by_id.get("phase8-permission-safety", {})
+    permissions = (
+        by_id.get("phase39-permission-evaluation")
+        or by_id.get("phase38-permission-evaluation")
+        or by_id.get("phase36-permission-evaluation")
+        or by_id.get("phase8-permission-safety", {})
+    )
     memory = by_id.get("phase36-memory-evaluation") or by_id.get("phase9-memory", {})
     current_failed_count = len(current_answer_run.get("failed_questions") or []) if current_answer_run else len(
         answer.get("failed_questions") or []

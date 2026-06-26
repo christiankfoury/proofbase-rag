@@ -84,6 +84,47 @@
     "run_name": "answer-quality-remediation-v8"
   },
   {
+    "question_id": "MULTI-006",
+    "question": "How should a manager handle ongoing performance concerns?",
+    "expected_behavior": "answer",
+    "actual_response_type": "answer",
+    "expected_source_document": [
+      "MGR-001",
+      "MGR-002"
+    ],
+    "actual_citations": [
+      {
+        "document_id": "MGR-002",
+        "section_heading": "Performance Documentation",
+        "confidence": 0.755
+      },
+      {
+        "document_id": "MGR-002",
+        "section_heading": "Performance Improvement Process",
+        "confidence": 0.905
+      }
+    ],
+    "retrieval_success": 1.0,
+    "citation_confidence": 0.83,
+    "answer_confidence": 0.83,
+    "failure_type": "wrong_citation",
+    "citation_failure_categories": [
+      "citation_missing"
+    ],
+    "citation_failure_labels": [
+      "Citation missing"
+    ],
+    "missing_citation_documents": [
+      "MGR-001"
+    ],
+    "unexpected_citation_documents": [],
+    "restricted_citation_documents": [],
+    "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk.",
+    "phase": "phase-38",
+    "run_id": "phase38-answer-quality-remediation-v8",
+    "run_name": "answer-quality-remediation-v8"
+  },
+  {
     "question_id": "MULTI-008",
     "question": "What should I do if I need benefits help and also want to use my learning budget?",
     "expected_behavior": "answer",
@@ -101,12 +142,12 @@
       {
         "document_id": "HR-004",
         "section_heading": "Learning Budget",
-        "confidence": 0.841
+        "confidence": 0.818
       }
     ],
     "retrieval_success": 0.0,
-    "citation_confidence": 0.789,
-    "answer_confidence": 0.789,
+    "citation_confidence": 0.777,
+    "answer_confidence": 0.777,
     "failure_type": "multi_document_failure",
     "citation_failure_categories": [
       "right_document_wrong_chunk",
@@ -173,7 +214,7 @@
     "question_id": "MULTI-017",
     "question": "For an API that exposes customer data, what authorization and review principles apply?",
     "expected_behavior": "answer",
-    "actual_response_type": "partial_answer",
+    "actual_response_type": "answer",
     "expected_source_document": [
       "ENG-001",
       "IT-003"
@@ -237,13 +278,13 @@
       {
         "document_id": "FIN-001",
         "section_heading": "Procurement Thresholds",
-        "confidence": 0.753
+        "confidence": 0.671
       }
     ],
     "retrieval_success": 1.0,
-    "citation_confidence": 0.862,
-    "answer_confidence": 0.862,
-    "failure_type": "incomplete_answer",
+    "citation_confidence": 0.834,
+    "answer_confidence": 0.834,
+    "failure_type": "unsupported_answer",
     "citation_failure_categories": [
       "right_document_wrong_chunk"
     ],
@@ -253,7 +294,7 @@
     "missing_citation_documents": [],
     "unexpected_citation_documents": [],
     "restricted_citation_documents": [],
-    "recommended_fix": "Improve answer completeness scoring or prompt the model to include all required expected-answer facts.",
+    "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak.",
     "phase": "phase-38",
     "run_id": "phase38-answer-quality-remediation-v8",
     "run_name": "answer-quality-remediation-v8"

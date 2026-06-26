@@ -3,7 +3,7 @@
   "run_name": "answer-quality-remediation-v8",
   "phase": "phase-38",
   "run_type": "prompt_experiment",
-  "timestamp": "2026-06-21T18:41:42.105451+00:00",
+  "timestamp": "2026-06-26T04:43:37.777768+00:00",
   "retrieval_mode": "vector_lexical_rerank",
   "chunking_strategy": "section_based",
   "top_k": 5,
@@ -19,9 +19,9 @@
     "all_sources_hit": 0.956,
     "precision_at_k": 0.72,
     "mrr": 0.969,
-    "answer_accuracy": 0.975,
-    "citation_accuracy": 0.969,
-    "faithfulness": 0.884,
+    "answer_accuracy": 0.969,
+    "citation_accuracy": 0.963,
+    "faithfulness": 0.883,
     "hallucination_rate": 0.0,
     "response_type_accuracy": 0.923,
     "refusal_accuracy": 1.0,
@@ -29,13 +29,14 @@
     "clarification_accuracy": 1.0,
     "final_confidence": 0.77,
     "input_tokens": 124884,
-    "output_tokens": 22129,
-    "estimated_cost": 0.08536,
-    "failed_question_count": 6
+    "output_tokens": 22595,
+    "estimated_cost": 0.086106,
+    "failed_question_count": 7
   },
   "failed_questions": [
     "MULTI-004",
     "MULTI-005",
+    "MULTI-006",
     "MULTI-008",
     "MULTI-013",
     "MULTI-017",
@@ -52,19 +53,19 @@
     "simple_factual": 30
   },
   "failure_reason_counts": {
-    "incomplete_answer": 1,
     "multi_document_failure": 3,
-    "wrong_citation": 2
+    "unsupported_answer": 1,
+    "wrong_citation": 3
   },
   "citation_failure_category_counts": {
-    "citation_missing": 5,
+    "citation_missing": 6,
     "right_document_wrong_chunk": 4,
     "wrong_document_cited": 1
   },
   "notes": "Phase 38 answer-quality remediation over benchmark v1.1. Uses answer_generation v8, memory-aware prompt-experiment retrieval, targeted ambiguity guards, and adversarial source-content handling. Expected answers, expected behavior, and expected sources are unchanged.",
   "sample_size": 130,
-  "passed_count": 124,
-  "failed_count": 6,
+  "passed_count": 123,
+  "failed_count": 7,
   "benchmark_version": "1.1",
-  "run_timestamp": "2026-06-21T18:41:42.105451+00:00"
+  "run_timestamp": "2026-06-26T04:43:37.777768+00:00"
 }

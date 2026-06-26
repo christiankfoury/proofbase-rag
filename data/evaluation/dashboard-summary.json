@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-21T18:42:38.115220+00:00",
+  "generated_at": "2026-06-26T04:54:07.387359+00:00",
   "source": "docs/phase-6 through docs/phase-36",
   "benchmark_context": {
     "benchmark_version": "1.1",
@@ -957,7 +957,7 @@
       "run_name": "answer-quality-remediation-v8",
       "phase": "phase-38",
       "run_type": "prompt_experiment",
-      "timestamp": "2026-06-21T18:41:42.105451+00:00",
+      "timestamp": "2026-06-26T04:43:37.777768+00:00",
       "retrieval_mode": "vector_lexical_rerank",
       "chunking_strategy": "section_based",
       "top_k": 5,
@@ -973,9 +973,9 @@
         "all_sources_hit": 0.956,
         "precision_at_k": 0.72,
         "mrr": 0.969,
-        "answer_accuracy": 0.975,
-        "citation_accuracy": 0.969,
-        "faithfulness": 0.884,
+        "answer_accuracy": 0.969,
+        "citation_accuracy": 0.963,
+        "faithfulness": 0.883,
         "hallucination_rate": 0.0,
         "response_type_accuracy": 0.923,
         "refusal_accuracy": 1.0,
@@ -983,13 +983,14 @@
         "clarification_accuracy": 1.0,
         "final_confidence": 0.77,
         "input_tokens": 124884,
-        "output_tokens": 22129,
-        "estimated_cost": 0.08536,
-        "failed_question_count": 6
+        "output_tokens": 22595,
+        "estimated_cost": 0.086106,
+        "failed_question_count": 7
       },
       "failed_questions": [
         "MULTI-004",
         "MULTI-005",
+        "MULTI-006",
         "MULTI-008",
         "MULTI-013",
         "MULTI-017",
@@ -1006,21 +1007,21 @@
         "simple_factual": 30
       },
       "failure_reason_counts": {
-        "incomplete_answer": 1,
         "multi_document_failure": 3,
-        "wrong_citation": 2
+        "unsupported_answer": 1,
+        "wrong_citation": 3
       },
       "citation_failure_category_counts": {
-        "citation_missing": 5,
+        "citation_missing": 6,
         "right_document_wrong_chunk": 4,
         "wrong_document_cited": 1
       },
       "notes": "Phase 38 answer-quality remediation over benchmark v1.1. Uses answer_generation v8, memory-aware prompt-experiment retrieval, targeted ambiguity guards, and adversarial source-content handling. Expected answers, expected behavior, and expected sources are unchanged.",
       "sample_size": 130,
-      "passed_count": 124,
-      "failed_count": 6,
+      "passed_count": 123,
+      "failed_count": 7,
       "benchmark_version": "1.1",
-      "run_timestamp": "2026-06-21T18:41:42.105451+00:00"
+      "run_timestamp": "2026-06-26T04:43:37.777768+00:00"
     },
     {
       "run_id": "phase36-permission-evaluation",
@@ -1169,13 +1170,50 @@
       "failed_count": 0,
       "benchmark_version": "1.1",
       "run_timestamp": "2026-06-21T18:42:30.509651+00:00"
+    },
+    {
+      "run_id": "phase39-permission-evaluation",
+      "run_name": "phase39-permission-evaluation",
+      "phase": "phase-39",
+      "run_type": "permission_eval",
+      "timestamp": "2026-06-26T04:44:28.909501+00:00",
+      "retrieval_mode": "vector_lexical_rerank",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "reranker": "lexical",
+      "rerank_candidate_limit": 20,
+      "total_questions": 20,
+      "source_question_count": 130,
+      "question_filter": "permission_restricted",
+      "metrics": {
+        "restricted_question_count": 20,
+        "authorized_test_count": 20,
+        "permission_leakage_rate": 0,
+        "blocked_answer_accuracy": 1,
+        "unauthorized_chunk_exposure_rate": 0,
+        "restricted_citation_leakage_rate": 0,
+        "unauthorized_chunks_reached_generation_rate": 0,
+        "authorized_retrieval_accuracy": 1,
+        "authorized_answer_accuracy": "pending",
+        "failed_question_count": 0
+      },
+      "failed_questions": [],
+      "category_breakdown": {
+        "permission_restricted": 20
+      },
+      "notes": "Phase 39 permission suite. Measures unauthorized retrieval exposure, citation leakage, pre-generation filtering, refusal accuracy, and authorized-source retrieval checks.",
+      "sample_size": 20,
+      "passed_count": 20,
+      "failed_count": 0,
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-06-26T04:44:28.909501+00:00"
     }
   ],
   "overview": {
     "best_retrieval_run": "vector-section",
     "retrieval_conclusion": "Hybrid did not clearly outperform vector-only retrieval; vector-section remained best overall.",
     "current_answer_run_id": "phase38-answer-quality-remediation-v8",
-    "current_failed_question_count": 6,
+    "current_failed_question_count": 7,
     "progress_summary": {
       "improved": [
         "Permission tests reached zero leakage.",
@@ -1184,7 +1222,7 @@
       ],
       "still_needs_work": [
         "Hybrid retrieval still did not beat vector-only overall.",
-        "6 failed-question cases remain in the current improvement backlog.",
+        "7 failed-question cases remain in the current improvement backlog.",
         "Embedding, infrastructure, cached-input, and batch cost modeling remain pending."
       ]
     },
@@ -1192,8 +1230,8 @@
       "retrieval_hit_rate": 0.95,
       "precision_at_k": 0.778,
       "mrr": 0.965,
-      "answer_accuracy": 0.975,
-      "citation_accuracy": 0.969,
+      "answer_accuracy": 0.969,
+      "citation_accuracy": 0.963,
       "hallucination_rate": 0.0,
       "permission_leakage_rate": 0,
       "memory_accuracy": 1
@@ -1264,10 +1302,10 @@
         "run_name": "answer-quality-remediation-v8",
         "metric_key": "answer_accuracy",
         "sample_size": 130,
-        "passed_count": 124,
-        "failed_count": 6,
+        "passed_count": 123,
+        "failed_count": 7,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-21T18:41:42.105451+00:00",
+        "run_timestamp": "2026-06-26T04:43:37.777768+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1284,10 +1322,10 @@
         "run_name": "answer-quality-remediation-v8",
         "metric_key": "citation_accuracy",
         "sample_size": 130,
-        "passed_count": 124,
-        "failed_count": 6,
+        "passed_count": 123,
+        "failed_count": 7,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-21T18:41:42.105451+00:00",
+        "run_timestamp": "2026-06-26T04:43:37.777768+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1304,10 +1342,10 @@
         "run_name": "answer-quality-remediation-v8",
         "metric_key": "hallucination_rate",
         "sample_size": 130,
-        "passed_count": 124,
-        "failed_count": 6,
+        "passed_count": 123,
+        "failed_count": 7,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-21T18:41:42.105451+00:00",
+        "run_timestamp": "2026-06-26T04:43:37.777768+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1320,14 +1358,14 @@
         }
       },
       "permission_leakage_rate": {
-        "run_id": "phase36-permission-evaluation",
-        "run_name": "phase36-permission-evaluation",
+        "run_id": "phase39-permission-evaluation",
+        "run_name": "phase39-permission-evaluation",
         "metric_key": "permission_leakage_rate",
         "sample_size": 20,
         "passed_count": 20,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-21T04:35:04.941903+00:00",
+        "run_timestamp": "2026-06-26T04:44:28.909501+00:00",
         "category_breakdown": {
           "permission_restricted": 20
         }
@@ -1384,7 +1422,7 @@
   },
   "regression_scorecard": {
     "phase": "phase-37",
-    "generated_at": "2026-06-21T18:42:38.107116+00:00",
+    "generated_at": "2026-06-26T04:54:07.380359+00:00",
     "benchmark_version": "1.1",
     "benchmark_question_count": 130,
     "category_breakdown": {
@@ -1409,7 +1447,8 @@
       "phase36-permission-evaluation",
       "phase36-memory-evaluation",
       "phase36-memory-permission-boundary",
-      "phase38-permission-evaluation"
+      "phase38-permission-evaluation",
+      "phase39-permission-evaluation"
     ],
     "metrics": [
       {
@@ -1514,13 +1553,13 @@
         "current": {
           "run_id": "phase38-answer-quality-remediation-v8",
           "run_name": "answer-quality-remediation-v8",
-          "value": 0.975,
+          "value": 0.969,
           "sample_size": 130,
-          "failed_count": 6,
+          "failed_count": 7,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-21T18:41:42.105451+00:00"
+          "run_timestamp": "2026-06-26T04:43:37.777768+00:00"
         },
-        "delta": 0.125,
+        "delta": 0.119,
         "target_passed": true,
         "notes": "Answer comparison uses full 130-question benchmark v1.1 answer runs."
       },
@@ -1542,13 +1581,13 @@
         "current": {
           "run_id": "phase38-answer-quality-remediation-v8",
           "run_name": "answer-quality-remediation-v8",
-          "value": 0.969,
+          "value": 0.963,
           "sample_size": 130,
-          "failed_count": 6,
+          "failed_count": 7,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-21T18:41:42.105451+00:00"
+          "run_timestamp": "2026-06-26T04:43:37.777768+00:00"
         },
-        "delta": 0.125,
+        "delta": 0.119,
         "target_passed": true,
         "notes": "The current full answer-quality run exceeds the citation target on expanded benchmark v1.1."
       },
@@ -1572,9 +1611,9 @@
           "run_name": "answer-quality-remediation-v8",
           "value": 0.0,
           "sample_size": 130,
-          "failed_count": 6,
+          "failed_count": 7,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-21T18:41:42.105451+00:00"
+          "run_timestamp": "2026-06-26T04:43:37.777768+00:00"
         },
         "delta": -0.205,
         "target_passed": true,
@@ -1596,17 +1635,17 @@
           "run_timestamp": "2026-06-09T23:25:41.444019+00:00"
         },
         "current": {
-          "run_id": "phase38-permission-evaluation",
-          "run_name": "phase38-permission-evaluation",
+          "run_id": "phase39-permission-evaluation",
+          "run_name": "phase39-permission-evaluation",
           "value": 0,
           "sample_size": 20,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-21T18:42:30.509651+00:00"
+          "run_timestamp": "2026-06-26T04:44:28.909501+00:00"
         },
         "delta": 0.0,
         "target_passed": true,
-        "notes": "Current permission suite uses 20 benchmark v1.1 restricted questions with the latest Phase 38 retrieval configuration."
+        "notes": "Current permission suite uses 20 benchmark v1.1 restricted questions with the latest verified retrieval configuration."
       },
       {
         "metric_key": "memory_answer_accuracy",
@@ -1639,15 +1678,16 @@
     ],
     "failed_question_summary": {
       "current_answer_run_id": "phase38-answer-quality-remediation-v8",
-      "failed_question_count": 6,
+      "failed_question_count": 7,
       "failure_reason_counts": {
-        "incomplete_answer": 1,
         "multi_document_failure": 3,
-        "wrong_citation": 2
+        "unsupported_answer": 1,
+        "wrong_citation": 3
       },
       "failed_question_ids": [
         "MULTI-004",
         "MULTI-005",
+        "MULTI-006",
         "MULTI-008",
         "MULTI-013",
         "MULTI-017",
@@ -1655,7 +1695,7 @@
       ]
     },
     "safety_summary": {
-      "permission_run_id": "phase38-permission-evaluation",
+      "permission_run_id": "phase39-permission-evaluation",
       "permission_sample_size": 20,
       "permission_leakage_rate": 0,
       "memory_run_id": "phase36-memory-evaluation",
@@ -1675,7 +1715,7 @@
       "Legacy permission and memory baselines use smaller pre-expansion suites, so their deltas should be read as coverage expansion plus safety preservation, not a same-sample accuracy comparison.",
       "The current answer-quality run still has failed questions; the scorecard keeps failure counts and failure reasons visible.",
       "Metrics use deterministic and heuristic evaluators over a synthetic portfolio corpus, not production traffic or human-judge labels.",
-      "Uploaded-document indexing, production SSO, real enterprise connectors, and hosted Azure deployment are not claimed as completed."
+      "Local uploaded-document upload, review, approve/index, and scoped asking are verified; editable Markdown review, production SSO, real enterprise connectors, Azure Blob Storage, and hosted Azure deployment remain future work."
     ]
   },
   "prompt_comparison": {
@@ -1841,43 +1881,45 @@
   },
   "multi_doc_comparison": {
     "baseline": {
-      "multi_doc_question_count": 10,
-      "answer_accuracy": 0.7,
-      "citation_accuracy": 0.7,
+      "multi_doc_question_count": 20,
+      "answer_accuracy": 0.85,
+      "citation_accuracy": 0.85,
       "all_sources_hit": 0.9,
       "source_coverage_score": 0.95,
-      "hallucination_rate": 0.444,
-      "response_type_accuracy": 0.9,
-      "all_required_sources_cited_rate": 0.5,
+      "hallucination_rate": 0.05,
+      "response_type_accuracy": 1.0,
+      "all_required_sources_cited_rate": 0.7,
       "failed_question_count": 4,
-      "input_tokens": 9287,
-      "output_tokens": 4760,
-      "estimated_cost": 0.011331
+      "input_tokens": 17869,
+      "output_tokens": 8212,
+      "estimated_cost": 0.020287
     },
     "multi_doc": {
-      "multi_doc_question_count": 10,
-      "answer_accuracy": 0.85,
-      "citation_accuracy": 0.9,
-      "all_sources_hit": 0.9,
-      "source_coverage_score": 0.95,
-      "hallucination_rate": 0.5,
+      "multi_doc_question_count": 20,
+      "answer_accuracy": 0.925,
+      "citation_accuracy": 0.925,
+      "all_sources_hit": 1.0,
+      "source_coverage_score": 1.0,
+      "hallucination_rate": 0.0,
       "response_type_accuracy": 1.0,
-      "all_required_sources_cited_rate": 0.8,
+      "all_required_sources_cited_rate": 0.85,
       "failed_question_count": 2,
-      "input_tokens": 11130,
-      "output_tokens": 5620,
-      "estimated_cost": 0.013444
+      "input_tokens": 22646,
+      "output_tokens": 9380,
+      "estimated_cost": 0.024068
     },
     "fixed_questions": [
-      "MULTI-001",
-      "MULTI-007"
-    ],
-    "broken_questions": [],
-    "still_failing": [
       "MULTI-005",
-      "MULTI-008"
+      "MULTI-008",
+      "MULTI-017"
     ],
-    "hallucination_regression": true
+    "broken_questions": [
+      "MULTI-013"
+    ],
+    "still_failing": [
+      "MULTI-020"
+    ],
+    "hallucination_regression": false
   },
   "phase33_precision_readiness": {
     "status": "complete",
@@ -2305,6 +2347,47 @@
       "run_name": "answer-quality-remediation-v8"
     },
     {
+      "question_id": "MULTI-006",
+      "question": "How should a manager handle ongoing performance concerns?",
+      "expected_behavior": "answer",
+      "actual_response_type": "answer",
+      "expected_source_document": [
+        "MGR-001",
+        "MGR-002"
+      ],
+      "actual_citations": [
+        {
+          "document_id": "MGR-002",
+          "section_heading": "Performance Documentation",
+          "confidence": 0.755
+        },
+        {
+          "document_id": "MGR-002",
+          "section_heading": "Performance Improvement Process",
+          "confidence": 0.905
+        }
+      ],
+      "retrieval_success": 1.0,
+      "citation_confidence": 0.83,
+      "answer_confidence": 0.83,
+      "failure_type": "wrong_citation",
+      "citation_failure_categories": [
+        "citation_missing"
+      ],
+      "citation_failure_labels": [
+        "Citation missing"
+      ],
+      "missing_citation_documents": [
+        "MGR-001"
+      ],
+      "unexpected_citation_documents": [],
+      "restricted_citation_documents": [],
+      "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk.",
+      "phase": "phase-38",
+      "run_id": "phase38-answer-quality-remediation-v8",
+      "run_name": "answer-quality-remediation-v8"
+    },
+    {
       "question_id": "MULTI-008",
       "question": "What should I do if I need benefits help and also want to use my learning budget?",
       "expected_behavior": "answer",
@@ -2322,12 +2405,12 @@
         {
           "document_id": "HR-004",
           "section_heading": "Learning Budget",
-          "confidence": 0.841
+          "confidence": 0.818
         }
       ],
       "retrieval_success": 0.0,
-      "citation_confidence": 0.789,
-      "answer_confidence": 0.789,
+      "citation_confidence": 0.777,
+      "answer_confidence": 0.777,
       "failure_type": "multi_document_failure",
       "citation_failure_categories": [
         "right_document_wrong_chunk",
@@ -2394,7 +2477,7 @@
       "question_id": "MULTI-017",
       "question": "For an API that exposes customer data, what authorization and review principles apply?",
       "expected_behavior": "answer",
-      "actual_response_type": "partial_answer",
+      "actual_response_type": "answer",
       "expected_source_document": [
         "ENG-001",
         "IT-003"
@@ -2458,13 +2541,13 @@
         {
           "document_id": "FIN-001",
           "section_heading": "Procurement Thresholds",
-          "confidence": 0.753
+          "confidence": 0.671
         }
       ],
       "retrieval_success": 1.0,
-      "citation_confidence": 0.862,
-      "answer_confidence": 0.862,
-      "failure_type": "incomplete_answer",
+      "citation_confidence": 0.834,
+      "answer_confidence": 0.834,
+      "failure_type": "unsupported_answer",
       "citation_failure_categories": [
         "right_document_wrong_chunk"
       ],
@@ -2474,7 +2557,7 @@
       "missing_citation_documents": [],
       "unexpected_citation_documents": [],
       "restricted_citation_documents": [],
-      "recommended_fix": "Improve answer completeness scoring or prompt the model to include all required expected-answer facts.",
+      "recommended_fix": "Tighten answer prompt and lower confidence when citation validation is weak.",
       "phase": "phase-38",
       "run_id": "phase38-answer-quality-remediation-v8",
       "run_name": "answer-quality-remediation-v8"

@@ -14,12 +14,13 @@ Start multi-document and ambiguity orchestration work without weakening permissi
 
 ## Pending
 
-- [ ] Run `scripts/run_multi_doc_eval.py --allow-external-ai` only after explicit approval.
-- [ ] Run the current answer-quality candidate with explicit approval to measure before/after impact.
-- [ ] Run permission evaluation with explicit approval for embeddings.
-- [ ] Update dashboard exports only after approved live evaluation artifacts exist.
+- [x] Run `scripts/run_multi_doc_eval.py --allow-external-ai` after explicit approval.
+- [x] Run the current answer-quality candidate with explicit approval to measure before/after impact.
+- [x] Run permission evaluation with explicit approval for embeddings.
+- [x] Update dashboard exports after approved live evaluation artifacts exist.
+- [ ] Add or update a full answer-quality evaluator that exercises the live multi-document orchestration path.
 
 ## Notes
 
-- This slice starts Phase 39 but does not close it because the required OpenAI-backed evaluation runs were skipped by instruction.
+- This slice does not close Phase 39 because the dedicated multi-doc evaluation improved, but the full answer-quality candidate still uses the single-retrieval prompt-experiment path and reports `7` failures.
 - Ambiguity behavior remains the Phase 38 deterministic guard path; this slice focused on source coverage planning for the remaining multi-document failures.

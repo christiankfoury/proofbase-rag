@@ -91,13 +91,9 @@ def _retrieved_document_ids(chunks) -> list[str]:
 
 def _write_report(summary: dict, unauthorized_rows: list[dict], authorized_rows: list[dict], report_path: Path) -> None:
     report_path.parent.mkdir(parents=True, exist_ok=True)
-    normalized_report_path = str(report_path).replace("\\", "/")
-    if "phase-38" in normalized_report_path:
-        title = "Phase 38 Permission Safety Results"
-    elif "phase-36" in normalized_report_path:
-        title = "Phase 36 Permission Safety Results"
-    elif "phase-34" in normalized_report_path:
-        title = "Phase 34 Permission Safety Results"
+    phase = str(summary.get("phase") or "phase-8")
+    if phase != "phase-8":
+        title = f"{phase.replace('phase-', 'Phase ')} Permission Safety Results"
     elif summary["retrieval_mode"] == "vector_lexical_rerank":
         title = "Phase 33 Permission Candidate Results"
     else:
@@ -185,6 +181,7 @@ def _requires_external_embeddings_approval(retrieval_mode: str) -> bool:
 
 def _dashboard_run(result: dict) -> dict:
     summary = result["summary"]
+    phase_label = str(summary.get("phase") or "phase-8").replace("phase-", "Phase ")
     failed_ids = [
         row["question_id"]
         for row in result.get("unauthorized_rows", [])
@@ -219,7 +216,7 @@ def _dashboard_run(result: dict) -> dict:
         "failed_questions": failed_ids,
         "category_breakdown": {"permission_restricted": summary["restricted_question_count"]},
         "notes": (
-            "Phase 36 expanded permission suite. Measures unauthorized retrieval exposure, citation leakage, "
+            f"{phase_label} permission suite. Measures unauthorized retrieval exposure, citation leakage, "
             "pre-generation filtering, refusal accuracy, and authorized-source retrieval checks."
         ),
         "sample_size": summary["restricted_question_count"],
