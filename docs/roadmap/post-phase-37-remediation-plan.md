@@ -26,6 +26,29 @@ The user may run a documentation-first algorithm explanation pass before Phase 3
 
 The audit should explain the current algorithm and identify risks without changing runtime behavior, benchmark labels, prompts, retrieval, or permission controls. If the audit finds a correctness or permission issue that should change Phase 39 priorities, update this roadmap and `docs/roadmap/progress.md` before implementation.
 
+## Post-Audit Remediation Queue
+
+The codebase verification report in `docs/algorithm/codebase-verification-report.md` found 12 risk-ranked issues: 0 Critical, 3 High, 5 Medium, and 4 Low. The confirmed bug and operational-safety fixes below should be handled before starting Phase 39, unless a newer repo state proves they have already been fixed.
+
+1. Pre-Phase 39 confirmed bug fix: constrain retrieval to the current document version.
+   - Problem: vector and keyword retrievers join indexed document versions, but do not require chunks to belong to `documents.current_version_id`.
+   - Impact: stale indexed document text can be retrieved, cited, or used for generation after a document is re-versioned.
+   - Verification: add a regression with two indexed versions of one document and prove only the current version can be retrieved.
+2. Pre-Phase 39 confirmed bug fix: stop secret exposure from Compose config output.
+   - Problem: `docker compose config` renders the local `OPENAI_API_KEY` value when it is interpolated into service environment.
+   - Impact: local logs, CI logs, or shared transcripts can leak an active key.
+   - Verification: run the safe Compose verification path and confirm no secret value is printed; rotate any real key that was exposed before reusing it.
+3. Pre-Phase 39 operational guardrail fix: gate older/general OpenAI-backed evaluators.
+   - Problem: later phase runners require explicit external-AI approval flags, but older/general scripts can call embedding or generation paths without the same guard.
+   - Impact: evaluations can make unexpected network/API calls and incur cost.
+   - Verification: prove the guarded default exits or dry-runs without calling OpenAI, then prove the explicit approval path still works when intentionally run.
+4. Phase 39: Multi-Document And Ambiguity Orchestration.
+   - Focus: required-source planning, safe query decomposition, strict ambiguity clarification, permission filtering before synthesis, and honest before/after artifacts.
+5. Phase 40: Uploaded-Document Local E2E Workflow.
+   - Focus: upload -> review -> approve/index -> ask with local/Postgres storage, guarded embeddings, and project/department/role scoped retrieval.
+
+Treat remaining medium/low audit findings as backlog, not blockers, unless they affect the current phase: confidence label interpretation, hybrid audit trace clarity, memory metric scope, audit-log detail policy, and ingestion embedding efficiency.
+
 ## Current Failure Matrix
 
 The current answer-quality backlog comes from `data/evaluation/failed-questions/failed-questions.json`.
