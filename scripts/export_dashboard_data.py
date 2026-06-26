@@ -493,7 +493,7 @@ def _current_answer_run(runs: list[dict[str, Any]]) -> dict[str, Any] | None:
     candidates = [
         run
         for run in runs
-        if run.get("run_type") == "prompt_experiment"
+        if run.get("run_type") in {"prompt_experiment", "live_query_eval"}
         and run.get("question_filter") == "all"
         and run.get("total_questions") == run.get("source_question_count")
     ]

@@ -55,6 +55,7 @@ DASHBOARD_DATA_PATH = ROOT / "data/evaluation/dashboard-summary.json"
 BENCHMARK_PATH = ROOT / "data/evaluation/benchmark-questions.json"
 FAILED_QUESTIONS_PATH = ROOT / "data/evaluation/failed-questions/failed-questions.json"
 PROMPT_EXPERIMENT_DIR = ROOT / "data/evaluation/prompt-experiments"
+EXPANDED_BASELINE_DIR = ROOT / "data/evaluation/expanded-baseline"
 MULTI_DOC_EVAL_PATH = ROOT / "data/evaluation/multi-doc-eval.json"
 MAX_UPLOAD_BYTES = 10 * 1024 * 1024
 
@@ -258,6 +259,11 @@ def _load_run_rows(run_id: str) -> tuple[list[dict], str | None]:
     if prompt_path.exists():
         payload = _read_json_file(prompt_path, {})
         return payload.get("rows") or [], "prompt_experiment"
+
+    expanded_path = EXPANDED_BASELINE_DIR / f"{run_id}.json"
+    if expanded_path.exists():
+        payload = _read_json_file(expanded_path, {})
+        return payload.get("rows") or [], "expanded_baseline"
 
     if run_id in {"multi-doc-baseline", "multi-doc", "multi-doc-eval"} and MULTI_DOC_EVAL_PATH.exists():
         payload = _read_json_file(MULTI_DOC_EVAL_PATH, {})
