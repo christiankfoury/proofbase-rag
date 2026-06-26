@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import argparse
 import sys
 import time
 from pathlib import Path
@@ -24,6 +25,14 @@ from apps.api.app.retrieval.retriever import retrieve_chunks
 
 BENCHMARK_PATH = ROOT / "data/evaluation/benchmark-questions.json"
 RESULTS_PATH = ROOT / "data/evaluation/multi-doc-eval.json"
+EXTERNAL_AI_APPROVAL_MESSAGE = (
+    "The multi-document evaluation sends benchmark questions and retrieved synthetic source snippets to external "
+    "OpenAI embeddings and chat-completion APIs. Re-run with --allow-external-ai only after explicit approval."
+)
+
+
+def _requires_external_ai_approval(*, dry_run: bool, allow_external_ai: bool) -> bool:
+    return not dry_run and not allow_external_ai
 
 
 def _load_benchmark() -> list[dict]:
@@ -123,7 +132,31 @@ def _print_comparison(baseline_rows: list[dict], multi_doc_rows: list[dict]) -> 
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Run the multi-document evaluation suite.")
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--allow-external-ai",
+        action="store_true",
+        help="Confirm explicit approval to send benchmark questions and retrieved snippets to external AI APIs.",
+    )
+    args = parser.parse_args()
     questions = _load_benchmark()
+    config = default_retrieval_config(run_name="multi-doc-eval")
+    if args.dry_run:
+        print(
+            json.dumps(
+                {
+                    "question_count": len(questions),
+                    "config": config.__dict__,
+                    "would_write": [str(RESULTS_PATH)],
+                    "external_ai_required": True,
+                },
+                indent=2,
+            )
+        )
+        return
+    if _requires_external_ai_approval(dry_run=args.dry_run, allow_external_ai=args.allow_external_ai):
+        raise SystemExit(EXTERNAL_AI_APPROVAL_MESSAGE)
     print(f"Running multi-document evaluation on {len(questions)} MULTI questions.\n")
 
     baseline_rows = _run_pass(questions, use_multi_doc=False)

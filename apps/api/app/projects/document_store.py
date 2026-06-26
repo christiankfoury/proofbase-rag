@@ -6,7 +6,11 @@ import hashlib
 from typing import Any
 
 from apps.api.app.db.session import get_connection
+from apps.api.app.embeddings.openai_embeddings import embed_texts, to_vector_literal
+from apps.api.app.ingestion.chunker import chunk_markdown_document
+from apps.api.app.ingestion.markdown_loader import MarkdownDocument
 from apps.api.app.permissions.access_control import sensitivity_from_restricted
+from apps.api.app.core.config import get_settings
 
 
 def _json_value(value: Any, default: Any) -> Any:
@@ -278,3 +282,215 @@ def create_pending_review_document(
 
     documents = list_project_documents(project_id, department_id=department["id"], include_archived=True)
     return next(document for document in documents if document["id"] == document_id)
+
+
+def approve_and_index_document(
+    *,
+    project_id: str,
+    department_id: str,
+    document_id: str,
+    chunking_strategy: str = "section_based",
+) -> dict[str, Any] | None:
+    row = _load_current_document_version(project_id=project_id, department_id=department_id, document_id=document_id)
+    if not row:
+        return None
+    if row["ingestion_status"] not in {"pending_review", "failed"}:
+        raise ValueError("Only pending-review or failed document versions can be approved for indexing.")
+
+    version_id = row["version_id"]
+    job_id = row.get("ingestion_job_id")
+    try:
+        _update_indexing_job(job_id, status="chunking", stage="chunking", status_detail="Approved for indexing. Creating chunks.")
+        markdown_document = MarkdownDocument(
+            metadata={
+                "document_id": row["external_document_id"],
+                "title": row["title"],
+                "department": row["department"],
+                "category": row["category"],
+                "access_roles": list(row["access_roles"] or []),
+                "restricted": bool(row["restricted"]),
+                "version": row["version_label"],
+                "effective_date": row.get("effective_date"),
+                "owner": row.get("owner"),
+                "review_cycle": row.get("review_cycle"),
+                "summary": row["title"],
+            },
+            body=row["extracted_text"],
+            source_path=row["source_path"],
+        )
+        chunks = chunk_markdown_document(markdown_document, chunking_strategy=chunking_strategy)
+        if not chunks:
+            raise ValueError("No indexable text chunks were extracted from the approved document.")
+
+        _update_indexing_job(
+            job_id,
+            status="embedding",
+            stage="embedding",
+            status_detail=f"Embedding {len(chunks)} approved chunks.",
+        )
+        settings = get_settings()
+        embeddings = embed_texts([chunk.content for chunk in chunks])
+
+        with get_connection() as conn:
+            conn.execute(
+                "delete from chunks where document_version_id = %s::uuid and chunking_strategy = %s",
+                (version_id, chunking_strategy),
+            )
+            for chunk, embedding in zip(chunks, embeddings, strict=True):
+                chunk_row = conn.execute(
+                    """
+                    insert into chunks (
+                      document_id, document_version_id, chunk_index, section_heading,
+                      content, content_hash, token_count, chunking_strategy, metadata_json
+                    )
+                    values (%s::uuid, %s::uuid, %s, %s, %s, %s, %s, %s, %s::jsonb)
+                    returning id::text
+                    """,
+                    (
+                        document_id,
+                        version_id,
+                        chunk.chunk_index,
+                        chunk.section_heading,
+                        chunk.content,
+                        _hash_text(chunk.content),
+                        chunk.token_count,
+                        chunk.chunking_strategy,
+                        json.dumps(
+                            {
+                                "source_path": chunk.source_path,
+                                "document_id": chunk.document_id,
+                                "document_title": chunk.document_title,
+                                "access_roles": chunk.access_roles,
+                                "sensitivity": row["sensitivity"],
+                                "uploaded_document": True,
+                            },
+                            default=str,
+                        ),
+                    ),
+                ).fetchone()
+                conn.execute(
+                    """
+                    insert into chunk_embeddings (chunk_id, embedding_model, embedding)
+                    values (%s::uuid, %s, %s::vector)
+                    on conflict (chunk_id, embedding_model) do update set
+                      embedding = excluded.embedding
+                    """,
+                    (chunk_row["id"], settings.openai_embedding_model, to_vector_literal(embedding)),
+                )
+            conn.execute(
+                """
+                update document_versions
+                set ingestion_status = 'indexed',
+                    indexed_at = now(),
+                    failed_at = null,
+                    failure_reason = null
+                where id = %s::uuid
+                """,
+                (version_id,),
+            )
+            if job_id:
+                conn.execute(
+                    """
+                    update ingestion_jobs
+                    set status = 'indexed',
+                        stage = 'indexed',
+                        status_detail = %s,
+                        completed_at = now(),
+                        failed_at = null,
+                        error_message = null,
+                        updated_at = now()
+                    where id = %s::uuid
+                    """,
+                    (f"Indexed {len(chunks)} chunks from the approved document.", job_id),
+                )
+    except Exception as exc:
+        _mark_indexing_failed(
+            version_id=version_id,
+            job_id=job_id,
+            reason=str(exc),
+        )
+        raise
+
+    documents = list_project_documents(project_id, department_id=department_id, include_archived=True)
+    return next(document for document in documents if document["id"] == document_id)
+
+
+def _load_current_document_version(*, project_id: str, department_id: str, document_id: str) -> dict[str, Any] | None:
+    with get_connection() as conn:
+        row = conn.execute(
+            """
+            select
+              d.id::text,
+              d.external_document_id,
+              d.title,
+              d.department,
+              d.category,
+              d.source_path,
+              d.access_roles,
+              d.sensitivity,
+              d.restricted,
+              dv.id::text as version_id,
+              dv.version_label,
+              dv.effective_date,
+              dv.owner,
+              dv.review_cycle,
+              dv.extracted_text,
+              dv.ingestion_status,
+              ij.id::text as ingestion_job_id
+            from documents d
+            join document_versions dv on dv.id = d.current_version_id
+            left join ingestion_jobs ij on ij.document_version_id = dv.id
+            where d.id = %s::uuid
+              and d.project_id = %s::uuid
+              and d.department_id = %s::uuid
+              and d.status = 'active'
+            """,
+            (document_id, project_id, department_id),
+        ).fetchone()
+    return dict(row) if row else None
+
+
+def _update_indexing_job(job_id: str | None, *, status: str, stage: str, status_detail: str) -> None:
+    if not job_id:
+        return
+    with get_connection() as conn:
+        conn.execute(
+            """
+            update ingestion_jobs
+            set status = %s,
+                stage = %s,
+                status_detail = %s,
+                started_at = coalesce(started_at, now()),
+                updated_at = now()
+            where id = %s::uuid
+            """,
+            (status, stage, status_detail, job_id),
+        )
+
+
+def _mark_indexing_failed(*, version_id: str, job_id: str | None, reason: str) -> None:
+    with get_connection() as conn:
+        conn.execute(
+            """
+            update document_versions
+            set ingestion_status = 'failed',
+                failed_at = now(),
+                failure_reason = %s
+            where id = %s::uuid
+            """,
+            (reason, version_id),
+        )
+        if job_id:
+            conn.execute(
+                """
+                update ingestion_jobs
+                set status = 'failed',
+                    stage = 'failed',
+                    status_detail = 'Indexing failed. See error details.',
+                    failed_at = now(),
+                    error_message = %s,
+                    updated_at = now()
+                where id = %s::uuid
+                """,
+                (reason, job_id),
+            )

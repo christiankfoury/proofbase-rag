@@ -238,6 +238,20 @@ export async function uploadDepartmentDocument(
   return result.document;
 }
 
+export async function approveDepartmentDocument(
+  projectId: string,
+  departmentId: string,
+  documentId: string
+): Promise<ProjectDocument> {
+  const result = await projectRequest<{ document: ProjectDocument }>(
+    `/projects/${encodeURIComponent(projectId)}/departments/${encodeURIComponent(departmentId)}/documents/${encodeURIComponent(documentId)}/approve-index`,
+    {
+      method: "POST",
+    }
+  );
+  return result.document;
+}
+
 export async function createDepartment(projectId: string, payload: DepartmentPayload): Promise<ProjectDepartment> {
   const result = await projectRequest<{ department: ProjectDepartment }>(
     `/projects/${encodeURIComponent(projectId)}/departments`,

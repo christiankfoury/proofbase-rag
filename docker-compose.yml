@@ -27,7 +27,7 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/enterprise_knowledge_agent
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_API_KEY_FILE: /run/secrets/openai_api_key
       OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4.1-mini}
       OPENAI_CHAT_MODEL: ${OPENAI_CHAT_MODEL:-gpt-4.1-mini}
       OPENAI_EMBEDDING_MODEL: ${OPENAI_EMBEDDING_MODEL:-text-embedding-3-small}
@@ -45,6 +45,8 @@ services:
       interval: 15s
       timeout: 5s
       retries: 5
+    secrets:
+      - openai_api_key
 
   web:
     build:
@@ -66,3 +68,7 @@ services:
 
 volumes:
   postgres_data:
+
+secrets:
+  openai_api_key:
+    environment: OPENAI_API_KEY

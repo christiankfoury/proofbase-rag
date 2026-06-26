@@ -32,7 +32,7 @@ from apps.api.app.observability.logger import build_request_entry, log_request
 from apps.api.app.observability.summary import compute_live_summary
 from apps.api.app.observability.tracing import RequestTrace
 from apps.api.app.permissions.access_control import unauthorized_chunks_reached_generation
-from apps.api.app.projects.document_store import create_pending_review_document
+from apps.api.app.projects.document_store import approve_and_index_document, create_pending_review_document
 from apps.api.app.projects.document_store import list_project_documents
 from apps.api.app.projects.project_store import archive_project
 from apps.api.app.projects.project_store import archive_department
@@ -946,6 +946,60 @@ async def upload_department_document_route(
         "document": document,
         "status": "pending_review",
         "message": "PDF extracted to Markdown for review. No chunks or embeddings were created.",
+    }
+
+
+@app.post("/projects/{project_id}/departments/{department_id}/documents/{document_id}/approve-index")
+def approve_department_document_route(
+    project_id: str,
+    department_id: str,
+    document_id: str,
+    user: Annotated[dict, Depends(current_demo_user)],
+) -> dict:
+    project_id = _validate_project_id(project_id)
+    department_id = _validate_project_id(department_id)
+    document_id = _validate_project_id(document_id)
+    require_project_editor(user, project_id)
+    try:
+        if not get_department(project_id, department_id):
+            raise HTTPException(status_code=404, detail="Department not found.")
+        document = approve_and_index_document(
+            project_id=project_id,
+            department_id=department_id,
+            document_id=document_id,
+        )
+    except HTTPException:
+        raise
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error indexing approved document.") from exc
+    if not document:
+        raise HTTPException(status_code=404, detail="Document not found.")
+
+    log_audit_event(
+        action="document_approved_for_indexing",
+        user_role=user["business_role"],
+        user_id=user["id"],
+        resource_type="document",
+        document_id=document["external_document_id"],
+        outcome=document["version"]["ingestion_status"],
+        reason="human_review_approved",
+        metadata={
+            "project_id": project_id,
+            "department_id": department_id,
+            "document_id": document["id"],
+            "external_document_id": document["external_document_id"],
+            "chunk_count": document["chunk_count"],
+            "ingestion_status": document["version"]["ingestion_status"],
+        },
+    )
+    return {
+        "document": document,
+        "status": document["version"]["ingestion_status"],
+        "message": "Approved document was indexed for scoped retrieval.",
     }
 
 

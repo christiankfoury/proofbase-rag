@@ -9,6 +9,7 @@ from apps.api.app.core.config import get_settings
 from apps.api.app.retrieval.config import RetrievalConfig
 from apps.api.app.retrieval.retriever import retrieve_chunks
 from apps.api.app.retrieval.types import RetrievedChunk
+from apps.api.app.reasoning.source_planner import SourcePlanItem, plan_multi_document_sources
 
 
 _DECOMPOSE_SYSTEM = (
@@ -49,17 +50,46 @@ def retrieve_multi_doc(
     user_role: str,
     config: RetrievalConfig,
 ) -> list[RetrievedChunk]:
-    subqueries = decompose_question(question, model=config.model)
+    source_plan = plan_multi_document_sources(question)
+    subqueries = [item.query for item in source_plan] or decompose_question(question, model=config.model)
     subquery_config = dataclasses.replace(config, top_k=4, run_name="multi-doc-subquery")
 
     seen: dict[str, RetrievedChunk] = {}
-    for subquery in subqueries:
-        for chunk in retrieve_chunks(subquery, user_role, subquery_config):
+    per_query_results: list[tuple[SourcePlanItem | None, list[RetrievedChunk]]] = []
+    for index, subquery in enumerate(subqueries):
+        plan_item = source_plan[index] if source_plan else None
+        chunks = retrieve_chunks(subquery, user_role, subquery_config)
+        per_query_results.append((plan_item, chunks))
+        for chunk in chunks:
             if chunk.chunk_id not in seen:
                 seen[chunk.chunk_id] = chunk
 
-    merged = sorted(seen.values(), key=lambda c: c.score, reverse=True)[:10]
+    planned_first = _coverage_first_chunks(per_query_results)
+    merged = planned_first + [
+        chunk
+        for chunk in sorted(seen.values(), key=lambda c: c.score, reverse=True)
+        if chunk.chunk_id not in {planned.chunk_id for planned in planned_first}
+    ]
+    merged = merged[:10]
     return [
         dataclasses.replace(chunk, rank=rank)
         for rank, chunk in enumerate(merged, start=1)
     ]
+
+
+def _coverage_first_chunks(
+    per_query_results: list[tuple[SourcePlanItem | None, list[RetrievedChunk]]],
+) -> list[RetrievedChunk]:
+    selected: list[RetrievedChunk] = []
+    selected_ids: set[str] = set()
+    for plan_item, chunks in per_query_results:
+        if not plan_item:
+            continue
+        for document_id in plan_item.target_document_ids:
+            candidates = [chunk for chunk in chunks if chunk.document_id == document_id and chunk.chunk_id not in selected_ids]
+            if not candidates:
+                continue
+            best = sorted(candidates, key=lambda chunk: chunk.score, reverse=True)[0]
+            selected.append(best)
+            selected_ids.add(best.chunk_id)
+    return selected

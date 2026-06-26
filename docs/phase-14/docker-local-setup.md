@@ -20,7 +20,7 @@ Create a local environment file:
 Copy-Item .env.example .env
 ```
 
-Set `OPENAI_API_KEY` in `.env`. Do not commit real secrets.
+Set `OPENAI_API_KEY` in `.env`. Do not commit real secrets. Docker Compose mounts this value as a local secret and the API reads it through `OPENAI_API_KEY_FILE`, so `docker compose config` should not render the raw key.
 
 Build and start the stack:
 
@@ -65,6 +65,14 @@ docker compose run --rm api python scripts/run_permission_eval.py
 docker compose run --rm api python scripts/run_memory_eval.py
 docker compose run --rm api python scripts/run_multi_doc_eval.py
 docker compose run --rm api python scripts/export_dashboard_data.py
+```
+
+The legacy retrieval, answer-quality, and multi-document evaluators are guarded by default. Add `--dry-run` to inspect the planned run without OpenAI calls, or add the relevant explicit approval flag only when a live run is intended:
+
+```powershell
+docker compose run --rm api python scripts/run_retrieval_experiments.py --allow-external-embeddings
+docker compose run --rm api python scripts/run_answer_quality_eval.py --allow-external-ai
+docker compose run --rm api python scripts/run_multi_doc_eval.py --allow-external-ai
 ```
 
 ## Reset

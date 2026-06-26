@@ -1,6 +1,7 @@
 from datetime import UTC, datetime
 from pathlib import Path
 from statistics import mean
+import argparse
 import json
 import sys
 import time
@@ -26,6 +27,14 @@ from apps.api.app.retrieval.retriever import retrieve_chunks
 BENCHMARK_PATH = Path("data/evaluation/benchmark-questions.json")
 RESULTS_PATH = Path("docs/phase-7/evaluation-results.md")
 FAILED_PATH = Path("docs/phase-7/failed-question-analysis.md")
+EXTERNAL_AI_APPROVAL_MESSAGE = (
+    "The legacy answer-quality evaluation sends benchmark questions and retrieved synthetic source snippets to "
+    "external OpenAI embeddings and chat-completion APIs. Re-run with --allow-external-ai only after explicit approval."
+)
+
+
+def _requires_external_ai_approval(*, dry_run: bool, allow_external_ai: bool) -> bool:
+    return not dry_run and not allow_external_ai
 
 
 def _load_benchmark() -> dict:
@@ -159,6 +168,14 @@ def _write_failed(failed: list[dict]) -> None:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Run the legacy Phase 7 answer-quality evaluation.")
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--allow-external-ai",
+        action="store_true",
+        help="Confirm explicit approval to send benchmark questions and retrieved snippets to external AI APIs.",
+    )
+    args = parser.parse_args()
     benchmark = _load_benchmark()
     config = default_retrieval_config(
         run_name="phase-7-answer-quality",
@@ -166,6 +183,21 @@ def main() -> None:
         chunking_strategy="section_based",
         top_k=5,
     )
+    if args.dry_run:
+        print(
+            json.dumps(
+                {
+                    "question_count": benchmark.get("question_count"),
+                    "config": config.__dict__,
+                    "would_write": [str(RESULTS_PATH), str(FAILED_PATH)],
+                    "external_ai_required": True,
+                },
+                indent=2,
+            )
+        )
+        return
+    if _requires_external_ai_approval(dry_run=args.dry_run, allow_external_ai=args.allow_external_ai):
+        raise SystemExit(EXTERNAL_AI_APPROVAL_MESSAGE)
     rows = []
     failed = []
 

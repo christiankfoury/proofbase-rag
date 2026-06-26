@@ -1,5 +1,7 @@
 from datetime import UTC, datetime
 from pathlib import Path
+import argparse
+import json
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -10,6 +12,19 @@ from apps.api.app.evaluation.run_benchmark import run_benchmark
 
 
 REPORT_PATH = Path("docs/phase-6/evaluation-results.md")
+EXTERNAL_EMBEDDINGS_APPROVAL_MESSAGE = (
+    "The legacy retrieval experiments call external OpenAI embeddings for each benchmark query. "
+    "Re-run with --allow-external-embeddings only after explicit approval."
+)
+
+
+def _requires_external_embeddings_approval(
+    *,
+    dry_run: bool,
+    allow_external_embeddings: bool,
+    allow_external_ai: bool,
+) -> bool:
+    return not dry_run and not (allow_external_embeddings or allow_external_ai)
 
 
 def _metric_tuple(result: dict) -> tuple[float, float, float, float]:
@@ -133,8 +148,41 @@ def _write_report(summaries: list[dict]) -> None:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Run the legacy Phase 6 retrieval experiments.")
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--allow-external-embeddings",
+        action="store_true",
+        help="Confirm explicit approval to send benchmark questions to external embedding APIs.",
+    )
+    parser.add_argument(
+        "--allow-external-ai",
+        action="store_true",
+        help="Alias for --allow-external-embeddings for consistency with answer-generating evaluators.",
+    )
+    args = parser.parse_args()
+    configs = phase6_retrieval_configs()
+    if args.dry_run:
+        print(
+            json.dumps(
+                {
+                    "run_count": len(configs),
+                    "configs": [config.__dict__ for config in configs],
+                    "would_write": [str(REPORT_PATH)],
+                    "external_embeddings_required": True,
+                },
+                indent=2,
+            )
+        )
+        return
+    if _requires_external_embeddings_approval(
+        dry_run=args.dry_run,
+        allow_external_embeddings=args.allow_external_embeddings,
+        allow_external_ai=args.allow_external_ai,
+    ):
+        raise SystemExit(EXTERNAL_EMBEDDINGS_APPROVAL_MESSAGE)
     summaries = []
-    for config in phase6_retrieval_configs():
+    for config in configs:
         print(f"Running {config.run_name}...")
         summary = run_benchmark(
             retrieval_only=True,

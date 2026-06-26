@@ -397,6 +397,7 @@ export function ChatDemoClient() {
 
   const revealTimer = useRef<number | null>(null);
   const transcriptRef = useRef<HTMLDivElement | null>(null);
+  const requestedDepartmentId = useRef("");
   const departments = selectedProject?.departments ?? [];
   const queryDisabled = loading || scopeLoading || !selectedProjectId || !question.trim();
   const role = currentUser?.business_role ?? "Employee";
@@ -451,11 +452,16 @@ export function ChatDemoClient() {
   useEffect(() => {
     let cancelled = false;
     setProjectsLoading(true);
+    const params = new URLSearchParams(window.location.search);
+    const requestedProjectId = params.get("project") ?? "";
+    requestedDepartmentId.current = params.get("department") ?? "";
     fetchProjects()
       .then((items) => {
         if (cancelled) return;
         setProjects(items);
-        setSelectedProjectId((current) => current || items.find((item) => item.seeded_data_key)?.id || items[0]?.id || "");
+        setSelectedProjectId((current) =>
+          current || items.find((item) => item.id === requestedProjectId)?.id || items.find((item) => item.seeded_data_key)?.id || items[0]?.id || ""
+        );
       })
       .catch((exc) => {
         if (!cancelled) setError(exc instanceof Error ? exc.message : "Project list failed.");
@@ -482,8 +488,13 @@ export function ChatDemoClient() {
         if (cancelled) return;
         setSelectedProject(project);
         setSelectedDepartmentId((current) =>
-          current && project.departments?.some((department) => department.id === current) ? current : ""
+          current && project.departments?.some((department) => department.id === current)
+            ? current
+            : project.departments?.some((department) => department.id === requestedDepartmentId.current)
+              ? requestedDepartmentId.current
+              : ""
         );
+        requestedDepartmentId.current = "";
       })
       .catch((exc) => {
         if (!cancelled) setError(exc instanceof Error ? exc.message : "Project detail failed.");

@@ -41,6 +41,7 @@ def retrieve_chunks(
         where ce.embedding_model = %s
           and c.chunking_strategy = %s
           and d.status = 'active'
+          and c.document_version_id = d.current_version_id
           and dv.ingestion_status = 'indexed'
           {scope_sql}
         order by ce.embedding <=> %s::vector
@@ -68,6 +69,7 @@ def retrieve_chunks(
           and ce.embedding_model = %s
           and c.chunking_strategy = %s
           and d.status = 'active'
+          and c.document_version_id = d.current_version_id
           and dv.ingestion_status = 'indexed'
           {scope_sql}
         order by ce.embedding <=> %s::vector

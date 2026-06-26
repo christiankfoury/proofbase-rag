@@ -6,6 +6,7 @@ import { Badge } from "@/components/Badge";
 import { EmptyState } from "@/components/EmptyState";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
+  approveDepartmentDocument,
   archiveDepartment,
   DepartmentColor,
   DepartmentIcon,
@@ -99,6 +100,7 @@ export function DepartmentDetailClient({
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [indexingDocumentId, setIndexingDocumentId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -197,6 +199,29 @@ export function DepartmentDetailClient({
       setError(err instanceof Error ? err.message : "Department could not be archived.");
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleApproveIndex(document: ProjectDocument) {
+    setIndexingDocumentId(document.id);
+    setError(null);
+    setNotice(null);
+    try {
+      const indexedDocument = await approveDepartmentDocument(projectId, departmentId, document.id);
+      const [nextDepartment, nextDocuments] = await Promise.all([
+        fetchDepartment(projectId, departmentId, true),
+        fetchDepartmentDocuments(projectId, departmentId, true),
+      ]);
+      setDepartment(nextDepartment);
+      setDocuments(nextDocuments);
+      setSelectedDocumentId(indexedDocument.id);
+      setNotice(`${indexedDocument.title} is indexed for scoped retrieval.`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Document could not be indexed.");
+      const nextDocuments = await fetchDepartmentDocuments(projectId, departmentId, true).catch(() => null);
+      if (nextDocuments) setDocuments(nextDocuments);
+    } finally {
+      setIndexingDocumentId(null);
     }
   }
 
@@ -365,6 +390,24 @@ export function DepartmentDetailClient({
                     {selectedDocument.version.failure_reason ? (
                       <p className="mt-2 text-sm text-rust-dark">{selectedDocument.version.failure_reason}</p>
                     ) : null}
+                    {["pending_review", "failed"].includes(selectedDocument.version.ingestion_status) ? (
+                      <button
+                        className="btn-primary mt-3"
+                        type="button"
+                        onClick={() => handleApproveIndex(selectedDocument)}
+                        disabled={indexingDocumentId === selectedDocument.id}
+                      >
+                        {indexingDocumentId === selectedDocument.id ? "Indexing..." : "Approve and index"}
+                      </button>
+                    ) : null}
+                    {selectedDocument.version.ingestion_status === "indexed" ? (
+                      <Link
+                        className="btn-secondary mt-3 inline-flex"
+                        href={`/chat?project=${encodeURIComponent(projectId)}&department=${encodeURIComponent(departmentId)}`}
+                      >
+                        Ask in chat
+                      </Link>
+                    ) : null}
                   </div>
 
                   <div className="mt-4">
@@ -388,7 +431,7 @@ export function DepartmentDetailClient({
         <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
           <SectionHeading
             title="Upload PDF"
-            description="Extract text to Markdown for review. This does not create chunks or embeddings."
+            description="Extract text to Markdown for review, then approve it for local indexing."
           />
           <form onSubmit={handleUpload} className="space-y-3 rounded border border-dashed border-stone-300 bg-stone-50 p-4">
             <label className="block">

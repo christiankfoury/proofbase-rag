@@ -6,6 +6,7 @@
 |---|---|---|---|
 | `DATABASE_URL` | Yes | `postgresql://postgres:postgres@postgres:5432/enterprise_knowledge_agent` | Postgres connection string. Use `localhost` outside Docker and `postgres` inside Compose. |
 | `OPENAI_API_KEY` | Yes for ingestion/query/evals | `sk-...` | Never commit real secrets. |
+| `OPENAI_API_KEY_FILE` | No | `/run/secrets/openai_api_key` | Docker Compose uses this path to read the key from a mounted secret without rendering the raw key in `docker compose config`. |
 | `OPENAI_MODEL` | No | `gpt-4.1-mini` | Supported alias for chat model configuration. |
 | `OPENAI_CHAT_MODEL` | No | `gpt-4.1-mini` | Backward-compatible chat model variable. Takes precedence over `OPENAI_MODEL`. |
 | `OPENAI_EMBEDDING_MODEL` | No | `text-embedding-3-small` | Must match embedding dimensionality used by schema. |

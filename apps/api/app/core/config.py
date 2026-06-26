@@ -1,6 +1,7 @@
 from functools import lru_cache
+from pathlib import Path
 
-from pydantic import AliasChoices, Field
+from pydantic import AliasChoices, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -9,6 +10,10 @@ class Settings(BaseSettings):
     openai_api_key: str = Field(
         default="",
         validation_alias=AliasChoices("OPENAI_API_KEY", "openai_api_key"),
+    )
+    openai_api_key_file: str = Field(
+        default="",
+        validation_alias=AliasChoices("OPENAI_API_KEY_FILE", "openai_api_key_file"),
     )
     openai_embedding_model: str = "text-embedding-3-small"
     openai_chat_model: str = Field(
@@ -33,6 +38,16 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
     )
+
+    @model_validator(mode="after")
+    def load_openai_api_key_file(self) -> "Settings":
+        if self.openai_api_key or not self.openai_api_key_file:
+            return self
+        try:
+            self.openai_api_key = Path(self.openai_api_key_file).read_text(encoding="utf-8").strip()
+        except OSError:
+            self.openai_api_key = ""
+        return self
 
 
 @lru_cache

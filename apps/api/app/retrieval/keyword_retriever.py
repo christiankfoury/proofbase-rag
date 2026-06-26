@@ -67,6 +67,7 @@ def retrieve_chunks(
         join document_versions dv on dv.id = c.document_version_id
         where c.chunking_strategy = %s
           and d.status = 'active'
+          and c.document_version_id = d.current_version_id
           and dv.ingestion_status = 'indexed'
           {scope_sql}
         order by ts_rank_cd(c.tsv, query.tsquery) desc, c.chunk_index asc
@@ -96,6 +97,7 @@ def retrieve_chunks(
         where d.access_roles && %s
           and c.chunking_strategy = %s
           and d.status = 'active'
+          and c.document_version_id = d.current_version_id
           and dv.ingestion_status = 'indexed'
           {scope_sql}
         order by score desc, c.chunk_index asc
