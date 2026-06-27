@@ -35,6 +35,8 @@ from apps.api.app.permissions.access_control import unauthorized_chunks_reached_
 from apps.api.app.projects.document_store import approve_and_index_document, create_pending_review_document
 from apps.api.app.projects.document_store import get_project_document
 from apps.api.app.projects.document_store import list_project_documents
+from apps.api.app.projects.document_store import record_cleanup_metadata
+from apps.api.app.projects.markdown_cleanup import cleanup_uploaded_markdown
 from apps.api.app.projects.project_store import archive_project
 from apps.api.app.projects.project_store import archive_department
 from apps.api.app.projects.project_store import create_department as create_department_record
@@ -149,6 +151,10 @@ class EvaluationReviewRequest(BaseModel):
 
 class ApproveIndexRequest(BaseModel):
     reviewed_markdown: str | None = Field(None, max_length=2_000_000)
+
+
+class CleanupMarkdownRequest(BaseModel):
+    model: str | None = Field(None, min_length=1, max_length=120)
 
 
 class ProjectCreateRequest(BaseModel):
@@ -1056,6 +1062,90 @@ def approve_department_document_route(
         "document": document,
         "status": document["version"]["ingestion_status"],
         "message": "Approved document was indexed for scoped retrieval.",
+    }
+
+
+@app.post("/projects/{project_id}/departments/{department_id}/documents/{document_id}/cleanup-markdown")
+def cleanup_department_document_markdown_route(
+    project_id: str,
+    department_id: str,
+    document_id: str,
+    user: Annotated[dict, Depends(current_demo_user)],
+    request: CleanupMarkdownRequest | None = None,
+) -> dict:
+    project_id = _validate_project_id(project_id)
+    department_id = _validate_project_id(department_id)
+    document_id = _validate_project_id(document_id)
+    require_project_editor(user, project_id)
+    try:
+        if not get_department(project_id, department_id):
+            raise HTTPException(status_code=404, detail="Department not found.")
+        document = get_project_document(
+            project_id=project_id,
+            department_id=department_id,
+            document_id=document_id,
+            include_archived=False,
+        )
+        if not document:
+            raise HTTPException(status_code=404, detail="Document not found.")
+        if document["version"]["ingestion_status"] not in {"pending_review", "failed"}:
+            raise HTTPException(status_code=400, detail="Only pending-review or failed documents can be cleaned up.")
+
+        cleanup = cleanup_uploaded_markdown(
+            document=document,
+            requested_by=user["id"],
+            model=request.model if request else None,
+        )
+        updated_document = record_cleanup_metadata(
+            project_id=project_id,
+            department_id=department_id,
+            document_id=document_id,
+            cleanup_metadata=cleanup["metadata"],
+        )
+    except HTTPException:
+        raise
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error saving cleanup metadata.") from exc
+    if not updated_document:
+        raise HTTPException(status_code=404, detail="Document not found.")
+
+    metadata = cleanup["metadata"]
+    log_audit_event(
+        action="document_markdown_cleanup_requested",
+        user_role=user["business_role"],
+        user_id=user["id"],
+        resource_type="document",
+        document_id=updated_document["external_document_id"],
+        outcome="draft_returned_not_indexed",
+        reason="explicit_editor_action",
+        metadata={
+            "project_id": project_id,
+            "department_id": department_id,
+            "document_id": updated_document["id"],
+            "external_document_id": updated_document["external_document_id"],
+            "model": metadata["model"],
+            "source_content_hash": metadata["source_content_hash"],
+            "cleaned_content_hash": metadata["cleaned_content_hash"],
+            "estimated_cost_usd": metadata["estimated_cost_usd"],
+        },
+    )
+    return {
+        "cleaned_markdown": cleanup["cleaned_markdown"],
+        "document": updated_document,
+        "model": metadata["model"],
+        "input_tokens": metadata["input_tokens"],
+        "output_tokens": metadata["output_tokens"],
+        "input_cost_usd": metadata["input_cost_usd"],
+        "output_cost_usd": metadata["output_cost_usd"],
+        "estimated_cost_usd": metadata["estimated_cost_usd"],
+        "pricing_status": metadata["pricing_status"],
+        "source_content_hash": metadata["source_content_hash"],
+        "cleaned_content_hash": metadata["cleaned_content_hash"],
+        "cleanup_timestamp": metadata["cleanup_timestamp"],
     }
 
 

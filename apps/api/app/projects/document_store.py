@@ -525,6 +525,37 @@ def approve_and_index_document(
     return next(document for document in documents if document["id"] == document_id)
 
 
+def record_cleanup_metadata(
+    *,
+    project_id: str,
+    department_id: str,
+    document_id: str,
+    cleanup_metadata: dict[str, Any],
+) -> dict[str, Any] | None:
+    row = _load_current_document_version(project_id=project_id, department_id=department_id, document_id=document_id)
+    if not row:
+        return None
+    if row["ingestion_status"] not in {"pending_review", "failed"}:
+        raise ValueError("Only pending-review or failed document versions can receive cleanup metadata.")
+
+    with get_connection() as conn:
+        conn.execute(
+            """
+            update document_versions
+            set metadata_json = coalesce(metadata_json, '{}'::jsonb) || %s::jsonb
+            where id = %s::uuid
+            """,
+            (json.dumps({"ai_cleanup": cleanup_metadata}, default=str), row["version_id"]),
+        )
+
+    return get_project_document(
+        project_id=project_id,
+        department_id=department_id,
+        document_id=document_id,
+        include_archived=True,
+    )
+
+
 def _load_current_document_version(*, project_id: str, department_id: str, document_id: str) -> dict[str, Any] | None:
     with get_connection() as conn:
         row = conn.execute(

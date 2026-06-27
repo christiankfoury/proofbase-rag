@@ -9,6 +9,8 @@ import { SectionHeading } from "@/components/SectionHeading";
 import {
   approveDepartmentDocument,
   archiveDepartment,
+  cleanupDepartmentDocumentMarkdown,
+  CleanupMarkdownResult,
   DepartmentColor,
   DepartmentIcon,
   fetchDepartment,
@@ -190,6 +192,8 @@ export function DepartmentDetailClient({
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [indexingDocumentId, setIndexingDocumentId] = useState<string | null>(null);
+  const [cleanupDocumentId, setCleanupDocumentId] = useState<string | null>(null);
+  const [cleanupResult, setCleanupResult] = useState<CleanupMarkdownResult | null>(null);
   const [reviewMarkdown, setReviewMarkdown] = useState("");
   const [reviewLoadingDocumentId, setReviewLoadingDocumentId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -239,6 +243,8 @@ export function DepartmentDetailClient({
       .then((document) => {
         if (!active) return;
         setReviewMarkdown(document.review_markdown ?? document.markdown_preview ?? "");
+        setDocuments((current) => current.map((item) => (item.id === document.id ? document : item)));
+        setCleanupResult(null);
       })
       .catch((err: Error) => {
         if (active) setError(err.message);
@@ -350,6 +356,31 @@ export function DepartmentDetailClient({
     } finally {
       setIndexingDocumentId(null);
     }
+  }
+
+  async function handleCleanupMarkdown(document: ProjectDocument) {
+    setCleanupDocumentId(document.id);
+    setError(null);
+    setNotice(null);
+    try {
+      const result = await cleanupDepartmentDocumentMarkdown(projectId, departmentId, document.id);
+      setReviewMarkdown(result.cleaned_markdown);
+      setCleanupResult(result);
+      setDocuments((current) => current.map((item) => (item.id === result.document.id ? result.document : item)));
+      setSelectedDocumentId(result.document.id);
+      const cost = result.estimated_cost_usd == null ? "pending" : `$${result.estimated_cost_usd.toFixed(6)}`;
+      setNotice(`AI cleanup draft returned to the editor. It is not indexed until you approve it. Estimated cost: ${cost}.`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Markdown cleanup could not be completed.");
+    } finally {
+      setCleanupDocumentId(null);
+    }
+  }
+
+  function handleRevertMarkdown(document: ProjectDocument) {
+    setReviewMarkdown(document.review_markdown ?? document.markdown_preview ?? "");
+    setCleanupResult(null);
+    setNotice("Review editor reverted to the deterministic extraction. Nothing was indexed.");
   }
 
   if (loading) {
@@ -517,18 +548,46 @@ export function DepartmentDetailClient({
                       <p className="mt-2 text-sm text-rust-dark">{selectedDocument.version.failure_reason}</p>
                     ) : null}
                     {["pending_review", "failed"].includes(selectedDocument.version.ingestion_status) ? (
-                      <button
-                        className="btn-primary mt-3"
-                        type="button"
-                        onClick={() => handleApproveIndex(selectedDocument)}
-                        disabled={indexingDocumentId === selectedDocument.id || reviewLoadingDocumentId === selectedDocument.id || !reviewMarkdownReady}
-                      >
-                        {indexingDocumentId === selectedDocument.id
-                          ? "Indexing..."
-                          : selectedDocument.version.ingestion_status === "failed"
-                            ? "Retry indexing"
-                            : "Approve and index"}
-                      </button>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <button
+                          className="btn-secondary"
+                          type="button"
+                          onClick={() => handleCleanupMarkdown(selectedDocument)}
+                          disabled={
+                            cleanupDocumentId === selectedDocument.id ||
+                            indexingDocumentId === selectedDocument.id ||
+                            reviewLoadingDocumentId === selectedDocument.id ||
+                            !reviewMarkdownReady
+                          }
+                        >
+                          {cleanupDocumentId === selectedDocument.id ? "Cleaning..." : "Clean up Markdown"}
+                        </button>
+                        <button
+                          className="btn-secondary"
+                          type="button"
+                          onClick={() => handleRevertMarkdown(selectedDocument)}
+                          disabled={cleanupDocumentId === selectedDocument.id || indexingDocumentId === selectedDocument.id || reviewLoadingDocumentId === selectedDocument.id}
+                        >
+                          Revert to extraction
+                        </button>
+                        <button
+                          className="btn-primary"
+                          type="button"
+                          onClick={() => handleApproveIndex(selectedDocument)}
+                          disabled={
+                            indexingDocumentId === selectedDocument.id ||
+                            cleanupDocumentId === selectedDocument.id ||
+                            reviewLoadingDocumentId === selectedDocument.id ||
+                            !reviewMarkdownReady
+                          }
+                        >
+                          {indexingDocumentId === selectedDocument.id
+                            ? "Indexing..."
+                            : selectedDocument.version.ingestion_status === "failed"
+                              ? "Retry indexing"
+                              : "Approve and index"}
+                        </button>
+                      </div>
                     ) : null}
                     {selectedDocument.version.ingestion_status === "indexed" ? (
                       <Link
@@ -547,12 +606,32 @@ export function DepartmentDetailClient({
                       {selectedDocumentNeedsReview ? "Markdown Review" : "Extracted Markdown Preview"}
                     </p>
                     {selectedDocumentNeedsReview ? (
-                      <textarea
-                        className="field mt-2 min-h-[520px] w-full font-mono text-xs leading-5"
-                        value={reviewLoadingDocumentId === selectedDocument.id ? "Loading extracted Markdown..." : reviewMarkdown}
-                        onChange={(event) => setReviewMarkdown(event.target.value)}
-                        disabled={reviewLoadingDocumentId === selectedDocument.id || indexingDocumentId === selectedDocument.id}
-                      />
+                      <>
+                        {cleanupResult?.document.id === selectedDocument.id ? (
+                          <div className="mt-2 rounded border border-steel bg-steel-soft p-3 text-xs leading-5 text-steel-dark">
+                            <p className="font-semibold">AI cleanup draft is in the editor.</p>
+                            <p className="mt-1">
+                              Model {cleanupResult.model}; cost{" "}
+                              {cleanupResult.estimated_cost_usd == null ? "pending" : `$${cleanupResult.estimated_cost_usd.toFixed(6)}`};
+                              source hash {compactHash(cleanupResult.source_content_hash)}; cleaned hash{" "}
+                              {compactHash(cleanupResult.cleaned_content_hash)}.
+                            </p>
+                          </div>
+                        ) : null}
+                        <textarea
+                          className="field mt-2 min-h-[520px] w-full font-mono text-xs leading-5"
+                          value={reviewLoadingDocumentId === selectedDocument.id ? "Loading extracted Markdown..." : reviewMarkdown}
+                          onChange={(event) => {
+                            setReviewMarkdown(event.target.value);
+                            setCleanupResult(null);
+                          }}
+                          disabled={
+                            reviewLoadingDocumentId === selectedDocument.id ||
+                            indexingDocumentId === selectedDocument.id ||
+                            cleanupDocumentId === selectedDocument.id
+                          }
+                        />
+                      </>
                     ) : (
                       <pre className="mt-2 max-h-[520px] overflow-auto whitespace-pre-wrap rounded border border-stone-200 bg-white p-4 text-xs leading-5 text-stone-800">
                         {selectedDocument.markdown_preview || "No extracted Markdown preview is available for this document."}

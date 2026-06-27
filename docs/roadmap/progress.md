@@ -6,22 +6,21 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-- Current phase: Phase 42 Guided Demo Flow And Answer Proof complete; Phase 43 Guarded AI Markdown Cleanup Draft is next.
+- Current phase: Phase 43 Guarded AI Markdown Cleanup Draft complete; Phase 44 AI Cleanup Metadata, Cost, And Review Diff is next.
 - Last completed phase activity: Phase 42 added a guided demo route, App-side answer proof, uploaded-document status timeline, and upload detection fixes while preserving retrieval, generation, indexing, permissions, and metrics behavior.
 - Last completed non-implementation pass: documentation-first algorithm explanation and audit under `docs/algorithm/`, including `docs/algorithm/codebase-verification-report.md` in local commit `2fb9f95`.
-- Last verification focus: Phase 42 frontend production build, API/script compile, `git diff --check`, and safe Docker Compose config inspection. OpenAI-backed checks were skipped because retrieval, generation, indexing, prompts, and permissions were unchanged.
-- Next expected work: start Phase 43 from `docs/roadmap/post-phase-40-product-polish-plan.md`.
+- Last verification focus: Phase 43 cleanup route and document-store tests, Phase 40 upload-indexing regression, API/script compile, `git diff --check`, safe Docker Compose config inspection, frontend production build, and guarded Phase 40 upload E2E dry-run. Approved OpenAI-backed upload E2E was attempted but blocked because no `OPENAI_API_KEY` or key file was visible to the verification process.
+- Next expected work: commit/review/push Phase 43, then continue directly to Phase 44 from `docs/roadmap/post-phase-40-product-polish-plan.md`.
 
 ## Next Work Queue
 
 These items come from `docs/roadmap/post-phase-40-product-polish-plan.md`. Keep the order unless a new correctness, permission, or secret-handling issue becomes more urgent.
 
-1. Phase 42: Guided Demo Flow And Answer Proof.
-2. Phase 43: Guarded AI Markdown Cleanup Draft.
-3. Phase 44: AI Cleanup Metadata, Cost, And Review Diff.
-4. Phase 45: Generalization Probe Suite Baseline.
-5. Phase 46: Memory And Ambiguity Generalization Remediation.
-6. Later backlog: hosted storage/Azure Blob, production auth, larger generalization suites, and project-specific evaluation authoring.
+1. Phase 43: Guarded AI Markdown Cleanup Draft.
+2. Phase 44: AI Cleanup Metadata, Cost, And Review Diff.
+3. Phase 45: Generalization Probe Suite Baseline.
+4. Phase 46: Memory And Ambiguity Generalization Remediation.
+5. Later backlog: hosted storage/Azure Blob, production auth, larger generalization suites, and project-specific evaluation authoring.
 
 ## Phase Status
 
@@ -57,6 +56,7 @@ These items come from `docs/roadmap/post-phase-40-product-polish-plan.md`. Keep 
 | 41: Recruiter Demo Project Home | Complete | This commit | `python -m compileall apps/api/app scripts`, `docker compose config --quiet`, and `cd apps/web; $env:NEXT_DIST_DIR='.next-codex-build'; $env:NEXT_TELEMETRY_DISABLED='1'; npm run build` passed. The sandboxed web build hit the known Windows profile `EPERM`; the default elevated `.next` build hit the known `.next\trace` permission issue; the established `.next-codex-build` workaround passed. Docker Compose emitted the known local Docker config warning. | Polished the App-side project home with scoped ask entry points, department shortcuts, representative project documents, upload/indexing status summary, suggested scoped question chips, chat URL question prefill, and clearer API-offline messaging. Updated Phase 41 notes and demo screenshot guidance. Retrieval, prompts, benchmark expectations, indexing behavior, permission filtering, and Dev/Admin pages were unchanged; OpenAI-backed checks were skipped. |
 | Autonomous Loop Policy Clarification | Complete | This commit | `git diff --check` passed. | Clarified `AGENTS.md` and the post-Phase 40 product-polish plan so a successful phase push hands off directly into the next queued phase instead of stopping for a summary, unless the queue is complete, the user requests a pause/status-only response, or a real blocker requires user input. |
 | 42: Guided Demo Flow And Answer Proof | Complete | This commit | `python -m compileall apps/api/app scripts`, `docker compose config --quiet`, `git diff --check`, and `cd apps/web; $env:NEXT_DIST_DIR='.next-codex-build'; $env:NEXT_TELEMETRY_DISABLED='1'; npm run build` passed. The sandboxed web build hit the known Windows profile `EPERM`; the established `.next-codex-build` workaround passed. Docker Compose emitted the known local Docker config warning. | Added `/demo`, Guided Demo navigation and breadcrumbs, App Home guided-demo link, visible chat `Why this answer?` proof with citations/scope/confidence/Dev/Admin links, and uploaded-document status timeline. Fixed uploaded-document detection to use actual `UPLOAD-*` IDs and `data/uploads/` paths. Retrieval, prompts, benchmark expectations, indexing behavior, permission filtering, and metric artifacts were unchanged; OpenAI-backed checks were skipped. |
+| 43: Guarded AI Markdown Cleanup Draft | Complete | This commit | `python scripts/test_phase43_markdown_cleanup.py`, `python scripts/test_phase40_upload_indexing.py`, `python scripts/run_phase40_upload_e2e.py --dry-run`, `python -m compileall apps/api/app scripts`, `docker compose config --quiet`, `git diff --check`, and `cd apps/web; $env:NEXT_DIST_DIR='.next-codex-build'; $env:NEXT_TELEMETRY_DISABLED='1'; npm run build` passed. The sandboxed web build hit the known Windows profile `EPERM`; the established `.next-codex-build` workaround passed. Docker Compose emitted the known local Docker config warning. Approved OpenAI-backed upload E2E was attempted but blocked because the verification process had no `OPENAI_API_KEY`, `settings.openai_api_key`, or `settings.openai_api_key_file`. | Added an editor-only cleanup endpoint for pending-review/failed uploaded documents, OpenAI cleanup service with empty/unsafe output rejection, cleanup metadata persistence without replacing extracted text, audit event logging, frontend cleanup/loading/error/revert states, README/demo updates, and Phase 43 design notes. Cleanup returns a draft to the review editor and remains non-indexing until explicit approve/index. |
 
 ## Update Rules
 

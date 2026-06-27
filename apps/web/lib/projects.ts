@@ -77,6 +77,21 @@ export type ProjectDocument = {
   } | null;
 };
 
+export type CleanupMarkdownResult = {
+  cleaned_markdown: string;
+  document: ProjectDocument;
+  model: string;
+  input_tokens?: number | null;
+  output_tokens?: number | null;
+  input_cost_usd?: number | null;
+  output_cost_usd?: number | null;
+  estimated_cost_usd?: number | null;
+  pricing_status?: string | null;
+  source_content_hash: string;
+  cleaned_content_hash: string;
+  cleanup_timestamp: string;
+};
+
 export type ProjectActivity = {
   id: string;
   action: string;
@@ -265,6 +280,20 @@ export async function approveDepartmentDocument(
     }
   );
   return result.document;
+}
+
+export async function cleanupDepartmentDocumentMarkdown(
+  projectId: string,
+  departmentId: string,
+  documentId: string
+): Promise<CleanupMarkdownResult> {
+  return projectRequest<CleanupMarkdownResult>(
+    `/projects/${encodeURIComponent(projectId)}/departments/${encodeURIComponent(departmentId)}/documents/${encodeURIComponent(documentId)}/cleanup-markdown`,
+    {
+      method: "POST",
+      body: JSON.stringify({}),
+    }
+  );
 }
 
 export async function createDepartment(projectId: string, payload: DepartmentPayload): Promise<ProjectDepartment> {
