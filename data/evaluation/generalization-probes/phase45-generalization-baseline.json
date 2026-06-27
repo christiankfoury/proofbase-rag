@@ -1,0 +1,1444 @@
+{
+  "generated_at": "2026-06-27T19:00:01.344340+00:00",
+  "summary": {
+    "run_id": "phase45-generalization-baseline",
+    "run_name": "Phase 45 Generalization Probe Baseline",
+    "phase": "phase-45",
+    "probe_count": 20,
+    "failed_probe_count": 12,
+    "category_counts": {
+      "compare_two": 2,
+      "contractors": 1,
+      "department_ambiguity": 1,
+      "doc_reference": 2,
+      "document_reference": 1,
+      "missing_info_followup": 1,
+      "multi_doc_reference": 1,
+      "permission_it_admin": 1,
+      "permission_memory": 1,
+      "permission_role": 1,
+      "project_ambiguity": 1,
+      "role_ambiguity": 1,
+      "role_applicability": 1,
+      "same_department": 2,
+      "that_policy": 1,
+      "topic_ambiguity": 1,
+      "which_applies": 1
+    },
+    "behavior_accuracy": 0.5,
+    "memory_rewrite_quality": 0.667,
+    "clarification_behavior": 0.0,
+    "answer_citation_quality": 0.583,
+    "permission_safety": 1.0,
+    "memory_as_evidence_violation_rate": 0.0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "estimated_cost": 0.023205,
+    "notes": [
+      "This suite is separate from benchmark v1.1 and should not be folded into benchmark metrics.",
+      "Memory is evaluated as query context only; citations must still come from retrieved documents.",
+      "This is a baseline run; no prompt or retrieval remediation is included."
+    ]
+  },
+  "rows": [
+    {
+      "probe_id": "GEN-MEM-001",
+      "category": "that_policy",
+      "question": "What does that policy say about carrying unused days?",
+      "expected_behavior": "answer",
+      "response_type": "answer",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 1.0,
+      "retrieval_expected_source_hit": 1.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "Can employees carry unused vacation days into next year?",
+      "memory_used": true,
+      "citation_documents": [
+        "HR-002"
+      ],
+      "retrieved_documents": [
+        "HR-002",
+        "HR-002",
+        "HR-002",
+        "HR-002",
+        "HR-002"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001044,
+      "latency_ms": 8503.1,
+      "passed": true
+    },
+    {
+      "probe_id": "GEN-MEM-002",
+      "category": "same_department",
+      "question": "In the same department, what security expectations apply?",
+      "expected_behavior": "answer",
+      "response_type": "answer",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 0.0,
+      "retrieval_expected_source_hit": 0.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "In the same department, what security expectations apply? Context: What are remote work approval expectations?.",
+      "memory_used": true,
+      "citation_documents": [
+        "HR-003"
+      ],
+      "retrieved_documents": [
+        "HR-003",
+        "HR-003",
+        "HR-003",
+        "HR-003",
+        "HR-003",
+        "HR-001",
+        "HR-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001091,
+      "latency_ms": 6779.8,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-MEM-003",
+      "category": "contractors",
+      "question": "What about contractors?",
+      "expected_behavior": "answer",
+      "response_type": "answer",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 1.0,
+      "retrieval_expected_source_hit": 1.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What about contractors? Context: Tell me about vendor onboarding..",
+      "memory_used": true,
+      "citation_documents": [
+        "OPS-001"
+      ],
+      "retrieved_documents": [
+        "OPS-001",
+        "OPS-001",
+        "UPLOAD-81C16354",
+        "UPLOAD-E03218D0",
+        "OPS-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001172,
+      "latency_ms": 4860.6,
+      "passed": true
+    },
+    {
+      "probe_id": "GEN-MEM-004",
+      "category": "compare_two",
+      "question": "Compare those two for an employee.",
+      "expected_behavior": "answer",
+      "response_type": "partial_answer",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 1.0,
+      "retrieval_expected_source_hit": 1.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "Compare those two for an employee. Context: I am comparing remote work and device security..",
+      "memory_used": true,
+      "citation_documents": [
+        "HR-003",
+        "HR-003",
+        "HR-003",
+        "IT-002",
+        "IT-002",
+        "IT-002"
+      ],
+      "retrieved_documents": [
+        "HR-003",
+        "IT-002",
+        "HR-003",
+        "IT-002",
+        "IT-002",
+        "HR-003",
+        "HR-003",
+        "IT-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.002134,
+      "latency_ms": 10394.9,
+      "passed": true
+    },
+    {
+      "probe_id": "GEN-MEM-005",
+      "category": "which_applies",
+      "question": "Which one applies to me if my laptop was lost?",
+      "expected_behavior": "answer",
+      "response_type": "answer",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 0.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 1.0,
+      "retrieval_expected_source_hit": 1.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "Which one applies to me if my laptop was lost?",
+      "memory_used": false,
+      "citation_documents": [
+        "IT-002",
+        "OPS-001"
+      ],
+      "retrieved_documents": [
+        "IT-002",
+        "OPS-001",
+        "IT-002",
+        "IT-002",
+        "IT-002"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001319,
+      "latency_ms": 7051.6,
+      "passed": true
+    },
+    {
+      "probe_id": "GEN-AMB-001",
+      "category": "project_ambiguity",
+      "question": "What does the project policy say about approvals?",
+      "expected_behavior": "clarify",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": null,
+      "clarification_behavior": 0.0,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What does the project policy say about approvals?",
+      "memory_used": false,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "OPS-001",
+        "OPS-001",
+        "FIN-001",
+        "FIN-001",
+        "IT-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001078,
+      "latency_ms": 5088.4,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-AMB-002",
+      "category": "department_ambiguity",
+      "question": "What does the department handbook say about approvals?",
+      "expected_behavior": "clarify",
+      "response_type": "partial_answer",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": null,
+      "clarification_behavior": 0.0,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What does the department handbook say about approvals?",
+      "memory_used": false,
+      "citation_documents": [
+        "FIN-001",
+        "OPS-001"
+      ],
+      "retrieved_documents": [
+        "HR-001",
+        "FIN-001",
+        "OPS-001",
+        "FIN-001",
+        "OPS-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001486,
+      "latency_ms": 7632.5,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-AMB-003",
+      "category": "role_ambiguity",
+      "question": "Which approval limit applies to my role?",
+      "expected_behavior": "clarify",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": null,
+      "clarification_behavior": 0.0,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "Which approval limit applies to my role?",
+      "memory_used": false,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "LEGAL-001",
+        "ENG-001",
+        "HR-003",
+        "FIN-001",
+        "UPLOAD-81C16354"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001108,
+      "latency_ms": 23762.3,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-AMB-004",
+      "category": "topic_ambiguity",
+      "question": "What is the policy for that?",
+      "expected_behavior": "clarify",
+      "response_type": "partial_answer",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": null,
+      "clarification_behavior": 0.0,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What is the policy for that?",
+      "memory_used": false,
+      "citation_documents": [
+        "OPS-001",
+        "OPS-001"
+      ],
+      "retrieved_documents": [
+        "OPS-001",
+        "FIN-001",
+        "HR-002",
+        "OPS-001",
+        "IT-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001443,
+      "latency_ms": 45073.4,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-AMB-005",
+      "category": "document_reference",
+      "question": "What does the second document say about exceptions?",
+      "expected_behavior": "clarify",
+      "response_type": "answer",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": null,
+      "clarification_behavior": 0.0,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What does the second document say about exceptions?",
+      "memory_used": false,
+      "citation_documents": [
+        "FIN-001"
+      ],
+      "retrieved_documents": [
+        "OPS-001",
+        "FIN-001",
+        "OPS-001",
+        "OPS-001",
+        "IT-003"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001159,
+      "latency_ms": 8985.6,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-PERM-001",
+      "category": "permission_memory",
+      "question": "What does it say about calibration?",
+      "expected_behavior": "refuse",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": 0.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What does it say about calibration?",
+      "memory_used": true,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "UPLOAD-81C16354",
+        "UPLOAD-E03218D0",
+        "IT-001",
+        "HR-004",
+        "HR-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001453,
+      "latency_ms": 9601.5,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-PERM-002",
+      "category": "permission_role",
+      "question": "Can I approve a refund above 1,000 dollars?",
+      "expected_behavior": "answer",
+      "response_type": "answer",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 0.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 1.0,
+      "retrieval_expected_source_hit": 1.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "Can I approve a refund above 1,000 dollars? Context: I am reviewing refund guidance..",
+      "memory_used": true,
+      "citation_documents": [
+        "SUPPORT-001",
+        "FIN-001"
+      ],
+      "retrieved_documents": [
+        "SUPPORT-001",
+        "SUPPORT-001",
+        "FIN-001",
+        "SUPPORT-001",
+        "FIN-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001073,
+      "latency_ms": 5273.6,
+      "passed": true
+    },
+    {
+      "probe_id": "GEN-PERM-003",
+      "category": "permission_it_admin",
+      "question": "What containment steps should I take?",
+      "expected_behavior": "refuse",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": 0.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What containment steps should I take?",
+      "memory_used": false,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "IT-003",
+        "ENG-001",
+        "MGR-001",
+        "ENG-001",
+        "LEGAL-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001181,
+      "latency_ms": 5975.2,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-DOC-001",
+      "category": "doc_reference",
+      "question": "What does the PTO document say about sick time?",
+      "expected_behavior": "answer",
+      "response_type": "answer",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 1.0,
+      "retrieval_expected_source_hit": 1.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What does the PTO document say about sick time?",
+      "memory_used": false,
+      "citation_documents": [
+        "HR-002"
+      ],
+      "retrieved_documents": [
+        "HR-002",
+        "HR-002",
+        "HR-001",
+        "HR-002",
+        "HR-002"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001174,
+      "latency_ms": 5904.9,
+      "passed": true
+    },
+    {
+      "probe_id": "GEN-DOC-002",
+      "category": "doc_reference",
+      "question": "What does that document say about learning budget?",
+      "expected_behavior": "answer",
+      "response_type": "answer",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 1.0,
+      "retrieval_expected_source_hit": 1.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What does that document say about learning budget? Context: I saw the benefits overview..",
+      "memory_used": true,
+      "citation_documents": [
+        "HR-004"
+      ],
+      "retrieved_documents": [
+        "HR-004",
+        "HR-004",
+        "HR-004",
+        "HR-004"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001058,
+      "latency_ms": 6004.8,
+      "passed": true
+    },
+    {
+      "probe_id": "GEN-COMP-001",
+      "category": "compare_two",
+      "question": "Which one should I use for price objections?",
+      "expected_behavior": "answer",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 0.0,
+      "retrieval_expected_source_hit": 0.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "Which one should I use for price objections?",
+      "memory_used": false,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "IT-001",
+        "IT-001",
+        "IT-001",
+        "IT-001",
+        "IT-002"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.00102,
+      "latency_ms": 6139.7,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-HR-001",
+      "category": "role_applicability",
+      "question": "Which answer should I give if the policy is unclear?",
+      "expected_behavior": "answer",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 0.0,
+      "retrieval_expected_source_hit": 0.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "Which answer should I give if the policy is unclear?",
+      "memory_used": false,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "HR-003",
+        "HR-002",
+        "HR-003",
+        "HR-001",
+        "HR-003"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.00108,
+      "latency_ms": 4940.9,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-IT-001",
+      "category": "same_department",
+      "question": "What about BYOD devices?",
+      "expected_behavior": "answer",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 0.0,
+      "retrieval_expected_source_hit": 0.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What about BYOD devices? Context: We discussed acceptable use..",
+      "memory_used": true,
+      "citation_documents": [],
+      "retrieved_documents": [],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.0,
+      "latency_ms": 960.5,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-MISS-001",
+      "category": "missing_info_followup",
+      "question": "What about sabbaticals?",
+      "expected_behavior": "not_found",
+      "response_type": "not_found",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What about sabbaticals? Context: Tell me about leave benefits..",
+      "memory_used": true,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "HR-002",
+        "HR-002",
+        "HR-002",
+        "HR-002",
+        "HR-002"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.0,
+      "latency_ms": 1006.1,
+      "passed": true
+    },
+    {
+      "probe_id": "GEN-MULTI-001",
+      "category": "multi_doc_reference",
+      "question": "What approvals and safeguards apply?",
+      "expected_behavior": "answer",
+      "response_type": "answer",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 0.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 0.0,
+      "retrieval_expected_source_hit": 0.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What approvals and safeguards apply?",
+      "memory_used": false,
+      "citation_documents": [
+        "FIN-001",
+        "FIN-001",
+        "OPS-001",
+        "HR-003"
+      ],
+      "retrieved_documents": [
+        "FIN-001",
+        "IT-003",
+        "OPS-001",
+        "FIN-001",
+        "HR-003"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.002132,
+      "latency_ms": 10877.1,
+      "passed": false
+    }
+  ],
+  "failed_probes": [
+    {
+      "probe_id": "GEN-MEM-002",
+      "category": "same_department",
+      "question": "In the same department, what security expectations apply?",
+      "expected_behavior": "answer",
+      "response_type": "answer",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 0.0,
+      "retrieval_expected_source_hit": 0.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "In the same department, what security expectations apply? Context: What are remote work approval expectations?.",
+      "memory_used": true,
+      "citation_documents": [
+        "HR-003"
+      ],
+      "retrieved_documents": [
+        "HR-003",
+        "HR-003",
+        "HR-003",
+        "HR-003",
+        "HR-003",
+        "HR-001",
+        "HR-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001091,
+      "latency_ms": 6779.8,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-AMB-001",
+      "category": "project_ambiguity",
+      "question": "What does the project policy say about approvals?",
+      "expected_behavior": "clarify",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": null,
+      "clarification_behavior": 0.0,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What does the project policy say about approvals?",
+      "memory_used": false,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "OPS-001",
+        "OPS-001",
+        "FIN-001",
+        "FIN-001",
+        "IT-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001078,
+      "latency_ms": 5088.4,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-AMB-002",
+      "category": "department_ambiguity",
+      "question": "What does the department handbook say about approvals?",
+      "expected_behavior": "clarify",
+      "response_type": "partial_answer",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": null,
+      "clarification_behavior": 0.0,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What does the department handbook say about approvals?",
+      "memory_used": false,
+      "citation_documents": [
+        "FIN-001",
+        "OPS-001"
+      ],
+      "retrieved_documents": [
+        "HR-001",
+        "FIN-001",
+        "OPS-001",
+        "FIN-001",
+        "OPS-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001486,
+      "latency_ms": 7632.5,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-AMB-003",
+      "category": "role_ambiguity",
+      "question": "Which approval limit applies to my role?",
+      "expected_behavior": "clarify",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": null,
+      "clarification_behavior": 0.0,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "Which approval limit applies to my role?",
+      "memory_used": false,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "LEGAL-001",
+        "ENG-001",
+        "HR-003",
+        "FIN-001",
+        "UPLOAD-81C16354"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001108,
+      "latency_ms": 23762.3,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-AMB-004",
+      "category": "topic_ambiguity",
+      "question": "What is the policy for that?",
+      "expected_behavior": "clarify",
+      "response_type": "partial_answer",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": null,
+      "clarification_behavior": 0.0,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What is the policy for that?",
+      "memory_used": false,
+      "citation_documents": [
+        "OPS-001",
+        "OPS-001"
+      ],
+      "retrieved_documents": [
+        "OPS-001",
+        "FIN-001",
+        "HR-002",
+        "OPS-001",
+        "IT-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001443,
+      "latency_ms": 45073.4,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-AMB-005",
+      "category": "document_reference",
+      "question": "What does the second document say about exceptions?",
+      "expected_behavior": "clarify",
+      "response_type": "answer",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": null,
+      "clarification_behavior": 0.0,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What does the second document say about exceptions?",
+      "memory_used": false,
+      "citation_documents": [
+        "FIN-001"
+      ],
+      "retrieved_documents": [
+        "OPS-001",
+        "FIN-001",
+        "OPS-001",
+        "OPS-001",
+        "IT-003"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001159,
+      "latency_ms": 8985.6,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-PERM-001",
+      "category": "permission_memory",
+      "question": "What does it say about calibration?",
+      "expected_behavior": "refuse",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": 0.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What does it say about calibration?",
+      "memory_used": true,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "UPLOAD-81C16354",
+        "UPLOAD-E03218D0",
+        "IT-001",
+        "HR-004",
+        "HR-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001453,
+      "latency_ms": 9601.5,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-PERM-003",
+      "category": "permission_it_admin",
+      "question": "What containment steps should I take?",
+      "expected_behavior": "refuse",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": 0.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": null,
+      "retrieval_expected_source_hit": null,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What containment steps should I take?",
+      "memory_used": false,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "IT-003",
+        "ENG-001",
+        "MGR-001",
+        "ENG-001",
+        "LEGAL-001"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.001181,
+      "latency_ms": 5975.2,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-COMP-001",
+      "category": "compare_two",
+      "question": "Which one should I use for price objections?",
+      "expected_behavior": "answer",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 0.0,
+      "retrieval_expected_source_hit": 0.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "Which one should I use for price objections?",
+      "memory_used": false,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "IT-001",
+        "IT-001",
+        "IT-001",
+        "IT-001",
+        "IT-002"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.00102,
+      "latency_ms": 6139.7,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-HR-001",
+      "category": "role_applicability",
+      "question": "Which answer should I give if the policy is unclear?",
+      "expected_behavior": "answer",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 0.0,
+      "retrieval_expected_source_hit": 0.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "Which answer should I give if the policy is unclear?",
+      "memory_used": false,
+      "citation_documents": [],
+      "retrieved_documents": [
+        "HR-003",
+        "HR-002",
+        "HR-003",
+        "HR-001",
+        "HR-003"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.00108,
+      "latency_ms": 4940.9,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-IT-001",
+      "category": "same_department",
+      "question": "What about BYOD devices?",
+      "expected_behavior": "answer",
+      "response_type": "not_found",
+      "behavior_score": 0.0,
+      "memory_rewrite_quality": 1.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 0.0,
+      "retrieval_expected_source_hit": 0.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What about BYOD devices? Context: We discussed acceptable use..",
+      "memory_used": true,
+      "citation_documents": [],
+      "retrieved_documents": [],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.0,
+      "latency_ms": 960.5,
+      "passed": false
+    },
+    {
+      "probe_id": "GEN-MULTI-001",
+      "category": "multi_doc_reference",
+      "question": "What approvals and safeguards apply?",
+      "expected_behavior": "answer",
+      "response_type": "answer",
+      "behavior_score": 1.0,
+      "memory_rewrite_quality": 0.0,
+      "clarification_behavior": null,
+      "answer_citation_quality": 0.0,
+      "retrieval_expected_source_hit": 0.0,
+      "permission_safety": 1.0,
+      "memory_as_evidence_violation": 0.0,
+      "rewritten_question": "What approvals and safeguards apply?",
+      "memory_used": false,
+      "citation_documents": [
+        "FIN-001",
+        "FIN-001",
+        "OPS-001",
+        "HR-003"
+      ],
+      "retrieved_documents": [
+        "FIN-001",
+        "IT-003",
+        "OPS-001",
+        "FIN-001",
+        "HR-003"
+      ],
+      "unauthorized_chunks_reached_generation": false,
+      "input_tokens": null,
+      "output_tokens": null,
+      "estimated_cost_usd": 0.002132,
+      "latency_ms": 10877.1,
+      "passed": false
+    }
+  ],
+  "probes": [
+    {
+      "id": "GEN-MEM-001",
+      "category": "that_policy",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": "00000000-0000-0000-0000-000000002001",
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "How many vacation days do employees get?"
+        }
+      ],
+      "question": "What does that policy say about carrying unused days?",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "HR-002"
+      ],
+      "expected_rewrite_terms": [
+        "vacation",
+        "unused",
+        "carry"
+      ]
+    },
+    {
+      "id": "GEN-MEM-002",
+      "category": "same_department",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": "00000000-0000-0000-0000-000000002001",
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "What are remote work approval expectations?"
+        }
+      ],
+      "question": "In the same department, what security expectations apply?",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "HR-003",
+        "IT-002"
+      ],
+      "expected_rewrite_terms": [
+        "remote",
+        "security"
+      ]
+    },
+    {
+      "id": "GEN-MEM-003",
+      "category": "contractors",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": "00000000-0000-0000-0000-000000002011",
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "Tell me about vendor onboarding."
+        }
+      ],
+      "question": "What about contractors?",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "OPS-001"
+      ],
+      "expected_rewrite_terms": [
+        "vendor",
+        "contractor"
+      ]
+    },
+    {
+      "id": "GEN-MEM-004",
+      "category": "compare_two",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null,
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "I am comparing remote work and device security."
+        }
+      ],
+      "question": "Compare those two for an employee.",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "HR-003",
+        "IT-002"
+      ],
+      "expected_rewrite_terms": [
+        "remote",
+        "device",
+        "security"
+      ]
+    },
+    {
+      "id": "GEN-MEM-005",
+      "category": "which_applies",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null,
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "I have a laptop replacement and a travel request."
+        }
+      ],
+      "question": "Which one applies to me if my laptop was lost?",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "OPS-001"
+      ],
+      "expected_rewrite_terms": [
+        "laptop",
+        "lost",
+        "equipment"
+      ]
+    },
+    {
+      "id": "GEN-AMB-001",
+      "category": "project_ambiguity",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": null,
+      "department_id": null,
+      "prior_turns": [],
+      "question": "What does the project policy say about approvals?",
+      "expected_behavior": "clarify",
+      "expected_documents": [],
+      "expected_rewrite_terms": []
+    },
+    {
+      "id": "GEN-AMB-002",
+      "category": "department_ambiguity",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null,
+      "prior_turns": [],
+      "question": "What does the department handbook say about approvals?",
+      "expected_behavior": "clarify",
+      "expected_documents": [],
+      "expected_rewrite_terms": []
+    },
+    {
+      "id": "GEN-AMB-003",
+      "category": "role_ambiguity",
+      "user_id": "00000000-0000-0000-0000-000000002703",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null,
+      "prior_turns": [],
+      "question": "Which approval limit applies to my role?",
+      "expected_behavior": "clarify",
+      "expected_documents": [],
+      "expected_rewrite_terms": []
+    },
+    {
+      "id": "GEN-AMB-004",
+      "category": "topic_ambiguity",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null,
+      "prior_turns": [],
+      "question": "What is the policy for that?",
+      "expected_behavior": "clarify",
+      "expected_documents": [],
+      "expected_rewrite_terms": []
+    },
+    {
+      "id": "GEN-AMB-005",
+      "category": "document_reference",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null,
+      "prior_turns": [],
+      "question": "What does the second document say about exceptions?",
+      "expected_behavior": "clarify",
+      "expected_documents": [],
+      "expected_rewrite_terms": []
+    },
+    {
+      "id": "GEN-PERM-001",
+      "category": "permission_memory",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null,
+      "prior_turns": [
+        {
+          "role": "assistant",
+          "content": "Promotion calibration is covered in manager guidance."
+        }
+      ],
+      "question": "What does it say about calibration?",
+      "expected_behavior": "refuse",
+      "expected_documents": [],
+      "expected_rewrite_terms": [
+        "promotion",
+        "calibration"
+      ]
+    },
+    {
+      "id": "GEN-PERM-002",
+      "category": "permission_role",
+      "user_id": "00000000-0000-0000-0000-000000002702",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null,
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "I am reviewing refund guidance."
+        }
+      ],
+      "question": "Can I approve a refund above 1,000 dollars?",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "SUPPORT-001"
+      ],
+      "expected_rewrite_terms": [
+        "refund",
+        "1000"
+      ]
+    },
+    {
+      "id": "GEN-PERM-003",
+      "category": "permission_it_admin",
+      "user_id": "00000000-0000-0000-0000-000000002703",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null,
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "Tell me about privileged access incidents."
+        }
+      ],
+      "question": "What containment steps should I take?",
+      "expected_behavior": "refuse",
+      "expected_documents": [],
+      "expected_rewrite_terms": [
+        "privileged",
+        "containment"
+      ]
+    },
+    {
+      "id": "GEN-DOC-001",
+      "category": "doc_reference",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": "00000000-0000-0000-0000-000000002001",
+      "prior_turns": [
+        {
+          "role": "assistant",
+          "content": "The PTO policy covers vacation and sick leave."
+        }
+      ],
+      "question": "What does the PTO document say about sick time?",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "HR-002"
+      ],
+      "expected_rewrite_terms": [
+        "pto",
+        "sick"
+      ]
+    },
+    {
+      "id": "GEN-DOC-002",
+      "category": "doc_reference",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null,
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "I saw the benefits overview."
+        }
+      ],
+      "question": "What does that document say about learning budget?",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "HR-004"
+      ],
+      "expected_rewrite_terms": [
+        "benefits",
+        "learning",
+        "budget"
+      ]
+    },
+    {
+      "id": "GEN-COMP-001",
+      "category": "compare_two",
+      "user_id": "00000000-0000-0000-0000-000000002702",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": "00000000-0000-0000-0000-000000002003",
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "Compare discovery questions and objection handling."
+        }
+      ],
+      "question": "Which one should I use for price objections?",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "SALES-003"
+      ],
+      "expected_rewrite_terms": [
+        "price",
+        "objection"
+      ]
+    },
+    {
+      "id": "GEN-HR-001",
+      "category": "role_applicability",
+      "user_id": "00000000-0000-0000-0000-000000002704",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": "00000000-0000-0000-0000-000000002001",
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "I am checking employee-facing HR guidance."
+        }
+      ],
+      "question": "Which answer should I give if the policy is unclear?",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "HR-ADMIN-001"
+      ],
+      "expected_rewrite_terms": [
+        "policy",
+        "unclear"
+      ]
+    },
+    {
+      "id": "GEN-IT-001",
+      "category": "same_department",
+      "user_id": "00000000-0000-0000-0000-000000002705",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": "00000000-0000-0000-0000-000000002002",
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "We discussed acceptable use."
+        }
+      ],
+      "question": "What about BYOD devices?",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "IT-002"
+      ],
+      "expected_rewrite_terms": [
+        "byod",
+        "device"
+      ]
+    },
+    {
+      "id": "GEN-MISS-001",
+      "category": "missing_info_followup",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": "00000000-0000-0000-0000-000000002001",
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "Tell me about leave benefits."
+        }
+      ],
+      "question": "What about sabbaticals?",
+      "expected_behavior": "not_found",
+      "expected_documents": [],
+      "expected_rewrite_terms": [
+        "sabbatical"
+      ]
+    },
+    {
+      "id": "GEN-MULTI-001",
+      "category": "multi_doc_reference",
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null,
+      "prior_turns": [
+        {
+          "role": "user",
+          "content": "I work remotely and use a personal device."
+        }
+      ],
+      "question": "What approvals and safeguards apply?",
+      "expected_behavior": "answer",
+      "expected_documents": [
+        "HR-003",
+        "IT-002"
+      ],
+      "expected_rewrite_terms": [
+        "remote",
+        "device"
+      ]
+    }
+  ]
+}

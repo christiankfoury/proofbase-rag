@@ -12,14 +12,15 @@ Goal: establish a generalization probe suite for memory and ambiguity behavior o
 - [x] Separate metrics for behavior, memory rewrite quality, clarification behavior, answer/citation quality, permission safety, and memory-as-evidence violations.
 - [x] Prepare JSON, eval-run, and Markdown report outputs for live baseline execution.
 
-## Blocked Baseline
+## Live Baseline
 
-- [ ] Live baseline captured.
-- [ ] `data/evaluation/generalization-probes/phase45-generalization-baseline.json` written.
-- [ ] `data/evaluation/eval-runs/phase45-generalization-baseline.json` written.
-- [ ] Live result metrics summarized in `docs/phase-45/generalization-baseline.md`.
+- [x] Live baseline captured.
+- [x] `data/evaluation/generalization-probes/phase45-generalization-baseline.json` written.
+- [x] `data/evaluation/eval-runs/phase45-generalization-baseline.json` written.
+- [x] Live result metrics summarized in `docs/phase-45/generalization-baseline.md`.
+- [x] Phase-specific permission safety report written to `docs/phase-45/permission-safety-results.md`.
 
-The live baseline is blocked because the local verification process does not have `OPENAI_API_KEY` or `OPENAI_API_KEY_FILE`.
+The live baseline is intentionally a starting point for Phase 46 remediation. It does not change prompts, retrieval, chunking, benchmark expectations, or permission behavior.
 
 ## Out Of Scope
 
