@@ -24,18 +24,25 @@ const nextCapabilities = [
 
 const heroActions = [
   {
+    title: "Follow the guided demo",
+    detail: "Walk project -> department -> upload/review -> scoped answer -> proof in a few minutes.",
+    href: "/demo",
+    action: "Start guide",
+    tone: "moss",
+  },
+  {
     title: "Open the workspace",
     detail: "Review Northstar Analytics coverage, departments, and indexed source quality.",
     href: "/projects",
     action: "Open projects",
-    tone: "moss",
+    tone: "steel",
   },
   {
     title: "Ask with scope",
     detail: "Query the assistant with project and department context before checking citations.",
     href: "/chat",
     action: "Ask assistant",
-    tone: "steel",
+    tone: "moss",
   },
   {
     title: "Prove the controls",
@@ -143,6 +150,9 @@ export default function AppHomePage() {
             <Link href="/projects" className="btn-primary">
               Open projects
             </Link>
+            <Link href="/demo" className="btn-secondary">
+              Guided demo
+            </Link>
             <Link href="/chat" className="btn-secondary">
               Ask the assistant
             </Link>
@@ -175,7 +185,7 @@ export default function AppHomePage() {
             </Link>
           </div>
 
-          <div className="mt-6 grid gap-3 md:grid-cols-3">
+          <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {heroActions.map((item) => (
               <Link
                 key={item.title}
@@ -251,7 +261,7 @@ export default function AppHomePage() {
       <section className="mt-8">
         <SectionHeading
           title="Implemented App Capabilities"
-          description="Projects, departments, indexed document review, PDF extraction, and scoped retrieval are implemented; upload approval/indexing remains a planned phase."
+          description="Projects, departments, indexed document review, PDF extraction, approval/indexing, and scoped retrieval are implemented; AI Markdown cleanup remains a planned phase."
         />
         <div className="grid gap-4 md:grid-cols-3">
           {nextCapabilities.map((item) => (

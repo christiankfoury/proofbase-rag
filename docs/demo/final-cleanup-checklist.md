@@ -67,5 +67,5 @@ docker compose run --rm api python scripts/export_dashboard_data.py
 - [ ] Resume bullets are copied into the resume or project page.
 - [ ] Screenshots are captured and reviewed.
 - [ ] Known limitations and roadmap are visible.
-- [ ] Uploaded PDF screenshots do not imply approval/indexing is complete.
+- [ ] Uploaded PDF screenshots show the implemented local approval/indexing step without implying hosted storage or AI cleanup is complete.
 - [ ] Human review screenshots do not imply automatic benchmark promotion is complete.

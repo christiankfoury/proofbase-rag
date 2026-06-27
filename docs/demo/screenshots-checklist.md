@@ -5,10 +5,11 @@ Capture screenshots after running the Docker stack and exporting dashboard data.
 ## Five-Minute Demo Screenshots
 
 - App Home at `/` showing the four-step demo path.
+- Guided Demo at `/demo` showing project, department, upload/review, ask, proof, and Dev/Admin handoff steps.
 - Project workspace list at `/projects`.
 - Seeded `Northstar Analytics` project home at `/projects/00000000-0000-0000-0000-000000000019`, with scoped ask entry point, suggested questions, department shortcuts, representative documents, and upload/indexing summary visible.
-- Seeded department detail with document library, PDF upload form, version metadata, and Markdown preview at `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001`.
-- Chat demo at `/chat` with project scope, role, answer, citations, confidence, latency, and retrieved context visible.
+- Seeded department detail with document library, PDF upload form, upload status timeline for uploaded PDFs, version metadata, and Markdown preview at `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001`.
+- Chat demo at `/chat` with project scope, role, answer, `Why this answer?` proof, citations, confidence, latency, and retrieved context visible.
 - Algorithm Quality Lab at `/dev-admin/retrieval-playground` showing named profile comparison and known failure visibility.
 - Failed-question inspection at `/dev-admin/failed-questions` with answer/citation review controls visible.
 - Feedback review at `/dev-admin/feedback` with negative-feedback review controls visible.

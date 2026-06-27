@@ -116,6 +116,10 @@ function formatDate(value: string | null | undefined): string {
   return new Date(value).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 }
 
+function isUploadedDocument(document: ProjectDocument): boolean {
+  return document.external_document_id.startsWith("UPLOAD-") || document.source_path.startsWith("data/uploads/");
+}
+
 function iconLabel(icon: string): string {
   const labels: Record<string, string> = {
     people: "PE",
@@ -320,7 +324,7 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
   const indexedDocuments = projectDocuments.filter((document) => document.version.ingestion_status === "indexed").length;
   const pendingDocuments = projectDocuments.filter((document) => document.version.ingestion_status === "pending_review").length;
   const failedDocuments = projectDocuments.filter((document) => document.version.ingestion_status === "failed").length;
-  const uploadedDocuments = projectDocuments.filter((document) => document.source_type === "upload").length;
+  const uploadedDocuments = projectDocuments.filter(isUploadedDocument).length;
   const representativeDocuments = useMemo(
     () =>
       [...projectDocuments]

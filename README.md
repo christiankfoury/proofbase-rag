@@ -245,7 +245,7 @@ Recommended interactive demo presets:
 - Project workspace: open `/projects` and select the seeded `Northstar Analytics` project.
 - Department workspace: open a seeded Northstar department such as `People Operations`, `IT Admin`, or `Sales`.
 - Document library: open a seeded department and inspect indexed documents, version metadata, access roles, ingestion status, and extracted Markdown preview.
-- PDF upload review: upload a PDF into a department to extract Markdown as a pending-review document; it is not indexed for retrieval until a later approval/indexing step.
+- PDF upload review: upload a PDF into a department to extract editable Markdown as a pending-review document; it becomes searchable only after explicit editor approval/indexing.
 - Scoped assistant: open `/chat`, keep `Northstar Analytics` selected, and optionally narrow the question to one department before submitting.
 - HR factual: `Where does Northstar Analytics have offices?`
 - Missing information: `What is Northstar's sabbatical policy?`
@@ -374,7 +374,7 @@ Open the dashboard after exporting data. Run the benchmark validator before publ
 - The `/chat` page is a demo UI backed by local demo auth, not a production end-user assistant with SSO/session hardening.
 - Project-scoped retrieval is implemented for `/chat` and `POST /query` when a scope is supplied. Dev/Admin benchmark tools can still use the global retrieval path when no scope is supplied.
 - Department-scoped retrieval is implemented as a strict filter when a department scope is supplied. Uploaded-document indexing is not implemented yet.
-- Department document libraries and PDF-to-Markdown review uploads are implemented, but approval/indexing for uploaded files is not implemented yet.
+- Department document libraries, PDF-to-Markdown review uploads, editable review, and explicit approval/indexing for uploaded files are implemented for the local demo.
 - Uploaded source files are stored locally under `data/uploads/` for development and are ignored by git; Azure Blob Storage remains future work.
 - Runtime request logs such as `data/observability/request-logs.jsonl` are generated data and should be reviewed before committing.
 

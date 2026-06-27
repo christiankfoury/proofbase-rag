@@ -28,6 +28,7 @@ const navGroups: NavGroup[] = [
     icon: MessageSquare,
     links: [
       ["Home", "/"],
+      ["Guided Demo", "/demo"],
       ["Project Workspaces", "/projects"],
       ["Chat Demo", "/chat"],
     ],
@@ -113,6 +114,7 @@ export function useShellHeader() {
 
 const routeLabels: Array<[RegExp, BreadcrumbItem[]]> = [
   [/^\/$/, [{ label: "Home", href: "/" }]],
+  [/^\/demo$/, [{ label: "Home", href: "/" }, { label: "Guided Demo", href: "/demo" }]],
   [/^\/projects$/, [{ label: "Home", href: "/" }, { label: "Project Workspaces", href: "/projects" }]],
   [
     /^\/projects\/([^/]+)$/,

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import {
   BookOpen,
@@ -233,6 +234,69 @@ function MetricTile({ label, value }: { label: string; value: string | number | 
   );
 }
 
+function confidenceInterpretation(result: QueryResponse): string {
+  if (result.confidence_interpretation === "response_behavior") {
+    return "This confidence describes whether the system chose the right behavior, such as answering, refusing, or asking for clarification.";
+  }
+  return "This confidence describes how strongly the answer is supported by retrieved and cited evidence.";
+}
+
+function ProofSummary({ result }: { result: QueryResponse }) {
+  return (
+    <section className="rounded-md border border-moss bg-white p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-moss-dark">Why this answer?</p>
+          <h3 className="mt-1 text-lg font-semibold text-ink">Answer proof</h3>
+        </div>
+        <Badge tone={result.permission_check.unauthorized_chunks_reached_generation ? "warn" : "good"}>
+          {result.permission_check.unauthorized_chunks_reached_generation ? "Permission issue" : "Permission-filtered"}
+        </Badge>
+      </div>
+      <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+        <div className="rounded border border-stone-200 bg-stone-50 p-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Scope</p>
+          <p className="mt-1 text-sm font-semibold text-ink">
+            {shortId(result.scope?.project_id)} / {shortId(result.scope?.department_id, "all departments")}
+          </p>
+          <p className="mt-1 text-xs text-stone-600">Applied before generation.</p>
+        </div>
+        <div className="rounded border border-stone-200 bg-stone-50 p-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Role</p>
+          <p className="mt-1 text-sm font-semibold text-ink">{result.permission_check.user_role}</p>
+          <p className="mt-1 text-xs text-stone-600">
+            {result.permission_check.unauthorized_chunks_reached_generation ? "Review permission safety." : "No unauthorized chunks reached generation."}
+          </p>
+        </div>
+        <div className="rounded border border-stone-200 bg-stone-50 p-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Citations</p>
+          <p className="mt-1 text-sm font-semibold text-ink">{result.citations.length}</p>
+          <p className="mt-1 text-xs text-stone-600">{result.retrieved_chunks.length} retrieved snippets available.</p>
+        </div>
+        <div className="rounded border border-stone-200 bg-stone-50 p-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Confidence</p>
+          <p className="mt-1 text-sm font-semibold text-ink">{formatMetric(result.final_confidence)}</p>
+          <p className="mt-1 text-xs text-stone-600">{confidenceInterpretation(result)}</p>
+        </div>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <Link href="/dev-admin/runs" className="btn-secondary btn-sm">
+          Evaluation runs
+        </Link>
+        <Link href="/dev-admin/permission-safety" className="btn-secondary btn-sm">
+          Permission safety
+        </Link>
+        <Link href="/dev-admin/observability" className="btn-secondary btn-sm">
+          Observability
+        </Link>
+        <Link href="/dev-admin/audit" className="btn-secondary btn-sm">
+          Audit log
+        </Link>
+      </div>
+    </section>
+  );
+}
+
 function EvidencePanel({
   message,
   toggles,
@@ -261,6 +325,8 @@ function EvidencePanel({
 
   return (
     <div className="mt-4 space-y-4 rounded-md border border-stone-200 bg-stone-50 p-4">
+      <ProofSummary result={result} />
+
       {toggles.metrics ? (
         <section>
           <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-ink">
@@ -971,6 +1037,22 @@ export function ChatDemoClient() {
                   </div>
                   {message.role === "assistant" && message.response ? (
                     <div className="mt-3 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setToggles((current) => ({
+                            ...current,
+                            citations: true,
+                            retrievedContext: true,
+                            metrics: true,
+                            validation: true,
+                          }))
+                        }
+                        className="inline-flex items-center gap-2 rounded-md border border-moss bg-moss-soft px-2.5 py-1.5 text-xs font-semibold text-moss-dark hover:border-moss-dark hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss"
+                      >
+                        <ShieldCheck className="h-3.5 w-3.5" />
+                        Why this answer?
+                      </button>
                       <button
                         type="button"
                         onClick={() => copyAnswer(message)}

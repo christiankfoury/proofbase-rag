@@ -80,6 +80,97 @@ function compactHash(value?: string | null): string {
   return value ? value.slice(0, 12) : "Pending";
 }
 
+function isUploadedDocument(document: ProjectDocument): boolean {
+  return document.external_document_id.startsWith("UPLOAD-") || document.source_path.startsWith("data/uploads/");
+}
+
+type TimelineStep = {
+  label: string;
+  status: "complete" | "current" | "pending" | "failed";
+  detail: string;
+  timestamp?: string | null;
+};
+
+function timelineClass(status: TimelineStep["status"]): string {
+  if (status === "complete") return "border-moss bg-moss-soft text-moss-dark";
+  if (status === "current") return "border-steel bg-steel-soft text-steel-dark";
+  if (status === "failed") return "border-rust bg-rust-soft text-rust-dark";
+  return "border-stone-300 bg-stone-100 text-stone-600";
+}
+
+function uploadTimeline(document: ProjectDocument, reviewMarkdownReady: boolean): TimelineStep[] {
+  const ingestionStatus = document.version.ingestion_status;
+  const isIndexed = ingestionStatus === "indexed";
+  const isFailed = ingestionStatus === "failed";
+  const hasExtractedMarkdown = Boolean(document.markdown_preview || document.review_markdown);
+  return [
+    {
+      label: "Uploaded",
+      status: "complete",
+      detail: "Source file was stored locally for review.",
+      timestamp: document.created_at,
+    },
+    {
+      label: "Extracted",
+      status: hasExtractedMarkdown ? "complete" : isFailed ? "failed" : "pending",
+      detail: hasExtractedMarkdown ? "Deterministic PDF extraction produced Markdown." : "Markdown extraction has not completed.",
+      timestamp: document.version.indexed_at ?? document.updated_at,
+    },
+    {
+      label: "Reviewed",
+      status: isIndexed ? "complete" : isFailed ? "current" : reviewMarkdownReady ? "current" : "pending",
+      detail: isIndexed
+        ? "An editor approved the reviewed Markdown for indexing."
+        : isFailed
+          ? "Review can be edited before retrying indexing."
+          : reviewMarkdownReady
+            ? "Markdown is ready for editor review and approval."
+            : "Waiting for extracted Markdown before review.",
+    },
+    {
+      label: "Indexed",
+      status: isIndexed ? "complete" : isFailed ? "failed" : "pending",
+      detail: isIndexed ? "Chunks and embeddings are available to scoped retrieval." : isFailed ? "Indexing failed; edit and retry." : "Not searchable until approval/indexing completes.",
+      timestamp: document.version.indexed_at,
+    },
+    {
+      label: "Failed",
+      status: isFailed ? "failed" : "pending",
+      detail: document.version.failure_reason ?? (isFailed ? "Indexing failed." : "No failure recorded."),
+      timestamp: document.version.failed_at,
+    },
+  ];
+}
+
+function UploadStatusTimeline({ document, reviewMarkdownReady }: { document: ProjectDocument; reviewMarkdownReady: boolean }) {
+  if (!isUploadedDocument(document)) return null;
+  const steps = uploadTimeline(document, reviewMarkdownReady);
+  return (
+    <div className="mt-4 rounded border border-stone-200 bg-white p-3">
+      <p className="text-sm font-semibold text-ink">Upload Status Timeline</p>
+      <ol className="mt-3 space-y-3">
+        {steps.map((step) => (
+          <li key={step.label} className="flex gap-3">
+            <span className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-xs font-bold ${timelineClass(step.status)}`}>
+              {step.status === "complete" ? "OK" : step.status === "failed" ? "!" : ""}
+            </span>
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-sm font-semibold text-ink">{step.label}</p>
+                <span className={`rounded border px-2 py-0.5 text-2xs font-semibold uppercase tracking-wide ${timelineClass(step.status)}`}>
+                  {step.status}
+                </span>
+              </div>
+              <p className="mt-1 text-xs leading-5 text-stone-700">{step.detail}</p>
+              {step.timestamp ? <p className="mt-1 text-xs text-stone-500">{formatDate(step.timestamp)}</p> : null}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 export function DepartmentDetailClient({
   projectId,
   departmentId,
@@ -420,7 +511,7 @@ export function DepartmentDetailClient({
                     <p className="text-sm font-semibold text-ink">Ingestion Status</p>
                     <p className="mt-2 text-sm leading-6 text-stone-700">
                       {selectedDocument.ingestion_job?.status_detail ??
-                        "Current indexed version metadata is available. New uploads stay pending review until approval and indexing exist."}
+                        "Current indexed version metadata is available. New uploads stay pending review until explicit approval and indexing."}
                     </p>
                     {selectedDocument.version.failure_reason ? (
                       <p className="mt-2 text-sm text-rust-dark">{selectedDocument.version.failure_reason}</p>
@@ -448,6 +539,8 @@ export function DepartmentDetailClient({
                       </Link>
                     ) : null}
                   </div>
+
+                  <UploadStatusTimeline document={selectedDocument} reviewMarkdownReady={reviewMarkdownReady} />
 
                   <div className="mt-4">
                     <p className="text-sm font-semibold uppercase tracking-wide text-stone-500">

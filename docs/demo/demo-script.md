@@ -66,7 +66,8 @@ Point out:
 
 - Department workspaces have icons, descriptions, access defaults, and document inventories.
 - Indexed corpus documents show roles, status, active version metadata, and extracted Markdown preview.
-- PDF upload creates reviewable Markdown, but uploaded files are not indexed until a future approval/indexing step.
+- PDF upload creates editable review Markdown; an editor must explicitly approve/index before the uploaded file becomes searchable.
+- Uploaded-document timelines show uploaded, extracted, reviewed, indexed, and failed states.
 
 Expected behavior:
 
@@ -88,13 +89,13 @@ Expected behavior:
 
 - The response type is `answer`.
 - The answer cites an HR source such as `HR-001`.
-- Confidence, latency, citations, and retrieved context are visible.
+- `Why this answer?` proof, confidence, latency, citations, and retrieved context are visible.
 
 Point out:
 
 - Retrieval is scoped to the selected project.
 - Citations are structured evidence, not decorative footnotes.
-- Retrieved context is shown for engineering review.
+- Retrieved context is shown for engineering review, while the App-side proof summary keeps the explanation recruiter-readable.
 
 ## Scene 5: Safe Refusal And Role Contrast
 
@@ -180,6 +181,6 @@ End with:
 - The corpus is synthetic.
 - Querying requires a configured `OPENAI_API_KEY`.
 - `/chat` uses local demo auth and server-side role derivation, but it is not production SSO or session hardening.
-- Uploaded PDFs are extracted for review, but approval/indexing for those uploads is future work.
+- Uploaded PDFs are extracted for review and can be approved/indexed locally; AI Markdown cleanup, hosted storage, and Azure Blob Storage remain future work.
 - Azure deployment is documented as ready work, not claimed as completed.
 - Project-scoped benchmarks and automatic candidate promotion remain future work.

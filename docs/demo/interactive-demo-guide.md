@@ -14,10 +14,10 @@ Open `http://localhost:3000`.
 
 ## Five-Minute Presentation Path
 
-1. Open `/` and follow the four-step demo path.
+1. Open `/demo` and follow the guided demo checklist.
 2. Open `/projects`, then select `Northstar Analytics`; use the first-screen project home to show scoped ask, department shortcuts, representative documents, upload/indexing status, and suggested questions.
 3. Open a seeded department and inspect document inventory, access roles, active version metadata, PDF extraction, editable Markdown review, approval/indexing controls, and Markdown preview.
-4. Open `/chat` from a project-home suggested question or department shortcut, ask a scoped question, and show citations plus retrieved context.
+4. Open `/chat` from a guided link, project-home suggested question, or department shortcut, ask a scoped question, and show `Why this answer?` proof with citations plus retrieved context.
 5. Open `/dev-admin/retrieval-playground` to compare algorithm profiles and known failures.
 6. Open `/dev-admin/failed-questions` or `/dev-admin/feedback` to show human review labels without claiming automatic benchmark promotion.
 
@@ -26,9 +26,10 @@ Open `http://localhost:3000`.
 | Page | URL | What it demonstrates |
 |---|---|---|
 | App Home | `/` | Product framing with Projects as the primary App entry point. |
+| Guided Demo | `/demo` | Five-minute product path from project home to department evidence, upload/review status, scoped answer, answer proof, and Dev/Admin evidence. |
 | Projects | `/projects` | Project CRUD, seeded Northstar workspace, scoped ask entry points, department shortcuts, representative documents, upload/indexing status, quality status, and project audit events. |
 | Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, PDF upload for Markdown review, active version metadata, extracted Markdown preview, edit, and archive controls. |
-| Chat Demo | `/chat` | Live scoped RAG query, project and department selection, role selection, citations, confidence, latency, retrieved context, and feedback. |
+| Chat Demo | `/chat` | Live scoped RAG query, project and department selection, role selection, `Why this answer?` proof, citations, confidence, latency, retrieved context, and feedback. |
 | Dev/Admin Overview | `/dev-admin` | Final metrics with run IDs, timestamps, sample sizes, benchmark version, category breakdown, and evaluation-first proof. |
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts with explicit pass/fail counts. |
 | Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows for Answer Generation v1 (`phase11-answer-generation-v1`) when detailed JSON exists. |
@@ -58,7 +59,7 @@ Open `http://localhost:3000`.
    - Department: `All departments`
    - Role: `Employee`
    - Question: `Where does Northstar Analytics have offices?`
-   - Expected: `answer` with HR citation.
+   - Expected: `answer` with HR citation and visible `Why this answer?` proof.
 
 4. Missing information
    - Page: `/chat`
