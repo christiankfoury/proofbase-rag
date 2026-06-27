@@ -124,6 +124,8 @@ After Phase 40 and the Phase 39/40 polish/audit-backlog work are complete, conti
 
 Keep the order unless a new correctness, permission, or secret-handling issue becomes more urgent. Recruiter/demo polish comes first because the App side must communicate product value quickly. AI Markdown cleanup must remain explicitly editor-triggered, reviewable, and non-indexing until approval. Memory and ambiguity work must start with a non-benchmark baseline before remediation, and memory must remain query context only, never source evidence.
 
+OpenAI external calls are approved for this roadmap run. Use the explicit approval flags required by existing scripts, prefer dry-runs and local tests first, and record live OpenAI-backed checks and estimated costs in the relevant phase docs.
+
 For every Phase 41-46 implementation, use the full operating loop: plan, implement, verify, commit to `main` with a detailed multi-part message, review the commit, perform a code review of the last commit, push `main`, then continue to the next planned phase. Update `docs/roadmap/progress.md` and the relevant `docs/phase-{number}` notes before committing each phase.
 
 ## Algorithm Explanation And Audit Mode

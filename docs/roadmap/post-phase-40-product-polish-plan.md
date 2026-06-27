@@ -10,7 +10,9 @@ This roadmap is the executable source of truth after the completed Phase 39/40 r
 
 The order is intentional. First make the product easier to understand in a short demo, then improve the uploaded-document workflow, then deepen conversational quality with a broader non-benchmark probe suite.
 
-Do not treat this plan as permission to weaken permission filtering, hide known limitations, change benchmark expectations casually, or make unapproved OpenAI calls. Permission filtering before generation remains a hard requirement for every phase.
+Do not treat this plan as permission to weaken permission filtering, hide known limitations, or change benchmark expectations casually. Permission filtering before generation remains a hard requirement for every phase.
+
+OpenAI external calls are approved for this roadmap run. Use the explicit approval flags required by existing scripts, prefer dry-runs and local tests first, and record live OpenAI-backed checks and estimated costs in the relevant phase docs.
 
 ## Execution Loop For Every Phase
 
@@ -32,7 +34,7 @@ Before each commit, update `docs/roadmap/progress.md` and the relevant `docs/pha
 - Preserve role, project, and department permission filtering before chunks reach generation.
 - Do not change benchmark expected answers, expected sources, expected behavior, prompts, retrieval ranking, or metrics unless a benchmark or implementation defect is proven and documented.
 - Keep memory as query context only; memory must never become source evidence.
-- OpenAI-backed operations must be explicitly guarded. Upload cleanup should occur only after an editor clicks a cleanup action; eval scripts should keep explicit approval flags such as `--allow-external-ai`.
+- OpenAI-backed operations are approved for this roadmap run and must still use explicit script approval flags where required. Upload cleanup should occur only after an editor clicks a cleanup action; eval scripts should keep explicit approval flags such as `--allow-external-ai`.
 - Do not add fake activity, fake metrics, fake AI-quality claims, or demo-only behavior that looks production-ready.
 - Every product-facing quality claim must name the run, sample size, benchmark/probe version, and skipped checks when applicable.
 - If a phase changes algorithm behavior, capture before/after artifacts and rerun permission safety.
@@ -206,7 +208,7 @@ Add focused tests for:
 - cleaned Markdown is returned to the editor but not indexed until approve/index
 - empty or unsafe cleanup output is rejected
 
-Optional live check with explicit approval:
+Approved live check:
 
 ```powershell
 python scripts/run_phase40_upload_e2e.py --allow-external-ai
@@ -330,10 +332,10 @@ python scripts/validate_benchmark.py
 docker compose config --quiet
 ```
 
-Optional live check with explicit approval:
+Approved live check:
 
 ```powershell
-python scripts/run_generalization_eval.py --allow-external-ai --budget-usd 2
+python scripts/run_generalization_eval.py --allow-external-ai
 python scripts/run_permission_eval.py --phase phase-45 --run-id phase45-permission-evaluation --allow-external-embeddings
 python scripts/export_dashboard_data.py
 ```
@@ -393,11 +395,11 @@ python -m compileall apps/api/app scripts
 docker compose config --quiet
 ```
 
-Optional live checks with explicit approval:
+Approved live checks:
 
 ```powershell
-python scripts/run_generalization_eval.py --allow-external-ai --budget-usd 2
-python scripts/run_phase39_live_query_answer_quality.py --allow-external-ai --budget-usd 2
+python scripts/run_generalization_eval.py --allow-external-ai
+python scripts/run_phase39_live_query_answer_quality.py --allow-external-ai
 python scripts/run_permission_eval.py --phase phase-46 --run-id phase46-permission-evaluation --allow-external-embeddings
 python scripts/export_dashboard_data.py
 cd apps/web; npm run build
