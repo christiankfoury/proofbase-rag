@@ -761,10 +761,10 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                       <p className="mt-1 text-2xl font-semibold text-ink">{formatNumber(uploadedDocuments)}</p>
                     </div>
                   </div>
-                  {departments[0] ? (
-                    <Link href={`/projects/${activeProject.id}/departments/${departments[0].id}`} className="btn-secondary mt-4 w-full">
+                  {departments.length ? (
+                    <Link href="#departments" className="btn-secondary mt-4 w-full">
                       <UploadCloud className="h-4 w-4" />
-                      Upload in a department
+                      Choose department to upload
                     </Link>
                   ) : null}
                 </div>
