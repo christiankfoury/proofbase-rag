@@ -25,6 +25,7 @@ import {
   ThumbsUp,
   X,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { Badge } from "@/components/Badge";
 import { CitationTable, RetrievedContext } from "@/components/QueryResultPanel";
 import {
@@ -365,6 +366,7 @@ function EvidencePanel({
 }
 
 export function ChatDemoClient() {
+  const searchParams = useSearchParams();
   const [demoUsers, setDemoUsers] = useState<DemoUser[]>([]);
   const [currentUser, setCurrentUser] = useState<DemoUser | null>(null);
   const [identityLoading, setIdentityLoading] = useState(true);
@@ -378,6 +380,9 @@ export function ChatDemoClient() {
   const [selectedProjectId, setSelectedProjectId] = useState("");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedDepartmentId, setSelectedDepartmentId] = useState("");
+  const [requestedScope, setRequestedScope] = useState<{ projectId: string; departmentId: string; applied: boolean } | null>(null);
+  const [scopeRequestVersion, setScopeRequestVersion] = useState(0);
+  const [scopeNotice, setScopeNotice] = useState<string | null>(null);
   const [scopeLoading, setScopeLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -399,6 +404,8 @@ export function ChatDemoClient() {
   const transcriptRef = useRef<HTMLDivElement | null>(null);
   const requestedDepartmentId = useRef("");
   const departments = selectedProject?.departments ?? [];
+  const selectedDepartment = departments.find((department) => department.id === selectedDepartmentId) ?? null;
+  const scopeLabel = `${selectedProject?.name ?? "Loading project"} / ${selectedDepartment?.name ?? "All departments"}`;
   const queryDisabled = loading || scopeLoading || !selectedProjectId || !question.trim();
   const role = currentUser?.business_role ?? "Employee";
   const identityName = currentUser?.display_name ?? (identityLoading ? "Loading demo user" : "Demo identity unavailable");
@@ -452,15 +459,23 @@ export function ChatDemoClient() {
   useEffect(() => {
     let cancelled = false;
     setProjectsLoading(true);
-    const params = new URLSearchParams(window.location.search);
-    const requestedProjectId = params.get("project") ?? "";
-    requestedDepartmentId.current = params.get("department") ?? "";
+    const requestedProjectId = searchParams.get("project") ?? "";
+    requestedDepartmentId.current = searchParams.get("department") ?? "";
+    setRequestedScope(
+      requestedProjectId || requestedDepartmentId.current
+        ? { projectId: requestedProjectId, departmentId: requestedDepartmentId.current, applied: false }
+        : null
+    );
+    if (requestedProjectId || requestedDepartmentId.current) {
+      setScopeRequestVersion((current) => current + 1);
+    }
     fetchProjects()
       .then((items) => {
         if (cancelled) return;
         setProjects(items);
+        const requestedProject = items.find((item) => item.id === requestedProjectId);
         setSelectedProjectId((current) =>
-          current || items.find((item) => item.id === requestedProjectId)?.id || items.find((item) => item.seeded_data_key)?.id || items[0]?.id || ""
+          requestedProject?.id || current || items.find((item) => item.seeded_data_key)?.id || items[0]?.id || ""
         );
       })
       .catch((exc) => {
@@ -472,7 +487,7 @@ export function ChatDemoClient() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     if (!selectedProjectId) {
@@ -487,13 +502,27 @@ export function ChatDemoClient() {
       .then((project) => {
         if (cancelled) return;
         setSelectedProject(project);
-        setSelectedDepartmentId((current) =>
-          current && project.departments?.some((department) => department.id === current)
-            ? current
-            : project.departments?.some((department) => department.id === requestedDepartmentId.current)
-              ? requestedDepartmentId.current
-              : ""
-        );
+        const pendingDepartmentId = requestedDepartmentId.current;
+        const requestedDepartment = pendingDepartmentId
+          ? project.departments?.find((department) => department.id === pendingDepartmentId)
+          : null;
+        setSelectedDepartmentId((current) => {
+          if (pendingDepartmentId) return requestedDepartment?.id ?? "";
+          return current && project.departments?.some((department) => department.id === current) ? current : "";
+        });
+        if (requestedScope && !requestedScope.applied && requestedScope.projectId && requestedScope.projectId !== selectedProjectId) {
+          setScopeNotice("The requested project was not available, so chat opened the default project.");
+          setRequestedScope((current) => (current ? { ...current, applied: true } : current));
+        } else if (requestedScope && !requestedScope.applied && pendingDepartmentId && requestedDepartment) {
+          setScopeNotice(`URL scope applied: ${project.name} / ${requestedDepartment.name}.`);
+          setRequestedScope((current) => (current ? { ...current, applied: true } : current));
+        } else if (requestedScope && !requestedScope.applied && pendingDepartmentId) {
+          setScopeNotice("The URL requested a department that is not available in this project, so chat is using all departments.");
+          setRequestedScope((current) => (current ? { ...current, applied: true } : current));
+        } else if (requestedScope && !requestedScope.applied && requestedScope.projectId) {
+          setScopeNotice(`URL scope applied: ${project.name} / All departments.`);
+          setRequestedScope((current) => (current ? { ...current, applied: true } : current));
+        }
         requestedDepartmentId.current = "";
       })
       .catch((exc) => {
@@ -505,7 +534,7 @@ export function ChatDemoClient() {
     return () => {
       cancelled = true;
     };
-  }, [selectedProjectId]);
+  }, [scopeRequestVersion, selectedProjectId]);
 
   function setToggle(key: keyof EvidenceToggles, checked: boolean) {
     setToggles((current) => ({ ...current, [key]: checked }));
@@ -826,7 +855,7 @@ export function ChatDemoClient() {
               <div className="min-w-0">
                 <h2 className="truncate text-base font-semibold text-ink">Northstar assistant</h2>
                 <p className="truncate text-xs text-stone-600">
-                  {selectedProject?.name ?? "Loading project"} / {departments.find((department) => department.id === selectedDepartmentId)?.name ?? "All departments"}
+                  {scopeLabel}
                 </p>
               </div>
             </div>
@@ -851,6 +880,20 @@ export function ChatDemoClient() {
 
       <main ref={transcriptRef} data-testid="chat-transcript" className="min-h-0 flex-1 overflow-y-auto px-4 py-6 md:px-6 xl:px-8 2xl:px-10">
         <div className="mx-auto flex max-w-4xl flex-col gap-5">
+          {scopeNotice ? (
+            <div
+              className={`rounded-md border p-3 text-sm ${
+                scopeNotice.includes("not available")
+                  ? "border-rust bg-rust-soft text-rust-dark"
+                  : "border-moss bg-moss-soft text-moss-dark"
+              }`}
+            >
+              <span className="font-semibold">Chat scope:</span> {scopeNotice}
+            </div>
+          ) : null}
+          <div className="rounded-md border border-stone-200 bg-white px-4 py-3 text-sm text-stone-700 shadow-sm">
+            <span className="font-semibold text-ink">Current scope:</span> {scopeLabel}
+          </div>
           {messages.length === 0 ? (
             <section className="rounded-md border border-stone-200 bg-white p-6 shadow-sm">
               <div className="flex items-start gap-4">
@@ -1048,6 +1091,8 @@ export function ChatDemoClient() {
                   onChange={(event) => {
                     setSelectedProjectId(event.target.value);
                     setSelectedDepartmentId("");
+                    setRequestedScope(null);
+                    setScopeNotice(null);
                   }}
                   className="field mt-1 w-full"
                   disabled={scopeLoading && !projects.length}
@@ -1063,7 +1108,11 @@ export function ChatDemoClient() {
                 <select
                   id="department"
                   value={selectedDepartmentId}
-                  onChange={(event) => setSelectedDepartmentId(event.target.value)}
+                  onChange={(event) => {
+                    setSelectedDepartmentId(event.target.value);
+                    setRequestedScope(null);
+                    setScopeNotice(null);
+                  }}
                   className="field mt-1 w-full"
                   disabled={!selectedProjectId || scopeLoading}
                 >
