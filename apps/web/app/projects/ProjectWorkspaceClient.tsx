@@ -553,7 +553,7 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                     title="Department Shortcuts"
                     description="Open a department workspace, or ask with that department as a strict retrieval scope."
                   />
-                  <form onSubmit={handleCreateDepartment} className="mb-5 grid gap-3 rounded border border-stone-200 bg-stone-50 p-4 lg:grid-cols-2">
+                  <form onSubmit={handleCreateDepartment} className="mb-5 grid items-start gap-3 rounded border border-stone-200 bg-stone-50 p-4 lg:grid-cols-2">
                     <input
                       className="field w-full"
                       value={departmentForm.name}
