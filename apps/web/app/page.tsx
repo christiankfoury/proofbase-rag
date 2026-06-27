@@ -9,19 +9,16 @@ const nextCapabilities = [
     title: "Scoped Assistant",
     label: "Project scope",
     detail: "Ask across a workspace or narrow to one department while preserving role-based filtering.",
-    tone: "moss",
   },
   {
     title: "Document Library",
     label: "Source review",
     detail: "Review indexed documents and PDF extraction output before approving future uploads.",
-    tone: "steel",
   },
   {
     title: "Algorithm Verification",
     label: "Measured quality",
     detail: "Promote retrieval and prompt changes only after evaluation proves the result improved.",
-    tone: "rust",
   },
 ];
 
@@ -201,11 +198,10 @@ export default function AppHomePage() {
         </div>
         <div className="mt-6 grid gap-3 md:grid-cols-3">
           {nextCapabilities.map((item) => (
-            <div key={item.title} className={`rounded-md border p-4 ${toneStyles[item.tone as keyof typeof toneStyles].panel}`}>
-              <span className={`block h-1.5 w-10 rounded-full ${toneStyles[item.tone as keyof typeof toneStyles].accent}`} />
+            <div key={item.title} className="rounded-md border border-moss bg-white p-4 shadow-card">
               <div className="flex items-start justify-between gap-3">
-                <p className="mt-3 font-semibold text-ink">{item.title}</p>
-                <span className="badge-info mt-3 shrink-0">{item.label}</span>
+                <p className="font-semibold text-ink">{item.title}</p>
+                <span className="badge-info shrink-0">{item.label}</span>
               </div>
               <p className="mt-2 text-sm leading-6 text-stone-700">{item.detail}</p>
             </div>
