@@ -9,16 +9,19 @@ const nextCapabilities = [
     title: "Scoped Assistant",
     label: "Project scope",
     detail: "Ask across a workspace or narrow to one department while preserving role-based filtering.",
+    tone: "moss",
   },
   {
     title: "Document Library",
     label: "Source review",
     detail: "Review indexed documents and PDF extraction output before approving future uploads.",
+    tone: "steel",
   },
   {
     title: "Algorithm Verification",
     label: "Measured quality",
     detail: "Promote retrieval and prompt changes only after evaluation proves the result improved.",
+    tone: "rust",
   },
 ];
 
@@ -185,23 +188,30 @@ export default function AppHomePage() {
         </Card>
       </section>
 
-      <section className="mt-8">
-        <SectionHeading
-          title="Implemented App Capabilities"
-          description="Projects, departments, indexed document review, PDF extraction, approval/indexing, and scoped retrieval are implemented; AI Markdown cleanup remains a planned phase."
-        />
-        <div className="grid gap-4 md:grid-cols-3">
+      <Card tone="good" className="mt-8 overflow-hidden">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-4xl">
+            <p className="badge-good">Implemented app</p>
+            <SectionHeading
+              title="Implemented App Capabilities"
+              description="Projects, departments, indexed document review, PDF extraction, approval/indexing, and scoped retrieval are implemented; AI Markdown cleanup remains a planned phase."
+              className="mb-0 mt-3"
+            />
+          </div>
+        </div>
+        <div className="mt-6 grid gap-3 md:grid-cols-3">
           {nextCapabilities.map((item) => (
-            <Card key={item.title} padding="compact">
+            <div key={item.title} className={`rounded-md border p-4 ${toneStyles[item.tone as keyof typeof toneStyles].panel}`}>
+              <span className={`block h-1.5 w-10 rounded-full ${toneStyles[item.tone as keyof typeof toneStyles].accent}`} />
               <div className="flex items-start justify-between gap-3">
-                <p className="font-semibold text-ink">{item.title}</p>
-                <span className="badge-info shrink-0">{item.label}</span>
+                <p className="mt-3 font-semibold text-ink">{item.title}</p>
+                <span className="badge-info mt-3 shrink-0">{item.label}</span>
               </div>
               <p className="mt-2 text-sm leading-6 text-stone-700">{item.detail}</p>
-            </Card>
+            </div>
           ))}
         </div>
-      </section>
+      </Card>
 
       <Card className="mt-8" tone="good">
         <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
