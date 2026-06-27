@@ -528,8 +528,8 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
               <div className="space-y-5">
                 <div id="departments" className="scroll-mt-24 rounded-md border border-stone-300 bg-white p-5 shadow-card">
                   <SectionHeading
-                    title="Department Shortcuts"
-                    description="Open a department workspace, or ask with that department as a strict retrieval scope."
+                    title="Create Department"
+                    description="Add a department workspace with default access roles before uploading sources."
                   />
                   <form onSubmit={handleCreateDepartment} className="mb-5">
                     <div className="rounded border border-stone-200 bg-white p-4">
@@ -607,6 +607,10 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                       </div>
                     </div>
                   </form>
+                  <SectionHeading
+                    title="Department Shortcuts"
+                    description="Open a department workspace, or ask with that department as a strict retrieval scope."
+                  />
                   {activeProject.departments?.length ? (
                     <div className="grid gap-3 md:grid-cols-2">
                       {activeProject.departments.map((department) => (
