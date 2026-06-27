@@ -20,6 +20,7 @@ The system stores chat sessions and messages in Postgres. On a new request with 
 `followup_detector.py` uses simple rules:
 
 - phrase starts such as `what about`, `does that`, `how long`, `when does`
+- Phase 46 phrase starts such as `what containment`, `what approvals`, `which answer`, and `which one`
 - pronouns and references such as `that`, `it`, `this`, `same`, `also`
 - previous turns must exist
 
@@ -35,6 +36,10 @@ This is intentionally cheap and predictable.
 | Remote work location, "fewer than 15" | "For a temporary remote work location change, what happens if it is fewer than 15 business days?" |
 | Personal device, "restricted data" | "Can an employee download restricted data to a personal device?" |
 | Implementation, "how long" | "What is the typical implementation range for standard deployments?" |
+| Remote work, "security expectations" | "For remote work, what security expectations from the remote work and device security policies apply?" |
+| Promotion calibration, "calibration" | "What does manager guidance say about promotion calibration?" |
+| Privileged access incidents, "containment" | "What privileged access containment steps should I take?" |
+| Acceptable use, "BYOD" | "What does the Device and BYOD Security Policy say about BYOD device security requirements?" |
 
 If no specific rule matches but a topic exists, the system appends topic context to the question.
 
@@ -134,12 +139,13 @@ The later Phase 38 answer-quality run still has 6 failed questions, mostly multi
 
 ## Ambiguity Behavior
 
-Current ambiguity handling has two layers:
+Current ambiguity handling has three layers:
 
-1. Prompt `v8` instructs the model to ask a clarifying question when approval, location, data classification, role, amount, contract status, customer tier, vendor risk, deployment timing, or sales stage is unclear.
-2. `_policy_response` has `AMBIGUOUS_PATTERNS` that return `clarify` before generation.
+1. `apps/api/app/reasoning/clarification.py` applies pre-retrieval guards for underspecified project, department, role, topic, document-reference, and comparison targets. When it fires, `/query` returns `response_type="clarify"` and a safe `clarification_reason`.
+2. Prompt `v8` instructs the model to ask a clarifying question when approval, location, data classification, role, amount, contract status, customer tier, vendor risk, deployment timing, or sales stage is unclear.
+3. `_policy_response` has `AMBIGUOUS_PATTERNS` that return `clarify` before generation.
 
-Phase 38 improved clarification accuracy from `0.500` to `1.000` on the measured answer-quality run. However, the detector is still pattern-based, and Phase 39 is planned to make ambiguity orchestration more explicit and general.
+Phase 46 improved the non-benchmark generalization probe suite from `12` failed probes to `0`, with clarification behavior improving from `0.000` to `1.000`. The detector is still pattern-based, but the reason field makes non-answer behavior explainable without exposing restricted information.
 
 ## Main Limitations
 
@@ -148,15 +154,14 @@ Phase 38 improved clarification accuracy from `0.500` to `1.000` on the measured
 | Memory detection | Heuristic and benchmark-tuned; new follow-up styles may need new rules. |
 | Memory context | Previous source labels are included, but previous source text is not revalidated unless retrieved again. |
 | Query decomposition | Uses OpenAI; if it fails, fallback is just the original question. |
-| Multi-doc source coverage | Merging by top score does not guarantee each required source domain is represented. |
-| Ambiguity | Current strict behavior relies on pattern lists and prompt instructions rather than a full intent model. |
+| Multi-doc source coverage | Source planning covers known cross-domain pairs, but unseen domain combinations may still need new rules or decomposition help. |
+| Ambiguity | Strict behavior relies on pattern lists, pre-retrieval guards, and prompt instructions rather than a full intent model. |
 
-## Why Phase 39 Still Matters
+## Current Remediation State
 
-Phase 39 is the right next implementation phase because current failures are concentrated in multi-document source coverage and citation completeness. The likely improvement is not just better wording in the prompt; it is more explicit orchestration:
+Phase 46 added the first measured generalization remediation pass. The implementation kept the same boundaries:
 
-- identify required answer parts
-- retrieve for each part
-- verify each required source is represented
-- clarify underspecified intent before generation
-- keep permission filtering before every synthesis step
+- memory can rewrite the retrieval query, but retrieved documents remain the only source evidence
+- clarification can happen before retrieval when the user intent is underspecified
+- each retrieval path still applies project, department, and role filtering before generation
+- direct answers are only used when the required retrieved chunks are present

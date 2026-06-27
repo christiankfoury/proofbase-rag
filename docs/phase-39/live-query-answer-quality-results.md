@@ -1,6 +1,6 @@
 # Phase 39 Live Query Answer-Quality Results
 
-Generated at: 2026-06-27T16:15:30.364058+00:00
+Generated at: 2026-06-27T19:40:42.896401+00:00
 
 ## Candidate
 
@@ -12,7 +12,7 @@ Generated at: 2026-06-27T16:15:30.364058+00:00
 - Prompt version: `v8`
 - Multi-doc mode: `auto`
 - Excluded document prefixes: `UPLOAD-`
-- Estimated chat cost: `0.080471`
+- Estimated chat cost: `0.078679`
 
 ## Metrics
 
@@ -30,7 +30,7 @@ Generated at: 2026-06-27T16:15:30.364058+00:00
 | submetric_issue_count | `21` |
 | actionable_submetric_issue_count | `0` |
 | diagnostic_submetric_note_count | `21` |
-| estimated_cost | `0.080471` |
+| estimated_cost | `0.078679` |
 
 ## Failed Questions
 

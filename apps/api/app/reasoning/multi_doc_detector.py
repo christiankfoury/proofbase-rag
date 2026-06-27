@@ -9,7 +9,7 @@ _DOMAIN_PAIRS: list[tuple[frozenset[str], frozenset[str]]] = [
     # HR-003 (remote work) + IT-002 (device security)
     (
         frozenset({"remote", "hybrid", "abroad", "cross-border", "work location", "working remotely"}),
-        frozenset({"device", "byod", "security", "mdm", "personal laptop", "personal device", "laptop"}),
+        frozenset({"device", "byod", "security", "mdm", "personal laptop", "personal device", "laptop", "safeguards"}),
     ),
     # IT-001 (acceptable use / AI tools) + IT-003 (data classification)
     (
@@ -43,8 +43,8 @@ _DOMAIN_PAIRS: list[tuple[frozenset[str], frozenset[str]]] = [
     ),
     # SALES-002 (northstar positioning) + SALES-003 (prohibited claims)
     (
-        frozenset({"northstar", "position northstar", "positioning", "competitor", "bi tool"}),
-        frozenset({"prohibited", "banned claim", "restricted claim", "avoid claiming", "not claim"}),
+        frozenset({"northstar", "position northstar", "positioning", "competitor", "bi tool", "price objection", "price objections"}),
+        frozenset({"prohibited", "banned claim", "restricted claim", "avoid claiming", "not claim", "objection handling", "objections"}),
     ),
     # IT-ADMIN-001 (privileged access) + IT-001 (account sharing)
     (

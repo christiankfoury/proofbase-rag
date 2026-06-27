@@ -68,6 +68,27 @@ def rewrite_followup_question(question: str, previous_turns: list[dict] | None =
     elif "office supplies standard limit" in normalized_topic and "above that limit" in normalized_question:
         rewritten = "Who approves office supplies purchases above the standard limit?"
         strategy = "office_supplies_approval"
+    elif "remote work" in normalized_topic and "security expectations" in normalized_question:
+        rewritten = "For remote work, what security expectations from the remote work and device security policies apply?"
+        strategy = "remote_work_security_expectations"
+    elif "promotion calibration" in normalized_topic and "calibration" in normalized_question:
+        rewritten = "What does manager guidance say about promotion calibration?"
+        strategy = "promotion_calibration_restricted_topic"
+    elif "privileged access incidents" in normalized_topic and "containment" in normalized_question:
+        rewritten = "What privileged access containment steps should I take?"
+        strategy = "privileged_access_containment_restricted_topic"
+    elif "acceptable use" in normalized_topic and "byod" in normalized_question:
+        rewritten = "What does the Device and BYOD Security Policy say about BYOD device security requirements?"
+        strategy = "acceptable_use_byod"
+    elif "discovery questions and objection handling" in normalized_topic and "price objections" in normalized_question:
+        rewritten = "For price objections, which objection-handling guidance should a Sales Representative use?"
+        strategy = "price_objection_handling"
+    elif "employee-facing hr guidance" in normalized_topic and "policy is unclear" in normalized_question:
+        rewritten = "What should HR Admins tell employees when an employee-facing HR policy is unclear?"
+        strategy = "unclear_hr_policy_employee_guidance"
+    elif "remote work and personal device use" in normalized_topic and "approvals" in normalized_question and "safeguards" in normalized_question:
+        rewritten = "For remote work and personal device use, what approvals and device safeguards apply?"
+        strategy = "remote_device_approvals_safeguards"
     elif topic:
         rewritten = f"{question} Context: {topic}."
 

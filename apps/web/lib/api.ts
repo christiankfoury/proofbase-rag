@@ -66,6 +66,7 @@ export type QueryResponse = {
   supported_claims: string[];
   unsupported_claims: string[];
   validation_notes: string;
+  clarification_reason?: string | null;
   retrieval_mode: string;
   chunking_strategy: string;
   scope?: {

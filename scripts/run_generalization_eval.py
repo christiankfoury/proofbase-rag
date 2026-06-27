@@ -24,8 +24,9 @@ from apps.api.app.memory.session_store import add_message, create_session
 
 PROJECT_ID = "00000000-0000-0000-0000-000000000019"
 PEOPLE_DEPARTMENT_ID = "00000000-0000-0000-0000-000000002001"
-IT_DEPARTMENT_ID = "00000000-0000-0000-0000-000000002002"
-SALES_DEPARTMENT_ID = "00000000-0000-0000-0000-000000002003"
+HR_ADMIN_DEPARTMENT_ID = "00000000-0000-0000-0000-000000002002"
+IT_DEPARTMENT_ID = "00000000-0000-0000-0000-000000002003"
+SALES_DEPARTMENT_ID = "00000000-0000-0000-0000-000000002005"
 OPERATIONS_DEPARTMENT_ID = "00000000-0000-0000-0000-000000002011"
 EMPLOYEE_USER_ID = "00000000-0000-0000-0000-000000002701"
 SALES_USER_ID = "00000000-0000-0000-0000-000000002702"
@@ -39,10 +40,13 @@ USER_ROLES = {
     HR_ADMIN_USER_ID: "HR Admin",
     IT_ADMIN_USER_ID: "IT Admin",
 }
-RUN_ID = "phase45-generalization-baseline"
-DETAIL_PATH = ROOT / "data/evaluation/generalization-probes/phase45-generalization-baseline.json"
-EVAL_RUN_PATH = ROOT / "data/evaluation/eval-runs/phase45-generalization-baseline.json"
-REPORT_PATH = ROOT / "docs/phase-45/generalization-baseline.md"
+DEFAULT_RUN_ID = "phase45-generalization-baseline"
+DEFAULT_RUN_NAME = "Phase 45 Generalization Probe Baseline"
+DEFAULT_PHASE = "phase-45"
+DEFAULT_REPORT_TITLE = "Phase 45 Generalization Baseline"
+DEFAULT_DETAIL_PATH = ROOT / "data/evaluation/generalization-probes/phase45-generalization-baseline.json"
+DEFAULT_EVAL_RUN_PATH = ROOT / "data/evaluation/eval-runs/phase45-generalization-baseline.json"
+DEFAULT_REPORT_PATH = ROOT / "docs/phase-45/generalization-baseline.md"
 EXTERNAL_AI_APPROVAL_MESSAGE = (
     "The Phase 45 generalization probe baseline sends realistic user questions, prior chat turns, and "
     "permission-filtered retrieved source snippets to external OpenAI embeddings and chat-completion APIs. "
@@ -68,7 +72,7 @@ PROBES: list[dict[str, Any]] = [
         "category": "same_department",
         "user_id": EMPLOYEE_USER_ID,
         "project_id": PROJECT_ID,
-        "department_id": PEOPLE_DEPARTMENT_ID,
+        "department_id": None,
         "prior_turns": [{"role": "user", "content": "What are remote work approval expectations?"}],
         "question": "In the same department, what security expectations apply?",
         "expected_behavior": "answer",
@@ -248,7 +252,7 @@ PROBES: list[dict[str, Any]] = [
         "category": "role_applicability",
         "user_id": HR_ADMIN_USER_ID,
         "project_id": PROJECT_ID,
-        "department_id": PEOPLE_DEPARTMENT_ID,
+        "department_id": HR_ADMIN_DEPARTMENT_ID,
         "prior_turns": [{"role": "user", "content": "I am checking employee-facing HR guidance."}],
         "question": "Which answer should I give if the policy is unclear?",
         "expected_behavior": "answer",
@@ -425,12 +429,17 @@ def _run_probe(client: TestClient, probe: dict[str, Any]) -> dict[str, Any]:
     return row
 
 
-def _summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+def _summary(rows: list[dict[str, Any]], *, run_id: str, run_name: str, phase: str, baseline: bool) -> dict[str, Any]:
     failed = [row for row in rows if not row["passed"]]
+    final_note = (
+        "This is a baseline run; no prompt or retrieval remediation is included."
+        if baseline
+        else "This is a remediation run against the same probe suite; compare with phase45-generalization-baseline."
+    )
     return {
-        "run_id": RUN_ID,
-        "run_name": "Phase 45 Generalization Probe Baseline",
-        "phase": "phase-45",
+        "run_id": run_id,
+        "run_name": run_name,
+        "phase": phase,
         "probe_count": len(rows),
         "failed_probe_count": len(failed),
         "category_counts": dict(sorted(Counter(row["category"] for row in rows).items())),
@@ -446,7 +455,7 @@ def _summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "notes": [
             "This suite is separate from benchmark v1.1 and should not be folded into benchmark metrics.",
             "Memory is evaluated as query context only; citations must still come from retrieved documents.",
-            "This is a baseline run; no prompt or retrieval remediation is included.",
+            final_note,
         ],
     }
 
@@ -454,9 +463,9 @@ def _summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
 def _eval_run(result: dict[str, Any]) -> dict[str, Any]:
     summary = result["summary"]
     return {
-        "run_id": RUN_ID,
+        "run_id": summary["run_id"],
         "run_name": summary["run_name"],
-        "phase": "phase-45",
+        "phase": summary["phase"],
         "run_type": "generalization_eval",
         "timestamp": result["generated_at"],
         "benchmark_version": "generalization-probes-v0",
@@ -477,10 +486,10 @@ def _eval_run(result: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _report(result: dict[str, Any]) -> str:
+def _report(result: dict[str, Any], *, title: str) -> str:
     summary = result["summary"]
     lines = [
-        "# Phase 45 Generalization Baseline",
+        f"# {title}",
         "",
         f"Generated at: {result['generated_at']}",
         "",
@@ -517,12 +526,12 @@ def _report(result: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def run_live() -> dict[str, Any]:
+def run_live(*, run_id: str, run_name: str, phase: str, baseline: bool) -> dict[str, Any]:
     client = TestClient(app)
     rows = [_run_probe(client, probe) for probe in PROBES]
     return {
         "generated_at": datetime.now(UTC).isoformat(),
-        "summary": _summary(rows),
+        "summary": _summary(rows, run_id=run_id, run_name=run_name, phase=phase, baseline=baseline),
         "rows": rows,
         "failed_probes": [row for row in rows if not row["passed"]],
         "probes": PROBES,
@@ -533,16 +542,29 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run Phase 45 generalization probe baseline.")
     parser.add_argument("--dry-run", action="store_true", help="Print probe metadata without external AI calls.")
     parser.add_argument("--allow-external-ai", action="store_true", help="Confirm approval for external OpenAI calls.")
+    parser.add_argument("--run-id", default=DEFAULT_RUN_ID)
+    parser.add_argument("--run-name", default=DEFAULT_RUN_NAME)
+    parser.add_argument("--phase", default=DEFAULT_PHASE)
+    parser.add_argument("--detail-path", type=Path, default=DEFAULT_DETAIL_PATH)
+    parser.add_argument("--eval-run-path", type=Path, default=DEFAULT_EVAL_RUN_PATH)
+    parser.add_argument("--report-path", type=Path, default=DEFAULT_REPORT_PATH)
+    parser.add_argument("--report-title", default=DEFAULT_REPORT_TITLE)
+    parser.add_argument("--remediation-run", action="store_true", help="Use remediation-run notes instead of baseline notes.")
     args = parser.parse_args()
+    detail_path = args.detail_path if args.detail_path.is_absolute() else ROOT / args.detail_path
+    eval_run_path = args.eval_run_path if args.eval_run_path.is_absolute() else ROOT / args.eval_run_path
+    report_path = args.report_path if args.report_path.is_absolute() else ROOT / args.report_path
 
     if args.dry_run:
         print(
             json.dumps(
                 {
-                    "run_id": RUN_ID,
+                    "run_id": args.run_id,
+                    "run_name": args.run_name,
+                    "phase": args.phase,
                     "probe_count": len(PROBES),
                     "categories": dict(sorted(Counter(probe["category"] for probe in PROBES).items())),
-                    "would_write": [str(DETAIL_PATH), str(EVAL_RUN_PATH), str(REPORT_PATH)],
+                    "would_write": [str(detail_path), str(eval_run_path), str(report_path)],
                     "external_ai_required": True,
                 },
                 indent=2,
@@ -553,19 +575,19 @@ def main() -> None:
     if not args.allow_external_ai:
         raise SystemExit(EXTERNAL_AI_APPROVAL_MESSAGE)
     if not get_settings().openai_api_key:
-        raise SystemExit("OPENAI_API_KEY or OPENAI_API_KEY_FILE is required for the live Phase 45 baseline.")
+        raise SystemExit("OPENAI_API_KEY or OPENAI_API_KEY_FILE is required for the live generalization run.")
 
-    result = run_live()
-    DETAIL_PATH.parent.mkdir(parents=True, exist_ok=True)
-    EVAL_RUN_PATH.parent.mkdir(parents=True, exist_ok=True)
-    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    DETAIL_PATH.write_text(json.dumps(result, indent=2), encoding="utf-8")
-    EVAL_RUN_PATH.write_text(json.dumps(_eval_run(result), indent=2), encoding="utf-8")
-    _write_text_atomic(REPORT_PATH, _report(result))
+    result = run_live(run_id=args.run_id, run_name=args.run_name, phase=args.phase, baseline=not args.remediation_run)
+    detail_path.parent.mkdir(parents=True, exist_ok=True)
+    eval_run_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    detail_path.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    eval_run_path.write_text(json.dumps(_eval_run(result), indent=2), encoding="utf-8")
+    _write_text_atomic(report_path, _report(result, title=args.report_title))
     print(json.dumps(result["summary"], indent=2))
-    print(f"Wrote {DETAIL_PATH}")
-    print(f"Wrote {EVAL_RUN_PATH}")
-    print(f"Wrote {REPORT_PATH}")
+    print(f"Wrote {detail_path}")
+    print(f"Wrote {eval_run_path}")
+    print(f"Wrote {report_path}")
 
 
 if __name__ == "__main__":

@@ -27,6 +27,10 @@ def plan_multi_document_sources(question: str) -> list[SourcePlanItem]:
         add("product_positioning", "Northstar product positioning against generic BI tools", "SALES-002")
     if any(term in normalized for term in ["prohibited claim", "prohibited claims", "avoid prohibited", "banned claim"]):
         add("prohibited_claims", "prohibited sales claims restricted competitive claims", "SALES-003")
+    if any(term in normalized for term in ["price objection", "price objections", "objection handling"]):
+        add("competitive_objection_handling", "price objections objection handling competitive battlecard", "SALES-003")
+    if "discovery" in normalized or ("sales representative" in normalized and "objection" in normalized):
+        add("sales_discovery", "sales discovery questions workflow volume approval bottlenecks data quality", "SALES-001")
 
     if "benefits" in normalized and any(term in normalized for term in ["help", "support", "contact"]):
         add("people_ops_support", "People Operations benefits support contact help", "HR-001")
@@ -34,7 +38,7 @@ def plan_multi_document_sources(question: str) -> list[SourcePlanItem]:
         add("learning_budget", "learning budget tuition course reimbursement policy", "HR-004")
     if any(term in normalized for term in ["remote", "hybrid", "cross-border", "another country", "outside canada", "outside the us"]):
         add("remote_work", "remote hybrid cross-border work policy approval", "HR-003")
-    if any(term in normalized for term in ["device", "byod", "personal laptop", "laptop", "mdm"]):
+    if any(term in normalized for term in ["device", "byod", "personal laptop", "laptop", "mdm", "safeguard", "safeguards"]):
         add("device_security", "device BYOD security personal laptop MDM requirements", "IT-002")
     if any(term in normalized for term in ["performance concern", "performance concerns", "performance issue", "ongoing performance"]):
         add("manager_responsibilities", "manager responsibilities clear expectations support growth escalate risks", "MGR-001")

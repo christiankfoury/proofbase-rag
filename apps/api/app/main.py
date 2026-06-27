@@ -47,6 +47,7 @@ from apps.api.app.projects.project_store import get_department
 from apps.api.app.projects.project_store import get_project, list_projects
 from apps.api.app.projects.project_store import update_department as update_department_record
 from apps.api.app.projects.project_store import update_project as update_project_record
+from apps.api.app.reasoning.clarification import clarification_answer, classify_clarification_need
 from apps.api.app.reasoning.evidence_grouper import group_chunks_by_document
 from apps.api.app.reasoning.multi_doc_detector import is_multi_document_question
 from apps.api.app.reasoning.query_decomposer import retrieve_multi_doc
@@ -1466,6 +1467,7 @@ def _query_response_payload(
         "supported_claims": answer["supported_claims"],
         "unsupported_claims": answer["unsupported_claims"],
         "validation_notes": answer["validation_notes"],
+        "clarification_reason": answer.get("clarification_reason"),
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "scope": {
@@ -1501,6 +1503,24 @@ def _query_response_payload(
         "citations": answer["citations"],
         "retrieved_chunks": retrieved_chunks_payload(chunks),
     }
+
+
+def _maybe_clarify_before_retrieval(
+    request: QueryRequest,
+    *,
+    project_id: str | None,
+    department_id: str | None,
+    rewrite: dict,
+) -> dict | None:
+    decision = classify_clarification_need(
+        request.question,
+        project_id=project_id,
+        department_id=department_id,
+        has_memory=bool(rewrite.get("memory_used")),
+    )
+    if not decision:
+        return None
+    return clarification_answer(decision)
 
 
 @app.post("/query/stream")
@@ -1566,55 +1586,66 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
             memory_context = build_memory_context(previous_turns) if rewrite["memory_used"] else {}
             memory_text = memory_context_text(memory_context)
             retrieval_question = rewrite["rewritten_question"]
-
-            trace.start("retrieval")
-            yield _sse("status", {"status": "retrieval_started", "message": "Retrieving permission-filtered context."})
-            multi_doc = request.multi_doc_mode == "force" or (
-                request.multi_doc_mode == "auto" and is_multi_document_question(retrieval_question)
+            clarification = _maybe_clarify_before_retrieval(
+                request,
+                project_id=project_id,
+                department_id=department_id,
+                rewrite=rewrite,
             )
-            if multi_doc:
-                chunks = retrieve_multi_doc(retrieval_question, effective_role, config)
-                grouped_docs = group_chunks_by_document(chunks)
-            else:
-                chunks = retrieve_chunks(retrieval_question, effective_role, config)
+
+            if clarification:
+                answer = clarification
                 grouped_docs = None
-            trace.stop("retrieval")
-            yield _sse(
-                "status",
-                {
-                    "status": "retrieval_complete",
-                    "message": f"Retrieved {len(chunks)} accessible chunks.",
-                    "chunk_count": len(chunks),
-                },
-            )
+                multi_doc = False
+            else:
+                trace.start("retrieval")
+                yield _sse("status", {"status": "retrieval_started", "message": "Retrieving permission-filtered context."})
+                multi_doc = request.multi_doc_mode == "force" or (
+                    request.multi_doc_mode == "auto" and is_multi_document_question(retrieval_question)
+                )
+                if multi_doc:
+                    chunks = retrieve_multi_doc(retrieval_question, effective_role, config)
+                    grouped_docs = group_chunks_by_document(chunks)
+                else:
+                    chunks = retrieve_chunks(retrieval_question, effective_role, config)
+                    grouped_docs = None
+                trace.stop("retrieval")
+                yield _sse(
+                    "status",
+                    {
+                        "status": "retrieval_complete",
+                        "message": f"Retrieved {len(chunks)} accessible chunks.",
+                        "chunk_count": len(chunks),
+                    },
+                )
 
-            trace.start("generation")
-            yield _sse("status", {"status": "generation_started", "message": "Generating answer."})
-            for generation_event in generate_answer_stream(
-                retrieval_question,
-                chunks,
-                user_role=effective_role,
-                memory_context=memory_text,
-                original_question=request.question,
-                prompt_name=request.prompt_name,
-                prompt_version=request.prompt_version or ("v4" if multi_doc else None),
-                multi_doc=multi_doc,
-                grouped_docs=grouped_docs,
-            ):
-                event_type = generation_event.get("type")
-                if event_type == "answer_delta":
-                    yield _sse("answer_delta", {"delta": generation_event["delta"]})
-                elif event_type == "status":
-                    yield _sse(
-                        "status",
-                        {
-                            "status": generation_event.get("status", "generation_status"),
-                            "message": generation_event.get("message", "Generation status updated."),
-                        },
-                    )
-                elif event_type == "final":
-                    answer = generation_event["answer"]
-            trace.stop("generation")
+                trace.start("generation")
+                yield _sse("status", {"status": "generation_started", "message": "Generating answer."})
+                for generation_event in generate_answer_stream(
+                    retrieval_question,
+                    chunks,
+                    user_role=effective_role,
+                    memory_context=memory_text,
+                    original_question=request.question,
+                    prompt_name=request.prompt_name,
+                    prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                    multi_doc=multi_doc,
+                    grouped_docs=grouped_docs,
+                ):
+                    event_type = generation_event.get("type")
+                    if event_type == "answer_delta":
+                        yield _sse("answer_delta", {"delta": generation_event["delta"]})
+                    elif event_type == "status":
+                        yield _sse(
+                            "status",
+                            {
+                                "status": generation_event.get("status", "generation_status"),
+                                "message": generation_event.get("message", "Generation status updated."),
+                            },
+                        )
+                    elif event_type == "final":
+                        answer = generation_event["answer"]
+                trace.stop("generation")
             if not answer:
                 raise RuntimeError("Streaming generation did not return a final answer.")
 
@@ -1780,32 +1811,43 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         memory_context = build_memory_context(previous_turns) if rewrite["memory_used"] else {}
         memory_text = memory_context_text(memory_context)
         retrieval_question = rewrite["rewritten_question"]
-
-        trace.start("retrieval")
-        multi_doc = request.multi_doc_mode == "force" or (
-            request.multi_doc_mode == "auto" and is_multi_document_question(retrieval_question)
+        clarification = _maybe_clarify_before_retrieval(
+            request,
+            project_id=project_id,
+            department_id=department_id,
+            rewrite=rewrite,
         )
-        if multi_doc:
-            chunks = retrieve_multi_doc(retrieval_question, effective_role, config)
-            grouped_docs = group_chunks_by_document(chunks)
-        else:
-            chunks = retrieve_chunks(retrieval_question, effective_role, config)
+
+        if clarification:
+            answer = clarification
             grouped_docs = None
-        trace.stop("retrieval")
+            multi_doc = False
+        else:
+            trace.start("retrieval")
+            multi_doc = request.multi_doc_mode == "force" or (
+                request.multi_doc_mode == "auto" and is_multi_document_question(retrieval_question)
+            )
+            if multi_doc:
+                chunks = retrieve_multi_doc(retrieval_question, effective_role, config)
+                grouped_docs = group_chunks_by_document(chunks)
+            else:
+                chunks = retrieve_chunks(retrieval_question, effective_role, config)
+                grouped_docs = None
+            trace.stop("retrieval")
 
-        trace.start("generation")
-        answer = generate_answer(
-            retrieval_question,
-            chunks,
-            user_role=effective_role,
-            memory_context=memory_text,
-            original_question=request.question,
-            prompt_name=request.prompt_name,
-            prompt_version=request.prompt_version or ("v4" if multi_doc else None),
-            multi_doc=multi_doc,
-            grouped_docs=grouped_docs,
-        )
-        trace.stop("generation")
+            trace.start("generation")
+            answer = generate_answer(
+                retrieval_question,
+                chunks,
+                user_role=effective_role,
+                memory_context=memory_text,
+                original_question=request.question,
+                prompt_name=request.prompt_name,
+                prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                multi_doc=multi_doc,
+                grouped_docs=grouped_docs,
+            )
+            trace.stop("generation")
     except RuntimeError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except PsycopgError as exc:
@@ -1905,6 +1947,7 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         "supported_claims": answer["supported_claims"],
         "unsupported_claims": answer["unsupported_claims"],
         "validation_notes": answer["validation_notes"],
+        "clarification_reason": answer.get("clarification_reason"),
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "scope": {

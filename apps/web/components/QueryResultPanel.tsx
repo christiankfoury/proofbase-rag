@@ -115,6 +115,11 @@ export function QueryResultPanel({ result }: { result: QueryResponse }) {
           <Badge tone="neutral">{result.multi_doc_used ? "Multi-doc used" : "Single-query retrieval"}</Badge>
         </div>
         <p className="mt-4 whitespace-pre-wrap leading-7 text-stone-800">{result.answer}</p>
+        {result.clarification_reason ? (
+          <p className="mt-3 rounded-md border border-steel/30 bg-steel/10 px-3 py-2 text-sm text-stone-700">
+            Clarification reason: <span className="font-semibold text-ink">{formatLabel(result.clarification_reason)}</span>
+          </p>
+        ) : null}
       </Card>
 
       <section className="grid gap-3 md:grid-cols-4">

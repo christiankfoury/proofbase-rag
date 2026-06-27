@@ -279,6 +279,12 @@ function ProofSummary({ result }: { result: QueryResponse }) {
           <p className="mt-1 text-xs text-stone-600">{confidenceInterpretation(result)}</p>
         </div>
       </div>
+      {result.clarification_reason ? (
+        <div className="mt-4 rounded border border-steel/30 bg-steel/10 p-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Clarification reason</p>
+          <p className="mt-1 text-sm font-semibold text-ink">{formatMode(result.clarification_reason)}</p>
+        </div>
+      ) : null}
       <div className="mt-4 flex flex-wrap gap-2">
         <Link href="/dev-admin/runs" className="btn-secondary btn-sm">
           Evaluation runs
