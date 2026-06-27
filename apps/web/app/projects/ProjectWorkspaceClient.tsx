@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { FileText, MessageSquare, Search, UploadCloud } from "lucide-react";
+import { FileText, MessageSquare, Search } from "lucide-react";
 import { Badge } from "@/components/Badge";
 import type { BadgeTone } from "@/components/Badge";
 import { EmptyState } from "@/components/EmptyState";
@@ -767,12 +767,6 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                       <p className="mt-1 text-2xl font-semibold text-ink">{formatNumber(uploadedDocuments)}</p>
                     </div>
                   </div>
-                  {departments.length ? (
-                    <Link href="#departments" className="btn-secondary mt-4 w-full">
-                      <UploadCloud className="h-4 w-4" />
-                      Choose department to upload
-                    </Link>
-                  ) : null}
                 </div>
 
                 <form onSubmit={handleUpdate} className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
