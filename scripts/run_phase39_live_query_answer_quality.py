@@ -109,7 +109,7 @@ def _failure_reason_counts(failed_questions: list[dict[str, Any]]) -> dict[str, 
     return dict(sorted(counts.items()))
 
 
-def _submetric_issue_ids(rows: list[dict[str, Any]]) -> list[str]:
+def _has_submetric_issue(row: dict[str, Any]) -> bool:
     full_credit_metrics = [
         "answer_accuracy",
         "citation_accuracy",
@@ -120,14 +120,84 @@ def _submetric_issue_ids(rows: list[dict[str, Any]]) -> list[str]:
         "all_sources_hit",
         "expected_source_recall",
     ]
-    issue_ids: list[str] = []
+    has_issue = any(row.get(metric) is not None and row[metric] < 1.0 for metric in full_credit_metrics)
+    if row.get("hallucination_rate") is not None and row["hallucination_rate"] > 0.0:
+        has_issue = True
+    return has_issue
+
+
+def _submetric_issue_ids(rows: list[dict[str, Any]]) -> list[str]:
+    return [row["question_id"] for row in rows if _has_submetric_issue(row)]
+
+
+def _submetric_issue_breakdown(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    breakdown = {
+        "actionable": {"count": 0, "ids": []},
+        "memory_response_type_diagnostic": {"count": 0, "ids": []},
+        "clarification_source_coverage_diagnostic": {"count": 0, "ids": []},
+    }
     for row in rows:
-        has_issue = any(row.get(metric) is not None and row[metric] < 1.0 for metric in full_credit_metrics)
+        if not _has_submetric_issue(row):
+            continue
+        question_id = row["question_id"]
+        expected_behavior = row.get("expected_behavior")
+        is_memory_behavior_diagnostic = (
+            expected_behavior == "answer_with_memory"
+            and row.get("behavior") == "answer"
+            and row.get("response_type_accuracy") is not None
+            and row.get("response_type_accuracy") < 1.0
+        )
+        is_clarification_source_diagnostic = (
+            expected_behavior == "ask_clarifying_question"
+            and row.get("clarification_accuracy") == 1.0
+            and (
+                (row.get("all_sources_hit") is not None and row.get("all_sources_hit") < 1.0)
+                or (row.get("expected_source_recall") is not None and row.get("expected_source_recall") < 1.0)
+            )
+        )
+        actionable_metrics = [
+            "answer_accuracy",
+            "citation_accuracy",
+            "refusal_accuracy",
+            "not_found_accuracy",
+            "clarification_accuracy",
+        ]
+        has_actionable_failure = any(
+            row.get(metric) is not None and row.get(metric) < 1.0
+            for metric in actionable_metrics
+        )
         if row.get("hallucination_rate") is not None and row["hallucination_rate"] > 0.0:
-            has_issue = True
-        if has_issue:
-            issue_ids.append(row["question_id"])
-    return issue_ids
+            has_actionable_failure = True
+        if (
+            expected_behavior in {"answer", "answer_with_memory"}
+            and not is_memory_behavior_diagnostic
+            and (
+                (row.get("all_sources_hit") is not None and row.get("all_sources_hit") < 1.0)
+                or (row.get("expected_source_recall") is not None and row.get("expected_source_recall") < 1.0)
+            )
+        ):
+            has_actionable_failure = True
+
+        if is_memory_behavior_diagnostic:
+            breakdown["memory_response_type_diagnostic"]["ids"].append(question_id)
+        if is_clarification_source_diagnostic:
+            breakdown["clarification_source_coverage_diagnostic"]["ids"].append(question_id)
+        if has_actionable_failure and not is_clarification_source_diagnostic:
+            breakdown["actionable"]["ids"].append(question_id)
+
+    for item in breakdown.values():
+        item["ids"] = sorted(set(item["ids"]))
+        item["count"] = len(item["ids"])
+    return breakdown
+
+
+def _diagnostic_submetric_note_count(breakdown: dict[str, dict[str, Any]]) -> int:
+    diagnostic_ids: set[str] = set()
+    for key, value in breakdown.items():
+        if key == "actionable":
+            continue
+        diagnostic_ids.update(value.get("ids") or [])
+    return len(diagnostic_ids)
 
 
 def _citation_failure_counts(failed_questions: list[dict[str, Any]]) -> dict[str, int]:
@@ -269,6 +339,7 @@ def _summary(
     started_at: str,
 ) -> dict[str, Any]:
     submetric_issue_ids = _submetric_issue_ids(rows)
+    submetric_issue_breakdown = _submetric_issue_breakdown(rows)
     return {
         "experiment_id": RUN_ID,
         "run_name": "live-query-answer-quality-v8",
@@ -287,6 +358,9 @@ def _summary(
         "failed_question_count": len(failed),
         "submetric_issue_count": len(submetric_issue_ids),
         "submetric_issue_ids": submetric_issue_ids,
+        "submetric_issue_breakdown": submetric_issue_breakdown,
+        "actionable_submetric_issue_count": submetric_issue_breakdown["actionable"]["count"],
+        "diagnostic_submetric_note_count": _diagnostic_submetric_note_count(submetric_issue_breakdown),
         "any_source_hit": _average([row["any_source_hit"] for row in rows]),
         "all_sources_hit": _average([row["all_sources_hit"] for row in rows]),
         "expected_source_recall": _average([row["expected_source_recall"] for row in rows]),
@@ -349,9 +423,12 @@ def _dashboard_run(result: dict[str, Any]) -> dict[str, Any]:
             "estimated_cost": summary.get("estimated_cost"),
             "failed_question_count": summary.get("failed_question_count"),
             "submetric_issue_count": summary.get("submetric_issue_count"),
+            "actionable_submetric_issue_count": summary.get("actionable_submetric_issue_count"),
+            "diagnostic_submetric_note_count": summary.get("diagnostic_submetric_note_count"),
         },
         "failed_questions": failed_question_ids,
         "submetric_issue_ids": summary.get("submetric_issue_ids") or [],
+        "submetric_issue_breakdown": summary.get("submetric_issue_breakdown") or {},
         "category_breakdown": _category_breakdown(result.get("rows") or []),
         "failure_reason_counts": _failure_reason_counts(result.get("failed_questions") or []),
         "citation_failure_category_counts": _citation_failure_counts(result.get("failed_questions") or []),
@@ -407,6 +484,8 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
         "clarification_accuracy",
         "failed_question_count",
         "submetric_issue_count",
+        "actionable_submetric_issue_count",
+        "diagnostic_submetric_note_count",
         "estimated_cost",
     ]:
         lines.append(f"| {metric} | `{metrics.get(metric)}` |")
@@ -419,7 +498,10 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
             f"- Failed IDs: `{', '.join(dashboard_run.get('failed_questions') or []) or 'None'}`",
             f"- Failure buckets: `{json.dumps(_failure_reason_counts(failures), sort_keys=True)}`",
             f"- Submetric issue count: `{metrics.get('submetric_issue_count')}`",
+            f"- Actionable submetric issue count: `{metrics.get('actionable_submetric_issue_count')}`",
+            f"- Diagnostic submetric note count: `{metrics.get('diagnostic_submetric_note_count')}`",
             f"- Submetric issue IDs: `{', '.join(dashboard_run.get('submetric_issue_ids') or []) or 'None'}`",
+            f"- Submetric issue breakdown: `{json.dumps(dashboard_run.get('submetric_issue_breakdown') or {}, sort_keys=True)}`",
             "",
             "## Notes",
             "",
@@ -427,6 +509,8 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
             "- Permission filtering happens inside the normal API retrieval path before generation.",
             "- Uploaded-document fixtures are excluded from benchmark retrieval before generation.",
             "- Memory benchmark rows are represented as local eval sessions with their previous turns inserted before the live query.",
+            "- Memory `answer_with_memory` response-type half-credit is retained for historical comparability but reported as a diagnostic note when answer and citation behavior are otherwise correct.",
+            "- Correct clarification responses with incomplete source coverage are reported as diagnostic notes instead of answer/citation failures.",
             "- Benchmark expected answers, expected behavior, and expected sources were not changed.",
         ]
     )

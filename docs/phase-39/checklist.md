@@ -17,6 +17,7 @@ Complete multi-document and ambiguity orchestration work without weakening permi
 - [x] Added admin-only evaluation document-prefix exclusions so live benchmark and permission eval runs exclude uploaded `UPLOAD-` fixtures before generation.
 - [x] Fixed the remaining measured multi-document evidence-use misses without changing prompts, benchmark expectations, or permission rules.
 - [x] Split answer/citation failed-question count from lower-level submetric issue count.
+- [x] Added a submetric issue breakdown that separates actionable issues from memory response-type and clarification/source-coverage diagnostics.
 
 ## Verification Completed
 
@@ -27,13 +28,11 @@ Complete multi-document and ambiguity orchestration work without weakening permi
 - [x] Add or update a full answer-quality evaluator that exercises the live multi-document orchestration path.
 - [x] Run `scripts/run_phase39_live_query_answer_quality.py --allow-external-ai --budget-usd 2` after explicit approval.
 - [x] Export dashboard data after the approved live `/query` answer-quality artifact exists.
-
-## Remaining Follow-Up
-
-- [ ] Investigate the `21` submetric issues separately from answer/citation failure count: `20` memory rows receive half-credit on response-type behavior and `AMB-004` still has source-coverage below full credit while returning the correct clarification behavior.
+- [x] Re-run `scripts/run_phase39_live_query_answer_quality.py --allow-external-ai --budget-usd 2` after diagnostic reporting was added.
 
 ## Notes
 
-- The approved clean live `/query` answer-quality run over benchmark v1.1 reports answer accuracy `1.000`, citation accuracy `1.000`, hallucination rate `0.000`, clarification accuracy `1.000`, failed-question count `0`, and submetric issue count `21`.
+- The approved clean live `/query` answer-quality run over benchmark v1.1 reports answer accuracy `1.000`, citation accuracy `1.000`, hallucination rate `0.000`, clarification accuracy `1.000`, failed-question count `0`, submetric issue count `21`, actionable submetric issue count `0`, and diagnostic submetric note count `21`.
+- The `21` diagnostic notes are `20` memory `answer_with_memory` response-type half-credit rows and `AMB-004` source coverage below full credit on an otherwise correct clarification response.
 - Permission leakage remains `0.000`; unauthorized chunks reaching generation remains `0.000`.
 - Uploaded-document fixtures are excluded from benchmark/eval retrieval before generation; normal uploaded-document chat remains available outside eval runs.

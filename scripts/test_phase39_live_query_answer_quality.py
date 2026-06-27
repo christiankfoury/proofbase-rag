@@ -137,7 +137,14 @@ def test_dashboard_run_marks_live_query_eval() -> None:
             "source_question_count": 1,
             "failed_question_count": 0,
             "submetric_issue_count": 0,
+            "actionable_submetric_issue_count": 0,
+            "diagnostic_submetric_note_count": 0,
             "submetric_issue_ids": [],
+            "submetric_issue_breakdown": {
+                "actionable": {"count": 0, "ids": []},
+                "memory_response_type_diagnostic": {"count": 0, "ids": []},
+                "clarification_source_coverage_diagnostic": {"count": 0, "ids": []},
+            },
             "answer_accuracy": 1.0,
             "citation_accuracy": 1.0,
             "hallucination_rate": 0.0,
@@ -152,6 +159,9 @@ def test_dashboard_run_marks_live_query_eval() -> None:
     assert dashboard_run["run_id"] == runner.RUN_ID
     assert dashboard_run["failed_count"] == 0
     assert dashboard_run["metrics"]["submetric_issue_count"] == 0
+    assert dashboard_run["metrics"]["actionable_submetric_issue_count"] == 0
+    assert dashboard_run["metrics"]["diagnostic_submetric_note_count"] == 0
+    assert dashboard_run["submetric_issue_breakdown"]["actionable"]["count"] == 0
     assert dashboard_run["evaluation_excluded_document_prefixes"] == ["UPLOAD-"]
     assert dashboard_run["category_breakdown"] == {"simple_factual": 1}
 
@@ -160,6 +170,8 @@ def test_summary_tracks_submetric_issues_without_failed_questions() -> None:
     rows = [
         {
             "question_id": "MEM-001",
+            "expected_behavior": "answer_with_memory",
+            "behavior": "answer",
             "answer_accuracy": 1.0,
             "citation_accuracy": 1.0,
             "response_type_accuracy": 0.5,
@@ -174,6 +186,28 @@ def test_summary_tracks_submetric_issues_without_failed_questions() -> None:
             "faithfulness": 0.9,
             "hallucination_rate": 0.0,
             "final_confidence": 0.9,
+            "input_tokens": 10,
+            "output_tokens": 5,
+            "estimated_cost_usd": 0.001,
+        },
+        {
+            "question_id": "AMB-004",
+            "expected_behavior": "ask_clarifying_question",
+            "behavior": "ask_clarifying_question",
+            "answer_accuracy": None,
+            "citation_accuracy": None,
+            "response_type_accuracy": 1.0,
+            "refusal_accuracy": None,
+            "not_found_accuracy": None,
+            "clarification_accuracy": 1.0,
+            "all_sources_hit": 0.0,
+            "expected_source_recall": 0.5,
+            "any_source_hit": 1.0,
+            "precision_at_k": 0.2,
+            "mrr": 1.0,
+            "faithfulness": None,
+            "hallucination_rate": None,
+            "final_confidence": 0.8,
             "input_tokens": 10,
             "output_tokens": 5,
             "estimated_cost_usd": 0.001,
@@ -196,8 +230,12 @@ def test_summary_tracks_submetric_issues_without_failed_questions() -> None:
     )
 
     assert summary["failed_question_count"] == 0
-    assert summary["submetric_issue_count"] == 1
-    assert summary["submetric_issue_ids"] == ["MEM-001"]
+    assert summary["submetric_issue_count"] == 2
+    assert summary["submetric_issue_ids"] == ["MEM-001", "AMB-004"]
+    assert summary["actionable_submetric_issue_count"] == 0
+    assert summary["diagnostic_submetric_note_count"] == 2
+    assert summary["submetric_issue_breakdown"]["memory_response_type_diagnostic"]["ids"] == ["MEM-001"]
+    assert summary["submetric_issue_breakdown"]["clarification_source_coverage_diagnostic"]["ids"] == ["AMB-004"]
 
 
 def test_query_rejects_eval_exclusions_for_non_admin_users() -> None:
