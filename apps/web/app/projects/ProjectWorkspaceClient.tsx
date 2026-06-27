@@ -608,6 +608,7 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                     </div>
                   </form>
                   <SectionHeading
+                    className="mt-10"
                     title="Department Shortcuts"
                     description="Open a department workspace, or ask with that department as a strict retrieval scope."
                   />
@@ -632,13 +633,17 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                               </p>
                             </div>
                           </div>
-                          <div className="mt-4 grid grid-cols-3 gap-2 text-sm text-stone-700">
-                            <span>{formatNumber(department.document_count)} docs</span>
-                            <span>{formatNumber(department.chunk_count)} chunks</span>
-                            <span>{department.default_access_roles.length} defaults</span>
+                          <div className="mt-4 flex flex-wrap gap-2 text-xs font-medium text-stone-700">
+                            <span className="rounded border border-stone-200 bg-stone-50 px-2.5 py-1">
+                              {formatNumber(department.document_count)}{" "}
+                              {department.document_count === 1 ? "document" : "documents"}
+                            </span>
+                            <span className="rounded border border-stone-200 bg-stone-50 px-2.5 py-1">
+                              {formatNumber(department.chunk_count)} {department.chunk_count === 1 ? "chunk" : "chunks"}
+                            </span>
                           </div>
                           <p className="mt-3 text-xs text-stone-600">
-                            Current roles: {department.access_roles.join(", ") || department.default_access_roles.join(", ") || "-"}
+                            Default roles: {department.default_access_roles.join(", ") || "-"}
                           </p>
                           <div className="mt-4 flex flex-wrap gap-2">
                             <Link href={`/projects/${activeProject.id}/departments/${department.id}`} className="btn-secondary btn-sm">
