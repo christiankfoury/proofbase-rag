@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import { Badge } from "@/components/Badge";
+import { DepartmentIconTile } from "@/components/DepartmentIconTile";
 import { EmptyState } from "@/components/EmptyState";
 import { RoleMultiSelect } from "@/components/RoleMultiSelect";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -33,29 +34,6 @@ type DepartmentFormState = {
 
 function formatNumber(value: number | null | undefined): string {
   return new Intl.NumberFormat("en-US").format(value ?? 0);
-}
-
-function iconLabel(icon: string): string {
-  const labels: Record<string, string> = {
-    people: "PE",
-    shield: "SH",
-    chart: "CH",
-    briefcase: "BR",
-    lock: "LO",
-    key: "KE",
-    building: "BU",
-  };
-  return labels[icon] ?? "DE";
-}
-
-function colorClass(color: string): string {
-  const classes: Record<string, string> = {
-    moss: "border-moss bg-moss-soft text-moss-dark",
-    steel: "border-steel bg-steel-soft text-steel-dark",
-    rust: "border-rust bg-rust-soft text-rust-dark",
-    stone: "border-stone-300 bg-stone-100 text-stone-700",
-  };
-  return classes[color] ?? classes.stone;
 }
 
 function formatLabel(value: string): string {
@@ -493,13 +471,12 @@ export function DepartmentDetailClient({
         <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="flex items-start gap-4">
-              <div
-                className={`flex h-14 w-14 shrink-0 items-center justify-center rounded border text-sm font-semibold ${colorClass(
-                  department.color
-                )}`}
-              >
-                {iconLabel(department.icon)}
-              </div>
+              <DepartmentIconTile
+                icon={department.icon}
+                color={department.color}
+                className="h-14 w-14"
+                iconClassName="h-6 w-6"
+              />
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-2xl font-semibold text-ink">{department.name}</h2>
@@ -859,13 +836,12 @@ export function DepartmentDetailClient({
           <div className="mb-4 rounded-md border border-stone-200 bg-stone-50 p-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Current appearance</p>
             <div className="mt-3 flex items-center gap-3">
-              <span
-                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded border text-sm font-semibold ${colorClass(
-                  form.color
-                )}`}
-              >
-                {iconLabel(form.icon)}
-              </span>
+              <DepartmentIconTile
+                icon={form.icon}
+                color={form.color}
+                className="h-12 w-12"
+                iconClassName="h-5 w-5"
+              />
               <div>
                 <p className="font-semibold text-ink">{form.name || "Department name"}</p>
                 <p className="text-sm text-stone-600">

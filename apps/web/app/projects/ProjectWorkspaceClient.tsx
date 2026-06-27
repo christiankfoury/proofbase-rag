@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { FileText, MessageSquare, Search } from "lucide-react";
 import { Badge } from "@/components/Badge";
 import type { BadgeTone } from "@/components/Badge";
+import { DepartmentIconTile } from "@/components/DepartmentIconTile";
 import { EmptyState } from "@/components/EmptyState";
 import { RoleMultiSelect } from "@/components/RoleMultiSelect";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -118,29 +119,6 @@ function formatDate(value: string | null | undefined): string {
 
 function isUploadedDocument(document: ProjectDocument): boolean {
   return document.external_document_id.startsWith("UPLOAD-") || document.source_path.startsWith("data/uploads/");
-}
-
-function iconLabel(icon: string): string {
-  const labels: Record<string, string> = {
-    people: "PE",
-    shield: "SH",
-    chart: "CH",
-    briefcase: "BR",
-    lock: "LO",
-    key: "KE",
-    building: "BU",
-  };
-  return labels[icon] ?? "DE";
-}
-
-function colorClass(color: string): string {
-  const classes: Record<string, string> = {
-    moss: "border-moss bg-moss-soft text-moss-dark",
-    steel: "border-steel bg-steel-soft text-steel-dark",
-    rust: "border-rust bg-rust-soft text-rust-dark",
-    stone: "border-stone-300 bg-stone-100 text-stone-700",
-  };
-  return classes[color] ?? classes.stone;
 }
 
 export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?: string }) {
@@ -616,13 +594,12 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                       {activeProject.departments.map((department) => (
                         <article key={department.id} className="rounded border border-stone-200 bg-white p-4">
                           <div className="flex items-start gap-3">
-                            <div
-                              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded border text-xs font-semibold ${colorClass(
-                                department.color
-                              )}`}
-                            >
-                              {iconLabel(department.icon)}
-                            </div>
+                            <DepartmentIconTile
+                              icon={department.icon}
+                              color={department.color}
+                              className="h-10 w-10"
+                              iconClassName="h-4 w-4"
+                            />
                             <div className="min-w-0 flex-1">
                               <div className="flex flex-wrap items-center gap-2">
                                 <p className="font-semibold text-ink">{department.name}</p>
