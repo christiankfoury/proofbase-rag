@@ -146,7 +146,7 @@ export default function GuidedDemoPage() {
               return (
                 <li key={step.number} className={`relative z-10 rounded-md border p-4 ${styles.panel}`}>
                   {index < demoSteps.length - 1 ? (
-                    <span aria-hidden="true" className={`absolute left-9 top-14 -z-10 h-[calc(100%+1rem)] w-px ${styles.line}`} />
+                    <span aria-hidden="true" className={`absolute left-9 top-full h-4 w-px ${styles.line}`} />
                   ) : null}
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div className="flex min-w-0 gap-3">
