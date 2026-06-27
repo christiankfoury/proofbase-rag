@@ -48,6 +48,15 @@ The agent should work in a strict loop:
 7. Push main.
 8. Repeat.
 
+Completing and pushing one phase is not a stopping point. After the post-push status check, immediately start the next queued phase in the same autonomous run unless:
+
+- the roadmap queue is empty
+- the user explicitly asks to pause, stop, or only report status
+- a blocker has repeated enough times that meaningful progress is impossible
+- a new correctness, permission, secret-handling, data-ownership, or AI-cost decision requires user input under the rules below
+
+When a phase finishes cleanly, do not send a final response that merely summarizes completion if the next phase is already known. Instead, record the completed phase in the tracker, then begin the next phase by reading the required roadmap and phase context.
+
 Track durable progress in `docs/roadmap/progress.md`. At the start of each phase, read that file together with `docs/roadmap/phase-plan.md`, `docs/roadmap/phases-improvement.md`, and the latest `docs/phase-*` notes to confirm the current phase, completed phases, verification status, commit references, and next step. Update the progress tracker during each phase before committing. If the tracker conflicts with repository evidence, inspect the repo history and phase docs, then repair the tracker as part of the phase.
 
 ## Operating Autonomy
@@ -127,6 +136,8 @@ Keep the order unless a new correctness, permission, or secret-handling issue be
 OpenAI external calls are approved for this roadmap run. Use the explicit approval flags required by existing scripts, prefer dry-runs and local tests first, and record live OpenAI-backed checks and estimated costs in the relevant phase docs.
 
 For every Phase 41-46 implementation, use the full operating loop: plan, implement, verify, commit to `main` with a detailed multi-part message, review the commit, perform a code review of the last commit, push `main`, then continue to the next planned phase. Update `docs/roadmap/progress.md` and the relevant `docs/phase-{number}` notes before committing each phase.
+
+Do not stop after Phase 41, 42, 43, 44, or 45 just because the commit was pushed. Treat the push as the handoff point into the next phase. Send a final user-facing summary only when the active queue is complete, the user asks for status-only output, or a real blocker prevents continuing.
 
 ## Algorithm Explanation And Audit Mode
 

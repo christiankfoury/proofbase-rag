@@ -29,6 +29,8 @@ Each phase below must use the standard autonomous loop:
 
 Before each commit, update `docs/roadmap/progress.md` and the relevant `docs/phase-{number}` notes with what changed, what was verified, what was skipped, and any remaining limitation.
 
+Phase completion is not a natural stopping point. After a successful push and clean post-push status check, start the next queued phase from this plan in the same autonomous run. Stop only when the queue is complete, the user explicitly asks to pause or report status only, or a real blocker requires user input under `AGENTS.md`.
+
 ## Shared Rules
 
 - Preserve role, project, and department permission filtering before chunks reach generation.
