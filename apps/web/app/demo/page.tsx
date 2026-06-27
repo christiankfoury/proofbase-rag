@@ -125,7 +125,7 @@ export default function GuidedDemoPage() {
         }
       />
 
-      <section className="grid gap-5 xl:grid-cols-[minmax(0,1.2fr)_minmax(360px,0.8fr)]">
+      <section className="grid gap-5">
         <Card tone="good">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
@@ -140,13 +140,13 @@ export default function GuidedDemoPage() {
             </Link>
           </div>
 
-          <ol className="mt-6 space-y-4">
+          <ol className="relative mt-6 space-y-4">
             {demoSteps.map((step, index) => {
               const styles = toneStyles[step.tone as keyof typeof toneStyles];
               return (
-                <li key={step.number} className={`relative rounded-md border p-4 ${styles.panel}`}>
+                <li key={step.number} className={`relative z-10 rounded-md border p-4 ${styles.panel}`}>
                   {index < demoSteps.length - 1 ? (
-                    <span aria-hidden="true" className={`absolute left-9 top-14 h-[calc(100%+1rem)] w-px ${styles.line}`} />
+                    <span aria-hidden="true" className={`absolute left-9 top-14 -z-10 h-[calc(100%+1rem)] w-px ${styles.line}`} />
                   ) : null}
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div className="flex min-w-0 gap-3">
