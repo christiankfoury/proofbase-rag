@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import { Badge } from "@/components/Badge";
 import { EmptyState } from "@/components/EmptyState";
+import { RoleMultiSelect } from "@/components/RoleMultiSelect";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
   approveDepartmentDocument,
@@ -24,7 +25,7 @@ type DepartmentFormState = {
   icon: DepartmentIcon;
   color: DepartmentColor;
   description: string;
-  default_access_roles_text: string;
+  default_access_roles: string[];
 };
 
 function formatNumber(value: number | null | undefined): string {
@@ -54,17 +55,13 @@ function colorClass(color: string): string {
   return classes[color] ?? classes.stone;
 }
 
-function parseRoles(value: string): string[] {
-  return Array.from(new Set(value.split(",").map((role) => role.trim()).filter(Boolean)));
-}
-
 function formFromDepartment(department: ProjectDepartment): DepartmentFormState {
   return {
     name: department.name,
     icon: department.icon,
     color: department.color,
     description: department.description,
-    default_access_roles_text: department.default_access_roles.join(", "),
+    default_access_roles: department.default_access_roles,
   };
 }
 
@@ -96,7 +93,7 @@ export function DepartmentDetailClient({
   const [form, setForm] = useState<DepartmentFormState | null>(null);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploadTitle, setUploadTitle] = useState("");
-  const [uploadRolesText, setUploadRolesText] = useState("");
+  const [uploadRoles, setUploadRoles] = useState<string[]>([]);
   const [uploadRestricted, setUploadRestricted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -118,7 +115,7 @@ export function DepartmentDetailClient({
         setSelectedDocumentId((current) =>
           current && nextDocuments.some((document) => document.id === current) ? current : nextDocuments[0]?.id ?? ""
         );
-        setUploadRolesText((current) => current || nextDepartment.default_access_roles.join(", "));
+        setUploadRoles((current) => (current.length ? current : nextDepartment.default_access_roles));
         setForm(formFromDepartment(nextDepartment));
       })
       .catch((err: Error) => {
@@ -174,7 +171,7 @@ export function DepartmentDetailClient({
         icon: form.icon,
         color: form.color,
         description: form.description,
-        default_access_roles: parseRoles(form.default_access_roles_text),
+        default_access_roles: form.default_access_roles,
       });
       setDepartment(nextDepartment);
       setForm(formFromDepartment(nextDepartment));
@@ -198,7 +195,7 @@ export function DepartmentDetailClient({
       const document = await uploadDepartmentDocument(projectId, departmentId, {
         file: uploadFile,
         title: uploadTitle,
-        access_roles: parseRoles(uploadRolesText),
+        access_roles: uploadRoles,
         restricted: uploadRestricted,
       });
       const [nextDepartment, nextDocuments] = await Promise.all([
@@ -505,15 +502,7 @@ export function DepartmentDetailClient({
                 placeholder="Defaults to file name"
               />
             </label>
-            <label className="block">
-              <span className="text-sm font-medium text-stone-700">Access roles</span>
-              <input
-                className="field mt-1 w-full"
-                value={uploadRolesText}
-                onChange={(event) => setUploadRolesText(event.target.value)}
-                placeholder="Employee, Manager"
-              />
-            </label>
+            <RoleMultiSelect label="Access roles" selectedRoles={uploadRoles} onChange={setUploadRoles} />
             <label className="flex items-center gap-2 text-sm text-stone-700">
               <input
                 type="checkbox"
@@ -569,16 +558,11 @@ export function DepartmentDetailClient({
               <option value="stone">Stone</option>
             </select>
           </label>
-          <label className="block">
-            <span className="text-sm font-medium text-stone-700">Default access roles</span>
-            <input
-              className="field mt-1 w-full"
-              value={form.default_access_roles_text}
-              onChange={(event) =>
-                setForm((current) => current && { ...current, default_access_roles_text: event.target.value })
-              }
-            />
-          </label>
+          <RoleMultiSelect
+            label="Default access roles"
+            selectedRoles={form.default_access_roles}
+            onChange={(roles) => setForm((current) => current && { ...current, default_access_roles: roles })}
+          />
           <label className="block">
             <span className="text-sm font-medium text-stone-700">Description</span>
             <textarea

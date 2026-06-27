@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/Badge";
 import { EmptyState } from "@/components/EmptyState";
+import { RoleMultiSelect } from "@/components/RoleMultiSelect";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
   archiveProject,
@@ -59,7 +60,7 @@ type DepartmentFormState = {
   icon: DepartmentIcon;
   color: DepartmentColor;
   description: string;
-  default_access_roles_text: string;
+  default_access_roles: string[];
 };
 
 const emptyDepartmentForm: DepartmentFormState = {
@@ -67,7 +68,7 @@ const emptyDepartmentForm: DepartmentFormState = {
   icon: "building",
   color: "steel",
   description: "",
-  default_access_roles_text: "Employee",
+  default_access_roles: ["Employee"],
 };
 
 function formatNumber(value: number | null | undefined): string {
@@ -109,10 +110,6 @@ function colorClass(color: string): string {
     stone: "border-stone-300 bg-stone-100 text-stone-700",
   };
   return classes[color] ?? classes.stone;
-}
-
-function parseRoles(value: string): string[] {
-  return Array.from(new Set(value.split(",").map((role) => role.trim()).filter(Boolean)));
 }
 
 export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?: string }) {
@@ -247,7 +244,7 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
         icon: departmentForm.icon,
         color: departmentForm.color,
         description: departmentForm.description,
-        default_access_roles: parseRoles(departmentForm.default_access_roles_text),
+        default_access_roles: departmentForm.default_access_roles,
       });
       const project = await fetchProject(activeProject.id);
       setSelectedProject(project);
@@ -402,13 +399,10 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                       placeholder="Department name"
                       required
                     />
-                    <input
-                      className="field w-full"
-                      value={departmentForm.default_access_roles_text}
-                      onChange={(event) =>
-                        setDepartmentForm((form) => ({ ...form, default_access_roles_text: event.target.value }))
-                      }
-                      placeholder="Default roles"
+                    <RoleMultiSelect
+                      label="Default access roles"
+                      selectedRoles={departmentForm.default_access_roles}
+                      onChange={(roles) => setDepartmentForm((form) => ({ ...form, default_access_roles: roles }))}
                     />
                     <select
                       className="field w-full"
