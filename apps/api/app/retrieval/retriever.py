@@ -18,6 +18,7 @@ def retrieve_chunks(
             chunking_strategy=active_config.chunking_strategy,
             project_id=active_config.project_id,
             department_id=active_config.department_id,
+            excluded_document_prefixes=active_config.excluded_document_prefixes,
             reranker="lexical" if active_config.retrieval_mode == "vector_lexical_rerank" else active_config.reranker,
             rerank_candidate_limit=active_config.rerank_candidate_limit,
         )
@@ -29,6 +30,7 @@ def retrieve_chunks(
             chunking_strategy=active_config.chunking_strategy,
             project_id=active_config.project_id,
             department_id=active_config.department_id,
+            excluded_document_prefixes=active_config.excluded_document_prefixes,
         )
     if active_config.retrieval_mode == "hybrid":
         return hybrid_retriever.retrieve_chunks(
@@ -40,6 +42,7 @@ def retrieve_chunks(
             keyword_weight=active_config.keyword_weight,
             project_id=active_config.project_id,
             department_id=active_config.department_id,
+            excluded_document_prefixes=active_config.excluded_document_prefixes,
         )
 
     raise ValueError(f"Unsupported retrieval mode: {active_config.retrieval_mode}")

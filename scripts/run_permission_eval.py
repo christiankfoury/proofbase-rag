@@ -33,6 +33,7 @@ EXTERNAL_EMBEDDINGS_APPROVAL_MESSAGE = (
     "The vector_lexical_rerank permission run sends benchmark question text to the external embeddings API. "
     "Re-run with --allow-external-embeddings only after explicit user approval."
 )
+EVALUATION_EXCLUDED_DOCUMENT_PREFIXES = ["UPLOAD-"]
 
 
 def _load_benchmark() -> dict:
@@ -112,6 +113,7 @@ def _write_report(summary: dict, unauthorized_rows: list[dict], authorized_rows:
         f"- Top K: {summary['top_k']}",
         f"- Reranker: {summary['reranker']}",
         f"- Rerank candidate limit: {summary['rerank_candidate_limit']}",
+        f"- Excluded document prefixes: {', '.join(summary.get('evaluation_excluded_document_prefixes') or []) or 'None'}",
         f"- Permission leakage rate: {summary['permission_leakage_rate']}",
         f"- Blocked-answer accuracy: {summary['blocked_answer_accuracy']}",
         f"- Unauthorized chunk exposure rate: {summary['unauthorized_chunk_exposure_rate']}",
@@ -198,6 +200,7 @@ def _dashboard_run(result: dict) -> dict:
         "top_k": summary["top_k"],
         "reranker": summary.get("reranker"),
         "rerank_candidate_limit": summary.get("rerank_candidate_limit"),
+        "evaluation_excluded_document_prefixes": summary.get("evaluation_excluded_document_prefixes") or [],
         "total_questions": summary["restricted_question_count"],
         "source_question_count": summary.get("source_question_count"),
         "question_filter": "permission_restricted",
@@ -264,6 +267,7 @@ def main() -> None:
         chunking_strategy=args.chunking_strategy,
         top_k=args.top_k,
         rerank_candidate_limit=args.rerank_candidate_limit,
+        excluded_document_prefixes=EVALUATION_EXCLUDED_DOCUMENT_PREFIXES,
     )
     role_by_doc = _document_access_roles()
     permission_questions = [
@@ -369,6 +373,7 @@ def main() -> None:
         "top_k": config.top_k,
         "reranker": config.reranker,
         "rerank_candidate_limit": config.rerank_candidate_limit,
+        "evaluation_excluded_document_prefixes": list(config.excluded_document_prefixes),
         "permission_leakage_rate": _average([row["permission_leakage"] for row in unauthorized_rows]),
         "blocked_answer_accuracy": _average([row["blocked_answer_accuracy"] for row in unauthorized_rows]),
         "unauthorized_chunk_exposure_rate": _average([row["unauthorized_chunk_exposure"] for row in unauthorized_rows]),

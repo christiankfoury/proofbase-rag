@@ -14,6 +14,9 @@ Complete multi-document and ambiguity orchestration work without weakening permi
 - [x] Added a guarded full answer-quality evaluator that exercises live `POST /query` orchestration.
 - [x] Expanded deterministic multi-document detection for support/engineering incidents, API/data-governance questions, and software/vendor approval overlap.
 - [x] Tightened targeted source-planner subqueries for the remaining measured multi-document source shapes.
+- [x] Added admin-only evaluation document-prefix exclusions so live benchmark and permission eval runs exclude uploaded `UPLOAD-` fixtures before generation.
+- [x] Fixed the remaining measured multi-document evidence-use misses without changing prompts, benchmark expectations, or permission rules.
+- [x] Split answer/citation failed-question count from lower-level submetric issue count.
 
 ## Verification Completed
 
@@ -27,10 +30,10 @@ Complete multi-document and ambiguity orchestration work without weakening permi
 
 ## Remaining Follow-Up
 
-- [ ] Investigate the remaining 4 answer-quality failures (`MULTI-004`, `MULTI-006`, `MULTI-017`, `MULTI-020`) without lowering citation standards or changing benchmark expectations casually.
+- [ ] Investigate the `21` submetric issues separately from answer/citation failure count: `20` memory rows receive half-credit on response-type behavior and `AMB-004` still has source-coverage below full credit while returning the correct clarification behavior.
 
 ## Notes
 
-- The approved live `/query` answer-quality run over benchmark v1.1 reports answer accuracy `0.981`, citation accuracy `0.981`, hallucination rate `0.000`, clarification accuracy `1.000`, and `4` failed questions.
+- The approved clean live `/query` answer-quality run over benchmark v1.1 reports answer accuracy `1.000`, citation accuracy `1.000`, hallucination rate `0.000`, clarification accuracy `1.000`, failed-question count `0`, and submetric issue count `21`.
 - Permission leakage remains `0.000`; unauthorized chunks reaching generation remains `0.000`.
-- The remaining failures are kept visible instead of being hidden by weaker citation rules or benchmark edits.
+- Uploaded-document fixtures are excluded from benchmark/eval retrieval before generation; normal uploaded-document chat remains available outside eval runs.

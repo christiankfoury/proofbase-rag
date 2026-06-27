@@ -14,6 +14,7 @@ def retrieve_chunks(
     chunking_strategy: str = "section_based",
     project_id: str | None = None,
     department_id: str | None = None,
+    excluded_document_prefixes: list[str] | tuple[str, ...] | None = None,
     reranker: str | None = None,
     rerank_candidate_limit: int | None = None,
 ) -> list[RetrievedChunk]:
@@ -23,7 +24,11 @@ def retrieve_chunks(
     allowed_limit = rerank_candidate_limit or (candidate_limit if reranker else limit)
     query_embedding = to_vector_literal(embed_text(question))
     roles = role_variants(user_role)
-    scope_sql, scope_params = _scope_filter(project_id=project_id, department_id=department_id)
+    scope_sql, scope_params = _document_filter(
+        project_id=project_id,
+        department_id=department_id,
+        excluded_document_prefixes=excluded_document_prefixes,
+    )
 
     candidate_sql = f"""
         select
@@ -120,7 +125,12 @@ def retrieve_chunks(
     return chunks
 
 
-def _scope_filter(*, project_id: str | None = None, department_id: str | None = None) -> tuple[str, list[str]]:
+def _document_filter(
+    *,
+    project_id: str | None = None,
+    department_id: str | None = None,
+    excluded_document_prefixes: list[str] | tuple[str, ...] | None = None,
+) -> tuple[str, list[str]]:
     clauses: list[str] = []
     params: list[str] = []
     if project_id:
@@ -129,4 +139,10 @@ def _scope_filter(*, project_id: str | None = None, department_id: str | None = 
     if department_id:
         clauses.append("and d.department_id = %s::uuid")
         params.append(department_id)
+    for prefix in excluded_document_prefixes or ():
+        normalized = prefix.strip()
+        if not normalized:
+            continue
+        clauses.append("and d.external_document_id not like %s")
+        params.append(f"{normalized}%")
     return "\n          ".join(clauses), params

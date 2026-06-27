@@ -90,6 +90,7 @@ class QueryRequest(BaseModel):
     multi_doc_mode: str = Field("auto", pattern="^(auto|off|force)$")
     project_id: str | None = None
     department_id: str | None = None
+    evaluation_excluded_document_prefixes: list[str] = Field(default_factory=list, max_length=10)
 
 
 class CreateSessionRequest(BaseModel):
@@ -218,6 +219,13 @@ def _effective_query_role(requested_role: str, user: dict, *, project_scoped: bo
     if user["is_admin"]:
         return requested_role or user["business_role"]
     return user["business_role"]
+
+
+def _evaluation_excluded_document_prefixes(request: QueryRequest, user: dict) -> tuple[str, ...]:
+    prefixes = tuple(dict.fromkeys(prefix.strip() for prefix in request.evaluation_excluded_document_prefixes if prefix.strip()))
+    if prefixes and not user["is_admin"]:
+        raise HTTPException(status_code=403, detail="Evaluation document exclusions are restricted to admin users.")
+    return prefixes
 
 
 def _load_dashboard_data() -> dict:
@@ -1250,6 +1258,7 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
             if project_id:
                 require_project_member(user, project_id)
             effective_role = _effective_query_role(request.user_role, user, project_scoped=bool(project_id))
+            excluded_document_prefixes = _evaluation_excluded_document_prefixes(request, user)
 
             settings = get_settings()
             config = default_retrieval_config(
@@ -1261,6 +1270,7 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                 run_name="api-query-stream",
                 project_id=project_id,
                 department_id=department_id,
+                excluded_document_prefixes=excluded_document_prefixes,
             )
 
             if project_id:
@@ -1463,6 +1473,7 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
     if project_id:
         require_project_member(user, project_id)
     effective_role = _effective_query_role(request.user_role, user, project_scoped=bool(project_id))
+    excluded_document_prefixes = _evaluation_excluded_document_prefixes(request, user)
 
     settings = get_settings()
     config = default_retrieval_config(
@@ -1474,6 +1485,7 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         run_name="api-query",
         project_id=project_id,
         department_id=department_id,
+        excluded_document_prefixes=excluded_document_prefixes,
     )
     try:
         if project_id:

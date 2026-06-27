@@ -31,6 +31,11 @@ _DOMAIN_PAIRS: list[tuple[frozenset[str], frozenset[str]]] = [
         frozenset({"performance", "pip", "performance improvement", "performance concern"}),
         frozenset({"hr", "people operations", "consult", "employee relations", "formal process"}),
     ),
+    # MGR-001 (manager responsibilities) + MGR-002 (performance process)
+    (
+        frozenset({"manager", "manage", "handle", "ongoing", "concerns"}),
+        frozenset({"performance", "performance concerns", "performance issue", "feedback"}),
+    ),
     # SALES-001 (sales stages) + SALES-002 (implementation)
     (
         frozenset({"proposal", "deal stage", "opportunity", "pipeline", "sales stage", "move to proposal"}),

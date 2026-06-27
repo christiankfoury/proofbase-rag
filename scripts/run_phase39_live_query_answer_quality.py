@@ -40,6 +40,7 @@ OUTPUT_JSON = OUTPUT_DIR / f"{RUN_ID}.json"
 EVAL_RUN_JSON = EVAL_RUN_DIR / f"{RUN_ID}.json"
 REPORT_PATH = PHASE_DIR / "live-query-answer-quality-results.md"
 ADMIN_USER_ID = "00000000-0000-0000-0000-000000002706"
+EVALUATION_EXCLUDED_DOCUMENT_PREFIXES = ["UPLOAD-"]
 EXTERNAL_AI_APPROVAL_MESSAGE = (
     "The Phase 39 live query answer-quality run sends benchmark questions and permission-filtered retrieved "
     "synthetic source snippets to external OpenAI embeddings and chat-completion APIs through POST /query. "
@@ -108,6 +109,27 @@ def _failure_reason_counts(failed_questions: list[dict[str, Any]]) -> dict[str, 
     return dict(sorted(counts.items()))
 
 
+def _submetric_issue_ids(rows: list[dict[str, Any]]) -> list[str]:
+    full_credit_metrics = [
+        "answer_accuracy",
+        "citation_accuracy",
+        "response_type_accuracy",
+        "refusal_accuracy",
+        "not_found_accuracy",
+        "clarification_accuracy",
+        "all_sources_hit",
+        "expected_source_recall",
+    ]
+    issue_ids: list[str] = []
+    for row in rows:
+        has_issue = any(row.get(metric) is not None and row[metric] < 1.0 for metric in full_credit_metrics)
+        if row.get("hallucination_rate") is not None and row["hallucination_rate"] > 0.0:
+            has_issue = True
+        if has_issue:
+            issue_ids.append(row["question_id"])
+    return issue_ids
+
+
 def _citation_failure_counts(failed_questions: list[dict[str, Any]]) -> dict[str, int]:
     counts: Counter[str] = Counter()
     for item in failed_questions:
@@ -160,6 +182,7 @@ def _query_payload(question: dict[str, Any], args: argparse.Namespace, session_i
         "top_k": args.top_k,
         "prompt_version": args.prompt_version,
         "multi_doc_mode": args.multi_doc_mode,
+        "evaluation_excluded_document_prefixes": EVALUATION_EXCLUDED_DOCUMENT_PREFIXES,
     }
 
 
@@ -245,6 +268,7 @@ def _summary(
     args: argparse.Namespace,
     started_at: str,
 ) -> dict[str, Any]:
+    submetric_issue_ids = _submetric_issue_ids(rows)
     return {
         "experiment_id": RUN_ID,
         "run_name": "live-query-answer-quality-v8",
@@ -256,10 +280,13 @@ def _summary(
         "chunking_strategy": "section_based",
         "top_k": args.top_k,
         "multi_doc_mode": args.multi_doc_mode,
+        "evaluation_excluded_document_prefixes": EVALUATION_EXCLUDED_DOCUMENT_PREFIXES,
         "question_filter": args.question_filter,
         "question_count": len(rows),
         "source_question_count": benchmark.get("question_count"),
         "failed_question_count": len(failed),
+        "submetric_issue_count": len(submetric_issue_ids),
+        "submetric_issue_ids": submetric_issue_ids,
         "any_source_hit": _average([row["any_source_hit"] for row in rows]),
         "all_sources_hit": _average([row["all_sources_hit"] for row in rows]),
         "expected_source_recall": _average([row["expected_source_recall"] for row in rows]),
@@ -297,6 +324,7 @@ def _dashboard_run(result: dict[str, Any]) -> dict[str, Any]:
         "prompt_name": summary["prompt_name"],
         "prompt_version": summary["prompt_version"],
         "multi_doc_mode": summary["multi_doc_mode"],
+        "evaluation_excluded_document_prefixes": summary.get("evaluation_excluded_document_prefixes") or [],
         "model": summary["model"],
         "total_questions": summary["question_count"],
         "source_question_count": summary["source_question_count"],
@@ -320,16 +348,19 @@ def _dashboard_run(result: dict[str, Any]) -> dict[str, Any]:
             "output_tokens": summary.get("output_tokens"),
             "estimated_cost": summary.get("estimated_cost"),
             "failed_question_count": summary.get("failed_question_count"),
+            "submetric_issue_count": summary.get("submetric_issue_count"),
         },
         "failed_questions": failed_question_ids,
+        "submetric_issue_ids": summary.get("submetric_issue_ids") or [],
         "category_breakdown": _category_breakdown(result.get("rows") or []),
         "failure_reason_counts": _failure_reason_counts(result.get("failed_questions") or []),
         "citation_failure_category_counts": _citation_failure_counts(result.get("failed_questions") or []),
         "notes": (
             "Phase 39 live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, "
             "memory session loading, auto multi-document detection, permission-filtered retrieval, generation, "
-            "citation validation, and the API response payload. Expected answers, expected behavior, expected sources, "
-            "prompts, and retrieval logic are unchanged."
+            "citation validation, and the API response payload. Uploaded-document fixtures are excluded from this "
+            "benchmark run before generation. Expected answers, expected behavior, expected sources, prompts, and "
+            "retrieval ranking logic are unchanged."
         ),
         "sample_size": summary["question_count"],
         "passed_count": summary["question_count"] - len(failed_question_ids),
@@ -357,6 +388,7 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
         f"- Top K: `{dashboard_run['top_k']}`",
         f"- Prompt version: `{dashboard_run['prompt_version']}`",
         f"- Multi-doc mode: `{dashboard_run['multi_doc_mode']}`",
+        f"- Excluded document prefixes: `{', '.join(dashboard_run.get('evaluation_excluded_document_prefixes') or []) or 'None'}`",
         f"- Estimated chat cost: `{metrics.get('estimated_cost')}`",
         "",
         "## Metrics",
@@ -374,6 +406,7 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
         "not_found_accuracy",
         "clarification_accuracy",
         "failed_question_count",
+        "submetric_issue_count",
         "estimated_cost",
     ]:
         lines.append(f"| {metric} | `{metrics.get(metric)}` |")
@@ -385,11 +418,14 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
             f"- Failed count: `{dashboard_run['failed_count']}`",
             f"- Failed IDs: `{', '.join(dashboard_run.get('failed_questions') or []) or 'None'}`",
             f"- Failure buckets: `{json.dumps(_failure_reason_counts(failures), sort_keys=True)}`",
+            f"- Submetric issue count: `{metrics.get('submetric_issue_count')}`",
+            f"- Submetric issue IDs: `{', '.join(dashboard_run.get('submetric_issue_ids') or []) or 'None'}`",
             "",
             "## Notes",
             "",
             "- This runner calls `POST /query` instead of the prompt-experiment retrieval/generation helper.",
             "- Permission filtering happens inside the normal API retrieval path before generation.",
+            "- Uploaded-document fixtures are excluded from benchmark retrieval before generation.",
             "- Memory benchmark rows are represented as local eval sessions with their previous turns inserted before the live query.",
             "- Benchmark expected answers, expected behavior, and expected sources were not changed.",
         ]

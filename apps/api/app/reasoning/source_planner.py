@@ -36,6 +36,9 @@ def plan_multi_document_sources(question: str) -> list[SourcePlanItem]:
         add("remote_work", "remote hybrid cross-border work policy approval", "HR-003")
     if any(term in normalized for term in ["device", "byod", "personal laptop", "laptop", "mdm"]):
         add("device_security", "device BYOD security personal laptop MDM requirements", "IT-002")
+    if any(term in normalized for term in ["performance concern", "performance concerns", "performance issue", "ongoing performance"]):
+        add("manager_responsibilities", "manager responsibilities clear expectations support growth escalate risks", "MGR-001")
+        add("performance_process", "performance feedback specific examples business impact expected behavior people operations formal improvement process", "MGR-002")
 
     if any(term in normalized for term in ["ai tool", "ai assistant", "llm", "copilot", "ai to summarize"]):
         add("acceptable_ai_use", "acceptable use AI tools internal data customer data", "IT-001")

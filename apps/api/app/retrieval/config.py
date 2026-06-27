@@ -17,6 +17,7 @@ class RetrievalConfig:
     model: str = "gpt-4.1-mini"
     project_id: str | None = None
     department_id: str | None = None
+    excluded_document_prefixes: tuple[str, ...] = ()
 
 
 def default_retrieval_config(
@@ -30,6 +31,7 @@ def default_retrieval_config(
     run_name: str | None = None,
     project_id: str | None = None,
     department_id: str | None = None,
+    excluded_document_prefixes: list[str] | tuple[str, ...] | None = None,
 ) -> RetrievalConfig:
     settings = get_settings()
     mode = retrieval_mode
@@ -47,4 +49,7 @@ def default_retrieval_config(
         model=settings.openai_chat_model,
         project_id=project_id,
         department_id=department_id,
+        excluded_document_prefixes=tuple(
+            dict.fromkeys(prefix.strip() for prefix in (excluded_document_prefixes or []) if prefix.strip())
+        ),
     )

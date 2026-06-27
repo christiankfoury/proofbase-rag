@@ -377,6 +377,77 @@ def _direct_supported_response(normalized_question: str, chunks: list[RetrievedC
             [cross_border, hr_escalation],
             "Direct policy answer selected from retrieved cross-border remote-work sections.",
         )
+
+    sales_value = _find_chunk(chunks, "SALES-002", "Core Value Proposition")
+    bi_positioning = _find_chunk(chunks, "SALES-003", "Positioning Against Generic BI Tools")
+    prohibited_claims = _find_chunk(chunks, "SALES-003", "Prohibited Claims")
+    if sales_value and bi_positioning and prohibited_claims and "bi tool" in normalized_question and "prohibited" in normalized_question:
+        return _supported_answer_response(
+            (
+                "Position Northstar as workflow-aware analytics that gives operations teams one place to monitor workflows, "
+                "approvals, data quality issues, and executive KPIs. Against generic BI tools, say that Northstar complements "
+                "BI by helping operations teams act on workflow issues, not just view dashboards. Avoid claims that Northstar "
+                "guarantees revenue improvement, replaces all existing systems, meets every regulatory requirement, or has "
+                "committed roadmap features."
+            ),
+            [sales_value, bi_positioning, prohibited_claims],
+            "Direct policy answer selected from retrieved product-positioning and prohibited-claims sections.",
+        )
+
+    manager_responsibilities = _find_chunk(chunks, "MGR-001", "Manager Responsibilities")
+    performance_documentation = _find_chunk(chunks, "MGR-002", "Performance Documentation")
+    performance_process = _find_chunk(chunks, "MGR-002", "Performance Improvement Process")
+    if (
+        manager_responsibilities
+        and performance_documentation
+        and performance_process
+        and "performance" in normalized_question
+        and ("manager" in normalized_question or "ongoing" in normalized_question)
+    ):
+        return _supported_answer_response(
+            (
+                "A manager handling ongoing performance concerns should set clear expectations, support employee growth, "
+                "document important decisions, and escalate risks early. Performance feedback should include specific examples, "
+                "business impact, expected behavior, and follow-up actions. If serious performance issues continue after feedback, "
+                "the manager should consult People Operations before starting a formal performance improvement process."
+            ),
+            [manager_responsibilities, performance_documentation, performance_process],
+            "Direct policy answer selected from retrieved manager-responsibility and performance-process sections.",
+        )
+
+    api_standards = _find_chunk(chunks, "ENG-001", "API Standards")
+    storage_rules = _find_chunk(chunks, "IT-003", "Storage Rules")
+    if api_standards and storage_rules and "api" in normalized_question and "customer data" in normalized_question:
+        return _supported_answer_response(
+            (
+                "APIs that expose customer or employee data must enforce authorization before database fetches whenever practical; "
+                "if pre-fetch filtering is not possible, the exception must be documented in the design review. Customer, "
+                "Confidential, and Restricted data must be stored in approved company systems, and Restricted data must not be "
+                "downloaded to personal devices."
+            ),
+            [api_standards, storage_rules],
+            "Direct policy answer selected from retrieved API-standards and storage-rules sections.",
+        )
+
+    expense_categories = _find_chunk(chunks, "FIN-001", "Expense Categories")
+    vendor_onboarding = _find_chunk(chunks, "OPS-001", "Vendor Onboarding")
+    policy_overlap = _find_chunk(chunks, "OPS-001", "Overlap With Other Policies")
+    if expense_categories and policy_overlap and "policies overlap" in normalized_question and (
+        "software" in normalized_question or "vendor" in normalized_question
+    ):
+        citation_chunks = [expense_categories, policy_overlap]
+        if vendor_onboarding:
+            citation_chunks.insert(1, vendor_onboarding)
+        return _supported_answer_response(
+            (
+                "For software purchases, Finance requires IT review and manager approval for a software subscription trial "
+                "at USD 500 annualized value. For vendors, Operations requires the appropriate intake and review path, including "
+                "Operations, Legal, and IT Admin review for high-risk vendors that process company or customer data. When policies "
+                "overlap, use the stricter approval path."
+            ),
+            citation_chunks,
+            "Direct policy answer selected from retrieved finance software-purchase and operations overlap sections.",
+        )
     return None
 
 

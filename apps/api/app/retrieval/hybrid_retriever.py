@@ -22,6 +22,7 @@ def retrieve_chunks(
     keyword_weight: float = 0.5,
     project_id: str | None = None,
     department_id: str | None = None,
+    excluded_document_prefixes: list[str] | tuple[str, ...] | None = None,
 ) -> list[RetrievedChunk]:
     settings = get_settings()
     limit = top_k or settings.default_top_k
@@ -34,6 +35,7 @@ def retrieve_chunks(
         chunking_strategy=chunking_strategy,
         project_id=project_id,
         department_id=department_id,
+        excluded_document_prefixes=excluded_document_prefixes,
     )
     keyword_chunks = keyword_retriever.retrieve_chunks(
         question,
@@ -42,6 +44,7 @@ def retrieve_chunks(
         chunking_strategy=chunking_strategy,
         project_id=project_id,
         department_id=department_id,
+        excluded_document_prefixes=excluded_document_prefixes,
     )
 
     vector_scores = {chunk.chunk_id: score for chunk, score in zip(vector_chunks, _normalize_scores([c.score for c in vector_chunks]), strict=True)}

@@ -4,12 +4,15 @@ import sys
 from argparse import Namespace
 from pathlib import Path
 
+from fastapi.testclient import TestClient
+
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 import scripts.run_phase39_live_query_answer_quality as runner
 import scripts.export_dashboard_data as dashboard_export
+from apps.api.app.main import current_demo_user
 
 
 def test_query_payload_uses_live_multi_doc_auto_mode() -> None:
@@ -30,6 +33,7 @@ def test_query_payload_uses_live_multi_doc_auto_mode() -> None:
     assert payload["prompt_version"] == "v8"
     assert payload["multi_doc_mode"] == "auto"
     assert payload["session_id"] == "session-1"
+    assert payload["evaluation_excluded_document_prefixes"] == ["UPLOAD-"]
 
 
 def test_row_scores_api_response_and_preserves_multi_doc_flag() -> None:
@@ -127,10 +131,13 @@ def test_dashboard_run_marks_live_query_eval() -> None:
             "chunking_strategy": "section_based",
             "top_k": 5,
             "multi_doc_mode": "auto",
+            "evaluation_excluded_document_prefixes": ["UPLOAD-"],
             "question_filter": "all",
             "question_count": 1,
             "source_question_count": 1,
             "failed_question_count": 0,
+            "submetric_issue_count": 0,
+            "submetric_issue_ids": [],
             "answer_accuracy": 1.0,
             "citation_accuracy": 1.0,
             "hallucination_rate": 0.0,
@@ -144,7 +151,77 @@ def test_dashboard_run_marks_live_query_eval() -> None:
     assert dashboard_run["run_type"] == "live_query_eval"
     assert dashboard_run["run_id"] == runner.RUN_ID
     assert dashboard_run["failed_count"] == 0
+    assert dashboard_run["metrics"]["submetric_issue_count"] == 0
+    assert dashboard_run["evaluation_excluded_document_prefixes"] == ["UPLOAD-"]
     assert dashboard_run["category_breakdown"] == {"simple_factual": 1}
+
+
+def test_summary_tracks_submetric_issues_without_failed_questions() -> None:
+    rows = [
+        {
+            "question_id": "MEM-001",
+            "answer_accuracy": 1.0,
+            "citation_accuracy": 1.0,
+            "response_type_accuracy": 0.5,
+            "refusal_accuracy": None,
+            "not_found_accuracy": None,
+            "clarification_accuracy": None,
+            "all_sources_hit": 1.0,
+            "expected_source_recall": 1.0,
+            "any_source_hit": 1.0,
+            "precision_at_k": 0.4,
+            "mrr": 1.0,
+            "faithfulness": 0.9,
+            "hallucination_rate": 0.0,
+            "final_confidence": 0.9,
+            "input_tokens": 10,
+            "output_tokens": 5,
+            "estimated_cost_usd": 0.001,
+        }
+    ]
+    args = Namespace(
+        retrieval_mode="vector_lexical_rerank",
+        top_k=5,
+        prompt_version="v8",
+        multi_doc_mode="auto",
+        question_filter="all",
+    )
+
+    summary = runner._summary(
+        rows=rows,
+        failed=[],
+        benchmark={"question_count": 1},
+        args=args,
+        started_at="2026-06-27T00:00:00+00:00",
+    )
+
+    assert summary["failed_question_count"] == 0
+    assert summary["submetric_issue_count"] == 1
+    assert summary["submetric_issue_ids"] == ["MEM-001"]
+
+
+def test_query_rejects_eval_exclusions_for_non_admin_users() -> None:
+    client = TestClient(runner.app)
+    runner.app.dependency_overrides[current_demo_user] = lambda: {
+        "id": "employee-1",
+        "business_role": "Employee",
+        "is_admin": False,
+        "memberships": [],
+    }
+    try:
+        response = client.post(
+            "/query",
+            json={
+                "question": "What is the vacation carryover policy?",
+                "user_role": "Employee",
+                "evaluation_excluded_document_prefixes": ["UPLOAD-"],
+            },
+        )
+    finally:
+        runner.app.dependency_overrides.clear()
+
+    assert response.status_code == 403
+    assert "Evaluation document exclusions" in response.json()["detail"]
 
 
 def test_dashboard_export_accepts_live_query_eval_as_current_answer_run() -> None:
@@ -174,6 +251,8 @@ def main() -> None:
     test_query_payload_uses_live_multi_doc_auto_mode()
     test_row_scores_api_response_and_preserves_multi_doc_flag()
     test_dashboard_run_marks_live_query_eval()
+    test_summary_tracks_submetric_issues_without_failed_questions()
+    test_query_rejects_eval_exclusions_for_non_admin_users()
     test_dashboard_export_accepts_live_query_eval_as_current_answer_run()
     print("Phase 39 live query answer-quality evaluator tests passed.")
 

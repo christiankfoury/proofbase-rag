@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-27T00:25:38.025378+00:00",
+  "generated_at": "2026-06-27T01:01:18.556716+00:00",
   "summary": {
     "run_id": "phase39-permission-evaluation",
     "run_name": "phase39-permission-evaluation",
@@ -13,6 +13,9 @@
     "top_k": 5,
     "reranker": "lexical",
     "rerank_candidate_limit": 20,
+    "evaluation_excluded_document_prefixes": [
+      "UPLOAD-"
+    ],
     "permission_leakage_rate": "0.000",
     "blocked_answer_accuracy": "1.000",
     "unauthorized_chunk_exposure_rate": "0.000",
@@ -26,7 +29,7 @@
       "question_id": "PERM-001",
       "user_role": "Employee",
       "expected_documents": "MGR-002",
-      "retrieved_documents": "UPLOAD-81C16354, HR-004, FIN-001, HR-003",
+      "retrieved_documents": "HR-004, FIN-001",
       "response_type": "refuse_no_access",
       "unauthorized_chunk_exposure": 0.0,
       "restricted_citation_leakage": 0.0,
@@ -62,7 +65,7 @@
       "question_id": "PERM-004",
       "user_role": "Employee",
       "expected_documents": "SALES-001",
-      "retrieved_documents": "IT-003, FIN-001, UPLOAD-81C16354, OPS-001",
+      "retrieved_documents": "IT-003, FIN-001, OPS-001",
       "response_type": "refuse_no_access",
       "unauthorized_chunk_exposure": 0.0,
       "restricted_citation_leakage": 0.0,
@@ -158,7 +161,7 @@
       "question_id": "PERM-012",
       "user_role": "Employee",
       "expected_documents": "ENG-001",
-      "retrieved_documents": "UPLOAD-81C16354, HR-001, IT-003, OPS-001",
+      "retrieved_documents": "HR-001, IT-003, OPS-001, FIN-001",
       "response_type": "refuse_no_access",
       "unauthorized_chunk_exposure": 0.0,
       "restricted_citation_leakage": 0.0,
@@ -230,7 +233,7 @@
       "question_id": "PERM-018",
       "user_role": "Employee",
       "expected_documents": "SALES-002",
-      "retrieved_documents": "HR-001, HR-003, UPLOAD-81C16354",
+      "retrieved_documents": "HR-001, HR-003",
       "response_type": "refuse_no_access",
       "unauthorized_chunk_exposure": 0.0,
       "restricted_citation_leakage": 0.0,
@@ -356,7 +359,7 @@
       "question_id": "PERM-012",
       "authorized_role": "Manager",
       "expected_documents": "ENG-001",
-      "retrieved_documents": "ENG-001, UPLOAD-81C16354",
+      "retrieved_documents": "ENG-001",
       "authorized_retrieval_accuracy": 1.0,
       "authorized_answer_accuracy": "pending"
     },
@@ -430,12 +433,15 @@
     "run_name": "phase39-permission-evaluation",
     "phase": "phase-39",
     "run_type": "permission_eval",
-    "timestamp": "2026-06-27T00:25:38.025378+00:00",
+    "timestamp": "2026-06-27T01:01:18.556716+00:00",
     "retrieval_mode": "vector_lexical_rerank",
     "chunking_strategy": "section_based",
     "top_k": 5,
     "reranker": "lexical",
     "rerank_candidate_limit": 20,
+    "evaluation_excluded_document_prefixes": [
+      "UPLOAD-"
+    ],
     "total_questions": 20,
     "source_question_count": 130,
     "question_filter": "permission_restricted",
@@ -460,6 +466,6 @@
     "passed_count": 20,
     "failed_count": 0,
     "benchmark_version": "1.1",
-    "run_timestamp": "2026-06-27T00:25:38.025378+00:00"
+    "run_timestamp": "2026-06-27T01:01:18.556716+00:00"
   }
 }

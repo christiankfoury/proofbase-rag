@@ -20,8 +20,8 @@ class _FakeResult:
 
 
 class _FakeConnection:
-    def __init__(self, queries: list[str]) -> None:
-        self.queries = queries
+    def __init__(self, calls: list[dict[str, Any]]) -> None:
+        self.calls = calls
 
     def __enter__(self) -> "_FakeConnection":
         return self
@@ -30,51 +30,75 @@ class _FakeConnection:
         return None
 
     def execute(self, sql: str, params: object | None = None) -> _FakeResult:
-        self.queries.append(sql)
+        self.calls.append({"sql": sql, "params": params})
         return _FakeResult()
 
 
-def _captured_queries_for_vector() -> list[str]:
-    queries: list[str] = []
+def _captured_calls_for_vector(excluded_document_prefixes: tuple[str, ...] = ()) -> list[dict[str, Any]]:
+    calls: list[dict[str, Any]] = []
     original_get_connection = vector_retriever.get_connection
     original_embed_text = vector_retriever.embed_text
     original_log_permission_trace = vector_retriever.log_permission_trace
     try:
-        vector_retriever.get_connection = lambda: _FakeConnection(queries)  # type: ignore[assignment]
+        vector_retriever.get_connection = lambda: _FakeConnection(calls)  # type: ignore[assignment]
         vector_retriever.embed_text = lambda question: [0.0, 0.1]  # type: ignore[assignment]
         vector_retriever.log_permission_trace = lambda trace, **kwargs: None  # type: ignore[assignment]
-        vector_retriever.retrieve_chunks("What changed?", "Employee", top_k=2)
+        vector_retriever.retrieve_chunks(
+            "What changed?",
+            "Employee",
+            top_k=2,
+            excluded_document_prefixes=excluded_document_prefixes,
+        )
     finally:
         vector_retriever.get_connection = original_get_connection  # type: ignore[assignment]
         vector_retriever.embed_text = original_embed_text  # type: ignore[assignment]
         vector_retriever.log_permission_trace = original_log_permission_trace  # type: ignore[assignment]
-    return queries
+    return calls
 
 
-def _captured_queries_for_keyword() -> list[str]:
-    queries: list[str] = []
+def _captured_calls_for_keyword(excluded_document_prefixes: tuple[str, ...] = ()) -> list[dict[str, Any]]:
+    calls: list[dict[str, Any]] = []
     original_get_connection = keyword_retriever.get_connection
     original_log_permission_trace = keyword_retriever.log_permission_trace
     try:
-        keyword_retriever.get_connection = lambda: _FakeConnection(queries)  # type: ignore[assignment]
+        keyword_retriever.get_connection = lambda: _FakeConnection(calls)  # type: ignore[assignment]
         keyword_retriever.log_permission_trace = lambda trace, **kwargs: None  # type: ignore[assignment]
-        keyword_retriever.retrieve_chunks("What changed?", "Employee", top_k=2)
+        keyword_retriever.retrieve_chunks(
+            "What changed?",
+            "Employee",
+            top_k=2,
+            excluded_document_prefixes=excluded_document_prefixes,
+        )
     finally:
         keyword_retriever.get_connection = original_get_connection  # type: ignore[assignment]
         keyword_retriever.log_permission_trace = original_log_permission_trace  # type: ignore[assignment]
-    return queries
+    return calls
 
 
 def test_vector_retrieval_filters_to_current_document_version() -> None:
-    queries = _captured_queries_for_vector()
+    queries = [call["sql"] for call in _captured_calls_for_vector()]
     assert len(queries) == 2
     assert all("c.document_version_id = d.current_version_id" in query for query in queries)
 
 
 def test_keyword_retrieval_filters_to_current_document_version() -> None:
-    queries = _captured_queries_for_keyword()
+    queries = [call["sql"] for call in _captured_calls_for_keyword()]
     assert len(queries) == 2
     assert all("c.document_version_id = d.current_version_id" in query for query in queries)
+
+
+def test_vector_retrieval_excludes_eval_document_prefixes_before_permission_filtering() -> None:
+    calls = _captured_calls_for_vector(("UPLOAD-",))
+    assert len(calls) == 2
+    assert all("d.external_document_id not like %s" in call["sql"] for call in calls)
+    assert all("UPLOAD-%" in call["params"] for call in calls)
+
+
+def test_keyword_retrieval_excludes_eval_document_prefixes_before_permission_filtering() -> None:
+    calls = _captured_calls_for_keyword(("UPLOAD-",))
+    assert len(calls) == 2
+    assert all("d.external_document_id not like %s" in call["sql"] for call in calls)
+    assert all("UPLOAD-%" in call["params"] for call in calls)
 
 
 def test_legacy_eval_scripts_require_explicit_external_ai_approval() -> None:
@@ -112,6 +136,8 @@ def test_legacy_retrieval_experiments_require_embedding_approval() -> None:
 def main() -> None:
     test_vector_retrieval_filters_to_current_document_version()
     test_keyword_retrieval_filters_to_current_document_version()
+    test_vector_retrieval_excludes_eval_document_prefixes_before_permission_filtering()
+    test_keyword_retrieval_excludes_eval_document_prefixes_before_permission_filtering()
     test_legacy_eval_scripts_require_explicit_external_ai_approval()
     test_legacy_retrieval_experiments_require_embedding_approval()
     print("Pre-Phase 39 guardrail tests passed.")

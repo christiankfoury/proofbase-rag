@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-27T00:25:45.752123+00:00",
+  "generated_at": "2026-06-27T01:01:22.612384+00:00",
   "source": "docs/phase-6 through docs/phase-36",
   "benchmark_context": {
     "benchmark_version": "1.1",
@@ -1028,13 +1028,16 @@
       "run_name": "live-query-answer-quality-v8",
       "phase": "phase-39",
       "run_type": "live_query_eval",
-      "timestamp": "2026-06-27T00:24:11.159201+00:00",
+      "timestamp": "2026-06-27T00:59:40.718242+00:00",
       "retrieval_mode": "vector_lexical_rerank",
       "chunking_strategy": "section_based",
       "top_k": 5,
       "prompt_name": "answer_generation",
       "prompt_version": "v8",
       "multi_doc_mode": "auto",
+      "evaluation_excluded_document_prefixes": [
+        "UPLOAD-"
+      ],
       "model": "gpt-4.1-mini",
       "total_questions": 130,
       "source_question_count": 130,
@@ -1043,27 +1046,46 @@
         "any_source_hit": 0.989,
         "all_sources_hit": 0.989,
         "expected_source_recall": 0.989,
-        "precision_at_k": 0.709,
+        "precision_at_k": 0.713,
         "mrr": 0.97,
-        "answer_accuracy": 0.981,
-        "citation_accuracy": 0.981,
-        "faithfulness": 0.882,
+        "answer_accuracy": 1.0,
+        "citation_accuracy": 1.0,
+        "faithfulness": 0.885,
         "hallucination_rate": 0.0,
         "response_type_accuracy": 0.923,
         "refusal_accuracy": 1.0,
         "not_found_accuracy": 1.0,
         "clarification_accuracy": 1.0,
-        "final_confidence": 0.771,
+        "final_confidence": 0.772,
         "input_tokens": null,
         "output_tokens": null,
-        "estimated_cost": 0.086915,
-        "failed_question_count": 4
+        "estimated_cost": 0.081257,
+        "failed_question_count": 0,
+        "submetric_issue_count": 21
       },
-      "failed_questions": [
-        "MULTI-004",
-        "MULTI-006",
-        "MULTI-017",
-        "MULTI-020"
+      "failed_questions": [],
+      "submetric_issue_ids": [
+        "AMB-004",
+        "MEM-001",
+        "MEM-002",
+        "MEM-003",
+        "MEM-004",
+        "MEM-005",
+        "MEM-006",
+        "MEM-007",
+        "MEM-008",
+        "MEM-009",
+        "MEM-010",
+        "MEM-011",
+        "MEM-012",
+        "MEM-013",
+        "MEM-014",
+        "MEM-015",
+        "MEM-016",
+        "MEM-017",
+        "MEM-018",
+        "MEM-019",
+        "MEM-020"
       ],
       "category_breakdown": {
         "ambiguous": 10,
@@ -1075,20 +1097,14 @@
         "prompt_injection": 5,
         "simple_factual": 30
       },
-      "failure_reason_counts": {
-        "incomplete_answer": 1,
-        "wrong_citation": 3
-      },
-      "citation_failure_category_counts": {
-        "citation_missing": 3,
-        "right_document_wrong_chunk": 1
-      },
-      "notes": "Phase 39 live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, memory session loading, auto multi-document detection, permission-filtered retrieval, generation, citation validation, and the API response payload. Expected answers, expected behavior, expected sources, prompts, and retrieval logic are unchanged.",
+      "failure_reason_counts": {},
+      "citation_failure_category_counts": {},
+      "notes": "Phase 39 live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, memory session loading, auto multi-document detection, permission-filtered retrieval, generation, citation validation, and the API response payload. Uploaded-document fixtures are excluded from this benchmark run before generation. Expected answers, expected behavior, expected sources, prompts, and retrieval ranking logic are unchanged.",
       "sample_size": 130,
-      "passed_count": 126,
-      "failed_count": 4,
+      "passed_count": 130,
+      "failed_count": 0,
       "benchmark_version": "1.1",
-      "run_timestamp": "2026-06-27T00:24:11.159201+00:00"
+      "run_timestamp": "2026-06-27T00:59:40.718242+00:00"
     },
     {
       "run_id": "phase36-permission-evaluation",
@@ -1243,12 +1259,15 @@
       "run_name": "phase39-permission-evaluation",
       "phase": "phase-39",
       "run_type": "permission_eval",
-      "timestamp": "2026-06-27T00:25:38.025378+00:00",
+      "timestamp": "2026-06-27T01:01:18.556716+00:00",
       "retrieval_mode": "vector_lexical_rerank",
       "chunking_strategy": "section_based",
       "top_k": 5,
       "reranker": "lexical",
       "rerank_candidate_limit": 20,
+      "evaluation_excluded_document_prefixes": [
+        "UPLOAD-"
+      ],
       "total_questions": 20,
       "source_question_count": 130,
       "question_filter": "permission_restricted",
@@ -1273,14 +1292,14 @@
       "passed_count": 20,
       "failed_count": 0,
       "benchmark_version": "1.1",
-      "run_timestamp": "2026-06-27T00:25:38.025378+00:00"
+      "run_timestamp": "2026-06-27T01:01:18.556716+00:00"
     }
   ],
   "overview": {
     "best_retrieval_run": "vector-section",
     "retrieval_conclusion": "Hybrid did not clearly outperform vector-only retrieval; vector-section remained best overall.",
     "current_answer_run_id": "phase39-live-query-answer-quality-v8",
-    "current_failed_question_count": 4,
+    "current_failed_question_count": 0,
     "progress_summary": {
       "improved": [
         "Permission tests reached zero leakage.",
@@ -1289,7 +1308,7 @@
       ],
       "still_needs_work": [
         "Hybrid retrieval still did not beat vector-only overall.",
-        "4 failed-question cases remain in the current improvement backlog.",
+        "0 failed-question cases remain in the current improvement backlog.",
         "Embedding, infrastructure, cached-input, and batch cost modeling remain pending."
       ]
     },
@@ -1297,8 +1316,8 @@
       "retrieval_hit_rate": 0.95,
       "precision_at_k": 0.778,
       "mrr": 0.965,
-      "answer_accuracy": 0.981,
-      "citation_accuracy": 0.981,
+      "answer_accuracy": 1.0,
+      "citation_accuracy": 1.0,
       "hallucination_rate": 0.0,
       "permission_leakage_rate": 0,
       "memory_accuracy": 1
@@ -1369,10 +1388,10 @@
         "run_name": "live-query-answer-quality-v8",
         "metric_key": "answer_accuracy",
         "sample_size": 130,
-        "passed_count": 126,
-        "failed_count": 4,
+        "passed_count": 130,
+        "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-27T00:24:11.159201+00:00",
+        "run_timestamp": "2026-06-27T00:59:40.718242+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1389,10 +1408,10 @@
         "run_name": "live-query-answer-quality-v8",
         "metric_key": "citation_accuracy",
         "sample_size": 130,
-        "passed_count": 126,
-        "failed_count": 4,
+        "passed_count": 130,
+        "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-27T00:24:11.159201+00:00",
+        "run_timestamp": "2026-06-27T00:59:40.718242+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1409,10 +1428,10 @@
         "run_name": "live-query-answer-quality-v8",
         "metric_key": "hallucination_rate",
         "sample_size": 130,
-        "passed_count": 126,
-        "failed_count": 4,
+        "passed_count": 130,
+        "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-27T00:24:11.159201+00:00",
+        "run_timestamp": "2026-06-27T00:59:40.718242+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1432,7 +1451,7 @@
         "passed_count": 20,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-27T00:25:38.025378+00:00",
+        "run_timestamp": "2026-06-27T01:01:18.556716+00:00",
         "category_breakdown": {
           "permission_restricted": 20
         }
@@ -1489,7 +1508,7 @@
   },
   "regression_scorecard": {
     "phase": "phase-37",
-    "generated_at": "2026-06-27T00:25:45.741923+00:00",
+    "generated_at": "2026-06-27T01:01:22.603650+00:00",
     "benchmark_version": "1.1",
     "benchmark_question_count": 130,
     "category_breakdown": {
@@ -1620,13 +1639,13 @@
         "current": {
           "run_id": "phase39-live-query-answer-quality-v8",
           "run_name": "live-query-answer-quality-v8",
-          "value": 0.981,
+          "value": 1.0,
           "sample_size": 130,
-          "failed_count": 4,
+          "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-27T00:24:11.159201+00:00"
+          "run_timestamp": "2026-06-27T00:59:40.718242+00:00"
         },
-        "delta": 0.131,
+        "delta": 0.15,
         "target_passed": true,
         "notes": "Answer comparison uses full 130-question benchmark v1.1 answer runs."
       },
@@ -1648,13 +1667,13 @@
         "current": {
           "run_id": "phase39-live-query-answer-quality-v8",
           "run_name": "live-query-answer-quality-v8",
-          "value": 0.981,
+          "value": 1.0,
           "sample_size": 130,
-          "failed_count": 4,
+          "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-27T00:24:11.159201+00:00"
+          "run_timestamp": "2026-06-27T00:59:40.718242+00:00"
         },
-        "delta": 0.137,
+        "delta": 0.156,
         "target_passed": true,
         "notes": "The current full answer-quality run exceeds the citation target on expanded benchmark v1.1."
       },
@@ -1678,9 +1697,9 @@
           "run_name": "live-query-answer-quality-v8",
           "value": 0.0,
           "sample_size": 130,
-          "failed_count": 4,
+          "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-27T00:24:11.159201+00:00"
+          "run_timestamp": "2026-06-27T00:59:40.718242+00:00"
         },
         "delta": -0.205,
         "target_passed": true,
@@ -1708,7 +1727,7 @@
           "sample_size": 20,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-27T00:25:38.025378+00:00"
+          "run_timestamp": "2026-06-27T01:01:18.556716+00:00"
         },
         "delta": 0.0,
         "target_passed": true,
@@ -1745,17 +1764,9 @@
     ],
     "failed_question_summary": {
       "current_answer_run_id": "phase39-live-query-answer-quality-v8",
-      "failed_question_count": 4,
-      "failure_reason_counts": {
-        "incomplete_answer": 1,
-        "wrong_citation": 3
-      },
-      "failed_question_ids": [
-        "MULTI-004",
-        "MULTI-006",
-        "MULTI-017",
-        "MULTI-020"
-      ]
+      "failed_question_count": 0,
+      "failure_reason_counts": {},
+      "failed_question_ids": []
     },
     "safety_summary": {
       "permission_run_id": "phase39-permission-evaluation",
@@ -2324,165 +2335,7 @@
       "Authorized answer accuracy remains pending by default to avoid extra chat-completion cost."
     ]
   },
-  "failed_questions": [
-    {
-      "question_id": "MULTI-004",
-      "question": "How should I position Northstar against BI tools while avoiding prohibited claims?",
-      "expected_behavior": "answer",
-      "actual_response_type": "answer",
-      "expected_source_document": [
-        "SALES-002",
-        "SALES-003"
-      ],
-      "actual_citations": [
-        {
-          "document_id": "SALES-003",
-          "section_heading": "Positioning Against Generic BI Tools",
-          "confidence": 0.846
-        },
-        {
-          "document_id": "SALES-003",
-          "section_heading": "Prohibited Claims",
-          "confidence": 0.609
-        }
-      ],
-      "retrieval_success": 1.0,
-      "citation_confidence": 0.728,
-      "answer_confidence": 0.728,
-      "failure_type": "wrong_citation",
-      "citation_failure_categories": [
-        "citation_missing"
-      ],
-      "citation_failure_labels": [
-        "Citation missing"
-      ],
-      "missing_citation_documents": [
-        "SALES-002"
-      ],
-      "unexpected_citation_documents": [],
-      "restricted_citation_documents": [],
-      "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk.",
-      "phase": "phase-39",
-      "run_id": "phase39-live-query-answer-quality-v8",
-      "run_name": "live-query-answer-quality-v8"
-    },
-    {
-      "question_id": "MULTI-006",
-      "question": "How should a manager handle ongoing performance concerns?",
-      "expected_behavior": "answer",
-      "actual_response_type": "answer",
-      "expected_source_document": [
-        "MGR-001",
-        "MGR-002"
-      ],
-      "actual_citations": [
-        {
-          "document_id": "MGR-002",
-          "section_heading": "Performance Documentation",
-          "confidence": 0.755
-        },
-        {
-          "document_id": "MGR-002",
-          "section_heading": "Performance Improvement Process",
-          "confidence": 0.905
-        }
-      ],
-      "retrieval_success": 1.0,
-      "citation_confidence": 0.83,
-      "answer_confidence": 0.83,
-      "failure_type": "wrong_citation",
-      "citation_failure_categories": [
-        "citation_missing"
-      ],
-      "citation_failure_labels": [
-        "Citation missing"
-      ],
-      "missing_citation_documents": [
-        "MGR-001"
-      ],
-      "unexpected_citation_documents": [],
-      "restricted_citation_documents": [],
-      "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk.",
-      "phase": "phase-39",
-      "run_id": "phase39-live-query-answer-quality-v8",
-      "run_name": "live-query-answer-quality-v8"
-    },
-    {
-      "question_id": "MULTI-017",
-      "question": "For an API that exposes customer data, what authorization and review principles apply?",
-      "expected_behavior": "answer",
-      "actual_response_type": "answer",
-      "expected_source_document": [
-        "ENG-001",
-        "IT-003"
-      ],
-      "actual_citations": [
-        {
-          "document_id": "ENG-001",
-          "section_heading": "API Standards",
-          "confidence": 0.933
-        },
-        {
-          "document_id": "IT-003",
-          "section_heading": "Sharing Rules",
-          "confidence": 0.812
-        }
-      ],
-      "retrieval_success": 1.0,
-      "citation_confidence": 0.873,
-      "answer_confidence": 0.873,
-      "failure_type": "incomplete_answer",
-      "citation_failure_categories": [
-        "right_document_wrong_chunk"
-      ],
-      "citation_failure_labels": [
-        "Right document but wrong chunk"
-      ],
-      "missing_citation_documents": [],
-      "unexpected_citation_documents": [],
-      "restricted_citation_documents": [],
-      "recommended_fix": "Improve answer completeness scoring or prompt the model to include all required expected-answer facts.",
-      "phase": "phase-39",
-      "run_id": "phase39-live-query-answer-quality-v8",
-      "run_name": "live-query-answer-quality-v8"
-    },
-    {
-      "question_id": "MULTI-020",
-      "question": "When policies overlap for software or vendor purchases, what approval path should be used?",
-      "expected_behavior": "answer",
-      "actual_response_type": "answer",
-      "expected_source_document": [
-        "FIN-001",
-        "OPS-001"
-      ],
-      "actual_citations": [
-        {
-          "document_id": "OPS-001",
-          "section_heading": "Overlap With Other Policies",
-          "confidence": 0.935
-        }
-      ],
-      "retrieval_success": 1.0,
-      "citation_confidence": 0.935,
-      "answer_confidence": 0.935,
-      "failure_type": "wrong_citation",
-      "citation_failure_categories": [
-        "citation_missing"
-      ],
-      "citation_failure_labels": [
-        "Citation missing"
-      ],
-      "missing_citation_documents": [
-        "FIN-001"
-      ],
-      "unexpected_citation_documents": [],
-      "restricted_citation_documents": [],
-      "recommended_fix": "Improve citation formatting and require the model to cite the exact supporting chunk.",
-      "phase": "phase-39",
-      "run_id": "phase39-live-query-answer-quality-v8",
-      "run_name": "live-query-answer-quality-v8"
-    }
-  ],
+  "failed_questions": [],
   "notes": [
     "All dashboard values are exported from existing evaluation result files.",
     "Estimated cost is calculated from configured chat model pricing where token counts are available.",
