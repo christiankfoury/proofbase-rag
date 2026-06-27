@@ -42,6 +42,7 @@ def retrieve_chunks(
     project_id: str | None = None,
     department_id: str | None = None,
     excluded_document_prefixes: list[str] | tuple[str, ...] | None = None,
+    audit_metadata: dict | None = None,
 ) -> list[RetrievedChunk]:
     settings = get_settings()
     limit = top_k or settings.default_top_k
@@ -140,6 +141,7 @@ def retrieve_chunks(
         retrieval_mode="keyword_only",
         candidate_rows=candidate_rows,
         allowed_chunks=chunks,
+        metadata=audit_metadata,
     )
     log_permission_trace(trace, chunking_strategy=chunking_strategy, top_k=limit)
     return chunks

@@ -224,6 +224,8 @@ Type: metric interpretation risk. Severity: Medium.
 
 For `not_found`, `refuse_no_access`, and `clarify`, `answer_confidence` floors at `0.65` (`apps/api/app/confidence/confidence_scorer.py:19`) and final confidence combines that with retrieval confidence (`apps/api/app/confidence/confidence_scorer.py:34`). This can be meaningful as "confidence in the system behavior," but misleading if read as "confidence in factual answer content."
 
+Follow-up status: mitigated in the Phase 40 polish slice by returning `confidence_interpretation` from `/query` and labeling non-answer final confidence as behavior confidence in the App/Dev result panel. The score remains heuristic.
+
 ## Memory Findings
 
 ### M1. Memory is not source evidence in the live path
@@ -249,6 +251,8 @@ Type: design risk. Severity: Medium.
 Type: metric interpretation risk. Severity: Low.
 
 `memory_permission_leakage` first checks unauthorized chunks, then only flags restricted citations if unauthorized chunks also reached generation (`apps/api/app/evaluation/memory_metrics.py:20`). Because citation validation should prevent citations outside retrieved chunks, this is probably fine in current code, but as a metric it may miss a hypothetical citation-only leak.
+
+Follow-up status: clarified in evaluation docs and Phase 39 live reporting. Raw answer-quality response-type half-credit for `answer_with_memory` remains comparable, while memory-specific response behavior is treated as a diagnostic note when answer/citation/permission behavior is correct.
 
 ## Multi-Document/Ambiguity Findings
 
@@ -327,9 +331,9 @@ Impact: local logs, CI logs, or shared terminal transcripts can leak secrets. Th
 ## Inefficiency List
 
 1. Re-ingestion embeds every chunk without content-hash/model cache (`scripts/ingest_markdown.py:191`).
-2. Vector retrieval embeds the query on every retrieval call; hybrid calls vector retrieval once and keyword retrieval once, and multi-doc calls retrieval once per subquery (`apps/api/app/retrieval/vector_retriever.py:24`, `apps/api/app/reasoning/query_decomposer.py:56`).
+2. Vector retrieval embeds the query on every retrieval call; hybrid calls vector retrieval once and keyword retrieval once, and multi-doc calls retrieval once per subquery (`apps/api/app/retrieval/vector_retriever.py:24`, `apps/api/app/reasoning/query_decomposer.py:56`). Phase 40 polish added a per-process embedding cache for duplicate text/model pairs; it does not persist content and does not eliminate distinct subquery embedding calls.
 3. Multi-doc uses an OpenAI chat call for decomposition plus embedding calls per subquery plus generation (`apps/api/app/reasoning/query_decomposer.py:30`, `scripts/run_multi_doc_eval.py:55`).
-4. Hybrid retrieval logs and queries both component retrievers separately, resulting in repeated audit rows (`apps/api/app/retrieval/hybrid_retriever.py:30`).
+4. Hybrid retrieval logs and queries both component retrievers separately, resulting in repeated audit rows (`apps/api/app/retrieval/hybrid_retriever.py:30`). Phase 40 polish labels those component audit rows with `parent_retrieval_mode=hybrid` and `hybrid_component`.
 5. `python -m compileall apps scripts` traverses `apps/web/node_modules` and `.next*` directories, making verification noisy and slower.
 6. Prompt context includes full chunk content for every retrieved chunk (`apps/api/app/generation/prompts.py:8`), which can increase token cost when top-k or chunk sizes grow.
 7. No DB connection pooling is visible; each DB helper opens a new psycopg connection (`apps/api/app/db/session.py:10`).
@@ -341,7 +345,7 @@ Impact: local logs, CI logs, or shared terminal transcripts can leak secrets. Th
 | Retrievers ignore `documents.current_version_id` | Confirmed bug | `scripts/ingest_markdown.py:104`, `apps/api/app/retrieval/vector_retriever.py:63` |
 | `docker compose config` prints local OpenAI key | Confirmed bug | `docker-compose.yml:30` |
 | Documentation says later OpenAI evaluators are guarded, but older/general scripts are not | Documentation mismatch | `docs/algorithm/evaluation-metrics.md:197`, `scripts/run_multi_doc_eval.py:55` |
-| Hybrid audit trail is component-level, not hybrid-level | Documentation mismatch | `apps/api/app/retrieval/hybrid_retriever.py:30`, `apps/api/app/permissions/permission_filter.py:57` |
+| Hybrid audit trail is component-level, not hybrid-level | Mitigated documentation mismatch | `apps/api/app/retrieval/hybrid_retriever.py:30`, `apps/api/app/permissions/permission_filter.py:57` |
 | Phase 38 permission doc shows `vector_only`, while answer-quality run used `vector_lexical_rerank` | Metric interpretation risk | `docs/phase-38/permission-safety-results.md:9`, `docs/phase-38/answer-quality-remediation-results.md:10` |
 | Memory claims can sound general but implementation is rule-heavy | Design risk | `apps/api/app/memory/query_rewriter.py:53` |
 | Ambiguity claims can sound general but implementation is pattern-heavy | Design risk | `apps/api/app/generation/answer_generator.py:105` |

@@ -62,6 +62,7 @@ export type QueryResponse = {
   citation_confidence: number;
   answer_confidence: number;
   final_confidence: number;
+  confidence_interpretation?: "answer_support" | "response_behavior";
   supported_claims: string[];
   unsupported_claims: string[];
   validation_notes: string;

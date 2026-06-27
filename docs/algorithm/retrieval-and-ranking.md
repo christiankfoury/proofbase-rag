@@ -70,7 +70,7 @@ Flow:
 5. Compute `hybrid_score = vector_weight * vector_score + keyword_weight * keyword_score`.
 6. Sort by hybrid score and return the requested top-k.
 
-Hybrid retrieval still uses permission-filtered vector and keyword results. It does not merge in inaccessible chunks.
+Hybrid retrieval still uses permission-filtered vector and keyword results. It does not merge in inaccessible chunks. The component permission audit events are labeled with `parent_retrieval_mode=hybrid` and `hybrid_component` metadata so the Dev/Admin audit view can distinguish one hybrid retrieval from unrelated vector and keyword requests.
 
 ## Vector Plus Lexical Rerank
 

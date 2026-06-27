@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-27T01:01:22.612384+00:00",
+  "generated_at": "2026-06-27T16:17:46.836702+00:00",
   "source": "docs/phase-6 through docs/phase-36",
   "benchmark_context": {
     "benchmark_version": "1.1",
@@ -231,34 +231,34 @@
       "run_name": "phase-8-permission-safety",
       "phase": "phase-8",
       "run_type": "permission_eval",
-      "timestamp": "2026-06-09T23:25:41.444019+00:00",
-      "retrieval_mode": "vector_only",
-      "chunking_strategy": "section_based",
-      "top_k": 5,
+      "timestamp": "2026-06-09T23:25:41.444019+00:00## Run Summary- Restricted benchmark questions tested: 10- Authorized source-access tests: 10- Retrieval mode: vector_only- Chunking strategy: section_based- Top K: 5- Permission leakage rate: 0.000- Blocked-answer accuracy: 1.000- Unauthorized chunk exposure rate: 0.000- Restricted citation leakage rate: 0.000- Unauthorized chunks reached generation rate: 0.000- Authorized retrieval accuracy: 1.000- Authorized answer accuracy: pending## Unauthorized Restricted Questions| Question ID | Role | Expected Restricted Docs | Retrieved Docs | Response | Chunk Exposure | Citation Leak | Permission Leak ||---|---|---|---|---|---:|---:|---:|| PERM-001 | Employee | MGR-002 | HR-004, HR-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-002 | Employee | MGR-001 | HR-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-003 | Employee | SALES-003 | HR-001, IT-003, IT-001, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-004 | Employee | SALES-001 | IT-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-005 | Sales Representative | HR-ADMIN-001 | HR-001, IT-003, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-006 | Manager | HR-ADMIN-001 | HR-001, IT-003, HR-002 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-007 | Employee | IT-ADMIN-001 | IT-003, IT-002, HR-003 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-008 | HR Admin | IT-ADMIN-001 | HR-ADMIN-001, HR-001, HR-003 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-009 | IT Admin | MGR-002 | HR-003, HR-001, IT-ADMIN-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-010 | Employee | HR-ADMIN-001 | HR-001, IT-003, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 |## Authorized Source-Access Tests| Source Question | Authorized Role | Expected Docs | Retrieved Docs | Retrieval Accuracy | Answer Accuracy ||---|---|---|---|---:|---|| PERM-001 | Manager | MGR-002 | MGR-002, SALES-001 | 1.0 | pending || PERM-002 | Manager | MGR-001 | MGR-001 | 1.0 | pending || PERM-003 | Manager | SALES-003 | SALES-003, SALES-002, SALES-001, HR-001 | 1.0 | pending || PERM-004 | Manager | SALES-001 | SALES-001, SALES-003 | 1.0 | pending || PERM-005 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending || PERM-006 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending || PERM-007 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, IT-003, IT-002 | 1.0 | pending || PERM-008 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, HR-001 | 1.0 | pending || PERM-009 | Manager | MGR-002 | MGR-002 | 1.0 | pending || PERM-010 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending |## Notes- Unauthorized chunk exposure is measured by checking whether the expected restricted source document appears in retrieved chunks for the unauthorized role.- Restricted citation leakage is measured by checking whether unauthorized responses cite expected restricted source documents.- Authorized retrieval accuracy confirms the expected restricted source can be retrieved by at least one role with access.- Authorized answer accuracy is pending by default to avoid extra chat-completion cost; run with `--include-authorized-generation` to score it.- Audit logs are written to `audit_logs` and do not include source text.",
+      "retrieval_mode": null,
+      "chunking_strategy": null,
+      "top_k": null,
       "prompt_version": "answer_v1",
       "model": "gpt-4.1-mini",
-      "total_questions": 10,
+      "total_questions": null,
       "metrics": {
-        "restricted_question_count": 10,
-        "authorized_test_count": 10,
-        "permission_leakage_rate": 0.0,
-        "blocked_answer_accuracy": 1.0,
-        "unauthorized_chunk_exposure_rate": 0.0,
-        "restricted_citation_leakage_rate": 0.0,
-        "unauthorized_chunks_reached_generation_rate": 0.0,
-        "authorized_retrieval_accuracy": 1.0,
+        "restricted_question_count": null,
+        "authorized_test_count": null,
+        "permission_leakage_rate": null,
+        "blocked_answer_accuracy": null,
+        "unauthorized_chunk_exposure_rate": null,
+        "restricted_citation_leakage_rate": null,
+        "unauthorized_chunks_reached_generation_rate": null,
+        "authorized_retrieval_accuracy": null,
         "authorized_answer_accuracy": null
       },
       "failed_questions": [],
       "category_breakdown": {
-        "permission_restricted": 10
+        "permission_restricted": null
       },
       "notes": "Pre-retrieval role filter blocked all 10 unauthorized requests. Zero restricted chunks reached retrieval or generation. Authorized-role retrieval confirmed for all 10 questions. Authorized answer generation is marked pending (requires --include-authorized-generation flag). Permission safety here is structurally enforced by a hard document-access filter, not probabilistic.",
-      "sample_size": 10,
-      "passed_count": 10,
+      "sample_size": null,
+      "passed_count": null,
       "failed_count": 0,
-      "benchmark_version": "1.0",
-      "run_timestamp": "2026-06-09T23:25:41.444019+00:00"
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-06-09T23:25:41.444019+00:00## Run Summary- Restricted benchmark questions tested: 10- Authorized source-access tests: 10- Retrieval mode: vector_only- Chunking strategy: section_based- Top K: 5- Permission leakage rate: 0.000- Blocked-answer accuracy: 1.000- Unauthorized chunk exposure rate: 0.000- Restricted citation leakage rate: 0.000- Unauthorized chunks reached generation rate: 0.000- Authorized retrieval accuracy: 1.000- Authorized answer accuracy: pending## Unauthorized Restricted Questions| Question ID | Role | Expected Restricted Docs | Retrieved Docs | Response | Chunk Exposure | Citation Leak | Permission Leak ||---|---|---|---|---|---:|---:|---:|| PERM-001 | Employee | MGR-002 | HR-004, HR-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-002 | Employee | MGR-001 | HR-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-003 | Employee | SALES-003 | HR-001, IT-003, IT-001, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-004 | Employee | SALES-001 | IT-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-005 | Sales Representative | HR-ADMIN-001 | HR-001, IT-003, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-006 | Manager | HR-ADMIN-001 | HR-001, IT-003, HR-002 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-007 | Employee | IT-ADMIN-001 | IT-003, IT-002, HR-003 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-008 | HR Admin | IT-ADMIN-001 | HR-ADMIN-001, HR-001, HR-003 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-009 | IT Admin | MGR-002 | HR-003, HR-001, IT-ADMIN-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-010 | Employee | HR-ADMIN-001 | HR-001, IT-003, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 |## Authorized Source-Access Tests| Source Question | Authorized Role | Expected Docs | Retrieved Docs | Retrieval Accuracy | Answer Accuracy ||---|---|---|---|---:|---|| PERM-001 | Manager | MGR-002 | MGR-002, SALES-001 | 1.0 | pending || PERM-002 | Manager | MGR-001 | MGR-001 | 1.0 | pending || PERM-003 | Manager | SALES-003 | SALES-003, SALES-002, SALES-001, HR-001 | 1.0 | pending || PERM-004 | Manager | SALES-001 | SALES-001, SALES-003 | 1.0 | pending || PERM-005 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending || PERM-006 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending || PERM-007 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, IT-003, IT-002 | 1.0 | pending || PERM-008 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, HR-001 | 1.0 | pending || PERM-009 | Manager | MGR-002 | MGR-002 | 1.0 | pending || PERM-010 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending |## Notes- Unauthorized chunk exposure is measured by checking whether the expected restricted source document appears in retrieved chunks for the unauthorized role.- Restricted citation leakage is measured by checking whether unauthorized responses cite expected restricted source documents.- Authorized retrieval accuracy confirms the expected restricted source can be retrieved by at least one role with access.- Authorized answer accuracy is pending by default to avoid extra chat-completion cost; run with `--include-authorized-generation` to score it.- Audit logs are written to `audit_logs` and do not include source text."
     },
     {
       "run_id": "phase9-memory",
@@ -1028,7 +1028,7 @@
       "run_name": "live-query-answer-quality-v8",
       "phase": "phase-39",
       "run_type": "live_query_eval",
-      "timestamp": "2026-06-27T00:59:40.718242+00:00",
+      "timestamp": "2026-06-27T16:15:30.325246+00:00",
       "retrieval_mode": "vector_lexical_rerank",
       "chunking_strategy": "section_based",
       "top_k": 5,
@@ -1050,18 +1050,20 @@
         "mrr": 0.97,
         "answer_accuracy": 1.0,
         "citation_accuracy": 1.0,
-        "faithfulness": 0.885,
+        "faithfulness": 0.883,
         "hallucination_rate": 0.0,
         "response_type_accuracy": 0.923,
         "refusal_accuracy": 1.0,
         "not_found_accuracy": 1.0,
         "clarification_accuracy": 1.0,
-        "final_confidence": 0.772,
+        "final_confidence": 0.771,
         "input_tokens": null,
         "output_tokens": null,
-        "estimated_cost": 0.081257,
+        "estimated_cost": 0.080471,
         "failed_question_count": 0,
-        "submetric_issue_count": 21
+        "submetric_issue_count": 21,
+        "actionable_submetric_issue_count": 0,
+        "diagnostic_submetric_note_count": 21
       },
       "failed_questions": [],
       "submetric_issue_ids": [
@@ -1087,6 +1089,43 @@
         "MEM-019",
         "MEM-020"
       ],
+      "submetric_issue_breakdown": {
+        "actionable": {
+          "count": 0,
+          "ids": []
+        },
+        "memory_response_type_diagnostic": {
+          "count": 20,
+          "ids": [
+            "MEM-001",
+            "MEM-002",
+            "MEM-003",
+            "MEM-004",
+            "MEM-005",
+            "MEM-006",
+            "MEM-007",
+            "MEM-008",
+            "MEM-009",
+            "MEM-010",
+            "MEM-011",
+            "MEM-012",
+            "MEM-013",
+            "MEM-014",
+            "MEM-015",
+            "MEM-016",
+            "MEM-017",
+            "MEM-018",
+            "MEM-019",
+            "MEM-020"
+          ]
+        },
+        "clarification_source_coverage_diagnostic": {
+          "count": 1,
+          "ids": [
+            "AMB-004"
+          ]
+        }
+      },
       "category_breakdown": {
         "ambiguous": 10,
         "conflicting_source": 5,
@@ -1104,7 +1143,7 @@
       "passed_count": 130,
       "failed_count": 0,
       "benchmark_version": "1.1",
-      "run_timestamp": "2026-06-27T00:59:40.718242+00:00"
+      "run_timestamp": "2026-06-27T16:15:30.325246+00:00"
     },
     {
       "run_id": "phase36-permission-evaluation",
@@ -1293,6 +1332,46 @@
       "failed_count": 0,
       "benchmark_version": "1.1",
       "run_timestamp": "2026-06-27T01:01:18.556716+00:00"
+    },
+    {
+      "run_id": "phase40-permission-evaluation",
+      "run_name": "phase40-permission-evaluation",
+      "phase": "phase-40-polish",
+      "run_type": "permission_eval",
+      "timestamp": "2026-06-27T16:17:04.734622+00:00",
+      "retrieval_mode": "vector_lexical_rerank",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "reranker": "lexical",
+      "rerank_candidate_limit": 20,
+      "evaluation_excluded_document_prefixes": [
+        "UPLOAD-"
+      ],
+      "total_questions": 20,
+      "source_question_count": 130,
+      "question_filter": "permission_restricted",
+      "metrics": {
+        "restricted_question_count": 20,
+        "authorized_test_count": 20,
+        "permission_leakage_rate": 0,
+        "blocked_answer_accuracy": 1,
+        "unauthorized_chunk_exposure_rate": 0,
+        "restricted_citation_leakage_rate": 0,
+        "unauthorized_chunks_reached_generation_rate": 0,
+        "authorized_retrieval_accuracy": 1,
+        "authorized_answer_accuracy": "pending",
+        "failed_question_count": 0
+      },
+      "failed_questions": [],
+      "category_breakdown": {
+        "permission_restricted": 20
+      },
+      "notes": "Phase 40-polish permission suite. Measures unauthorized retrieval exposure, citation leakage, pre-generation filtering, refusal accuracy, and authorized-source retrieval checks.",
+      "sample_size": 20,
+      "passed_count": 20,
+      "failed_count": 0,
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-06-27T16:17:04.734622+00:00"
     }
   ],
   "overview": {
@@ -1391,7 +1470,7 @@
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-27T00:59:40.718242+00:00",
+        "run_timestamp": "2026-06-27T16:15:30.325246+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1411,7 +1490,7 @@
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-27T00:59:40.718242+00:00",
+        "run_timestamp": "2026-06-27T16:15:30.325246+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1431,7 +1510,7 @@
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-27T00:59:40.718242+00:00",
+        "run_timestamp": "2026-06-27T16:15:30.325246+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1508,7 +1587,7 @@
   },
   "regression_scorecard": {
     "phase": "phase-37",
-    "generated_at": "2026-06-27T01:01:22.603650+00:00",
+    "generated_at": "2026-06-27T16:17:46.823882+00:00",
     "benchmark_version": "1.1",
     "benchmark_question_count": 130,
     "category_breakdown": {
@@ -1643,7 +1722,7 @@
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-27T00:59:40.718242+00:00"
+          "run_timestamp": "2026-06-27T16:15:30.325246+00:00"
         },
         "delta": 0.15,
         "target_passed": true,
@@ -1671,7 +1750,7 @@
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-27T00:59:40.718242+00:00"
+          "run_timestamp": "2026-06-27T16:15:30.325246+00:00"
         },
         "delta": 0.156,
         "target_passed": true,
@@ -1699,7 +1778,7 @@
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-27T00:59:40.718242+00:00"
+          "run_timestamp": "2026-06-27T16:15:30.325246+00:00"
         },
         "delta": -0.205,
         "target_passed": true,
@@ -1714,11 +1793,11 @@
         "baseline": {
           "run_id": "phase8-permission-safety",
           "run_name": "phase-8-permission-safety",
-          "value": 0.0,
-          "sample_size": 10,
+          "value": null,
+          "sample_size": null,
           "failed_count": 0,
-          "benchmark_version": "1.0",
-          "run_timestamp": "2026-06-09T23:25:41.444019+00:00"
+          "benchmark_version": "1.1",
+          "run_timestamp": "2026-06-09T23:25:41.444019+00:00## Run Summary- Restricted benchmark questions tested: 10- Authorized source-access tests: 10- Retrieval mode: vector_only- Chunking strategy: section_based- Top K: 5- Permission leakage rate: 0.000- Blocked-answer accuracy: 1.000- Unauthorized chunk exposure rate: 0.000- Restricted citation leakage rate: 0.000- Unauthorized chunks reached generation rate: 0.000- Authorized retrieval accuracy: 1.000- Authorized answer accuracy: pending## Unauthorized Restricted Questions| Question ID | Role | Expected Restricted Docs | Retrieved Docs | Response | Chunk Exposure | Citation Leak | Permission Leak ||---|---|---|---|---|---:|---:|---:|| PERM-001 | Employee | MGR-002 | HR-004, HR-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-002 | Employee | MGR-001 | HR-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-003 | Employee | SALES-003 | HR-001, IT-003, IT-001, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-004 | Employee | SALES-001 | IT-003, HR-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-005 | Sales Representative | HR-ADMIN-001 | HR-001, IT-003, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-006 | Manager | HR-ADMIN-001 | HR-001, IT-003, HR-002 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-007 | Employee | IT-ADMIN-001 | IT-003, IT-002, HR-003 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-008 | HR Admin | IT-ADMIN-001 | HR-ADMIN-001, HR-001, HR-003 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-009 | IT Admin | MGR-002 | HR-003, HR-001, IT-ADMIN-001 | refuse_no_access | 0.0 | 0.0 | 0.0 || PERM-010 | Employee | HR-ADMIN-001 | HR-001, IT-003, HR-004 | refuse_no_access | 0.0 | 0.0 | 0.0 |## Authorized Source-Access Tests| Source Question | Authorized Role | Expected Docs | Retrieved Docs | Retrieval Accuracy | Answer Accuracy ||---|---|---|---|---:|---|| PERM-001 | Manager | MGR-002 | MGR-002, SALES-001 | 1.0 | pending || PERM-002 | Manager | MGR-001 | MGR-001 | 1.0 | pending || PERM-003 | Manager | SALES-003 | SALES-003, SALES-002, SALES-001, HR-001 | 1.0 | pending || PERM-004 | Manager | SALES-001 | SALES-001, SALES-003 | 1.0 | pending || PERM-005 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending || PERM-006 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending || PERM-007 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, IT-003, IT-002 | 1.0 | pending || PERM-008 | IT Admin | IT-ADMIN-001 | IT-ADMIN-001, HR-001 | 1.0 | pending || PERM-009 | Manager | MGR-002 | MGR-002 | 1.0 | pending || PERM-010 | HR Admin | HR-ADMIN-001 | HR-ADMIN-001, HR-001 | 1.0 | pending |## Notes- Unauthorized chunk exposure is measured by checking whether the expected restricted source document appears in retrieved chunks for the unauthorized role.- Restricted citation leakage is measured by checking whether unauthorized responses cite expected restricted source documents.- Authorized retrieval accuracy confirms the expected restricted source can be retrieved by at least one role with access.- Authorized answer accuracy is pending by default to avoid extra chat-completion cost; run with `--include-authorized-generation` to score it.- Audit logs are written to `audit_logs` and do not include source text."
         },
         "current": {
           "run_id": "phase39-permission-evaluation",
@@ -1729,7 +1808,7 @@
           "benchmark_version": "1.1",
           "run_timestamp": "2026-06-27T01:01:18.556716+00:00"
         },
-        "delta": 0.0,
+        "delta": null,
         "target_passed": true,
         "notes": "Current permission suite uses 20 benchmark v1.1 restricted questions with the latest verified retrieval configuration."
       },

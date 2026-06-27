@@ -13,6 +13,16 @@ function outcomeTone(outcome: string): BadgeTone {
   return "neutral";
 }
 
+function metadataSummary(metadata: Record<string, unknown>): string {
+  if (metadata.parent_retrieval_mode === "hybrid") {
+    return `hybrid ${metadata.hybrid_component ?? "component"}`;
+  }
+  if (typeof metadata.retrieval_mode === "string") {
+    return metadata.retrieval_mode;
+  }
+  return "-";
+}
+
 export default async function AuditPage() {
   const authHeaders = await serverDemoAuthHeaders();
   const [{ events }, summary] = await Promise.all([
@@ -56,6 +66,7 @@ export default async function AuditPage() {
                   <th>Resource</th>
                   <th>Outcome</th>
                   <th>Reason</th>
+                  <th>Trace</th>
                 </tr>
               </thead>
               <tbody>
@@ -73,6 +84,7 @@ export default async function AuditPage() {
                       <Badge tone={outcomeTone(event.outcome)}>{event.outcome}</Badge>
                     </td>
                     <td className="text-stone-600">{event.reason ?? "-"}</td>
+                    <td className="whitespace-nowrap text-stone-600">{metadataSummary(event.metadata_json)}</td>
                   </tr>
                 ))}
               </tbody>

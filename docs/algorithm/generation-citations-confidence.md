@@ -170,6 +170,8 @@ If downgraded to `not_found`, citations and unsupported claims are cleared.
 
 For answers, final confidence weights citation support heavily. For `not_found`, `refuse_no_access`, and `clarify`, it weights answer confidence and retrieval confidence.
 
+The API also returns `confidence_interpretation`. For `answer` and `partial_answer`, it is `answer_support`; for `not_found`, `refuse_no_access`, and `clarify`, it is `response_behavior`. This label is meant to prevent reading non-answer confidence as factual-answer certainty.
+
 ## Hallucination Control
 
 The system controls unsupported answers through several layers:

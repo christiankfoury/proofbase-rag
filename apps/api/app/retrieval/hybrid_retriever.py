@@ -36,6 +36,12 @@ def retrieve_chunks(
         project_id=project_id,
         department_id=department_id,
         excluded_document_prefixes=excluded_document_prefixes,
+        audit_metadata={
+            "parent_retrieval_mode": "hybrid",
+            "hybrid_component": "vector",
+            "hybrid_vector_weight": vector_weight,
+            "hybrid_keyword_weight": keyword_weight,
+        },
     )
     keyword_chunks = keyword_retriever.retrieve_chunks(
         question,
@@ -45,6 +51,12 @@ def retrieve_chunks(
         project_id=project_id,
         department_id=department_id,
         excluded_document_prefixes=excluded_document_prefixes,
+        audit_metadata={
+            "parent_retrieval_mode": "hybrid",
+            "hybrid_component": "keyword",
+            "hybrid_vector_weight": vector_weight,
+            "hybrid_keyword_weight": keyword_weight,
+        },
     )
 
     vector_scores = {chunk.chunk_id: score for chunk, score in zip(vector_chunks, _normalize_scores([c.score for c in vector_chunks]), strict=True)}

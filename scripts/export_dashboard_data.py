@@ -37,6 +37,7 @@ PHASE36_MEMORY_RUN_PATH = RUNS_DIR / "phase36-memory-evaluation.json"
 PHASE36_MEMORY_PERMISSION_RUN_PATH = RUNS_DIR / "phase36-memory-permission-boundary.json"
 PHASE38_PERMISSION_RUN_PATH = RUNS_DIR / "phase38-permission-evaluation.json"
 PHASE39_PERMISSION_RUN_PATH = RUNS_DIR / "phase39-permission-evaluation.json"
+PHASE40_PERMISSION_RUN_PATH = RUNS_DIR / "phase40-permission-evaluation.json"
 SCORECARD_PATH = ROOT / "data/evaluation/regression-scorecard.json"
 
 REQUIRED_REPORTS = [
@@ -481,6 +482,7 @@ def _safety_runs() -> list[dict[str, Any]]:
         PHASE36_MEMORY_PERMISSION_RUN_PATH,
         PHASE38_PERMISSION_RUN_PATH,
         PHASE39_PERMISSION_RUN_PATH,
+        PHASE40_PERMISSION_RUN_PATH,
     ]:
         if path.exists():
             payload = json.loads(path.read_text(encoding="utf-8"))

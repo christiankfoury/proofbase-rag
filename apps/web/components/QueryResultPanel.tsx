@@ -12,6 +12,10 @@ function CompactMetric({ label, value }: { label: string; value: string | number
   );
 }
 
+function confidenceLabel(result: QueryResponse): string {
+  return result.confidence_interpretation === "response_behavior" ? "Behavior confidence" : "Final support confidence";
+}
+
 function formatLatency(value: number | null | undefined): string {
   if (value === null || value === undefined) return "pending";
   if (value >= 1000) return `${(value / 1000).toFixed(1)}s`;
@@ -114,7 +118,7 @@ export function QueryResultPanel({ result }: { result: QueryResponse }) {
       </Card>
 
       <section className="grid gap-3 md:grid-cols-4">
-        <CompactMetric label="Final confidence" value={result.final_confidence} />
+        <CompactMetric label={confidenceLabel(result)} value={result.final_confidence} />
         <CompactMetric label="Retrieval confidence" value={result.retrieval_confidence} />
         <CompactMetric label="Citation confidence" value={result.citation_confidence} />
         <CompactMetric label="Answer confidence" value={result.answer_confidence} />

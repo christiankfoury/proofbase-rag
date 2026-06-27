@@ -16,6 +16,7 @@ class PermissionTrace:
     blocked_chunks_count: int
     blocked_document_ids: list[str]
     unauthorized_chunks_reached_generation: bool = False
+    metadata: dict | None = None
 
 
 def build_permission_trace(
@@ -24,6 +25,7 @@ def build_permission_trace(
     retrieval_mode: str,
     candidate_rows: list[dict],
     allowed_chunks: list[RetrievedChunk],
+    metadata: dict | None = None,
 ) -> PermissionTrace:
     blocked_document_ids = []
     blocked_chunks_count = 0
@@ -42,6 +44,7 @@ def build_permission_trace(
         allowed_chunks_after_filtering=len(allowed_chunks),
         blocked_chunks_count=blocked_chunks_count,
         blocked_document_ids=blocked_document_ids,
+        metadata=metadata or {},
     )
 
 
@@ -62,6 +65,7 @@ def log_permission_trace(trace: PermissionTrace, *, chunking_strategy: str, top_
             "blocked_chunks_count": trace.blocked_chunks_count,
             "blocked_document_ids": trace.blocked_document_ids,
             "unauthorized_chunks_reached_generation": trace.unauthorized_chunks_reached_generation,
+            **(trace.metadata or {}),
         },
     )
 
@@ -73,6 +77,5 @@ def log_permission_trace(trace: PermissionTrace, *, chunking_strategy: str, top_
             document_id=document_id,
             outcome="blocked",
             reason="role_not_in_document_access_roles",
-            metadata={"retrieval_mode": trace.retrieval_mode},
+            metadata={"retrieval_mode": trace.retrieval_mode, **(trace.metadata or {})},
         )
-

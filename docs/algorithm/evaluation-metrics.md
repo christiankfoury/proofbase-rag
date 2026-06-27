@@ -118,6 +118,8 @@ Defined in `apps/api/app/evaluation/memory_metrics.py`.
 
 Memory answer and citation accuracy reuse answer metrics.
 
+Live answer-quality reporting keeps the raw `response_type_accuracy` score comparable, so `answer_with_memory` rows that return the normal API behavior `answer` still receive half credit there. The dedicated memory metric treats that behavior as full credit when memory rewrite, answer, citation, and permission behavior are otherwise correct. Phase 39 live reporting therefore separates memory response-type half-credit into diagnostic notes instead of answer/citation failures.
+
 ## Multi-Doc Metrics
 
 Defined in `apps/api/app/evaluation/multi_doc_metrics.py`.

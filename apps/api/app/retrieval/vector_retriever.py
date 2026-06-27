@@ -17,6 +17,7 @@ def retrieve_chunks(
     excluded_document_prefixes: list[str] | tuple[str, ...] | None = None,
     reranker: str | None = None,
     rerank_candidate_limit: int | None = None,
+    audit_metadata: dict | None = None,
 ) -> list[RetrievedChunk]:
     settings = get_settings()
     limit = top_k or settings.default_top_k
@@ -120,6 +121,7 @@ def retrieve_chunks(
         retrieval_mode="vector_lexical_rerank" if reranker == "lexical" else "vector_only",
         candidate_rows=candidate_rows,
         allowed_chunks=chunks,
+        metadata=audit_metadata,
     )
     log_permission_trace(trace, chunking_strategy=chunking_strategy, top_k=limit)
     return chunks
