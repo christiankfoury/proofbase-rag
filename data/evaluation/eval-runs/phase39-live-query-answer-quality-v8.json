@@ -1,0 +1,67 @@
+{
+  "run_id": "phase39-live-query-answer-quality-v8",
+  "run_name": "live-query-answer-quality-v8",
+  "phase": "phase-39",
+  "run_type": "live_query_eval",
+  "timestamp": "2026-06-27T00:24:11.159201+00:00",
+  "retrieval_mode": "vector_lexical_rerank",
+  "chunking_strategy": "section_based",
+  "top_k": 5,
+  "prompt_name": "answer_generation",
+  "prompt_version": "v8",
+  "multi_doc_mode": "auto",
+  "model": "gpt-4.1-mini",
+  "total_questions": 130,
+  "source_question_count": 130,
+  "question_filter": "all",
+  "metrics": {
+    "any_source_hit": 0.989,
+    "all_sources_hit": 0.989,
+    "expected_source_recall": 0.989,
+    "precision_at_k": 0.709,
+    "mrr": 0.97,
+    "answer_accuracy": 0.981,
+    "citation_accuracy": 0.981,
+    "faithfulness": 0.882,
+    "hallucination_rate": 0.0,
+    "response_type_accuracy": 0.923,
+    "refusal_accuracy": 1.0,
+    "not_found_accuracy": 1.0,
+    "clarification_accuracy": 1.0,
+    "final_confidence": 0.771,
+    "input_tokens": null,
+    "output_tokens": null,
+    "estimated_cost": 0.086915,
+    "failed_question_count": 4
+  },
+  "failed_questions": [
+    "MULTI-004",
+    "MULTI-006",
+    "MULTI-017",
+    "MULTI-020"
+  ],
+  "category_breakdown": {
+    "ambiguous": 10,
+    "conflicting_source": 5,
+    "conversation_memory": 20,
+    "missing_information": 20,
+    "multi_document": 20,
+    "permission_restricted": 20,
+    "prompt_injection": 5,
+    "simple_factual": 30
+  },
+  "failure_reason_counts": {
+    "incomplete_answer": 1,
+    "wrong_citation": 3
+  },
+  "citation_failure_category_counts": {
+    "citation_missing": 3,
+    "right_document_wrong_chunk": 1
+  },
+  "notes": "Phase 39 live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, memory session loading, auto multi-document detection, permission-filtered retrieval, generation, citation validation, and the API response payload. Expected answers, expected behavior, expected sources, prompts, and retrieval logic are unchanged.",
+  "sample_size": 130,
+  "passed_count": 126,
+  "failed_count": 4,
+  "benchmark_version": "1.1",
+  "run_timestamp": "2026-06-27T00:24:11.159201+00:00"
+}

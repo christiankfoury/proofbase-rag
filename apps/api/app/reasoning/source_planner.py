@@ -40,7 +40,7 @@ def plan_multi_document_sources(question: str) -> list[SourcePlanItem]:
     if any(term in normalized for term in ["ai tool", "ai assistant", "llm", "copilot", "ai to summarize"]):
         add("acceptable_ai_use", "acceptable use AI tools internal data customer data", "IT-001")
     if any(term in normalized for term in ["data classification", "customer data", "confidential", "restricted data", "data exposure"]):
-        add("data_classification", "data classification customer data confidential restricted handling", "IT-003")
+        add("data_classification", "storage rules customer restricted data approved company systems", "IT-003")
     if any(term in normalized for term in ["privileged access", "admin account", "elevated access", "production access"]):
         add("privileged_access", "privileged access admin account production access review", "IT-ADMIN-001")
     if any(term in normalized for term in ["account sharing", "shared credentials", "password sharing", "mfa"]):
@@ -49,14 +49,14 @@ def plan_multi_document_sources(question: str) -> list[SourcePlanItem]:
     if any(term in normalized for term in ["support escalation", "customer reports", "enterprise customer", "suspected data exposure"]):
         add("support_escalation", "support escalation enterprise customer suspected data exposure SLA", "SUPPORT-001")
     if any(term in normalized for term in ["engineering response", "incident response", "response target", "deploy", "deployment"]):
-        add("engineering_response", "engineering incident response target deployment review", "ENG-001")
+        add("engineering_response", "SEV-1 data exposure risk 15 minutes on-call severity levels engineering response target", "ENG-001")
     if any(term in normalized for term in ["api", "authorization", "customer data"]):
         add("api_standards", "API standards authorization customer data review principles", "ENG-001")
 
     if any(term in normalized for term in ["software purchase", "software or vendor", "approval path", "procurement"]):
-        add("finance_procurement", "software purchase procurement thresholds approval path", "FIN-001")
+        add("finance_procurement", "software subscription trial USD 500 annualized IT review manager approval expense categories", "FIN-001")
     if any(term in normalized for term in ["vendor", "vendor purchase", "vendor start", "onboarding"]):
-        add("vendor_operations", "vendor onboarding operations approval path software purchases", "OPS-001")
+        add("vendor_operations", "overlap with other policies stricter approval path vendor operations legal IT admin review", "OPS-001")
 
     if any(term in normalized for term in ["exception", "waiver"]) and any(term in normalized for term in ["cross-border", "remote", "international"]):
         add("hr_exception", "HR remote work exception escalation People Operations Legal", "HR-ADMIN-001")

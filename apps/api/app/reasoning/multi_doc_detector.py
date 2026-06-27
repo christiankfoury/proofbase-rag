@@ -51,6 +51,21 @@ _DOMAIN_PAIRS: list[tuple[frozenset[str], frozenset[str]]] = [
         frozenset({"cross-border", "international", "another country", "outside canada", "outside the us"}),
         frozenset({"exception", "waiver", "hr admin", "people operations review", "legal"}),
     ),
+    # SUPPORT-001 (customer escalation) + ENG-001 (engineering incident severity)
+    (
+        frozenset({"enterprise customer", "customer reports", "suspected data exposure", "support escalation"}),
+        frozenset({"engineering response", "response target", "sev-1", "severity", "incident"}),
+    ),
+    # ENG-001 (API authorization) + IT-003 (data storage/classification)
+    (
+        frozenset({"api", "authorization", "database fetch", "customer data", "employee data"}),
+        frozenset({"storage", "approved company systems", "restricted data", "data classification", "review principles"}),
+    ),
+    # FIN-001 (software purchase approval) + OPS-001 (vendor/overlap policy)
+    (
+        frozenset({"software purchase", "software or vendor", "software subscription", "procurement"}),
+        frozenset({"vendor", "approval path", "policies overlap", "overlap", "stricter approval"}),
+    ),
 ]
 
 _CONJUNCTION_RE = re.compile(

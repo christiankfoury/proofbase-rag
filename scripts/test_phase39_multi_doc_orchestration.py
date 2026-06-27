@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from apps.api.app.reasoning import query_decomposer
+from apps.api.app.reasoning.multi_doc_detector import is_multi_document_question
 from apps.api.app.reasoning.source_planner import plan_multi_document_sources
 from apps.api.app.retrieval.config import default_retrieval_config
 from apps.api.app.retrieval.types import RetrievedChunk
@@ -43,11 +44,29 @@ def test_phase39_plans_remaining_multi_doc_failure_sources() -> None:
             "SUPPORT-001",
             "ENG-001",
         },
+        "For an API that exposes customer data, what authorization and review principles apply?": {
+            "ENG-001",
+            "IT-003",
+        },
+        "When policies overlap for software or vendor purchases, what approval path should be used?": {
+            "FIN-001",
+            "OPS-001",
+        },
     }
     for question, expected_docs in expected.items():
         plan = plan_multi_document_sources(question)
         planned_docs = {document_id for item in plan for document_id in item.target_document_ids}
         assert expected_docs.issubset(planned_docs)
+
+
+def test_phase39_detects_remaining_cross_policy_questions() -> None:
+    questions = [
+        "If an Enterprise customer reports suspected data exposure, what support escalation and engineering response target apply?",
+        "For an API that exposes customer data, what authorization and review principles apply?",
+        "When policies overlap for software or vendor purchases, what approval path should be used?",
+    ]
+    for question in questions:
+        assert is_multi_document_question(question)
 
 
 def test_phase39_multi_doc_merge_preserves_planned_source_coverage() -> None:
@@ -85,6 +104,7 @@ def test_phase39_multi_doc_merge_preserves_planned_source_coverage() -> None:
 
 def main() -> None:
     test_phase39_plans_remaining_multi_doc_failure_sources()
+    test_phase39_detects_remaining_cross_policy_questions()
     test_phase39_multi_doc_merge_preserves_planned_source_coverage()
     print("Phase 39 multi-document orchestration tests passed.")
 

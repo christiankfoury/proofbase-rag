@@ -47,6 +47,13 @@ EXTERNAL_AI_APPROVAL_MESSAGE = (
 )
 
 
+def _write_text_atomic(path: Path, content: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path = path.with_name(f"{path.name}.tmp")
+    temp_path.write_text(content, encoding="utf-8")
+    temp_path.replace(path)
+
+
 def _load_benchmark() -> dict[str, Any]:
     return json.loads(BENCHMARK_PATH.read_text(encoding="utf-8"))
 
@@ -387,7 +394,7 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
             "- Benchmark expected answers, expected behavior, and expected sources were not changed.",
         ]
     )
-    REPORT_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    _write_text_atomic(REPORT_PATH, "\n".join(lines) + "\n")
 
 
 def run_live_query_eval(args: argparse.Namespace) -> dict[str, Any]:
@@ -488,8 +495,8 @@ def main() -> None:
     PHASE_DIR.mkdir(parents=True, exist_ok=True)
     result = run_live_query_eval(args)
     dashboard_run = _dashboard_run(result)
-    OUTPUT_JSON.write_text(json.dumps({**result, "dashboard_run": dashboard_run}, indent=2), encoding="utf-8")
-    EVAL_RUN_JSON.write_text(json.dumps(dashboard_run, indent=2), encoding="utf-8")
+    _write_text_atomic(OUTPUT_JSON, json.dumps({**result, "dashboard_run": dashboard_run}, indent=2))
+    _write_text_atomic(EVAL_RUN_JSON, json.dumps(dashboard_run, indent=2))
     _write_report(result, dashboard_run)
 
     print(json.dumps({"summary": result["summary"], "dashboard_run": dashboard_run}, indent=2))
