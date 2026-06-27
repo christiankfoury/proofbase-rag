@@ -190,12 +190,12 @@ export default function AppHomePage() {
               <Link
                 key={item.title}
                 href={item.href}
-                className={`group rounded-md border p-4 transition-colors hover:bg-white ${toneStyles[item.tone as keyof typeof toneStyles].panel}`}
+                className={`group flex h-full flex-col rounded-md border p-4 transition-colors hover:bg-white ${toneStyles[item.tone as keyof typeof toneStyles].panel}`}
               >
                 <span className={`block h-1.5 w-10 rounded-full ${toneStyles[item.tone as keyof typeof toneStyles].accent}`} />
                 <p className="mt-3 font-semibold text-ink group-hover:text-moss-dark">{item.title}</p>
                 <p className="mt-2 text-sm leading-6 text-stone-700">{item.detail}</p>
-                <span className="mt-4 inline-flex text-sm font-semibold text-ink group-hover:text-moss-dark">{item.action}</span>
+                <span className="mt-auto inline-flex pt-4 text-sm font-semibold text-ink group-hover:text-moss-dark">{item.action}</span>
               </Link>
             ))}
           </div>
