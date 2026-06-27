@@ -64,6 +64,7 @@ export type ProjectDocument = {
   };
   chunk_count: number;
   markdown_preview: string;
+  review_markdown?: string;
   ingestion_job?: {
     id?: string | null;
     status?: string | null;
@@ -206,6 +207,18 @@ export async function fetchDepartmentDocuments(
   return result.documents;
 }
 
+export async function fetchDepartmentDocument(
+  projectId: string,
+  departmentId: string,
+  documentId: string
+): Promise<ProjectDocument> {
+  const result = await projectRequest<{ document: ProjectDocument }>(
+    `/projects/${encodeURIComponent(projectId)}/departments/${encodeURIComponent(departmentId)}/documents/${encodeURIComponent(documentId)}`,
+    { cache: "no-store" }
+  );
+  return result.document;
+}
+
 export async function uploadDepartmentDocument(
   projectId: string,
   departmentId: string,
@@ -241,12 +254,14 @@ export async function uploadDepartmentDocument(
 export async function approveDepartmentDocument(
   projectId: string,
   departmentId: string,
-  documentId: string
+  documentId: string,
+  payload: { reviewed_markdown?: string } = {}
 ): Promise<ProjectDocument> {
   const result = await projectRequest<{ document: ProjectDocument }>(
     `/projects/${encodeURIComponent(projectId)}/departments/${encodeURIComponent(departmentId)}/documents/${encodeURIComponent(documentId)}/approve-index`,
     {
       method: "POST",
+      body: JSON.stringify(payload),
     }
   );
   return result.document;

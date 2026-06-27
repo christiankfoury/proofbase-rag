@@ -41,7 +41,7 @@ class _FakeConnection:
         return _FakeFetchOne()
 
 
-def _pending_row() -> dict[str, Any]:
+def _pending_row(status: str = "pending_review") -> dict[str, Any]:
     return {
         "id": DOCUMENT_ID,
         "external_document_id": "UPLOAD-TEST",
@@ -58,7 +58,7 @@ def _pending_row() -> dict[str, Any]:
         "owner": "Admin",
         "review_cycle": "manual review required",
         "extracted_text": "## Vendor Start\n\nVendors need operations review before starting work.",
-        "ingestion_status": "pending_review",
+        "ingestion_status": status,
         "ingestion_job_id": JOB_ID,
     }
 
@@ -101,6 +101,67 @@ def test_approve_and_index_document_uses_mocked_embeddings_and_marks_indexed() -
     assert [status for status, _, _ in job_updates] == ["chunking", "embedding"]
 
 
+def test_approve_and_index_document_uses_reviewed_markdown_for_embeddings() -> None:
+    statements: list[str] = []
+    embedded_texts: list[str] = []
+    reviewed_markdown = "## Reviewed Vendor Start\n\nVendors need Legal review before starting work."
+    original_load = document_store._load_current_document_version
+    original_update_job = document_store._update_indexing_job
+    original_get_connection = document_store.get_connection
+    original_embed_texts = document_store.embed_texts
+    original_list = document_store.list_project_documents
+    try:
+        document_store._load_current_document_version = lambda **kwargs: _pending_row(status="failed")  # type: ignore[assignment]
+        document_store._update_indexing_job = lambda *args, **kwargs: None  # type: ignore[assignment]
+        document_store.get_connection = lambda: _FakeConnection(statements)  # type: ignore[assignment]
+
+        def capture_embed(texts: list[str]) -> list[list[float]]:
+            embedded_texts.extend(texts)
+            return [[0.1, 0.2] for _ in texts]
+
+        document_store.embed_texts = capture_embed  # type: ignore[assignment]
+        document_store.list_project_documents = lambda *args, **kwargs: [  # type: ignore[assignment]
+            {"id": DOCUMENT_ID, "title": "Uploaded Vendor Guide", "version": {"ingestion_status": "indexed"}, "chunk_count": 1}
+        ]
+        document = document_store.approve_and_index_document(
+            project_id=PROJECT_ID,
+            department_id=DEPARTMENT_ID,
+            document_id=DOCUMENT_ID,
+            reviewed_markdown=reviewed_markdown,
+        )
+    finally:
+        document_store._load_current_document_version = original_load  # type: ignore[assignment]
+        document_store._update_indexing_job = original_update_job  # type: ignore[assignment]
+        document_store.get_connection = original_get_connection  # type: ignore[assignment]
+        document_store.embed_texts = original_embed_texts  # type: ignore[assignment]
+        document_store.list_project_documents = original_list  # type: ignore[assignment]
+
+    assert document is not None
+    assert any("set extracted_text = %s" in statement for statement in statements)
+    assert embedded_texts
+    assert "Legal review" in embedded_texts[0]
+    assert "operations review" not in embedded_texts[0].lower()
+
+
+def test_approve_and_index_document_rejects_empty_reviewed_markdown() -> None:
+    original_load = document_store._load_current_document_version
+    try:
+        document_store._load_current_document_version = lambda **kwargs: _pending_row()  # type: ignore[assignment]
+        try:
+            document_store.approve_and_index_document(
+                project_id=PROJECT_ID,
+                department_id=DEPARTMENT_ID,
+                document_id=DOCUMENT_ID,
+                reviewed_markdown="   ",
+            )
+        except ValueError as exc:
+            assert "Reviewed Markdown cannot be empty" in str(exc)
+        else:
+            raise AssertionError("Expected empty reviewed Markdown to be rejected")
+    finally:
+        document_store._load_current_document_version = original_load  # type: ignore[assignment]
+
+
 def test_approve_and_index_document_marks_failed_when_embedding_fails() -> None:
     failures: list[tuple[str, str | None, str]] = []
     original_load = document_store._load_current_document_version
@@ -139,6 +200,8 @@ def test_approve_and_index_document_marks_failed_when_embedding_fails() -> None:
 
 def main() -> None:
     test_approve_and_index_document_uses_mocked_embeddings_and_marks_indexed()
+    test_approve_and_index_document_uses_reviewed_markdown_for_embeddings()
+    test_approve_and_index_document_rejects_empty_reviewed_markdown()
     test_approve_and_index_document_marks_failed_when_embedding_fails()
     print("Phase 40 upload indexing tests passed.")
 

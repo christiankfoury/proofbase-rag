@@ -33,6 +33,7 @@ from apps.api.app.observability.summary import compute_live_summary
 from apps.api.app.observability.tracing import RequestTrace
 from apps.api.app.permissions.access_control import unauthorized_chunks_reached_generation
 from apps.api.app.projects.document_store import approve_and_index_document, create_pending_review_document
+from apps.api.app.projects.document_store import get_project_document
 from apps.api.app.projects.document_store import list_project_documents
 from apps.api.app.projects.project_store import archive_project
 from apps.api.app.projects.project_store import archive_department
@@ -63,6 +64,12 @@ MAX_UPLOAD_BYTES = 10 * 1024 * 1024
 def _cors_origins() -> list[str]:
     settings = get_settings()
     return [origin.strip() for origin in settings.cors_allowed_origins.split(",") if origin.strip()]
+
+
+def _confidence_interpretation(response_type: str) -> str:
+    if response_type in {"answer", "partial_answer"}:
+        return "answer_support"
+    return "response_behavior"
 
 
 app = FastAPI(title="Enterprise Knowledge Agent API")
@@ -138,6 +145,10 @@ class EvaluationReviewRequest(BaseModel):
     reviewer_role: str = "Evaluator"
     reviewer_id: str | None = None
     notes: str = Field("", max_length=2000)
+
+
+class ApproveIndexRequest(BaseModel):
+    reviewed_markdown: str | None = Field(None, max_length=2_000_000)
 
 
 class ProjectCreateRequest(BaseModel):
@@ -867,6 +878,35 @@ def department_documents_route(
     return {"documents": documents, "count": len(documents)}
 
 
+@app.get("/projects/{project_id}/departments/{department_id}/documents/{document_id}")
+def department_document_detail_route(
+    project_id: str,
+    department_id: str,
+    document_id: str,
+    user: Annotated[dict, Depends(current_demo_user)],
+) -> dict:
+    project_id = _validate_project_id(project_id)
+    department_id = _validate_project_id(department_id)
+    document_id = _validate_project_id(document_id)
+    require_project_member(user, project_id)
+    try:
+        if not get_department(project_id, department_id, include_archived=True):
+            raise HTTPException(status_code=404, detail="Department not found.")
+        document = get_project_document(
+            project_id=project_id,
+            department_id=department_id,
+            document_id=document_id,
+            include_archived=True,
+        )
+    except HTTPException:
+        raise
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error loading department document.") from exc
+    if not document:
+        raise HTTPException(status_code=404, detail="Document not found.")
+    return {"document": document}
+
+
 @app.post("/projects/{project_id}/departments/{department_id}/documents/upload", status_code=201)
 async def upload_department_document_route(
     project_id: str,
@@ -969,6 +1009,7 @@ def approve_department_document_route(
     department_id: str,
     document_id: str,
     user: Annotated[dict, Depends(current_demo_user)],
+    request: ApproveIndexRequest | None = None,
 ) -> dict:
     project_id = _validate_project_id(project_id)
     department_id = _validate_project_id(department_id)
@@ -981,6 +1022,7 @@ def approve_department_document_route(
             project_id=project_id,
             department_id=department_id,
             document_id=document_id,
+            reviewed_markdown=request.reviewed_markdown if request else None,
         )
     except HTTPException:
         raise
@@ -1193,6 +1235,7 @@ def _query_response_payload(
         "citation_confidence": answer["citation_confidence"],
         "answer_confidence": answer["answer_confidence"],
         "final_confidence": answer["final_confidence"],
+        "confidence_interpretation": _confidence_interpretation(answer["response_type"]),
         "supported_claims": answer["supported_claims"],
         "unsupported_claims": answer["unsupported_claims"],
         "validation_notes": answer["validation_notes"],

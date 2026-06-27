@@ -11,6 +11,7 @@ import {
   DepartmentColor,
   DepartmentIcon,
   fetchDepartment,
+  fetchDepartmentDocument,
   fetchDepartmentDocuments,
   ProjectDepartment,
   ProjectDocument,
@@ -101,6 +102,8 @@ export function DepartmentDetailClient({
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [indexingDocumentId, setIndexingDocumentId] = useState<string | null>(null);
+  const [reviewMarkdown, setReviewMarkdown] = useState("");
+  const [reviewLoadingDocumentId, setReviewLoadingDocumentId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -128,6 +131,37 @@ export function DepartmentDetailClient({
       active = false;
     };
   }, [projectId, departmentId]);
+
+  const selectedDocument = documents.find((document) => document.id === selectedDocumentId) ?? documents[0] ?? null;
+  const selectedDocumentNeedsReview = selectedDocument
+    ? ["pending_review", "failed"].includes(selectedDocument.version.ingestion_status)
+    : false;
+
+  useEffect(() => {
+    let active = true;
+    if (!selectedDocument || !selectedDocumentNeedsReview) {
+      setReviewMarkdown("");
+      setReviewLoadingDocumentId(null);
+      return () => {
+        active = false;
+      };
+    }
+    setReviewLoadingDocumentId(selectedDocument.id);
+    fetchDepartmentDocument(projectId, departmentId, selectedDocument.id)
+      .then((document) => {
+        if (!active) return;
+        setReviewMarkdown(document.review_markdown ?? document.markdown_preview ?? "");
+      })
+      .catch((err: Error) => {
+        if (active) setError(err.message);
+      })
+      .finally(() => {
+        if (active) setReviewLoadingDocumentId(null);
+      });
+    return () => {
+      active = false;
+    };
+  }, [projectId, departmentId, selectedDocument?.id, selectedDocumentNeedsReview]);
 
   async function handleSave(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -207,7 +241,12 @@ export function DepartmentDetailClient({
     setError(null);
     setNotice(null);
     try {
-      const indexedDocument = await approveDepartmentDocument(projectId, departmentId, document.id);
+      const reviewedMarkdown = ["pending_review", "failed"].includes(document.version.ingestion_status)
+        ? reviewMarkdown
+        : undefined;
+      const indexedDocument = await approveDepartmentDocument(projectId, departmentId, document.id, {
+        reviewed_markdown: reviewedMarkdown,
+      });
       const [nextDepartment, nextDocuments] = await Promise.all([
         fetchDepartment(projectId, departmentId, true),
         fetchDepartmentDocuments(projectId, departmentId, true),
@@ -233,8 +272,7 @@ export function DepartmentDetailClient({
     return <EmptyState title="Department unavailable">The department API is unavailable or this department was not found.</EmptyState>;
   }
 
-  const selectedDocument = documents.find((document) => document.id === selectedDocumentId) ?? documents[0] ?? null;
-
+  const reviewMarkdownReady = reviewMarkdown.trim().length > 0;
   return (
     <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">
       <section className="space-y-5">
@@ -395,9 +433,13 @@ export function DepartmentDetailClient({
                         className="btn-primary mt-3"
                         type="button"
                         onClick={() => handleApproveIndex(selectedDocument)}
-                        disabled={indexingDocumentId === selectedDocument.id}
+                        disabled={indexingDocumentId === selectedDocument.id || reviewLoadingDocumentId === selectedDocument.id || !reviewMarkdownReady}
                       >
-                        {indexingDocumentId === selectedDocument.id ? "Indexing..." : "Approve and index"}
+                        {indexingDocumentId === selectedDocument.id
+                          ? "Indexing..."
+                          : selectedDocument.version.ingestion_status === "failed"
+                            ? "Retry indexing"
+                            : "Approve and index"}
                       </button>
                     ) : null}
                     {selectedDocument.version.ingestion_status === "indexed" ? (
@@ -411,10 +453,21 @@ export function DepartmentDetailClient({
                   </div>
 
                   <div className="mt-4">
-                    <p className="text-sm font-semibold uppercase tracking-wide text-stone-500">Extracted Markdown Preview</p>
-                    <pre className="mt-2 max-h-[520px] overflow-auto whitespace-pre-wrap rounded border border-stone-200 bg-white p-4 text-xs leading-5 text-stone-800">
-                      {selectedDocument.markdown_preview || "No extracted Markdown preview is available for this document."}
-                    </pre>
+                    <p className="text-sm font-semibold uppercase tracking-wide text-stone-500">
+                      {selectedDocumentNeedsReview ? "Markdown Review" : "Extracted Markdown Preview"}
+                    </p>
+                    {selectedDocumentNeedsReview ? (
+                      <textarea
+                        className="field mt-2 min-h-[520px] w-full font-mono text-xs leading-5"
+                        value={reviewLoadingDocumentId === selectedDocument.id ? "Loading extracted Markdown..." : reviewMarkdown}
+                        onChange={(event) => setReviewMarkdown(event.target.value)}
+                        disabled={reviewLoadingDocumentId === selectedDocument.id || indexingDocumentId === selectedDocument.id}
+                      />
+                    ) : (
+                      <pre className="mt-2 max-h-[520px] overflow-auto whitespace-pre-wrap rounded border border-stone-200 bg-white p-4 text-xs leading-5 text-stone-800">
+                        {selectedDocument.markdown_preview || "No extracted Markdown preview is available for this document."}
+                      </pre>
+                    )}
                   </div>
                 </div>
               ) : null}

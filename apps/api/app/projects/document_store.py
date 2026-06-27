@@ -22,7 +22,7 @@ def _json_value(value: Any, default: Any) -> Any:
 
 
 def _document_from_row(row: dict[str, Any]) -> dict[str, Any]:
-    return {
+    document = {
         "id": row["id"],
         "project_id": row["project_id"],
         "department_id": row.get("department_id"),
@@ -66,6 +66,9 @@ def _document_from_row(row: dict[str, Any]) -> dict[str, Any]:
         if row.get("ingestion_job_id")
         else None,
     }
+    if "review_markdown" in row:
+        document["review_markdown"] = row.get("review_markdown") or ""
+    return document
 
 
 def _hash_bytes(content: bytes) -> str:
@@ -163,6 +166,91 @@ def list_project_documents(
         ).fetchall()
 
     return [_document_from_row(dict(row)) for row in rows]
+
+
+def get_project_document(
+    *,
+    project_id: str,
+    department_id: str,
+    document_id: str,
+    include_archived: bool = False,
+) -> dict[str, Any] | None:
+    status_clause = "" if include_archived else "and d.status <> 'archived'"
+    with get_connection() as conn:
+        row = conn.execute(
+            f"""
+            select
+              d.id::text,
+              d.project_id::text,
+              d.department_id::text,
+              d.external_document_id,
+              d.title,
+              d.department,
+              d.category,
+              d.source_type,
+              d.source_path,
+              d.access_roles,
+              d.sensitivity,
+              d.restricted,
+              d.status,
+              d.created_at,
+              d.updated_at,
+              dv.id::text as version_id,
+              dv.version_label,
+              dv.effective_date,
+              dv.owner,
+              dv.review_cycle,
+              dv.content_hash,
+              dv.metadata_json as version_metadata_json,
+              dv.ingestion_status,
+              dv.indexed_at,
+              dv.failed_at,
+              dv.failure_reason,
+              coalesce(chunk_stats.chunk_count, 0)::int as chunk_count,
+              left(coalesce(dv.extracted_text, ''), 4000) as markdown_preview,
+              coalesce(dv.extracted_text, '') as review_markdown,
+              ij.id::text as ingestion_job_id,
+              ij.status as job_status,
+              ij.stage as job_stage,
+              ij.status_detail as job_status_detail,
+              ij.started_at as job_started_at,
+              ij.completed_at as job_completed_at,
+              ij.failed_at as job_failed_at,
+              ij.error_message as job_error_message
+            from documents d
+            left join lateral (
+              select *
+              from document_versions version_candidate
+              where version_candidate.document_id = d.id
+              order by
+                case when version_candidate.id = d.current_version_id then 0 else 1 end,
+                version_candidate.created_at desc
+              limit 1
+            ) dv on true
+            left join lateral (
+              select count(*) as chunk_count
+              from chunks c
+              where c.document_version_id = dv.id
+            ) chunk_stats on true
+            left join lateral (
+              select *
+              from ingestion_jobs job_candidate
+              where job_candidate.document_id = d.id
+                and (
+                  dv.id is null
+                  or job_candidate.document_version_id = dv.id
+                )
+              order by job_candidate.created_at desc
+              limit 1
+            ) ij on true
+            where d.id = %s::uuid
+              and d.project_id = %s::uuid
+              and d.department_id = %s::uuid
+              {status_clause}
+            """,
+            (document_id, project_id, department_id),
+        ).fetchone()
+    return _document_from_row(dict(row)) if row else None
 
 
 def create_pending_review_document(
@@ -289,6 +377,7 @@ def approve_and_index_document(
     project_id: str,
     department_id: str,
     document_id: str,
+    reviewed_markdown: str | None = None,
     chunking_strategy: str = "section_based",
 ) -> dict[str, Any] | None:
     row = _load_current_document_version(project_id=project_id, department_id=department_id, document_id=document_id)
@@ -299,6 +388,27 @@ def approve_and_index_document(
 
     version_id = row["version_id"]
     job_id = row.get("ingestion_job_id")
+    if reviewed_markdown is not None:
+        reviewed_text = reviewed_markdown.strip()
+        if not reviewed_text:
+            raise ValueError("Reviewed Markdown cannot be empty.")
+        review_metadata = {
+            "reviewed_markdown_at": datetime.now(UTC).isoformat(),
+            "reviewed_markdown_changed": reviewed_text != (row.get("extracted_text") or ""),
+        }
+        with get_connection() as conn:
+            conn.execute(
+                """
+                update document_versions
+                set extracted_text = %s,
+                    content_hash = %s,
+                    metadata_json = coalesce(metadata_json, '{}'::jsonb) || %s::jsonb
+                where id = %s::uuid
+                """,
+                (reviewed_text, _hash_text(reviewed_text), json.dumps(review_metadata), version_id),
+            )
+        row["extracted_text"] = reviewed_text
+
     try:
         _update_indexing_job(job_id, status="chunking", stage="chunking", status_detail="Approved for indexing. Creating chunks.")
         markdown_document = MarkdownDocument(
