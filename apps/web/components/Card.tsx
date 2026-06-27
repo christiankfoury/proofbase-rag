@@ -1,7 +1,7 @@
 import type { ElementType, ReactNode } from "react";
 
 const toneBorder = {
-  neutral: "border-stone-300",
+  neutral: "border-moss",
   good: "border-moss",
   warn: "border-rust",
   risk: "border-red-500",

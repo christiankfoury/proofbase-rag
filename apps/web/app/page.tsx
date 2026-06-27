@@ -124,7 +124,7 @@ export default function AppHomePage() {
         }
       />
 
-      <section className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
+      <section className="grid gap-5">
         <Card tone="good" className="overflow-hidden">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-3xl">
@@ -171,7 +171,7 @@ export default function AppHomePage() {
             />
             <span className="badge-solid shrink-0">Proof</span>
           </div>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
             {proofPoints.map((item) => (
               <div key={item.label} className="rounded border border-stone-200 bg-stone-50 p-3">
                 <div className="flex items-center gap-2">
@@ -192,7 +192,7 @@ export default function AppHomePage() {
         />
         <div className="grid gap-4 md:grid-cols-3">
           {nextCapabilities.map((item) => (
-            <Card key={item.title} padding="compact" className="border-stone-300">
+            <Card key={item.title} padding="compact">
               <div className="flex items-start justify-between gap-3">
                 <p className="font-semibold text-ink">{item.title}</p>
                 <span className="badge-info shrink-0">{item.label}</span>
