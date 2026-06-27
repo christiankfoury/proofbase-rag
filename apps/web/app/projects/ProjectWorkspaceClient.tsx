@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FileText, MessageSquare, Search, UploadCloud } from "lucide-react";
 import { Badge } from "@/components/Badge";
+import type { BadgeTone } from "@/components/Badge";
 import { EmptyState } from "@/components/EmptyState";
 import { RoleMultiSelect } from "@/components/RoleMultiSelect";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -13,8 +15,10 @@ import {
   DepartmentColor,
   DepartmentIcon,
   fetchProject,
+  fetchProjectDocuments,
   fetchProjects,
   Project,
+  ProjectDocument,
   updateProject,
 } from "@/lib/projects";
 
@@ -89,6 +93,29 @@ function retrievalProfileLabel(value: string): string {
   return retrievalProfileOptions.find((option) => option.value === value)?.label ?? formatLabel(value);
 }
 
+function chatHref(projectId: string, departmentId?: string | null, question?: string): string {
+  const params = new URLSearchParams({ project: projectId });
+  if (departmentId) params.set("department", departmentId);
+  if (question) params.set("question", question);
+  return `/chat?${params.toString()}`;
+}
+
+function documentStatusTone(status: string): BadgeTone {
+  if (status === "indexed") return "good";
+  if (status === "pending_review") return "info";
+  if (status === "failed") return "warn";
+  return "neutral";
+}
+
+function formatDocumentStatus(status: string): string {
+  return status.replaceAll("_", " ");
+}
+
+function formatDate(value: string | null | undefined): string {
+  if (!value) return "pending";
+  return new Date(value).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+}
+
 function iconLabel(icon: string): string {
   const labels: Record<string, string> = {
     people: "PE",
@@ -116,6 +143,9 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedId, setSelectedId] = useState(initialProjectId ?? "");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [projectDocuments, setProjectDocuments] = useState<ProjectDocument[]>([]);
+  const [documentsLoading, setDocumentsLoading] = useState(false);
+  const [documentsError, setDocumentsError] = useState<string | null>(null);
   const [createForm, setCreateForm] = useState(emptyForm);
   const [editForm, setEditForm] = useState(emptyForm);
   const [departmentForm, setDepartmentForm] = useState(emptyDepartmentForm);
@@ -127,6 +157,7 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
     () => projects.find((project) => project.id === selectedId) ?? projects[0],
     [projects, selectedId]
   );
+  const activeProject = selectedProject ?? selectedListProject ?? null;
 
   async function refreshProjects(preferredProjectId?: string) {
     const nextProjects = await fetchProjects();
@@ -182,6 +213,34 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
       active = false;
     };
   }, [selectedId]);
+
+  useEffect(() => {
+    if (!activeProject?.id) {
+      setProjectDocuments([]);
+      setDocumentsError(null);
+      return;
+    }
+    let active = true;
+    setDocumentsLoading(true);
+    setDocumentsError(null);
+    setProjectDocuments([]);
+    fetchProjectDocuments(activeProject.id)
+      .then((documents) => {
+        if (!active) return;
+        setProjectDocuments(documents);
+      })
+      .catch((err: Error) => {
+        if (!active) return;
+        setProjectDocuments([]);
+        setDocumentsError(err.message);
+      })
+      .finally(() => {
+        if (active) setDocumentsLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [activeProject?.id]);
 
   async function handleCreate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -257,7 +316,60 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
     }
   }
 
-  const activeProject = selectedProject ?? selectedListProject ?? null;
+  const departments = activeProject?.departments ?? [];
+  const indexedDocuments = projectDocuments.filter((document) => document.version.ingestion_status === "indexed").length;
+  const pendingDocuments = projectDocuments.filter((document) => document.version.ingestion_status === "pending_review").length;
+  const failedDocuments = projectDocuments.filter((document) => document.version.ingestion_status === "failed").length;
+  const uploadedDocuments = projectDocuments.filter((document) => document.source_type === "upload").length;
+  const representativeDocuments = useMemo(
+    () =>
+      [...projectDocuments]
+        .sort((a, b) => {
+          const statusRank = (status: string) => (status === "pending_review" ? 0 : status === "failed" ? 1 : status === "indexed" ? 2 : 3);
+          const rankDelta = statusRank(a.version.ingestion_status) - statusRank(b.version.ingestion_status);
+          if (rankDelta !== 0) return rankDelta;
+          return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+        })
+        .slice(0, 5),
+    [projectDocuments]
+  );
+  const suggestedQuestions = useMemo(() => {
+    const findDepartment = (...terms: string[]) =>
+      departments.find((department) => {
+        const name = department.name.toLowerCase();
+        const seededKey = department.seeded_data_key?.toLowerCase() ?? "";
+        return terms.some((term) => name.includes(term) || seededKey.includes(term));
+      });
+    const people = findDepartment("people", "hr public");
+    const sales = findDepartment("sales");
+    const operations = findDepartment("operations");
+    return [
+      {
+        label: "Office locations",
+        question: "Where does Northstar Analytics have offices?",
+        departmentId: people?.id ?? null,
+        scope: people?.name ?? "All departments",
+      },
+      {
+        label: "Remote work proof",
+        question: "If I work remotely, what approval and device security expectations apply?",
+        departmentId: null,
+        scope: "All departments",
+      },
+      {
+        label: "Sales positioning",
+        question: "How should I position Northstar against BI tools while avoiding prohibited claims?",
+        departmentId: sales?.id ?? null,
+        scope: sales?.name ?? "All departments",
+      },
+      {
+        label: "Equipment requests",
+        question: "What is the equipment request process?",
+        departmentId: operations?.id ?? null,
+        scope: operations?.name ?? "All departments",
+      },
+    ];
+  }, [departments]);
 
   return (
     <div className="grid gap-5 xl:grid-cols-[360px_minmax(0,1fr)]">
@@ -344,26 +456,47 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
 
         {!activeProject ? (
           <EmptyState title="Project workspace unavailable">
-            The project API is unavailable or the schema has not been applied yet.
+            Start the API and apply the project schema to load workspaces, departments, documents, and scoped chat links.
           </EmptyState>
         ) : (
           <div className="space-y-5">
-            <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div>
+            <div className="rounded-md border border-stone-300 bg-white shadow-card">
+              <div className="grid gap-5 border-b border-stone-200 p-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(300px,0.65fr)]">
+                <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="text-2xl font-semibold text-ink">{activeProject.name}</h2>
                     <Badge tone={statusTone(activeProject.status)}>{activeProject.status}</Badge>
                     {activeProject.seeded_data_key ? <Badge tone="solid">Seeded corpus</Badge> : null}
                   </div>
                   <p className="mt-2 max-w-3xl text-stone-700">{activeProject.description || "No description"}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <Link href={chatHref(activeProject.id)} className="btn-primary">
+                      <MessageSquare className="h-4 w-4" />
+                      Ask this project
+                    </Link>
+                    <a href="#departments" className="btn-secondary">
+                      <Search className="h-4 w-4" />
+                      Browse departments
+                    </a>
+                    {departments[0] ? (
+                      <Link href={`/projects/${activeProject.id}/departments/${departments[0].id}`} className="btn-secondary">
+                        <FileText className="h-4 w-4" />
+                        Review documents
+                      </Link>
+                    ) : null}
+                  </div>
                 </div>
-                <Link href="/chat" className="btn-secondary">
-                  Open assistant demo
-                </Link>
+                <div className="rounded-md border border-steel bg-steel-soft p-4 text-steel-dark">
+                  <p className="text-xs font-semibold uppercase tracking-wide">One-minute demo path</p>
+                  <ol className="mt-3 space-y-2 text-sm leading-6">
+                    <li>1. Pick a department shortcut.</li>
+                    <li>2. Inspect documents and upload status.</li>
+                    <li>3. Ask a scoped question with citations.</li>
+                  </ol>
+                </div>
               </div>
 
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="grid gap-3 p-5 sm:grid-cols-2 xl:grid-cols-4">
                 <div className="rounded border border-stone-200 bg-stone-50 p-3">
                   <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Departments</p>
                   <p className="mt-1 text-2xl font-semibold text-ink">{formatNumber(activeProject.department_count)}</p>
@@ -384,12 +517,37 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
               </div>
             </div>
 
+            <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
+              <SectionHeading
+                title="Suggested Scoped Questions"
+                description="Each chip opens chat with this project scope preserved; department chips also narrow retrieval before role filtering."
+              />
+              <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                {suggestedQuestions.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={chatHref(activeProject.id, item.departmentId, item.question)}
+                    className="group rounded-md border border-stone-200 bg-stone-50 p-4 transition-colors hover:border-moss hover:bg-moss-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss"
+                  >
+                    <span className="flex items-start justify-between gap-3">
+                      <span className="font-semibold text-ink">{item.label}</span>
+                      <MessageSquare className="h-4 w-4 shrink-0 text-moss-dark" />
+                    </span>
+                    <span className="mt-2 block text-sm leading-6 text-stone-700">{item.question}</span>
+                    <span className="mt-3 block text-xs font-semibold uppercase tracking-wide text-stone-500">
+                      Scope: {item.scope}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
             <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">
               <div className="space-y-5">
-                <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
+                <div id="departments" className="scroll-mt-24 rounded-md border border-stone-300 bg-white p-5 shadow-card">
                   <SectionHeading
-                    title="Department Coverage"
-                    description="Create project-local knowledge areas with icons, descriptions, and default access roles."
+                    title="Department Shortcuts"
+                    description="Open a department workspace, or ask with that department as a strict retrieval scope."
                   />
                   <form onSubmit={handleCreateDepartment} className="mb-5 grid gap-3 rounded border border-stone-200 bg-stone-50 p-4 lg:grid-cols-2">
                     <input
@@ -473,9 +631,12 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                           <p className="mt-3 text-xs text-stone-600">
                             Current roles: {department.access_roles.join(", ") || department.default_access_roles.join(", ") || "-"}
                           </p>
-                          <div className="mt-4">
+                          <div className="mt-4 flex flex-wrap gap-2">
                             <Link href={`/projects/${activeProject.id}/departments/${department.id}`} className="btn-secondary btn-sm">
                               Open
+                            </Link>
+                            <Link href={chatHref(activeProject.id, department.id)} className="btn-secondary btn-sm">
+                              Ask
                             </Link>
                           </div>
                         </article>
@@ -485,6 +646,65 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                     <EmptyState title="No documents indexed">
                       This workspace has no department coverage until documents are added through ingestion.
                     </EmptyState>
+                  )}
+                </div>
+
+                <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
+                  <SectionHeading
+                    title="Representative Documents"
+                    description="Recent indexed or pending sources in this project, with review and indexing state visible."
+                  />
+                  {documentsError ? (
+                    <div className="mt-4 rounded-md border border-rust bg-rust-soft p-4 text-sm text-rust-dark">
+                      Document library is unavailable: {documentsError}
+                    </div>
+                  ) : documentsLoading ? (
+                    <div className="mt-4 grid gap-3 md:grid-cols-2">
+                      <div className="h-28 skeleton-soft" />
+                      <div className="h-28 skeleton-soft" />
+                    </div>
+                  ) : representativeDocuments.length ? (
+                    <div className="mt-4 grid gap-3 md:grid-cols-2">
+                      {representativeDocuments.map((document) => (
+                        <article key={document.id} className="rounded-md border border-stone-200 bg-stone-50 p-4">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="line-clamp-2 font-semibold text-ink">{document.title}</p>
+                              <p className="mt-1 text-xs text-stone-500">{document.external_document_id}</p>
+                            </div>
+                            <Badge tone={documentStatusTone(document.version.ingestion_status)}>
+                              {formatDocumentStatus(document.version.ingestion_status)}
+                            </Badge>
+                          </div>
+                          <div className="mt-3 flex flex-wrap gap-2 text-xs text-stone-600">
+                            <span>{document.department}</span>
+                            <span>{formatNumber(document.chunk_count)} chunks</span>
+                            <span>{document.source_type}</span>
+                          </div>
+                          <p className="mt-3 text-xs text-stone-600">
+                            Roles: {document.access_roles.join(", ") || "No roles"} | Updated {formatDate(document.updated_at)}
+                          </p>
+                          {document.department_id ? (
+                            <div className="mt-4 flex flex-wrap gap-2">
+                              <Link href={`/projects/${activeProject.id}/departments/${document.department_id}`} className="btn-secondary btn-sm">
+                                Open department
+                              </Link>
+                              {document.version.ingestion_status === "indexed" ? (
+                                <Link href={chatHref(activeProject.id, document.department_id)} className="btn-secondary btn-sm">
+                                  Ask scoped
+                                </Link>
+                              ) : null}
+                            </div>
+                          ) : null}
+                        </article>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="mt-4">
+                      <EmptyState title="No project documents loaded">
+                        Ingest the seeded corpus or upload a PDF in a department to populate the project document library.
+                      </EmptyState>
+                    </div>
                   )}
                 </div>
 
@@ -514,6 +734,37 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
               </div>
 
               <div className="space-y-5">
+                <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
+                  <SectionHeading
+                    title="Upload And Indexing"
+                    description="Uploaded files stay reviewable before indexing; failed items can be edited and retried."
+                  />
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    <div className="rounded border border-stone-200 bg-stone-50 p-3">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Indexed</p>
+                      <p className="mt-1 text-2xl font-semibold text-ink">{formatNumber(indexedDocuments)}</p>
+                    </div>
+                    <div className="rounded border border-stone-200 bg-stone-50 p-3">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Pending review</p>
+                      <p className="mt-1 text-2xl font-semibold text-ink">{formatNumber(pendingDocuments)}</p>
+                    </div>
+                    <div className="rounded border border-stone-200 bg-stone-50 p-3">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Failed</p>
+                      <p className="mt-1 text-2xl font-semibold text-ink">{formatNumber(failedDocuments)}</p>
+                    </div>
+                    <div className="rounded border border-stone-200 bg-stone-50 p-3">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Uploads</p>
+                      <p className="mt-1 text-2xl font-semibold text-ink">{formatNumber(uploadedDocuments)}</p>
+                    </div>
+                  </div>
+                  {departments[0] ? (
+                    <Link href={`/projects/${activeProject.id}/departments/${departments[0].id}`} className="btn-secondary mt-4 w-full">
+                      <UploadCloud className="h-4 w-4" />
+                      Upload in a department
+                    </Link>
+                  ) : null}
+                </div>
+
                 <form onSubmit={handleUpdate} className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
                   <SectionHeading title="Project Settings" />
                   <div className="space-y-3">

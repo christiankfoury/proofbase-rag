@@ -461,6 +461,8 @@ export function ChatDemoClient() {
     setProjectsLoading(true);
     const requestedProjectId = searchParams.get("project") ?? "";
     requestedDepartmentId.current = searchParams.get("department") ?? "";
+    const requestedQuestion = searchParams.get("question") ?? "";
+    if (requestedQuestion) setQuestion(requestedQuestion);
     setRequestedScope(
       requestedProjectId || requestedDepartmentId.current
         ? { projectId: requestedProjectId, departmentId: requestedDepartmentId.current, applied: false }

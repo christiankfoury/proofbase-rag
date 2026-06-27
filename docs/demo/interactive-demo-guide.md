@@ -15,9 +15,9 @@ Open `http://localhost:3000`.
 ## Five-Minute Presentation Path
 
 1. Open `/` and follow the four-step demo path.
-2. Open `/projects`, then select `Northstar Analytics`.
-3. Open a seeded department and inspect document inventory, access roles, active version metadata, PDF extraction, and Markdown preview.
-4. Open `/chat`, ask a scoped question, and show citations plus retrieved context.
+2. Open `/projects`, then select `Northstar Analytics`; use the first-screen project home to show scoped ask, department shortcuts, representative documents, upload/indexing status, and suggested questions.
+3. Open a seeded department and inspect document inventory, access roles, active version metadata, PDF extraction, editable Markdown review, approval/indexing controls, and Markdown preview.
+4. Open `/chat` from a project-home suggested question or department shortcut, ask a scoped question, and show citations plus retrieved context.
 5. Open `/dev-admin/retrieval-playground` to compare algorithm profiles and known failures.
 6. Open `/dev-admin/failed-questions` or `/dev-admin/feedback` to show human review labels without claiming automatic benchmark promotion.
 
@@ -26,7 +26,7 @@ Open `http://localhost:3000`.
 | Page | URL | What it demonstrates |
 |---|---|---|
 | App Home | `/` | Product framing with Projects as the primary App entry point. |
-| Projects | `/projects` | Project CRUD, seeded Northstar workspace, corpus coverage, quality status, and project audit events. |
+| Projects | `/projects` | Project CRUD, seeded Northstar workspace, scoped ask entry points, department shortcuts, representative documents, upload/indexing status, quality status, and project audit events. |
 | Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, PDF upload for Markdown review, active version metadata, extracted Markdown preview, edit, and archive controls. |
 | Chat Demo | `/chat` | Live scoped RAG query, project and department selection, role selection, citations, confidence, latency, retrieved context, and feedback. |
 | Dev/Admin Overview | `/dev-admin` | Final metrics with run IDs, timestamps, sample sizes, benchmark version, category breakdown, and evaluation-first proof. |
@@ -45,7 +45,7 @@ Open `http://localhost:3000`.
 1. Project workspace
    - Page: `/projects`
    - Project: `Northstar Analytics`
-   - Expected: seeded corpus coverage with derived departments, document count, indexed chunk count, global quality status, and project-scoped assistant entry points.
+   - Expected: seeded corpus coverage with derived departments, document count, indexed chunk count, scoped assistant entry points, suggested questions, representative documents, upload/indexing status, global quality status, and project audit events.
 
 2. Department workspace
    - Page: `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001`
@@ -101,7 +101,7 @@ Open `http://localhost:3000`.
 - The chat page uses local demo auth over the existing API. It derives App query role server-side, but it is not production authentication or SSO.
 - Projects are durable workspaces, and `/chat` sends the selected project scope to retrieval.
 - Department workspaces include document libraries and PDF-to-Markdown review uploads. `/chat` can strictly narrow retrieval to one department inside the selected project.
-- Uploaded PDFs are extracted for review only; approval, chunking, embeddings, and retrieval indexing remain future work.
+- Uploaded PDFs are extracted into editable Markdown for review; an editor must explicitly approve/index before chunking, embeddings, and retrieval visibility.
 - Human review labels are persisted for failed questions and negative feedback, but approved candidates are not exported into benchmark JSON automatically yet.
 - Metrics and benchmark details come from existing evaluation JSON and Markdown outputs; dashboard sample sizes are shown explicitly because retrieval/answer-quality, permission, and memory runs use different suites.
 - Querying requires `OPENAI_API_KEY`.

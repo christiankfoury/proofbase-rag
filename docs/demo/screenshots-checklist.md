@@ -6,7 +6,7 @@ Capture screenshots after running the Docker stack and exporting dashboard data.
 
 - App Home at `/` showing the four-step demo path.
 - Project workspace list at `/projects`.
-- Seeded `Northstar Analytics` project detail at `/projects/00000000-0000-0000-0000-000000000019`.
+- Seeded `Northstar Analytics` project home at `/projects/00000000-0000-0000-0000-000000000019`, with scoped ask entry point, suggested questions, department shortcuts, representative documents, and upload/indexing summary visible.
 - Seeded department detail with document library, PDF upload form, version metadata, and Markdown preview at `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001`.
 - Chat demo at `/chat` with project scope, role, answer, citations, confidence, latency, and retrieved context visible.
 - Algorithm Quality Lab at `/dev-admin/retrieval-playground` showing named profile comparison and known failure visibility.
