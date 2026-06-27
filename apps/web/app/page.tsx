@@ -76,45 +76,6 @@ const proofPoints = [
   },
 ];
 
-const demoPath = [
-  {
-    step: "1",
-    title: "Open Northstar Analytics",
-    outcome: "Workspace context",
-    detail: "Show a durable project with seeded departments, documents, and quality status.",
-    href: "/projects",
-    action: "Projects",
-    tone: "moss",
-  },
-  {
-    step: "2",
-    title: "Inspect Department Knowledge",
-    outcome: "Indexed evidence",
-    detail: "Review source documents, access roles, and extraction metadata before asking.",
-    href: "/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001",
-    action: "Department",
-    tone: "steel",
-  },
-  {
-    step: "3",
-    title: "Ask With Scope",
-    outcome: "Cited answer",
-    detail: "Ask with project and department scope, then inspect citations and retrieved context.",
-    href: "/chat",
-    action: "Assistant",
-    tone: "moss",
-  },
-  {
-    step: "4",
-    title: "Prove The Controls",
-    outcome: "Admin proof",
-    detail: "Move to Dev & Admin for comparison, failed-question review, and permission safety.",
-    href: "/dev-admin",
-    action: "Dev & Admin",
-    tone: "rust",
-  },
-];
-
 const toneStyles = {
   moss: {
     marker: "border-moss bg-moss-soft text-moss-dark",
@@ -222,40 +183,6 @@ export default function AppHomePage() {
             ))}
           </div>
         </Card>
-      </section>
-
-      <section className="mt-8">
-        <SectionHeading
-          title="Five-Minute Demo Path"
-          description="Follow the product story first, then hand off to engineering proof without terminal commands."
-        />
-        <div className="relative grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <div className="absolute left-6 top-8 hidden h-px w-[calc(100%-3rem)] bg-stone-300 xl:block" />
-          {demoPath.map((item) => (
-            <Card key={item.step} padding="compact" className="relative flex h-full flex-col justify-between">
-              <div className="absolute bottom-4 left-7 top-14 w-px bg-stone-200 md:hidden" />
-              <div className="relative">
-                <div className="flex items-center gap-3">
-                  <span
-                    className={`z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-bold ${
-                      toneStyles[item.tone as keyof typeof toneStyles].marker
-                    }`}
-                  >
-                    {item.step}
-                  </span>
-                  <span className="rounded-full bg-stone-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-stone-600">
-                    {item.outcome}
-                  </span>
-                </div>
-                <p className="mt-4 font-semibold text-ink">{item.title}</p>
-                <p className="mt-2 text-sm leading-6 text-stone-700">{item.detail}</p>
-              </div>
-              <Link href={item.href} className="btn-secondary btn-sm mt-4 self-start">
-                {item.action}
-              </Link>
-            </Card>
-          ))}
-        </div>
       </section>
 
       <section className="mt-8">
