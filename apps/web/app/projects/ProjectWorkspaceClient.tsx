@@ -531,62 +531,82 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                     title="Department Shortcuts"
                     description="Open a department workspace, or ask with that department as a strict retrieval scope."
                   />
-                  <form onSubmit={handleCreateDepartment} className="mb-5 space-y-3 rounded border border-stone-200 bg-stone-50 p-4">
-                    <div className="grid items-start gap-3 lg:grid-cols-2">
-                      <div className="space-y-3">
-                        <input
-                          className="field w-full"
-                          value={departmentForm.name}
-                          onChange={(event) => setDepartmentForm((form) => ({ ...form, name: event.target.value }))}
-                          placeholder="Department name"
-                          required
-                        />
-                        <select
-                          className="field w-full"
-                          value={departmentForm.icon}
-                          onChange={(event) =>
-                            setDepartmentForm((form) => ({ ...form, icon: event.target.value as DepartmentIcon }))
-                          }
-                        >
-                          <option value="building">Building</option>
-                          <option value="people">People</option>
-                          <option value="shield">Shield</option>
-                          <option value="chart">Chart</option>
-                          <option value="briefcase">Briefcase</option>
-                          <option value="lock">Lock</option>
-                          <option value="key">Key</option>
-                        </select>
+                  <form onSubmit={handleCreateDepartment} className="mb-5 rounded border border-stone-200 bg-stone-50 p-4">
+                    <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.85fr)]">
+                      <div className="rounded border border-stone-200 bg-white p-4">
+                        <p className="text-sm font-semibold text-ink">Department details</p>
+                        <div className="mt-3 space-y-3">
+                          <label className="block">
+                            <span className="text-sm font-medium text-stone-700">Name</span>
+                            <input
+                              className="field mt-1 w-full"
+                              value={departmentForm.name}
+                              onChange={(event) => setDepartmentForm((form) => ({ ...form, name: event.target.value }))}
+                              placeholder="Department name"
+                              required
+                            />
+                          </label>
+                          <div className="grid gap-3 sm:grid-cols-2">
+                            <label className="block">
+                              <span className="text-sm font-medium text-stone-700">Icon</span>
+                              <select
+                                className="field mt-1 w-full"
+                                value={departmentForm.icon}
+                                onChange={(event) =>
+                                  setDepartmentForm((form) => ({ ...form, icon: event.target.value as DepartmentIcon }))
+                                }
+                              >
+                                <option value="building">Building</option>
+                                <option value="people">People</option>
+                                <option value="shield">Shield</option>
+                                <option value="chart">Chart</option>
+                                <option value="briefcase">Briefcase</option>
+                                <option value="lock">Lock</option>
+                                <option value="key">Key</option>
+                              </select>
+                            </label>
+                            <label className="block">
+                              <span className="text-sm font-medium text-stone-700">Color</span>
+                              <select
+                                className="field mt-1 w-full"
+                                value={departmentForm.color}
+                                onChange={(event) =>
+                                  setDepartmentForm((form) => ({ ...form, color: event.target.value as DepartmentColor }))
+                                }
+                              >
+                                <option value="steel">Steel</option>
+                                <option value="moss">Moss</option>
+                                <option value="rust">Rust</option>
+                                <option value="stone">Stone</option>
+                              </select>
+                            </label>
+                          </div>
+                          <label className="block">
+                            <span className="text-sm font-medium text-stone-700">Description</span>
+                            <textarea
+                              className="field mt-1 min-h-24 w-full"
+                              value={departmentForm.description}
+                              onChange={(event) =>
+                                setDepartmentForm((form) => ({ ...form, description: event.target.value }))
+                              }
+                              placeholder="Description"
+                            />
+                          </label>
+                        </div>
+                        <div className="mt-4">
+                          <button className="btn-primary" type="submit" disabled={saving}>
+                            Create department
+                          </button>
+                        </div>
                       </div>
-                      <div className="space-y-3">
+                      <div className="rounded border border-stone-200 bg-white p-4">
                         <RoleMultiSelect
                           label="Default access roles"
                           selectedRoles={departmentForm.default_access_roles}
                           onChange={(roles) => setDepartmentForm((form) => ({ ...form, default_access_roles: roles }))}
+                          variant="compact"
                         />
-                        <select
-                          className="field w-full"
-                          value={departmentForm.color}
-                          onChange={(event) =>
-                            setDepartmentForm((form) => ({ ...form, color: event.target.value as DepartmentColor }))
-                          }
-                        >
-                          <option value="steel">Steel</option>
-                          <option value="moss">Moss</option>
-                          <option value="rust">Rust</option>
-                          <option value="stone">Stone</option>
-                        </select>
                       </div>
-                    </div>
-                    <textarea
-                      className="field min-h-20 w-full"
-                      value={departmentForm.description}
-                      onChange={(event) => setDepartmentForm((form) => ({ ...form, description: event.target.value }))}
-                      placeholder="Description"
-                    />
-                    <div>
-                      <button className="btn-primary" type="submit" disabled={saving}>
-                        Create department
-                      </button>
                     </div>
                   </form>
                   {activeProject.departments?.length ? (
