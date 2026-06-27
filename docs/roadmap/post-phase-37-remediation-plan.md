@@ -20,6 +20,10 @@ The starting measurement is the Phase 35 current answer-quality run:
 
 Do not treat this roadmap as permission to hide failures or move targets. Improvements must be measured against the current benchmark and recorded with run IDs, sample sizes, benchmark versions, and skipped checks.
 
+## Post-Phase 40 Handoff
+
+Phases 38-40 and the Phase 39/40 polish/audit-backlog work are complete. For the next executable sequence, use `docs/roadmap/post-phase-40-product-polish-plan.md`, which promotes recruiter/demo polish, guarded AI Markdown cleanup, and memory/ambiguity generalization into Phases 41-46.
+
 ## Documentation-First Algorithm Audit
 
 The user may run a documentation-first algorithm explanation pass before Phase 39 implementation. That pass should use `docs/roadmap/algorithm-explanation-audit-plan.md`.

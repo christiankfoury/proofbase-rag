@@ -360,6 +360,28 @@ Implementation rule:
 - Finish upload -> review -> approve/index -> ask locally before adding Azure Blob Storage or AI Markdown cleanup.
 - Preserve zero permission leakage as a hard gate for every remediation phase.
 
+## Phases 41-46: Post-Phase 40 Product Polish Roadmap
+
+After Phase 40 and the Phase 39/40 polish/audit-backlog work, continue from `docs/roadmap/post-phase-40-product-polish-plan.md`. That document is the executable source of truth for the next product-polish sequence.
+
+Phase mapping:
+
+- Phase 41: Recruiter Demo Project Home.
+- Phase 42: Guided Demo Flow And Answer Proof.
+- Phase 43: Guarded AI Markdown Cleanup Draft.
+- Phase 44: AI Cleanup Metadata, Cost, And Review Diff.
+- Phase 45: Generalization Probe Suite Baseline.
+- Phase 46: Memory And Ambiguity Generalization Remediation.
+
+Implementation rule:
+
+- Improve demo/product clarity before adding deeper algorithm work.
+- Keep optional AI Markdown cleanup editor-triggered, reviewable, reversible, and separate from indexing until approve/index.
+- Start memory and ambiguity generalization with a measured non-benchmark baseline before fixing failures.
+- Preserve zero permission leakage and keep memory as query context only, never source evidence.
+- Keep benchmark expectations, prompts, retrieval ranking, and metrics unchanged unless a defect is proven and documented.
+- Each phase must use the full loop: plan, implement, verify, commit, review commit, perform code review, push `main`, then continue.
+
 ## Cross-Cutting Algorithm Explanation Audit
 
 Before or between implementation phases, the user may request a documentation-first review of the current algorithm. Use `docs/roadmap/algorithm-explanation-audit-plan.md` for that work.

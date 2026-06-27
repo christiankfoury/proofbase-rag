@@ -111,6 +111,21 @@ Start from the current measured answer-quality backlog: `phase35-citation-alignm
 
 For Phase 38, target `<=8` failed answer-quality cases without weakening citation standards, hallucination controls, or permission safety. For Phase 39, use strict ambiguity behavior: when intent is underspecified, return a clarifying question instead of answering. For Phase 40, complete upload -> review -> approve/index -> ask with local/Postgres storage and guarded OpenAI embeddings; keep Azure Blob Storage and AI Markdown cleanup as future improvements.
 
+## Post-Phase 40 Product Polish Focus
+
+After Phase 40 and the Phase 39/40 polish/audit-backlog work are complete, continue with `docs/roadmap/post-phase-40-product-polish-plan.md`. The next sequence is product-polish driven:
+
+- Phase 41: recruiter demo project home.
+- Phase 42: guided demo flow and answer proof.
+- Phase 43: guarded AI Markdown cleanup draft.
+- Phase 44: AI cleanup metadata, cost, and review diff.
+- Phase 45: generalization probe suite baseline.
+- Phase 46: memory and ambiguity generalization remediation.
+
+Keep the order unless a new correctness, permission, or secret-handling issue becomes more urgent. Recruiter/demo polish comes first because the App side must communicate product value quickly. AI Markdown cleanup must remain explicitly editor-triggered, reviewable, and non-indexing until approval. Memory and ambiguity work must start with a non-benchmark baseline before remediation, and memory must remain query context only, never source evidence.
+
+For every Phase 41-46 implementation, use the full operating loop: plan, implement, verify, commit to `main` with a detailed multi-part message, review the commit, perform a code review of the last commit, push `main`, then continue to the next planned phase. Update `docs/roadmap/progress.md` and the relevant `docs/phase-{number}` notes before committing each phase.
+
 ## Algorithm Explanation And Audit Mode
 
 When the user starts a new chat to understand whether the algorithm makes sense, treat it as a documentation and reasoning pass before changing behavior.
@@ -310,6 +325,8 @@ Use these defaults for future phases unless the repo has moved past them or the 
 - Prefer archive or soft-delete semantics before hard delete.
 - Keep retrieval behavior unchanged until the project-scoped RAG phase.
 - Keep `/chat` stable.
+- Keep `/chat?project=...&department=...` scope behavior visible and understandable.
+- Keep optional AI Markdown cleanup human-triggered, reversible, and separate from approve/index.
 - Keep Dev/Admin routes under `/dev-admin`.
 - Do not add fake metrics, fake activity, or unverified AI quality claims.
 - Metric claims must include the run, sample size, benchmark version, and skipped checks when applicable.
@@ -336,6 +353,7 @@ Ask before implementing when the answer affects:
 - Future phases: `docs/roadmap/phase-plan.md`
 - Post-Phase 27 improvement roadmap: `docs/roadmap/phases-improvement.md`
 - Post-Phase 37 remediation roadmap: `docs/roadmap/post-phase-37-remediation-plan.md`
+- Post-Phase 40 product polish roadmap: `docs/roadmap/post-phase-40-product-polish-plan.md`
 - Algorithm explanation audit plan: `docs/roadmap/algorithm-explanation-audit-plan.md`
 - Roadmap progress tracker: `docs/roadmap/progress.md`
 - Current demo guide: `docs/demo/interactive-demo-guide.md`

@@ -6,18 +6,23 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-- Current phase: Phase 40 polish and follow-up audit backlog complete; ready for the next roadmap item.
-- Last completed phase activity: Phase 39 diagnostic reporting cleanup, Phase 40 editable upload review/retry polish, and follow-up audit backlog mitigation.
+- Current phase: Phase 40 polish and follow-up audit backlog complete; post-Phase 40 product-polish roadmap drafted for Phase 41 onward.
+- Last completed phase activity: Phase 39 diagnostic reporting cleanup, Phase 40 editable upload review/retry polish, follow-up audit backlog mitigation, access-role multi-select UI, and visible chat URL scope handling.
 - Last completed non-implementation pass: documentation-first algorithm explanation and audit under `docs/algorithm/`, including `docs/algorithm/codebase-verification-report.md` in local commit `2fb9f95`.
 - Last verification focus: approved live `/query` answer-quality evaluation with diagnostic submetric breakdown, approved upload E2E, Phase 40 permission safety, dashboard export, benchmark validation, API compile, frontend build, and safe Docker Compose config inspection.
-- Next expected work: choose the next highest-value roadmap item after reviewing the updated dashboard and remaining product/demo backlog.
+- Next expected work: start Phase 41 from `docs/roadmap/post-phase-40-product-polish-plan.md`.
 
 ## Next Work Queue
 
-These items come from the codebase verification report and the post-Phase 37 remediation plan. Keep the order unless a new correctness, permission, or secret-handling issue becomes more urgent.
+These items come from `docs/roadmap/post-phase-40-product-polish-plan.md`. Keep the order unless a new correctness, permission, or secret-handling issue becomes more urgent.
 
-1. Pick the next roadmap slice that improves demo/product value now that Phase 39 diagnostics, Phase 40 editable review, and the audit backlog mitigations are complete.
-2. Continue broader future improvements from `docs/roadmap/post-phase-37-remediation-plan.md`, especially hosted storage/Azure Blob, AI Markdown cleanup, and broader non-benchmark memory/ambiguity generalization.
+1. Phase 41: Recruiter Demo Project Home.
+2. Phase 42: Guided Demo Flow And Answer Proof.
+3. Phase 43: Guarded AI Markdown Cleanup Draft.
+4. Phase 44: AI Cleanup Metadata, Cost, And Review Diff.
+5. Phase 45: Generalization Probe Suite Baseline.
+6. Phase 46: Memory And Ambiguity Generalization Remediation.
+7. Later backlog: hosted storage/Azure Blob, production auth, larger generalization suites, and project-specific evaluation authoring.
 
 ## Phase Status
 
