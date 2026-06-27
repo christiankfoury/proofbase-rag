@@ -531,11 +531,11 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                     title="Department Shortcuts"
                     description="Open a department workspace, or ask with that department as a strict retrieval scope."
                   />
-                  <form onSubmit={handleCreateDepartment} className="mb-5 rounded border border-stone-200 bg-stone-50 p-4">
-                    <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.85fr)]">
-                      <div className="rounded border border-stone-200 bg-white p-4">
-                        <p className="text-sm font-semibold text-ink">Department details</p>
-                        <div className="mt-3 space-y-3">
+                  <form onSubmit={handleCreateDepartment} className="mb-5">
+                    <div className="rounded border border-stone-200 bg-white p-4">
+                      <p className="text-sm font-semibold text-ink">Department details</p>
+                      <div className="mt-3 grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.85fr)]">
+                        <div className="space-y-3">
                           <label className="block">
                             <span className="text-sm font-medium text-stone-700">Name</span>
                             <input
@@ -581,31 +581,29 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                               </select>
                             </label>
                           </div>
-                          <label className="block">
-                            <span className="text-sm font-medium text-stone-700">Description</span>
-                            <textarea
-                              className="field mt-1 min-h-24 w-full"
-                              value={departmentForm.description}
-                              onChange={(event) =>
-                                setDepartmentForm((form) => ({ ...form, description: event.target.value }))
-                              }
-                              placeholder="Description"
-                            />
-                          </label>
                         </div>
-                        <div className="mt-4">
-                          <button className="btn-primary" type="submit" disabled={saving}>
-                            Create department
-                          </button>
+                        <div>
+                          <RoleMultiSelect
+                            label="Default access roles"
+                            selectedRoles={departmentForm.default_access_roles}
+                            onChange={(roles) => setDepartmentForm((form) => ({ ...form, default_access_roles: roles }))}
+                            variant="compact"
+                          />
                         </div>
                       </div>
-                      <div className="rounded border border-stone-200 bg-white p-4">
-                        <RoleMultiSelect
-                          label="Default access roles"
-                          selectedRoles={departmentForm.default_access_roles}
-                          onChange={(roles) => setDepartmentForm((form) => ({ ...form, default_access_roles: roles }))}
-                          variant="compact"
+                      <label className="mt-4 block">
+                        <span className="text-sm font-medium text-stone-700">Description</span>
+                        <textarea
+                          className="field mt-1 min-h-32 w-full"
+                          value={departmentForm.description}
+                          onChange={(event) => setDepartmentForm((form) => ({ ...form, description: event.target.value }))}
+                          placeholder="Description"
                         />
+                      </label>
+                      <div className="mt-4">
+                        <button className="btn-primary" type="submit" disabled={saving}>
+                          Create department
+                        </button>
                       </div>
                     </div>
                   </form>
