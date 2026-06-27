@@ -222,7 +222,7 @@ App routes:
 - `/` App Home with links to project workspaces, the working assistant, and Dev/Admin proof.
 - `/projects` project workspace list with create, edit, archive, seeded corpus coverage, quality status, and recent project audit events.
 - `/projects/[projectId]` selected project workspace home.
-- `/projects/[projectId]/departments/[departmentId]` department workspace detail with icon, access defaults, document library, PDF upload for Markdown review, optional AI cleanup draft, active version metadata, extracted Markdown preview, edit, and archive controls.
+- `/projects/[projectId]/departments/[departmentId]` department workspace detail with icon, access defaults, document library, PDF upload for Markdown review, optional AI cleanup draft, cleanup provenance, before/after review diff, active version metadata, extracted Markdown preview, edit, and archive controls.
 - `/chat` live project-scoped RAG demo with project and department scope selectors, signed-in demo role context, presets, citations, confidence, latency, retrieved context, and feedback.
 
 Dev/Admin routes:
@@ -245,7 +245,7 @@ Recommended interactive demo presets:
 - Project workspace: open `/projects` and select the seeded `Northstar Analytics` project.
 - Department workspace: open a seeded Northstar department such as `People Operations`, `IT Admin`, or `Sales`.
 - Document library: open a seeded department and inspect indexed documents, version metadata, access roles, ingestion status, and extracted Markdown preview.
-- PDF upload review: upload a PDF into a department to extract editable Markdown as a pending-review document; optionally request AI Markdown cleanup as a review draft; it becomes searchable only after explicit editor approval/indexing.
+- PDF upload review: upload a PDF into a department to extract editable Markdown as a pending-review document; optionally request AI Markdown cleanup as a review draft; inspect cleanup metadata and diff; it becomes searchable only after explicit editor approval/indexing.
 - Scoped assistant: open `/chat`, keep `Northstar Analytics` selected, and optionally narrow the question to one department before submitting.
 - HR factual: `Where does Northstar Analytics have offices?`
 - Missing information: `What is Northstar's sabbatical policy?`
@@ -374,8 +374,8 @@ Open the dashboard after exporting data. Run the benchmark validator before publ
 - The `/chat` page is a demo UI backed by local demo auth, not a production end-user assistant with SSO/session hardening.
 - Project-scoped retrieval is implemented for `/chat` and `POST /query` when a scope is supplied. Dev/Admin benchmark tools can still use the global retrieval path when no scope is supplied.
 - Department-scoped retrieval is implemented as a strict filter when a department scope is supplied.
-- Department document libraries, PDF-to-Markdown review uploads, optional AI cleanup drafts, editable review, and explicit approval/indexing for uploaded files are implemented for the local demo.
-- AI Markdown cleanup is editor-triggered, reviewable, and not indexed automatically; deterministic extraction and manual approval remain available if OpenAI is unavailable.
+- Department document libraries, PDF-to-Markdown review uploads, optional AI cleanup drafts, cleanup provenance, review diffs, editable review, and explicit approval/indexing for uploaded files are implemented for the local demo.
+- AI Markdown cleanup is editor-triggered, reviewable, reversible, and not indexed automatically; deterministic extraction and manual approval remain available if OpenAI is unavailable.
 - Uploaded source files are stored locally under `data/uploads/` for development and are ignored by git; Azure Blob Storage remains future work.
 - Runtime request logs such as `data/observability/request-logs.jsonl` are generated data and should be reviewed before committing.
 
@@ -386,7 +386,7 @@ Open the dashboard after exporting data. Run the benchmark validator before publ
 - Replace local demo auth with production auth using Clerk, Auth.js, or the chosen enterprise identity provider.
 - Persist raw documents and durable logs in Azure Blob Storage.
 - Add DOCX ingestion and richer uploaded-document conversion coverage.
-- Add AI cleanup diff review, richer cleanup metadata display, and production storage migration.
+- Add richer cleanup comparison ergonomics, hosted document storage, and production storage migration.
 - Add project-scoped benchmark runs and promotion gates.
 - Add real enterprise connectors.
 - Evaluate Azure AI Search or reranking for unresolved retrieval misses.

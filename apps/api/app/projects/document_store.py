@@ -11,6 +11,7 @@ from apps.api.app.ingestion.chunker import chunk_markdown_document
 from apps.api.app.ingestion.markdown_loader import MarkdownDocument
 from apps.api.app.permissions.access_control import sensitivity_from_restricted
 from apps.api.app.core.config import get_settings
+from apps.api.app.projects.markdown_cleanup import hash_markdown
 
 
 def _json_value(value: Any, default: Any) -> Any:
@@ -392,10 +393,24 @@ def approve_and_index_document(
         reviewed_text = reviewed_markdown.strip()
         if not reviewed_text:
             raise ValueError("Reviewed Markdown cannot be empty.")
+        version_metadata = _json_value(row.get("metadata_json"), {})
+        cleanup_metadata = version_metadata.get("ai_cleanup") if isinstance(version_metadata, dict) else None
+        reviewed_hash = hash_markdown(reviewed_text)
         review_metadata = {
             "reviewed_markdown_at": datetime.now(UTC).isoformat(),
             "reviewed_markdown_changed": reviewed_text != (row.get("extracted_text") or ""),
         }
+        if isinstance(cleanup_metadata, dict):
+            cleaned_hash = cleanup_metadata.get("cleaned_content_hash")
+            review_metadata["ai_cleanup_review"] = {
+                "approved_after_cleanup": True,
+                "reviewer_edited_after_cleanup": bool(cleaned_hash and reviewed_hash != cleaned_hash),
+                "approved_content_hash": reviewed_hash,
+                "cleanup_cleaned_content_hash": cleaned_hash,
+                "cleanup_source_content_hash": cleanup_metadata.get("source_content_hash"),
+                "cleanup_model": cleanup_metadata.get("model"),
+                "cleanup_timestamp": cleanup_metadata.get("cleanup_timestamp"),
+            }
         with get_connection() as conn:
             conn.execute(
                 """
@@ -556,6 +571,45 @@ def record_cleanup_metadata(
     )
 
 
+def record_cleanup_revert_metadata(
+    *,
+    project_id: str,
+    department_id: str,
+    document_id: str,
+    reverted_by: str,
+) -> dict[str, Any] | None:
+    row = _load_current_document_version(project_id=project_id, department_id=department_id, document_id=document_id)
+    if not row:
+        return None
+    if row["ingestion_status"] not in {"pending_review", "failed"}:
+        raise ValueError("Only pending-review or failed document versions can be reverted to extracted Markdown.")
+
+    source_markdown = row.get("extracted_text") or ""
+    revert_metadata = {
+        "ai_cleanup_revert": {
+            "reverted_at": datetime.now(UTC).isoformat(),
+            "reverted_by": reverted_by,
+            "source_content_hash": hash_markdown(source_markdown),
+        }
+    }
+    with get_connection() as conn:
+        conn.execute(
+            """
+            update document_versions
+            set metadata_json = coalesce(metadata_json, '{}'::jsonb) || %s::jsonb
+            where id = %s::uuid
+            """,
+            (json.dumps(revert_metadata, default=str), row["version_id"]),
+        )
+
+    return get_project_document(
+        project_id=project_id,
+        department_id=department_id,
+        document_id=document_id,
+        include_archived=True,
+    )
+
+
 def _load_current_document_version(*, project_id: str, department_id: str, document_id: str) -> dict[str, Any] | None:
     with get_connection() as conn:
         row = conn.execute(
@@ -576,6 +630,7 @@ def _load_current_document_version(*, project_id: str, department_id: str, docum
               dv.owner,
               dv.review_cycle,
               dv.extracted_text,
+              dv.metadata_json,
               dv.ingestion_status,
               ij.id::text as ingestion_job_id
             from documents d

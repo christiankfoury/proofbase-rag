@@ -36,7 +36,9 @@ from apps.api.app.projects.document_store import approve_and_index_document, cre
 from apps.api.app.projects.document_store import get_project_document
 from apps.api.app.projects.document_store import list_project_documents
 from apps.api.app.projects.document_store import record_cleanup_metadata
+from apps.api.app.projects.document_store import record_cleanup_revert_metadata
 from apps.api.app.projects.markdown_cleanup import cleanup_uploaded_markdown
+from apps.api.app.projects.markdown_cleanup import hash_markdown
 from apps.api.app.projects.project_store import archive_project
 from apps.api.app.projects.project_store import archive_department
 from apps.api.app.projects.project_store import create_department as create_department_record
@@ -1021,9 +1023,27 @@ def approve_department_document_route(
     department_id = _validate_project_id(department_id)
     document_id = _validate_project_id(document_id)
     require_project_editor(user, project_id)
+    cleanup_review_metadata: dict | None = None
     try:
         if not get_department(project_id, department_id):
             raise HTTPException(status_code=404, detail="Department not found.")
+        current_document = get_project_document(
+            project_id=project_id,
+            department_id=department_id,
+            document_id=document_id,
+            include_archived=False,
+        )
+        if current_document:
+            cleanup_metadata = (current_document.get("version", {}).get("metadata") or {}).get("ai_cleanup")
+            if isinstance(cleanup_metadata, dict) and request and request.reviewed_markdown is not None:
+                reviewed_hash = hash_markdown(request.reviewed_markdown.strip())
+                cleanup_review_metadata = {
+                    "approved_after_cleanup": True,
+                    "reviewer_edited_after_cleanup": reviewed_hash != cleanup_metadata.get("cleaned_content_hash"),
+                    "approved_content_hash": reviewed_hash,
+                    "cleanup_cleaned_content_hash": cleanup_metadata.get("cleaned_content_hash"),
+                    "cleanup_model": cleanup_metadata.get("model"),
+                }
         document = approve_and_index_document(
             project_id=project_id,
             department_id=department_id,
@@ -1056,8 +1076,27 @@ def approve_department_document_route(
             "external_document_id": document["external_document_id"],
             "chunk_count": document["chunk_count"],
             "ingestion_status": document["version"]["ingestion_status"],
+            "ai_cleanup_review": cleanup_review_metadata,
         },
     )
+    if cleanup_review_metadata:
+        log_audit_event(
+            action="document_markdown_cleanup_approved_indexed",
+            user_role=user["business_role"],
+            user_id=user["id"],
+            resource_type="document",
+            document_id=document["external_document_id"],
+            outcome=document["version"]["ingestion_status"],
+            reason="approved_indexed_after_cleanup",
+            metadata={
+                "project_id": project_id,
+                "department_id": department_id,
+                "document_id": document["id"],
+                "external_document_id": document["external_document_id"],
+                "chunk_count": document["chunk_count"],
+                **cleanup_review_metadata,
+            },
+        )
     return {
         "document": document,
         "status": document["version"]["ingestion_status"],
@@ -1077,6 +1116,7 @@ def cleanup_department_document_markdown_route(
     department_id = _validate_project_id(department_id)
     document_id = _validate_project_id(document_id)
     require_project_editor(user, project_id)
+    document = None
     try:
         if not get_department(project_id, department_id):
             raise HTTPException(status_code=404, detail="Department not found.")
@@ -1091,6 +1131,22 @@ def cleanup_department_document_markdown_route(
         if document["version"]["ingestion_status"] not in {"pending_review", "failed"}:
             raise HTTPException(status_code=400, detail="Only pending-review or failed documents can be cleaned up.")
 
+        log_audit_event(
+            action="document_markdown_cleanup_requested",
+            user_role=user["business_role"],
+            user_id=user["id"],
+            resource_type="document",
+            document_id=document["external_document_id"],
+            outcome="requested",
+            reason="explicit_editor_action",
+            metadata={
+                "project_id": project_id,
+                "department_id": department_id,
+                "document_id": document["id"],
+                "external_document_id": document["external_document_id"],
+                "source_content_hash": hash_markdown(document.get("review_markdown") or document.get("markdown_preview") or ""),
+            },
+        )
         cleanup = cleanup_uploaded_markdown(
             document=document,
             requested_by=user["id"],
@@ -1105,17 +1161,50 @@ def cleanup_department_document_markdown_route(
     except HTTPException:
         raise
     except ValueError as exc:
+        if document:
+            log_audit_event(
+                action="document_markdown_cleanup_failed",
+                user_role=user["business_role"],
+                user_id=user["id"],
+                resource_type="document",
+                document_id=document["external_document_id"],
+                outcome="failed",
+                reason=str(exc),
+                metadata={"project_id": project_id, "department_id": department_id, "document_id": document["id"]},
+            )
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except RuntimeError as exc:
+        if document:
+            log_audit_event(
+                action="document_markdown_cleanup_failed",
+                user_role=user["business_role"],
+                user_id=user["id"],
+                resource_type="document",
+                document_id=document["external_document_id"],
+                outcome="failed",
+                reason=str(exc),
+                metadata={"project_id": project_id, "department_id": department_id, "document_id": document["id"]},
+            )
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except PsycopgError as exc:
+        if document:
+            log_audit_event(
+                action="document_markdown_cleanup_failed",
+                user_role=user["business_role"],
+                user_id=user["id"],
+                resource_type="document",
+                document_id=document["external_document_id"],
+                outcome="failed",
+                reason="database_error_saving_cleanup_metadata",
+                metadata={"project_id": project_id, "department_id": department_id, "document_id": document["id"]},
+            )
         raise HTTPException(status_code=503, detail="Database error saving cleanup metadata.") from exc
     if not updated_document:
         raise HTTPException(status_code=404, detail="Document not found.")
 
     metadata = cleanup["metadata"]
     log_audit_event(
-        action="document_markdown_cleanup_requested",
+        action="document_markdown_cleanup_succeeded",
         user_role=user["business_role"],
         user_id=user["id"],
         resource_type="document",
@@ -1147,6 +1236,54 @@ def cleanup_department_document_markdown_route(
         "cleaned_content_hash": metadata["cleaned_content_hash"],
         "cleanup_timestamp": metadata["cleanup_timestamp"],
     }
+
+
+@app.post("/projects/{project_id}/departments/{department_id}/documents/{document_id}/cleanup-markdown/revert")
+def revert_department_document_cleanup_route(
+    project_id: str,
+    department_id: str,
+    document_id: str,
+    user: Annotated[dict, Depends(current_demo_user)],
+) -> dict:
+    project_id = _validate_project_id(project_id)
+    department_id = _validate_project_id(department_id)
+    document_id = _validate_project_id(document_id)
+    require_project_editor(user, project_id)
+    try:
+        if not get_department(project_id, department_id):
+            raise HTTPException(status_code=404, detail="Department not found.")
+        document = record_cleanup_revert_metadata(
+            project_id=project_id,
+            department_id=department_id,
+            document_id=document_id,
+            reverted_by=user["id"],
+        )
+    except HTTPException:
+        raise
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error saving cleanup revert metadata.") from exc
+    if not document:
+        raise HTTPException(status_code=404, detail="Document not found.")
+
+    log_audit_event(
+        action="document_markdown_cleanup_reverted",
+        user_role=user["business_role"],
+        user_id=user["id"],
+        resource_type="document",
+        document_id=document["external_document_id"],
+        outcome="reverted",
+        reason="editor_reverted_to_deterministic_extraction",
+        metadata={
+            "project_id": project_id,
+            "department_id": department_id,
+            "document_id": document["id"],
+            "external_document_id": document["external_document_id"],
+            "source_content_hash": hash_markdown(document.get("review_markdown") or document.get("markdown_preview") or ""),
+        },
+    )
+    return {"document": document, "status": "reverted"}
 
 
 @app.get("/projects/{project_id}/departments/{department_id}")

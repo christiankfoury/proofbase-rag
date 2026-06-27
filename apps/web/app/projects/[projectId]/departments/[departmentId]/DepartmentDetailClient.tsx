@@ -18,6 +18,7 @@ import {
   fetchDepartmentDocuments,
   ProjectDepartment,
   ProjectDocument,
+  revertDepartmentDocumentCleanup,
   uploadDepartmentDocument,
   updateDepartment,
 } from "@/lib/projects";
@@ -92,6 +93,72 @@ type TimelineStep = {
   detail: string;
   timestamp?: string | null;
 };
+
+type CleanupMetadata = {
+  status?: string;
+  model?: string;
+  cleanup_timestamp?: string;
+  source_content_hash?: string;
+  cleaned_content_hash?: string;
+  input_tokens?: number | null;
+  output_tokens?: number | null;
+  estimated_cost_usd?: number | null;
+  pricing_status?: string | null;
+};
+
+type CleanupRevertMetadata = {
+  reverted_at?: string;
+  reverted_by?: string;
+  source_content_hash?: string;
+};
+
+type DiffLine = {
+  text: string;
+  kind: "added" | "removed" | "unchanged";
+};
+
+function cleanupMetadata(document: ProjectDocument | null): CleanupMetadata | null {
+  const value = document?.version.metadata?.ai_cleanup;
+  return value && typeof value === "object" ? (value as CleanupMetadata) : null;
+}
+
+function cleanupRevertMetadata(document: ProjectDocument | null): CleanupRevertMetadata | null {
+  const value = document?.version.metadata?.ai_cleanup_revert;
+  return value && typeof value === "object" ? (value as CleanupRevertMetadata) : null;
+}
+
+function formatCost(value?: number | null): string {
+  return value == null ? "pending" : `$${value.toFixed(6)}`;
+}
+
+function cleanupEditedAfterDraft(cleanedMarkdown: string | null, reviewMarkdown: string): boolean | null {
+  if (cleanedMarkdown == null) return null;
+  return reviewMarkdown.trim() !== cleanedMarkdown.trim();
+}
+
+function markdownDiff(before: string, after: string): DiffLine[] {
+  const beforeLines = before.trim().split(/\r?\n/);
+  const afterLines = after.trim().split(/\r?\n/);
+  const rows: DiffLine[] = [];
+  const max = Math.max(beforeLines.length, afterLines.length);
+  for (let index = 0; index < max; index += 1) {
+    const beforeLine = beforeLines[index];
+    const afterLine = afterLines[index];
+    if (beforeLine === afterLine) {
+      if (afterLine !== undefined) rows.push({ kind: "unchanged", text: afterLine });
+    } else {
+      if (beforeLine !== undefined) rows.push({ kind: "removed", text: beforeLine });
+      if (afterLine !== undefined) rows.push({ kind: "added", text: afterLine });
+    }
+  }
+  return rows.slice(0, 80);
+}
+
+function diffLineClass(kind: DiffLine["kind"]): string {
+  if (kind === "added") return "border-moss bg-moss-soft text-moss-dark";
+  if (kind === "removed") return "border-rust bg-rust-soft text-rust-dark";
+  return "border-stone-200 bg-white text-stone-700";
+}
 
 function timelineClass(status: TimelineStep["status"]): string {
   if (status === "complete") return "border-moss bg-moss-soft text-moss-dark";
@@ -228,6 +295,8 @@ export function DepartmentDetailClient({
   const selectedDocumentNeedsReview = selectedDocument
     ? ["pending_review", "failed"].includes(selectedDocument.version.ingestion_status)
     : false;
+  const selectedCleanupMetadata = cleanupMetadata(selectedDocument);
+  const selectedCleanupRevertMetadata = cleanupRevertMetadata(selectedDocument);
 
   useEffect(() => {
     let active = true;
@@ -368,8 +437,7 @@ export function DepartmentDetailClient({
       setCleanupResult(result);
       setDocuments((current) => current.map((item) => (item.id === result.document.id ? result.document : item)));
       setSelectedDocumentId(result.document.id);
-      const cost = result.estimated_cost_usd == null ? "pending" : `$${result.estimated_cost_usd.toFixed(6)}`;
-      setNotice(`AI cleanup draft returned to the editor. It is not indexed until you approve it. Estimated cost: ${cost}.`);
+      setNotice(`AI cleanup draft returned to the editor. It is not indexed until you approve it. Estimated cost: ${formatCost(result.estimated_cost_usd)}.`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Markdown cleanup could not be completed.");
     } finally {
@@ -377,10 +445,20 @@ export function DepartmentDetailClient({
     }
   }
 
-  function handleRevertMarkdown(document: ProjectDocument) {
-    setReviewMarkdown(document.review_markdown ?? document.markdown_preview ?? "");
-    setCleanupResult(null);
-    setNotice("Review editor reverted to the deterministic extraction. Nothing was indexed.");
+  async function handleRevertMarkdown(document: ProjectDocument) {
+    setCleanupDocumentId(document.id);
+    setError(null);
+    try {
+      const revertedDocument = await revertDepartmentDocumentCleanup(projectId, departmentId, document.id);
+      setDocuments((current) => current.map((item) => (item.id === revertedDocument.id ? revertedDocument : item)));
+      setReviewMarkdown(revertedDocument.review_markdown ?? revertedDocument.markdown_preview ?? "");
+      setCleanupResult(null);
+      setNotice("Review editor reverted to the deterministic extraction. Nothing was indexed.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Markdown cleanup revert could not be recorded.");
+    } finally {
+      setCleanupDocumentId(null);
+    }
   }
 
   if (loading) {
@@ -392,6 +470,10 @@ export function DepartmentDetailClient({
   }
 
   const reviewMarkdownReady = reviewMarkdown.trim().length > 0;
+  const cleanedDraftMarkdown = cleanupResult?.document.id === selectedDocument?.id ? cleanupResult.cleaned_markdown : null;
+  const editedAfterCleanup = cleanupEditedAfterDraft(cleanedDraftMarkdown, reviewMarkdown);
+  const extractedMarkdown = selectedDocument?.review_markdown ?? selectedDocument?.markdown_preview ?? "";
+  const diffRows = selectedDocumentNeedsReview ? markdownDiff(extractedMarkdown, reviewMarkdown) : [];
   return (
     <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">
       <section className="space-y-5">
@@ -601,6 +683,68 @@ export function DepartmentDetailClient({
 
                   <UploadStatusTimeline document={selectedDocument} reviewMarkdownReady={reviewMarkdownReady} />
 
+                  {selectedDocumentNeedsReview ? (
+                    <div className="mt-4 rounded border border-stone-200 bg-white p-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <p className="text-sm font-semibold text-ink">Cleanup Provenance</p>
+                        <Badge tone={selectedCleanupMetadata || cleanupResult ? "info" : "neutral"}>
+                          {selectedCleanupRevertMetadata ? "reverted" : selectedCleanupMetadata || cleanupResult ? "cleanup draft" : "deterministic extraction"}
+                        </Badge>
+                      </div>
+                      {selectedCleanupMetadata || cleanupResult ? (
+                        <dl className="mt-3 grid gap-3 text-xs sm:grid-cols-2">
+                          <div>
+                            <dt className="font-semibold text-stone-500">Model</dt>
+                            <dd className="mt-1 text-stone-800">{cleanupResult?.model ?? selectedCleanupMetadata?.model ?? "Pending"}</dd>
+                          </div>
+                          <div>
+                            <dt className="font-semibold text-stone-500">Cleanup time</dt>
+                            <dd className="mt-1 text-stone-800">{formatDate(cleanupResult?.cleanup_timestamp ?? selectedCleanupMetadata?.cleanup_timestamp)}</dd>
+                          </div>
+                          <div>
+                            <dt className="font-semibold text-stone-500">Tokens</dt>
+                            <dd className="mt-1 text-stone-800">
+                              input {cleanupResult?.input_tokens ?? selectedCleanupMetadata?.input_tokens ?? "pending"} / output{" "}
+                              {cleanupResult?.output_tokens ?? selectedCleanupMetadata?.output_tokens ?? "pending"}
+                            </dd>
+                          </div>
+                          <div>
+                            <dt className="font-semibold text-stone-500">Estimated cost</dt>
+                            <dd className="mt-1 text-stone-800">
+                              {formatCost(cleanupResult?.estimated_cost_usd ?? selectedCleanupMetadata?.estimated_cost_usd)}
+                            </dd>
+                          </div>
+                          <div>
+                            <dt className="font-semibold text-stone-500">Source hash</dt>
+                            <dd className="mt-1 font-mono text-stone-800">{compactHash(cleanupResult?.source_content_hash ?? selectedCleanupMetadata?.source_content_hash)}</dd>
+                          </div>
+                          <div>
+                            <dt className="font-semibold text-stone-500">Cleaned hash</dt>
+                            <dd className="mt-1 font-mono text-stone-800">{compactHash(cleanupResult?.cleaned_content_hash ?? selectedCleanupMetadata?.cleaned_content_hash)}</dd>
+                          </div>
+                          <div>
+                            <dt className="font-semibold text-stone-500">Edited after cleanup</dt>
+                            <dd className="mt-1 text-stone-800">{editedAfterCleanup == null ? "Pending approval" : editedAfterCleanup ? "Yes" : "No"}</dd>
+                          </div>
+                          <div>
+                            <dt className="font-semibold text-stone-500">Indexing status</dt>
+                            <dd className="mt-1 text-stone-800">Not indexed until approval</dd>
+                          </div>
+                          {selectedCleanupRevertMetadata ? (
+                            <div>
+                              <dt className="font-semibold text-stone-500">Reverted</dt>
+                              <dd className="mt-1 text-stone-800">{formatDate(selectedCleanupRevertMetadata.reverted_at)}</dd>
+                            </div>
+                          ) : null}
+                        </dl>
+                      ) : (
+                        <p className="mt-2 text-sm leading-6 text-stone-700">
+                          No AI cleanup draft has been requested. The editor is reviewing deterministic extraction.
+                        </p>
+                      )}
+                    </div>
+                  ) : null}
+
                   <div className="mt-4">
                     <p className="text-sm font-semibold uppercase tracking-wide text-stone-500">
                       {selectedDocumentNeedsReview ? "Markdown Review" : "Extracted Markdown Preview"}
@@ -611,8 +755,7 @@ export function DepartmentDetailClient({
                           <div className="mt-2 rounded border border-steel bg-steel-soft p-3 text-xs leading-5 text-steel-dark">
                             <p className="font-semibold">AI cleanup draft is in the editor.</p>
                             <p className="mt-1">
-                              Model {cleanupResult.model}; cost{" "}
-                              {cleanupResult.estimated_cost_usd == null ? "pending" : `$${cleanupResult.estimated_cost_usd.toFixed(6)}`};
+                              Model {cleanupResult.model}; cost {formatCost(cleanupResult.estimated_cost_usd)};
                               source hash {compactHash(cleanupResult.source_content_hash)}; cleaned hash{" "}
                               {compactHash(cleanupResult.cleaned_content_hash)}.
                             </p>
@@ -621,10 +764,7 @@ export function DepartmentDetailClient({
                         <textarea
                           className="field mt-2 min-h-[520px] w-full font-mono text-xs leading-5"
                           value={reviewLoadingDocumentId === selectedDocument.id ? "Loading extracted Markdown..." : reviewMarkdown}
-                          onChange={(event) => {
-                            setReviewMarkdown(event.target.value);
-                            setCleanupResult(null);
-                          }}
+                          onChange={(event) => setReviewMarkdown(event.target.value)}
                           disabled={
                             reviewLoadingDocumentId === selectedDocument.id ||
                             indexingDocumentId === selectedDocument.id ||
@@ -638,6 +778,24 @@ export function DepartmentDetailClient({
                       </pre>
                     )}
                   </div>
+                  {selectedDocumentNeedsReview && diffRows.length ? (
+                    <div className="mt-4 rounded border border-stone-200 bg-white p-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <p className="text-sm font-semibold text-ink">Extraction vs Current Review</p>
+                        <Badge tone={diffRows.some((row) => row.kind !== "unchanged") ? "info" : "neutral"}>
+                          {diffRows.some((row) => row.kind !== "unchanged") ? "changes visible" : "unchanged"}
+                        </Badge>
+                      </div>
+                      <div className="mt-3 max-h-72 overflow-auto rounded border border-stone-200 bg-stone-50 p-2 font-mono text-xs leading-5">
+                        {diffRows.map((row, index) => (
+                          <div key={`${row.kind}-${index}`} className={`mb-1 rounded border px-2 py-1 ${diffLineClass(row.kind)}`}>
+                            <span className="mr-2 font-bold">{row.kind === "added" ? "+" : row.kind === "removed" ? "-" : " "}</span>
+                            <span className="whitespace-pre-wrap">{row.text || " "}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>

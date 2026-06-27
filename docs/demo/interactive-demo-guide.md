@@ -16,7 +16,7 @@ Open `http://localhost:3000`.
 
 1. Open `/demo` and follow the guided demo checklist.
 2. Open `/projects`, then select `Northstar Analytics`; use the first-screen project home to show scoped ask, department shortcuts, representative documents, upload/indexing status, and suggested questions.
-3. Open a seeded department and inspect document inventory, access roles, active version metadata, PDF extraction, editable Markdown review, optional AI cleanup draft, approval/indexing controls, and Markdown preview.
+3. Open a seeded department and inspect document inventory, access roles, active version metadata, PDF extraction, editable Markdown review, optional AI cleanup draft, cleanup provenance, before/after diff, approval/indexing controls, and Markdown preview.
 4. Open `/chat` from a guided link, project-home suggested question, or department shortcut, ask a scoped question, and show `Why this answer?` proof with citations plus retrieved context.
 5. Open `/dev-admin/retrieval-playground` to compare algorithm profiles and known failures.
 6. Open `/dev-admin/failed-questions` or `/dev-admin/feedback` to show human review labels without claiming automatic benchmark promotion.
@@ -28,7 +28,7 @@ Open `http://localhost:3000`.
 | App Home | `/` | Product framing with Projects as the primary App entry point. |
 | Guided Demo | `/demo` | Five-minute product path from project home to department evidence, upload/review status, scoped answer, answer proof, and Dev/Admin evidence. |
 | Projects | `/projects` | Project CRUD, seeded Northstar workspace, scoped ask entry points, department shortcuts, representative documents, upload/indexing status, quality status, and project audit events. |
-| Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, PDF upload for Markdown review, optional AI cleanup draft, active version metadata, extracted Markdown preview, edit, and archive controls. |
+| Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, PDF upload for Markdown review, optional AI cleanup draft, cleanup provenance, extraction/current-review diff, active version metadata, extracted Markdown preview, edit, and archive controls. |
 | Chat Demo | `/chat` | Live scoped RAG query, project and department selection, role selection, `Why this answer?` proof, citations, confidence, latency, retrieved context, and feedback. |
 | Dev/Admin Overview | `/dev-admin` | Final metrics with run IDs, timestamps, sample sizes, benchmark version, category breakdown, and evaluation-first proof. |
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts with explicit pass/fail counts. |
@@ -51,7 +51,7 @@ Open `http://localhost:3000`.
 2. Department workspace
    - Page: `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001`
    - Department: `People Operations`
-   - Expected: icon label, description, default roles, current document roles, document count, indexed document list, PDF upload form, version metadata, access roles, ingestion status, extracted Markdown preview, optional cleanup action on pending/failed uploads, and honest pending-review status for new uploads.
+   - Expected: icon label, description, default roles, current document roles, document count, indexed document list, PDF upload form, version metadata, access roles, ingestion status, extracted Markdown preview, optional cleanup action on pending/failed uploads, cleanup provenance, review diff, and honest pending-review status for new uploads.
 
 3. Normal factual answer
    - Page: `/chat`
@@ -102,7 +102,7 @@ Open `http://localhost:3000`.
 - The chat page uses local demo auth over the existing API. It derives App query role server-side, but it is not production authentication or SSO.
 - Projects are durable workspaces, and `/chat` sends the selected project scope to retrieval.
 - Department workspaces include document libraries and PDF-to-Markdown review uploads. `/chat` can strictly narrow retrieval to one department inside the selected project.
-- Uploaded PDFs are extracted into editable Markdown for review; an editor can optionally request AI cleanup as a review draft, but must explicitly approve/index before chunking, embeddings, and retrieval visibility.
+- Uploaded PDFs are extracted into editable Markdown for review; an editor can optionally request AI cleanup as a review draft, inspect metadata and diff, revert to deterministic extraction, but must explicitly approve/index before chunking, embeddings, and retrieval visibility.
 - Human review labels are persisted for failed questions and negative feedback, but approved candidates are not exported into benchmark JSON automatically yet.
 - Metrics and benchmark details come from existing evaluation JSON and Markdown outputs; dashboard sample sizes are shown explicitly because retrieval/answer-quality, permission, and memory runs use different suites.
 - Querying requires `OPENAI_API_KEY`.

@@ -15,4 +15,6 @@ AI cleanup is optional and editor-triggered:
 
 The stored cleanup metadata includes model, token usage, estimated cost when pricing is available, source hash, cleaned hash, cleanup timestamp, requester, and a `draft_returned_not_indexed` status. Phase 43 intentionally does not persist the cleaned Markdown as a replacement for `extracted_text`; the reviewed editor content becomes durable only through the existing approve/index path.
 
+Phase 44 added visible cleanup provenance, a deterministic-extraction versus current-review diff, revert audit recording, and reviewer-edited-after-cleanup metadata during approve/index.
+
 If OpenAI is unavailable, the editor can continue using deterministic Markdown review and approval. This preserves the Phase 40 local upload workflow and keeps AI cleanup as a polish aid rather than a required ingestion dependency.
