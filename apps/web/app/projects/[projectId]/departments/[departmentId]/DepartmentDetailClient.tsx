@@ -58,6 +58,13 @@ function colorClass(color: string): string {
   return classes[color] ?? classes.stone;
 }
 
+function formatLabel(value: string): string {
+  return value
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
 function formFromDepartment(department: ProjectDepartment): DepartmentFormState {
   return {
     name: department.name,
@@ -849,67 +856,85 @@ export function DepartmentDetailClient({
 
         <form onSubmit={handleSave} className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
           <SectionHeading title="Department Settings" />
-        <div className="space-y-3">
-          <label className="block">
-            <span className="text-sm font-medium text-stone-700">Name</span>
-            <input
-              className="field mt-1 w-full"
-              value={form.name}
-              onChange={(event) => setForm((current) => current && { ...current, name: event.target.value })}
-              required
+          <div className="mb-4 rounded-md border border-stone-200 bg-stone-50 p-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Current appearance</p>
+            <div className="mt-3 flex items-center gap-3">
+              <span
+                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded border text-sm font-semibold ${colorClass(
+                  form.color
+                )}`}
+              >
+                {iconLabel(form.icon)}
+              </span>
+              <div>
+                <p className="font-semibold text-ink">{form.name || "Department name"}</p>
+                <p className="text-sm text-stone-600">
+                  Icon: {formatLabel(form.icon)} / Color: {formatLabel(form.color)}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-3">
+            <label className="block">
+              <span className="text-sm font-medium text-stone-700">Name</span>
+              <input
+                className="field mt-1 w-full"
+                value={form.name}
+                onChange={(event) => setForm((current) => current && { ...current, name: event.target.value })}
+                required
+              />
+            </label>
+            <label className="block">
+              <span className="text-sm font-medium text-stone-700">Icon</span>
+              <select
+                className="field mt-1 w-full"
+                value={form.icon}
+                onChange={(event) => setForm((current) => current && { ...current, icon: event.target.value as DepartmentIcon })}
+              >
+                <option value="building">Building</option>
+                <option value="people">People</option>
+                <option value="shield">Shield</option>
+                <option value="chart">Chart</option>
+                <option value="briefcase">Briefcase</option>
+                <option value="lock">Lock</option>
+                <option value="key">Key</option>
+              </select>
+            </label>
+            <label className="block">
+              <span className="text-sm font-medium text-stone-700">Color</span>
+              <select
+                className="field mt-1 w-full"
+                value={form.color}
+                onChange={(event) => setForm((current) => current && { ...current, color: event.target.value as DepartmentColor })}
+              >
+                <option value="steel">Steel</option>
+                <option value="moss">Moss</option>
+                <option value="rust">Rust</option>
+                <option value="stone">Stone</option>
+              </select>
+            </label>
+            <RoleMultiSelect
+              label="Default access roles"
+              selectedRoles={form.default_access_roles}
+              onChange={(roles) => setForm((current) => current && { ...current, default_access_roles: roles })}
             />
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium text-stone-700">Icon</span>
-            <select
-              className="field mt-1 w-full"
-              value={form.icon}
-              onChange={(event) => setForm((current) => current && { ...current, icon: event.target.value as DepartmentIcon })}
-            >
-              <option value="building">Building</option>
-              <option value="people">People</option>
-              <option value="shield">Shield</option>
-              <option value="chart">Chart</option>
-              <option value="briefcase">Briefcase</option>
-              <option value="lock">Lock</option>
-              <option value="key">Key</option>
-            </select>
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium text-stone-700">Color</span>
-            <select
-              className="field mt-1 w-full"
-              value={form.color}
-              onChange={(event) => setForm((current) => current && { ...current, color: event.target.value as DepartmentColor })}
-            >
-              <option value="steel">Steel</option>
-              <option value="moss">Moss</option>
-              <option value="rust">Rust</option>
-              <option value="stone">Stone</option>
-            </select>
-          </label>
-          <RoleMultiSelect
-            label="Default access roles"
-            selectedRoles={form.default_access_roles}
-            onChange={(roles) => setForm((current) => current && { ...current, default_access_roles: roles })}
-          />
-          <label className="block">
-            <span className="text-sm font-medium text-stone-700">Description</span>
-            <textarea
-              className="field mt-1 min-h-24 w-full"
-              value={form.description}
-              onChange={(event) => setForm((current) => current && { ...current, description: event.target.value })}
-            />
-          </label>
-        </div>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <button className="btn-primary" type="submit" disabled={saving}>
-            Save
-          </button>
-          <button className="btn-secondary" type="button" onClick={handleArchive} disabled={saving}>
-            Archive
-          </button>
-        </div>
+            <label className="block">
+              <span className="text-sm font-medium text-stone-700">Description</span>
+              <textarea
+                className="field mt-1 min-h-24 w-full"
+                value={form.description}
+                onChange={(event) => setForm((current) => current && { ...current, description: event.target.value })}
+              />
+            </label>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <button className="btn-primary" type="submit" disabled={saving}>
+              Save
+            </button>
+            <button className="btn-secondary" type="button" onClick={handleArchive} disabled={saving}>
+              Archive
+            </button>
+          </div>
         </form>
       </div>
     </div>
