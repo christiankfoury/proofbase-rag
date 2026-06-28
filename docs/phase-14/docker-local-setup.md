@@ -17,10 +17,10 @@ Run the Enterprise Knowledge Agent locally with reproducible containers for Post
 Create a local environment file:
 
 ```powershell
-Copy-Item .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 ```
 
-Set `OPENAI_API_KEY` in `.env`. Do not commit real secrets. Docker Compose mounts this value as a local secret and the API reads it through `OPENAI_API_KEY_FILE`, so `docker compose config` should not render the raw key.
+Set `OPENAI_API_KEY` in `.env`. Do not rerun `Copy-Item .env.example .env` against an existing `.env`; it overwrites local secrets. Do not commit real secrets. Docker Compose mounts this value as a local secret and the API reads it through `OPENAI_API_KEY_FILE`, so `docker compose config` should not render the raw key.
 
 Build and start the stack:
 

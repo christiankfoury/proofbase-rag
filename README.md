@@ -280,8 +280,10 @@ See [Screenshots Checklist](docs/demo/screenshots-checklist.md).
 Create a local `.env` file and add your OpenAI key:
 
 ```powershell
-Copy-Item .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 ```
+
+Do not rerun `Copy-Item .env.example .env` against an existing `.env`; it overwrites local secrets such as `OPENAI_API_KEY`.
 
 Start Postgres with pgvector, FastAPI, and the Next.js App and Dev/Admin UI:
 
