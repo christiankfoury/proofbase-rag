@@ -179,7 +179,7 @@ export default async function OverviewPage() {
           </>
         }
       />
-      <section className="mb-8 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+      <section className="mb-8 grid gap-4 lg:grid-cols-2">
         <Card>
           <SectionHeading
             title="Proof Without Hiding Failures"
@@ -263,7 +263,7 @@ export default async function OverviewPage() {
       {scorecardMetrics.length > 0 ? (
         <section className="mt-8">
           <Card>
-            <div className="grid gap-5 lg:grid-cols-[1.3fr_0.7fr]">
+            <div className="grid gap-5 lg:grid-cols-2">
               <div>
                 <SectionHeading
                   title="Regression Scorecard"
@@ -356,7 +356,7 @@ export default async function OverviewPage() {
           </Card>
         </section>
       ) : null}
-      <section className="mt-8 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+      <section className="mt-8 grid gap-4 lg:grid-cols-2">
         <Card>
           <SectionHeading
             title="Metric Context"
@@ -447,7 +447,7 @@ export default async function OverviewPage() {
         </Card>
       </section>
       {phase33 && Object.keys(phase33).length > 0 ? (
-        <section className="mt-8 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+        <section className="mt-8 grid gap-4 lg:grid-cols-2">
           <Card tone={phase33.publishable_improvement ? "good" : "warn"}>
             <SectionHeading
               title={<PhaseLabel phase="phase-33" />}
