@@ -25,7 +25,7 @@ const nextCapabilities = [
 const heroActions = [
   {
     title: "Follow the guided demo",
-    detail: "Walk project -> department -> upload/review -> scoped answer -> proof in a few minutes.",
+    detail: "Walk from project setup to department review, scoped answers, and proof in a few minutes.",
     href: "/demo",
     action: "Start guide",
     tone: "moss",
