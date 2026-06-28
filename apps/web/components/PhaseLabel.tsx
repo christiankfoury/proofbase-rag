@@ -22,7 +22,9 @@ export function PhaseLabel({
       {phaseText ? (
         <>
           {readableLabel ? <span>{readableLabel} </span> : null}
-          <span className="rounded-sm bg-moss-soft px-1 underline decoration-moss decoration-2 underline-offset-4">{phaseText}</span>
+          <span className="cursor-help rounded-sm bg-moss-soft px-1 underline decoration-moss decoration-2 underline-offset-4">
+            {phaseText}
+          </span>
         </>
       ) : (
         label
