@@ -1020,10 +1020,10 @@ def _regression_scorecard(
             "Permission and memory checks showed zero restricted-evidence leakage across the latest permission, memory, and boundary suites.",
         ],
         "limitations": [
-            "Legacy permission and memory baselines use smaller pre-expansion suites, so their deltas should be read as coverage expansion plus safety preservation, not a same-sample accuracy comparison.",
-            "The latest answer-quality run has 0 failed questions, but the scorecard remains benchmark-scoped and still exposes failure counts and reasons when failures appear.",
-            "Metrics use deterministic and heuristic evaluators over a synthetic portfolio corpus, not production traffic or human-judge labels.",
-            "Local upload, Markdown review, optional AI cleanup draft, approve/index, and scoped asking are verified locally; production SSO, real enterprise connectors, Azure Blob Storage, hosted storage, and hosted Azure deployment remain future work.",
+            "Permission and memory safety were expanded after the original baselines, so those deltas show broader coverage with safety preserved rather than a strict same-sample comparison.",
+            "The latest answer-quality run passed all 130 benchmark questions; the scorecard still keeps failure counts and reasons visible for future runs.",
+            "Scores come from deterministic and heuristic evaluators over a synthetic portfolio corpus, not production traffic or independent human review.",
+            "Local upload, Markdown review, optional AI cleanup drafts, approval/indexing, and scoped asking are verified locally; production SSO, real connectors, Azure Blob Storage, hosted storage, and hosted Azure deployment remain future work.",
         ],
     }
 
