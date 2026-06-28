@@ -1,6 +1,5 @@
 import { MetricCard } from "@/components/MetricCard";
 import { RetrievalChart } from "@/components/RetrievalChart";
-import { RunTable } from "@/components/RunTable";
 import { Shell } from "@/components/Shell";
 import { PageHeader } from "@/components/PageHeader";
 import { Card } from "@/components/Card";
@@ -608,8 +607,35 @@ export default async function OverviewPage() {
         </Card>
       </section>
       <section className="mt-8">
-        <SectionHeading title="Evaluation Runs" />
-        <RunTable runs={data.runs} bestRunName={data.overview.best_retrieval_run} />
+        <Card>
+          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <div>
+              <SectionHeading
+                title="Full Run Evidence"
+                description="The complete evaluation-run table lives on the dedicated comparison page so this overview stays focused."
+              />
+              <dl className="mt-3 grid gap-3 text-sm text-stone-700 sm:grid-cols-3">
+                <div>
+                  <dt className="font-medium text-stone-500">Exported runs</dt>
+                  <dd className="mt-1 text-lg font-semibold text-ink">{data.runs.length}</dd>
+                </div>
+                <div>
+                  <dt className="font-medium text-stone-500">Current answer run</dt>
+                  <dd className="mt-1 font-semibold text-ink">{formatRunLabel(currentAnswerRun)}</dd>
+                </div>
+                <div>
+                  <dt className="font-medium text-stone-500">Current failures</dt>
+                  <dd className="mt-1 text-lg font-semibold text-ink">
+                    {currentAnswerRun?.failed_count ?? currentAnswerRun?.metrics.failed_question_count ?? "not available"}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+            <Link href="/dev-admin/runs" className="btn-primary shrink-0 self-start md:self-center">
+              Open Run Comparison
+            </Link>
+          </div>
+        </Card>
       </section>
     </Shell>
   );
