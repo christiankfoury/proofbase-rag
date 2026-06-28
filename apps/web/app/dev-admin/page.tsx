@@ -290,8 +290,11 @@ export default async function OverviewPage() {
                     </p>
                   </div>
                   <div className="grid gap-5 bg-white p-4 text-sm leading-6 text-stone-700 lg:grid-cols-3">
-                    <section className="border-l-4 border-moss pl-3">
-                      <p className="font-semibold text-moss-dark">Supported Claims</p>
+                    <section>
+                      <div className="flex items-center gap-2">
+                        <span className="h-2.5 w-2.5 rounded-full bg-moss" aria-hidden="true" />
+                        <p className="font-semibold text-moss-dark">Supported Claims</p>
+                      </div>
                       <p className="mt-1 text-xs font-medium uppercase tracking-wide text-stone-500">
                         Backed by measured runs and benchmark evidence
                       </p>
@@ -301,8 +304,11 @@ export default async function OverviewPage() {
                         ))}
                       </ul>
                     </section>
-                    <section className="border-l-4 border-stone-300 pl-3">
-                      <p className="font-semibold text-ink">Current Failures</p>
+                    <section>
+                      <div className="flex items-center gap-2">
+                        <span className="h-2.5 w-2.5 rounded-full bg-stone-300" aria-hidden="true" />
+                        <p className="font-semibold text-ink">Current Failures</p>
+                      </div>
                       <p className="mt-1 text-stone-700">
                         {scorecard?.failed_question_summary?.failed_question_count ?? "not available"} failed questions in{" "}
                         {formatRunLabel(scorecard?.failed_question_summary?.current_answer_run_id ?? null)}.
@@ -320,8 +326,11 @@ export default async function OverviewPage() {
                         <p className="mt-2 text-stone-600">No failure reasons are reported for the current scorecard run.</p>
                       )}
                     </section>
-                    <section className="border-l-4 border-rust pl-3">
-                      <p className="font-semibold text-rust-dark">Limitations</p>
+                    <section>
+                      <div className="flex items-center gap-2">
+                        <span className="h-2.5 w-2.5 rounded-full bg-rust" aria-hidden="true" />
+                        <p className="font-semibold text-rust-dark">Limitations</p>
+                      </div>
                       <p className="mt-1 text-xs font-medium uppercase tracking-wide text-stone-500">Known boundaries</p>
                       <ul className="mt-2 list-disc space-y-2 pl-4">
                         {(scorecard?.limitations ?? []).map((item) => (
