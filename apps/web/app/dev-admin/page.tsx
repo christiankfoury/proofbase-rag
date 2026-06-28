@@ -228,7 +228,7 @@ export default async function OverviewPage() {
       {scorecardMetrics.length > 0 ? (
         <section className="mt-8">
           <Card>
-            <div className="grid gap-5 lg:grid-cols-2">
+            <div>
               <div>
                 <SectionHeading
                   title="Regression Scorecard"
@@ -281,7 +281,7 @@ export default async function OverviewPage() {
                   </table>
                 </div>
               </div>
-              <div className="self-start">
+              <div className="mt-6">
                 <aside className="rounded-md border border-stone-300 bg-stone-50">
                   <div className="border-b border-stone-200 p-4">
                     <p className="font-semibold text-ink">Proof Summary</p>
@@ -289,7 +289,7 @@ export default async function OverviewPage() {
                       Claims, failures, and known limits stay visible next to the measured scorecard.
                     </p>
                   </div>
-                  <div className="grid gap-5 bg-white p-4 text-sm leading-6 text-stone-700">
+                  <div className="grid gap-5 bg-white p-4 text-sm leading-6 text-stone-700 lg:grid-cols-3">
                     <section className="border-l-4 border-moss pl-3">
                       <p className="font-semibold text-moss-dark">Supported Claims</p>
                       <p className="mt-1 text-xs font-medium uppercase tracking-wide text-stone-500">
