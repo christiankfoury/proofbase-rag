@@ -1014,16 +1014,16 @@ def _regression_scorecard(
             "memory_boundary_leakage": _metric_value(phase36_boundary, "memory_permission_leakage"),
         },
         "portfolio_claims": [
-            "Built an evaluation-driven enterprise RAG platform with permission-aware retrieval, citation verification, conversation-memory evaluation, adversarial safety tests, and benchmark dashboard evidence.",
-            "Expanded the benchmark to 130 questions across factual, multi-document, restricted-access, missing-information, memory, ambiguous, prompt-injection, and conflicting-source scenarios.",
-            "On benchmark v1.1 answer runs, improved answer accuracy, citation accuracy, and hallucination rate versus the Phase 32 expanded baseline while keeping current failed questions visible.",
-            "Maintained 0.000 permission leakage on the latest 20-question permission suite and 0.000 memory-permission leakage on the 20-question memory suite plus 5 focused boundary probes.",
+            "Built a measured enterprise RAG demo with permission-aware retrieval, citation validation, memory evaluation, safety checks, and visible Dev/Admin evidence.",
+            "Expanded benchmark coverage to 130 questions across factual, multi-document, restricted-access, missing-information, memory, ambiguity, prompt-injection, and conflicting-source cases.",
+            "Improved answer accuracy, citation accuracy, and hallucination rate versus the Phase 32 expanded baseline on full benchmark v1.1 answer runs.",
+            "Permission and memory checks showed zero restricted-evidence leakage across the latest permission, memory, and boundary suites.",
         ],
         "limitations": [
             "Legacy permission and memory baselines use smaller pre-expansion suites, so their deltas should be read as coverage expansion plus safety preservation, not a same-sample accuracy comparison.",
-            "The current answer-quality run still has failed questions; the scorecard keeps failure counts and failure reasons visible.",
+            "The latest answer-quality run has 0 failed questions, but the scorecard remains benchmark-scoped and still exposes failure counts and reasons when failures appear.",
             "Metrics use deterministic and heuristic evaluators over a synthetic portfolio corpus, not production traffic or human-judge labels.",
-            "Local uploaded-document upload, review, approve/index, and scoped asking are verified; editable Markdown review, production SSO, real enterprise connectors, Azure Blob Storage, and hosted Azure deployment remain future work.",
+            "Local upload, Markdown review, optional AI cleanup draft, approve/index, and scoped asking are verified locally; production SSO, real enterprise connectors, Azure Blob Storage, hosted storage, and hosted Azure deployment remain future work.",
         ],
     }
 
