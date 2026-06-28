@@ -426,7 +426,7 @@ export function RetrievalPlaygroundClient({
             const retrievedDocuments = uniqueDocumentsFromResult(result);
             const citedDocuments = result ? uniqueDocumentsFromCitations(result.citations) : [];
             return (
-              <Card key={profile.name} tone={outcome.tone === "good" ? "good" : "neutral"}>
+              <Card key={profile.name} tone={outcome.tone === "good" ? "good" : "neutral"} className="flex h-full flex-col">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
@@ -444,7 +444,7 @@ export function RetrievalPlaygroundClient({
                 </div>
                 {error ? <p className="mt-4 rounded border border-rust bg-rust-soft p-3 text-sm font-medium text-rust-dark">{error}</p> : null}
                 {result ? (
-                  <div className="mt-4 space-y-4">
+                  <div className="mt-4 flex flex-1 flex-col">
                     <div className="grid gap-2 text-xs text-stone-700 md:grid-cols-3">
                       <span>Retrieved coverage: {formatMetric(coverage(expectedSources, retrievedDocuments))}</span>
                       <span>Citation coverage: {formatMetric(coverage(expectedSources, citedDocuments))}</span>
@@ -453,12 +453,12 @@ export function RetrievalPlaygroundClient({
                       <span>Chunks: {result.retrieved_chunks.length}</span>
                       <span>Leakage: {result.permission_check.unauthorized_chunks_reached_generation ? "yes" : "no"}</span>
                     </div>
-                    <p className="line-clamp-6 text-sm leading-6 text-stone-800">{result.answer}</p>
-                    <div>
+                    <p className="mt-4 line-clamp-6 text-sm leading-6 text-stone-800">{result.answer}</p>
+                    <div className="mt-4">
                       <h4 className="mb-2 font-semibold text-ink">Citations</h4>
                       <CompactCitations citations={result.citations} />
                     </div>
-                    <details className="rounded border border-stone-300 p-4">
+                    <details className="mt-auto rounded border border-stone-300 p-4">
                       <summary className="cursor-pointer font-semibold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss">
                         Top Retrieved Chunks
                       </summary>
