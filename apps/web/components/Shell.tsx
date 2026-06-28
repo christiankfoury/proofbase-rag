@@ -53,7 +53,7 @@ const navGroups: NavGroup[] = [
     icon: BookOpen,
     links: [
       ["Retrieval Experiments", "/dev-admin/retrieval-experiments"],
-      ["Prompt Experiments", "/dev-admin/prompt-experiments"],
+      ["Prompt History", "/dev-admin/prompt-experiments"],
     ],
   },
   {
@@ -170,7 +170,7 @@ const routeLabels: Array<[RegExp, BreadcrumbItem[]]> = [
   ],
   [
     /^\/dev-admin\/prompt-experiments$/,
-    [{ label: "Home", href: "/" }, { label: "Dev & Admin", href: "/dev-admin" }, { label: "Prompt Experiments", href: "/dev-admin/prompt-experiments" }],
+    [{ label: "Home", href: "/" }, { label: "Dev & Admin", href: "/dev-admin" }, { label: "Prompt History", href: "/dev-admin/prompt-experiments" }],
   ],
   [
     /^\/dev-admin\/permission-safety$/,
