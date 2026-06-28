@@ -10,7 +10,6 @@ import { formatDateTime, formatIntegerMetric, formatLabel, formatMetric, getDash
 import { formatRunLabel } from "@/lib/phases";
 import { serverDemoAuthHeaders } from "@/lib/serverDemoAuth";
 import Link from "next/link";
-import type { ReactNode } from "react";
 
 const proofPath = [
   {
@@ -80,40 +79,6 @@ function HelpMarker({ label }: { label: string }) {
     >
       ?
     </span>
-  );
-}
-
-function ScorecardCallout({
-  title,
-  tone,
-  summary,
-  children,
-}: {
-  title: string;
-  tone: "moss" | "stone" | "rust";
-  summary?: string;
-  children: ReactNode;
-}) {
-  const toneClasses = {
-    moss: "border-moss bg-moss-soft text-moss-dark",
-    stone: "border-stone-300 bg-stone-50 text-stone-700",
-    rust: "border-rust bg-rust-soft text-rust-dark",
-  };
-
-  return (
-    <details open className={`group rounded-md border ${toneClasses[tone]}`}>
-      <summary className="flex cursor-pointer list-none items-start justify-between gap-3 p-4 [&::-webkit-details-marker]:hidden">
-        <span>
-          <span className="block font-semibold text-ink">{title}</span>
-          {summary ? <span className="mt-1 block text-sm leading-5 text-stone-700">{summary}</span> : null}
-        </span>
-        <span className="mt-0.5 inline-flex h-6 min-w-6 items-center justify-center rounded border border-current bg-white text-xs font-semibold">
-          <span className="group-open:hidden">+</span>
-          <span className="hidden group-open:inline">-</span>
-        </span>
-      </summary>
-      <div className="border-t border-current/20 bg-white p-4 text-sm leading-6 text-stone-700">{children}</div>
-    </details>
   );
 }
 
@@ -316,41 +281,56 @@ export default async function OverviewPage() {
                   </table>
                 </div>
               </div>
-              <div className="grid content-start gap-4">
-                <ScorecardCallout title="Supported Claims" tone="moss" summary="Claims backed by measured runs, benchmarks, and visible evidence.">
-                  <ul className="list-disc space-y-2 pl-4">
-                    {(scorecard?.portfolio_claims ?? []).map((claim) => (
-                      <li key={claim}>{claim}</li>
-                    ))}
-                  </ul>
-                </ScorecardCallout>
-                <ScorecardCallout
-                  title="Current Failures"
-                  tone="stone"
-                  summary={`${scorecard?.failed_question_summary?.failed_question_count ?? "not available"} failed questions in ${formatRunLabel(
-                    scorecard?.failed_question_summary?.current_answer_run_id ?? null
-                  )}.`}
-                >
-                  {scorecardFailures.length ? (
-                    <ul className="space-y-2">
-                      {scorecardFailures.map(([reason, count]) => (
-                        <li key={reason} className="flex justify-between gap-3 border-b border-stone-200 pb-1 last:border-b-0 last:pb-0">
-                          <span>{formatLabel(reason)}</span>
-                          <span className="font-medium text-ink">{count}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>No failure reasons are reported for the current scorecard run.</p>
-                  )}
-                </ScorecardCallout>
-                <ScorecardCallout title="Limitations" tone="rust" summary="Known boundaries that keep the demo honest.">
-                  <ul className="list-disc space-y-2 pl-4">
-                    {(scorecard?.limitations ?? []).map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </ScorecardCallout>
+              <div className="self-start">
+                <aside className="rounded-md border border-stone-300 bg-stone-50">
+                  <div className="border-b border-stone-200 p-4">
+                    <p className="font-semibold text-ink">Proof Summary</p>
+                    <p className="mt-1 text-sm leading-5 text-stone-600">
+                      Claims, failures, and known limits stay visible next to the measured scorecard.
+                    </p>
+                  </div>
+                  <div className="grid gap-5 bg-white p-4 text-sm leading-6 text-stone-700">
+                    <section className="border-l-4 border-moss pl-3">
+                      <p className="font-semibold text-moss-dark">Supported Claims</p>
+                      <p className="mt-1 text-xs font-medium uppercase tracking-wide text-stone-500">
+                        Backed by measured runs and benchmark evidence
+                      </p>
+                      <ul className="mt-2 list-disc space-y-2 pl-4">
+                        {(scorecard?.portfolio_claims ?? []).map((claim) => (
+                          <li key={claim}>{claim}</li>
+                        ))}
+                      </ul>
+                    </section>
+                    <section className="border-l-4 border-stone-300 pl-3">
+                      <p className="font-semibold text-ink">Current Failures</p>
+                      <p className="mt-1 text-stone-700">
+                        {scorecard?.failed_question_summary?.failed_question_count ?? "not available"} failed questions in{" "}
+                        {formatRunLabel(scorecard?.failed_question_summary?.current_answer_run_id ?? null)}.
+                      </p>
+                      {scorecardFailures.length ? (
+                        <ul className="mt-3 space-y-2">
+                          {scorecardFailures.map(([reason, count]) => (
+                            <li key={reason} className="flex justify-between gap-3 border-b border-stone-200 pb-1 last:border-b-0 last:pb-0">
+                              <span>{formatLabel(reason)}</span>
+                              <span className="font-medium text-ink">{count}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="mt-2 text-stone-600">No failure reasons are reported for the current scorecard run.</p>
+                      )}
+                    </section>
+                    <section className="border-l-4 border-rust pl-3">
+                      <p className="font-semibold text-rust-dark">Limitations</p>
+                      <p className="mt-1 text-xs font-medium uppercase tracking-wide text-stone-500">Known boundaries</p>
+                      <ul className="mt-2 list-disc space-y-2 pl-4">
+                        {(scorecard?.limitations ?? []).map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </section>
+                  </div>
+                </aside>
               </div>
             </div>
           </Card>
