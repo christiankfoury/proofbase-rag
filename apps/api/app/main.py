@@ -93,7 +93,7 @@ class QueryRequest(BaseModel):
     session_id: str | None = None
     user_id: str | None = None
     top_k: int | None = None
-    retrieval_mode: str = "vector_only"
+    retrieval_mode: str = "vector_lexical_rerank"
     chunking_strategy: str = "section_based"
     vector_weight: float = 0.5
     keyword_weight: float = 0.5

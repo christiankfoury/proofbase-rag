@@ -44,7 +44,8 @@ import { DEMO_USER_CHANGED_EVENT, fetchCurrentDemoUser, fetchDemoUsers, setSelec
 import type { DemoUser } from "@/lib/demoAuth";
 import { fetchProject, fetchProjects, type Project } from "@/lib/projects";
 
-const retrievalModes: RetrievalMode[] = ["vector_only", "keyword_only", "hybrid"];
+const defaultRetrievalMode: RetrievalMode = "vector_lexical_rerank";
+const retrievalModes: RetrievalMode[] = [defaultRetrievalMode, "vector_only", "keyword_only", "hybrid"];
 const promptVersions = ["default", "v1", "v2", "v3", "v4"];
 const multiDocModes: MultiDocMode[] = ["auto", "off", "force"];
 
@@ -197,8 +198,9 @@ function SegmentedControl<T extends string>({
   options: T[];
   onChange: (value: T) => void;
 }) {
+  const gridClass = options.length === 4 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-3";
   return (
-    <div className="grid grid-cols-3 overflow-hidden rounded-md border border-stone-300 bg-stone-100 p-1">
+    <div className={`grid ${gridClass} overflow-hidden rounded-md border border-stone-300 bg-stone-100 p-1`}>
       {options.map((option) => (
         <button
           key={option}
@@ -443,7 +445,7 @@ export function ChatDemoClient() {
   const [currentUser, setCurrentUser] = useState<DemoUser | null>(null);
   const [identityLoading, setIdentityLoading] = useState(true);
   const [question, setQuestion] = useState("Where does Northstar Analytics have offices?");
-  const [retrievalMode, setRetrievalMode] = useState<RetrievalMode>("vector_only");
+  const [retrievalMode, setRetrievalMode] = useState<RetrievalMode>(defaultRetrievalMode);
   const [promptVersion, setPromptVersion] = useState("default");
   const [multiDocMode, setMultiDocMode] = useState<MultiDocMode>("auto");
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -893,7 +895,7 @@ export function ChatDemoClient() {
     const matchingUser = demoUsers.find((user) => user.business_role === preset.role);
     if (matchingUser) setSelectedDemoUserId(matchingUser.id);
     setQuestion(preset.question);
-    setRetrievalMode("vector_only");
+    setRetrievalMode(defaultRetrievalMode);
     setMultiDocMode(preset.multiDocMode);
     setSelectedDepartmentId("");
     setSettingsOpen(false);

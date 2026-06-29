@@ -3,7 +3,7 @@ import { demoAuthHeaders } from "@/lib/demoAuth";
 export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
 export type UserRole = "Employee" | "Sales Representative" | "Manager" | "HR Admin" | "IT Admin";
-export type RetrievalMode = "vector_only" | "keyword_only" | "hybrid";
+export type RetrievalMode = "vector_lexical_rerank" | "vector_only" | "keyword_only" | "hybrid";
 export type MultiDocMode = "auto" | "off" | "force";
 
 export type Citation = {

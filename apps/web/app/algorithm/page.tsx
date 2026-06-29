@@ -54,8 +54,8 @@ const currentDefaults = [
   },
   {
     label: "Chat default retrieval",
-    value: "vector_only",
-    detail: "The App chat sends semantic vector search by default, with section-based chunks.",
+    value: "vector_lexical_rerank",
+    detail: "The App chat defaults to vector search with lexical reranking over section-based chunks.",
   },
   {
     label: "Multi-doc mode",
@@ -96,7 +96,7 @@ const modules = [
     title: "Retrieval and ranking",
     icon: Search,
     summary: "The app chooses candidate chunks.",
-    detail: "Retrieval can use vector search, keyword search, hybrid scoring, or vector plus lexical reranking. The App currently sends section-based chunking and vector-only chat retrieval by default.",
+    detail: "Retrieval can use vector search, keyword search, hybrid scoring, or vector plus lexical reranking. The App currently sends section-based chunking and vector + lexical rerank retrieval by default.",
   },
   {
     title: "Permission filtering",
