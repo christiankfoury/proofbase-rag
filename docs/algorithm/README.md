@@ -54,9 +54,10 @@ The current strongest measured references come from existing artifacts:
 | Area | Reference run | Sample | Result summary |
 | --- | --- | ---: | --- |
 | Retrieval | `phase33-vector-lexical-rerank-top3` | 130 | Precision@k `0.778`, expected-source recall `0.950`, MRR `0.965`. |
-| Answer quality | `phase38-answer-quality-remediation-v8` | 130 | Answer accuracy `0.975`, citation accuracy `0.969`, hallucination rate `0.000`, 6 failed questions. |
-| Permission safety | `phase38-permission-evaluation` | 20 restricted questions | Permission leakage `0.000`; unauthorized chunks reached generation `0.000`. |
+| Answer quality | `phase39-live-query-answer-quality-v8` | 130 | Answer accuracy `1.000`, citation accuracy `1.000`, hallucination rate `0.000`, 0 failed questions. |
+| Permission safety | `phase46-permission-evaluation` | 20 restricted questions | Permission leakage `0.000`; unauthorized chunks reached generation `0.000`. |
 | Memory | `phase36-memory-evaluation` | 20 follow-ups | Memory answer accuracy `1.000`, memory permission leakage `0.000`. |
+| Generalization probes | `phase46-generalization-remediation` | 20 probes | Failed probes reduced from 12 to 0 while preserving zero memory-as-evidence violations. |
 
 These are measured outputs over a synthetic benchmark, not production guarantees.
 
@@ -86,9 +87,9 @@ These are measured outputs over a synthetic benchmark, not production guarantees
 | --- | --- |
 | Markdown corpus ingestion into Postgres and pgvector | Implemented. |
 | PDF upload with deterministic text extraction and pending review | Implemented. |
-| Approval and indexing for uploaded PDFs | Planned for Phase 40. |
+| Approval and indexing for uploaded PDFs | Implemented for the local/Postgres workflow. |
 | Project and department-scoped chat retrieval | Implemented when scope is supplied. |
 | Role-filtered retrieval before generation | Implemented. |
 | Production SSO and real enterprise connectors | Planned. |
-| Multi-document decomposition | Implemented as a heuristic plus OpenAI query decomposer, but Phase 39 remains next for stronger orchestration. |
+| Multi-document decomposition | Implemented with heuristic detection, source planning, OpenAI query decomposition, and grouped evidence. |
 | Evaluation dashboard | Implemented from existing evaluation artifacts. |

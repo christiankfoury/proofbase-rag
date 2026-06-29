@@ -49,9 +49,9 @@ Each prompt has YAML frontmatter with:
 
 `get_prompt` selects the requested version if supplied. Otherwise, it selects the most recent prompt whose status is `active`, or the newest prompt if none is active.
 
-The current strongest measured answer-quality run used `answer_generation:v8` explicitly:
+The current strongest measured answer-quality run used the live `/query` path with `answer_generation:v8` behavior:
 
-- Run ID: `phase38-answer-quality-remediation-v8`
+- Run ID: `phase39-live-query-answer-quality-v8`
 - Prompt version: `v8`
 - Model: `gpt-4.1-mini`
 - Temperature: `0`
@@ -68,7 +68,7 @@ Before calling OpenAI, `answer_generator.py` checks pattern lists:
 | `ADVERSARIAL_SOURCE_PATTERNS` | Return a source-grounded answer explaining not to follow malicious source text. |
 | Direct supported responses | Return exact evidence-backed answers for several high-confidence cases. |
 
-These rules helped Phase 38 reduce measured failures without changing benchmark expectations. They are also the most hand-tuned part of generation.
+These rules helped Phase 38 and Phase 39 reduce measured failures without changing benchmark expectations. They are also the most hand-tuned part of generation.
 
 ## Prompt Context
 
@@ -182,7 +182,7 @@ The system controls unsupported answers through several layers:
 - response downgrades when citation confidence is low
 - evaluation flag when unsupported claims exist or citation confidence is below `0.5`
 
-The latest Phase 38 answer run reported hallucination rate `0.000` over 130 questions. That means the deterministic evaluator did not flag hallucination under its rules; it does not mean production hallucination is impossible.
+The latest live `/query` answer-quality scorecard run reported hallucination rate `0.000` over 130 questions. That means the deterministic evaluator did not flag hallucination under its rules; it does not mean production hallucination is impossible.
 
 ## Current Answer-Quality Evidence
 
@@ -191,5 +191,6 @@ The latest Phase 38 answer run reported hallucination rate `0.000` over 130 ques
 | `phase32-expanded-answer-generation-v5` | 130 | `0.850` | `0.844` | `0.205` | 43 |
 | `phase35-citation-alignment-v7` | 130 | `0.919` | `0.950` | `0.000` | 16 |
 | `phase38-answer-quality-remediation-v8` | 130 | `0.975` | `0.969` | `0.000` | 6 |
+| `phase39-live-query-answer-quality-v8` | 130 | `1.000` | `1.000` | `0.000` | 0 |
 
-The remaining Phase 38 failed questions are concentrated in multi-document and citation-source completeness cases.
+The current live scorecard has `0` failed benchmark questions. Diagnostic submetric notes remain visible separately from failed answers, especially for memory response-type comparability and one clarification source-coverage diagnostic.

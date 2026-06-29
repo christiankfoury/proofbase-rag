@@ -1,5 +1,7 @@
 # Algorithm Explanation And Audit Plan
 
+Status: the documentation-first audit was completed, and later phases remediated several findings. Use `docs/algorithm/README.md`, `docs/algorithm/review-findings.md`, `docs/roadmap/progress.md`, and `README.md` for current state before treating this plan's Phase 39 handoff notes as active.
+
 ## Purpose
 
 This is a documentation-first pass for a new chat where the AI should inspect the Enterprise Knowledge Agent algorithm and explain whether it makes sense.
@@ -79,7 +81,7 @@ Answer these in the documents:
 - Why does reranking improve precision, and what does it not solve?
 - How are unsupported answers and not-found answers controlled?
 - What do citation accuracy and hallucination metrics actually mean?
-- What known failures remain after Phase 38?
+- What historical failures remained after Phase 38, and what does the current live `/query` scorecard report now?
 - Which parts are product-ready, demo-only, or planned?
 
 ## Verification

@@ -153,18 +153,18 @@ Use:
 Point out:
 
 - Named profiles compare vector, keyword, hybrid, and multi-document behavior.
-- Results include source coverage, citation coverage, latency, cost signals, and known failure visibility.
+- Results include source coverage, citation coverage, latency, cost signals, and historical failure visibility.
 - Review notes are audit-backed; profile promotion is not automatic.
 
 ## Scene 8: Failed Question And Human Review
 
 Open: `/dev-admin/failed-questions`
 
-Expand a known failure such as `MULTI-005`.
+Expand a historical stress case such as `MULTI-005`, or use the failed-question archive/review rows available in the current exported data.
 
 Point out:
 
-- The UI keeps expected answer, actual answer, expected sources, actual citations, root cause, and suggested fix together.
+- The UI keeps expected answer, actual answer, expected sources, actual citations, root cause, and suggested fix together when a failure or historical review row exists.
 - Evaluators can label answer correctness and citation correctness independently.
 - Saving a review creates a candidate or needs-fix decision, but it does not mutate benchmark JSON automatically.
 
@@ -181,6 +181,6 @@ End with:
 - The corpus is synthetic.
 - Querying requires a configured `OPENAI_API_KEY`.
 - `/chat` uses local demo auth and server-side role derivation, but it is not production SSO or session hardening.
-- Uploaded PDFs are extracted for review and can be approved/indexed locally; AI Markdown cleanup, hosted storage, and Azure Blob Storage remain future work.
+- Uploaded PDFs are extracted for review, can receive an editor-triggered AI Markdown cleanup draft, and can be approved/indexed locally; hosted storage and Azure Blob Storage remain future work.
 - Azure deployment is documented as ready work, not claimed as completed.
 - Project-scoped benchmarks and automatic candidate promotion remain future work.

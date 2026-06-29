@@ -121,21 +121,14 @@ The standalone multi-document eval artifact compares baseline retrieval/generati
 
 | Metric | Baseline | Multi-doc |
 | --- | ---: | ---: |
-| Answer accuracy | `0.700` | `0.850` |
-| Citation accuracy | `0.750` | `0.900` |
-| Response type accuracy | `0.900` | `1.000` |
-| All required sources cited | `0.600` | `0.800` |
+| Answer accuracy | `0.850` | `0.925` |
+| Citation accuracy | `0.850` | `0.925` |
+| Response type accuracy | `1.000` | `1.000` |
+| All required sources cited | `0.700` | `0.850` |
 | Failed questions | 4 | 2 |
-| Hallucination rate | `0.667` | `0.700` |
+| Hallucination rate | `0.050` | `0.000` |
 
-The later Phase 38 answer-quality run still has 6 failed questions, mostly multi-document:
-
-- `MULTI-004`
-- `MULTI-005`
-- `MULTI-008`
-- `MULTI-013`
-- `MULTI-017`
-- `MULTI-020`
+The later Phase 39 live `/query` answer-quality scorecard resolved the benchmark failed-question backlog and reports `0` failed questions over 130 benchmark v1.1 questions. Multi-document source planning is still heuristic, so future work should expand generalization beyond the current benchmark instead of treating this as a production guarantee.
 
 ## Ambiguity Behavior
 

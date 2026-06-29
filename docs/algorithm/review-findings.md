@@ -10,14 +10,14 @@ The algorithm makes sense for a portfolio-grade enterprise RAG demo. Its stronge
 - generation defensively rechecks permissions
 - citations are validated against retrieved chunks
 - memory is used for query rewriting, not source evidence
-- evaluation artifacts include run IDs, benchmark versions, sample sizes, and remaining failures
+- evaluation artifacts include run IDs, benchmark versions, sample sizes, failed-question counts, and diagnostic notes
 
 The main fragile areas are:
 
 - multi-document planning is still heuristic
 - several answer-quality fixes are hand-tuned policy patterns
 - citation and answer metrics are deterministic approximations
-- uploaded PDFs are reviewable but not indexable yet
+- uploaded PDFs are reviewable and locally indexable after explicit approval, with optional AI cleanup drafts before indexing
 - production identity and real connector permissions are not implemented
 
 ## Findings
@@ -50,8 +50,8 @@ Evidence:
 
 - `apps/api/app/reasoning/multi_doc_detector.py` uses domain keyword pairs and conjunction patterns.
 - `apps/api/app/reasoning/query_decomposer.py` decomposes with OpenAI, retrieves each subquery, deduplicates chunks, sorts by score, and returns the top 10.
-- `data/evaluation/multi-doc-eval.json` shows multi-doc mode improved answer and citation accuracy, but hallucination remained high under that standalone artifact.
-- `docs/phase-38/answer-quality-remediation-results.md` shows the remaining failed IDs are all `MULTI-*`.
+- `data/evaluation/multi-doc-eval.json` shows multi-doc mode improved answer accuracy, citation accuracy, required-source citation rate, and hallucination rate.
+- `docs/phase-39/live-query-answer-quality-results.md` shows the current live `/query` scorecard has `0` failed benchmark questions, while source-coverage diagnostics remain visible separately.
 
 Risk:
 
@@ -59,8 +59,8 @@ Score-based merging can still omit a required source or cite only one part of a 
 
 Recommended verification:
 
-- In Phase 39, verify source coverage per required answer part, not just global top score.
-- Re-run `scripts/run_multi_doc_eval.py`, the answer-quality candidate, and permission evaluation.
+- Continue verifying source coverage per required answer part, not just global top score.
+- Re-run `scripts/run_multi_doc_eval.py`, the live answer-quality evaluator, and permission evaluation after orchestration changes.
 
 ### F3. Ambiguity behavior improved, but the detector is pattern-based
 
@@ -70,7 +70,7 @@ Evidence:
 
 - `answer_generator.py` has an `AMBIGUOUS_PATTERNS` list.
 - Prompt `answer_generation_v8.md` tells the model to clarify for underspecified approval, location, role, amount, contract, vendor, deployment, and sales-stage questions.
-- Phase 38 improved clarification accuracy from `0.500` to `1.000`.
+- Phase 46 improved generalization-probe clarification behavior from `0.000` to `1.000`.
 
 Risk:
 
@@ -78,8 +78,8 @@ New ambiguous phrasing may bypass the pattern list and depend on the model promp
 
 Recommended verification:
 
-- Phase 39 should add a clearer ambiguity decision step before generation.
-- Add regression cases for ambiguous questions with new wording.
+- Keep pre-retrieval clarification reasons visible in API and App proof surfaces.
+- Add broader regression cases for ambiguous questions with new wording.
 
 ### F4. Some answer improvements are direct policy responses, not general reasoning
 
@@ -101,7 +101,7 @@ If too many benchmark-specific rules accumulate, the system can look tuned to th
 Recommended verification:
 
 - Keep direct responses documented and small.
-- Prefer Phase 39 orchestration improvements for remaining multi-doc gaps.
+- Prefer orchestration and generalization improvements over adding broad benchmark-specific direct answers.
 - When adding deterministic responses, add a note explaining why a general retrieval/generation path is not enough.
 
 ### F5. Citation validation is useful but heuristic
@@ -141,23 +141,24 @@ Recommended verification:
 - Add broader memory follow-up variations before making stronger memory claims.
 - Keep the claim phrased as measured on the benchmark suite.
 
-### F7. Uploaded-document workflow is not searchable yet
+### F7. Uploaded-document workflow is locally searchable after approval, but hosted storage is still future work
 
-Severity: product gap, not algorithm bug.
+Severity: remaining product gap, not algorithm bug.
 
 Evidence:
 
 - `create_pending_review_document` stores uploaded PDF extraction with `ingestion_status = 'pending_review'`.
 - Retrieval filters require `dv.ingestion_status = 'indexed'`.
-- Phase 40 is planned for approval and indexing.
+- Phase 40 added explicit approve/index behavior for local/Postgres storage, and Phases 43-44 added editor-triggered AI cleanup metadata and review diffs.
 
 Risk:
 
-The App side can show uploaded Markdown review, but users cannot yet ask scoped questions over uploaded files.
+The App side can ask scoped questions over approved/indexed uploaded PDFs, but raw file storage is still local/repository-backed rather than hosted Blob storage.
 
 Recommended verification:
 
-- Phase 40 should test pending-review not searchable, approve/index searchable, project/department scoped citations, and permission filtering.
+- Keep testing pending-review not searchable, approve/index searchable, project/department scoped citations, and permission filtering.
+- Add hosted storage verification before claiming production document durability.
 
 ### F8. Evaluation metrics are honest but should be explained as approximations
 
@@ -194,13 +195,13 @@ Recommended verification:
 | What does reranking not solve? | It does not guarantee each required source for a multi-document question is retrieved or cited. |
 | How are unsupported and not-found answers controlled? | Prompt rules, missing-information patterns, citation validation, response downgrades, and hallucination scoring. |
 | What do citation accuracy and hallucination metrics mean? | Citation accuracy checks expected document IDs in citations. Hallucination flags unsupported claims or low citation confidence. Both are heuristic. |
-| What known failures remain after Phase 38? | Six answer-quality failures: `MULTI-004`, `MULTI-005`, `MULTI-008`, `MULTI-013`, `MULTI-017`, `MULTI-020`. |
-| Which parts are product-ready, demo-only, or planned? | Permission-filtered seeded-corpus RAG is demo-ready. Local demo auth is demo-only. Uploaded indexing, production SSO, real connectors, and Azure deployment are planned. |
+| What known failures remain after Phase 39? | The current live `/query` scorecard has `0` failed benchmark questions. Diagnostic submetric notes and historical stress cases remain visible for review. |
+| Which parts are product-ready, demo-only, or planned? | Permission-filtered seeded-corpus RAG and local uploaded-document indexing are demo-ready. Local demo auth is demo-only. Production SSO, real connectors, hosted storage, and Azure deployment are planned. |
 
 ## Recommended Next Work
 
-1. Phase 39 should remain next unless a security issue is found later.
-2. Add explicit multi-document source planning before synthesis.
-3. Add a pre-generation ambiguity classifier that returns `clarify` before retrieval/generation when intent is underspecified.
-4. Keep permission evaluation as a hard gate for any orchestration change.
-5. Preserve honest dashboard language: run ID, sample size, benchmark version, and limitations.
+1. Expand generalization suites beyond the current benchmark and Phase 45 probe set.
+2. Add project-specific evaluation authoring for uploaded and customer-specific knowledge bases.
+3. Add hosted storage/Azure Blob and production authentication before production claims.
+4. Keep permission evaluation as a hard gate for any orchestration or retrieval-default change.
+5. Preserve honest dashboard language: run ID, sample size, benchmark version, skipped checks, and limitations.

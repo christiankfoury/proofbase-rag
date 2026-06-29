@@ -1,5 +1,7 @@
 # Future Phase Plan
 
+Status: phases through Phase 46 are complete. This file preserves the broader roadmap history and planned sequence, but `docs/roadmap/progress.md` is the current source of truth for what is complete and what remains next.
+
 ## Planning Rule
 
 These phases are documentation targets until implementation begins. Each implementation phase should add or update its own `docs/phase-{index}` folder with a checklist, design notes, verification output, and limitations.

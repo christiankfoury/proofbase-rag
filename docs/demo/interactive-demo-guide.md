@@ -18,7 +18,7 @@ Open `http://localhost:3000`.
 2. Open `/projects`, then select `Northstar Analytics`; use the first-screen project home to show scoped ask, department shortcuts, representative documents, upload/indexing status, and suggested questions.
 3. Open a seeded department and inspect document inventory, access roles, active version metadata, PDF extraction, editable Markdown review, optional AI cleanup draft, cleanup provenance, before/after diff, approval/indexing controls, and Markdown preview.
 4. Open `/chat` from a guided link, project-home suggested question, or department shortcut, ask a scoped question, and show `Why this answer?` proof with citations plus retrieved context.
-5. Open `/dev-admin/retrieval-playground` to compare algorithm profiles and known failures.
+5. Open `/dev-admin/retrieval-playground` to compare algorithm profiles and historical failure evidence.
 6. Open `/dev-admin/failed-questions` or `/dev-admin/feedback` to show human review labels without claiming automatic benchmark promotion.
 
 ## Pages To Show
@@ -34,7 +34,7 @@ Open `http://localhost:3000`.
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts with explicit pass/fail counts. |
 | Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows for Answer Generation v1 (`phase11-answer-generation-v1`) when detailed JSON exists. |
 | Failed Questions | `/dev-admin/failed-questions` | Expandable failure analysis with expected answer, actual answer, citations, fixes, and human review labels. |
-| Algorithm Quality Lab | `/dev-admin/retrieval-playground` | Named retrieval profiles, historical metrics, live source/citation coverage, known failures, and review notes. |
+| Algorithm Quality Lab | `/dev-admin/retrieval-playground` | Named retrieval profiles, historical metrics, live source/citation coverage, historical failure evidence, and review notes. |
 | Permission Demo | `/dev-admin/permission-demo` | Same restricted question across Employee, Sales Representative, Manager, and HR Admin. |
 | Multi-Doc | `/dev-admin/multi-doc` | Multi-Document Reasoning (Phase 13) before/after metrics. |
 | Observability | `/dev-admin/observability` | Live request logs, latency, confidence, and token summaries. |
@@ -92,10 +92,10 @@ Open `http://localhost:3000`.
    - Question: `If I work remotely, what approval and device security expectations apply?`
    - Expected: synthesis from HR and IT policy sources.
 
-9. Known failure
+9. Historical stress case
    - Page: `/dev-admin/failed-questions`
    - Expand `MULTI-005`.
-   - Expected: shows the known open retrieval miss honestly and lets an evaluator save answer/citation labels without changing the benchmark.
+   - Expected: shows historical failure evidence or review context honestly and lets an evaluator save answer/citation labels without changing the benchmark. The current live `/query` scorecard has `0` failed benchmark questions.
 
 ## Demo Notes
 

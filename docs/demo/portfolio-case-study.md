@@ -45,7 +45,7 @@ Before optimizing the system, I created a benchmark source corpus that now conta
 - Prompt-injection and adversarial-source questions.
 - Conflicting-source and versioned-policy questions.
 
-Each named phase, such as Retrieval Baseline (Phase 6), Lexical Rerank Candidate (Phase 33), and Answer Quality Remediation (Phase 38), improved one measurable part of the system and preserved the evaluation artifacts. This made the project easier to debug and easier to explain.
+Each named phase, such as Retrieval Baseline (Phase 6), Lexical Rerank Candidate (Phase 33), Live Query Answer Quality (Phase 39), and Generalization Remediation (Phase 46), improved one measurable part of the system and preserved the evaluation artifacts. This made the project easier to debug and easier to explain.
 
 ## Experiments Performed
 
@@ -66,17 +66,17 @@ Each named phase, such as Retrieval Baseline (Phase 6), Lexical Rerank Candidate
 
 Retrieval:
 
-- Best retrieval configuration: `vector-section`
-- All-sources retrieval hit: `0.975`
-- Precision@k: `0.650`
-- MRR: `0.980`
+- Current retrieval reference: `vector + lexical rerank`
+- All-sources retrieval hit: `0.922`
+- Precision@k: `0.778`
+- MRR: `0.965`
 
 Answer quality:
 
-- Answer accuracy: `0.975`
-- Citation accuracy: `0.969`
+- Answer accuracy: `1.000`
+- Citation accuracy: `1.000`
 - Hallucination rate: `0.000`
-- Current failed questions: `6`
+- Current failed questions: `0`
 
 Permission safety:
 
@@ -92,11 +92,11 @@ Memory:
 
 Multi-document reasoning:
 
-- Answer accuracy improved from `0.700` to `0.850`
-- Citation accuracy improved from `0.750` to `0.900`
-- Response type accuracy improved from `0.900` to `1.000`
+- Answer accuracy improved from `0.850` to `0.925`
+- Citation accuracy improved from `0.850` to `0.925`
+- Response type accuracy remained `1.000`
 - Failed questions dropped from `4` to `2`
-- Hallucination rate moved from `0.667` to `0.700`, a documented tradeoff
+- Hallucination rate improved from `0.050` to `0.000`
 
 Deployment readiness:
 
@@ -107,9 +107,9 @@ Deployment readiness:
 
 ## Tradeoffs
 
-The strongest retrieval configuration was vector-only section-based retrieval. Hybrid retrieval did not clearly outperform vector search on this benchmark, which is a useful result: evaluation prevented adding complexity without evidence.
+The strongest measured retrieval reference is vector search with lexical reranking over section-based chunks. Earlier hybrid experiments did not automatically beat vector retrieval; later reranking improved precision enough to become the current App default.
 
-Multi-document reasoning improved answer and citation accuracy, but the hallucination metric increased slightly. That tradeoff is documented rather than hidden.
+Multi-document reasoning improved answer accuracy, citation accuracy, all-required-source citation rate, and hallucination rate in the standalone artifact, but source planning is still heuristic and should keep expanding beyond the current benchmark.
 
 The project uses deterministic and heuristic scoring rather than a human judge for some answer-quality signals. That makes evaluation repeatable and affordable. Human review labels now exist for failed questions and negative feedback, but approved candidates are not automatically promoted into benchmark JSON yet.
 
@@ -129,9 +129,9 @@ The project uses deterministic and heuristic scoring rather than a human judge f
 - Deploy the Dockerized stack to Azure.
 - Add production authentication with Clerk, Auth.js, or another chosen provider.
 - Add Azure Blob Storage for raw documents and durable logs.
-- Add uploaded-document approval, indexing, and DOCX extraction.
+- Add DOCX extraction and broader uploaded-document format support.
 - Add real enterprise connectors such as SharePoint, Slack, Teams, or Google Drive.
-- Evaluate Azure AI Search or reranking for remaining retrieval misses.
+- Evaluate Azure AI Search or stronger reranking for remaining retrieval and source-coverage generalization gaps.
 - Extend cost estimation beyond chat-generation tokens to embeddings, ingestion, and cloud infrastructure.
 - Add project-scoped benchmark runs and candidate export for approved human reviews.
 

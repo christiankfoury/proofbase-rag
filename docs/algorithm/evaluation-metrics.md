@@ -103,7 +103,7 @@ Defined in `apps/api/app/evaluation/permission_metrics.py`.
 | Blocked-answer accuracy | Unauthorized restricted question returned `refuse_no_access`. |
 | Authorized retrieval accuracy | An authorized role can retrieve the restricted source. |
 
-The latest Phase 38 permission run reported zero leakage across all tracked leakage metrics.
+The latest Phase 46 permission run reported zero leakage across all tracked leakage metrics.
 
 ## Memory Metrics
 
@@ -148,8 +148,8 @@ The dashboard export adds sample size, pass/fail counts, benchmark version, run 
 | Area | Baseline | Current |
 | --- | --- | --- |
 | Retrieval | `phase32-expanded-retrieval` | `phase33-vector-lexical-rerank-top3` |
-| Answer quality | `phase32-expanded-answer-generation-v5` | `phase38-answer-quality-remediation-v8` |
-| Permission safety | `phase8-permission-safety` | `phase38-permission-evaluation` |
+| Answer quality | `phase32-expanded-answer-generation-v5` | `phase39-live-query-answer-quality-v8` |
+| Permission safety | `phase8-permission-safety` | `phase46-permission-evaluation` |
 | Memory | `phase9-memory` | `phase36-memory-evaluation` |
 
 Current metrics from existing artifacts:
@@ -159,8 +159,8 @@ Current metrics from existing artifacts:
 | Precision@k | `0.778` |
 | Expected-source recall | `0.950` |
 | MRR | `0.965` |
-| Answer accuracy | `0.975` |
-| Citation accuracy | `0.969` |
+| Answer accuracy | `1.000` |
+| Citation accuracy | `1.000` |
 | Hallucination rate | `0.000` |
 | Permission leakage | `0.000` |
 | Memory answer accuracy | `1.000` |
@@ -173,7 +173,7 @@ They support these claims:
 - the system improved on measured retrieval and answer-quality runs
 - permission leakage stayed at zero on the evaluated restricted suite
 - memory follow-ups are handled correctly on the evaluated suite
-- remaining failures are visible rather than hidden
+- current failed-question counts and diagnostic notes are visible rather than hidden
 
 ## What The Metrics Do Not Prove
 
@@ -183,7 +183,7 @@ They do not prove:
 - semantic correctness equal to a human reviewer
 - perfect hallucination prevention
 - real SSO or connector permission parity
-- uploaded-document retrieval, because uploaded indexing is not implemented yet
+- production uploaded-document storage durability, because local approval/indexing is implemented but hosted storage is still future work
 - general multi-document planning beyond the tested scenarios
 
 ## Cost Notes

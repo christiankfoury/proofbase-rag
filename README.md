@@ -232,7 +232,7 @@ Dev/Admin routes:
 - `/dev-admin/runs` evaluation run comparison.
 - `/dev-admin/evaluation/runs/phase11-answer-generation-v1` per-question benchmark explorer for Answer Generation v1 (`phase11-answer-generation-v1`).
 - `/dev-admin/failed-questions` expandable failure backlog with expected answers, actual answers, citations, fixes, and human review labels.
-- `/dev-admin/retrieval-playground` Algorithm Quality Lab with named profiles, historical metrics, live source coverage, known failures, cost/latency signals, and review notes.
+- `/dev-admin/retrieval-playground` Algorithm Quality Lab with named profiles, historical metrics, live source coverage, historical failure evidence, cost/latency signals, and review notes.
 - `/dev-admin/permission-demo` role comparison for restricted questions.
 - `/dev-admin/multi-doc` multi-document reasoning comparison.
 - `/dev-admin/observability` live latency, token, and confidence logs.
@@ -265,7 +265,7 @@ Screenshots to capture:
 - Department workspace for a seeded Northstar department with document library and Markdown preview.
 - Chat demo response with project scope, citations, confidence, latency, and retrieved context.
 - Algorithm Guide with the RAG flow graph, glossary, and safety funnel.
-- Algorithm Quality Lab with profile comparison and known failure visibility.
+- Algorithm Quality Lab with profile comparison and historical failure visibility.
 - Failed-question or feedback review with answer/citation labels.
 - Deep retrieval comparison.
 - Permission safety page.

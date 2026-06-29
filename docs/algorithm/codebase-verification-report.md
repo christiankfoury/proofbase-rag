@@ -2,6 +2,8 @@
 
 Generated: 2026-06-26
 
+Status note: this report is a historical documentation-first audit from before the Phase 39-46 remediation sequence. Several findings recorded below were later addressed, including live `/query` answer-quality failures, local uploaded-document approval/indexing, AI cleanup review metadata, and generalization-probe ambiguity behavior. For current metric claims, read `README.md`, `docs/algorithm/README.md`, and `data/evaluation/regression-scorecard.json` first.
+
 Scope: audit/reporting pass only. Runtime behavior, prompts, retrieval logic, benchmark expectations, metrics, and existing documentation were not changed. The only intended artifact is this report.
 
 ## Executive Summary

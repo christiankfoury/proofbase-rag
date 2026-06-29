@@ -1,5 +1,7 @@
 # Post-Phase 40 Product Polish Plan
 
+Status: Phases 41-46 from this plan are complete. Use `docs/roadmap/progress.md` as the current source of truth for next work; the remaining queue is the later backlog of hosted storage/Azure Blob, production auth, larger generalization suites, project-specific evaluation authoring, and exportable demo reports.
+
 ## Purpose
 
 This roadmap is the executable source of truth after the completed Phase 39/40 remediation and polish work. It focuses on the next three product-quality improvements:
