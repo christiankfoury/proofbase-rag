@@ -152,48 +152,48 @@ Source: [Lexical Rerank Candidate (Phase 33) Results](docs/phase-33/precision-ca
 
 | Metric | Value | Run | Sample |
 |---|---:|---|---:|
-| Answer accuracy | `0.975` | Answer Quality Remediation v8 (`phase38-answer-quality-remediation-v8`) | 130 |
-| Citation accuracy | `0.969` | Answer Quality Remediation v8 (`phase38-answer-quality-remediation-v8`) | 130 |
-| Hallucination rate | `0.000` | Answer Quality Remediation v8 (`phase38-answer-quality-remediation-v8`) | 130 |
-| Failed questions | `6` | Answer Quality Remediation v8 (`phase38-answer-quality-remediation-v8`) | 130 |
+| Answer accuracy | `1.000` | Live Query Answer Quality v8 (`phase39-live-query-answer-quality-v8`) | 130 |
+| Citation accuracy | `1.000` | Live Query Answer Quality v8 (`phase39-live-query-answer-quality-v8`) | 130 |
+| Hallucination rate | `0.000` | Live Query Answer Quality v8 (`phase39-live-query-answer-quality-v8`) | 130 |
+| Failed questions | `0` | Live Query Answer Quality v8 (`phase39-live-query-answer-quality-v8`) | 130 |
 
-Source: [Answer Quality Remediation (Phase 38) Evaluation Results](docs/phase-38/answer-quality-remediation-results.md)
+Source: [Phase 39 Live Query Answer-Quality Results](docs/phase-39/live-query-answer-quality-results.md)
 
 ### Permission Safety
 
 | Metric | Value | Run | Sample |
 |---|---:|---|---:|
-| Permission leakage rate | `0.000` | Permission Safety Remediation (`phase38-permission-evaluation`) | 20 |
-| Blocked-answer accuracy | `1.000` | Permission Safety Remediation (`phase38-permission-evaluation`) | 20 |
-| Unauthorized chunk exposure rate | `0.000` | Permission Safety Remediation (`phase38-permission-evaluation`) | 20 |
-| Restricted citation leakage rate | `0.000` | Permission Safety Remediation (`phase38-permission-evaluation`) | 20 |
-| Unauthorized chunks reached generation rate | `0.000` | Permission Safety Remediation (`phase38-permission-evaluation`) | 20 |
+| Permission leakage rate | `0.000` | Phase 46 Permission Evaluation (`phase46-permission-evaluation`) | 20 |
+| Blocked-answer accuracy | `1.000` | Phase 46 Permission Evaluation (`phase46-permission-evaluation`) | 20 |
+| Unauthorized chunk exposure rate | `0.000` | Phase 46 Permission Evaluation (`phase46-permission-evaluation`) | 20 |
+| Restricted citation leakage rate | `0.000` | Phase 46 Permission Evaluation (`phase46-permission-evaluation`) | 20 |
+| Unauthorized chunks reached generation rate | `0.000` | Phase 46 Permission Evaluation (`phase46-permission-evaluation`) | 20 |
 
-Source: [Answer Quality Remediation (Phase 38) Permission Evaluation Results](docs/phase-38/permission-safety-results.md)
+Source: [Phase 46 Permission Safety Results](docs/phase-46/permission-safety-results.md)
 
 ### Conversation Memory
 
 | Metric | Value | Run | Sample |
 |---|---:|---|---:|
-| Follow-up detection accuracy | `1.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
-| Query rewrite quality | `1.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
-| Memory answer accuracy | `1.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
-| Memory citation accuracy | `1.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
-| Memory response type accuracy | `1.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
-| Memory permission leakage | `0.000` | Conversation Memory Baseline (`phase9-memory`) | 5 |
+| Follow-up detection accuracy | `1.000` | Expanded Memory Evaluation (`phase36-memory-evaluation`) | 20 |
+| Query rewrite quality | `1.000` | Expanded Memory Evaluation (`phase36-memory-evaluation`) | 20 |
+| Memory answer accuracy | `1.000` | Expanded Memory Evaluation (`phase36-memory-evaluation`) | 20 |
+| Memory citation accuracy | `1.000` | Expanded Memory Evaluation (`phase36-memory-evaluation`) | 20 |
+| Memory response type accuracy | `1.000` | Expanded Memory Evaluation (`phase36-memory-evaluation`) | 20 |
+| Memory permission leakage | `0.000` | Expanded Memory Evaluation (`phase36-memory-evaluation`) | 20 |
 
-Source: [Conversation Memory Baseline (Phase 9) Evaluation Results](docs/phase-9/memory-evaluation-results.md)
+Source: [Regression Scorecard Data](data/evaluation/regression-scorecard.json)
 
 ### Multi-Document Reasoning
 
 | Metric | Baseline | Multi-doc |
 |---|---:|---:|
-| Answer accuracy | `0.700` | `0.850` |
-| Citation accuracy | `0.750` | `0.900` |
-| Response type accuracy | `0.900` | `1.000` |
-| All required sources cited | `0.600` | `0.800` |
+| Answer accuracy | `0.850` | `0.925` |
+| Citation accuracy | `0.850` | `0.925` |
+| Response type accuracy | `1.000` | `1.000` |
+| All required sources cited | `0.700` | `0.850` |
 | Failed questions | `4` | `2` |
-| Hallucination rate | `0.667` | `0.700` |
+| Hallucination rate | `0.050` | `0.000` |
 
 Source: [Multi-Doc Evaluation JSON](data/evaluation/multi-doc-eval.json)
 
@@ -224,6 +224,7 @@ App routes:
 - `/projects/[projectId]` selected project workspace home.
 - `/projects/[projectId]/departments/[departmentId]` department workspace detail with icon, access defaults, document library, PDF upload for Markdown review, optional AI cleanup draft, cleanup provenance, before/after review diff, active version metadata, extracted Markdown preview, edit, and archive controls.
 - `/chat` live project-scoped RAG demo with project and department scope selectors, signed-in demo role context, presets, citations, confidence, latency, retrieved context, and feedback.
+- `/algorithm` App-side Algorithm Guide with a plain-English RAG overview, glossary, flow graph, safety funnel, and links to proof surfaces.
 
 Dev/Admin routes:
 
@@ -252,7 +253,7 @@ Recommended interactive demo presets:
 - Restricted manager question: `What is the promotion calibration process?`
 - Memory follow-up scenario: seeded vacation question followed by `Can I carry any unused days into next year?`
 - Multi-document: `If I work remotely, what approval and device security expectations apply?`
-- Known failure: MULTI-005 sales positioning question.
+- Historical stress case: MULTI-005 sales positioning question. The current live `/query` scorecard run has `0` failed benchmark questions, but this remains useful for showing multi-source behavior.
 - Human review: label a failed question or negative feedback item with answer/citation correctness and save it as an evaluation candidate, needs-fix item, approved reference, or rejected item.
 
 The `/chat` page is a recruiter/demo UI over local demo auth. The API derives the App query role from the selected demo user instead of trusting a free-form role selector, but this is not production SSO.
@@ -263,6 +264,7 @@ Screenshots to capture:
 - Project workspace for `Northstar Analytics`.
 - Department workspace for a seeded Northstar department with document library and Markdown preview.
 - Chat demo response with project scope, citations, confidence, latency, and retrieved context.
+- Algorithm Guide with the RAG flow graph, glossary, and safety funnel.
 - Algorithm Quality Lab with profile comparison and known failure visibility.
 - Failed-question or feedback review with answer/citation labels.
 - Deep retrieval comparison.
@@ -318,7 +320,7 @@ docker compose run --rm api python scripts/ingest_markdown.py --apply-schema --c
 
 The ingestion command calls the OpenAI embeddings API, so `OPENAI_API_KEY` must be configured.
 
-The seeded corpus currently contains 19 synthetic Markdown documents. Current dashboard metrics still come from the existing evaluation artifacts; the expanded Enterprise Document Expansion (Phase 30) documents are ready for ingestion and future benchmark expansion, but they do not change measured retrieval, answer-quality, permission, or memory scores until new run artifacts are created.
+The seeded corpus currently contains 19 synthetic Markdown documents. Current dashboard metrics come from exported evaluation artifacts over benchmark v1.1 and related focused suites, including the Phase 33 retrieval reference, Phase 39 live `/query` answer-quality run, Phase 36 memory evaluation, and later permission-safety runs.
 
 ## Smoke Test
 
@@ -371,7 +373,7 @@ Open the dashboard after exporting data. Run the benchmark validator before publ
 - There are no real SharePoint, Slack, Teams, Google Drive, or HRIS connectors yet.
 - Raw document storage still uses repository files, not Azure Blob Storage.
 - Chat-generation cost is estimated from configured model pricing; embedding, hosting, and Azure infrastructure costs are not included yet.
-- The current answer-quality run still has 6 failed questions, concentrated in multi-document source coverage and citation-source completeness.
+- The current live `/query` answer-quality scorecard run has `0` failed benchmark questions, but it still reports diagnostic submetric notes for memory response-type historical comparability and one clarification source-coverage diagnostic. These are tracked separately from failed answers.
 - Multi-document detection is heuristic.
 - The `/chat` page is a demo UI backed by local demo auth, not a production end-user assistant with SSO/session hardening.
 - Project-scoped retrieval is implemented for `/chat` and `POST /query` when a scope is supplied. Dev/Admin benchmark tools can still use the global retrieval path when no scope is supplied.
@@ -392,7 +394,7 @@ Open the dashboard after exporting data. Run the benchmark validator before publ
 - Add project-scoped benchmark runs and promotion gates.
 - Add real enterprise connectors.
 - Evaluate Azure AI Search or reranking for unresolved retrieval misses.
-- Improve multi-document retrieval and source coverage.
+- Continue expanding multi-document and source-coverage generalization beyond the current benchmark.
 - Extend cost tracking to embeddings, ingestion, and cloud infrastructure estimates.
 - Build a richer admin UI for permissions, ingestion, and evaluation review.
 - Turn the demo chat into a production-grade authenticated assistant if this moves beyond portfolio scope.
@@ -411,7 +413,7 @@ Phase artifacts are preserved for review:
 - [Permission Safety Baseline (Phase 8)](docs/phase-8/permission-evaluation-results.md): permission safety.
 - [Conversation Memory Baseline (Phase 9)](docs/phase-9/memory-evaluation-results.md): conversation memory.
 - [Evaluation Dashboard (Phase 10)](docs/phase-10/evaluation-dashboard-design.md): dashboard.
-- [Prompt Experiments (Phase 11)](docs/phase-11/prompt-experiment-results.md): prompt experiments.
+- [Prompt Experiments (Phase 11)](docs/phase-11/prompt-experiment-results.md): prompt history and prompt-version experiments.
 - [Observability And Audit (Phase 12)](docs/phase-12/observability-design.md): feedback, observability, audit.
 - [Multi-Document Reasoning (Phase 13)](docs/phase-13/multi-document-reasoning-design.md): multi-document reasoning.
 - [Docker And Azure Readiness (Phase 14)](docs/phase-14/docker-local-setup.md): Docker and Azure readiness.
