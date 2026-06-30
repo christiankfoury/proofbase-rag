@@ -1,6 +1,6 @@
 # Proofbase: Permission-Aware Enterprise RAG
 
-Proofbase is a portfolio-grade enterprise RAG system that simulates a secure internal company assistant. Users work inside project and department knowledge spaces, ask scoped questions across synthetic HR, IT/security, sales, manager, finance, legal, engineering, support, operations, HR admin, and IT admin documents, and receive cited, permission-aware answers.
+**Proofbase** is a portfolio-grade enterprise RAG system that simulates a secure internal company assistant. Users work inside project and department knowledge spaces, ask scoped questions across synthetic HR, IT/security, sales, manager, finance, legal, engineering, support, operations, HR admin, and IT admin documents, and receive cited, permission-aware answers.
 
 This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, local demo auth, project workspaces, department document libraries, PDF-to-Markdown review uploads, scoped retrieval, a 130-question benchmark corpus with current benchmark v1.1 retrieval and answer-quality runs, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, human review workflows, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
 
@@ -14,7 +14,7 @@ The main portfolio story:
 
 ## Why This Is Not Just A Chatbot
 
-A basic chatbot sends user text to a model and returns prose. Proofbase treats internal answering as a product, retrieval, and evaluation problem: knowledge is organized into project and department workspaces, retrieval is filtered by role before generation, answers carry citations, citations are validated against retrieved evidence, and algorithm changes are measured before they are promoted. The App side demonstrates the user workflow; the Dev/Admin side proves quality, permissions, memory behavior, failures, feedback, observability, and auditability.
+A basic chatbot sends user text to a model and returns prose. **Proofbase** treats internal answering as a product, retrieval, and evaluation problem: knowledge is organized into project and department workspaces, retrieval is filtered by role before generation, answers carry citations, citations are validated against retrieved evidence, and algorithm changes are measured before they are promoted. The App side demonstrates the user workflow; the Dev/Admin side proves quality, permissions, memory behavior, failures, feedback, observability, and auditability.
 
 - Evaluation-first: a 130-question benchmark corpus measures retrieval, answer quality, citations, permissions, memory, missing information, multi-document reasoning, prompt-injection handling, and conflicting-source handling; current retrieval and answer-quality scorecard runs use benchmark v1.1, with separate permission and memory safety suites.
 - Product-shaped: projects, departments, document libraries, PDF extraction review, and scoped assistant controls make the demo feel like a real internal app.
@@ -443,4 +443,4 @@ Phase artifacts are preserved for review:
 
 ## Final Portfolio Description
 
-Proofbase is a full-stack enterprise RAG portfolio project that demonstrates local demo identity, secure retrieval, role-based permissions, citation-grounded answer generation, benchmark-driven iteration, operational observability, Dockerized local deployment, and Azure-ready architecture. It shows how an internal AI assistant can be evaluated and hardened beyond a simple chatbot demo.
+**Proofbase** is a full-stack enterprise RAG portfolio project that demonstrates local demo identity, secure retrieval, role-based permissions, citation-grounded answer generation, benchmark-driven iteration, operational observability, Dockerized local deployment, and Azure-ready architecture. It shows how an internal AI assistant can be evaluated and hardened beyond a simple chatbot demo.
