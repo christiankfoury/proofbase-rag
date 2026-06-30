@@ -5,26 +5,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#1f2933",
-        paper: "#f7f8f5",
+        ink: "#17212b",
+        paper: "#f5f7f2",
         moss: {
           DEFAULT: "#526c4f",
-          soft: "#eaf0e8",
-          dark: "#3f5440",
+          soft: "#e3eddf",
+          dark: "#314d35",
         },
         rust: {
           DEFAULT: "#a85732",
-          soft: "#fbece2",
-          dark: "#8a4527",
+          soft: "#f9e6da",
+          dark: "#8d3f21",
         },
         steel: {
           DEFAULT: "#486581",
-          soft: "#e9f0f6",
-          dark: "#37516a",
+          soft: "#e3eef7",
+          dark: "#2f4f69",
         },
       },
       boxShadow: {
-        card: "0 1px 2px 0 rgb(31 41 51 / 0.04), 0 1px 3px 0 rgb(31 41 51 / 0.06)",
+        card: "0 1px 2px 0 rgb(23 33 43 / 0.06), 0 1px 4px 0 rgb(23 33 43 / 0.1)",
       },
       fontSize: {
         "2xs": ["0.6875rem", { lineHeight: "1rem" }],
