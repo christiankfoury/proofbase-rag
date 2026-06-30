@@ -68,28 +68,37 @@ A basic chatbot sends user text to a model and returns prose. Enterprise Knowled
 
 ```mermaid
 flowchart LR
-  Docs[Synthetic Markdown Documents] --> Ingest[Ingestion Script]
-  Ingest --> Chunk[Section-Based Chunking]
+  User[Demo User / Reviewer] --> Web[Next.js App + Dev/Admin UI]
+  Web --> Auth[Local Demo Auth + Project Memberships]
+  Web --> API[FastAPI Backend]
+
+  Docs[Synthetic Markdown Corpus] --> Ingest[Markdown Ingestion]
+  Uploads[PDF Uploads] --> Review[Editable Markdown Review]
+  Review --> Approve[Editor Approve + Index]
+  Ingest --> Chunk[Section-Based Chunks]
+  Approve --> Chunk
   Chunk --> Embed[OpenAI Embeddings]
   Embed --> PG[(PostgreSQL + pgvector)]
 
-  Web[Next.js Dashboard] --> API[FastAPI Backend]
-  API --> Retriever[Retriever]
-  Retriever --> Permissions[Role-Based Permission Filter]
-  Permissions --> PG
-  Permissions --> Evidence[Grouped Evidence Context]
+  API --> Memory[Session Memory + Query Rewrite]
+  Memory --> Retrieve[Project / Department / Role Filtered Retrieval]
+  Auth --> Retrieve
+  Retrieve <--> PG
+  Retrieve --> Rerank[Vector + Lexical Rerank]
+  Rerank --> Evidence[Allowed Evidence Context]
   Evidence --> Generate[OpenAI Answer Generation]
-  Generate --> Citations[Citation Validation + Confidence]
-  Citations --> API
+  Generate --> Validate[Citation Validation + Confidence]
+  Validate --> Answer[Cited Answer + Proof]
+  Answer --> Web
 
-  API --> Feedback[Feedback Store]
+  API --> Feedback[Feedback + Human Review]
   API --> Audit[Audit Logs]
-  API --> Obs[Observability JSONL]
-  Eval[Evaluation Scripts] --> API
-  Eval --> Reports[Evaluation JSON + Markdown Reports]
+  API --> Obs[Observability + Cost Signals]
+  Eval[Benchmark + Safety Runners] --> Reports[Evaluation JSON + Markdown Reports]
   Reports --> Web
-  Obs --> Web
+  Feedback --> Web
   Audit --> Web
+  Obs --> Web
 ```
 
 The backend owns ingestion, retrieval, permissions, memory, answer generation, citations, confidence scoring, feedback, observability, audit logs, and evaluation APIs. The frontend is split into an App surface for projects, departments, document libraries, and scoped chat, plus a Dev/Admin surface for evaluation and operations proof.

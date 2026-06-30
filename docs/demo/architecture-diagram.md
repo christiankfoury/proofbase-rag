@@ -14,12 +14,12 @@ Include:
 - PDF-to-Markdown review uploads.
 - Section-based chunking.
 - OpenAI embeddings.
-- Vector, keyword, and hybrid retrieval experiments.
+- Vector, keyword, hybrid, and vector + lexical rerank retrieval.
 - Role-based permission filtering before generation.
 - Answer generation.
 - Citation validation and confidence scoring.
 - Session memory and query rewriting.
-- Evaluation runner and benchmark data.
+- Evaluation runner and 130-question benchmark data.
 - Feedback, human review, observability, and audit logs.
 - Docker Compose local stack.
 - Azure-ready deployment targets.
@@ -28,22 +28,29 @@ Include:
 
 ```mermaid
 flowchart LR
+  User[Reviewer / Demo User] --> Web[Next.js App + Dev/Admin UI]
+  Web --> Auth[Local Demo Auth + Project Memberships]
+  Web --> API[FastAPI Backend]
+
   Docs[Synthetic Markdown Documents] --> Loader[Markdown Loader]
+  Uploads[PDF Uploads] --> Review[Editable Markdown Review]
+  Review --> Cleanup[Optional AI Cleanup Draft]
+  Cleanup --> Approve[Editor Approve + Index]
+  Review --> Approve
   Loader --> Chunker[Section-Based Chunker]
+  Approve --> Chunker
   Chunker --> Embeddings[OpenAI Embeddings]
   Embeddings --> DB[(PostgreSQL + pgvector)]
-
-  User[Reviewer / Demo User] --> Web[Next.js App + Dev/Admin UI]
-  Web --> API[FastAPI Backend]
 
   API --> Projects[Projects + Departments]
   Projects --> DB
 
   API --> Memory[Session Memory + Query Rewrite]
-  Memory --> Retrieve[Vector / Keyword / Hybrid Retrieval]
-  Retrieve --> Perms[Role-Based Permission Filter]
-  Perms --> DB
-  Perms --> Evidence[Evidence Context]
+  Memory --> Retrieve[Project / Department / Role Filtered Retrieval]
+  Auth --> Retrieve
+  Retrieve <--> DB
+  Retrieve --> Rerank[Vector + Lexical Rerank]
+  Rerank --> Evidence[Allowed Evidence Context]
   Evidence --> Generator[OpenAI Answer Generation]
   Generator --> Validation[Citation Validation + Confidence]
   Validation --> API
@@ -53,8 +60,7 @@ flowchart LR
   API --> Audit[Audit Logs]
   API --> Logs[Observability JSONL]
 
-  Benchmark[65-Question Benchmark Corpus] --> Eval[Evaluation Scripts]
-  Eval --> Retrieve
+  Benchmark[130-Question Benchmark Corpus] --> Eval[Evaluation Scripts]
   Eval --> Reports[Evaluation Reports + JSON]
   Reports --> Web
   Reviews --> Web
@@ -69,7 +75,8 @@ flowchart LR
 
 ## Diagram Notes
 
-- Put permission filtering between retrieval and generation.
+- Put project, department, and role filtering before generation.
+- Show uploaded PDFs as reviewable and approval-gated before indexing.
 - Show evaluation scripts as first-class parts of the system.
 - Show observability and audit as operational outputs.
 - Label Azure as a readiness plan or future deployment target, not as completed deployment.
