@@ -21,7 +21,7 @@ Generated sample PDF extraction was also run with an inline Python script that:
 | Check | Result | Notes |
 |---|---|---|
 | Targeted Python compile | Passed | Project document store, ingestion package, API entrypoint, setup, and seeded ingestion scripts compile. |
-| API import | Passed | Imported FastAPI app and printed `Enterprise Knowledge Agent API`. |
+| API import | Passed | Imported FastAPI app and printed `Proofbase API`. |
 | PDF extractor import | Passed | Imported `extract_pdf_to_markdown`. |
 | Sample PDF extraction | Passed | Extracted expected text into Markdown with page count `1`, pages with text `1`, and confidence `1.0`. The hand-built test PDF emitted a parser warning about its xref pointer, but extraction succeeded. |
 | Web production build | Passed | Department PDF upload form compiled and type-checked. Build used ignored alternate dist dir because default `.next\trace` remains permission-blocked locally. |

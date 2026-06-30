@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The Phase 3 benchmark defines how the Enterprise Knowledge Agent will be evaluated against the synthetic Northstar Analytics knowledge base. It is designed to test whether the RAG system retrieves the right context, answers accurately, cites the right source sections, respects document permissions, refuses missing information, and handles follow-up questions.
+The Phase 3 benchmark defines how the Proofbase will be evaluated against the synthetic Northstar Analytics knowledge base. It is designed to test whether the RAG system retrieves the right context, answers accurately, cites the right source sections, respects document permissions, refuses missing information, and handles follow-up questions.
 
 The benchmark is intentionally created before backend implementation so quality can be measured from the first baseline RAG version.
 

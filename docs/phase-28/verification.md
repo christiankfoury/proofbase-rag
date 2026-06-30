@@ -16,7 +16,7 @@ cd apps/web; $env:NEXT_DIST_DIR='.next-codex-build'; npm run build
 |---|---|---|
 | Dashboard export | Passed | Regenerated `data/evaluation/dashboard-summary.json`, per-run JSON files, and failed-question export with transparency metadata. |
 | Python compile | Passed | `python -m compileall apps scripts` completed successfully. |
-| API import smoke | Passed | Imported `apps.api.app.main`; app title printed `Enterprise Knowledge Agent API`. |
+| API import smoke | Passed | Imported `apps.api.app.main`; app title printed `Proofbase API`. |
 | Web production build | Passed with alternate dist dir | Plain `npm run build` reached Next.js but failed on the known local `.next\trace` permission issue. Re-running with `NEXT_DIST_DIR=.next-codex-build` compiled, type-checked, generated pages, and completed successfully. |
 
 ## Notes

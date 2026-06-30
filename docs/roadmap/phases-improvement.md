@@ -1,6 +1,6 @@
 # Post-Phase 27 Improvement Roadmap
 
-This roadmap begins after Phase 27. Its goal is to make Enterprise Knowledge Agent more credible, safer, and more measurable without overstating what has been implemented.
+This roadmap begins after Phase 27. Its goal is to make Proofbase more credible, safer, and more measurable without overstating what has been implemented.
 
 The improvement story should focus on five areas:
 

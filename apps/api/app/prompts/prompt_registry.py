@@ -77,7 +77,7 @@ def _load_prompt_file(path: Path) -> PromptVersion:
         content=content,
         created_at=str(metadata["created_at"]),
         change_notes=str(metadata["change_notes"]),
-        owner=str(metadata.get("owner", "Enterprise Knowledge Agent")),
+        owner=str(metadata.get("owner", "Proofbase")),
         path=path,
     )
 

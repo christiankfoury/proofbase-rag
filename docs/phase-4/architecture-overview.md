@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Phase 4 defines the technical architecture for the Enterprise Knowledge Agent before implementation begins. The system is designed as an enterprise-grade RAG knowledge agent with measurable retrieval quality, cited answers, permissions, evaluation runs, prompt versioning, feedback, audit logs, latency/cost tracking, and recruiter-facing metrics.
+Phase 4 defines the technical architecture for the Proofbase before implementation begins. The system is designed as an enterprise-grade RAG knowledge agent with measurable retrieval quality, cited answers, permissions, evaluation runs, prompt versioning, feedback, audit logs, latency/cost tracking, and recruiter-facing metrics.
 
 This phase is documentation-only. No application code, migrations, frontend pages, backend endpoints, or scripts are implemented here.
 

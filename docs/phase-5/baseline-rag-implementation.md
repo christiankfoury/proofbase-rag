@@ -2,7 +2,7 @@
 
 ## What This Phase Implements
 
-Phase 5 creates the first working backend baseline for the Enterprise Knowledge Agent.
+Phase 5 creates the first working backend baseline for the Proofbase.
 
 Implemented capabilities:
 

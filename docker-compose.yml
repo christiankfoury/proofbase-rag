@@ -1,7 +1,7 @@
 services:
   postgres:
     image: pgvector/pgvector:pg16
-    container_name: enterprise-knowledge-agent-postgres
+    container_name: proofbase-postgres
     environment:
       POSTGRES_DB: enterprise_knowledge_agent
       POSTGRES_USER: postgres
@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: apps/api/Dockerfile
-    container_name: enterprise-knowledge-agent-api
+    container_name: proofbase-api
     depends_on:
       postgres:
         condition: service_healthy
@@ -52,7 +52,7 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
-    container_name: enterprise-knowledge-agent-web
+    container_name: proofbase-web
     depends_on:
       api:
         condition: service_healthy

@@ -2,7 +2,7 @@
 
 ## Project Summary
 
-Enterprise Knowledge Agent is a portfolio-grade enterprise RAG system. It simulates a secure internal company assistant over synthetic HR, IT/security, sales, manager, HR admin, and IT admin documents.
+Proofbase is a portfolio-grade enterprise RAG system. It simulates a secure internal company assistant over synthetic HR, IT/security, sales, manager, HR admin, and IT admin documents.
 
 The current implementation includes:
 

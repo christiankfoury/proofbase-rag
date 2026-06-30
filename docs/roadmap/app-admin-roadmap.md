@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This roadmap turns Enterprise Knowledge Agent from an evaluation-heavy RAG dashboard into a presentable application with two clear surfaces:
+This roadmap turns Proofbase from an evaluation-heavy RAG dashboard into a presentable application with two clear surfaces:
 
 - App side: the user-facing knowledge workspace where people create projects, organize departments, upload knowledge, and ask project-scoped questions.
 - Dev/Admin side: the evaluation, ingestion, permissions, observability, audit, cost, and algorithm control center.

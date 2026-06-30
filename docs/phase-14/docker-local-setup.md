@@ -2,7 +2,7 @@
 
 ## Goal
 
-Run the Enterprise Knowledge Agent locally with reproducible containers for PostgreSQL with pgvector, the FastAPI API, and the Next.js dashboard.
+Run the Proofbase locally with reproducible containers for PostgreSQL with pgvector, the FastAPI API, and the Next.js dashboard.
 
 ## Services
 

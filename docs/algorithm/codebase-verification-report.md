@@ -8,7 +8,7 @@ Scope: audit/reporting pass only. Runtime behavior, prompts, retrieval logic, be
 
 ## Executive Summary
 
-The Enterprise Knowledge Agent RAG pipeline is broadly consistent with its documented architecture: live requests establish scope and role, rewrite memory follow-ups, retrieve permission-filtered chunks, generate only from those chunks, validate citations against retrieved chunks, compute heuristic confidence, and log metadata without source text. There is no evidence of model training, fine-tuning, or `.fit()`-style ML training code; "training" references are corpus content, docs wording, or evaluation/prompt improvement language.
+The Proofbase RAG pipeline is broadly consistent with its documented architecture: live requests establish scope and role, rewrite memory follow-ups, retrieve permission-filtered chunks, generate only from those chunks, validate citations against retrieved chunks, compute heuristic confidence, and log metadata without source text. There is no evidence of model training, fine-tuning, or `.fit()`-style ML training code; "training" references are corpus content, docs wording, or evaluation/prompt improvement language.
 
 The strongest implementation property is the permission boundary. Vector and keyword retrieval apply role filtering in SQL before `RetrievedChunk` objects are built, and generation rechecks for unauthorized chunks before any OpenAI chat call. Uploaded PDFs are also correctly excluded from retrieval because they stop at `pending_review` and no chunks or embeddings are created.
 

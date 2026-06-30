@@ -77,7 +77,7 @@ def _confidence_interpretation(response_type: str) -> str:
     return "response_behavior"
 
 
-app = FastAPI(title="Enterprise Knowledge Agent API")
+app = FastAPI(title="Proofbase API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_cors_origins(),

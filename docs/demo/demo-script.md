@@ -1,4 +1,4 @@
-# Enterprise Knowledge Agent Demo Script
+# Proofbase Demo Script
 
 This five-minute demo is designed for recruiters and engineering interviewers. Lead with the App side, then move into Dev/Admin proof for quality, permissions, failures, and operations.
 

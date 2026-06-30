@@ -1,10 +1,10 @@
-# Portfolio Case Study: Enterprise Knowledge Agent
+# Portfolio Case Study: Proofbase
 
 ## Problem
 
 Enterprise knowledge assistants need to answer employee questions from internal documents without leaking restricted information or inventing unsupported policy. A basic PDF chatbot can retrieve text and generate answers, but it usually does not prove retrieval quality, citation correctness, permission safety, missing-information behavior, or regression risk.
 
-Enterprise Knowledge Agent was built to demonstrate the product and engineering work behind a realistic internal AI assistant: an App-side knowledge workspace backed by measurable Dev/Admin controls.
+Proofbase was built to demonstrate the product and engineering work behind a realistic internal AI assistant: an App-side knowledge workspace backed by measurable Dev/Admin controls.
 
 ## Why Basic RAG Is Not Enough
 
@@ -137,4 +137,4 @@ The project uses deterministic and heuristic scoring rather than a human judge f
 
 ## Short Website Summary
 
-Enterprise Knowledge Agent is a full-stack enterprise RAG system with project workspaces, department document libraries, scoped assistant retrieval, role-based permissions, citation-grounded answers, benchmark-driven evaluation, human review, observability, Docker packaging, and Azure-ready deployment planning. It demonstrates the engineering required to move beyond a basic chatbot toward a measurable internal AI assistant.
+Proofbase is a full-stack enterprise RAG system with project workspaces, department document libraries, scoped assistant retrieval, role-based permissions, citation-grounded answers, benchmark-driven evaluation, human review, observability, Docker packaging, and Azure-ready deployment planning. It demonstrates the engineering required to move beyond a basic chatbot toward a measurable internal AI assistant.

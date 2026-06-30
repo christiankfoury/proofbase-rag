@@ -14,7 +14,7 @@ docker compose config
 | Check | Result | Notes |
 |---|---|---|
 | Targeted Python compile | Passed | Document store, project store package, API entrypoint, setup, and ingestion scripts compile. |
-| API import | Passed | Imported FastAPI app and printed `Enterprise Knowledge Agent API`. |
+| API import | Passed | Imported FastAPI app and printed `Proofbase API`. |
 | Web production build | Passed | Department document library route compiled and type-checked. Build used ignored alternate dist dir because default `.next\trace` remains permission-blocked locally. |
 | Docker Compose config | Passed | Compose file parsed successfully. Local Docker config access warning did not prevent config rendering. |
 

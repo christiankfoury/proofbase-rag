@@ -2,7 +2,7 @@
 
 ## Product Overview
 
-Enterprise Knowledge Agent is a secure internal knowledge assistant for company employees. It helps users ask questions across internal documents and receive answers that are grounded in accessible source material, cited, and evaluated for quality.
+Proofbase is a secure internal knowledge assistant for company employees. It helps users ask questions across internal documents and receive answers that are grounded in accessible source material, cited, and evaluated for quality.
 
 The product simulates how a real company would deploy an internal AI assistant. Employees can ask about HR policies, IT/security rules, sales enablement content, and manager-only operating documents. The assistant retrieves relevant knowledge, filters results by role permissions, answers only when evidence is available, cites the source material, and refuses unsupported or unauthorized requests.
 
@@ -10,7 +10,7 @@ The business problem is internal knowledge fragmentation. Employees waste time s
 
 ## Recruiter-Facing Positioning
 
-Enterprise Knowledge Agent is an enterprise RAG platform that simulates a secure internal company assistant. It combines document ingestion, hybrid retrieval, role-based permissions, cited answers, citation confidence, and an evaluation dashboard to show measurable improvements across retrieval and answer quality experiments. Unlike a simple PDF chatbot, it is built around evaluation-driven development: benchmark questions are defined upfront, retrieval and answer quality are measured, permission leaks are tested, and latency/cost are tracked as part of production readiness.
+Proofbase is an enterprise RAG platform that simulates a secure internal company assistant. It combines document ingestion, hybrid retrieval, role-based permissions, cited answers, citation confidence, and an evaluation dashboard to show measurable improvements across retrieval and answer quality experiments. Unlike a simple PDF chatbot, it is built around evaluation-driven development: benchmark questions are defined upfront, retrieval and answer quality are measured, permission leaks are tested, and latency/cost are tracked as part of production readiness.
 
 ## Resume and Portfolio One-Liners
 

@@ -1,6 +1,6 @@
 # Phase 11 Prompt Versioning Implementation
 
-Phase 11 adds a simple prompt registry and prompt experiment workflow for the Enterprise Knowledge Agent.
+Phase 11 adds a simple prompt registry and prompt experiment workflow for the Proofbase.
 
 ## What Was Implemented
 

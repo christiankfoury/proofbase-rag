@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The Phase 10 dashboard presents the Enterprise Knowledge Agent as an evaluation-driven enterprise RAG system. It does not create new metrics. It displays real outputs from Phase 6 retrieval experiments, Phase 7 answer-quality evaluation, Phase 8 permission evaluation, and Phase 9 memory evaluation.
+The Phase 10 dashboard presents the Proofbase as an evaluation-driven enterprise RAG system. It does not create new metrics. It displays real outputs from Phase 6 retrieval experiments, Phase 7 answer-quality evaluation, Phase 8 permission evaluation, and Phase 9 memory evaluation.
 
 The dashboard is designed for recruiter demos. It should make the product story visible in a few minutes:
 

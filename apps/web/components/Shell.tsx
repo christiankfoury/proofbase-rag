@@ -313,7 +313,7 @@ export function Shell({ children }: { children: ReactNode }) {
         >
           <div className={`flex items-start justify-between gap-4 ${navStyles.chrome}`}>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-rust">Enterprise Knowledge Agent</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-rust">Proofbase</p>
               <h1 className="mt-1 text-2xl font-semibold md:text-3xl">Knowledge Workspace</h1>
               <p className={navStyles.description}>
                 App experience first, with Dev & Admin proof for quality, safety, and operations.

@@ -14,7 +14,7 @@ docker compose config --quiet; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; 
 | Check | Result | Notes |
 |---|---|---|
 | Targeted API compile | Passed | Audit package and API entrypoint compile after adding the review endpoint. |
-| API import | Passed | Imported FastAPI app and printed `Enterprise Knowledge Agent API`. |
+| API import | Passed | Imported FastAPI app and printed `Proofbase API`. |
 | Web production build | Passed | Algorithm Quality Lab compiled and type-checked. Build used ignored alternate dist dir because default `.next\trace` remains permission-blocked locally. |
 | Docker Compose config | Passed | Compose file parsed successfully. Local Docker config access warning did not prevent config validation. |
 

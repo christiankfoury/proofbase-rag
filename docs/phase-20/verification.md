@@ -13,7 +13,7 @@ Set-Location 'S:\github-repos\enterprise-knowledge-agent\apps\web'; $env:NEXT_DI
 | Check | Result | Notes |
 |---|---|---|
 | Targeted Python compile | Passed | Project store, API entrypoint, setup, and ingestion scripts compile. |
-| API import | Passed | Imported FastAPI app and printed `Enterprise Knowledge Agent API`. |
+| API import | Passed | Imported FastAPI app and printed `Proofbase API`. |
 | Web production build | Passed | New department routes compiled and type-checked. Build used ignored alternate dist dir because default `.next\trace` remains permission-blocked locally. |
 
 ## Skipped

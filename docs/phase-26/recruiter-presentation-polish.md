@@ -4,7 +4,7 @@
 
 Phase 26 aligns the product first impression, demo script, README, screenshots, and case study around one story:
 
-> Enterprise Knowledge Agent is an App-side project knowledge workspace with Dev/Admin evidence for quality, safety, failures, and operations.
+> Proofbase is an App-side project knowledge workspace with Dev/Admin evidence for quality, safety, failures, and operations.
 
 ## Presentation Sequence
 

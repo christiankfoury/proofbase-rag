@@ -84,4 +84,4 @@ flowchart LR
 
 ## Suggested Caption
 
-> Enterprise Knowledge Agent uses a FastAPI RAG backend, PostgreSQL/pgvector retrieval, role-based permission filtering, OpenAI generation, citation validation, and a Next.js App plus Dev/Admin UI. The system has a 130-question benchmark corpus with current benchmark v1.1 retrieval and answer-quality runs plus separate permission and memory suites, then is packaged with Docker for local demos and Azure-ready deployment planning.
+> Proofbase uses a FastAPI RAG backend, PostgreSQL/pgvector retrieval, role-based permission filtering, OpenAI generation, citation validation, and a Next.js App plus Dev/Admin UI. The system has a 130-question benchmark corpus with current benchmark v1.1 retrieval and answer-quality runs plus separate permission and memory suites, then is packaged with Docker for local demos and Azure-ready deployment planning.

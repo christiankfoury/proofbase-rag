@@ -14,7 +14,7 @@ Set-Location 'S:\github-repos\enterprise-knowledge-agent\apps\web'; $env:NEXT_DI
 | Check | Result | Notes |
 |---|---|---|
 | Python compile | Passed | Compiled `apps` and `scripts`. |
-| API import | Passed | Imported FastAPI app and printed `Enterprise Knowledge Agent API`. |
+| API import | Passed | Imported FastAPI app and printed `Proofbase API`. |
 | Docker Compose config | Passed with local Docker config warnings | Compose rendered successfully. Local Docker config access warning does not affect the application config. |
 | Web production build | Passed | Built into ignored `.next-codex-build` because the existing `.next\trace` artifact could not be read or deleted on this machine. |
 

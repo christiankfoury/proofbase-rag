@@ -4,7 +4,7 @@ Status: the documentation-first audit was completed, and later phases remediated
 
 ## Purpose
 
-This is a documentation-first pass for a new chat where the AI should inspect the Enterprise Knowledge Agent algorithm and explain whether it makes sense.
+This is a documentation-first pass for a new chat where the AI should inspect the Proofbase algorithm and explain whether it makes sense.
 
 The output should help a reader understand the system without already knowing RAG, vector search, benchmark evaluation, prompt versions, or permission-filtered retrieval.
 

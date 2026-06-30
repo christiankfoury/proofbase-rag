@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Enterprise Knowledge Agent",
+  title: "Proofbase",
   description: "App workspace and Dev & Admin proof for a permission-aware enterprise RAG assistant",
 };
 
