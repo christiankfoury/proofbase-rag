@@ -12,7 +12,9 @@ The main portfolio story:
 
 > Baseline RAG was measured, weaknesses were identified, retrieval and prompting were improved, and the final system demonstrates an App-side knowledge workspace backed by enterprise-grade controls around citations, permissions, evaluation, memory, observability, human review, and deployment readiness.
 
-## Why This Is Not A Basic Chatbot
+## Why This Is Not Just A Chatbot
+
+A basic chatbot sends user text to a model and returns prose. Enterprise Knowledge Agent treats internal answering as a product, retrieval, and evaluation problem: knowledge is organized into project and department workspaces, retrieval is filtered by role before generation, answers carry citations, citations are validated against retrieved evidence, and algorithm changes are measured before they are promoted. The App side demonstrates the user workflow; the Dev/Admin side proves quality, permissions, memory behavior, failures, feedback, observability, and auditability.
 
 - Evaluation-first: a 130-question benchmark corpus measures retrieval, answer quality, citations, permissions, memory, missing information, multi-document reasoning, prompt-injection handling, and conflicting-source handling; current retrieval and answer-quality scorecard runs use benchmark v1.1, with separate permission and memory safety suites.
 - Product-shaped: projects, departments, document libraries, PDF extraction review, and scoped assistant controls make the demo feel like a real internal app.
