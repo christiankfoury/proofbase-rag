@@ -315,6 +315,30 @@ The local demo defaults to Emma Employee. Use the header selector in the web app
 
 If port `3000` is already in use, set `WEB_PORT=3001` in `.env` and open `http://localhost:3001`.
 
+## Production AI Platform Telemetry
+
+Proofbase can be connected to the Production AI Platform local telemetry endpoint with placeholder-only settings:
+
+```powershell
+PROOFBASE_TELEMETRY_ENABLED=false
+PROOFBASE_TELEMETRY_ENDPOINT=http://localhost:8000/v1/usage/llm-events
+PROOFBASE_TELEMETRY_API_KEY=proofbase-local-placeholder-key-not-a-secret
+PROOFBASE_TELEMETRY_TIMEOUT_SECONDS=2
+PROOFBASE_TELEMETRY_MAX_METADATA_BYTES=2048
+PROOFBASE_TELEMETRY_REDACT_CONTENT=true
+```
+
+Telemetry is disabled by default. The client is best-effort: if the platform is unavailable, Proofbase user workflows must continue.
+
+To send one synthetic event after the Production AI Platform API is running and seeded:
+
+```powershell
+$env:PROOFBASE_TELEMETRY_ENABLED="true"
+python scripts/send_platform_telemetry_smoke.py
+```
+
+Telemetry payloads must not include full prompts, full user questions, retrieved chunks, citations, document text, Markdown, OpenAI keys, or platform API keys.
+
 ## Database Setup And Ingestion
 
 Apply and verify the database schema:

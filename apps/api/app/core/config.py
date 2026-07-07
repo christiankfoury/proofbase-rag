@@ -45,6 +45,13 @@ class Settings(BaseSettings):
             "proofbase_telemetry_timeout_seconds",
         ),
     )
+    proofbase_telemetry_max_metadata_bytes: int = Field(
+        default=2048,
+        validation_alias=AliasChoices(
+            "PROOFBASE_TELEMETRY_MAX_METADATA_BYTES",
+            "proofbase_telemetry_max_metadata_bytes",
+        ),
+    )
     proofbase_telemetry_redact_content: bool = Field(
         default=True,
         validation_alias=AliasChoices(
