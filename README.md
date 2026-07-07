@@ -341,6 +341,15 @@ $env:PROOFBASE_TELEMETRY_ENABLED="true"
 python scripts/send_platform_telemetry_smoke.py
 ```
 
+To validate the telemetry client without OpenAI, AWS, or a running platform API:
+
+```powershell
+python scripts/test_platform_telemetry_client.py
+python scripts/test_phase36_query_telemetry.py
+python scripts/test_phase37_auxiliary_telemetry.py
+python scripts/test_phase38_mocked_platform_receiver.py
+```
+
 Telemetry payloads must not include full prompts, full user questions, retrieved chunks, citations, document text, Markdown, OpenAI keys, or platform API keys.
 
 ## Database Setup And Ingestion

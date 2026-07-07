@@ -31,6 +31,7 @@ def submit_auxiliary_telemetry(
     external_request_id: str | None = None,
     error_category: str | None = None,
     error_message_redacted: str | None = None,
+    settings: Any | None = None,
     sender: TelemetrySender | None = None,
 ) -> bool:
     event = build_auxiliary_telemetry_event(
@@ -54,7 +55,7 @@ def submit_auxiliary_telemetry(
         error_category=error_category,
         error_message_redacted=error_message_redacted,
     )
-    return submit_platform_telemetry(event, sender=sender)
+    return submit_platform_telemetry(event, settings=settings, sender=sender)
 
 
 def build_auxiliary_telemetry_event(
