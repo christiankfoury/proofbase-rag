@@ -26,6 +26,32 @@ class Settings(BaseSettings):
     audit_log_path: str = "data/audit/audit-events.jsonl"
     upload_storage_dir: str = "data/uploads"
     default_demo_user_id: str = "00000000-0000-0000-0000-000000002701"
+    proofbase_telemetry_enabled: bool = Field(
+        default=False,
+        validation_alias=AliasChoices("PROOFBASE_TELEMETRY_ENABLED", "proofbase_telemetry_enabled"),
+    )
+    proofbase_telemetry_endpoint: str = Field(
+        default="http://localhost:8000/v1/usage/llm-events",
+        validation_alias=AliasChoices("PROOFBASE_TELEMETRY_ENDPOINT", "proofbase_telemetry_endpoint"),
+    )
+    proofbase_telemetry_api_key: str = Field(
+        default="",
+        validation_alias=AliasChoices("PROOFBASE_TELEMETRY_API_KEY", "proofbase_telemetry_api_key"),
+    )
+    proofbase_telemetry_timeout_seconds: float = Field(
+        default=2.0,
+        validation_alias=AliasChoices(
+            "PROOFBASE_TELEMETRY_TIMEOUT_SECONDS",
+            "proofbase_telemetry_timeout_seconds",
+        ),
+    )
+    proofbase_telemetry_redact_content: bool = Field(
+        default=True,
+        validation_alias=AliasChoices(
+            "PROOFBASE_TELEMETRY_REDACT_CONTENT",
+            "proofbase_telemetry_redact_content",
+        ),
+    )
     cors_allowed_origins: str = (
         "http://localhost:3000,"
         "http://127.0.0.1:3000,"
