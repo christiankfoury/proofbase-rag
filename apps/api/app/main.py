@@ -10,41 +10,62 @@ from fastapi.responses import StreamingResponse
 from psycopg import Error as PsycopgError
 from pydantic import BaseModel, Field
 
-from apps.api.app.auth.demo_auth import DEMO_USER_HEADER
-from apps.api.app.auth.demo_auth import accessible_project_ids
-from apps.api.app.auth.demo_auth import list_demo_users
-from apps.api.app.auth.demo_auth import require_admin
-from apps.api.app.auth.demo_auth import require_project_editor
-from apps.api.app.auth.demo_auth import require_project_member
-from apps.api.app.auth.demo_auth import resolve_demo_user
 from apps.api.app.audit.audit_logger import audit_summary as get_audit_summary
 from apps.api.app.audit.audit_logger import list_audit_events, log_audit_event
+from apps.api.app.auth.demo_auth import (
+    DEMO_USER_HEADER,
+    accessible_project_ids,
+    list_demo_users,
+    require_admin,
+    require_project_editor,
+    require_project_member,
+    resolve_demo_user,
+)
 from apps.api.app.core.config import get_settings
 from apps.api.app.db.session import get_connection
 from apps.api.app.feedback.feedback_store import feedback_summary as get_feedback_summary
 from apps.api.app.feedback.feedback_store import list_feedback, submit_feedback
-from apps.api.app.generation.answer_generator import generate_answer, generate_answer_stream, retrieved_chunks_payload
+from apps.api.app.generation.answer_generator import (
+    generate_answer,
+    generate_answer_stream,
+    retrieved_chunks_payload,
+)
 from apps.api.app.ingestion.pdf_extractor import extract_pdf_to_markdown
 from apps.api.app.memory.context_builder import build_memory_context, memory_context_text
 from apps.api.app.memory.query_rewriter import rewrite_followup_question
-from apps.api.app.memory.session_store import add_message, create_session, get_session, list_messages
+from apps.api.app.memory.session_store import (
+    add_message,
+    create_session,
+    get_session,
+    list_messages,
+)
 from apps.api.app.observability.logger import build_request_entry, log_request
+from apps.api.app.observability.query_telemetry import (
+    query_error_category,
+    redacted_error_message,
+    submit_query_telemetry,
+)
 from apps.api.app.observability.summary import compute_live_summary
 from apps.api.app.observability.tracing import RequestTrace
 from apps.api.app.permissions.access_control import unauthorized_chunks_reached_generation
-from apps.api.app.projects.document_store import approve_and_index_document, create_pending_review_document
-from apps.api.app.projects.document_store import get_project_document
-from apps.api.app.projects.document_store import list_project_documents
-from apps.api.app.projects.document_store import record_cleanup_metadata
-from apps.api.app.projects.document_store import record_cleanup_revert_metadata
-from apps.api.app.projects.markdown_cleanup import cleanup_uploaded_markdown
-from apps.api.app.projects.markdown_cleanup import hash_markdown
-from apps.api.app.projects.project_store import archive_project
-from apps.api.app.projects.project_store import archive_department
+from apps.api.app.projects.document_store import (
+    approve_and_index_document,
+    create_pending_review_document,
+    get_project_document,
+    list_project_documents,
+    record_cleanup_metadata,
+    record_cleanup_revert_metadata,
+)
+from apps.api.app.projects.markdown_cleanup import cleanup_uploaded_markdown, hash_markdown
+from apps.api.app.projects.project_store import (
+    archive_department,
+    archive_project,
+    get_department,
+    get_project,
+    list_projects,
+)
 from apps.api.app.projects.project_store import create_department as create_department_record
 from apps.api.app.projects.project_store import create_project as create_project_record
-from apps.api.app.projects.project_store import get_department
-from apps.api.app.projects.project_store import get_project, list_projects
 from apps.api.app.projects.project_store import update_department as update_department_record
 from apps.api.app.projects.project_store import update_project as update_project_record
 from apps.api.app.reasoning.clarification import clarification_answer, classify_clarification_need
@@ -54,7 +75,6 @@ from apps.api.app.reasoning.query_decomposer import retrieve_multi_doc
 from apps.api.app.retrieval.config import default_retrieval_config
 from apps.api.app.retrieval.retriever import retrieve_chunks
 from apps.api.app.review.review_store import create_review_decision, list_review_decisions
-
 
 ROOT = Path(__file__).resolve().parents[3]
 DASHBOARD_DATA_PATH = ROOT / "data/evaluation/dashboard-summary.json"
@@ -1530,6 +1550,9 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
         request_timestamp = datetime.now(UTC).isoformat()
         trace = RequestTrace()
         chunks = []
+        config = None
+        effective_role = request.user_role
+        multi_doc = False
         rewrite: dict = {
             "rewritten_question": request.question,
             "is_followup": False,
@@ -1539,6 +1562,22 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
         }
         answer: dict = {}
         session_id = request.session_id
+
+        def submit_failure_telemetry(exc: BaseException) -> None:
+            trace.finish()
+            submit_query_telemetry(
+                request_id=request_id,
+                request=request,
+                operation_type="rag_query_stream",
+                status="failed",
+                config=config,
+                answer=answer,
+                trace=trace,
+                chunks=chunks,
+                error_category=query_error_category(exc),
+                error_message_redacted=redacted_error_message(exc),
+            )
+
         try:
             yield _sse("status", {"status": "request_started", "message": "Preparing scoped query."})
             project_id = _validate_project_id(request.project_id) if request.project_id else None
@@ -1726,6 +1765,16 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                     error=None,
                 )
             )
+            submit_query_telemetry(
+                request_id=request_id,
+                request=request,
+                operation_type="rag_query_stream",
+                status="succeeded",
+                config=config,
+                answer=answer,
+                trace=trace,
+                chunks=chunks,
+            )
             payload = _query_response_payload(
                 request=request,
                 session_id=session_id,
@@ -1742,13 +1791,17 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
             yield _sse("metadata", payload)
             yield _sse("complete", {"status": "complete"})
         except HTTPException as exc:
+            submit_failure_telemetry(exc)
             detail = exc.detail if isinstance(exc.detail, str) else "Streaming query failed."
             yield _sse("error", {"status_code": exc.status_code, "message": detail})
         except RuntimeError as exc:
+            submit_failure_telemetry(exc)
             yield _sse("error", {"status_code": 503, "message": str(exc)})
-        except PsycopgError:
+        except PsycopgError as exc:
+            submit_failure_telemetry(exc)
             yield _sse("error", {"status_code": 503, "message": "Database is not ready or the baseline schema has not been applied."})
         except ValueError as exc:
+            submit_failure_telemetry(exc)
             yield _sse("error", {"status_code": 400, "message": str(exc)})
 
     return StreamingResponse(events(), media_type="text/event-stream")
@@ -1788,6 +1841,22 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         department_id=department_id,
         excluded_document_prefixes=excluded_document_prefixes,
     )
+
+    def submit_failure_telemetry(exc: BaseException) -> None:
+        trace.finish()
+        submit_query_telemetry(
+            request_id=request_id,
+            request=request,
+            operation_type="rag_query",
+            status="failed",
+            config=config,
+            answer=answer,
+            trace=trace,
+            chunks=chunks,
+            error_category=query_error_category(exc),
+            error_message_redacted=redacted_error_message(exc),
+        )
+
     try:
         if project_id:
             project = get_project(project_id)
@@ -1848,11 +1917,17 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
                 grouped_docs=grouped_docs,
             )
             trace.stop("generation")
+    except HTTPException as exc:
+        submit_failure_telemetry(exc)
+        raise
     except RuntimeError as exc:
+        submit_failure_telemetry(exc)
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except PsycopgError as exc:
+        submit_failure_telemetry(exc)
         raise HTTPException(status_code=503, detail="Database is not ready or the baseline schema has not been applied.") from exc
     except ValueError as exc:
+        submit_failure_telemetry(exc)
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     user_message_id = None
@@ -1931,6 +2006,16 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
             pricing_status=answer.get("pricing_status"),
             error=None,
         )
+    )
+    submit_query_telemetry(
+        request_id=request_id,
+        request=request,
+        operation_type="rag_query",
+        status="succeeded",
+        config=config,
+        answer=answer,
+        trace=trace,
+        chunks=chunks,
     )
 
     return {
