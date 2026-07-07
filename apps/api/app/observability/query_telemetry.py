@@ -8,6 +8,7 @@ from typing import Any
 from fastapi import HTTPException
 from psycopg import Error as PsycopgError
 
+from apps.api.app.observability.auxiliary_telemetry import normalize_pricing_status
 from apps.api.app.observability.platform_telemetry import TelemetrySender, submit_platform_telemetry
 
 
@@ -84,7 +85,7 @@ def build_query_telemetry_event(
             answer.get("prompt_version") or _field(request, "prompt_version") or "unknown"
         ),
         "currency": "USD",
-        "pricing_status": str(answer.get("pricing_status") or "unknown"),
+        "pricing_status": normalize_pricing_status(answer.get("pricing_status")),
         "latency_ms": _safe_int(_field(trace, "total_latency_ms")),
         "retrieval_latency_ms": _safe_int(_field(trace, "retrieval_latency_ms")),
         "generation_latency_ms": _safe_int(_field(trace, "generation_latency_ms")),

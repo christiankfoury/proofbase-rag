@@ -17,6 +17,8 @@ Configured default:
 - Chat-generation input token cost.
 - Chat-generation output token cost.
 - Total estimated chat cost per `/query` response.
+- AI Markdown cleanup chat token cost when the cleanup provider returns token usage.
+- Query decomposition chat token cost when the OpenAI fallback decomposer is used and returns token usage.
 - Total and average estimated cost in observability summaries.
 - Estimated cost in evaluation run exports when token counts are available.
 - Backfilled dashboard cost from saved token counts.
@@ -30,7 +32,7 @@ python scripts/export_dashboard_data.py
 
 ## What Is Not Included
 
-- Embedding generation cost during ingestion.
+- Embedding generation cost during ingestion or retrieval. Embedding telemetry can report provider token usage and embedding counts, but it is marked `unpriced` until embedding model prices are configured.
 - Database, Docker, hosting, or Azure infrastructure cost.
 - Cached-input discounts.
 - Batch API discounts.

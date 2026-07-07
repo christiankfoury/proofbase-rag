@@ -2,15 +2,17 @@ from __future__ import annotations
 
 import dataclasses
 import json
+import time
 
 from openai import OpenAI
 
 from apps.api.app.core.config import get_settings
+from apps.api.app.costing.estimator import estimate_chat_cost
+from apps.api.app.observability.auxiliary_telemetry import submit_auxiliary_telemetry
+from apps.api.app.reasoning.source_planner import SourcePlanItem, plan_multi_document_sources
 from apps.api.app.retrieval.config import RetrievalConfig
 from apps.api.app.retrieval.retriever import retrieve_chunks
 from apps.api.app.retrieval.types import RetrievedChunk
-from apps.api.app.reasoning.source_planner import SourcePlanItem, plan_multi_document_sources
-
 
 _DECOMPOSE_SYSTEM = (
     "You are a search query decomposer for an enterprise knowledge assistant. "
@@ -27,6 +29,7 @@ def _client() -> OpenAI:
 
 
 def decompose_question(question: str, model: str = "gpt-4.1-mini") -> list[str]:
+    started_at = time.perf_counter()
     try:
         response = _client().chat.completions.create(
             model=model,
@@ -36,11 +39,52 @@ def decompose_question(question: str, model: str = "gpt-4.1-mini") -> list[str]:
                 {"role": "user", "content": question},
             ],
         )
+        usage = response.usage
+        input_tokens = usage.prompt_tokens if usage else None
+        output_tokens = usage.completion_tokens if usage else None
+        cost = estimate_chat_cost(model=model, input_tokens=input_tokens, output_tokens=output_tokens)
         raw = response.choices[0].message.content or ""
         parsed = json.loads(raw)
         if isinstance(parsed, list) and all(isinstance(q, str) for q in parsed):
-            return [q for q in parsed if q.strip()][:3]
+            subqueries = [q for q in parsed if q.strip()][:3]
+            submit_auxiliary_telemetry(
+                operation_type="query_decomposition",
+                model=model,
+                prompt_name="query_decomposition",
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+                estimated_cost_usd=cost["estimated_cost_usd"],
+                pricing_status=cost["pricing_status"],
+                latency_ms=int((time.perf_counter() - started_at) * 1000),
+                question=question,
+            )
+            return subqueries
+        submit_auxiliary_telemetry(
+            operation_type="query_decomposition",
+            model=model,
+            status="failed",
+            prompt_name="query_decomposition",
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            estimated_cost_usd=cost["estimated_cost_usd"],
+            pricing_status=cost["pricing_status"],
+            latency_ms=int((time.perf_counter() - started_at) * 1000),
+            question=question,
+            error_category="invalid_provider_response",
+            error_message_redacted="Query decomposition returned invalid JSON",
+        )
     except Exception:
+        submit_auxiliary_telemetry(
+            operation_type="query_decomposition",
+            model=model,
+            status="failed",
+            prompt_name="query_decomposition",
+            pricing_status="unknown",
+            latency_ms=int((time.perf_counter() - started_at) * 1000),
+            question=question,
+            error_category="provider_error",
+            error_message_redacted="Query decomposition failed",
+        )
         pass
     return [question]
 

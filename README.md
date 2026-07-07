@@ -332,6 +332,8 @@ Telemetry is disabled by default. The client is best-effort: if the platform is 
 
 When enabled, `POST /query` emits one `rag_query` event after completion and `POST /query/stream` emits one `rag_query_stream` event when the stream finishes. Failed query paths emit redacted failure telemetry where safe. The payload contains operational fields such as request ID, project ID, department ID, prompt version, model, token counts, estimated cost, latency, response type, and bounded metadata.
 
+Auxiliary AI paths also emit telemetry when usage data is available. AI Markdown cleanup sends `markdown_cleanup` events with chat token counts and estimated chat cost. OpenAI query decomposition sends `query_decomposition` events when the fallback decomposer is used. Embedding provider calls send `embedding_generation` events with token/count metadata when the provider reports usage, but embedding cost is marked unpriced until a dedicated embedding pricing table is added.
+
 To send one synthetic event after the Production AI Platform API is running and seeded:
 
 ```powershell

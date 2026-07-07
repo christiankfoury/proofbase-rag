@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import time
 from datetime import UTC, datetime
 from typing import Any
 
@@ -8,7 +9,7 @@ from openai import OpenAI
 
 from apps.api.app.core.config import get_settings
 from apps.api.app.costing.estimator import estimate_chat_cost
-
+from apps.api.app.observability.auxiliary_telemetry import submit_auxiliary_telemetry
 
 FORBIDDEN_CLEANUP_PATTERNS = (
     "ignore previous instructions",
@@ -74,6 +75,7 @@ def cleanup_uploaded_markdown(
         "line breaks, and obvious OCR artifacts only.\n\n"
         f"{source_markdown}"
     )
+    started_at = time.perf_counter()
     response = _client().chat.completions.create(
         model=selected_model,
         temperature=0,
@@ -87,6 +89,7 @@ def cleanup_uploaded_markdown(
     input_tokens = usage.prompt_tokens if usage else None
     output_tokens = usage.completion_tokens if usage else None
     cost = estimate_chat_cost(model=selected_model, input_tokens=input_tokens, output_tokens=output_tokens)
+    latency_ms = int((time.perf_counter() - started_at) * 1000)
     cleanup_timestamp = datetime.now(UTC).isoformat()
     source_hash = hash_markdown(source_markdown)
     cleaned_hash = hash_markdown(cleaned_markdown)
@@ -101,6 +104,23 @@ def cleanup_uploaded_markdown(
         "output_tokens": output_tokens,
         **cost,
     }
+    submit_auxiliary_telemetry(
+        operation_type="markdown_cleanup",
+        model=selected_model,
+        prompt_name="markdown_cleanup",
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        estimated_cost_usd=cost["estimated_cost_usd"],
+        pricing_status=cost["pricing_status"],
+        latency_ms=latency_ms,
+        project_external_id=document.get("project_id"),
+        department_external_id=document.get("department_id"),
+        document_external_id=document.get("external_document_id"),
+        metadata={
+            "document_count": 1,
+            "document_external_id": document.get("external_document_id"),
+        },
+    )
     return {
         "cleaned_markdown": cleaned_markdown,
         "metadata": metadata,
