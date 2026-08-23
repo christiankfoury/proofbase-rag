@@ -30,7 +30,7 @@ Open `http://localhost:3000`.
 | Projects | `/projects` | Project CRUD, seeded Northstar workspace, scoped ask entry points, department shortcuts, representative documents, upload/indexing status, quality status, and project audit events. |
 | Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, PDF upload for Markdown review, optional AI cleanup draft, cleanup provenance, extraction/current-review diff, active version metadata, extracted Markdown preview, edit, and archive controls. |
 | Chat Demo | `/chat` | Live scoped RAG query, project and department selection, role selection, `Why this answer?` proof, citations, confidence, latency, retrieved context, and feedback. |
-| Dev/Admin Overview | `/dev-admin` | Final metrics with run IDs, timestamps, sample sizes, benchmark version, category breakdown, and evaluation-first proof. |
+| Dev/Admin Overview | `/dev-admin` | Benchmark metrics plus a separate Independent Evaluation section showing the 70-case development run, one-time 30-case frozen holdout, stability slice, hard gates, failures, cost, and limitations without blending scores. |
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts with explicit pass/fail counts. |
 | Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows for Answer Generation v1 (`phase11-answer-generation-v1`) when detailed JSON exists. |
 | Failed Questions | `/dev-admin/failed-questions` | Expandable failure analysis with expected answer, actual answer, citations, fixes, and human review labels. |
@@ -105,5 +105,6 @@ Open `http://localhost:3000`.
 - Uploaded PDFs are extracted into editable Markdown for review; an editor can optionally request AI cleanup as a review draft, inspect metadata and diff, revert to deterministic extraction, but must explicitly approve/index before chunking, embeddings, and retrieval visibility.
 - Human review labels are persisted for failed questions and negative feedback, but approved candidates are not exported into benchmark JSON automatically yet.
 - Metrics and benchmark details come from existing evaluation JSON and Markdown outputs; dashboard sample sizes are shown explicitly because retrieval/answer-quality, permission, and memory runs use different suites.
+- The Phase 47 holdout is a useful honesty scene: show that it passed all hard permission/memory gates and source recall, but passed only 14/30 strict cases and missed the behavior, completeness, citation, and heuristic-hallucination portfolio targets. Do not present benchmark `1.1`'s 130/130 regression as unseen generalization.
 - Querying requires `OPENAI_API_KEY`.
 - Retrieved context only shows chunks returned by the permission-filtered query API.

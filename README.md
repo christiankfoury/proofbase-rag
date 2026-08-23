@@ -2,7 +2,7 @@
 
 **Proofbase** is a portfolio-grade enterprise RAG system that simulates a secure internal company assistant. Users work inside project and department knowledge spaces, ask scoped questions across synthetic HR, IT/security, sales, manager, finance, legal, engineering, support, operations, HR admin, and IT admin documents, and receive cited, permission-aware answers.
 
-This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, local demo auth, project workspaces, department document libraries, PDF-to-Markdown review uploads, scoped retrieval, a 130-question benchmark corpus with current benchmark v1.1 retrieval and answer-quality runs, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, human review workflows, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
+This is intentionally more than a PDF chatbot. The project includes a synthetic enterprise dataset, local demo auth, project workspaces, department document libraries, PDF-to-Markdown review uploads, scoped retrieval, a 130-question benchmark corpus, a separately authored 30-case frozen holdout, retrieval experiments, citation validation, confidence scoring, role-based permission filtering, session memory, prompt versioning, feedback, observability, audit logs, human review workflows, evaluation dashboards, multi-document reasoning, Dockerized local setup, CI, and Azure-ready deployment documentation.
 
 ## Recruiter Summary
 
@@ -16,7 +16,7 @@ The main portfolio story:
 
 A basic chatbot sends user text to a model and returns prose. **Proofbase** treats internal answering as a product, retrieval, and evaluation problem: knowledge is organized into project and department workspaces, retrieval is filtered by role before generation, answers carry citations, citations are validated against retrieved evidence, and algorithm changes are measured before they are promoted. The App side demonstrates the user workflow; the Dev/Admin side proves quality, permissions, memory behavior, failures, feedback, observability, and auditability.
 
-- Evaluation-first: a 130-question benchmark corpus measures retrieval, answer quality, citations, permissions, memory, missing information, multi-document reasoning, prompt-injection handling, and conflicting-source handling; current retrieval and answer-quality scorecard runs use benchmark v1.1, with separate permission and memory safety suites.
+- Evaluation-first: benchmark v1.1 measures 130 known regression questions, while Phase 47 reports a separately authored and frozen 30-case holdout without blending it into the benchmark scorecard; focused permission and memory safety suites remain separate.
 - Product-shaped: projects, departments, document libraries, PDF extraction review, and scoped assistant controls make the demo feel like a real internal app.
 - Permission-aware: restricted documents are filtered before generation, and permission leakage is evaluated separately.
 - Citation-focused: generated answers include citations and citation validation.
@@ -114,7 +114,7 @@ More detail:
 
 ## Evaluation Benchmark
 
-The benchmark corpus contains 130 synthetic enterprise questions. Current retrieval and answer-quality scorecard runs use benchmark v1.1 over the full 130-question corpus, while permission safety and memory use separate focused suites.
+The benchmark corpus contains 130 synthetic enterprise questions. Current retrieval and answer-quality scorecard runs use benchmark v1.1 over the full corpus, while permission safety, memory, and Phase 47 independent-generalization evidence use separate focused suites. The Phase 47 holdout was authored and reviewed after runtime commit `50e149c` was frozen, hashed before execution, and run once from evaluation commit `58ed3fc`.
 
 The corpus covers:
 
@@ -169,6 +169,26 @@ Source: [Lexical Rerank Candidate (Phase 33) Results](docs/phase-33/precision-ca
 | Failed questions | `0` | Live Query Answer Quality v8 (`phase39-live-query-answer-quality-v8`) | 130 |
 
 Source: [Phase 39 Live Query Answer-Quality Results](docs/phase-39/live-query-answer-quality-results.md)
+
+### Independent Generalization And Frozen Holdout
+
+These scores are not merged into benchmark `1.1`. The deterministic pass rule is intentionally strict, and the hallucination signal is heuristic; human adjudication is published separately.
+
+| Metric | Development | Frozen holdout |
+|---|---:|---:|
+| Sample size | 70 | 30 |
+| Automated passes | 64 | 14 |
+| Behavior accuracy | `0.986` | `0.767` |
+| Expected-source recall | `1.000` | `0.947` |
+| Required-fact completeness | `0.881` | `0.788` |
+| Citation document accuracy | `0.979` | `0.842` |
+| Heuristic hallucination rate | `0.000` | `0.333` |
+| Permission / unauthorized-generation / memory-evidence hard gates | Pass | Pass |
+| Estimated OpenAI cost | `$0.053961` | `$0.032695` |
+
+The one-time holdout cleared only the predeclared source-recall portfolio gate. It missed behavior, fact-completeness, citation, and heuristic-hallucination gates, while preserving zero unauthorized exposure, zero restricted citation leakage, zero unauthorized chunks reaching generation, and zero memory-as-evidence violations. This supports a bounded claim about the evaluated synthetic suite, not general production reliability.
+
+Sources: [Phase 47 Holdout Results](docs/phase-47/holdout-results.md), [Human Adjudication](docs/phase-47/human-adjudication.md), and [Coverage Matrix](docs/phase-47/coverage-matrix.md)
 
 ### Permission Safety
 
@@ -422,6 +442,7 @@ Open the dashboard after exporting data. Run the benchmark validator before publ
 - Raw document storage still uses repository files, not Azure Blob Storage.
 - Chat-generation cost is estimated from configured model pricing; embedding, hosting, and Azure infrastructure costs are not included yet.
 - The current live `/query` answer-quality scorecard run has `0` failed benchmark questions, but it still reports diagnostic submetric notes for memory response-type historical comparability and one clarification source-coverage diagnostic. These are tracked separately from failed answers.
+- The separately authored Phase 47 holdout passed 14 of 30 strict automated cases. It preserved every hard safety gate but missed behavior, fact-completeness, citation, and heuristic-hallucination targets; the historical 130-question perfect regression result must not be read as unseen generalization proof.
 - Multi-document detection is heuristic.
 - The `/chat` page is a demo UI backed by local demo auth, not a production end-user assistant with SSO/session hardening.
 - Project-scoped retrieval is implemented for `/chat` and `POST /query` when a scope is supplied. Dev/Admin benchmark tools can still use the global retrieval path when no scope is supplied.
@@ -442,7 +463,7 @@ Open the dashboard after exporting data. Run the benchmark validator before publ
 - Add project-scoped benchmark runs and promotion gates.
 - Add real enterprise connectors.
 - Evaluate Azure AI Search or reranking for unresolved retrieval misses.
-- Continue expanding multi-document and source-coverage generalization beyond the current benchmark.
+- Address the frozen-holdout ambiguity, memory, multi-document, and restricted-response gaps only in a later remediation phase with a new sealed holdout.
 - Extend cost tracking to embeddings, ingestion, and cloud infrastructure estimates.
 - Build a richer admin UI for permissions, ingestion, and evaluation review.
 - Turn the demo chat into a production-grade authenticated assistant if this moves beyond portfolio scope.

@@ -20,13 +20,13 @@ Goal: produce independently authored, frozen generalization evidence without tun
 - [x] Validate source truth and review metadata with an isolated reviewer.
 - [x] Freeze the approved holdout SHA-256 without protected runtime or corpus changes.
 - [x] Commit the holdout and hash as evaluation-only commit `d1ec135ebcc32bfca8f767d15fa857b15d0f5234`.
-- [ ] Run the complete holdout exactly once from a clean evaluation commit.
-- [ ] Human-review every automated failure and at least 10% of automated passes.
+- [x] Run the complete holdout exactly once from clean evaluation commit `58ed3fc68966b1fd93afc7105afcbf618bbd4aa5`.
+- [x] Human-review every automated failure and at least 10% of automated passes.
 
 ## Reporting And Handoff
 
-- [ ] Export development and holdout evidence separately to the dashboard.
-- [ ] Publish holdout results, adjudication, verification, bounded README/demo claims, and algorithm-review updates.
+- [x] Export development and holdout evidence separately to the dashboard.
+- [x] Publish holdout results, adjudication, verification, bounded README/demo claims, and algorithm-review updates.
 - [ ] Complete commit review, code review, push, and final clean-status confirmation while excluding the request log.
 
 ## Non-Goals

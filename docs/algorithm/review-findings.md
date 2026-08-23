@@ -180,6 +180,27 @@ Recommended verification:
 - Keep dashboard and README copy tied to run IDs, sample sizes, and benchmark version.
 - Keep "synthetic benchmark" and "heuristic evaluator" limitations visible.
 
+### F9. The frozen holdout exposes behavior and coverage gaps hidden by the regression benchmark
+
+Severity: medium to high for broader portfolio claims; hard safety gates remained intact.
+
+Evidence:
+
+- Phase 47 froze runtime commit `50e149c` before isolated holdout authoring and ran the hashed 30-case suite once from `58ed3fc`.
+- The holdout produced behavior accuracy `0.767`, expected-source recall `0.947`, required-fact completeness `0.788`, citation document accuracy `0.842`, and heuristic hallucination rate `0.333`.
+- Unauthorized exposure, restricted citation leakage, unauthorized chunks reaching generation, and memory-as-evidence violations remained `0.000`.
+- Failures cluster around strict ambiguity behavior, four-source synthesis, longer memory/topic returns, and `refuse_no_access` versus safe `not_found` classification.
+
+Risk:
+
+The perfect 130-question regression score reflects a known, implementation-influencing benchmark and cannot support a general unseen-query claim. The raw Phase 47 hallucination signal also overstates factual hallucination in some negation and token-overlap cases, so it must remain labeled heuristic and paired with human review.
+
+Recommended verification:
+
+- Treat the one-time holdout as immutable evidence and do not remediate against it in Phase 47.
+- In a later phase, address the confirmed behavior/retrieval gaps and evaluate with a newly authored sealed holdout.
+- Improve negation-aware and semantic adjudication as a separate metric while preserving the original deterministic score for comparability.
+
 ## Answers To The Audit Questions
 
 | Question | Answer |
@@ -200,7 +221,7 @@ Recommended verification:
 
 ## Recommended Next Work
 
-1. Expand generalization suites beyond the current benchmark and Phase 45 probe set.
+1. Use the Phase 47 findings to define later ambiguity, long-memory, and multi-document remediation, then measure against a new sealed holdout rather than rerunning this one.
 2. Add project-specific evaluation authoring for uploaded and customer-specific knowledge bases.
 3. Add hosted storage/Azure Blob and production authentication before production claims.
 4. Keep permission evaluation as a hard gate for any orchestration or retrieval-default change.

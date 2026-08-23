@@ -53,6 +53,8 @@ Each question usually includes:
 | `scripts/run_multi_doc_eval.py` | Compare baseline and multi-doc mode on multi-document questions. |
 | `scripts/export_dashboard_data.py` | Combine result artifacts into dashboard summary JSON and scorecard data. |
 | `scripts/validate_benchmark.py` | Validate benchmark schema and source references. |
+| `scripts/validate_independent_generalization_suite.py` | Validate locked Phase 47 distributions, source/quote truth, permission pairs, roles, behaviors, scopes, and holdout review metadata. |
+| `scripts/run_independent_generalization_eval.py` | Run the 70-case development split or one complete sealed 30-case holdout with approval, budget, hash, clean-tree, and frozen-runtime gates. |
 
 Later phase-specific runners wrap these same ideas with fixed run IDs, prompt versions, retrieval modes, budgets, and output paths.
 
@@ -132,6 +134,23 @@ Defined in `apps/api/app/evaluation/multi_doc_metrics.py`.
 
 Multi-doc metrics are especially important because many remaining failures involve missing a secondary source or citing only part of the answer.
 
+## Phase 47 Independent Evaluation
+
+Phase 47 is separate from benchmark `1.1` and the Phase 45/46 probes. Runtime commit `50e149c` was frozen before isolated holdout authoring. The approved holdout was hashed as `10d93cfb...b1afb4f` and run once from evaluation commit `58ed3fc`.
+
+| Metric | Development (n=70) | Holdout (n=30) | Holdout target |
+| --- | ---: | ---: | ---: |
+| Behavior accuracy | `0.986` | `0.767` | `>=0.900` |
+| Expected-source recall | `1.000` | `0.947` | `>=0.900` |
+| Required-fact completeness | `0.881` | `0.788` | `>=0.850` |
+| Citation document accuracy | `0.979` | `0.842` | `>=0.900` |
+| Heuristic hallucination rate | `0.000` | `0.333` | `<=0.050` |
+| Unauthorized chunk exposure | `0.000` | `0.000` | `0.000` hard gate |
+| Unauthorized chunks reached generation | `0.000` | `0.000` | `0.000` hard gate |
+| Memory-as-evidence violations | `0.000` | `0.000` | `0.000` hard gate |
+
+The holdout passed source recall and all hard gates but missed the other portfolio gates. Its 14/30 strict automated pass count is evidence of gaps in ambiguity handling, multi-document coverage, longer memory, and restricted-response classification. Human adjudication also identifies deterministic token-overlap false positives; it does not rewrite the frozen automated artifact.
+
 ## Dashboard Export
 
 `scripts/export_dashboard_data.py` reads phase reports and JSON artifacts, then writes:
@@ -174,6 +193,7 @@ They support these claims:
 - permission leakage stayed at zero on the evaluated restricted suite
 - memory follow-ups are handled correctly on the evaluated suite
 - current failed-question counts and diagnostic notes are visible rather than hidden
+- a separately authored frozen holdout preserved the measured hard permission and memory-evidence boundaries while exposing generalization gaps
 
 ## What The Metrics Do Not Prove
 
@@ -185,6 +205,7 @@ They do not prove:
 - real SSO or connector permission parity
 - production uploaded-document storage durability, because local approval/indexing is implemented but hosted storage is still future work
 - general multi-document planning beyond the tested scenarios
+- generalization beyond the one synthetic 30-case holdout, or that human adjudication converts the original automated score
 
 ## Cost Notes
 
