@@ -1,6 +1,6 @@
 # Post-Phase 40 Product Polish Plan
 
-Status: Phases 41-46 from this plan are complete. Use `docs/roadmap/progress.md` as the current source of truth for next work; the remaining queue is the later backlog of hosted storage/Azure Blob, production auth, larger generalization suites, project-specific evaluation authoring, and exportable demo reports.
+Status: Phases 41-46 from this plan are complete. The larger-generalization-suite backlog item has been promoted to Phase 47 in `docs/roadmap/phase-47-independent-generalization-holdout-plan.md`. Use `docs/roadmap/progress.md` as the current source of truth for next work.
 
 ## Purpose
 
@@ -430,7 +430,7 @@ These are not part of the first post-Phase-40 polish sequence unless a later roa
 
 - Azure Blob or hosted storage for uploaded source files.
 - Production SSO and hosted auth.
-- Larger non-benchmark generalization suite.
+- Larger non-benchmark generalization suite: promoted to planned Phase 47 Independent Generalization And Holdout Evaluation.
 - Project-specific evaluation authoring.
 - Exportable demo reports for recruiter walkthroughs.
 - Multi-tenant deployment hardening.

@@ -1,6 +1,6 @@
 # Future Phase Plan
 
-Status: phases through Phase 46 are complete. This file preserves the broader roadmap history and planned sequence, but `docs/roadmap/progress.md` is the current source of truth for what is complete and what remains next.
+Status: phases through Phase 46 are complete. Phase 47 Independent Generalization And Holdout Evaluation is planned. This file preserves the broader roadmap history and planned sequence, but `docs/roadmap/progress.md` is the current source of truth for what is complete and what remains next.
 
 ## Planning Rule
 
@@ -383,6 +383,53 @@ Implementation rule:
 - Preserve zero permission leakage and keep memory as query context only, never source evidence.
 - Keep benchmark expectations, prompts, retrieval ranking, and metrics unchanged unless a defect is proven and documented.
 - Each phase must use the full loop: plan, implement, verify, commit, review commit, perform code review, push `main`, then continue.
+
+## Phase 47: Independent Generalization And Holdout Evaluation
+
+Goal: measure whether the current Proofbase implementation generalizes beyond the benchmark and probes that influenced development.
+
+User-facing outcome:
+
+- Portfolio reviewers can distinguish historical regression scores from separately authored development and frozen-holdout results.
+- Dev/Admin shows run provenance, category failures, permission gates, cost, and limitations without presenting a synthetic suite as universal proof.
+- The App remains the unchanged product surface under evaluation.
+
+Scope:
+
+- Preserve benchmark `1.1` and the Phase 45/46 probes unchanged.
+- Add 100 cases: 70 development/generalization and 30 frozen holdout.
+- Externalize the suite into versioned JSON with a dedicated schema and validator.
+- Cover paraphrases, multi-document completeness, longer memory conversations, ambiguity boundaries, permission/scope pairs, missing information, adversarial prompts, version conflicts, uploads, and project isolation.
+- Freeze runtime and suite provenance before the one-time holdout run.
+- Add claim-level diagnostics, stability reporting, human adjudication, and separate Dev/Admin evidence.
+- Preserve permission leakage, unauthorized chunks reaching generation, and memory-as-evidence violations as hard zero-tolerance gates.
+
+Out of scope:
+
+- Tuning against the frozen holdout.
+- Changing benchmark `1.1` expectations or blending its metrics with Phase 47.
+- Expanding the corpus solely to increase question count.
+- Production auth, hosted storage, or connectors.
+
+Verification:
+
+- Validate the existing benchmark and the new Phase 47 schema, counts, source references, paired permissions, and review metadata.
+- Dry-run both splits without OpenAI.
+- Run the development split with explicit external-AI approval and budget control.
+- Rerun benchmark and permission regressions against the frozen runtime.
+- Run a three-pass 20-case development stability slice.
+- Run the complete 30-case holdout once from a clean evaluation commit after verifying protected runtime paths still match the frozen runtime commit and suite hash.
+- Manually adjudicate every automated holdout failure and at least 10% of passes.
+- Build the web app and verify separate Dev/Admin reporting.
+
+Planning source:
+
+- `docs/roadmap/phase-47-independent-generalization-holdout-plan.md`
+
+Implementation rule:
+
+- A valid, reproducible, honestly reported holdout result completes the evaluation even if quality targets are missed.
+- Quality misses narrow portfolio claims and create a later remediation backlog; they do not authorize expectation changes, selective reruns, or holdout-specific fixes in Phase 47.
 
 ## Cross-Cutting Algorithm Explanation Audit
 
