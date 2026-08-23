@@ -413,9 +413,9 @@ def _run_fixture_cases(client: TestClient, cases: list[dict[str, Any]]) -> list[
                         project_id=target_project_id,
                         department_id=target_department_id,
                         title=str(item.get("title") or "Uploaded evaluation fixture"),
-                        content=str(item.get("content_markdown") or "").encode("utf-8"),
-                        filename=f"independent-holdout-{uuid.uuid4().hex[:8]}.md",
-                        content_type="text/markdown",
+                        content=_pdf_bytes(" ".join(str(item.get("content_markdown") or "").split())),
+                        filename=f"independent-holdout-{uuid.uuid4().hex[:8]}.pdf",
+                        content_type="application/pdf",
                         access_roles=[str(role) for role in item.get("access_roles") or ["Employee"]],
                         restricted=bool(item.get("restricted")),
                     )
