@@ -272,15 +272,44 @@ def _pdf_bytes(text: str) -> bytes:
     return bytes(output)
 
 
-def _upload(client: TestClient, *, project_id: str, department_id: str, marker: str) -> dict[str, Any]:
+def _upload_content(
+    client: TestClient,
+    *,
+    project_id: str,
+    department_id: str,
+    title: str,
+    content: bytes,
+    filename: str,
+    content_type: str,
+    access_roles: list[str],
+    restricted: bool,
+) -> dict[str, Any]:
     response = client.post(
         f"/projects/{project_id}/departments/{department_id}/documents/upload",
         headers={DEMO_USER_HEADER: ADMIN_USER_ID},
-        data={"title": f"Phase 47 Fixture {marker}", "access_roles": "Employee, Manager, IT Admin", "restricted": "false"},
-        files={"file": (f"phase47-{marker.lower()}.pdf", _pdf_bytes(f"Phase 47 fixture policy. Vendor review code: {marker}."), "application/pdf")},
+        data={
+            "title": title,
+            "access_roles": ", ".join(access_roles),
+            "restricted": str(restricted).lower(),
+        },
+        files={"file": (filename, content, content_type)},
     )
     response.raise_for_status()
     return response.json()["document"]
+
+
+def _upload(client: TestClient, *, project_id: str, department_id: str, marker: str) -> dict[str, Any]:
+    return _upload_content(
+        client,
+        project_id=project_id,
+        department_id=department_id,
+        title=f"Phase 47 Fixture {marker}",
+        content=_pdf_bytes(f"Phase 47 fixture policy. Vendor review code: {marker}."),
+        filename=f"phase47-{marker.lower()}.pdf",
+        content_type="application/pdf",
+        access_roles=["Employee", "Manager", "IT Admin"],
+        restricted=False,
+    )
 
 
 def _approve(client: TestClient, *, project_id: str, department_id: str, document_id: str) -> dict[str, Any]:
@@ -332,7 +361,100 @@ def _run_fixture_cases(client: TestClient, cases: list[dict[str, Any]]) -> list[
     people_id = "00000000-0000-0000-0000-000000002001"
     try:
         for case in cases:
-            scenario = str((case.get("fixture_requirements") or {}).get("scenario") or "")
+            requirements = case.get("fixture_requirements") or {}
+            scenario = str(requirements.get("scenario") or "")
+            fixture_documents = requirements.get("documents") or []
+            if fixture_documents:
+                query_project_id = str(requirements.get("query_project_id") or case.get("project_id") or "")
+                query_department_id = str(requirements.get("query_department_id") or case.get("department_id") or "")
+                query_document = next(
+                    (
+                        item
+                        for item in fixture_documents
+                        if str(item.get("project_id") or "") == query_project_id
+                        and str(item.get("department_id") or "") == query_department_id
+                    ),
+                    None,
+                )
+                if not query_document:
+                    raise ValueError(f"Fixture {case['case_id']} has no document in its query project and department.")
+
+                dynamic_document_id: str | None = None
+                for index, item in enumerate(fixture_documents):
+                    target_project_id = query_project_id
+                    target_department_id = query_department_id
+                    if item is not query_document:
+                        create_project = client.post(
+                            "/projects",
+                            headers={DEMO_USER_HEADER: ADMIN_USER_ID},
+                            json={
+                                "name": f"Independent Holdout Isolation {uuid.uuid4().hex[:8]}",
+                                "description": "Disposable same-title cross-project evaluation fixture",
+                            },
+                        )
+                        create_project.raise_for_status()
+                        target_project_id = str(create_project.json()["project"]["id"])
+                        project_ids.append(target_project_id)
+                        create_department = client.post(
+                            f"/projects/{target_project_id}/departments",
+                            headers={DEMO_USER_HEADER: ADMIN_USER_ID},
+                            json={
+                                "name": f"Isolated Knowledge {index + 1}",
+                                "icon": "lock",
+                                "color": "rust",
+                                "default_access_roles": item.get("access_roles") or ["Employee"],
+                            },
+                        )
+                        create_department.raise_for_status()
+                        target_department_id = str(create_department.json()["department"]["id"])
+
+                    uploaded = _upload_content(
+                        client,
+                        project_id=target_project_id,
+                        department_id=target_department_id,
+                        title=str(item.get("title") or "Uploaded evaluation fixture"),
+                        content=str(item.get("content_markdown") or "").encode("utf-8"),
+                        filename=f"independent-holdout-{uuid.uuid4().hex[:8]}.md",
+                        content_type="text/markdown",
+                        access_roles=[str(role) for role in item.get("access_roles") or ["Employee"]],
+                        restricted=bool(item.get("restricted")),
+                    )
+                    document_ids.append(str(uploaded["id"]))
+                    source_paths.append(str(uploaded["source_path"]))
+                    approved = _approve(
+                        client,
+                        project_id=target_project_id,
+                        department_id=target_department_id,
+                        document_id=str(uploaded["id"]),
+                    )
+                    if item is query_document:
+                        dynamic_document_id = str(approved["external_document_id"])
+
+                started = time.perf_counter()
+                response = client.post(
+                    "/query",
+                    headers={DEMO_USER_HEADER: case["user_id"]},
+                    json={
+                        "question": case["question"],
+                        "project_id": query_project_id,
+                        "department_id": query_department_id,
+                        "retrieval_mode": DEFAULT_RETRIEVAL_MODE,
+                        "top_k": DEFAULT_TOP_K,
+                        "rerank_candidate_limit": DEFAULT_RERANK_CANDIDATE_LIMIT,
+                        "prompt_version": DEFAULT_PROMPT_VERSION,
+                    },
+                )
+                response.raise_for_status()
+                rows.append(
+                    _fixture_case_from_payload(
+                        case,
+                        response.json(),
+                        latency_ms=(time.perf_counter() - started) * 1000,
+                        dynamic_document_id=dynamic_document_id,
+                    )
+                )
+                continue
+
             if scenario in {"pending_review_not_indexed", "approved_document_retrievable", "strict_department_scope"}:
                 if northstar_document is None:
                     northstar_document = _upload(client, project_id=PROJECT_ID, department_id=operations_id, marker="P47-REVIEW-ALPHA")
