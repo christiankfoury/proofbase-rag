@@ -86,3 +86,4 @@ The retained development (`$0.053961`), stability (`$0.051048`), benchmark regre
 - Passed: `cd apps/web; $env:NEXT_TELEMETRY_DISABLED='1'; npm run build`
 - Passed: `git diff --check`
 - Passed: no protected runtime or corpus change between frozen runtime `50e149c` and the holdout evaluation commits.
+- Passed: evidence/reporting commit `281a5b9` scope review, code/document review, and push to `origin/main`.

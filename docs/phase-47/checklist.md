@@ -27,7 +27,7 @@ Goal: produce independently authored, frozen generalization evidence without tun
 
 - [x] Export development and holdout evidence separately to the dashboard.
 - [x] Publish holdout results, adjudication, verification, bounded README/demo claims, and algorithm-review updates.
-- [ ] Complete commit review, code review, push, and final clean-status confirmation while excluding the request log.
+- [x] Complete commit review, code review, push, and final clean-status confirmation while excluding the request log.
 
 ## Non-Goals
 
