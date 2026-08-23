@@ -18,4 +18,4 @@
 - [x] Execute every case exactly once within the approved budget. Cases 1-29 ran in the sealed process; the untouched fixture ran once in bounded recovery after the harness interruption.
 - [x] Adjudicate every failure and a fixed pass sample, with indeterminate labels where answer payloads were not retained.
 - [x] Publish the observed `19/30` result and unavailable aggregate metrics without altering the Phase 47 evidence.
-- [ ] Commit, review, push, and close the progress tracker.
+- [x] Commit, review, and push evidence (`600cc69`), then close the progress tracker without an improvement claim.
