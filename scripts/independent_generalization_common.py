@@ -374,7 +374,9 @@ def git_output(*args: str) -> str:
         text=True,
         encoding="utf-8",
     )
-    return completed.stdout.strip()
+    # Porcelain status uses leading columns for index/worktree state. Preserve
+    # the first line's leading space so dirty_paths() does not truncate a path.
+    return completed.stdout.rstrip()
 
 
 def git_commit() -> str:

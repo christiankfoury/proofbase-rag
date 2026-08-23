@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from scripts.independent_generalization_common import load_suite, validate_suite_payload
+from scripts.independent_generalization_common import IGNORED_DIRTY_PATHS, dirty_paths, load_suite, validate_suite_payload
 from scripts.run_independent_generalization_eval import _score_response
 
 
@@ -91,6 +91,11 @@ def test_exposure_uses_chunk_access_roles_not_narrow_expected_document_list() ->
     assert restricted["restricted_citation_leakage"] == 1.0
 
 
+def test_dirty_path_parser_preserves_and_ignores_request_log() -> None:
+    assert "data/observability/request-logs.jsonl" in IGNORED_DIRTY_PATHS
+    assert "ata/observability/request-logs.jsonl" not in dirty_paths()
+
+
 def main() -> None:
     test_valid_development_suite()
     test_duplicate_id_is_rejected()
@@ -98,6 +103,7 @@ def main() -> None:
     test_permission_pair_parity_is_required()
     test_explicit_restricted_source_expectation_can_replace_a_pair()
     test_exposure_uses_chunk_access_roles_not_narrow_expected_document_list()
+    test_dirty_path_parser_preserves_and_ignores_request_log()
     print("Phase 47 independent generalization validator tests passed.")
 
 

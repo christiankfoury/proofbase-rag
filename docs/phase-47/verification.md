@@ -47,3 +47,5 @@ The approved key was reused without printing or persisting it. Platform telemetr
 - Holdout SHA-256: `10d93cfb229813499721a973ceadabd9045c47b2e5eee29e4dca0ee01b1afb4f`.
 - Passed: no changes under `apps/api/app` or `data/synthetic-documents` relative to the frozen runtime commit.
 - Pending: clean evaluation-only commit, one-time live holdout execution, human adjudication, dashboard export, and final verification.
+
+The first live command attempt stopped in local preflight before creating the API test client or sending any OpenAI request. `git_output().strip()` removed the status column's leading space and made the ignored request-log path appear as `ata/observability/request-logs.jsonl`. The evaluation-only parser was changed to preserve leading porcelain columns, and a regression check now exercises the exact ignored-path condition. Because no case ran and no usable or partial result was produced, the one-time holdout execution remains unused.

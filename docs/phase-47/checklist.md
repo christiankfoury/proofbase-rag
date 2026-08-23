@@ -19,7 +19,7 @@ Goal: produce independently authored, frozen generalization evidence without tun
 - [x] Author the 30-case holdout only after the runtime freeze.
 - [x] Validate source truth and review metadata with an isolated reviewer.
 - [x] Freeze the approved holdout SHA-256 without protected runtime or corpus changes.
-- [ ] Commit the holdout and hash as an evaluation-only commit.
+- [x] Commit the holdout and hash as evaluation-only commit `d1ec135ebcc32bfca8f767d15fa857b15d0f5234`.
 - [ ] Run the complete holdout exactly once from a clean evaluation commit.
 - [ ] Human-review every automated failure and at least 10% of automated passes.
 
