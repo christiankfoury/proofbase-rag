@@ -4,6 +4,8 @@
 
 Phase 47 keeps three evidence sets distinct: benchmark `1.1`, the Phase 45/46 probes, and the new independent-generalization suite. The new suite has a 70-case development split and a 30-case holdout. Runtime and corpus paths are frozen before holdout authoring; the holdout commit may change only evaluation data, evaluation tooling, reporting, and documentation.
 
+The runtime was frozen and pushed at `50e149c771d02a4d4b3942de904e8d396a8818dc`. A separate agent then authored the holdout from corpus truth without inspecting Phase 47 live results; another isolated agent reviewed and corrected dataset-only defects. The approved holdout hash is `10d93cfb229813499721a973ceadabd9045c47b2e5eee29e4dca0ee01b1afb4f`.
+
 The holdout preflight compares the checked-out evaluation commit to the recorded runtime freeze for changes under `apps/api/app` and `data/synthetic-documents`. It also requires a clean tree, except for the intentionally excluded `data/observability/request-logs.jsonl`, validates the complete holdout, and verifies `holdout-v1.sha256` before any request is sent.
 
 ## Artifacts

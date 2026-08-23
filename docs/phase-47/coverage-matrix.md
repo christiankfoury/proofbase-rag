@@ -15,7 +15,7 @@
 | Uploaded-document and project isolation | 4 | 1 | 5 |
 | **Total** | **70** | **30** | **100** |
 
-Holdout cells remain pending until independently authored and validated after the runtime freeze.
+The holdout was independently authored after runtime commit `50e149c` and independently reviewed before hashing. Its SHA-256 is `10d93cfb229813499721a973ceadabd9045c47b2e5eee29e4dca0ee01b1afb4f`.
 
 ## Development Coverage
 
@@ -30,3 +30,19 @@ Holdout cells remain pending until independently authored and validated after th
 | Stability slice | 20 cases: five multi-document, five memory, five permission, three adversarial, two uploaded/project-isolation |
 
 The role distribution is intentionally not uniform because document access is role-dependent. Coverage checks ensure all five roles and all required behaviors appear without inventing permissions that do not exist.
+
+## Holdout Coverage
+
+| Dimension | Counts |
+| --- | --- |
+| Roles | Employee 11; Sales Representative 6; Manager 6; HR Admin 4; IT Admin 3 |
+| Difficulty | Easy 2; medium 10; hard 18 |
+| Expected behavior | Answer 19; clarify 4; not found 3; refuse no access 4 |
+| Scope | Global 4; project 6; strict department 20 |
+| Expected source count | Zero 4; one 20; two 2; three 2; four 2 |
+| Conversation depth | Zero turns 25; two 1; four 2; six 1; eight 1 |
+| Permission coverage | Two exact-intent authorized/blocked pairs plus one explicit restricted-source expectation |
+| Static corpus | All 19 synthetic document IDs represented |
+| Fixture-backed | One cross-project membership boundary case |
+
+The holdout is intentionally hard-skewed and contains only two easy cases. It has one fixture-backed project-isolation case, so it does not establish broad uploaded-document or production multi-tenant reliability.

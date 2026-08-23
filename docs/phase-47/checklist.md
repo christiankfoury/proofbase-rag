@@ -12,13 +12,14 @@ Goal: produce independently authored, frozen generalization evidence without tun
 - [x] Run the three-pass, 20-case stability slice.
 - [x] Run the 130-question answer-quality and focused permission regressions.
 - [x] Add separate Dev/Admin independent-evaluation reporting.
-- [ ] Commit and record the frozen runtime configuration.
+- [x] Commit and record the frozen runtime configuration as `50e149c771d02a4d4b3942de904e8d396a8818dc`.
 
 ## Independent Holdout
 
-- [ ] Author the 30-case holdout only after the runtime freeze.
-- [ ] Validate source truth and review metadata with an isolated reviewer.
-- [ ] Freeze and commit the approved holdout SHA-256 without protected runtime or corpus changes.
+- [x] Author the 30-case holdout only after the runtime freeze.
+- [x] Validate source truth and review metadata with an isolated reviewer.
+- [x] Freeze the approved holdout SHA-256 without protected runtime or corpus changes.
+- [ ] Commit the holdout and hash as an evaluation-only commit.
 - [ ] Run the complete holdout exactly once from a clean evaluation commit.
 - [ ] Human-review every automated failure and at least 10% of automated passes.
 

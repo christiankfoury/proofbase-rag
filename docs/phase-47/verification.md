@@ -34,3 +34,16 @@ Status: development and runtime-freeze verification in progress. Holdout verific
 ## External-Call Notes
 
 The approved key was reused without printing or persisting it. Platform telemetry was disabled for the evaluation commands because the optional local telemetry receiver was unavailable. OpenAI answer and embedding calls remained enabled. The `/query` payload exposes estimated cost but not token counts, so Phase 47 artifacts record token totals as unavailable/zero rather than inventing them.
+
+## Runtime Freeze And Holdout Authoring
+
+- Frozen runtime commit: `50e149c771d02a4d4b3942de904e8d396a8818dc`, reviewed and pushed to `origin/main` before holdout authoring.
+- The author changed only `holdout-v1.json`, did not call OpenAI, and did not inspect Phase 47 result artifacts.
+- An isolated reviewer corrected dataset/source-truth defects only, then approved all 30 cases as `isolated-phase47-holdout-reviewer` at `2026-08-23T18:45:21Z`.
+- Passed: `python scripts/validate_independent_generalization_suite.py --split holdout`
+- Passed: `python scripts/validate_independent_generalization_suite.py --split holdout --json`
+- Passed: `python scripts/run_independent_generalization_eval.py --split holdout --dry-run`
+- Passed: `python scripts/freeze_phase47_holdout.py`
+- Holdout SHA-256: `10d93cfb229813499721a973ceadabd9045c47b2e5eee29e4dca0ee01b1afb4f`.
+- Passed: no changes under `apps/api/app` or `data/synthetic-documents` relative to the frozen runtime commit.
+- Pending: clean evaluation-only commit, one-time live holdout execution, human adjudication, dashboard export, and final verification.
