@@ -25,3 +25,5 @@ Even if the untouched fixture passes, the best possible case result is `20/30`. 
 - Execute only the untouched fixture case once and preserve its detailed result separately.
 - Never rerun cases 1-29 or change the Phase 47 historical evidence.
 - Publish the interrupted run and incomplete-metric limitation honestly, then queue future improvement behind another newly authored holdout.
+
+The bounded recovery later executed only `P48-H2-UP-001`. It answered Wednesday and retrieved/cited only the current-project upload, but machine-failed because lexical required-fact completeness scored `0.667`. Human review classified that row as evaluator-only. The combined terminal observation is therefore `19/30` machine passes at `$0.023159`, not a valid atomic metric run and not an improvement claim.

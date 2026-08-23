@@ -47,3 +47,13 @@ Passed:
 - Original Phase 47 holdout/result/report diff: empty.
 
 Runtime/evaluator freeze commit `7bbb8b4af9e5f43e069347f69f2599b652d1a2c8` was reviewed with `git show --stat`, `git show --name-only`, and `git show --check`, then pushed to `origin/main` before fresh-holdout authoring began.
+
+## Fresh holdout outcome
+
+- Sealed holdout commit: `d134ce3`; SHA-256 `394cb6a2accd6c244c86925403ac3b9b320fc504f472254e8830bfc045e3f866`.
+- The complete process executed cases 1-29 once, observed `19` passes and `10` failures, then stopped before its atomic row write because the legacy fixture runner did not support the suite's generic fixture declaration.
+- Evaluator-only recovery commits `2067479` and `f4c1ef6` added general fixture support without changing runtime, corpus, prompt, scorer, or sealed suite. Only the untouched fixture case was then executed once; it machine-failed on lexical completeness despite a correct, isolated, cited answer.
+- Final terminal observation: `19/30` machine passes; estimated answer cost `$0.023159`.
+- Aggregate behavior, recall, completeness, citation, hallucination, permission, and memory metrics are unavailable because cases 1-29 lost their detailed in-memory rows before the atomic write.
+- Human review: 1 evaluator-only, 6 product, 0 mixed, and 4 indeterminate failures; four fixed passes reviewed with the same retained-evidence limitation.
+- No holdout case was rerun, no target was weakened, and no improvement claim is made.
