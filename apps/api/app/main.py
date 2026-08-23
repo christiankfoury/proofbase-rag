@@ -1539,6 +1539,7 @@ def _maybe_clarify_before_retrieval(
         project_id=project_id,
         department_id=department_id,
         has_memory=bool(rewrite.get("memory_used")),
+        rewritten_question=rewrite.get("rewritten_question"),
     )
     if not decision:
         return None

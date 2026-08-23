@@ -160,15 +160,20 @@ def _quote_entries(case: dict[str, Any]) -> Iterable[tuple[str, str, str]]:
             yield str(item.get("document_id") or ""), str(item.get("section") or ""), str(item.get("quote") or "")
 
 
-def validate_suite_payload(payload: dict[str, Any], *, expected_split: str) -> dict[str, Any]:
+def validate_suite_payload(
+    payload: dict[str, Any],
+    *,
+    expected_split: str,
+    expected_suite_version: str = SUITE_VERSION,
+) -> dict[str, Any]:
     errors: list[str] = []
     warnings: list[str] = []
     cases = payload.get("cases")
     if not isinstance(cases, list):
         cases = []
         errors.append("cases must be a list")
-    if payload.get("suite_version") != SUITE_VERSION:
-        errors.append(f"suite_version must be {SUITE_VERSION}")
+    if payload.get("suite_version") != expected_suite_version:
+        errors.append(f"suite_version must be {expected_suite_version}")
     if payload.get("split") != expected_split:
         errors.append(f"split must be {expected_split}")
 
@@ -228,8 +233,8 @@ def validate_suite_payload(payload: dict[str, Any], *, expected_split: str) -> d
         missing = sorted(field for field in required_fields if field not in case)
         if missing:
             errors.append(f"{case_id}: missing fields {', '.join(missing)}")
-        if case.get("suite_version") != SUITE_VERSION:
-            errors.append(f"{case_id}: suite_version must be {SUITE_VERSION}")
+        if case.get("suite_version") != expected_suite_version:
+            errors.append(f"{case_id}: suite_version must be {expected_suite_version}")
         if case.get("split") != expected_split:
             errors.append(f"{case_id}: split must be {expected_split}")
         if case.get("category") not in CATEGORIES:

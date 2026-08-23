@@ -31,13 +31,33 @@ def plan_multi_document_sources(question: str) -> list[SourcePlanItem]:
         add("competitive_objection_handling", "price objections objection handling competitive battlecard", "SALES-003")
     if "discovery" in normalized or ("sales representative" in normalized and "objection" in normalized):
         add("sales_discovery", "sales discovery questions workflow volume approval bottlenecks data quality", "SALES-001")
+    if any(term in normalized for term in ["technical validation", "technical review", "solution validation"]):
+        add("sales_technical_validation", "sales technical validation implementation constraints security requirements", "SALES-002")
+    if any(term in normalized for term in ["roadmap", "contract commitment", "customer commitment", "promise functionality", "legal approval"]):
+        add("legal_customer_commitments", "customer contract commitments roadmap functionality Legal approval escalation", "LEGAL-001")
 
     if "benefits" in normalized and any(term in normalized for term in ["help", "support", "contact"]):
         add("people_ops_support", "People Operations benefits support contact help", "HR-001")
+    if any(term in normalized for term in ["pto question", "vacation question", "hr question", "who should i contact", "who do i contact"]):
+        add("employee_support_channel", "general HR questions People Operations employee support channels contact", "HR-001")
+    if any(term in normalized for term in ["new hire", "new-hire", "onboarding", "first week"]):
+        add("employee_onboarding", "new employee onboarding first week People Operations equipment orientation", "HR-001")
+    if any(term in normalized for term in ["team planning", "manager planning", "quarterly planning", "goal setting"]):
+        add("manager_planning", "manager planning expectations goals decisions risk escalation", "MGR-001")
+    if any(term in normalized for term in ["promotion", "performance review", "calibration", "career review"]):
+        add("performance_and_promotion", "performance review promotion calibration documentation process", "MGR-002")
+    if any(term in normalized for term in ["vacation", "pto", "time off", "leave balance"]):
+        add("vacation_and_leave", "vacation entitlement carryover requests leave policy", "HR-002")
+        if any(term in normalized for term in ["entitlement", "how many", "basic vacation", "vacation days"]):
+            add("vacation_entitlement", "full-time employees 20 paid vacation days per calendar year vacation entitlement", "HR-002")
     if any(term in normalized for term in ["learning budget", "tuition", "course", "learning and development"]):
         add("learning_budget", "learning budget tuition course reimbursement policy", "HR-004")
     if any(term in normalized for term in ["remote", "hybrid", "cross-border", "another country", "outside canada", "outside the us"]):
         add("remote_work", "remote hybrid cross-border work policy approval", "HR-003")
+        if any(term in normalized for term in ["security", "network", "computer", "screen", "device", "data"]):
+            add("remote_device_security", "remote device secure networks public computers screen protection BYOD", "IT-002")
+        if any(term in normalized for term in ["data", "customer", "confidential", "restricted", "storage"]):
+            add("remote_data_handling", "remote work data classification storage restricted customer data", "IT-003")
     if any(term in normalized for term in ["device", "byod", "personal laptop", "laptop", "mdm", "safeguard", "safeguards"]):
         add("device_security", "device BYOD security personal laptop MDM requirements", "IT-002")
     if any(term in normalized for term in ["performance concern", "performance concerns", "performance issue", "ongoing performance"]):
@@ -64,6 +84,12 @@ def plan_multi_document_sources(question: str) -> list[SourcePlanItem]:
         add("finance_procurement", "software subscription trial USD 500 annualized IT review manager approval expense categories", "FIN-001")
     if any(term in normalized for term in ["vendor", "vendor purchase", "vendor start", "onboarding"]):
         add("vendor_operations", "overlap with other policies stricter approval path vendor operations legal IT admin review", "OPS-001")
+    if "vendor" in normalized and any(term in normalized for term in ["cost", "spend", "amount", "usd", "cad", "purchase"]):
+        add("vendor_procurement_threshold", "vendor procurement spend thresholds Finance Legal department leader approval", "FIN-001")
+    if "vendor" in normalized and any(term in normalized for term in ["contract", "signature", "signing", "sign"]):
+        add("vendor_contract_approval", "vendor agreement contract signature Legal Finance department leader signature authority", "LEGAL-001")
+    if "vendor" in normalized and any(term in normalized for term in ["company data", "customer data", "credentials", "building access", "high risk", "security review"]):
+        add("vendor_risk_review", "vendor onboarding high risk company customer data Operations Legal IT Admin required reviews", "OPS-001")
 
     if any(term in normalized for term in ["exception", "waiver"]) and any(term in normalized for term in ["cross-border", "remote", "international"]):
         add("hr_exception", "HR remote work exception escalation People Operations Legal", "HR-ADMIN-001")

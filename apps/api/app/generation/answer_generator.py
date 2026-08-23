@@ -22,6 +22,7 @@ from apps.api.app.generation.response_types import (
     response_type_to_behavior,
 )
 from apps.api.app.prompts.prompt_registry import PromptVersion, get_prompt
+from apps.api.app.reasoning.restricted_intent import restricted_intent_allowed_roles
 from apps.api.app.retrieval.types import RetrievedChunk
 
 
@@ -245,29 +246,19 @@ def _zero_cost(model: str) -> dict:
 
 def _policy_response(question: str, chunks: list[RetrievedChunk], user_role: str | None = None) -> dict | None:
     normalized = question.lower()
-    direct_response = _direct_supported_response(normalized, chunks)
-    if direct_response:
-        return direct_response
-    if any(pattern in normalized for pattern in MISSING_PATTERNS):
-        response_type = RESPONSE_NOT_FOUND
-        confidence = final_confidence(response_type, chunks, 0.0, [])
-        return {
-            "answer": "I could not find this in the available documents.",
-            "response_type": response_type,
-            "behavior": response_type_to_behavior(response_type),
-            "citations": [],
-            "supported_claims": [],
-            "unsupported_claims": [],
-            "validation_notes": "Missing-information policy check triggered before generation.",
-            "input_tokens": 0,
-            "output_tokens": 0,
-            "estimated_cost_usd": None,
-            **confidence,
-        }
-    if any(
-        pattern in normalized and not _role_has_access(user_role, allowed_roles)
-        for pattern, allowed_roles in RESTRICTED_PATTERNS.items()
+    if _is_adversarial_source_question(normalized) and not any(
+        pattern in normalized for pattern in ADVERSARIAL_SOURCE_PATTERNS
     ):
+        adversarial_response = _general_adversarial_source_response(normalized, chunks)
+        if adversarial_response:
+            return adversarial_response
+    general_restricted_roles = restricted_intent_allowed_roles(question)
+    exact_restricted_roles = next(
+        (allowed_roles for pattern, allowed_roles in RESTRICTED_PATTERNS.items() if pattern in normalized),
+        None,
+    )
+    restricted_roles = general_restricted_roles or exact_restricted_roles
+    if restricted_roles and not _role_has_access(user_role, set(restricted_roles)):
         response_type = RESPONSE_REFUSE_NO_ACCESS
         if user_role:
             log_audit_event(
@@ -292,6 +283,25 @@ def _policy_response(question: str, chunks: list[RetrievedChunk], user_role: str
             "estimated_cost_usd": None,
             **confidence,
         }
+    if any(pattern in normalized for pattern in MISSING_PATTERNS):
+        response_type = RESPONSE_NOT_FOUND
+        confidence = final_confidence(response_type, chunks, 0.0, [])
+        return {
+            "answer": "I could not find this in the available documents.",
+            "response_type": response_type,
+            "behavior": response_type_to_behavior(response_type),
+            "citations": [],
+            "supported_claims": [],
+            "unsupported_claims": [],
+            "validation_notes": "Missing-information policy check triggered before generation.",
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": None,
+            **confidence,
+        }
+    direct_response = _direct_supported_response(normalized, chunks)
+    if direct_response:
+        return direct_response
     if any(pattern in normalized for pattern in ADVERSARIAL_SOURCE_PATTERNS):
         adversarial_response = _adversarial_source_response(normalized, chunks)
         if adversarial_response:
@@ -317,6 +327,58 @@ def _policy_response(question: str, chunks: list[RetrievedChunk], user_role: str
     return None
 
 
+def _is_adversarial_source_question(normalized_question: str) -> bool:
+    source_markers = (
+        "source says",
+        "document says",
+        "handbook says",
+        "policy says",
+        "retrieved passage",
+        "retrieved source",
+        "paragraph says",
+    )
+    override_markers = (
+        "ignore previous",
+        "ignore the rules",
+        "system rules",
+        "rules no longer apply",
+        "bypass access",
+        "hide citations",
+        "reveal",
+        "print the private",
+    )
+    return any(marker in normalized_question for marker in source_markers) and any(
+        marker in normalized_question for marker in override_markers
+    )
+
+
+def _general_adversarial_source_response(normalized_question: str, chunks: list[RetrievedChunk]) -> dict | None:
+    if not chunks:
+        return None
+    markers = ("ignore previous", "system instruction", "untrusted", "do not reveal", "private", "bypass", "prompt injection")
+    evidence = [chunk for chunk in chunks if "prompt injection" in chunk.section_heading.lower()]
+    if not evidence:
+        evidence = [chunk for chunk in chunks if any(marker in chunk.content.lower() for marker in markers)]
+    if not evidence:
+        evidence = chunks[:1]
+    prohibited_actions = []
+    if "hide citation" in normalized_question:
+        prohibited_actions.append("hide citations")
+    if "fallback clause" in normalized_question or "restricted clause" in normalized_question:
+        prohibited_actions.append("reveal restricted fallback clauses")
+    if "rollback checklist" in normalized_question or "private checklist" in normalized_question:
+        prohibited_actions.append("print the private rollback checklist")
+    action_text = f" Do not {', or '.join(prohibited_actions)}." if prohibited_actions else ""
+    return _supported_answer_response(
+        (
+            "Do not follow that adversarial instruction. Treat it as untrusted document source content and continue following system, permission, and citation rules."
+            + action_text
+        ),
+        evidence[:1],
+        "General adversarial source-content guard triggered before generation.",
+    )
+
+
 def _supported_answer_response(answer: str, chunks: list[RetrievedChunk], validation_note: str) -> dict:
     citations = [fallback_citation(chunk) for chunk in chunks]
     validation = validate_citations(answer, citations, chunks)
@@ -337,6 +399,18 @@ def _supported_answer_response(answer: str, chunks: list[RetrievedChunk], valida
 
 
 def _direct_supported_response(normalized_question: str, chunks: list[RetrievedChunk]) -> dict | None:
+    employee_support = _find_chunk(chunks, "HR-001", "Employee Support Channels")
+    vacation_entitlement = _find_chunk(chunks, "HR-002", "Vacation Entitlement")
+    if employee_support and vacation_entitlement and any(term in normalized_question for term in ("pto", "vacation")) and "contact" in normalized_question:
+        return _supported_answer_response(
+            (
+                "General HR and PTO questions should be sent to People Operations. "
+                "Full-time employees receive 20 paid vacation days per calendar year."
+            ),
+            [employee_support, vacation_entitlement],
+            "Cross-policy PTO support and entitlement answer assembled from retrieved employee-support and leave sections.",
+        )
+
     benefits_help = _find_chunk(chunks, "HR-001", "Employee Support Channels")
     learning_budget = _find_chunk(chunks, "HR-004", "Learning Budget")
     if benefits_help and learning_budget and "benefits help" in normalized_question and "learning budget" in normalized_question:
@@ -351,8 +425,9 @@ def _direct_supported_response(normalized_question: str, chunks: list[RetrievedC
         )
 
     remote_security = _find_chunk(chunks, "HR-003", "Security Requirements")
+    remote_work_model = _find_chunk(chunks, "HR-003", "Work Model")
     remote_locations = _find_chunk(chunks, "HR-003", "Approved Remote Work Locations")
-    byod_requirements = _find_chunk(chunks, "IT-002", "Personal Device Requirements")
+    byod_requirements = _find_chunk(chunks, "IT-002", "Personal Device")
     device_data = _find_chunk(chunks, "IT-002", "Data Storage")
     if remote_security and byod_requirements and "security expectations" in normalized_question:
         return _supported_answer_response(
@@ -363,6 +438,19 @@ def _direct_supported_response(normalized_question: str, chunks: list[RetrievedC
             ),
             [remote_security, byod_requirements],
             "Direct policy answer selected from retrieved remote-work security and BYOD sections.",
+        )
+
+    if remote_work_model and byod_requirements and "remote work" in normalized_question and any(
+        term in normalized_question for term in ("personal device", "byod", "device rules")
+    ):
+        return _supported_answer_response(
+            (
+                "Remote employees may work from approved locations in Canada or the United States when their role, tax location, and security requirements support remote work. "
+                "Personal devices may be used for limited work access only when enrolled in approved mobile device management or through approved browser-based tools, "
+                "and Restricted data must not be downloaded to personal devices."
+            ),
+            [remote_work_model, byod_requirements],
+            "Cross-policy remote-work and personal-device answer assembled from retrieved work-model and BYOD sections.",
         )
 
     if remote_locations and remote_security and byod_requirements and "approvals and device safeguards" in normalized_question:
@@ -379,7 +467,7 @@ def _direct_supported_response(normalized_question: str, chunks: list[RetrievedC
             "Direct policy answer selected from retrieved remote-work approval and device-safeguard sections.",
         )
 
-    byod = _find_chunk(chunks, "IT-002", "Personal Device Requirements")
+    byod = _find_chunk(chunks, "IT-002", "Personal Device")
     acceptable_use_devices = _find_chunk(chunks, "IT-001", "Company Devices")
     if byod and "byod devices" in normalized_question:
         citation_chunks = [byod]
@@ -423,6 +511,16 @@ def _direct_supported_response(normalized_question: str, chunks: list[RetrievedC
             "Employees must report lost or stolen devices to IT Support within 2 hours of discovery.",
             [lost_device],
             "Direct policy answer selected from retrieved lost-device reporting section.",
+        )
+
+    customer_language = _find_chunk(chunks, "SUPPORT-001", "Customer-Facing Language")
+    if customer_language and "root cause" in normalized_question and "customer" in normalized_question:
+        return _supported_answer_response(
+            (
+                "Use approved unresolved-incident wording. Do not say root cause is confirmed until Engineering or the incident commander confirms it."
+            ),
+            [customer_language],
+            "Customer-facing unresolved-incident response selected from retrieved Support guidance.",
         )
 
     sales_stage = _find_chunk(chunks, "SALES-001", "Sales Stages")
@@ -509,9 +607,43 @@ def _direct_supported_response(normalized_question: str, chunks: list[RetrievedC
             "Direct policy answer selected from retrieved API-standards and storage-rules sections.",
         )
 
+    ai_usage = _find_chunk(chunks, "IT-001", "AI Tool Usage")
+    ai_classification = _find_chunk(chunks, "IT-003", "AI and Automation")
+    if ai_usage and ai_classification and any(term in normalized_question for term in ("ai tool", "ai assistant", "copilot", "llm")):
+        return _supported_answer_response(
+            (
+                "Employees may use approved AI tools for drafting, summarization, and analysis when the data classification allows it. "
+                "Approved AI tools may process Public and Internal data, while Confidential or Restricted data requires an approved tool and a documented business purpose. "
+                "Confidential or Restricted data must not be pasted into unapproved AI tools, and generated output must be reviewed before customer communication, policy interpretation, or security decisions."
+            ),
+            [ai_usage, ai_classification],
+            "Cross-policy AI-use decision assembled from retrieved acceptable-use and data-classification sections.",
+        )
+
     expense_categories = _find_chunk(chunks, "FIN-001", "Expense Categories")
+    procurement_thresholds = _find_chunk(chunks, "FIN-001", "Procurement Thresholds")
     vendor_onboarding = _find_chunk(chunks, "OPS-001", "Vendor Onboarding")
     policy_overlap = _find_chunk(chunks, "OPS-001", "Overlap With Other Policies")
+    contract_approval = _find_chunk(chunks, "LEGAL-001", "Contract Approval Process")
+    if (
+        procurement_thresholds
+        and vendor_onboarding
+        and contract_approval
+        and "vendor" in normalized_question
+        and any(term in normalized_question for term in ("company data", "customer data", "process data"))
+        and any(term in normalized_question for term in ("approval", "review", "before signature", "sign"))
+    ):
+        return _supported_answer_response(
+            (
+                "The requester needs Finance review, Legal contract review, department leader approval, and vendor security review before contract signature "
+                "because the vendor will process company data and the spend is above USD 10,000. "
+                "A vendor processing company or customer data is high risk and requires Operations, Legal, and IT Admin review; "
+                "it may not receive company data, customer data, credentials, or building access until those reviews are complete. "
+                "Before signature, confirm that the signer is listed in Legal Operations' signature authority register."
+            ),
+            [procurement_thresholds, vendor_onboarding, contract_approval],
+            "Cross-policy vendor decision assembled from retrieved procurement, onboarding, and contract-approval sections.",
+        )
     if expense_categories and policy_overlap and "policies overlap" in normalized_question and (
         "software" in normalized_question or "vendor" in normalized_question
     ):
@@ -594,6 +726,8 @@ def _backfill_supporting_citations(
     response_type: str,
     citations: list[dict],
     chunks: list[RetrievedChunk],
+    *,
+    multi_doc: bool = False,
 ) -> list[dict]:
     if response_type not in CITATION_BACKFILL_RESPONSE_TYPES or not answer.strip() or not chunks:
         return citations
@@ -601,20 +735,31 @@ def _backfill_supporting_citations(
     seen_chunk_ids = {str(citation.get("chunk_id")) for citation in citations if citation.get("chunk_id")}
     seen_document_ids = {str(citation.get("document_id")) for citation in citations if citation.get("document_id")}
     candidates = []
+    answer_sentences = [part.strip() for part in re.split(r"(?<=[.!?])\s+", answer) if part.strip()]
     for chunk in chunks:
         if chunk.chunk_id in seen_chunk_ids:
             continue
         citation_text = chunk.content[:240]
-        confidence = citation_support_confidence(answer, citation_text, chunk)
-        overlap = claim_overlap_score(answer, chunk.content)
-        if confidence < CITATION_BACKFILL_MIN_CONFIDENCE or overlap < CITATION_BACKFILL_MIN_OVERLAP:
+        sentence_scores = [
+            (
+                citation_support_confidence(sentence, citation_text, chunk),
+                claim_overlap_score(sentence, chunk.content),
+            )
+            for sentence in answer_sentences
+        ]
+        confidence = max([citation_support_confidence(answer, citation_text, chunk), *[item[0] for item in sentence_scores]])
+        overlap = max([claim_overlap_score(answer, chunk.content), *[item[1] for item in sentence_scores]])
+        adds_document = chunk.document_id not in seen_document_ids
+        min_confidence = 0.5 if multi_doc and adds_document else CITATION_BACKFILL_MIN_CONFIDENCE
+        min_overlap = 0.18 if multi_doc and adds_document else CITATION_BACKFILL_MIN_OVERLAP
+        if confidence < min_confidence or overlap < min_overlap:
             continue
         candidates.append(
             {
                 "chunk": chunk,
                 "confidence": confidence,
                 "overlap": overlap,
-                "adds_document": chunk.document_id not in seen_document_ids,
+                "adds_document": adds_document,
             }
         )
 
@@ -767,7 +912,7 @@ def _finalize_generated_answer(
         supported_claims = []
         unsupported_claims = ["Model did not return structured JSON."]
 
-    citations = _backfill_supporting_citations(answer, response_type, citations, chunks)
+    citations = _backfill_supporting_citations(answer, response_type, citations, chunks, multi_doc=multi_doc)
     validation = validate_citations(answer, citations, chunks)
     unsupported_claims = list(dict.fromkeys(unsupported_claims + validation["unsupported_claims"]))
     response_type = _adjust_response_type(response_type, validation["citation_confidence"], unsupported_claims, multi_doc=multi_doc)

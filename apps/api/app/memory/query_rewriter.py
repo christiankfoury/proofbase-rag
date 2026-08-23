@@ -1,4 +1,4 @@
-from apps.api.app.memory.context_builder import extract_previous_topic
+from apps.api.app.memory.context_builder import extract_referenced_topic
 from apps.api.app.memory.followup_detector import is_followup_question
 
 
@@ -14,7 +14,7 @@ def rewrite_followup_question(question: str, previous_turns: list[dict] | None =
             "rewrite_strategy": "none",
         }
 
-    topic = extract_previous_topic(turns)
+    topic = extract_referenced_topic(question, turns)
     normalized_question = question.lower().strip()
     normalized_topic = topic.lower()
     rewritten = question

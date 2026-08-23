@@ -71,6 +71,16 @@ _DOMAIN_PAIRS: list[tuple[frozenset[str], frozenset[str]]] = [
         frozenset({"software purchase", "software or vendor", "software subscription", "procurement"}),
         frozenset({"vendor", "approval path", "policies overlap", "overlap", "stricter approval"}),
     ),
+    # Cross-functional employee lifecycle synthesis.
+    (
+        frozenset({"onboarding", "new hire", "first week", "manager planning", "promotion"}),
+        frozenset({"vacation", "time off", "performance review", "planning", "manager"}),
+    ),
+    # Sales process + technical validation + legal commitments.
+    (
+        frozenset({"deal", "opportunity", "proposal", "sales process", "technical validation"}),
+        frozenset({"roadmap", "legal", "contract commitment", "customer commitment", "implementation"}),
+    ),
 ]
 
 _CONJUNCTION_RE = re.compile(
@@ -78,10 +88,19 @@ _CONJUNCTION_RE = re.compile(
     re.IGNORECASE,
 )
 
+_EXPLICIT_MULTI_SOURCE_RE = re.compile(
+    r"\b(?:across|combine|synthesize|pull together|complete answer).{0,80}\b(?:policies|documents|sources|guidance|handbooks)\b"
+    r"|\b(?:every|all) applicable (?:policy|policies|document|documents)\b",
+    re.IGNORECASE,
+)
+
 
 def is_multi_document_question(question: str) -> bool:
     normalized = question.lower()
     words = normalized.split()
+
+    if _EXPLICIT_MULTI_SOURCE_RE.search(question):
+        return True
 
     for domain_a, domain_b in _DOMAIN_PAIRS:
         hit_a = any(term in normalized for term in domain_a)

@@ -15,9 +15,7 @@ def _last_assistant_turn(previous_turns: list[dict]) -> dict:
     return {}
 
 
-def extract_previous_topic(previous_turns: list[dict]) -> str:
-    text = " ".join(str(turn.get("content") or "") for turn in previous_turns).lower()
-    topic_rules = [
+TOPIC_RULES = [
         ("vacation days", "vacation days"),
         ("pto and leave policy", "PTO and Leave Policy"),
         ("remote work location", "remote work location change"),
@@ -45,11 +43,45 @@ def extract_previous_topic(previous_turns: list[dict]) -> str:
         ("northstar standard mutual nda", "Northstar standard mutual NDA"),
         ("public api endpoint error shapes", "public API endpoint error shapes"),
         ("office supplies standard limit", "office supplies standard limit"),
-    ]
-    for marker, topic in topic_rules:
-        if marker in text:
+]
+
+
+def _known_topic(text: str) -> str | None:
+    normalized = text.lower()
+    for marker, topic in TOPIC_RULES:
+        if marker in normalized:
             return topic
+    return None
+
+
+def extract_previous_topic(previous_turns: list[dict]) -> str:
+    for role in ("user", "assistant"):
+        for turn in reversed(previous_turns):
+            if turn.get("role") != role:
+                continue
+            content = str(turn.get("content") or "")
+            topic = _known_topic(content)
+            if topic:
+                return topic
     return _last_user_turn(previous_turns)
+
+
+def extract_referenced_topic(question: str, previous_turns: list[dict]) -> str:
+    normalized = question.lower()
+    user_turns = [str(turn.get("content") or "") for turn in previous_turns if turn.get("role") == "user"]
+
+    if any(marker in normalized for marker in ("first topic", "original topic", "back to the original", "return to the first")):
+        for content in user_turns:
+            if topic := _known_topic(content):
+                return topic
+        return user_turns[0] if user_turns else ""
+
+    correction_markers = ("actually", "correction", "ignore that", "instead", "i meant")
+    for content in reversed(user_turns):
+        if any(marker in content.lower() for marker in correction_markers):
+            return _known_topic(content) or content
+
+    return extract_previous_topic(previous_turns)
 
 
 def build_memory_context(previous_turns: list[dict], limit: int = 4) -> dict:

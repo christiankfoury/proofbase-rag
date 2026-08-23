@@ -36,6 +36,8 @@ OUTPUT_DIR = ROOT / "data/evaluation/expanded-baseline"
 EVAL_RUN_DIR = ROOT / "data/evaluation/eval-runs"
 PHASE_DIR = ROOT / "docs/phase-39"
 RUN_ID = "phase39-live-query-answer-quality-v8"
+PHASE = "phase-39"
+REPORT_TITLE = "Phase 39 Live Query Answer-Quality Results"
 OUTPUT_JSON = OUTPUT_DIR / f"{RUN_ID}.json"
 EVAL_RUN_JSON = EVAL_RUN_DIR / f"{RUN_ID}.json"
 REPORT_PATH = PHASE_DIR / "live-query-answer-quality-results.md"
@@ -342,8 +344,8 @@ def _summary(
     submetric_issue_breakdown = _submetric_issue_breakdown(rows)
     return {
         "experiment_id": RUN_ID,
-        "run_name": "live-query-answer-quality-v8",
-        "phase": "phase-39",
+        "run_name": RUN_ID,
+        "phase": PHASE,
         "prompt_name": "answer_generation",
         "prompt_version": args.prompt_version,
         "model": next((row.get("model") for row in rows if row.get("model")), None),
@@ -433,11 +435,10 @@ def _dashboard_run(result: dict[str, Any]) -> dict[str, Any]:
         "failure_reason_counts": _failure_reason_counts(result.get("failed_questions") or []),
         "citation_failure_category_counts": _citation_failure_counts(result.get("failed_questions") or []),
         "notes": (
-            "Phase 39 live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, "
+            f"{PHASE} live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, "
             "memory session loading, auto multi-document detection, permission-filtered retrieval, generation, "
             "citation validation, and the API response payload. Uploaded-document fixtures are excluded from this "
-            "benchmark run before generation. Expected answers, expected behavior, expected sources, prompts, and "
-            "retrieval ranking logic are unchanged."
+            "benchmark run before generation. Expected answers, expected behavior, and expected sources are unchanged."
         ),
         "sample_size": summary["question_count"],
         "passed_count": summary["question_count"] - len(failed_question_ids),
@@ -452,7 +453,7 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
     metrics = dashboard_run["metrics"]
     failures = result.get("failed_questions") or []
     lines = [
-        "# Phase 39 Live Query Answer-Quality Results",
+        f"# {REPORT_TITLE}",
         "",
         f"Generated at: {datetime.now(UTC).isoformat()}",
         "",
@@ -520,6 +521,9 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
 def run_live_query_eval(args: argparse.Namespace) -> dict[str, Any]:
     benchmark = _load_benchmark()
     questions = _questions(benchmark, args.question_filter)
+    if args.question_id:
+        requested = set(args.question_id)
+        questions = [question for question in questions if question.get("question_id") in requested]
     client = TestClient(app)
     rows: list[dict[str, Any]] = []
     failed: list[dict[str, Any]] = []
@@ -570,12 +574,14 @@ def run_live_query_eval(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def main() -> None:
+    global RUN_ID, PHASE, PHASE_DIR, OUTPUT_JSON, EVAL_RUN_JSON, REPORT_PATH, REPORT_TITLE
     parser = argparse.ArgumentParser(description="Run Phase 39 full answer-quality through POST /query.")
     parser.add_argument("--prompt-version", default="v8")
     parser.add_argument("--retrieval-mode", default="vector_lexical_rerank", choices=["vector_lexical_rerank", "vector_only"])
     parser.add_argument("--top-k", type=int, default=5)
     parser.add_argument("--multi-doc-mode", default="auto", choices=["auto", "off", "force"])
     parser.add_argument("--question-filter", default="all")
+    parser.add_argument("--question-id", action="append")
     parser.add_argument("--budget-usd", type=float, default=2.0)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument(
@@ -583,9 +589,28 @@ def main() -> None:
         action="store_true",
         help="Confirm explicit approval to send benchmark questions and source snippets to external AI APIs.",
     )
+    parser.add_argument("--run-id", default=RUN_ID)
+    parser.add_argument("--phase", default=PHASE)
+    parser.add_argument("--output-json")
+    parser.add_argument("--eval-run-json")
+    parser.add_argument("--report-path")
+    parser.add_argument("--report-title", default=REPORT_TITLE)
     args = parser.parse_args()
+    RUN_ID = args.run_id
+    PHASE = args.phase
+    REPORT_TITLE = args.report_title
+    OUTPUT_JSON = Path(args.output_json) if args.output_json else OUTPUT_DIR / f"{RUN_ID}.json"
+    EVAL_RUN_JSON = Path(args.eval_run_json) if args.eval_run_json else EVAL_RUN_DIR / f"{RUN_ID}.json"
+    REPORT_PATH = Path(args.report_path) if args.report_path else ROOT / "docs" / PHASE / "live-query-answer-quality-results.md"
+    PHASE_DIR = REPORT_PATH.parent
     benchmark = _load_benchmark()
     questions = _questions(benchmark, args.question_filter)
+    if args.question_id:
+        requested = set(args.question_id)
+        questions = [question for question in questions if question.get("question_id") in requested]
+        missing = requested - {str(question.get("question_id")) for question in questions}
+        if missing:
+            raise SystemExit(f"Unknown question IDs: {', '.join(sorted(missing))}")
     if args.dry_run:
         print(
             json.dumps(

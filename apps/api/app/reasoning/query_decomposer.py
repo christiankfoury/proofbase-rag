@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import dataclasses
 import json
+import re
 import time
 
 from openai import OpenAI
@@ -96,7 +97,7 @@ def retrieve_multi_doc(
 ) -> list[RetrievedChunk]:
     source_plan = plan_multi_document_sources(question)
     subqueries = [item.query for item in source_plan] or decompose_question(question, model=config.model)
-    subquery_config = dataclasses.replace(config, top_k=4, run_name="multi-doc-subquery")
+    subquery_config = dataclasses.replace(config, top_k=8, run_name="multi-doc-subquery")
 
     seen: dict[str, RetrievedChunk] = {}
     per_query_results: list[tuple[SourcePlanItem | None, list[RetrievedChunk]]] = []
@@ -133,7 +134,15 @@ def _coverage_first_chunks(
             candidates = [chunk for chunk in chunks if chunk.document_id == document_id and chunk.chunk_id not in selected_ids]
             if not candidates:
                 continue
-            best = sorted(candidates, key=lambda chunk: chunk.score, reverse=True)[0]
+            query_terms = set(re.findall(r"[a-z0-9]+", plan_item.query.lower()))
+            best = sorted(
+                candidates,
+                key=lambda chunk: (
+                    len(query_terms & set(re.findall(r"[a-z0-9]+", f"{chunk.section_heading} {chunk.content}".lower()))),
+                    chunk.score,
+                ),
+                reverse=True,
+            )[0]
             selected.append(best)
             selected_ids.add(best.chunk_id)
     return selected

@@ -25,6 +25,11 @@ FOLLOWUP_PHRASES = [
     "how often",
     "when does",
     "what if",
+    "what do",
+    "what should",
+    "what now",
+    "going back",
+    "back to",
 ]
 
 

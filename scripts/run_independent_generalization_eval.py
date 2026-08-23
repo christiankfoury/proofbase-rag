@@ -39,6 +39,11 @@ from scripts.independent_generalization_common import (
     verify_holdout_preflight,
     write_json_atomic,
 )
+from scripts.phase48_generalization_scoring import (
+    fact_score,
+    forbidden_fact_asserted,
+    substantive_unsupported_claims,
+)
 
 
 RESULTS_DIR = ROOT / "data/evaluation/independent-generalization/results"
@@ -66,16 +71,8 @@ def _now() -> str:
     return datetime.now(UTC).isoformat()
 
 
-def _tokens(text: str) -> set[str]:
-    return {token for token in re.findall(r"[a-z0-9]+", text.lower()) if token not in STOPWORDS and len(token) > 1}
-
-
 def _fact_score(fact: str, text: str) -> float:
-    expected = _tokens(fact)
-    if not expected:
-        return 1.0
-    actual = _tokens(text)
-    return round(len(expected & actual) / len(expected), 3)
+    return fact_score(fact, text)
 
 
 def _average(values: list[float | None]) -> float | None:
@@ -118,7 +115,11 @@ def _score_response(case: dict[str, Any], payload: dict[str, Any], *, latency_ms
     expected_documents = [str(value) for value in case.get("expected_source_documents") or []]
     required_scores = [_fact_score(str(fact), answer) for fact in case.get("required_facts") or []]
     required_fact_completeness = round(mean(required_scores), 3) if required_scores else None
-    forbidden_hits = [str(fact) for fact in case.get("forbidden_facts") or [] if _fact_score(str(fact), answer) >= 0.7]
+    forbidden_hits = [
+        str(fact)
+        for fact in case.get("forbidden_facts") or []
+        if forbidden_fact_asserted(str(fact), answer)
+    ]
     forbidden_fact_violation = 1.0 if forbidden_hits else 0.0
     expected_source_recall = None
     if expected_documents:
@@ -156,11 +157,12 @@ def _score_response(case: dict[str, Any], payload: dict[str, Any], *, latency_ms
     unauthorized_reached_generation = bool(permission_check.get("unauthorized_chunks_reached_generation"))
     memory_as_evidence = any("memory" in doc.lower() or "conversation" in doc.lower() for doc in citation_documents)
     unsupported_claims = payload.get("unsupported_claims") or []
-    hallucination_flag = bool(
-        forbidden_hits
-        or (unsupported_claims and actual_behavior in {"answer", "partial_answer"})
-        or (expected_behavior in {"clarify", "refuse_no_access", "not_found"} and actual_behavior in {"answer", "partial_answer"})
-    )
+    substantive_unsupported = [
+        claim
+        for claim in substantive_unsupported_claims(unsupported_claims)
+        if forbidden_fact_asserted(claim, answer, threshold=0.65)
+    ]
+    hallucination_flag = bool(forbidden_hits or (substantive_unsupported and actual_behavior in {"answer", "partial_answer"}))
     behavior_accuracy = _behavior_match(expected_behavior, actual_behavior)
     passed = (
         behavior_accuracy == 1.0
@@ -213,6 +215,7 @@ def _score_response(case: dict[str, Any], payload: dict[str, Any], *, latency_ms
         "retrieved_documents": retrieved_documents,
         "citations": citations,
         "unsupported_claims": unsupported_claims,
+        "substantive_unsupported_claims": substantive_unsupported,
         "latency_ms": round(latency_ms, 1),
         "input_tokens": payload.get("input_tokens"),
         "output_tokens": payload.get("output_tokens"),
