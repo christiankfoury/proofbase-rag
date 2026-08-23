@@ -27,6 +27,17 @@ export type EvalRun = {
   metrics: Metrics;
   failed_questions?: string[];
   notes?: string;
+  split?: string | null;
+  provenance?: {
+    evaluation_commit?: string | null;
+    frozen_runtime_commit?: string | null;
+    corpus_hash?: string | null;
+    suite_hash?: string | null;
+    retrieval_profile?: string | null;
+    rerank_candidate_limit?: number | null;
+  };
+  hard_gates?: Record<string, boolean | null>;
+  portfolio_claim_gates?: Record<string, boolean | null>;
 };
 
 export type PromptComparison = {
@@ -200,6 +211,26 @@ export type RegressionScorecard = {
   limitations?: string[];
 };
 
+export type IndependentEvaluation = {
+  suite_version?: string | null;
+  separate_from_benchmark?: boolean;
+  development?: EvalRun | null;
+  holdout?: EvalRun | null;
+  stability?: {
+    generated_at?: string | null;
+    case_count?: number | null;
+    passes?: number | null;
+    request_count?: number | null;
+    estimated_cost?: number | null;
+    pass_consistency_rate?: number | null;
+    response_type_consistency_rate?: number | null;
+    source_consistency_rate?: number | null;
+    citation_consistency_rate?: number | null;
+  } | null;
+  targets?: Record<string, number | null>;
+  limitations?: string[];
+};
+
 export type DashboardData = {
   generated_at: string;
   benchmark_context?: BenchmarkContext;
@@ -220,6 +251,7 @@ export type DashboardData = {
   prompt_comparison?: PromptComparison;
   multi_doc_comparison?: MultiDocComparison;
   phase33_precision_readiness?: Phase33PrecisionReadiness;
+  independent_evaluation?: IndependentEvaluation;
   runs: EvalRun[];
   failed_questions: FailedQuestion[];
   notes: string[];
@@ -240,6 +272,7 @@ function emptyDashboardData(): DashboardData {
     comparisons: {},
     regression_scorecard: {},
     phase33_precision_readiness: {},
+    independent_evaluation: {},
     runs: [],
     failed_questions: [],
     notes: [],
@@ -265,6 +298,7 @@ export async function getDashboardData(headers: HeadersInit = {}): Promise<Dashb
     prompt_comparison: compare.prompt_comparison,
     multi_doc_comparison: compare.multi_doc_comparison,
     phase33_precision_readiness: compare.phase33_precision_readiness ?? summary.phase33_precision_readiness,
+    independent_evaluation: compare.independent_evaluation ?? summary.independent_evaluation,
     runs: compare.runs,
     failed_questions: failed.failed_questions,
     notes: summary.notes ?? [],

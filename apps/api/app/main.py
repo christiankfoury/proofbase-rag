@@ -462,6 +462,7 @@ def evaluation_summary(user: Annotated[dict, Depends(current_admin_user)]) -> di
         "benchmark_context": data.get("benchmark_context", {}),
         "regression_scorecard": data.get("regression_scorecard", {}),
         "phase33_precision_readiness": data.get("phase33_precision_readiness", {}),
+        "independent_evaluation": data.get("independent_evaluation", {}),
         "run_count": len(data["runs"]),
         "failed_question_count": len(data["failed_questions"]),
         "notes": data["notes"],
@@ -536,6 +537,7 @@ def evaluation_compare(user: Annotated[dict, Depends(current_admin_user)]) -> di
         "prompt_comparison": data.get("prompt_comparison", {}),
         "multi_doc_comparison": data.get("multi_doc_comparison", {}),
         "phase33_precision_readiness": data.get("phase33_precision_readiness", {}),
+        "independent_evaluation": data.get("independent_evaluation", {}),
         "runs": data["runs"],
     }
 

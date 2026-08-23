@@ -102,6 +102,11 @@ export default async function OverviewPage() {
   const phase33Replay = phase33?.best_saved_top5_lexical_rerank_replay;
   const phase33Primary = phase33Live ?? phase33Replay;
   const phase33Commands = phase33?.required_live_commands ?? [];
+  const independentEvaluation = data.independent_evaluation;
+  const independentRuns = [
+    { label: "Development / generalization", run: independentEvaluation?.development },
+    { label: "Frozen holdout", run: independentEvaluation?.holdout },
+  ];
   const progressSummary = data.overview.progress_summary ?? {
     improved: [
       "Permission tests reached zero leakage.",
@@ -341,6 +346,86 @@ export default async function OverviewPage() {
                 </aside>
               </div>
             </div>
+          </Card>
+        </section>
+      ) : null}
+      {independentEvaluation ? (
+        <section className="mt-8">
+          <Card>
+            <SectionHeading
+              title="Independent Evaluation"
+              description="Phase 47 keeps development evidence and the one-time frozen holdout separate from benchmark 1.1. Missing holdout values remain pending until the sealed run exists."
+            />
+            <div className="grid gap-4 lg:grid-cols-2">
+              {independentRuns.map(({ label, run }) => (
+                <article key={label} className="rounded-md border border-stone-200 bg-stone-50 p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="font-semibold text-ink">{label}</p>
+                      <p className="mt-1 text-xs text-stone-500">{run?.run_id ?? "pending"}</p>
+                    </div>
+                    <span className={run ? "rounded-full bg-moss/15 px-2 py-1 text-xs font-semibold text-moss-dark" : "rounded-full bg-stone-200 px-2 py-1 text-xs font-semibold text-stone-600"}>
+                      {run ? "measured" : "pending"}
+                    </span>
+                  </div>
+                  <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                      <dt className="text-stone-500">Sample / failures</dt>
+                      <dd className="font-semibold text-ink">
+                        {run?.sample_size ?? run?.total_questions ?? "pending"} / {run?.failed_count ?? run?.metrics.failed_question_count ?? "pending"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-stone-500">Behavior accuracy</dt>
+                      <dd className="font-semibold text-ink">{formatMetric(run?.metrics.behavior_accuracy)}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-stone-500">Source recall</dt>
+                      <dd className="font-semibold text-ink">{formatMetric(run?.metrics.expected_source_recall)}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-stone-500">Citation accuracy</dt>
+                      <dd className="font-semibold text-ink">{formatMetric(run?.metrics.citation_document_accuracy)}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-stone-500">Estimated cost</dt>
+                      <dd className="font-semibold text-ink">
+                        {typeof run?.metrics.estimated_cost === "number" ? `$${run.metrics.estimated_cost.toFixed(6)}` : "pending"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-stone-500">Hard safety gates</dt>
+                      <dd className="font-semibold text-ink">
+                        {run?.hard_gates ? (Object.values(run.hard_gates).every(Boolean) ? "pass" : "fail") : "pending"}
+                      </dd>
+                    </div>
+                  </dl>
+                  <p className="mt-4 text-xs leading-5 text-stone-600">
+                    Model {run?.model ?? "pending"} · {run?.retrieval_mode ?? "pending"} · top-k {run?.top_k ?? "pending"}
+                    {run?.provenance?.frozen_runtime_commit ? (
+                      <span className="block break-all text-stone-500">Frozen runtime: {run.provenance.frozen_runtime_commit}</span>
+                    ) : null}
+                  </p>
+                </article>
+              ))}
+            </div>
+            {independentEvaluation.stability ? (
+              <div className="mt-4 rounded-md border border-stone-200 bg-white p-4 text-sm text-stone-700">
+                <p className="font-semibold text-ink">Three-pass development stability slice</p>
+                <p className="mt-1">
+                  n={independentEvaluation.stability.case_count ?? "pending"} · passes={independentEvaluation.stability.passes ?? "pending"} ·
+                  pass consistency {formatMetric(independentEvaluation.stability.pass_consistency_rate)} · response-type consistency{" "}
+                  {formatMetric(independentEvaluation.stability.response_type_consistency_rate)} · source consistency{" "}
+                  {formatMetric(independentEvaluation.stability.source_consistency_rate)} · citation consistency{" "}
+                  {formatMetric(independentEvaluation.stability.citation_consistency_rate)}
+                </p>
+              </div>
+            ) : null}
+            <ul className="mt-4 list-disc space-y-1 pl-5 text-xs leading-5 text-stone-600">
+              {(independentEvaluation.limitations ?? []).map((limitation) => (
+                <li key={limitation}>{limitation}</li>
+              ))}
+            </ul>
           </Card>
         </section>
       ) : null}

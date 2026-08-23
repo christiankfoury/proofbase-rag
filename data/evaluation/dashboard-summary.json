@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T18:31:06.163419+00:00",
+  "generated_at": "2026-08-23T18:29:40.076675+00:00",
   "source": "docs/phase-6 through docs/phase-36",
   "benchmark_context": {
     "benchmark_version": "1.1",
@@ -1028,7 +1028,7 @@
       "run_name": "live-query-answer-quality-v8",
       "phase": "phase-39",
       "run_type": "live_query_eval",
-      "timestamp": "2026-06-27T19:40:42.862932+00:00",
+      "timestamp": "2026-08-23T18:19:48.272666+00:00",
       "retrieval_mode": "vector_lexical_rerank",
       "chunking_strategy": "section_based",
       "top_k": 5,
@@ -1050,7 +1050,7 @@
         "mrr": 0.962,
         "answer_accuracy": 1.0,
         "citation_accuracy": 1.0,
-        "faithfulness": 0.883,
+        "faithfulness": 0.884,
         "hallucination_rate": 0.0,
         "response_type_accuracy": 0.923,
         "refusal_accuracy": 1.0,
@@ -1059,7 +1059,7 @@
         "final_confidence": 0.77,
         "input_tokens": null,
         "output_tokens": null,
-        "estimated_cost": 0.078679,
+        "estimated_cost": 0.078338,
         "failed_question_count": 0,
         "submetric_issue_count": 21,
         "actionable_submetric_issue_count": 0,
@@ -1143,7 +1143,7 @@
       "passed_count": 130,
       "failed_count": 0,
       "benchmark_version": "1.1",
-      "run_timestamp": "2026-06-27T19:40:42.862932+00:00"
+      "run_timestamp": "2026-08-23T18:19:48.272666+00:00"
     },
     {
       "run_id": "phase36-permission-evaluation",
@@ -1372,6 +1372,136 @@
       "failed_count": 0,
       "benchmark_version": "1.1",
       "run_timestamp": "2026-06-27T16:17:04.734622+00:00"
+    },
+    {
+      "run_id": "phase47-permission-evaluation",
+      "run_name": "phase47-permission-evaluation",
+      "phase": "phase-47",
+      "run_type": "permission_eval",
+      "timestamp": "2026-08-23T18:10:29.779958+00:00",
+      "retrieval_mode": "vector_lexical_rerank",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "reranker": "lexical",
+      "rerank_candidate_limit": 20,
+      "evaluation_excluded_document_prefixes": [
+        "UPLOAD-"
+      ],
+      "total_questions": 20,
+      "source_question_count": 130,
+      "question_filter": "permission_restricted",
+      "metrics": {
+        "restricted_question_count": 20,
+        "authorized_test_count": 20,
+        "permission_leakage_rate": 0,
+        "blocked_answer_accuracy": 1,
+        "unauthorized_chunk_exposure_rate": 0,
+        "restricted_citation_leakage_rate": 0,
+        "unauthorized_chunks_reached_generation_rate": 0,
+        "authorized_retrieval_accuracy": 1,
+        "authorized_answer_accuracy": "pending",
+        "failed_question_count": 0
+      },
+      "failed_questions": [],
+      "category_breakdown": {
+        "permission_restricted": 20
+      },
+      "notes": "Phase 47 permission suite. Measures unauthorized retrieval exposure, citation leakage, pre-generation filtering, refusal accuracy, and authorized-source retrieval checks.",
+      "sample_size": 20,
+      "passed_count": 20,
+      "failed_count": 0,
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-08-23T18:10:29.779958+00:00"
+    },
+    {
+      "run_id": "phase47-independent-development",
+      "run_name": "Phase 47 Independent Generalization Development",
+      "phase": "phase-47",
+      "run_type": "independent_generalization_eval",
+      "timestamp": "2026-08-23T18:25:49.752492+00:00",
+      "benchmark_version": "independent-generalization-development-v1",
+      "split": "development",
+      "total_questions": 70,
+      "retrieval_mode": "vector_lexical_rerank",
+      "top_k": 5,
+      "prompt_version": "v8",
+      "model": "gpt-4.1-mini",
+      "temperature": 0.0,
+      "metrics": {
+        "behavior_accuracy": 0.986,
+        "expected_source_recall": 1.0,
+        "all_required_sources_retrieved": 1.0,
+        "required_fact_completeness": 0.881,
+        "forbidden_fact_violation_rate": 0.0,
+        "citation_document_accuracy": 0.979,
+        "claim_to_citation_support": 0.827,
+        "hallucination_rate": 0.0,
+        "clarification_accuracy": 1.0,
+        "not_found_accuracy": 1.0,
+        "blocked_answer_accuracy": 1.0,
+        "unauthorized_chunk_exposure_rate": 0.0,
+        "restricted_citation_leakage_rate": 0.0,
+        "unauthorized_chunks_reached_generation_rate": 0.0,
+        "memory_source_recovery_quality": 1.0,
+        "memory_as_evidence_violation_rate": 0.0,
+        "average_latency_ms": 4917.3,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost": 0.053961,
+        "failed_question_count": 6
+      },
+      "failed_questions": [
+        "P47-DEV-FACTUAL-ROBUSTNESS-04",
+        "P47-DEV-MULTI-DOCUMENT-CLAIM-COVERAGE-07",
+        "P47-DEV-MULTI-TURN-MEMORY-01",
+        "P47-DEV-PROMPT-INJECTION-ADVERSARIAL-02",
+        "P47-DEV-PROMPT-INJECTION-ADVERSARIAL-03",
+        "P47-DEV-PROMPT-INJECTION-ADVERSARIAL-07"
+      ],
+      "category_breakdown": {
+        "ambiguity_boundaries": 7,
+        "conflicting_versioned_sources": 4,
+        "factual_robustness": 11,
+        "missing_information_abstention": 7,
+        "multi_document_claim_coverage": 10,
+        "multi_turn_memory": 10,
+        "permission_scope_pairs": 10,
+        "prompt_injection_adversarial": 7,
+        "uploaded_document_project_isolation": 4
+      },
+      "provenance": {
+        "evaluation_commit": "213a6a7b9250330549271322355a8727ed06b8d5",
+        "frozen_runtime_commit": null,
+        "corpus_hash": "491ca33d71b16281111eed45aaaacbdfce5e97fe2aaf5916ae90283b1343f870",
+        "suite_hash": "c87696c58229f28ca40efa55de02b13d244bea51af9946b2d20c8267e916e411",
+        "model": "gpt-4.1-mini",
+        "embedding_model": "text-embedding-3-small",
+        "prompt_version": "v8",
+        "retrieval_profile": "vector_lexical_rerank",
+        "top_k": 5,
+        "rerank_candidate_limit": 20,
+        "temperature": 0.0,
+        "platform_telemetry_enabled": false,
+        "project_scope": "per-case global/project/department scope",
+        "preflight": null
+      },
+      "hard_gates": {
+        "permission_leakage_zero": true,
+        "unauthorized_chunks_reached_generation_zero": true,
+        "memory_as_evidence_zero": true
+      },
+      "portfolio_claim_gates": {
+        "behavior_accuracy_gte_0_900": true,
+        "expected_source_recall_gte_0_900": true,
+        "required_fact_completeness_gte_0_850": true,
+        "citation_accuracy_gte_0_900": true,
+        "hallucination_rate_lte_0_050": true
+      },
+      "notes": "Separate Phase 47 evidence. Do not blend with benchmark 1.1 or Phase 45/46 probe metrics.",
+      "sample_size": 70,
+      "passed_count": 64,
+      "failed_count": 6,
+      "run_timestamp": "2026-08-23T18:25:49.752492+00:00"
     }
   ],
   "overview": {
@@ -1470,7 +1600,7 @@
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-27T19:40:42.862932+00:00",
+        "run_timestamp": "2026-08-23T18:19:48.272666+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1490,7 +1620,7 @@
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-27T19:40:42.862932+00:00",
+        "run_timestamp": "2026-08-23T18:19:48.272666+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1510,7 +1640,7 @@
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-06-27T19:40:42.862932+00:00",
+        "run_timestamp": "2026-08-23T18:19:48.272666+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1587,7 +1717,7 @@
   },
   "regression_scorecard": {
     "phase": "phase-37",
-    "generated_at": "2026-06-28T18:31:06.157836+00:00",
+    "generated_at": "2026-08-23T18:29:40.069675+00:00",
     "benchmark_version": "1.1",
     "benchmark_question_count": 130,
     "category_breakdown": {
@@ -1722,7 +1852,7 @@
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-27T19:40:42.862932+00:00"
+          "run_timestamp": "2026-08-23T18:19:48.272666+00:00"
         },
         "delta": 0.15,
         "target_passed": true,
@@ -1750,7 +1880,7 @@
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-27T19:40:42.862932+00:00"
+          "run_timestamp": "2026-08-23T18:19:48.272666+00:00"
         },
         "delta": 0.156,
         "target_passed": true,
@@ -1778,7 +1908,7 @@
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-06-27T19:40:42.862932+00:00"
+          "run_timestamp": "2026-08-23T18:19:48.272666+00:00"
         },
         "delta": -0.205,
         "target_passed": true,
@@ -2414,11 +2544,133 @@
       "Authorized answer accuracy remains pending by default to avoid extra chat-completion cost."
     ]
   },
+  "independent_evaluation": {
+    "suite_version": "1.0",
+    "separate_from_benchmark": true,
+    "development": {
+      "run_id": "phase47-independent-development",
+      "run_name": "Phase 47 Independent Generalization Development",
+      "phase": "phase-47",
+      "run_type": "independent_generalization_eval",
+      "timestamp": "2026-08-23T18:25:49.752492+00:00",
+      "benchmark_version": "independent-generalization-development-v1",
+      "split": "development",
+      "total_questions": 70,
+      "retrieval_mode": "vector_lexical_rerank",
+      "top_k": 5,
+      "prompt_version": "v8",
+      "model": "gpt-4.1-mini",
+      "temperature": 0.0,
+      "metrics": {
+        "behavior_accuracy": 0.986,
+        "expected_source_recall": 1.0,
+        "all_required_sources_retrieved": 1.0,
+        "required_fact_completeness": 0.881,
+        "forbidden_fact_violation_rate": 0.0,
+        "citation_document_accuracy": 0.979,
+        "claim_to_citation_support": 0.827,
+        "hallucination_rate": 0.0,
+        "clarification_accuracy": 1.0,
+        "not_found_accuracy": 1.0,
+        "blocked_answer_accuracy": 1.0,
+        "unauthorized_chunk_exposure_rate": 0.0,
+        "restricted_citation_leakage_rate": 0.0,
+        "unauthorized_chunks_reached_generation_rate": 0.0,
+        "memory_source_recovery_quality": 1.0,
+        "memory_as_evidence_violation_rate": 0.0,
+        "average_latency_ms": 4917.3,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost": 0.053961,
+        "failed_question_count": 6
+      },
+      "failed_questions": [
+        "P47-DEV-FACTUAL-ROBUSTNESS-04",
+        "P47-DEV-MULTI-DOCUMENT-CLAIM-COVERAGE-07",
+        "P47-DEV-MULTI-TURN-MEMORY-01",
+        "P47-DEV-PROMPT-INJECTION-ADVERSARIAL-02",
+        "P47-DEV-PROMPT-INJECTION-ADVERSARIAL-03",
+        "P47-DEV-PROMPT-INJECTION-ADVERSARIAL-07"
+      ],
+      "category_breakdown": {
+        "ambiguity_boundaries": 7,
+        "conflicting_versioned_sources": 4,
+        "factual_robustness": 11,
+        "missing_information_abstention": 7,
+        "multi_document_claim_coverage": 10,
+        "multi_turn_memory": 10,
+        "permission_scope_pairs": 10,
+        "prompt_injection_adversarial": 7,
+        "uploaded_document_project_isolation": 4
+      },
+      "provenance": {
+        "evaluation_commit": "213a6a7b9250330549271322355a8727ed06b8d5",
+        "frozen_runtime_commit": null,
+        "corpus_hash": "491ca33d71b16281111eed45aaaacbdfce5e97fe2aaf5916ae90283b1343f870",
+        "suite_hash": "c87696c58229f28ca40efa55de02b13d244bea51af9946b2d20c8267e916e411",
+        "model": "gpt-4.1-mini",
+        "embedding_model": "text-embedding-3-small",
+        "prompt_version": "v8",
+        "retrieval_profile": "vector_lexical_rerank",
+        "top_k": 5,
+        "rerank_candidate_limit": 20,
+        "temperature": 0.0,
+        "platform_telemetry_enabled": false,
+        "project_scope": "per-case global/project/department scope",
+        "preflight": null
+      },
+      "hard_gates": {
+        "permission_leakage_zero": true,
+        "unauthorized_chunks_reached_generation_zero": true,
+        "memory_as_evidence_zero": true
+      },
+      "portfolio_claim_gates": {
+        "behavior_accuracy_gte_0_900": true,
+        "expected_source_recall_gte_0_900": true,
+        "required_fact_completeness_gte_0_850": true,
+        "citation_accuracy_gte_0_900": true,
+        "hallucination_rate_lte_0_050": true
+      },
+      "notes": "Separate Phase 47 evidence. Do not blend with benchmark 1.1 or Phase 45/46 probe metrics.",
+      "sample_size": 70,
+      "passed_count": 64,
+      "failed_count": 6,
+      "run_timestamp": "2026-08-23T18:25:49.752492+00:00"
+    },
+    "holdout": null,
+    "stability": {
+      "generated_at": "2026-08-23T18:05:26.026518+00:00",
+      "case_count": 20,
+      "passes": 3,
+      "request_count": 60,
+      "estimated_cost": 0.051048,
+      "pass_consistency_rate": 1.0,
+      "response_type_consistency_rate": 1.0,
+      "source_consistency_rate": 0.9,
+      "citation_consistency_rate": 0.9
+    },
+    "targets": {
+      "permission_leakage_rate": 0.0,
+      "unauthorized_chunks_reached_generation_rate": 0.0,
+      "memory_as_evidence_violation_rate": 0.0,
+      "behavior_accuracy": 0.9,
+      "expected_source_recall": 0.9,
+      "required_fact_completeness": 0.85,
+      "citation_document_accuracy": 0.9,
+      "hallucination_rate": 0.05
+    },
+    "limitations": [
+      "Phase 47 is separate from benchmark 1.1 and Phase 45/46 probes; scores are not blended.",
+      "Fact completeness, claim support, and hallucination signals are deterministic or heuristic and require holdout human adjudication.",
+      "The synthetic suite does not prove production reliability or universal hallucination prevention."
+    ]
+  },
   "failed_questions": [],
   "notes": [
     "All dashboard values are exported from existing evaluation result files.",
     "Estimated cost is calculated from configured chat model pricing where token counts are available.",
     "Answer-quality metrics use deterministic and heuristic scoring, not a human judge.",
-    "Phase 33 precision readiness is retained as provenance for the retrieval candidate used by later answer-quality runs."
+    "Phase 33 precision readiness is retained as provenance for the retrieval candidate used by later answer-quality runs.",
+    "Phase 47 development and holdout evidence is exported separately from benchmark 1.1."
   ]
 }

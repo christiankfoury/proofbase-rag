@@ -38,6 +38,10 @@ PHASE36_MEMORY_PERMISSION_RUN_PATH = RUNS_DIR / "phase36-memory-permission-bound
 PHASE38_PERMISSION_RUN_PATH = RUNS_DIR / "phase38-permission-evaluation.json"
 PHASE39_PERMISSION_RUN_PATH = RUNS_DIR / "phase39-permission-evaluation.json"
 PHASE40_PERMISSION_RUN_PATH = RUNS_DIR / "phase40-permission-evaluation.json"
+PHASE47_PERMISSION_RUN_PATH = RUNS_DIR / "phase47-permission-evaluation.json"
+PHASE47_DEVELOPMENT_RUN_PATH = RUNS_DIR / "phase47-independent-development.json"
+PHASE47_HOLDOUT_RUN_PATH = RUNS_DIR / "phase47-independent-holdout.json"
+PHASE47_STABILITY_PATH = ROOT / "data/evaluation/independent-generalization/results/phase47-development-stability.json"
 SCORECARD_PATH = ROOT / "data/evaluation/regression-scorecard.json"
 
 REQUIRED_REPORTS = [
@@ -483,12 +487,60 @@ def _safety_runs() -> list[dict[str, Any]]:
         PHASE38_PERMISSION_RUN_PATH,
         PHASE39_PERMISSION_RUN_PATH,
         PHASE40_PERMISSION_RUN_PATH,
+        PHASE47_PERMISSION_RUN_PATH,
     ]:
         if path.exists():
             payload = json.loads(path.read_text(encoding="utf-8"))
             if isinstance(payload, dict):
                 runs.append(payload)
     return runs
+
+
+def _independent_evaluation() -> dict[str, Any]:
+    def load_optional(path: Path) -> dict[str, Any] | None:
+        if not path.exists():
+            return None
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        return payload if isinstance(payload, dict) else None
+
+    development = load_optional(PHASE47_DEVELOPMENT_RUN_PATH)
+    holdout = load_optional(PHASE47_HOLDOUT_RUN_PATH)
+    stability = load_optional(PHASE47_STABILITY_PATH)
+    return {
+        "suite_version": "1.0",
+        "separate_from_benchmark": True,
+        "development": development,
+        "holdout": holdout,
+        "stability": {
+            key: stability.get(key)
+            for key in [
+                "generated_at",
+                "case_count",
+                "passes",
+                "request_count",
+                "estimated_cost",
+                "pass_consistency_rate",
+                "response_type_consistency_rate",
+                "source_consistency_rate",
+                "citation_consistency_rate",
+            ]
+        } if stability else None,
+        "targets": {
+            "permission_leakage_rate": 0.0,
+            "unauthorized_chunks_reached_generation_rate": 0.0,
+            "memory_as_evidence_violation_rate": 0.0,
+            "behavior_accuracy": 0.9,
+            "expected_source_recall": 0.9,
+            "required_fact_completeness": 0.85,
+            "citation_document_accuracy": 0.9,
+            "hallucination_rate": 0.05,
+        },
+        "limitations": [
+            "Phase 47 is separate from benchmark 1.1 and Phase 45/46 probes; scores are not blended.",
+            "Fact completeness, claim support, and hallucination signals are deterministic or heuristic and require holdout human adjudication.",
+            "The synthetic suite does not prove production reliability or universal hallucination prevention.",
+        ],
+    }
 
 
 def _current_answer_run(runs: list[dict[str, Any]]) -> dict[str, Any] | None:
@@ -1158,6 +1210,11 @@ def main() -> None:
     runs.extend(_prompt_experiment_runs())
     runs.extend(_expanded_baseline_runs())
     runs.extend(_safety_runs())
+    for path in [PHASE47_DEVELOPMENT_RUN_PATH, PHASE47_HOLDOUT_RUN_PATH]:
+        if path.exists():
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(payload, dict):
+                runs.append(payload)
     runs = [_annotate_run(run, current_benchmark_version=current_benchmark_version) for run in runs]
 
     current_answer_run = _current_answer_run(runs)
@@ -1170,6 +1227,7 @@ def main() -> None:
     prompt_comparison = _prompt_comparison()
     multi_doc_comparison = _multi_doc_comparison()
     phase33_precision_readiness = _phase33_precision_readiness()
+    independent_evaluation = _independent_evaluation()
     dashboard = {
         "generated_at": datetime.now(UTC).isoformat(),
         "source": "docs/phase-6 through docs/phase-36",
@@ -1181,12 +1239,14 @@ def main() -> None:
         "prompt_comparison": prompt_comparison,
         "multi_doc_comparison": multi_doc_comparison,
         "phase33_precision_readiness": phase33_precision_readiness,
+        "independent_evaluation": independent_evaluation,
         "failed_questions": failed_questions,
         "notes": [
             "All dashboard values are exported from existing evaluation result files.",
             "Estimated cost is calculated from configured chat model pricing where token counts are available.",
             "Answer-quality metrics use deterministic and heuristic scoring, not a human judge.",
             "Phase 33 precision readiness is retained as provenance for the retrieval candidate used by later answer-quality runs.",
+            "Phase 47 development and holdout evidence is exported separately from benchmark 1.1.",
         ],
     }
 
