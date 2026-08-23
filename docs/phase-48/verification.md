@@ -46,4 +46,4 @@ Passed:
 - Original Phase 47 holdout SHA-256: `10d93cfb229813499721a973ceadabd9045c47b2e5eee29e4dca0ee01b1afb4f`, matching its recorded hash.
 - Original Phase 47 holdout/result/report diff: empty.
 
-The runtime commit is recorded after commit review. The fresh holdout must not be authored until that commit is pushed.
+Runtime/evaluator freeze commit `7bbb8b4af9e5f43e069347f69f2599b652d1a2c8` was reviewed with `git show --stat`, `git show --name-only`, and `git show --check`, then pushed to `origin/main` before fresh-holdout authoring began.

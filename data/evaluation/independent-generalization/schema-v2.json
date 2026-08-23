@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "proofbase://evaluation/independent-generalization/schema-v2.json",
+  "title": "Proofbase Phase 48 Independent Generalization Holdout Suite",
+  "type": "object",
+  "required": [
+    "suite_name",
+    "suite_version",
+    "split",
+    "case_count",
+    "cases"
+  ],
+  "properties": {
+    "suite_name": {
+      "const": "independent-generalization"
+    },
+    "suite_version": {
+      "const": "2.0"
+    },
+    "split": {
+      "enum": [
+        "development",
+        "holdout"
+      ]
+    },
+    "case_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    }
+  },
+  "$defs": {
+    "turn": {
+      "type": "object",
+      "required": [
+        "role",
+        "content"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ]
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "case": {
+      "type": "object",
+      "required": [
+        "case_id",
+        "suite_version",
+        "split",
+        "category",
+        "difficulty",
+        "user_role",
+        "user_id",
+        "previous_turns",
+        "question",
+        "expected_behavior",
+        "required_facts",
+        "forbidden_facts",
+        "expected_source_documents",
+        "expected_source_sections_or_quotes",
+        "allowed_documents",
+        "authoring_notes",
+        "review_status",
+        "reviewed_by",
+        "reviewed_at"
+      ],
+      "properties": {
+        "case_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "suite_version": {
+          "const": "2.0"
+        },
+        "split": {
+          "enum": [
+            "development",
+            "holdout"
+          ]
+        },
+        "category": {
+          "type": "string"
+        },
+        "difficulty": {
+          "enum": [
+            "easy",
+            "medium",
+            "hard"
+          ]
+        },
+        "user_role": {
+          "enum": [
+            "Employee",
+            "Sales Representative",
+            "Manager",
+            "HR Admin",
+            "IT Admin"
+          ]
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "project_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "department_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "previous_turns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/turn"
+          }
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected_behavior": {
+          "enum": [
+            "answer",
+            "clarify",
+            "refuse_no_access",
+            "not_found"
+          ]
+        },
+        "required_facts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forbidden_facts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expected_source_documents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expected_source_sections_or_quotes": {
+          "type": "array"
+        },
+        "allowed_documents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "permission_pair_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "restricted_source_expectation": {
+          "type": "boolean"
+        },
+        "fixture_requirements": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "authoring_notes": {
+          "type": "string",
+          "minLength": 1
+        },
+        "review_status": {
+          "enum": [
+            "draft",
+            "approved",
+            "rejected"
+          ]
+        },
+        "reviewed_by": {
+          "type": "string"
+        },
+        "reviewed_at": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
