@@ -104,8 +104,10 @@ export default async function OverviewPage() {
   const phase33Commands = phase33?.required_live_commands ?? [];
   const independentEvaluation = data.independent_evaluation;
   const independentRuns = [
-    { label: "Development / generalization", run: independentEvaluation?.development },
-    { label: "Frozen holdout", run: independentEvaluation?.holdout },
+    { label: "Phase 47 development", run: independentEvaluation?.development },
+    { label: "Phase 47 frozen holdout", run: independentEvaluation?.holdout },
+    { label: "Phase 48 interrupted holdout", run: independentEvaluation?.phase48_holdout },
+    { label: "Phase 49 fresh holdout", run: independentEvaluation?.fresh_holdout },
   ];
   const progressSummary = data.overview.progress_summary ?? {
     improved: [
@@ -354,7 +356,7 @@ export default async function OverviewPage() {
           <Card>
             <SectionHeading
               title="Independent Evaluation"
-              description="Phase 47 keeps development evidence and the one-time frozen holdout separate from benchmark 1.1. Missing holdout values remain pending until the sealed run exists."
+              description="Frozen development and holdout evidence stays separate from benchmark 1.1. Run-completeness status distinguishes valid persisted metrics from interrupted observations."
             />
             <div className="grid gap-4 lg:grid-cols-2">
               {independentRuns.map(({ label, run }) => (
@@ -364,8 +366,8 @@ export default async function OverviewPage() {
                       <p className="font-semibold text-ink">{label}</p>
                       <p className="mt-1 text-xs text-stone-500">{run?.run_id ?? "pending"}</p>
                     </div>
-                    <span className={run ? "rounded-full bg-moss/15 px-2 py-1 text-xs font-semibold text-moss-dark" : "rounded-full bg-stone-200 px-2 py-1 text-xs font-semibold text-stone-600"}>
-                      {run ? "measured" : "pending"}
+                    <span className={run?.run_completeness?.status === "complete" || (run && !run.run_completeness) ? "rounded-full bg-moss/15 px-2 py-1 text-xs font-semibold text-moss-dark" : "rounded-full bg-stone-200 px-2 py-1 text-xs font-semibold text-stone-600"}>
+                      {run?.run_completeness?.status ?? (run ? "recorded" : "pending")}
                     </span>
                   </div>
                   <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
@@ -405,10 +407,26 @@ export default async function OverviewPage() {
                     {run?.provenance?.frozen_runtime_commit ? (
                       <span className="block break-all text-stone-500">Frozen runtime: {run.provenance.frozen_runtime_commit}</span>
                     ) : null}
+                    {run?.run_completeness ? (
+                      <span className="block">
+                        Persisted {run.run_completeness.persisted_case_count ?? "pending"}/{run.run_completeness.expected_case_count ?? "pending"} · journal {run.run_completeness.journal_verified ? "verified" : "pending"} · aggregate from rows {run.run_completeness.aggregate_from_persisted_rows ? "yes" : "no"}
+                      </span>
+                    ) : null}
                   </p>
                 </article>
               ))}
             </div>
+            {independentEvaluation.reliability ? (
+              <div className="mt-4 rounded-md border border-moss/30 bg-moss/5 p-4 text-sm text-stone-700">
+                <p className="font-semibold text-ink">Evaluation reliability: {formatLabel(independentEvaluation.reliability.status ?? "pending")}</p>
+                <p className="mt-1">
+                  Run {independentEvaluation.reliability.run_id ?? "pending"} · interruption checks {Object.values(independentEvaluation.reliability.interruption_tests ?? {}).filter((value) => value === "passed").length}/{Object.keys(independentEvaluation.reliability.interruption_tests ?? {}).length} passed
+                </p>
+                <p className="mt-1 text-xs text-stone-600">
+                  Phase 48 remains 19/30 machine-observed with unavailable aggregate metrics; the dashboard does not reconstruct or upgrade that evidence.
+                </p>
+              </div>
+            ) : null}
             {independentEvaluation.stability ? (
               <div className="mt-4 rounded-md border border-stone-200 bg-white p-4 text-sm text-stone-700">
                 <p className="font-semibold text-ink">Three-pass development stability slice</p>

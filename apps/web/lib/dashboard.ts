@@ -38,6 +38,16 @@ export type EvalRun = {
   };
   hard_gates?: Record<string, boolean | null>;
   portfolio_claim_gates?: Record<string, boolean | null>;
+  claim_gates?: Record<string, boolean | null>;
+  improvement_claim_allowed?: boolean | null;
+  run_completeness?: {
+    status?: string | null;
+    expected_case_count?: number | null;
+    persisted_case_count?: number | null;
+    journal_verified?: boolean | null;
+    aggregate_from_persisted_rows?: boolean | null;
+    external_calls_duplicated?: boolean | null;
+  };
 };
 
 export type PromptComparison = {
@@ -216,6 +226,15 @@ export type IndependentEvaluation = {
   separate_from_benchmark?: boolean;
   development?: EvalRun | null;
   holdout?: EvalRun | null;
+  phase48_holdout?: EvalRun | null;
+  fresh_holdout?: EvalRun | null;
+  reliability?: {
+    status?: string | null;
+    run_id?: string | null;
+    run_completeness?: EvalRun["run_completeness"];
+    interruption_tests?: Record<string, string>;
+    phase48_evidence_preserved?: Record<string, string | number | boolean | null>;
+  } | null;
   stability?: {
     generated_at?: string | null;
     case_count?: number | null;

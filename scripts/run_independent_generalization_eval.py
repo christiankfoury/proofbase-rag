@@ -213,6 +213,8 @@ def _score_response(case: dict[str, Any], payload: dict[str, Any], *, latency_ms
         "rewritten_question": (payload.get("memory") or {}).get("rewritten_question"),
         "citation_documents": citation_documents,
         "retrieved_documents": retrieved_documents,
+        "retrieved_chunks": retrieved,
+        "permission_check": permission_check,
         "citations": citations,
         "unsupported_claims": unsupported_claims,
         "substantive_unsupported_claims": substantive_unsupported,

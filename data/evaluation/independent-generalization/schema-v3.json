@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "proofbase://evaluation/independent-generalization/schema-v3.json",
+  "title": "Proofbase Phase 49 Blind Independent Generalization Holdout",
+  "type": "object",
+  "required": ["suite_name", "suite_version", "split", "case_count", "cases"],
+  "properties": {
+    "suite_name": {"const": "independent-generalization"},
+    "suite_version": {"const": "3.0"},
+    "split": {"const": "holdout"},
+    "case_count": {"const": 30},
+    "cases": {
+      "type": "array",
+      "minItems": 30,
+      "maxItems": 30,
+      "items": {"$ref": "#/$defs/case"}
+    }
+  },
+  "$defs": {
+    "turn": {
+      "type": "object",
+      "required": ["role", "content"],
+      "properties": {
+        "role": {"enum": ["user", "assistant"]},
+        "content": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "case": {
+      "type": "object",
+      "required": [
+        "case_id", "suite_version", "split", "category", "difficulty", "user_role", "user_id",
+        "project_id", "department_id", "previous_turns", "question", "expected_behavior", "required_facts",
+        "forbidden_facts", "expected_source_documents", "expected_source_sections_or_quotes", "allowed_documents",
+        "permission_pair_id", "restricted_source_expectation", "fixture_requirements", "authoring_notes",
+        "review_status", "reviewed_by", "reviewed_at"
+      ],
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^P49-H3-"},
+        "suite_version": {"const": "3.0"},
+        "split": {"const": "holdout"},
+        "category": {"enum": [
+          "factual_robustness", "multi_document_claim_coverage", "multi_turn_memory", "ambiguity_boundaries",
+          "permission_scope_pairs", "missing_information_abstention", "prompt_injection_adversarial",
+          "conflicting_versioned_sources", "uploaded_document_project_isolation"
+        ]},
+        "difficulty": {"enum": ["easy", "medium", "hard"]},
+        "user_role": {"enum": ["Employee", "Sales Representative", "Manager", "HR Admin", "IT Admin"]},
+        "user_id": {"type": "string"},
+        "project_id": {"type": ["string", "null"]},
+        "department_id": {"type": ["string", "null"]},
+        "previous_turns": {"type": "array", "items": {"$ref": "#/$defs/turn"}},
+        "question": {"type": "string", "minLength": 1},
+        "expected_behavior": {"enum": ["answer", "clarify", "refuse_no_access", "not_found"]},
+        "required_facts": {"type": "array", "items": {"type": "string"}},
+        "forbidden_facts": {"type": "array", "items": {"type": "string"}},
+        "expected_source_documents": {"type": "array", "items": {"type": "string"}},
+        "expected_source_sections_or_quotes": {"type": "array"},
+        "allowed_documents": {"type": "array", "items": {"type": "string"}},
+        "permission_pair_id": {"type": ["string", "null"]},
+        "restricted_source_expectation": {"type": "boolean"},
+        "fixture_requirements": {"type": ["object", "null"]},
+        "authoring_notes": {"type": "string", "minLength": 1},
+        "review_status": {"const": "approved"},
+        "reviewed_by": {"type": "string", "minLength": 1},
+        "reviewed_at": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

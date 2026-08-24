@@ -42,6 +42,9 @@ PHASE47_PERMISSION_RUN_PATH = RUNS_DIR / "phase47-permission-evaluation.json"
 PHASE47_DEVELOPMENT_RUN_PATH = RUNS_DIR / "phase47-independent-development.json"
 PHASE47_HOLDOUT_RUN_PATH = RUNS_DIR / "phase47-independent-holdout.json"
 PHASE47_STABILITY_PATH = ROOT / "data/evaluation/independent-generalization/results/phase47-development-stability.json"
+PHASE48_HOLDOUT_RUN_PATH = RUNS_DIR / "phase48-independent-holdout-v2.json"
+PHASE49_HOLDOUT_RUN_PATH = RUNS_DIR / "phase49-independent-holdout-v3.json"
+EVALUATION_RELIABILITY_PATH = ROOT / "data/evaluation/evaluation-reliability.json"
 SCORECARD_PATH = ROOT / "data/evaluation/regression-scorecard.json"
 
 REQUIRED_REPORTS = [
@@ -506,11 +509,17 @@ def _independent_evaluation() -> dict[str, Any]:
     development = load_optional(PHASE47_DEVELOPMENT_RUN_PATH)
     holdout = load_optional(PHASE47_HOLDOUT_RUN_PATH)
     stability = load_optional(PHASE47_STABILITY_PATH)
+    phase48_holdout = load_optional(PHASE48_HOLDOUT_RUN_PATH)
+    fresh_holdout = load_optional(PHASE49_HOLDOUT_RUN_PATH)
+    reliability = load_optional(EVALUATION_RELIABILITY_PATH)
     return {
-        "suite_version": "1.0",
+        "suite_version": "3.0" if fresh_holdout else "2.0",
         "separate_from_benchmark": True,
         "development": development,
         "holdout": holdout,
+        "phase48_holdout": phase48_holdout,
+        "fresh_holdout": fresh_holdout,
+        "reliability": reliability,
         "stability": {
             key: stability.get(key)
             for key in [
@@ -536,7 +545,8 @@ def _independent_evaluation() -> dict[str, Any]:
             "hallucination_rate": 0.05,
         },
         "limitations": [
-            "Phase 47 is separate from benchmark 1.1 and Phase 45/46 probes; scores are not blended.",
+            "Independent holdouts are separate from benchmark 1.1 and Phase 45/46 probes; scores are not blended.",
+            "Phase 48 remains an interrupted 19/30 machine observation with unavailable aggregate quality metrics; it was not reconstructed or rerun.",
             "Fact completeness, claim support, and hallucination signals are deterministic or heuristic and require holdout human adjudication.",
             "The synthetic suite does not prove production reliability or universal hallucination prevention.",
         ],
