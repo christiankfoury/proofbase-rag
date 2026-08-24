@@ -8,7 +8,7 @@ The local deployment uses Docker Compose:
 - `api`: FastAPI service that handles retrieval, generation, ingestion scripts, evaluation scripts, feedback, audit events, and observability summaries.
 - `web`: Next.js service that reads API endpoints for dashboard, feedback, audit, and observability views.
 
-The API connects to Postgres with `DATABASE_URL`. The web app connects to the API with `NEXT_PUBLIC_API_BASE_URL`. Local demo auth uses seeded database users and the `X-Demo-User-Id` request header; `DEFAULT_DEMO_USER_ID` controls the fallback demo user.
+The API connects to Postgres with `DATABASE_URL`. Browser-side web requests use `NEXT_PUBLIC_API_BASE_URL`, while Next.js server components use `API_INTERNAL_BASE_URL`. Compose sets the internal URL to `http://api:8000`, avoiding the incorrect assumption that the web container's `localhost` is the API. Local demo auth uses seeded database users and the `X-Demo-User-Id` request header; `DEFAULT_DEMO_USER_ID` controls the fallback demo user.
 
 ## Azure-Ready Target Architecture
 

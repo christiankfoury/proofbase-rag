@@ -1,3 +1,5 @@
+import { API_BASE } from "@/lib/apiBase";
+
 export type Metrics = Record<string, number | string | null | undefined>;
 
 export type EvalRun = {
@@ -277,8 +279,6 @@ export type DashboardData = {
   failed_questions: FailedQuestion[];
   notes: string[];
 };
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
 function emptyDashboardData(): DashboardData {
   return {

@@ -22,7 +22,8 @@
 
 | Variable | Required | Example | Notes |
 |---|---|---|---|
-| `NEXT_PUBLIC_API_BASE_URL` | Yes | `http://localhost:8000` | Use `http://api:8000` inside Docker Compose. |
+| `NEXT_PUBLIC_API_BASE_URL` | Yes | `http://localhost:8000` | Browser-facing API URL. It must use the host-published port so the user's browser can reach it. |
+| `API_INTERNAL_BASE_URL` | No | `http://api:8000` | Server-rendering API URL. Docker Compose sets this to the API service name so Next.js server components do not call their own `localhost`. Falls back to `NEXT_PUBLIC_API_BASE_URL` outside Compose. |
 | `WEB_PORT` | No | `3000` | Docker Compose host port for the dashboard. |
 
 ## Local Files

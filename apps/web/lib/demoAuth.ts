@@ -1,6 +1,6 @@
 import { formatPhaseLabel } from "@/lib/phases";
+import { API_BASE } from "@/lib/apiBase";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 export const DEMO_USER_HEADER = "X-Demo-User-Id";
 export const DEMO_USER_STORAGE_KEY = "eka-demo-user-id";
 export const DEFAULT_DEMO_USER_ID = "00000000-0000-0000-0000-000000002701";
