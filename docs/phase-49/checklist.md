@@ -14,7 +14,7 @@
 - [x] Freeze the hardened evaluator commit at `3d3706e` and push it before blind authoring.
 - [x] Author and independently validate blind holdout v3 with isolated clean-context agents.
 - [x] Seal the approved 30-case suite at SHA-256 `22e7bfbc36469dc7b7f1aad8586ef480c607094295dc26f9451f8609307b2d8c` with a `$2.00` command budget.
-- [ ] Execute the complete holdout exactly once.
-- [ ] Review every automated failure and at least 10% of passes.
-- [ ] Preserve automated and adjudicated results separately.
+- [x] Execute the complete holdout exactly once: `22/30`, cost `$0.022624`, all 30 attempt counts `1`.
+- [x] Review all `8/8` automated failures and `3/22` passes (`13.6%`).
+- [x] Preserve automated and adjudicated results separately without a human-adjusted aggregate.
 - [ ] Complete verification, commit review, code review, and push `main`.

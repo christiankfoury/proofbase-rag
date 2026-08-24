@@ -1,6 +1,6 @@
 # Phase 49 Verification
 
-Status: reliability implementation verified locally and ready to freeze; fresh blind measurement pending.
+Status: complete. Reliability, one-time fresh measurement, adjudication, reporting, and local verification passed.
 
 Hardened evaluator freeze: `3d3706e4bbe1b42a18d3a4909464cdad63dfbedc` (reviewed and pushed before blind holdout authoring).
 
@@ -54,3 +54,44 @@ No OpenAI call, holdout execution, prompt/runtime change, or Phase 47/48 rerun o
 The blind author transparently recorded that its first allowed common-module read displayed the full module rather than a constants-only slice. It did not open or follow any referenced prior holdout, result, failure, runtime, remediation, or Git artifact. The independent validator had no access to that module or to any Phase 47/48 evidence.
 
 The Phase 48 artifact, 19/30 observation, `$0.023159` cost, unavailable aggregate metrics, and adjudication counts were not changed or reconstructed.
+
+## One-Time Fresh Measurement
+
+- Run: `phase49-independent-holdout-v3`.
+- Execution window: `2026-08-24T00:37:40.524953Z` through `2026-08-24T00:41:41.888092Z`.
+- Result: `22/30`; estimated cost: `$0.022624` under the `$2.00` command limit.
+- Frozen runtime: `7bbb8b4af9e5f43e069347f69f2599b652d1a2c8`.
+- Hardened evaluator: `3d3706e4bbe1b42a18d3a4909464cdad63dfbedc`.
+- Sealed suite commit: `4d51ea3e775991018305d0854b7843abdb5c1cc0`.
+- Corpus SHA-256: `491ca33d71b16281111eed45aaaacbdfce5e97fe2aaf5916ae90283b1343f870`.
+- Suite SHA-256: `22e7bfbc36469dc7b7f1aad8586ef480c607094295dc26f9451f8609307b2d8c`.
+- Configuration: `gpt-4.1-mini`, `text-embedding-3-small`, prompt `v9`, `vector_lexical_rerank`, top-k `5`, candidate limit `20`, temperature `0.0`.
+
+Integrity inspection confirmed `30/30` contiguous atomic case rows, 30 unique case IDs, attempt count `1` for every case, no duplicate external calls, a valid 62-event hash-chained journal (`run_started`, 30 `case_started`, 30 `case_completed`, `run_completed`), matching manifest/final hashes, and aggregate construction from persisted rows only. There were no recovery events in the live run.
+
+The optional platform-telemetry request could not reach its endpoint; core embedding and query calls completed and this did not affect scoring. The `/query` response does not expose provider token usage, so per-case token fields remain `null`. The generated aggregate's numeric `0` token totals mean "not observed," not zero tokens consumed; cost is preserved from the endpoint's own estimates.
+
+## Claim Gates
+
+| Gate | Result |
+| --- | --- |
+| Permission leakage | `0` — passed |
+| Unauthorized chunks reaching generation | `0` — passed |
+| Restricted citation leakage | `0` — passed |
+| Memory-as-evidence violations | `0` — passed |
+| Behavior accuracy | `0.967` — passed |
+| Required-source recall | `0.982` — passed |
+| Required-fact completeness | `0.875` — passed |
+| Citation accuracy | `0.947` — passed |
+| Heuristic hallucination rate | `0.133` — missed `<=0.05` |
+| Overall | `22/30` — missed `>=27/30` |
+
+The valid missed targets prohibit an improvement claim; they do not invalidate or leave Phase 49 incomplete.
+
+## Human Review
+
+All `8/8` automated failures and `3/22` automated passes (`13.6%`) were reviewed. Failures were classified as `4` evaluator-only, `3` product, `1` mixed, and `0` benchmark defects. Automated and adjudicated results remain separate and no human-adjusted aggregate was created. Product-remediation evidence is limited to `P49-H3-006`, `P49-H3-007`, `P49-H3-013`, and `P49-H3-027`; no runtime remediation occurred in this phase.
+
+## Final Verification
+
+The final verification reran the reliability interruption suite, Phase 47/48 regression tests, benchmark validation, Python compilation, dashboard export, Docker Compose configuration, Git whitespace checks, generated-artifact integrity inspection, and the Next.js production build. The web build used the established elevated Windows `.next-codex-build` path after the sandboxed process hit the known profile-access restriction. Docker Compose emitted the known inaccessible Docker configuration warning and returned success.

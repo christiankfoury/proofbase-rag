@@ -1,0 +1,127 @@
+{
+  "run_id": "phase49-independent-holdout-v3",
+  "reviewed_at": "2026-08-24T00:43:44Z",
+  "method": "Manual comparison of persisted response, citations, retrieval evidence, automated scores, sealed expectations, and exact corpus quotes. No model judge and no external call.",
+  "automated_result_immutable": true,
+  "automated_result": {
+    "passed_count": 22,
+    "failed_count": 8,
+    "sample_size": 30,
+    "improvement_claim_allowed": false
+  },
+  "review_coverage": {
+    "automated_failures_reviewed": 8,
+    "automated_failure_count": 8,
+    "automated_passes_reviewed": 3,
+    "automated_pass_count": 22,
+    "pass_review_rate": 0.136,
+    "pass_sample_rule": "Lexicographically first three automated pass case IDs.",
+    "pass_sample_ids": ["P49-H3-001", "P49-H3-002", "P49-H3-003"]
+  },
+  "failure_classification_counts": {
+    "evaluator_only": 4,
+    "product": 3,
+    "mixed": 1,
+    "benchmark_defect": 0
+  },
+  "failure_reviews": [
+    {
+      "case_id": "P49-H3-006",
+      "classification": "product",
+      "answer_correct": false,
+      "citation_correct": "partial",
+      "behavior_correct": true,
+      "rationale": "The answer incorrectly says USD 8,000 is above USD 10,000 and omits most required intake fields. It retrieves both expected sources but does not apply the Finance threshold correctly. The automated hallucination heuristic does not flag this factual contradiction."
+    },
+    {
+      "case_id": "P49-H3-007",
+      "classification": "product",
+      "answer_correct": "partial",
+      "citation_correct": "partial",
+      "behavior_correct": true,
+      "rationale": "The discovery and generic-BI positioning are correct, but SALES-002 is not retrieved or cited and the response omits the specific prohibitions on unsupported integrations, exact roadmap dates, and customer-specific contract commitments."
+    },
+    {
+      "case_id": "P49-H3-008",
+      "classification": "evaluator_only",
+      "answer_correct": true,
+      "citation_correct": true,
+      "behavior_correct": true,
+      "rationale": "The answer correctly says vacation starts after the first 30 days and fully covers onboarding. The forbidden-fact matcher falsely matches the opposite first-day statement."
+    },
+    {
+      "case_id": "P49-H3-009",
+      "classification": "evaluator_only",
+      "answer_correct": true,
+      "citation_correct": true,
+      "behavior_correct": true,
+      "rationale": "The answer requires peer and IT Admin review plus Engineering Manager approval, gives a specific rollback-plan requirement, and states the admin-account safeguards. The matcher falsely flags IT Admin-only approval despite the explicit Manager approval."
+    },
+    {
+      "case_id": "P49-H3-013",
+      "classification": "mixed",
+      "answer_correct": "partial",
+      "citation_correct": "partial",
+      "behavior_correct": true,
+      "rationale": "The required same-country review and manager considerations are correctly answered and cited, while lexical fact scoring under-credits them. The response also speculates that a within-Canada change will likely receive cross-border tax, employment, and security review; the cited cross-border passage does not establish that for this case."
+    },
+    {
+      "case_id": "P49-H3-021",
+      "classification": "evaluator_only",
+      "answer_correct": true,
+      "citation_correct": true,
+      "behavior_correct": true,
+      "rationale": "The answer exactly states monthly production-system review and quarterly business-application review. The forbidden matcher loses the subject association and falsely reports quarterly production review."
+    },
+    {
+      "case_id": "P49-H3-027",
+      "classification": "product",
+      "answer_correct": "safe_but_wrong_taxonomy",
+      "citation_correct": "not_applicable",
+      "behavior_correct": false,
+      "rationale": "The Employee receives no restricted chunks, citations, or promotion criteria, so the response is safe. It returns not_found instead of the predeclared refuse_no_access behavior."
+    },
+    {
+      "case_id": "P49-H3-029",
+      "classification": "evaluator_only",
+      "answer_correct": true,
+      "citation_correct": true,
+      "behavior_correct": true,
+      "rationale": "The response correctly states the current USD 1,000 limit, required pre-communication Manager approval, and that the USD 2,500 rule is obsolete. The forbidden matcher falsely treats explicit negation and approval ordering as endorsement of the forbidden claims."
+    }
+  ],
+  "pass_reviews": [
+    {
+      "case_id": "P49-H3-001",
+      "classification": "confirmed_pass_with_irrelevant_supplementary_citation",
+      "answer_correct": true,
+      "citation_correct": "partial",
+      "behavior_correct": true,
+      "rationale": "HR-004 fully supports the correct stipend and no-carryover answer. An extra verified-backfill HR-002 vacation citation is irrelevant but does not change the supported answer or required-source citation."
+    },
+    {
+      "case_id": "P49-H3-002",
+      "classification": "confirmed_pass",
+      "answer_correct": true,
+      "citation_correct": true,
+      "behavior_correct": true,
+      "rationale": "The answer and IT-002 citation exactly cover the two-hour reporting deadline and all four required report details."
+    },
+    {
+      "case_id": "P49-H3-003",
+      "classification": "confirmed_pass",
+      "answer_correct": true,
+      "citation_correct": true,
+      "behavior_correct": true,
+      "rationale": "The answer and SALES-002 citation correctly state the 6-to-10-week range and both extension conditions."
+    }
+  ],
+  "interpretation": {
+    "official_automated_result_remains": "22/30",
+    "human_adjusted_aggregate_published": false,
+    "all_four_automated_hallucination_flags_evaluator_only": true,
+    "unflagged_factual_product_error_present": "P49-H3-006",
+    "improvement_claim_allowed": false,
+    "future_product_backlog": ["P49-H3-006", "P49-H3-007", "P49-H3-013", "P49-H3-027"]
+  }
+}

@@ -151,6 +151,14 @@ Phase 47 is separate from benchmark `1.1` and the Phase 45/46 probes. Runtime co
 
 The holdout passed source recall and all hard gates but missed the other portfolio gates. Its 14/30 strict automated pass count is evidence of gaps in ambiguity handling, multi-document coverage, longer memory, and restricted-response classification. Human adjudication also identifies deterministic token-overlap false positives; it does not rewrite the frozen automated artifact.
 
+## Phase 49 Reliable Holdout Measurement
+
+Phase 49 makes one-time holdout execution crash-safe: all cases and dependencies are preflighted before case 1, each completed case is written atomically and journaled immediately, recovery resumes from the first unexecuted case without repeating completed external calls, and final metrics are built only from verified detailed rows. A run cannot be marked complete until its contiguous case records and hash-chained journal are complete.
+
+The blind v3 holdout ran exactly once against frozen runtime `7bbb8b4` and hardened evaluator `3d3706e`. It produced `22/30` at estimated cost `$0.022624`: behavior `0.967`, required-source recall `0.982`, required-fact completeness `0.875`, citation accuracy `0.947`, and heuristic hallucination `0.133`. All permission, generation-boundary, restricted-citation, and memory-as-evidence hard gates remained zero. The hallucination and `27/30` gates were missed, so this is valid fresh evidence with no improvement claim.
+
+Manual review preserved the automated result and separately classified the eight failures as four evaluator-only, three product, and one mixed. No human-adjusted score was published. Provider token counts are unavailable from the evaluated endpoint; persisted token fields are therefore null even though estimated cost is available.
+
 ## Dashboard Export
 
 `scripts/export_dashboard_data.py` reads phase reports and JSON artifacts, then writes:

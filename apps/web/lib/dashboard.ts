@@ -31,6 +31,7 @@ export type EvalRun = {
   provenance?: {
     evaluation_commit?: string | null;
     frozen_runtime_commit?: string | null;
+    runtime_commit?: string | null;
     corpus_hash?: string | null;
     suite_hash?: string | null;
     retrieval_profile?: string | null;
@@ -233,7 +234,8 @@ export type IndependentEvaluation = {
     run_id?: string | null;
     run_completeness?: EvalRun["run_completeness"];
     interruption_tests?: Record<string, string>;
-    phase48_evidence_preserved?: Record<string, string | number | boolean | null>;
+    phase48_evidence_preserved?: Record<string, unknown>;
+    phase49_adjudication?: Record<string, string | number | boolean | null>;
   } | null;
   stability?: {
     generated_at?: string | null;

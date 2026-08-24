@@ -404,8 +404,8 @@ export default async function OverviewPage() {
                   </dl>
                   <p className="mt-4 text-xs leading-5 text-stone-600">
                     Model {run?.model ?? "pending"} · {run?.retrieval_mode ?? "pending"} · top-k {run?.top_k ?? "pending"}
-                    {run?.provenance?.frozen_runtime_commit ? (
-                      <span className="block break-all text-stone-500">Frozen runtime: {run.provenance.frozen_runtime_commit}</span>
+                    {run?.provenance?.frozen_runtime_commit || run?.provenance?.runtime_commit ? (
+                      <span className="block break-all text-stone-500">Frozen runtime: {run.provenance.frozen_runtime_commit ?? run.provenance.runtime_commit}</span>
                     ) : null}
                     {run?.run_completeness ? (
                       <span className="block">
@@ -425,6 +425,11 @@ export default async function OverviewPage() {
                 <p className="mt-1 text-xs text-stone-600">
                   Phase 48 remains 19/30 machine-observed with unavailable aggregate metrics; the dashboard does not reconstruct or upgrade that evidence.
                 </p>
+                {independentEvaluation.reliability.phase49_adjudication ? (
+                  <p className="mt-1 text-xs text-stone-600">
+                    Phase 49 human review: {independentEvaluation.reliability.phase49_adjudication.automated_failures_reviewed ?? "pending"}/{independentEvaluation.reliability.phase49_adjudication.automated_failure_count ?? "pending"} failures and {independentEvaluation.reliability.phase49_adjudication.automated_passes_reviewed ?? "pending"}/{independentEvaluation.reliability.phase49_adjudication.automated_pass_count ?? "pending"} passes; automated and adjudicated results remain separate.
+                  </p>
+                ) : null}
               </div>
             ) : null}
             {independentEvaluation.stability ? (
