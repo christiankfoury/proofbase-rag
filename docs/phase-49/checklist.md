@@ -11,9 +11,9 @@
 - [x] Aggregate only from complete persisted detailed rows.
 - [x] Prove interrupted and uninterrupted execution produce the same final artifact without duplicated calls.
 - [x] Expose evaluator reliability and run completeness in Dev/Admin data/UI.
-- [ ] Freeze the hardened evaluator commit.
-- [ ] Author and independently validate blind holdout v3 with isolated agents.
-- [ ] Seal the suite/hash and record provenance/budget.
+- [x] Freeze the hardened evaluator commit at `3d3706e` and push it before blind authoring.
+- [x] Author and independently validate blind holdout v3 with isolated clean-context agents.
+- [x] Seal the approved 30-case suite at SHA-256 `22e7bfbc36469dc7b7f1aad8586ef480c607094295dc26f9451f8609307b2d8c` with a `$2.00` command budget.
 - [ ] Execute the complete holdout exactly once.
 - [ ] Review every automated failure and at least 10% of passes.
 - [ ] Preserve automated and adjudicated results separately.
