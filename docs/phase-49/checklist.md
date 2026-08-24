@@ -17,4 +17,4 @@
 - [x] Execute the complete holdout exactly once: `22/30`, cost `$0.022624`, all 30 attempt counts `1`.
 - [x] Review all `8/8` automated failures and `3/22` passes (`13.6%`).
 - [x] Preserve automated and adjudicated results separately without a human-adjusted aggregate.
-- [ ] Complete verification, commit review, code review, and push `main`.
+- [x] Complete verification, commit review, code review, and push `main` (`9a28d9f`).
