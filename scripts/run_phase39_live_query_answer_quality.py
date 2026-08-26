@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 from collections import Counter
@@ -13,6 +14,10 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+# Evaluation traffic is measured from the response payload and must not be
+# submitted to an operational telemetry destination as if it were user traffic.
+os.environ["PROOFBASE_TELEMETRY_ENABLED"] = "false"
 
 from fastapi.testclient import TestClient
 
@@ -26,7 +31,7 @@ from apps.api.app.evaluation.metrics import (
     precision_at_k,
     reciprocal_rank,
 )
-from apps.api.app.main import app
+from apps.api.app import main as api_main
 from apps.api.app.memory.session_store import add_message, create_session
 from apps.api.app.retrieval.types import RetrievedChunk
 
@@ -43,6 +48,7 @@ EVAL_RUN_JSON = EVAL_RUN_DIR / f"{RUN_ID}.json"
 REPORT_PATH = PHASE_DIR / "live-query-answer-quality-results.md"
 ADMIN_USER_ID = "00000000-0000-0000-0000-000000002706"
 EVALUATION_EXCLUDED_DOCUMENT_PREFIXES = ["UPLOAD-"]
+app = api_main.app
 EXTERNAL_AI_APPROVAL_MESSAGE = (
     "The Phase 39 live query answer-quality run sends benchmark questions and permission-filtered retrieved "
     "synthetic source snippets to external OpenAI embeddings and chat-completion APIs through POST /query. "
@@ -325,6 +331,12 @@ def _row(question: dict[str, Any], response: dict[str, Any], latency_ms: int, to
         "memory_used": response.get("memory", {}).get("memory_used"),
         "rewrite_strategy": response.get("memory", {}).get("rewrite_strategy"),
         "permission_check": response.get("permission_check"),
+        "clarification_reason": response.get("clarification_reason"),
+        "request_assessment": response.get("request_assessment"),
+        "request_assessment_action": (response.get("request_assessment") or {}).get("recommended_action"),
+        "request_assessment_route": (response.get("request_assessment") or {}).get("route"),
+        "request_assessment_latency_ms": (response.get("request_assessment") or {}).get("latency_ms"),
+        "request_assessment_estimated_cost_usd": (response.get("request_assessment") or {}).get("estimated_cost_usd"),
         **scores,
     }
     failed_item = failed_question_item(question, row_for_scoring, scores)
@@ -380,6 +392,12 @@ def _summary(
         "input_tokens": _sum([row.get("input_tokens") for row in rows]),
         "output_tokens": _sum([row.get("output_tokens") for row in rows]),
         "estimated_cost": _sum_cost([row.get("estimated_cost_usd") for row in rows]),
+        "request_assessment_estimated_cost": _sum_cost(
+            [row.get("request_assessment_estimated_cost_usd") for row in rows]
+        ),
+        "request_assessment_mean_latency_ms": _average(
+            [row.get("request_assessment_latency_ms") for row in rows]
+        ),
         "pricing_status": "estimated",
         "started_at": started_at,
     }
@@ -524,6 +542,9 @@ def run_live_query_eval(args: argparse.Namespace) -> dict[str, Any]:
     if args.question_id:
         requested = set(args.question_id)
         questions = [question for question in questions if question.get("question_id") in requested]
+    # The committed evaluation artifact is the durable record for these synthetic
+    # requests; do not mix them into the operational request log.
+    api_main.log_request = lambda *_args, **_kwargs: None
     client = TestClient(app)
     rows: list[dict[str, Any]] = []
     failed: list[dict[str, Any]] = []
@@ -539,6 +560,8 @@ def run_live_query_eval(args: argparse.Namespace) -> dict[str, Any]:
             failed.append(failed_item)
         if row.get("estimated_cost_usd") is not None:
             cumulative_cost += float(row["estimated_cost_usd"])
+        if row.get("request_assessment_estimated_cost_usd") is not None:
+            cumulative_cost += float(row["request_assessment_estimated_cost_usd"])
         if args.budget_usd is not None and cumulative_cost >= args.budget_usd:
             raise RuntimeError(
                 f"Experiment budget stop reached: ${cumulative_cost:.6f} >= ${args.budget_usd:.2f}."

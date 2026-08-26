@@ -72,10 +72,15 @@ from apps.api.app.projects.project_store import create_department as create_depa
 from apps.api.app.projects.project_store import create_project as create_project_record
 from apps.api.app.projects.project_store import update_department as update_department_record
 from apps.api.app.projects.project_store import update_project as update_project_record
-from apps.api.app.reasoning.clarification import clarification_answer, classify_clarification_need
+from apps.api.app.reasoning.clarification import clarification_answer
 from apps.api.app.reasoning.evidence_grouper import group_chunks_by_document
 from apps.api.app.reasoning.multi_doc_detector import is_multi_document_question
 from apps.api.app.reasoning.query_decomposer import retrieve_multi_doc
+from apps.api.app.reasoning.request_assessment import (
+    RequestAssessment,
+    assess_request,
+    assessment_response_decision,
+)
 from apps.api.app.retrieval.config import default_retrieval_config
 from apps.api.app.retrieval.retriever import retrieve_chunks
 from apps.api.app.review.review_store import create_review_decision, list_review_decisions
@@ -1566,6 +1571,7 @@ def _query_response_payload(
     trace: RequestTrace,
     multi_doc: bool,
     effective_role: str,
+    request_assessment: RequestAssessment,
 ) -> dict:
     return {
         "session_id": session_id,
@@ -1583,6 +1589,7 @@ def _query_response_payload(
         "unsupported_claims": answer["unsupported_claims"],
         "validation_notes": answer["validation_notes"],
         "clarification_reason": answer.get("clarification_reason"),
+        "request_assessment": request_assessment.model_dump(mode="json"),
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "scope": {
@@ -1620,7 +1627,7 @@ def _query_response_payload(
     }
 
 
-def _maybe_clarify_before_retrieval(
+def _assess_before_retrieval(
     request: QueryRequest,
     *,
     project_id: str | None,
@@ -1628,27 +1635,48 @@ def _maybe_clarify_before_retrieval(
     rewrite: dict,
     effective_role: str,
     user_id: str | None,
-) -> dict | None:
-    decision = classify_clarification_need(
+    previous_turns: list[dict],
+) -> tuple[RequestAssessment, dict | None]:
+    assessment = assess_request(
         request.question,
         project_id=project_id,
         department_id=department_id,
         has_memory=bool(rewrite.get("memory_used")),
         rewritten_question=rewrite.get("rewritten_question"),
+        previous_turns=previous_turns,
     )
-    if not decision:
-        return None
-    if decision.reason == "unsafe_user_instruction_override":
+    decision = assessment_response_decision(assessment)
+    if assessment.recommended_action == "block":
         log_audit_event(
             action="user_prompt_override_blocked",
             user_role=effective_role,
             user_id=user_id,
             resource_type="query",
             outcome="blocked",
-            reason=decision.reason,
-            metadata={"project_id": project_id, "department_id": department_id},
+            reason=assessment.response_reason,
+            metadata={
+                "project_id": project_id,
+                "department_id": department_id,
+                "assessment_route": assessment.route,
+                "reason_codes": list(assessment.reason_codes),
+            },
         )
-    return clarification_answer(decision)
+    elif assessment.status == "failed_safe":
+        log_audit_event(
+            action="request_assessment_failed_safe",
+            user_role=effective_role,
+            user_id=user_id,
+            resource_type="query",
+            outcome="blocked",
+            reason=assessment.response_reason,
+            metadata={
+                "project_id": project_id,
+                "department_id": department_id,
+                "assessment_route": assessment.route,
+                "reason_codes": list(assessment.reason_codes),
+            },
+        )
+    return assessment, clarification_answer(decision) if decision else None
 
 
 @app.post("/query/stream")
@@ -1669,6 +1697,7 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
             "original_question": request.question,
         }
         answer: dict = {}
+        request_assessment: RequestAssessment | None = None
         session_id = request.session_id
 
         def submit_failure_telemetry(exc: BaseException) -> None:
@@ -1733,13 +1762,25 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
             memory_context = build_memory_context(previous_turns) if rewrite["memory_used"] else {}
             memory_text = memory_context_text(memory_context)
             retrieval_question = rewrite["rewritten_question"]
-            clarification = _maybe_clarify_before_retrieval(
+            yield _sse("status", {"status": "assessment_started", "message": "Assessing request intent and safety."})
+            request_assessment, clarification = _assess_before_retrieval(
                 request,
                 project_id=project_id,
                 department_id=department_id,
                 rewrite=rewrite,
                 effective_role=effective_role,
                 user_id=user.get("id"),
+                previous_turns=previous_turns,
+            )
+            yield _sse(
+                "status",
+                {
+                    "status": "assessment_complete",
+                    "message": f"Request assessment recommended {request_assessment.recommended_action}.",
+                    "route": request_assessment.route,
+                    "recommended_action": request_assessment.recommended_action,
+                    "reason_codes": list(request_assessment.reason_codes),
+                },
             )
 
             if clarification:
@@ -1797,6 +1838,8 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                 trace.stop("generation")
             if not answer:
                 raise RuntimeError("Streaming generation did not return a final answer.")
+            if request_assessment is None:
+                raise RuntimeError("Streaming query did not return a request assessment.")
 
             user_message_id = None
             assistant_message_id = None
@@ -1897,6 +1940,7 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                 trace=trace,
                 multi_doc=multi_doc,
                 effective_role=effective_role,
+                request_assessment=request_assessment,
             )
             yield _sse("metadata", payload)
             yield _sse("complete", {"status": "complete"})
@@ -1929,6 +1973,7 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
     chunks = []
     rewrite: dict = {"rewritten_question": request.question, "is_followup": False, "memory_used": False, "rewrite_strategy": None, "original_question": request.question}
     answer: dict = {}
+    request_assessment: RequestAssessment | None = None
     session_id = request.session_id
     project_id = _validate_project_id(request.project_id) if request.project_id else None
     department_id = _validate_project_id(request.department_id) if request.department_id else None
@@ -1990,13 +2035,14 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         memory_context = build_memory_context(previous_turns) if rewrite["memory_used"] else {}
         memory_text = memory_context_text(memory_context)
         retrieval_question = rewrite["rewritten_question"]
-        clarification = _maybe_clarify_before_retrieval(
+        request_assessment, clarification = _assess_before_retrieval(
             request,
             project_id=project_id,
             department_id=department_id,
             rewrite=rewrite,
             effective_role=effective_role,
             user_id=user.get("id"),
+            previous_turns=previous_turns,
         )
 
         if clarification:
@@ -2044,6 +2090,8 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
 
     user_message_id = None
     assistant_message_id = None
+    if request_assessment is None:
+        raise HTTPException(status_code=503, detail="Request assessment did not complete.")
     if session_id:
         user_message_id = add_message(
             session_id=session_id,
@@ -2145,6 +2193,7 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         "unsupported_claims": answer["unsupported_claims"],
         "validation_notes": answer["validation_notes"],
         "clarification_reason": answer.get("clarification_reason"),
+        "request_assessment": request_assessment.model_dump(mode="json"),
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "scope": {

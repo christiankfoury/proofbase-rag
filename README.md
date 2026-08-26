@@ -436,6 +436,7 @@ The sealed Phase 47–49 holdout runners are not routine regression commands. Th
 - Phase 49 human review classified the eight automated failures as four evaluator-only, three product, one mixed, and zero benchmark defects. The automated score remains unchanged, and one unflagged factual threshold error prevents a zero-hallucination claim.
 - Phase 48 produced a machine-observed `19/30`, but an interrupted persistence path left exact aggregate metrics unavailable. Those cases were not rerun, and Phase 49 used a newly authored sealed suite.
 - Multi-document detection is heuristic.
+- Phase 52 structured request assessment is implemented with deterministic fast paths and a strict-schema semantic default. Its 48-case visible development suite passed all predeclared gates, but this is not unseen generalization or production-security proof; provider failure stops before retrieval.
 - The `/chat` page is a demo UI backed by local demo auth, not a production end-user assistant with SSO/session hardening.
 - Project-scoped retrieval is implemented for `/chat` and `POST /query` when a scope is supplied. Dev/Admin benchmark tools can still use the global retrieval path when no scope is supplied.
 - Department-scoped retrieval is implemented as a strict filter when a department scope is supplied.
@@ -448,9 +449,9 @@ The sealed Phase 47–49 holdout runners are not routine regression commands. Th
 
 The core portfolio scope and Phase 47–49 independent evaluation are complete. The approved next sequence is the [Post-Phase 50 Defense And Production Readiness Plan](docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md): first a nav-accessible Trust & Safety page and layered semantic/evidence defenses, then the separately gated work required for production-quality security.
 
-Planned work includes:
+Current and planned work includes:
 
-- Structured semantic request assessment, permission-aware evidence sufficiency, claim/source-instruction validation, and adversarial evaluation evidence.
+- Structured semantic request assessment is implemented and measured; permission-aware evidence sufficiency, claim/source-instruction validation, and consolidated adversarial evaluation evidence remain Phases 53-55.
 - Real authentication and tenant ownership with database-enforced authorization and isolation.
 - Distributed rate limits, quotas, and AI cost-abuse controls.
 - Quarantined, scanned, isolated file processing backed by production object storage.

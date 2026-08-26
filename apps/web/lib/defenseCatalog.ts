@@ -53,9 +53,9 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
   {
     id: "ambiguity",
     title: "Ambiguity handling",
-    phase: "Phase 50",
-    status: "implemented",
-    summary: "Known underspecified approvals and unresolved fresh-chat referents return a clarification before retrieval.",
+    phase: "Phases 50 and 52",
+    status: "measured",
+    summary: "Deterministic fast paths and a typed semantic assessor route unresolved requests to clarification before retrieval.",
     boundary: "Clarification narrows intent only. It never grants project, department, role, document, or tool access.",
     evidence: [
       {
@@ -70,15 +70,15 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
       },
     ],
     limitations: [
-      "The current early ambiguity guard is pattern-based and does not cover every paraphrase or language.",
-      "Structured semantic assessment is Phase 52 work and is not represented as implemented here.",
+      "The 48-case request-assessment suite is visible development evidence, not unseen generalization proof.",
+      "Semantic assessment adds a provider dependency; unavailable, invalid, refused, or timed-out assessments fail safely without retrieval.",
     ],
     last_verified: "2026-08-26",
   },
   {
     id: "direct-injection",
     title: "Direct prompt-override handling",
-    phase: "Phase 50",
+    phase: "Phases 50 and 52",
     status: "measured",
     summary: "Known requests to ignore evidence, invent facts, suppress citations, or bypass access are blocked before retrieval.",
     boundary: "The guard can block or clarify a request. It cannot alter identity, scope, permissions, or available evidence.",
@@ -86,7 +86,7 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
       {
         label: "Prompt-injection outcomes",
         href: "/dev-admin/runs",
-        detail: "Run phase50-prompt-injection-regression passed 5/5 development cases with zero measured unsafe compliance.",
+        detail: "Run phase52-request-assessment-candidate-v4 passed all 26 attack cases with zero unsafe continuations.",
       },
       {
         label: "Audit evidence",
@@ -95,7 +95,7 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
       },
     ],
     limitations: [
-      "Five development cases do not prove coverage of unseen, encoded, multilingual, or obfuscated attacks.",
+      "The measured suite includes direct, encoded, obfuscated, multilingual, mixed, and memory-poisoning cases, but cannot prove coverage of every future attack.",
       "Exact detection signatures and exploit payloads are intentionally not published on this page.",
     ],
     last_verified: "2026-08-26",
@@ -136,7 +136,7 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
       {
         label: "Permission safety",
         href: "/dev-admin/permission-safety",
-        detail: "Phase 50 measured zero permission leakage, restricted citations, and unauthorized chunks reaching generation in its focused suite.",
+        detail: "Phase 52 measured zero permission leakage, restricted citations, and unauthorized chunks reaching generation in its focused suite.",
       },
       {
         label: "Permission demo",
@@ -179,18 +179,21 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
     id: "semantic-request-assessment",
     title: "Structured semantic request assessment",
     phase: "Phase 52",
-    status: "planned",
-    summary: "A typed assessment will generalize ambiguity and injection routing beyond known deterministic patterns.",
-    boundary: "The future assessor may narrow behavior to continue, clarify, block, or fail safely; it will never expand authorization.",
+    status: "measured",
+    summary: "Every request not resolved by a deterministic fast path receives a strict-schema ambiguity and injection assessment before retrieval.",
+    boundary: "The assessor may narrow behavior to continue, clarify, block, or fail safely. It receives no role, scope, permission, document, chunk, secret, or tool authority and cannot expand authorization.",
     evidence: [
       {
-        label: "Current algorithm boundary",
-        href: "/algorithm",
-        detail: "The current guide documents the implemented deterministic path that the planned assessor will augment.",
+        label: "Phase 52 candidate",
+        href: "/dev-admin/runs",
+        detail: "Run phase52-request-assessment-candidate-v4 passed 48/48 fixed development cases with 0/26 unsafe continuations, 2.304 s p95 latency, and $0.027628 estimated total assessment cost.",
       },
     ],
-    limitations: ["No semantic-assessment runtime, promoted model, latency result, or cost result exists yet."],
-    last_verified: "Not yet verified",
+    limitations: [
+      "This is a routing and integrity control, not authentication, authorization, content moderation, or evidence sufficiency.",
+      "The development suite is visible and was used for remediation; the sealed Phase 47-49 holdouts remain unchanged and were not rerun.",
+    ],
+    last_verified: "2026-08-26",
   },
   {
     id: "evidence-sufficiency",

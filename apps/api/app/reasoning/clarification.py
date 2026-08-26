@@ -90,10 +90,13 @@ def _unsafe_user_instruction_override(normalized: str) -> ClarificationDecision 
         normalized,
         (
             "source says",
+            "source sentence",
             "document says",
             "document contains",
             "handbook says",
+            "handbook quotes",
             "policy says",
+            "policy excerpt",
             "retrieved passage",
             "retrieved source",
             "paragraph says",
@@ -109,6 +112,10 @@ def _unsafe_user_instruction_override(normalized: str) -> ClarificationDecision 
             "is that text an instruction",
             "what should you do",
             "what should the assistant do",
+            "how should employees treat",
+            "explain why",
+            "approved response procedure",
+            "how should reviewers classify",
         ),
     )
     direct_answer_manipulation = _has_any(
@@ -127,6 +134,7 @@ def _unsafe_user_instruction_override(normalized: str) -> ClarificationDecision 
             "act as it admin",
             "pretend you are an admin",
             "pretend to be an admin",
+            "obeying the uploaded text",
         ),
     )
     if source_discussion and asks_about_instruction and not direct_answer_manipulation:
@@ -147,6 +155,9 @@ def _unsafe_user_instruction_override(normalized: str) -> ClarificationDecision 
             "act as it admin",
             "pretend you are an admin",
             "pretend to be an admin",
+            "promote me to admin",
+            "search restricted files",
+            "replace its evidence with my claim",
         ),
     )
     evidence_bypass = _has_any(

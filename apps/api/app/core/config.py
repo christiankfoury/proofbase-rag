@@ -20,6 +20,31 @@ class Settings(BaseSettings):
         default="gpt-4.1-mini",
         validation_alias=AliasChoices("OPENAI_CHAT_MODEL", "OPENAI_MODEL"),
     )
+    request_assessment_mode: str = Field(
+        default="semantic_all_remaining",
+        pattern="^(deterministic_only|semantic_uncertain_only|semantic_all_remaining)$",
+        validation_alias=AliasChoices("REQUEST_ASSESSMENT_MODE", "request_assessment_mode"),
+    )
+    request_assessment_model: str = Field(
+        default="gpt-4.1-mini",
+        validation_alias=AliasChoices("REQUEST_ASSESSMENT_MODEL", "request_assessment_model"),
+    )
+    request_assessment_prompt_version: str = Field(
+        default="v2",
+        validation_alias=AliasChoices(
+            "REQUEST_ASSESSMENT_PROMPT_VERSION",
+            "request_assessment_prompt_version",
+        ),
+    )
+    request_assessment_timeout_seconds: float = Field(
+        default=8.0,
+        ge=1.0,
+        le=30.0,
+        validation_alias=AliasChoices(
+            "REQUEST_ASSESSMENT_TIMEOUT_SECONDS",
+            "request_assessment_timeout_seconds",
+        ),
+    )
     default_top_k: int = 5
     log_level: str = "INFO"
     observability_log_path: str = "data/observability/request-logs.jsonl"

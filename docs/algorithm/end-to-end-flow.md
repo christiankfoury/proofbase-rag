@@ -8,13 +8,14 @@ This document follows a user question through the live API path. The main entry 
 2. If a project scope is present, the API verifies the demo user is a member of that project.
 3. The API chooses the effective role. For project-scoped App queries, it uses the signed-in demo user's business role instead of trusting the request body.
 4. If a chat session exists, previous messages are loaded and used only to detect and rewrite follow-up questions.
-5. Retrieval runs against Postgres with project, department, and role filters.
-6. Multi-document mode may decompose the question into subqueries and merge results.
-7. The answer generator receives only retrieved chunks that passed filtering.
-8. Generation either returns a deterministic policy response, a no-access/not-found response, or calls OpenAI with a prompt version and retrieved context.
-9. Citations are matched to retrieved chunks, optionally backfilled from retrieved chunks, then validated.
-10. Confidence scores, citations, retrieved chunk previews, memory metadata, and permission checks are returned.
-11. The request is logged for observability. Permission-filtered retrieval is audit logged.
+5. Deterministic request guards run first. Every remaining request receives a strict-schema semantic assessment that can continue, clarify, block, or fail safely, but cannot grant access.
+6. Only a continued request reaches retrieval, which runs against Postgres with project, department, and role filters.
+7. Multi-document mode may decompose the question into subqueries and merge results.
+8. The answer generator receives only retrieved chunks that passed filtering.
+9. Generation either returns a deterministic policy response, a no-access/not-found response, or calls OpenAI with a prompt version and retrieved context.
+10. Citations are matched to retrieved chunks, optionally backfilled from retrieved chunks, then validated.
+11. Confidence scores, citations, retrieved chunk previews, request-assessment metadata, memory metadata, and permission checks are returned.
+12. The request is logged for observability. Guarded requests and permission-filtered retrieval are audit logged.
 
 ## Request Flow Diagram
 
@@ -23,6 +24,7 @@ sequenceDiagram
   participant Web as Web/App or Dev/Admin
   participant API as FastAPI
   participant Memory as Memory rewrite
+  participant Assess as Request assessor
   participant Retriever as Retriever
   participant DB as Postgres + pgvector
   participant Gen as Answer generator
@@ -32,6 +34,12 @@ sequenceDiagram
   API->>API: Validate project/department scope
   API->>API: Derive effective role
   API->>Memory: Load session turns and rewrite if follow-up
+  API->>Assess: Current request + minimal reference context
+  alt Block, clarify, or assessment unavailable
+    Assess-->>API: Safe routing response; no retrieval
+    API-->>Web: Clarify/block/fail-safe response
+  else Continue
+    Assess-->>API: Continue (no authorization authority)
   API->>Retriever: Retrieve with role and scope
   Retriever->>DB: Query indexed active documents only
   DB-->>Retriever: Allowed chunks
@@ -47,6 +55,7 @@ sequenceDiagram
     Gen-->>API: Answer payload
   end
   API-->>Web: Answer, citations, confidence, metadata
+  end
 ```
 
 ## Scope And Role Selection
@@ -76,6 +85,14 @@ Memory is not evidence. It is a preprocessing aid:
 5. The answer must still cite currently retrieved chunks.
 
 This is why prior assistant answers can help resolve "it" or "that", but they are not trusted as proof.
+
+## Request Assessment Step
+
+`apps/api/app/reasoning/request_assessment.py` runs after identity and project membership resolution but before retrieval. Existing deterministic guards remain fast paths. In the default `semantic_all_remaining` mode, every other request is classified with the versioned `request_assessment` prompt and the strict `request_assessment.v1` schema.
+
+The model receives only the current request, at most two recent user turns, and an application-derived standalone question for reference resolution. It does not receive the effective role, project or department authorization, source documents, retrieved chunks, secrets, or tool permissions. Its output can narrow the path to `continue`, `clarify`, `block`, or `temporary_unavailable`; it cannot expand scope. Invalid schema, refusal, timeout, missing credentials, or provider failure returns a fail-safe response before retrieval.
+
+A small trusted contract check prevents a clear information request from being mislabeled merely because its subject may be sensitive, restricted, or absent. That normalization still leads only to the ordinary permission-filtered retrieval path and is exposed as `normalization_reason` metadata. It cannot grant access or insert evidence.
 
 ## Retrieval Step
 
@@ -119,6 +136,7 @@ The API response includes:
 | `citations` | Validated citations pointing to retrieved chunks. |
 | `retrieved_chunks` | Chunk metadata and content previews, not full chunk text. |
 | `memory` | Follow-up detection and rewrite metadata. |
+| `request_assessment` | Typed intent/risk/action, route, safe reason codes, normalization, model, prompt, latency, token, and estimated-cost metadata. |
 | `permission_check` | Effective role and whether unauthorized chunks reached generation. |
 | `confidence` fields | Retrieval, citation, answer, and final confidence. |
 | `scope` | Project and department scope used by retrieval. |

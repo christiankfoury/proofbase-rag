@@ -1,0 +1,471 @@
+{
+  "generated_at": "2026-08-26T05:45:57.676846+00:00",
+  "summary": {
+    "run_id": "phase52-permission-evaluation",
+    "run_name": "phase52-permission-evaluation",
+    "phase": "phase-52",
+    "benchmark_version": "1.1",
+    "source_question_count": 130,
+    "restricted_question_count": 20,
+    "authorized_test_count": 20,
+    "retrieval_mode": "vector_lexical_rerank",
+    "chunking_strategy": "section_based",
+    "top_k": 5,
+    "reranker": "lexical",
+    "rerank_candidate_limit": 20,
+    "evaluation_excluded_document_prefixes": [
+      "UPLOAD-"
+    ],
+    "permission_leakage_rate": "0.000",
+    "blocked_answer_accuracy": "1.000",
+    "unauthorized_chunk_exposure_rate": "0.000",
+    "restricted_citation_leakage_rate": "0.000",
+    "unauthorized_chunks_reached_generation_rate": "0.000",
+    "authorized_retrieval_accuracy": "1.000",
+    "authorized_answer_accuracy": "pending"
+  },
+  "unauthorized_rows": [
+    {
+      "question_id": "PERM-001",
+      "user_role": "Employee",
+      "expected_documents": "MGR-002",
+      "retrieved_documents": "HR-004, FIN-001",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-002",
+      "user_role": "Employee",
+      "expected_documents": "MGR-001",
+      "retrieved_documents": "HR-003, HR-001, OPS-001",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-003",
+      "user_role": "Employee",
+      "expected_documents": "SALES-003",
+      "retrieved_documents": "HR-001, IT-003, IT-001, HR-004",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-004",
+      "user_role": "Employee",
+      "expected_documents": "SALES-001",
+      "retrieved_documents": "IT-003, FIN-001, OPS-001",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-005",
+      "user_role": "Sales Representative",
+      "expected_documents": "HR-ADMIN-001",
+      "retrieved_documents": "HR-001, SUPPORT-001, IT-003",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-006",
+      "user_role": "Manager",
+      "expected_documents": "HR-ADMIN-001",
+      "retrieved_documents": "OPS-001, HR-002, IT-003, HR-001, LEGAL-001",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-007",
+      "user_role": "Employee",
+      "expected_documents": "IT-ADMIN-001",
+      "retrieved_documents": "IT-003, OPS-001, IT-002",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-008",
+      "user_role": "HR Admin",
+      "expected_documents": "IT-ADMIN-001",
+      "retrieved_documents": "HR-003, HR-ADMIN-001, HR-001, IT-002",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-009",
+      "user_role": "IT Admin",
+      "expected_documents": "MGR-002",
+      "retrieved_documents": "HR-003, HR-001, FIN-001, OPS-001",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-010",
+      "user_role": "Employee",
+      "expected_documents": "HR-ADMIN-001",
+      "retrieved_documents": "HR-001, IT-003, HR-004",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-011",
+      "user_role": "Employee",
+      "expected_documents": "LEGAL-001",
+      "retrieved_documents": "IT-003, IT-002",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-012",
+      "user_role": "Employee",
+      "expected_documents": "ENG-001",
+      "retrieved_documents": "HR-001, IT-003, OPS-001, FIN-001",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-013",
+      "user_role": "Employee",
+      "expected_documents": "SUPPORT-001",
+      "retrieved_documents": "FIN-001",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-014",
+      "user_role": "Sales Representative",
+      "expected_documents": "ENG-001",
+      "retrieved_documents": "HR-001, SALES-002, SUPPORT-001, HR-003",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-015",
+      "user_role": "HR Admin",
+      "expected_documents": "SUPPORT-001",
+      "retrieved_documents": "FIN-001, OPS-001, LEGAL-001, IT-001",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-016",
+      "user_role": "Manager",
+      "expected_documents": "IT-ADMIN-001",
+      "retrieved_documents": "SUPPORT-001, MGR-001, LEGAL-001, ENG-001",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-017",
+      "user_role": "Sales Representative",
+      "expected_documents": "MGR-002",
+      "retrieved_documents": "SALES-001, SALES-003, SALES-002",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-018",
+      "user_role": "Employee",
+      "expected_documents": "SALES-002",
+      "retrieved_documents": "HR-001, HR-003",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-019",
+      "user_role": "Employee",
+      "expected_documents": "SUPPORT-001",
+      "retrieved_documents": "HR-001, HR-004, HR-003",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    },
+    {
+      "question_id": "PERM-020",
+      "user_role": "Sales Representative",
+      "expected_documents": "HR-ADMIN-001",
+      "retrieved_documents": "HR-001, IT-003, LEGAL-001",
+      "response_type": "refuse_no_access",
+      "unauthorized_chunk_exposure": 0.0,
+      "restricted_citation_leakage": 0.0,
+      "permission_leakage": 0.0,
+      "blocked_answer_accuracy": 1.0,
+      "unauthorized_chunks_reached_generation": 0.0
+    }
+  ],
+  "authorized_rows": [
+    {
+      "question_id": "PERM-001",
+      "authorized_role": "Manager",
+      "expected_documents": "MGR-002",
+      "retrieved_documents": "MGR-002",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-002",
+      "authorized_role": "Manager",
+      "expected_documents": "MGR-001",
+      "retrieved_documents": "MGR-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-003",
+      "authorized_role": "Manager",
+      "expected_documents": "SALES-003",
+      "retrieved_documents": "SALES-003, SALES-002, SALES-001, HR-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-004",
+      "authorized_role": "Manager",
+      "expected_documents": "SALES-001",
+      "retrieved_documents": "SALES-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-005",
+      "authorized_role": "HR Admin",
+      "expected_documents": "HR-ADMIN-001",
+      "retrieved_documents": "HR-ADMIN-001, HR-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-006",
+      "authorized_role": "HR Admin",
+      "expected_documents": "HR-ADMIN-001",
+      "retrieved_documents": "HR-ADMIN-001, OPS-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-007",
+      "authorized_role": "IT Admin",
+      "expected_documents": "IT-ADMIN-001",
+      "retrieved_documents": "IT-ADMIN-001, ENG-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-008",
+      "authorized_role": "IT Admin",
+      "expected_documents": "IT-ADMIN-001",
+      "retrieved_documents": "IT-ADMIN-001, ENG-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-009",
+      "authorized_role": "Manager",
+      "expected_documents": "MGR-002",
+      "retrieved_documents": "MGR-002",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-010",
+      "authorized_role": "HR Admin",
+      "expected_documents": "HR-ADMIN-001",
+      "retrieved_documents": "HR-ADMIN-001, HR-001, LEGAL-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-011",
+      "authorized_role": "Manager",
+      "expected_documents": "LEGAL-001",
+      "retrieved_documents": "LEGAL-001, SUPPORT-001, ENG-001, IT-003",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-012",
+      "authorized_role": "Manager",
+      "expected_documents": "ENG-001",
+      "retrieved_documents": "ENG-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-013",
+      "authorized_role": "Manager",
+      "expected_documents": "SUPPORT-001",
+      "retrieved_documents": "SUPPORT-001, FIN-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-014",
+      "authorized_role": "Manager",
+      "expected_documents": "ENG-001",
+      "retrieved_documents": "ENG-001, HR-001, SALES-002",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-015",
+      "authorized_role": "Manager",
+      "expected_documents": "SUPPORT-001",
+      "retrieved_documents": "SUPPORT-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-016",
+      "authorized_role": "IT Admin",
+      "expected_documents": "IT-ADMIN-001",
+      "retrieved_documents": "IT-ADMIN-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-017",
+      "authorized_role": "Manager",
+      "expected_documents": "MGR-002",
+      "retrieved_documents": "MGR-002",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-018",
+      "authorized_role": "Manager",
+      "expected_documents": "SALES-002",
+      "retrieved_documents": "SALES-002, ENG-001, SUPPORT-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-019",
+      "authorized_role": "Manager",
+      "expected_documents": "SUPPORT-001",
+      "retrieved_documents": "SUPPORT-001, MGR-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    },
+    {
+      "question_id": "PERM-020",
+      "authorized_role": "HR Admin",
+      "expected_documents": "HR-ADMIN-001",
+      "retrieved_documents": "HR-ADMIN-001, HR-001",
+      "authorized_retrieval_accuracy": 1.0,
+      "authorized_answer_accuracy": "pending"
+    }
+  ],
+  "dashboard_run": {
+    "run_id": "phase52-permission-evaluation",
+    "run_name": "phase52-permission-evaluation",
+    "phase": "phase-52",
+    "run_type": "permission_eval",
+    "timestamp": "2026-08-26T05:45:57.676846+00:00",
+    "retrieval_mode": "vector_lexical_rerank",
+    "chunking_strategy": "section_based",
+    "top_k": 5,
+    "reranker": "lexical",
+    "rerank_candidate_limit": 20,
+    "evaluation_excluded_document_prefixes": [
+      "UPLOAD-"
+    ],
+    "total_questions": 20,
+    "source_question_count": 130,
+    "question_filter": "permission_restricted",
+    "metrics": {
+      "restricted_question_count": 20,
+      "authorized_test_count": 20,
+      "permission_leakage_rate": 0,
+      "blocked_answer_accuracy": 1,
+      "unauthorized_chunk_exposure_rate": 0,
+      "restricted_citation_leakage_rate": 0,
+      "unauthorized_chunks_reached_generation_rate": 0,
+      "authorized_retrieval_accuracy": 1,
+      "authorized_answer_accuracy": "pending",
+      "failed_question_count": 0
+    },
+    "failed_questions": [],
+    "category_breakdown": {
+      "permission_restricted": 20
+    },
+    "notes": "Phase 52 permission suite. Measures unauthorized retrieval exposure, citation leakage, pre-generation filtering, refusal accuracy, and authorized-source retrieval checks.",
+    "sample_size": 20,
+    "passed_count": 20,
+    "failed_count": 0,
+    "benchmark_version": "1.1",
+    "run_timestamp": "2026-08-26T05:45:57.676846+00:00"
+  }
+}

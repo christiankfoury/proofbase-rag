@@ -176,7 +176,7 @@ export default function TrustAndSafetyPage() {
             ))}
           </ol>
           <p className="mt-4 rounded border border-steel bg-steel-soft/60 p-3 text-sm leading-6 text-steel-dark">
-            Steps 2, 5, and the semantic part of step 7 are the Phase 52-54 roadmap. Their presence in this target flow does not mean they are implemented today.
+            Step 2 is implemented and measured in Phase 52. Step 5 and the semantic part of step 7 remain Phase 53-54 roadmap work; their presence in this target flow does not mean they are implemented today.
           </p>
         </Card>
 
@@ -217,9 +217,9 @@ export default function TrustAndSafetyPage() {
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {[
-              ["130 / 130", "Phase 50 benchmark 1.1", "Known development regression, not unseen generalization proof."],
-              ["5 / 5", "Phase 50 injection slice", "Focused direct/source-discussion development cases."],
-              ["0", "Permission hard-gate failures", "Phase 50 leakage, exposure, restricted-citation, and unauthorized-generation rates."],
+              ["130 / 130", "Current benchmark 1.1", "Known development regression, not unseen generalization proof."],
+              ["48 / 48", "Phase 52 request assessment", "Fixed development suite; 0/26 attack cases continued unsafely."],
+              ["0", "Permission hard-gate failures", "Phase 52 leakage, exposure, restricted-citation, and unauthorized-generation rates."],
               ["22 / 30", "Phase 49 fresh holdout", "Official immutable result; overall and heuristic-hallucination targets were missed."],
             ].map(([value, label, detail]) => (
               <article key={label} className="rounded border border-moss bg-white p-4 shadow-card">

@@ -70,18 +70,19 @@ Evidence:
 
 - `answer_generator.py` has an `AMBIGUOUS_PATTERNS` list.
 - Phase 50 adds pre-retrieval ambiguity and direct prompt-override guards for known patterns while preserving a source-discussion exemption.
+- Phase 52 adds a strict-schema semantic assessor for every request not resolved by those deterministic fast paths. Its fixed 48-case development suite passed 48/48 with zero unsafe continuations, while keeping authorization outside model control.
 - Prompt `answer_generation_v8.md` tells the model to clarify for underspecified approval, location, role, amount, contract, vendor, deployment, and sales-stage questions.
 - Phase 46 improved generalization-probe clarification behavior from `0.000` to `1.000`.
 
 Risk:
 
-New ambiguous phrasing, obfuscated direct attacks, or instructions embedded in retrieved sources may bypass a pattern list and depend on model behavior. The Phase 50 development checks do not prove production robustness.
+The semantic assessor broadens coverage to encoded, obfuscated, multilingual, mixed, and memory-poisoning requests, but a visible 48-case development suite still does not prove production robustness. Instructions embedded in retrieved sources also require a separate post-generation/source-integrity layer.
 
 Recommended verification:
 
 - Keep pre-retrieval clarification reasons visible in API and App proof surfaces.
-- Add broader regression cases for ambiguous questions with new wording.
-- Follow `docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md`: add typed semantic request assessment for non-deterministic cases, then a permission-aware evidence-sufficiency gate and post-generation claim/source-instruction validation. Keep permission enforcement independent of classifier output.
+- Keep expanding predeclared development regressions without reopening the Phase 47-49 sealed holdouts.
+- Follow `docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md`: Phase 52 request assessment is implemented; next add the permission-aware evidence-sufficiency gate and post-generation claim/source-instruction validation. Keep permission enforcement independent of every classifier output.
 
 ### F4. Some answer improvements are direct policy responses, not general reasoning
 

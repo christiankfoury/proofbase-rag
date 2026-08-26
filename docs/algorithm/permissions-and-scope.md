@@ -36,6 +36,8 @@ Department scope is strict. It is not a ranking boost.
 
 ## Role Filtering Before Generation
 
+The Phase 52 request assessor runs before retrieval, but it is not part of authorization. It receives no effective role, project or department authorization, document metadata, or retrieved content. A `continue` action means only “the request may proceed to the normal authorization and retrieval path”; it never means “the user may access the requested subject.”
+
 Vector and keyword retrieval both use:
 
 ```sql
