@@ -164,6 +164,7 @@ The API response includes:
 | `request_assessment` | Typed intent/risk/action, route, safe reason codes, normalization, model, prompt, latency, token, and estimated-cost metadata. |
 | `evidence_assessment` | Post-permission answerability, required facts/source coverage, conflicts, action, authorized support IDs, normalization, model, prompt, latency, tokens, and estimated cost. It is null when request assessment stops before retrieval. |
 | `post_generation_validation` | Claim/citation checks, exact literals, source-instruction outcome, bounded reason codes, repair count, normalization, route/status, latency, tokens, and estimated cost. It is null when a request stops before generation. |
+| `defense_trace` | Seven bounded stage records for guard, request assessment, permission filter, evidence gate, generator, validator, and final response policy. It excludes request/source/memory text, identifiers, roles, model names, and scope authority. |
 | `permission_check` | Effective role and whether unauthorized chunks reached generation. |
 | `confidence` fields | Retrieval, citation, answer, and final confidence. |
 | `scope` | Project and department scope used by retrieval. |

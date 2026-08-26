@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phase55-defense-holdout-schema.v1",
+  "type": "object",
+  "required": ["schema_version", "suite_id", "split", "sealed", "authorship", "frozen_runtime", "case_count", "cases"],
+  "properties": {
+    "schema_version": {"const": "phase55-defense-holdout.v1"},
+    "suite_id": {"const": "phase55-defense-holdout-v1"},
+    "split": {"const": "holdout"},
+    "sealed": {"const": true},
+    "authorship": {"type": "object"},
+    "frozen_runtime": {"type": "object"},
+    "case_count": {"const": 30},
+    "cases": {"type": "array", "minItems": 30, "maxItems": 30}
+  }
+}

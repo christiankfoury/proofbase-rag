@@ -81,6 +81,7 @@ from apps.api.app.reasoning.evidence_assessment import (
     evidence_generation_action,
     evidence_response_reason,
 )
+from apps.api.app.reasoning.defense_trace import build_defense_trace
 from apps.api.app.reasoning.evidence_grouper import group_chunks_by_document
 from apps.api.app.reasoning.multi_doc_detector import is_multi_document_question
 from apps.api.app.reasoning.query_decomposer import retrieve_multi_doc
@@ -1589,6 +1590,15 @@ def _query_response_payload(
     request_assessment: RequestAssessment,
     evidence_assessment: EvidenceAssessment | None,
 ) -> dict:
+    defense_trace = build_defense_trace(
+        request_assessment=request_assessment,
+        evidence_assessment=evidence_assessment,
+        post_generation_validation=answer.get("post_generation_validation"),
+        answer=answer,
+        authorized_chunks=chunks,
+        effective_role=effective_role,
+        generation_latency_ms=trace.generation_latency_ms,
+    )
     return {
         "session_id": session_id,
         "user_message_id": user_message_id,
@@ -1608,6 +1618,7 @@ def _query_response_payload(
         "request_assessment": request_assessment.model_dump(mode="json"),
         "evidence_assessment": evidence_assessment.model_dump(mode="json") if evidence_assessment else None,
         "post_generation_validation": answer.get("post_generation_validation"),
+        "defense_trace": defense_trace.model_dump(mode="json"),
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "scope": {
@@ -2545,6 +2556,15 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         chunks=chunks,
     )
 
+    defense_trace = build_defense_trace(
+        request_assessment=request_assessment,
+        evidence_assessment=evidence_assessment,
+        post_generation_validation=answer.get("post_generation_validation"),
+        answer=answer,
+        authorized_chunks=chunks,
+        effective_role=effective_role,
+        generation_latency_ms=trace.generation_latency_ms,
+    )
     return {
         "session_id": session_id,
         "user_message_id": user_message_id,
@@ -2563,6 +2583,7 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         "request_assessment": request_assessment.model_dump(mode="json"),
         "evidence_assessment": evidence_assessment.model_dump(mode="json") if evidence_assessment else None,
         "post_generation_validation": answer.get("post_generation_validation"),
+        "defense_trace": defense_trace.model_dump(mode="json"),
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "scope": {

@@ -451,7 +451,7 @@ The core portfolio scope and Phase 47–49 independent evaluation are complete. 
 
 Current and planned work includes:
 
-- Structured request assessment, permission-aware evidence sufficiency, and post-generation claim/source-instruction validation are implemented and measured; consolidated adversarial evaluation and observability evidence remains Phase 55.
+- Structured request assessment, permission-aware evidence sufficiency, post-generation validation, and consolidated defense observability are implemented and measured. `/dev-admin/defense-readiness` reads a generated 102-case evidence manifest plus the definitive 130-question runtime and 40-check permission artifacts.
 - Real authentication and tenant ownership with database-enforced authorization and isolation.
 - Distributed rate limits, quotas, and AI cost-abuse controls.
 - Quarantined, scanned, isolated file processing backed by production object storage.
@@ -460,7 +460,7 @@ Current and planned work includes:
 
 Identity provider, tenant ownership, production storage/scanning, monitoring ownership, and independent-assessment choices are explicit decision gates. They must not be inferred by an implementation agent or presented as completed production controls.
 
-The Phase 48/49 product-quality backlog also remains preserved for a separately measured remediation. Any future generalization claim requires a new sealed holdout; the Phase 47–49 holdouts must not be rerun or used for tuning.
+The Phase 48/49 product-quality backlog also remains preserved for a separately measured remediation. Phase 55 seals a new post-freeze defense holdout but does not execute or score it; until a future predeclared release protocol opens it, it supports no new generalization claim. The Phase 47–49 holdouts must not be rerun or used for tuning.
 
 ## Selected Documentation
 

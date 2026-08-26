@@ -62,6 +62,7 @@ const navGroups: NavGroup[] = [
     title: "Security",
     icon: ShieldCheck,
     links: [
+      ["Defense Readiness", "/dev-admin/defense-readiness"],
       ["Permission Safety", "/dev-admin/permission-safety"],
       ["Memory Evaluation", "/dev-admin/memory-evaluation"],
     ],
@@ -162,6 +163,7 @@ const routeLabels: Array<[RegExp, BreadcrumbItem[]]> = [
     [{ label: "Home", href: "/" }, { label: "Dev & Admin", href: "/dev-admin" }, { label: "Permission Demo", href: "/dev-admin/permission-demo" }],
   ],
   [/^\/dev-admin\/multi-doc$/, [{ label: "Home", href: "/" }, { label: "Dev & Admin", href: "/dev-admin" }, { label: "Multi-Document Reasoning", href: "/dev-admin/multi-doc" }]],
+  [/^\/dev-admin\/defense-readiness$/, [{ label: "Home", href: "/" }, { label: "Dev & Admin", href: "/dev-admin" }, { label: "Defense Readiness", href: "/dev-admin/defense-readiness" }]],
   [
     /^\/dev-admin\/observability$/,
     [{ label: "Home", href: "/" }, { label: "Dev & Admin", href: "/dev-admin" }, { label: "Observability", href: "/dev-admin/observability" }],

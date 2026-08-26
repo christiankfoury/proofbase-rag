@@ -1,3 +1,5 @@
+import { defenseEvidence, defenseStage } from "@/lib/defenseEvidence";
+
 export type DefenseStatus =
   | "implemented"
   | "measured"
@@ -86,7 +88,7 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
       {
         label: "Prompt-injection outcomes",
         href: "/dev-admin/runs",
-        detail: "Run phase52-request-assessment-candidate-v4 passed all 26 attack cases with zero unsafe continuations.",
+        detail: `Run ${defenseStage("Request assessment").run_id} measured ${defenseStage("Request assessment").unsafe_outcomes} unsafe continuations across ${defenseStage("Request assessment").sample_size} fixed cases.`,
       },
       {
         label: "Audit evidence",
@@ -103,9 +105,9 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
   {
     id: "source-injection",
     title: "Indirect and source-injection handling",
-    phase: "Phases 38-50",
-    status: "implemented",
-    summary: "Retrieved text is framed as evidence to answer from, not as instructions that can change assistant behavior.",
+    phase: "Phases 38-55",
+    status: "measured",
+    summary: "Retrieved text is framed as evidence, and generated output is checked for effects of instructions embedded in authorized source content.",
     boundary: "Legitimate questions about hostile source text can continue, but source instructions do not grant access or replace system behavior.",
     evidence: [
       {
@@ -120,8 +122,8 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
       },
     ],
     limitations: [
-      "There is not yet a general semantic detector for indirect instructions in arbitrary retrieved content.",
-      "Post-generation source-instruction validation is planned for Phase 54.",
+      "The semantic validator is development evidence and cannot prove detection of every indirect or multilingual source instruction.",
+      "A conservative source-discussion false positive remains visible in the Phase 54 fixed suite.",
     ],
     last_verified: "2026-08-26",
   },
@@ -186,7 +188,7 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
       {
         label: "Phase 52 candidate",
         href: "/dev-admin/runs",
-        detail: "Run phase52-request-assessment-candidate-v4 passed 48/48 fixed development cases with 0/26 unsafe continuations, 2.304 s p95 latency, and $0.027628 estimated total assessment cost.",
+        detail: `Run ${defenseStage("Request assessment").run_id} passed ${defenseStage("Request assessment").sample_size}/${defenseStage("Request assessment").sample_size} fixed cases with ${defenseStage("Request assessment").unsafe_outcomes} unsafe outcomes, ${(defenseStage("Request assessment").p95_latency_ms / 1000).toFixed(3)} s p95, and $${defenseStage("Request assessment").estimated_cost_usd.toFixed(6)} cost.`,
       },
     ],
     limitations: [
@@ -206,7 +208,7 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
       {
         label: "Phase 53 fixed suite",
         href: "/dev-admin/runs",
-        detail: "Run phase53-evidence-assessment-hybrid-v11 passed every predeclared gate: 29/30 actions, 0/13 unsafe answers, zero forbidden disclosures or unauthorized references, 4.381 s p95, and $0.015036 estimated total cost.",
+        detail: `Run ${defenseStage("Evidence sufficiency").run_id} measured ${(defenseStage("Evidence sufficiency").accuracy * 100).toFixed(1)}% action accuracy across ${defenseStage("Evidence sufficiency").sample_size} cases, ${defenseStage("Evidence sufficiency").unsafe_outcomes} unsafe outcomes, ${(defenseStage("Evidence sufficiency").p95_latency_ms / 1000).toFixed(3)} s p95, and $${defenseStage("Evidence sufficiency").estimated_cost_usd.toFixed(6)} cost.`,
       },
       {
         label: "Phase 53 live regression",
@@ -237,7 +239,7 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
       {
         label: "Phase 54 fixed suite",
         href: "/dev-admin/runs",
-        detail: "Run phase54-post-generation-validation-v4 passed 23/24 fixed cases with zero unsafe acceptance, zero unauthorized-citation acceptance, 2.966 s p95 latency, and $0.010142 estimated cost.",
+        detail: `Run ${defenseStage("Post-generation validation").run_id} measured ${(defenseStage("Post-generation validation").accuracy * 100).toFixed(1)}% action accuracy across ${defenseStage("Post-generation validation").sample_size} cases, ${defenseStage("Post-generation validation").unsafe_outcomes} unsafe outcomes, ${(defenseStage("Post-generation validation").p95_latency_ms / 1000).toFixed(3)} s p95, and $${defenseStage("Post-generation validation").estimated_cost_usd.toFixed(6)} cost.`,
       },
       {
         label: "Phase 54 live regression",
@@ -255,11 +257,16 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
   {
     id: "audit-evidence",
     title: "Audit and review evidence",
-    phase: "Phases 12, 25, 50",
-    status: "implemented",
-    summary: "Security-relevant decisions, feedback, reviews, and guarded-request outcomes are visible to the Dev/Admin role.",
+    phase: "Phases 12, 25, 50, 55",
+    status: "measured",
+    summary: "Security decisions, bounded cross-stage traces, aggregate outcomes, feedback, reviews, and guarded-request evidence are visible to the Dev/Admin role.",
     boundary: "The public page links to bounded evidence views; it does not publish private logs, prompt text, source text, or credentials.",
     evidence: [
+      {
+        label: "Defense readiness",
+        href: "/dev-admin/defense-readiness",
+        detail: `${defenseEvidence.manifest.sample_size} fixed cases, ${defenseEvidence.runtime.sample_size} runtime questions, and ${defenseEvidence.permission.sample_size} permission checks are consolidated under one generated evidence schema.`,
+      },
       {
         label: "Audit log",
         href: "/dev-admin/audit",

@@ -28,6 +28,7 @@ import {
   productionReadinessCatalog,
 } from "@/lib/defenseCatalog";
 import type { DefenseCatalogItem, DefenseStatus } from "@/lib/defenseCatalog";
+import { defenseEvidence, defenseStage } from "@/lib/defenseEvidence";
 
 const controlIcons: Record<string, LucideIcon> = {
   ambiguity: ScanSearch,
@@ -213,14 +214,14 @@ export default function TrustAndSafetyPage() {
               description="Development results are named and scoped; sealed holdout evidence remains separate and unchanged."
               className="mb-0"
             />
-            <span className="badge-solid shrink-0">Verified 2026-08-26</span>
+            <span className="badge-solid shrink-0">Verified {defenseEvidence.last_verified}</span>
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {[
-              ["130 / 130", "Current benchmark 1.1", "Known development regression, not unseen generalization proof."],
-              ["48 / 48", "Phase 52 request assessment", "Fixed development suite; 0/26 attack cases continued unsafely."],
-              ["23 / 24", "Phase 54 answer validator", "Fixed development suite; zero unsafe or unauthorized-citation acceptance."],
-              ["0", "Permission hard-gate failures", "Phase 54 leakage, exposure, restricted-citation, and unauthorized-generation rates."],
+              [`${defenseEvidence.runtime.sample_size} / ${defenseEvidence.runtime.sample_size}`, `Current benchmark ${defenseEvidence.runtime.benchmark_version}`, "Known development regression, not unseen generalization proof."],
+              [`${defenseStage("Request assessment").sample_size} / ${defenseStage("Request assessment").sample_size}`, "Request assessment", `Fixed development suite; ${defenseStage("Request assessment").unsafe_outcomes} unsafe outcomes.`],
+              [`${Math.round(defenseStage("Post-generation validation").accuracy * defenseStage("Post-generation validation").sample_size)} / ${defenseStage("Post-generation validation").sample_size}`, "Answer validator", `Fixed development suite; ${defenseStage("Post-generation validation").unsafe_outcomes} unsafe outcomes.`],
+              [defenseEvidence.hard_gates.filter((gate) => !gate.passed).length.toString(), "Defense hard-gate failures", `${defenseEvidence.hard_gates.length} consolidated Phase 55 hard gates.`],
             ].map(([value, label, detail]) => (
               <article key={label} className="rounded border border-moss bg-white p-4 shadow-card">
                 <p className="text-2xl font-semibold text-moss-dark">{value}</p>
@@ -233,6 +234,7 @@ export default function TrustAndSafetyPage() {
             <Link href="/dev-admin/runs" className="btn-secondary">Compare named runs</Link>
             <Link href="/dev-admin/failed-questions" className="btn-secondary">Review known failures</Link>
             <Link href="/dev-admin/permission-safety" className="btn-secondary">Open permission evidence</Link>
+            <Link href="/dev-admin/defense-readiness" className="btn-secondary">Open defense readiness</Link>
           </div>
         </Card>
 
