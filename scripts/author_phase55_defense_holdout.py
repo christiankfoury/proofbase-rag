@@ -22,6 +22,8 @@ from scripts.validate_phase55_defense_holdout import HASH_PATH, HOLDOUT_PATH, fi
 PROMPT_VERSION = "phase55-holdout-authoring.v1"
 DEFAULT_MODEL = "gpt-4.1-mini"
 MAX_ALLOWED_BUDGET_USD = 0.25
+MAX_INPUT_BUDGET_TOKENS = 5000
+MAX_COMPLETION_TOKENS = 12000
 DEVELOPMENT_SUITES = (
     ROOT / "data/evaluation/defense/request-assessment-v1.json",
     ROOT / "data/evaluation/defense/evidence-assessment-v1.json",
@@ -153,12 +155,21 @@ def main() -> None:
     settings = get_settings()
     if not settings.openai_api_key:
         raise SystemExit("OPENAI_API_KEY is unavailable.")
-    if estimate_chat_cost(model=args.model, input_tokens=1, output_tokens=1).get("pricing_status") != "estimated":
+    price_probe = estimate_chat_cost(model=args.model, input_tokens=1, output_tokens=1)
+    if price_probe.get("pricing_status") != "estimated":
         raise SystemExit("Selected model has no configured price; refusing an unbudgeted authoring call.")
+    worst_case = estimate_chat_cost(
+        model=args.model,
+        input_tokens=MAX_INPUT_BUDGET_TOKENS,
+        output_tokens=MAX_COMPLETION_TOKENS,
+    )
+    if float(worst_case.get("estimated_cost_usd") or MAX_ALLOWED_BUDGET_USD + 1) > args.budget_usd:
+        raise SystemExit("Configured token ceiling exceeds the approved budget; refusing authoring.")
     runtime_files = [ROOT / "apps/api/app/main.py", *sorted((ROOT / "apps/api/app/reasoning").glob("*.py"))]
     response = OpenAI(api_key=settings.openai_api_key, timeout=120, max_retries=0).chat.completions.create(
         model=args.model,
         temperature=0.8,
+        max_completion_tokens=MAX_COMPLETION_TOKENS,
         messages=[{"role": "system", "content": _prompt()}, {"role": "user", "content": "Create the sealed suite now."}],
         response_format={"type": "json_schema", "json_schema": {"name": "phase55_defense_holdout_v1", "strict": True, "schema": _response_schema()}},
     )

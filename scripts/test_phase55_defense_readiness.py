@@ -150,10 +150,19 @@ class Phase55DefenseReadinessTests(unittest.TestCase):
 
     def test_default_holdout_authoring_model_has_budget_pricing(self) -> None:
         from apps.api.app.costing.estimator import estimate_chat_cost
-        from scripts.author_phase55_defense_holdout import DEFAULT_MODEL
+        from scripts.author_phase55_defense_holdout import (
+            DEFAULT_MODEL,
+            MAX_COMPLETION_TOKENS,
+            MAX_INPUT_BUDGET_TOKENS,
+        )
 
-        estimate = estimate_chat_cost(model=DEFAULT_MODEL, input_tokens=1, output_tokens=1)
+        estimate = estimate_chat_cost(
+            model=DEFAULT_MODEL,
+            input_tokens=MAX_INPUT_BUDGET_TOKENS,
+            output_tokens=MAX_COMPLETION_TOKENS,
+        )
         self.assertEqual(estimate["pricing_status"], "estimated")
+        self.assertLessEqual(float(estimate["estimated_cost_usd"] or 1.0), 0.15)
 
 
 if __name__ == "__main__":

@@ -56,7 +56,7 @@ The first external response was discarded before sealing because the initial res
 
 The next request was rejected by the API before inference because the strict-schema stage constants omitted explicit JSON `type` fields. It consumed no authoring tokens, wrote no files, and was corrected with a focused schema-compatibility assertion before retry.
 
-The corrected authoring request sealed 30 cases with exactly 10 per stage using `609` input and `3003` output tokens. The repository pricing table lacked a `gpt-4.1` entry, so the final metadata uses the official `$2.00/M` input and `$8.00/M` output rates to record `$0.025242` instead of the initial misleading local `$0` result. Only provenance was corrected before the final SHA-256 seal; authored case content remained untouched, unopened, and unexecuted. The authoring command now refuses an existing seal and any future model without configured pricing.
+The corrected authoring request sealed 30 cases with exactly 10 per stage using `609` input and `3003` output tokens. The repository pricing table lacked a `gpt-4.1` entry, so the final metadata uses the official `$2.00/M` input and `$8.00/M` output rates to record `$0.025242` instead of the initial misleading local `$0` result. Only provenance was corrected before the final SHA-256 seal; authored case content remained untouched, unopened, and unexecuted. The authoring command now refuses an existing seal, any future model without configured pricing, or a token ceiling whose worst-case estimate exceeds the approved budget. Git attributes preserve the raw sealed bytes across Windows checkouts.
 
 ## Limitations
 
