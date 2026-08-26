@@ -1078,6 +1078,86 @@ def generate_answer(
     )
 
 
+def repair_answer_once(
+    question: str,
+    chunks: list[RetrievedChunk],
+    *,
+    candidate: dict,
+    validation_reason_codes: list[str],
+    user_role: str | None = None,
+    memory_context: str | None = None,
+    original_question: str | None = None,
+    prompt_name: str = "answer_generation",
+    prompt_version: str | None = None,
+    model: str | None = None,
+    temperature: float | None = None,
+    multi_doc: bool = False,
+    grouped_docs: list[dict] | None = None,
+    evidence_action: str | None = None,
+) -> dict:
+    """Regenerate once from the identical authorized chunks; never performs retrieval."""
+    settings = get_settings()
+    prompt = get_prompt(prompt_name, prompt_version)
+    selected_model = model or prompt.model or settings.openai_chat_model
+    selected_temperature = prompt.temperature if temperature is None else temperature
+    prompt_metadata = _prompt_metadata(prompt, selected_model, selected_temperature)
+
+    if user_role and chunks:
+        from apps.api.app.permissions.access_control import unauthorized_chunks
+
+        if unauthorized_chunks(chunks, user_role):
+            raise ValueError("Repair received chunks outside the effective role.")
+
+    if grouped_docs is not None:
+        from apps.api.app.generation.prompts import build_multi_doc_user_prompt
+
+        user_prompt = build_multi_doc_user_prompt(
+            question,
+            grouped_docs,
+            memory_context=memory_context,
+            original_question=original_question,
+            evidence_action=evidence_action,
+        )
+    else:
+        user_prompt = build_answer_user_prompt(
+            question,
+            chunks,
+            memory_context=memory_context,
+            original_question=original_question,
+            evidence_action=evidence_action,
+        )
+    repair_payload = {
+        "candidate_answer": str(candidate.get("answer") or "")[:6000],
+        "candidate_citation_chunk_ids": [
+            item.get("chunk_id") for item in (candidate.get("citations") or [])[:12]
+        ],
+        "validator_reason_codes": list(validation_reason_codes)[:8],
+    }
+    user_prompt = (
+        f"{user_prompt}\n\n"
+        "Bounded validation repair (one attempt only): Correct or remove every flagged claim. "
+        "Use only the retrieved context above, keep citations inside that context, and return the normal strict JSON shape.\n"
+        f"{json.dumps(repair_payload, ensure_ascii=True)}"
+    )
+    response = _client().chat.completions.create(
+        model=selected_model,
+        temperature=selected_temperature,
+        messages=[
+            {"role": "system", "content": prompt.content},
+            {"role": "user", "content": user_prompt},
+        ],
+    )
+    return _finalize_generated_answer(
+        response.choices[0].message.content or "",
+        chunks,
+        response.usage,
+        selected_model,
+        prompt_metadata,
+        multi_doc=multi_doc,
+        evidence_action=evidence_action,
+    )
+
+
 def generate_answer_stream(
     question: str,
     chunks: list[RetrievedChunk],

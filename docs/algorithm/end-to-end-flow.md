@@ -141,6 +141,14 @@ The answer generator first checks for unsafe state:
 
 The default active prompt is chosen by `get_prompt("answer_generation", version)`. If no version is supplied, the active prompt file is used. Phase 38's strongest answer-quality run explicitly used prompt `v8`.
 
+## Post-Generation Validation Step
+
+`apps/api/app/reasoning/post_generation_validation.py` checks generated `answer` and `partial_answer` candidates before candidate text is returned. Streaming generation is buffered until this step completes, so a rejected pre-repair answer is not emitted as deltas.
+
+The validator receives the question, candidate, candidate citations, and the same permission-filtered chunks supplied to generation. It checks exact numbers, money, dates, percentages, and durations deterministically, then uses a strict-schema semantic pass for claim entailment, negation, exceptions, roles/approvals, conflicts, citation-to-claim support, and source-instruction following. Application code removes non-authorized model references and downgrades inconsistent support; a normalization is recorded and cannot silently become acceptance.
+
+At most one regeneration is allowed. `repair_answer_once` uses the identical authorized chunks and performs no retrieval. If a second validation still finds unsupported material, the response keeps only typed supported claims and their supporting authorized citations as a partial answer; when no safe supported subset exists, it returns not found. Exact mismatches and source-instruction compliance are never copied into a partial fallback.
+
 ## Response Payload
 
 The API response includes:
@@ -155,6 +163,7 @@ The API response includes:
 | `memory` | Follow-up detection and rewrite metadata. |
 | `request_assessment` | Typed intent/risk/action, route, safe reason codes, normalization, model, prompt, latency, token, and estimated-cost metadata. |
 | `evidence_assessment` | Post-permission answerability, required facts/source coverage, conflicts, action, authorized support IDs, normalization, model, prompt, latency, tokens, and estimated cost. It is null when request assessment stops before retrieval. |
+| `post_generation_validation` | Claim/citation checks, exact literals, source-instruction outcome, bounded reason codes, repair count, normalization, route/status, latency, tokens, and estimated cost. It is null when a request stops before generation. |
 | `permission_check` | Effective role and whether unauthorized chunks reached generation. |
 | `confidence` fields | Retrieval, citation, answer, and final confidence. |
 | `scope` | Project and department scope used by retrieval. |

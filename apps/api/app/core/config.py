@@ -70,6 +70,29 @@ class Settings(BaseSettings):
             "evidence_assessment_timeout_seconds",
         ),
     )
+    post_generation_validation_model: str = Field(
+        default="gpt-4.1-mini",
+        validation_alias=AliasChoices(
+            "POST_GENERATION_VALIDATION_MODEL",
+            "post_generation_validation_model",
+        ),
+    )
+    post_generation_validation_prompt_version: str = Field(
+        default="v2",
+        validation_alias=AliasChoices(
+            "POST_GENERATION_VALIDATION_PROMPT_VERSION",
+            "post_generation_validation_prompt_version",
+        ),
+    )
+    post_generation_validation_timeout_seconds: float = Field(
+        default=30.0,
+        ge=1.0,
+        le=30.0,
+        validation_alias=AliasChoices(
+            "POST_GENERATION_VALIDATION_TIMEOUT_SECONDS",
+            "post_generation_validation_timeout_seconds",
+        ),
+    )
     default_top_k: int = 5
     log_level: str = "INFO"
     observability_log_path: str = "data/observability/request-logs.jsonl"

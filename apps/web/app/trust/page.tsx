@@ -176,7 +176,7 @@ export default function TrustAndSafetyPage() {
             ))}
           </ol>
           <p className="mt-4 rounded border border-steel bg-steel-soft/60 p-3 text-sm leading-6 text-steel-dark">
-            Steps 2 and 5 are implemented and measured in Phases 52-53. The semantic part of step 7 remains Phase 54 roadmap work; its presence in this target flow does not mean it is implemented today.
+            Steps 2, 5, and 7 are implemented and measured in Phases 52-54. Identity, tenant isolation, database authorization, operational monitoring, and independent validation remain production dependencies rather than implied model capabilities.
           </p>
         </Card>
 
@@ -219,8 +219,8 @@ export default function TrustAndSafetyPage() {
             {[
               ["130 / 130", "Current benchmark 1.1", "Known development regression, not unseen generalization proof."],
               ["48 / 48", "Phase 52 request assessment", "Fixed development suite; 0/26 attack cases continued unsafely."],
-              ["0", "Permission hard-gate failures", "Phase 52 leakage, exposure, restricted-citation, and unauthorized-generation rates."],
-              ["22 / 30", "Phase 49 fresh holdout", "Official immutable result; overall and heuristic-hallucination targets were missed."],
+              ["23 / 24", "Phase 54 answer validator", "Fixed development suite; zero unsafe or unauthorized-citation acceptance."],
+              ["0", "Permission hard-gate failures", "Phase 54 leakage, exposure, restricted-citation, and unauthorized-generation rates."],
             ].map(([value, label, detail]) => (
               <article key={label} className="rounded border border-moss bg-white p-4 shadow-card">
                 <p className="text-2xl font-semibold text-moss-dark">{value}</p>

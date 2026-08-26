@@ -7,7 +7,7 @@
 | Area | What is implemented |
 | --- | --- |
 | Product | Project workspaces, owner-managed demo access, department document libraries, scoped chat, PDF-to-Markdown review, optional AI cleanup, and explicit approve/index. |
-| RAG | PostgreSQL/pgvector, keyword search, vector + lexical reranking, multi-source planning, structured response types, citations, and confidence signals. |
+| RAG | PostgreSQL/pgvector, keyword search, vector + lexical reranking, multi-source planning, evidence sufficiency, structured response types, post-generation claim validation, citations, and confidence signals. |
 | Security | Public Trust & Safety status page, local demo identity, project membership, role-filtered retrieval before generation, defensive generation checks, and permission audits. |
 | Evaluation | 130-question regression benchmark, three independently sealed holdouts, human adjudication, failure matrices, cost tracking, and durable exactly-once-oriented execution evidence. |
 | Operations | Feedback, observability, audit logs, health/readiness endpoints, Docker Compose, CI, and Azure-ready deployment documentation. |
@@ -49,8 +49,8 @@ See the [interactive demo guide](docs/demo/interactive-demo-guide.md) and [scree
 
 - **Knowledge lifecycle:** synthetic enterprise corpus, section-based ingestion, PDF extraction, editable Markdown review, optional AI cleanup, versioning, and approval-gated indexing.
 - **Scoped retrieval:** global Dev/Admin retrieval plus strict project, department, membership, and document-role filters for App queries.
-- **Grounded generation:** vector + lexical reranking, multi-document planning, structured answer/refusal/clarification behavior, citation validation, and confidence interpretation.
-- **Safety:** pre-generation permission filtering, direct prompt-override blocking, restricted-answer handling, adversarial-source defenses, audit events, and zero-tolerance leakage gates.
+- **Grounded generation:** vector + lexical reranking, multi-document planning, evidence-sufficiency routing, structured answer/refusal/clarification behavior, exact and semantic claim validation, one bounded repair, citation validation, and confidence interpretation.
+- **Safety:** pre-generation permission filtering, structured request assessment, direct prompt-override blocking, restricted-answer handling, source-instruction validation, audit events, and zero-tolerance leakage gates.
 - **Evaluation:** retrieval, answer, citation, hallucination, memory, permission, multi-document, independent holdout, stability, and human-review workflows.
 - **Operations:** feedback review, request telemetry, token/cost estimates, Dockerized services, CI, and deployment-readiness documentation.
 
@@ -90,9 +90,9 @@ flowchart LR
   Auth --> Retrieve
   Retrieve <--> PG
   Retrieve --> Rerank[Vector + Lexical Rerank]
-  Rerank --> Evidence[Allowed Evidence Context]
+  Rerank --> Evidence[Authorized Evidence Sufficiency Gate]
   Evidence --> Generate[OpenAI Answer Generation]
-  Generate --> Validate[Citation Validation + Confidence]
+  Generate --> Validate[Claim + Citation + Source-Instruction Validation]
   Validate --> Answer[Cited Answer + Proof]
   Answer --> Web
 
@@ -451,7 +451,7 @@ The core portfolio scope and Phase 47–49 independent evaluation are complete. 
 
 Current and planned work includes:
 
-- Structured semantic request assessment and permission-aware evidence sufficiency are implemented and measured; claim/source-instruction validation and consolidated adversarial evaluation evidence remain Phases 54-55.
+- Structured request assessment, permission-aware evidence sufficiency, and post-generation claim/source-instruction validation are implemented and measured; consolidated adversarial evaluation and observability evidence remains Phase 55.
 - Real authentication and tenant ownership with database-enforced authorization and isolation.
 - Distributed rate limits, quotas, and AI cost-abuse controls.
 - Quarantined, scanned, isolated file processing backed by production object storage.

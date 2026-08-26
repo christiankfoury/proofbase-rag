@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-26T08:27:03.203802+00:00",
+  "generated_at": "2026-08-26T09:49:50.977618+00:00",
   "source": "docs/phase-6 through docs/phase-36",
   "benchmark_context": {
     "benchmark_version": "1.1",
@@ -2215,6 +2215,230 @@
       "run_timestamp": "2026-08-26T08:17:55.060715+00:00"
     },
     {
+      "run_id": "phase54-factual-regression-v1",
+      "run_name": "phase54-factual-regression-v1",
+      "phase": "phase-54",
+      "run_type": "live_query_eval",
+      "timestamp": "2026-08-26T09:02:08.700688+00:00",
+      "retrieval_mode": "vector_lexical_rerank",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_name": "answer_generation",
+      "prompt_version": "v8",
+      "multi_doc_mode": "auto",
+      "evaluation_excluded_document_prefixes": [
+        "UPLOAD-"
+      ],
+      "model": "gpt-4.1-mini",
+      "total_questions": 30,
+      "source_question_count": 130,
+      "question_filter": "simple_factual",
+      "metrics": {
+        "any_source_hit": 1.0,
+        "all_sources_hit": 1.0,
+        "expected_source_recall": 1.0,
+        "precision_at_k": 0.673,
+        "mrr": 1.0,
+        "answer_accuracy": 1.0,
+        "citation_accuracy": 1.0,
+        "faithfulness": 0.928,
+        "hallucination_rate": 0.0,
+        "response_type_accuracy": 1.0,
+        "refusal_accuracy": null,
+        "not_found_accuracy": null,
+        "clarification_accuracy": null,
+        "final_confidence": 0.888,
+        "input_tokens": null,
+        "output_tokens": null,
+        "estimated_cost": 0.027739,
+        "request_assessment_estimated_cost": 0.018356,
+        "evidence_assessment_estimated_cost": 0.031764,
+        "evidence_assessment_mean_latency_ms": 2866.133,
+        "evidence_assessment_failed_safe_count": 0,
+        "post_generation_validation_estimated_cost": 0.025444,
+        "post_generation_validation_mean_latency_ms": 4118.033,
+        "post_generation_validation_failed_safe_count": 0,
+        "post_generation_validation_repair_count": 3,
+        "post_generation_validation_downgrade_count": 0,
+        "failed_question_count": 0,
+        "submetric_issue_count": 0,
+        "actionable_submetric_issue_count": 0,
+        "diagnostic_submetric_note_count": 0
+      },
+      "failed_questions": [],
+      "submetric_issue_ids": [],
+      "submetric_issue_breakdown": {
+        "actionable": {
+          "count": 0,
+          "ids": []
+        },
+        "memory_response_type_diagnostic": {
+          "count": 0,
+          "ids": []
+        },
+        "clarification_source_coverage_diagnostic": {
+          "count": 0,
+          "ids": []
+        }
+      },
+      "category_breakdown": {
+        "simple_factual": 30
+      },
+      "failure_reason_counts": {},
+      "citation_failure_category_counts": {},
+      "notes": "phase-54 live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, memory session loading, request assessment, auto multi-document detection, permission-filtered retrieval, post-permission evidence assessment, generation, post-generation claim/source-instruction validation, citation validation, and the API response payload. Uploaded-document fixtures are excluded from this benchmark run before generation. Expected answers, expected behavior, and expected sources are unchanged.",
+      "sample_size": 30,
+      "passed_count": 30,
+      "failed_count": 0,
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-08-26T09:02:08.700688+00:00"
+    },
+    {
+      "run_id": "phase54-live-query-regression-v5",
+      "run_name": "phase54-live-query-regression-v5",
+      "phase": "phase-54",
+      "run_type": "live_query_eval",
+      "timestamp": "2026-08-26T09:43:13.127483+00:00",
+      "retrieval_mode": "vector_lexical_rerank",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_name": "answer_generation",
+      "prompt_version": "v8",
+      "multi_doc_mode": "auto",
+      "evaluation_excluded_document_prefixes": [
+        "UPLOAD-"
+      ],
+      "model": "gpt-4.1-mini",
+      "total_questions": 130,
+      "source_question_count": 130,
+      "question_filter": "all",
+      "metrics": {
+        "any_source_hit": 0.911,
+        "all_sources_hit": 0.911,
+        "expected_source_recall": 0.911,
+        "precision_at_k": 0.653,
+        "mrr": 0.89,
+        "answer_accuracy": 1.0,
+        "citation_accuracy": 1.0,
+        "faithfulness": 0.887,
+        "hallucination_rate": 0.0,
+        "response_type_accuracy": 0.923,
+        "refusal_accuracy": 1.0,
+        "not_found_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "final_confidence": 0.672,
+        "input_tokens": null,
+        "output_tokens": null,
+        "estimated_cost": 0.068639,
+        "request_assessment_estimated_cost": 0.076973,
+        "evidence_assessment_estimated_cost": 0.137466,
+        "evidence_assessment_mean_latency_ms": 3229.293,
+        "evidence_assessment_failed_safe_count": 0,
+        "post_generation_validation_estimated_cost": 0.063432,
+        "post_generation_validation_mean_latency_ms": 2309.26,
+        "post_generation_validation_failed_safe_count": 0,
+        "post_generation_validation_repair_count": 4,
+        "post_generation_validation_downgrade_count": 0,
+        "failed_question_count": 0,
+        "submetric_issue_count": 28,
+        "actionable_submetric_issue_count": 0,
+        "diagnostic_submetric_note_count": 28
+      },
+      "failed_questions": [],
+      "submetric_issue_ids": [
+        "AMB-001",
+        "AMB-004",
+        "AMB-005",
+        "MEM-001",
+        "MEM-002",
+        "MEM-003",
+        "MEM-004",
+        "MEM-005",
+        "MEM-006",
+        "MEM-007",
+        "MEM-008",
+        "MEM-009",
+        "MEM-010",
+        "MEM-011",
+        "MEM-012",
+        "MEM-013",
+        "MEM-014",
+        "MEM-015",
+        "MEM-016",
+        "MEM-017",
+        "MEM-018",
+        "MEM-019",
+        "MEM-020",
+        "AMB-006",
+        "AMB-007",
+        "AMB-008",
+        "AMB-009",
+        "AMB-010"
+      ],
+      "submetric_issue_breakdown": {
+        "actionable": {
+          "count": 0,
+          "ids": []
+        },
+        "memory_response_type_diagnostic": {
+          "count": 20,
+          "ids": [
+            "MEM-001",
+            "MEM-002",
+            "MEM-003",
+            "MEM-004",
+            "MEM-005",
+            "MEM-006",
+            "MEM-007",
+            "MEM-008",
+            "MEM-009",
+            "MEM-010",
+            "MEM-011",
+            "MEM-012",
+            "MEM-013",
+            "MEM-014",
+            "MEM-015",
+            "MEM-016",
+            "MEM-017",
+            "MEM-018",
+            "MEM-019",
+            "MEM-020"
+          ]
+        },
+        "clarification_source_coverage_diagnostic": {
+          "count": 8,
+          "ids": [
+            "AMB-001",
+            "AMB-004",
+            "AMB-005",
+            "AMB-006",
+            "AMB-007",
+            "AMB-008",
+            "AMB-009",
+            "AMB-010"
+          ]
+        }
+      },
+      "category_breakdown": {
+        "ambiguous": 10,
+        "conflicting_source": 5,
+        "conversation_memory": 20,
+        "missing_information": 20,
+        "multi_document": 20,
+        "permission_restricted": 20,
+        "prompt_injection": 5,
+        "simple_factual": 30
+      },
+      "failure_reason_counts": {},
+      "citation_failure_category_counts": {},
+      "notes": "phase-54 live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, memory session loading, request assessment, auto multi-document detection, permission-filtered retrieval, post-permission evidence assessment, generation, post-generation claim/source-instruction validation, citation validation, and the API response payload. Uploaded-document fixtures are excluded from this benchmark run before generation. Expected answers, expected behavior, and expected sources are unchanged.",
+      "sample_size": 130,
+      "passed_count": 130,
+      "failed_count": 0,
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-08-26T09:43:13.127483+00:00"
+    },
+    {
       "run_id": "phase36-permission-evaluation",
       "run_name": "phase36-permission-evaluation",
       "phase": "phase-36",
@@ -2686,7 +2910,7 @@
   "overview": {
     "best_retrieval_run": "vector-section",
     "retrieval_conclusion": "Hybrid did not clearly outperform vector-only retrieval; vector-section remained best overall.",
-    "current_answer_run_id": "phase53-live-query-regression-v5",
+    "current_answer_run_id": "phase54-live-query-regression-v5",
     "current_failed_question_count": 0,
     "progress_summary": {
       "improved": [
@@ -2772,14 +2996,14 @@
         }
       },
       "answer_accuracy": {
-        "run_id": "phase53-live-query-regression-v5",
-        "run_name": "phase53-live-query-regression-v5",
+        "run_id": "phase54-live-query-regression-v5",
+        "run_name": "phase54-live-query-regression-v5",
         "metric_key": "answer_accuracy",
         "sample_size": 130,
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-08-26T08:17:55.060715+00:00",
+        "run_timestamp": "2026-08-26T09:43:13.127483+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -2792,14 +3016,14 @@
         }
       },
       "citation_accuracy": {
-        "run_id": "phase53-live-query-regression-v5",
-        "run_name": "phase53-live-query-regression-v5",
+        "run_id": "phase54-live-query-regression-v5",
+        "run_name": "phase54-live-query-regression-v5",
         "metric_key": "citation_accuracy",
         "sample_size": 130,
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-08-26T08:17:55.060715+00:00",
+        "run_timestamp": "2026-08-26T09:43:13.127483+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -2812,14 +3036,14 @@
         }
       },
       "hallucination_rate": {
-        "run_id": "phase53-live-query-regression-v5",
-        "run_name": "phase53-live-query-regression-v5",
+        "run_id": "phase54-live-query-regression-v5",
+        "run_name": "phase54-live-query-regression-v5",
         "metric_key": "hallucination_rate",
         "sample_size": 130,
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-08-26T08:17:55.060715+00:00",
+        "run_timestamp": "2026-08-26T09:43:13.127483+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -2896,7 +3120,7 @@
   },
   "regression_scorecard": {
     "phase": "phase-37",
-    "generated_at": "2026-08-26T08:27:03.195078+00:00",
+    "generated_at": "2026-08-26T09:49:50.968618+00:00",
     "benchmark_version": "1.1",
     "benchmark_question_count": 130,
     "category_breakdown": {
@@ -2917,7 +3141,7 @@
     ],
     "current_run_ids": [
       "phase33-vector-lexical-rerank-top3",
-      "phase53-live-query-regression-v5",
+      "phase54-live-query-regression-v5",
       "phase36-permission-evaluation",
       "phase36-memory-evaluation",
       "phase36-memory-permission-boundary",
@@ -3025,13 +3249,13 @@
           "run_timestamp": "2026-06-21T00:27:59.813367+00:00"
         },
         "current": {
-          "run_id": "phase53-live-query-regression-v5",
-          "run_name": "phase53-live-query-regression-v5",
+          "run_id": "phase54-live-query-regression-v5",
+          "run_name": "phase54-live-query-regression-v5",
           "value": 1.0,
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-08-26T08:17:55.060715+00:00"
+          "run_timestamp": "2026-08-26T09:43:13.127483+00:00"
         },
         "delta": 0.15,
         "target_passed": true,
@@ -3053,13 +3277,13 @@
           "run_timestamp": "2026-06-21T00:27:59.813367+00:00"
         },
         "current": {
-          "run_id": "phase53-live-query-regression-v5",
-          "run_name": "phase53-live-query-regression-v5",
+          "run_id": "phase54-live-query-regression-v5",
+          "run_name": "phase54-live-query-regression-v5",
           "value": 1.0,
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-08-26T08:17:55.060715+00:00"
+          "run_timestamp": "2026-08-26T09:43:13.127483+00:00"
         },
         "delta": 0.156,
         "target_passed": true,
@@ -3081,13 +3305,13 @@
           "run_timestamp": "2026-06-21T00:27:59.813367+00:00"
         },
         "current": {
-          "run_id": "phase53-live-query-regression-v5",
-          "run_name": "phase53-live-query-regression-v5",
+          "run_id": "phase54-live-query-regression-v5",
+          "run_name": "phase54-live-query-regression-v5",
           "value": 0.0,
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-08-26T08:17:55.060715+00:00"
+          "run_timestamp": "2026-08-26T09:43:13.127483+00:00"
         },
         "delta": -0.205,
         "target_passed": true,
@@ -3151,7 +3375,7 @@
       }
     ],
     "failed_question_summary": {
-      "current_answer_run_id": "phase53-live-query-regression-v5",
+      "current_answer_run_id": "phase54-live-query-regression-v5",
       "failed_question_count": 0,
       "failure_reason_counts": {},
       "failed_question_ids": []

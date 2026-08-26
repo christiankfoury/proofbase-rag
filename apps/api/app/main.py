@@ -26,12 +26,14 @@ from apps.api.app.auth.demo_auth import (
     set_project_membership,
 )
 from apps.api.app.core.config import get_settings
+from apps.api.app.confidence.confidence_scorer import final_confidence
 from apps.api.app.db.session import get_connection
 from apps.api.app.feedback.feedback_store import feedback_summary as get_feedback_summary
 from apps.api.app.feedback.feedback_store import list_feedback, submit_feedback
 from apps.api.app.generation.answer_generator import (
     generate_answer,
     generate_answer_stream,
+    repair_answer_once,
     retrieved_chunks_payload,
 )
 from apps.api.app.ingestion.pdf_extractor import extract_pdf_to_markdown
@@ -86,6 +88,13 @@ from apps.api.app.reasoning.request_assessment import (
     RequestAssessment,
     assess_request,
     assessment_response_decision,
+)
+from apps.api.app.reasoning.post_generation_validation import (
+    PostGenerationValidation,
+    can_prune_unsupported_citations,
+    combine_validation_attempts,
+    mark_citation_prune_repair,
+    validate_candidate_answer,
 )
 from apps.api.app.retrieval.config import default_retrieval_config
 from apps.api.app.retrieval.retriever import retrieve_chunks
@@ -1598,6 +1607,7 @@ def _query_response_payload(
         "clarification_reason": answer.get("clarification_reason"),
         "request_assessment": request_assessment.model_dump(mode="json"),
         "evidence_assessment": evidence_assessment.model_dump(mode="json") if evidence_assessment else None,
+        "post_generation_validation": answer.get("post_generation_validation"),
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "scope": {
@@ -1756,6 +1766,178 @@ def _evidence_generation_chunks(chunks: list, assessment: EvidenceAssessment) ->
     if assessment.recommended_action not in {"answer", "partial_answer"}:
         return []
     return list(chunks)
+
+
+def _validate_generated_answer(
+    question: str,
+    *,
+    answer: dict,
+    authorized_chunks: list,
+    effective_role: str,
+    user_id: str | None,
+    project_id: str | None,
+    department_id: str | None,
+    memory_context: str | None,
+    original_question: str,
+    prompt_name: str,
+    prompt_version: str | None,
+    multi_doc: bool,
+    evidence_action: str | None,
+) -> tuple[dict, PostGenerationValidation]:
+    code_authored = answer.get("input_tokens") == 0 and answer.get("output_tokens") == 0
+    first = validate_candidate_answer(
+        question,
+        candidate=answer,
+        authorized_chunks=authorized_chunks,
+        code_authored=code_authored,
+    )
+    final_answer = answer
+    final_validation = first
+    if can_prune_unsupported_citations(first):
+        supported_citation_ids = {
+            check.citation_chunk_id for check in first.citation_checks if check.supports_claims
+        }
+        final_answer = dict(answer)
+        final_answer["citations"] = [
+            citation
+            for citation in (answer.get("citations") or [])
+            if citation.get("chunk_id") in supported_citation_ids
+        ]
+        final_validation = mark_citation_prune_repair(first)
+    elif first.action == "repair":
+        try:
+            repaired = repair_answer_once(
+                question,
+                authorized_chunks,
+                candidate=answer,
+                validation_reason_codes=list(first.reason_codes),
+                user_role=effective_role,
+                memory_context=memory_context,
+                original_question=original_question,
+                prompt_name=prompt_name,
+                prompt_version=prompt_version,
+                multi_doc=multi_doc,
+                grouped_docs=group_chunks_by_document(authorized_chunks) if multi_doc else None,
+                evidence_action=evidence_action,
+            )
+        except Exception:
+            final_validation = first.model_copy(
+                update={
+                    "action": "downgrade",
+                    "status": "failed_safe",
+                    "repair_count": 1,
+                    "reason_codes": list(dict.fromkeys([
+                        *first.reason_codes,
+                        "validator_service_error",
+                        "repair_failed",
+                    ])),
+                }
+            )
+            final_answer = _validation_safe_downgrade(answer, final_validation, authorized_chunks)
+        else:
+            second = validate_candidate_answer(
+                question,
+                candidate=repaired,
+                authorized_chunks=authorized_chunks,
+                repair_count=1,
+            )
+            final_validation = combine_validation_attempts(first, second)
+            if second.action == "accept":
+                final_answer = _combine_generation_attempts(answer, repaired)
+            else:
+                final_answer = _validation_safe_downgrade(repaired, final_validation, authorized_chunks)
+    elif first.action == "downgrade":
+        final_answer = _validation_safe_downgrade(answer, final_validation, authorized_chunks)
+
+    final_answer["post_generation_validation"] = final_validation.model_dump(mode="json")
+    if first.action != "accept" or final_validation.status == "failed_safe":
+        log_audit_event(
+            action=("post_generation_validation_repaired" if final_validation.action == "accept" else "post_generation_validation_downgraded"),
+            user_role=effective_role,
+            user_id=user_id,
+            resource_type="query",
+            outcome="allowed" if final_validation.action == "accept" else "blocked",
+            reason=final_validation.reason_codes[-1],
+            metadata={
+                "project_id": project_id,
+                "department_id": department_id,
+                "validation_route": final_validation.route,
+                "validation_status": final_validation.status,
+                "reason_codes": list(final_validation.reason_codes),
+                "repair_count": final_validation.repair_count,
+                "authorized_chunk_count": len(authorized_chunks),
+            },
+        )
+    return final_answer, final_validation
+
+
+def _combine_generation_attempts(first: dict, second: dict) -> dict:
+    combined = dict(second)
+    for key in ("input_tokens", "output_tokens", "input_cost_usd", "output_cost_usd", "estimated_cost_usd"):
+        left = first.get(key)
+        right = second.get(key)
+        combined[key] = None if left is None and right is None else (left or 0) + (right or 0)
+    combined["generation_attempt_count"] = 2
+    return combined
+
+
+def _validation_safe_downgrade(
+    answer: dict,
+    validation: PostGenerationValidation | None = None,
+    authorized_chunks: list | None = None,
+) -> dict:
+    downgraded = dict(answer)
+    supported_claims = [
+        claim.claim_text
+        for claim in (validation.claims if validation else [])
+        if claim.support_status == "supported"
+    ]
+    supported_citation_ids = {
+        check.citation_chunk_id
+        for check in (validation.citation_checks if validation else [])
+        if check.supports_claims
+    }
+    if supported_claims and validation and not validation.source_instruction_followed:
+        citations = [
+            citation
+            for citation in (answer.get("citations") or [])
+            if citation.get("chunk_id") in supported_citation_ids
+        ]
+        citation_scores = [float(citation.get("confidence") or 0.0) for citation in citations]
+        citation_confidence = (
+            round(sum(citation_scores) / len(citation_scores), 3)
+            if citation_scores
+            else 0.0
+        )
+        downgraded.update(
+            {
+                "answer": "Based on limited supporting evidence, " + " ".join(dict.fromkeys(supported_claims)),
+                "response_type": "partial_answer",
+                "behavior": "answer",
+                "citations": citations,
+                "supported_claims": list(dict.fromkeys(supported_claims)),
+                "unsupported_claims": [],
+                "validation_notes": "Only claims that passed post-generation validation are included.",
+                **final_confidence("partial_answer", authorized_chunks or [], citation_confidence, []),
+            }
+        )
+        return downgraded
+    downgraded.update(
+        {
+            "answer": "I could not safely validate an answer from the available documents.",
+            "response_type": "not_found",
+            "behavior": "say_not_found",
+            "citations": [],
+            "supported_claims": [],
+            "unsupported_claims": [],
+            "citation_confidence": 0.0,
+            "answer_confidence": 0.0,
+            "confidence_label": "low",
+            "validation_notes": "Post-generation validation did not pass within the one-repair limit.",
+            **final_confidence("not_found", [], 0.0, []),
+        }
+    )
+    return downgraded
 
 
 @app.post("/query/stream")
@@ -1923,9 +2105,7 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                         prompt_name=request.prompt_name,
                         prompt_version=request.prompt_version or ("v4" if multi_doc else None),
                     )
-                elif answer:
-                    yield _sse("answer_delta", {"delta": answer["answer"]})
-                else:
+                elif not answer:
                     trace.start("generation")
                     yield _sse("status", {"status": "generation_started", "message": "Generating answer."})
                     generation_grouped_docs = group_chunks_by_document(generation_chunks) if multi_doc else None
@@ -1942,9 +2122,7 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                         evidence_action=evidence_generation_action(evidence_assessment),
                     ):
                         event_type = generation_event.get("type")
-                        if event_type == "answer_delta":
-                            yield _sse("answer_delta", {"delta": generation_event["delta"]})
-                        elif event_type == "status":
+                        if event_type == "status":
                             yield _sse(
                                 "status",
                                 {
@@ -1955,6 +2133,36 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                         elif event_type == "final":
                             answer = generation_event["answer"]
                     trace.stop("generation")
+                yield _sse(
+                    "status",
+                    {"status": "post_generation_validation_started", "message": "Validating generated claims and citations."},
+                )
+                answer, post_validation = _validate_generated_answer(
+                    retrieval_question,
+                    answer=answer,
+                    authorized_chunks=generation_chunks,
+                    effective_role=effective_role,
+                    user_id=user.get("id"),
+                    project_id=project_id,
+                    department_id=department_id,
+                    memory_context=memory_text,
+                    original_question=request.question,
+                    prompt_name=request.prompt_name,
+                    prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                    multi_doc=multi_doc,
+                    evidence_action=evidence_generation_action(evidence_assessment),
+                )
+                yield _sse(
+                    "status",
+                    {
+                        "status": "post_generation_validation_complete",
+                        "message": f"Post-generation validation recommended {post_validation.action}.",
+                        "action": post_validation.action,
+                        "reason_codes": list(post_validation.reason_codes),
+                        "repair_count": post_validation.repair_count,
+                    },
+                )
+                yield _sse("answer_delta", {"delta": answer["answer"]})
             if not answer:
                 raise RuntimeError("Streaming generation did not return a final answer.")
             if request_assessment is None:
@@ -2219,6 +2427,21 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
                     evidence_action=evidence_generation_action(evidence_assessment),
                 )
                 trace.stop("generation")
+            answer, _post_validation = _validate_generated_answer(
+                retrieval_question,
+                answer=answer,
+                authorized_chunks=generation_chunks,
+                effective_role=effective_role,
+                user_id=user.get("id"),
+                project_id=project_id,
+                department_id=department_id,
+                memory_context=memory_text,
+                original_question=request.question,
+                prompt_name=request.prompt_name,
+                prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                multi_doc=multi_doc,
+                evidence_action=evidence_generation_action(evidence_assessment),
+            )
     except HTTPException as exc:
         submit_failure_telemetry(exc)
         raise
@@ -2339,6 +2562,7 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         "clarification_reason": answer.get("clarification_reason"),
         "request_assessment": request_assessment.model_dump(mode="json"),
         "evidence_assessment": evidence_assessment.model_dump(mode="json") if evidence_assessment else None,
+        "post_generation_validation": answer.get("post_generation_validation"),
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "scope": {

@@ -1,0 +1,79 @@
+{
+  "run_id": "phase54-factual-regression-v1",
+  "run_name": "phase54-factual-regression-v1",
+  "phase": "phase-54",
+  "run_type": "live_query_eval",
+  "timestamp": "2026-08-26T09:02:08.700688+00:00",
+  "retrieval_mode": "vector_lexical_rerank",
+  "chunking_strategy": "section_based",
+  "top_k": 5,
+  "prompt_name": "answer_generation",
+  "prompt_version": "v8",
+  "multi_doc_mode": "auto",
+  "evaluation_excluded_document_prefixes": [
+    "UPLOAD-"
+  ],
+  "model": "gpt-4.1-mini",
+  "total_questions": 30,
+  "source_question_count": 130,
+  "question_filter": "simple_factual",
+  "metrics": {
+    "any_source_hit": 1.0,
+    "all_sources_hit": 1.0,
+    "expected_source_recall": 1.0,
+    "precision_at_k": 0.673,
+    "mrr": 1.0,
+    "answer_accuracy": 1.0,
+    "citation_accuracy": 1.0,
+    "faithfulness": 0.928,
+    "hallucination_rate": 0.0,
+    "response_type_accuracy": 1.0,
+    "refusal_accuracy": null,
+    "not_found_accuracy": null,
+    "clarification_accuracy": null,
+    "final_confidence": 0.888,
+    "input_tokens": null,
+    "output_tokens": null,
+    "estimated_cost": 0.027739,
+    "request_assessment_estimated_cost": 0.018356,
+    "evidence_assessment_estimated_cost": 0.031764,
+    "evidence_assessment_mean_latency_ms": 2866.133,
+    "evidence_assessment_failed_safe_count": 0,
+    "post_generation_validation_estimated_cost": 0.025444,
+    "post_generation_validation_mean_latency_ms": 4118.033,
+    "post_generation_validation_failed_safe_count": 0,
+    "post_generation_validation_repair_count": 3,
+    "post_generation_validation_downgrade_count": 0,
+    "failed_question_count": 0,
+    "submetric_issue_count": 0,
+    "actionable_submetric_issue_count": 0,
+    "diagnostic_submetric_note_count": 0
+  },
+  "failed_questions": [],
+  "submetric_issue_ids": [],
+  "submetric_issue_breakdown": {
+    "actionable": {
+      "count": 0,
+      "ids": []
+    },
+    "memory_response_type_diagnostic": {
+      "count": 0,
+      "ids": []
+    },
+    "clarification_source_coverage_diagnostic": {
+      "count": 0,
+      "ids": []
+    }
+  },
+  "category_breakdown": {
+    "simple_factual": 30
+  },
+  "failure_reason_counts": {},
+  "citation_failure_category_counts": {},
+  "notes": "phase-54 live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, memory session loading, request assessment, auto multi-document detection, permission-filtered retrieval, post-permission evidence assessment, generation, post-generation claim/source-instruction validation, citation validation, and the API response payload. Uploaded-document fixtures are excluded from this benchmark run before generation. Expected answers, expected behavior, and expected sources are unchanged.",
+  "sample_size": 30,
+  "passed_count": 30,
+  "failed_count": 0,
+  "benchmark_version": "1.1",
+  "run_timestamp": "2026-08-26T09:02:08.700688+00:00"
+}

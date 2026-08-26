@@ -343,6 +343,13 @@ def _row(question: dict[str, Any], response: dict[str, Any], latency_ms: int, to
         "evidence_assessment_status": (response.get("evidence_assessment") or {}).get("status"),
         "evidence_assessment_latency_ms": (response.get("evidence_assessment") or {}).get("latency_ms"),
         "evidence_assessment_estimated_cost_usd": (response.get("evidence_assessment") or {}).get("estimated_cost_usd"),
+        "post_generation_validation": response.get("post_generation_validation"),
+        "post_generation_validation_action": (response.get("post_generation_validation") or {}).get("action"),
+        "post_generation_validation_route": (response.get("post_generation_validation") or {}).get("route"),
+        "post_generation_validation_status": (response.get("post_generation_validation") or {}).get("status"),
+        "post_generation_validation_repair_count": (response.get("post_generation_validation") or {}).get("repair_count"),
+        "post_generation_validation_latency_ms": (response.get("post_generation_validation") or {}).get("latency_ms"),
+        "post_generation_validation_estimated_cost_usd": (response.get("post_generation_validation") or {}).get("estimated_cost_usd"),
         **scores,
     }
     failed_item = failed_question_item(question, row_for_scoring, scores)
@@ -413,6 +420,21 @@ def _summary(
         "evidence_assessment_failed_safe_count": sum(
             1 for row in rows if row.get("evidence_assessment_status") == "failed_safe"
         ),
+        "post_generation_validation_estimated_cost": _sum_cost(
+            [row.get("post_generation_validation_estimated_cost_usd") for row in rows]
+        ),
+        "post_generation_validation_mean_latency_ms": _average(
+            [row.get("post_generation_validation_latency_ms") for row in rows]
+        ),
+        "post_generation_validation_failed_safe_count": sum(
+            1 for row in rows if row.get("post_generation_validation_status") == "failed_safe"
+        ),
+        "post_generation_validation_repair_count": sum(
+            int(row.get("post_generation_validation_repair_count") or 0) for row in rows
+        ),
+        "post_generation_validation_downgrade_count": sum(
+            1 for row in rows if row.get("post_generation_validation_action") == "downgrade"
+        ),
         "pricing_status": "estimated",
         "started_at": started_at,
     }
@@ -460,6 +482,11 @@ def _dashboard_run(result: dict[str, Any]) -> dict[str, Any]:
             "evidence_assessment_estimated_cost": summary.get("evidence_assessment_estimated_cost"),
             "evidence_assessment_mean_latency_ms": summary.get("evidence_assessment_mean_latency_ms"),
             "evidence_assessment_failed_safe_count": summary.get("evidence_assessment_failed_safe_count"),
+            "post_generation_validation_estimated_cost": summary.get("post_generation_validation_estimated_cost"),
+            "post_generation_validation_mean_latency_ms": summary.get("post_generation_validation_mean_latency_ms"),
+            "post_generation_validation_failed_safe_count": summary.get("post_generation_validation_failed_safe_count"),
+            "post_generation_validation_repair_count": summary.get("post_generation_validation_repair_count"),
+            "post_generation_validation_downgrade_count": summary.get("post_generation_validation_downgrade_count"),
             "failed_question_count": summary.get("failed_question_count"),
             "submetric_issue_count": summary.get("submetric_issue_count"),
             "actionable_submetric_issue_count": summary.get("actionable_submetric_issue_count"),
@@ -474,7 +501,7 @@ def _dashboard_run(result: dict[str, Any]) -> dict[str, Any]:
         "notes": (
             f"{PHASE} live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, "
             "memory session loading, request assessment, auto multi-document detection, permission-filtered retrieval, "
-            "post-permission evidence assessment, generation, citation validation, and the API response payload. "
+            "post-permission evidence assessment, generation, post-generation claim/source-instruction validation, citation validation, and the API response payload. "
             "Uploaded-document fixtures are excluded from this "
             "benchmark run before generation. Expected answers, expected behavior, and expected sources are unchanged."
         ),
@@ -525,7 +552,11 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
         "submetric_issue_count",
         "actionable_submetric_issue_count",
         "diagnostic_submetric_note_count",
-        "estimated_cost",
+            "estimated_cost",
+            "post_generation_validation_estimated_cost",
+            "post_generation_validation_mean_latency_ms",
+            "post_generation_validation_repair_count",
+            "post_generation_validation_downgrade_count",
     ]:
         lines.append(f"| {metric} | `{metrics.get(metric)}` |")
     lines.extend(
@@ -547,6 +578,7 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
             "- This runner calls `POST /query` instead of the prompt-experiment retrieval/generation helper.",
             "- Permission filtering happens inside the normal API retrieval path before generation.",
             "- Evidence assessment runs after permission filtering and before generation; its cost and latency are recorded separately.",
+            "- Post-generation validation uses only the same authorized chunks, buffers streaming output, and permits at most one repair; its cost, latency, and outcomes are recorded separately.",
             "- Uploaded-document fixtures are excluded from benchmark retrieval before generation.",
             "- Memory benchmark rows are represented as local eval sessions with their previous turns inserted before the live query.",
             "- Memory `answer_with_memory` response-type half-credit is retained for historical comparability but reported as a diagnostic note when answer and citation behavior are otherwise correct.",
@@ -585,6 +617,8 @@ def run_live_query_eval(args: argparse.Namespace) -> dict[str, Any]:
             cumulative_cost += float(row["request_assessment_estimated_cost_usd"])
         if row.get("evidence_assessment_estimated_cost_usd") is not None:
             cumulative_cost += float(row["evidence_assessment_estimated_cost_usd"])
+        if row.get("post_generation_validation_estimated_cost_usd") is not None:
+            cumulative_cost += float(row["post_generation_validation_estimated_cost_usd"])
         if args.budget_usd is not None and cumulative_cost >= args.budget_usd:
             raise RuntimeError(
                 f"Experiment budget stop reached: ${cumulative_cost:.6f} >= ${args.budget_usd:.2f}."
