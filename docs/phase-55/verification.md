@@ -53,6 +53,8 @@ The authoring command is explicit, budget-limited, and refuses a dirty tree or a
 
 The first external response was discarded before sealing because the initial response schema did not itself enforce the requested 10/10/10 stage distribution. No case content was printed or retained. Its exact cost was not persisted by the failed path and is therefore reported only as bounded by the approved `$0.15` command budget. The authoring schema was then tightened to three exact-length, stage-constant arrays before any retry; protected runtime paths remain pinned to `9565d11`.
 
+The next request was rejected by the API before inference because the strict-schema stage constants omitted explicit JSON `type` fields. It consumed no authoring tokens, wrote no files, and was corrected with a focused schema-compatibility assertion before retry.
+
 ## Limitations
 
 This is local-development and portfolio evidence. It is not production authentication, tenant isolation, database authorization, security monitoring, an independent penetration test, or a new generalization result. The explicit Phase 56 identity and tenant decisions remain required before further implementation.

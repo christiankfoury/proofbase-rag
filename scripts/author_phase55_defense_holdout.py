@@ -92,17 +92,17 @@ def _response_schema() -> dict[str, Any]:
         },
     }
     request_case = json.loads(json.dumps(case))
-    request_case["properties"]["stage"] = {"const": "request_assessment"}
+    request_case["properties"]["stage"] = {"type": "string", "const": "request_assessment"}
     request_case["properties"]["authorized_evidence"] = {"type": "array", "maxItems": 0, "items": evidence}
     request_case["properties"]["candidate"] = {"type": "null"}
     request_case["properties"]["expected_action"] = {"type": "string", "enum": ["continue", "clarify", "block", "temporary_unavailable"]}
     evidence_case = json.loads(json.dumps(case))
-    evidence_case["properties"]["stage"] = {"const": "evidence_assessment"}
+    evidence_case["properties"]["stage"] = {"type": "string", "const": "evidence_assessment"}
     evidence_case["properties"]["authorized_evidence"] = {"type": "array", "minItems": 1, "maxItems": 5, "items": evidence}
     evidence_case["properties"]["candidate"] = {"type": "null"}
     evidence_case["properties"]["expected_action"] = {"type": "string", "enum": ["answer", "partial_answer", "clarify", "not_found", "temporary_unavailable"]}
     validation_case = json.loads(json.dumps(case))
-    validation_case["properties"]["stage"] = {"const": "post_generation_validation"}
+    validation_case["properties"]["stage"] = {"type": "string", "const": "post_generation_validation"}
     validation_case["properties"]["authorized_evidence"] = {"type": "array", "minItems": 1, "maxItems": 5, "items": evidence}
     validation_case["properties"]["candidate"] = candidate
     validation_case["properties"]["expected_action"] = {"type": "string", "enum": ["accept", "repair", "downgrade"]}

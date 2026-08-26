@@ -143,6 +143,7 @@ class Phase55DefenseReadinessTests(unittest.TestCase):
         for name, stage in expected.items():
             self.assertEqual(properties[name]["minItems"], 10)
             self.assertEqual(properties[name]["maxItems"], 10)
+            self.assertEqual(properties[name]["items"]["properties"]["stage"]["type"], "string")
             self.assertEqual(properties[name]["items"]["properties"]["stage"]["const"], stage)
 
 
