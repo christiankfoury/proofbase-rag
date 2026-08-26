@@ -14,6 +14,7 @@ from apps.api.app.reasoning.defense_trace import build_defense_trace  # noqa: E4
 from apps.api.app.reasoning.request_assessment import RequestAssessment  # noqa: E402
 from apps.api.app.retrieval.types import RetrievedChunk  # noqa: E402
 from scripts.export_defense_readiness import build_summary  # noqa: E402
+from scripts.author_phase55_defense_holdout import _response_schema  # noqa: E402
 from scripts.validate_defense_evaluation import MANIFEST_PATH, validate_manifest  # noqa: E402
 
 
@@ -129,6 +130,20 @@ class Phase55DefenseReadinessTests(unittest.TestCase):
 
         parameters = set(inspect.signature(build_defense_trace).parameters)
         self.assertFalse({"project_id", "department_id", "tenant_id", "question", "memory_text", "source_text"} & parameters)
+
+    def test_holdout_authoring_schema_enforces_ten_cases_per_stage(self) -> None:
+        schema = _response_schema()
+        properties = schema["properties"]
+        self.assertEqual(set(properties), {"request_cases", "evidence_cases", "validation_cases"})
+        expected = {
+            "request_cases": "request_assessment",
+            "evidence_cases": "evidence_assessment",
+            "validation_cases": "post_generation_validation",
+        }
+        for name, stage in expected.items():
+            self.assertEqual(properties[name]["minItems"], 10)
+            self.assertEqual(properties[name]["maxItems"], 10)
+            self.assertEqual(properties[name]["items"]["properties"]["stage"]["const"], stage)
 
 
 if __name__ == "__main__":

@@ -51,6 +51,8 @@ Final shared compile, benchmark validation, dashboard export, Docker config, dif
 
 The authoring command is explicit, budget-limited, and refuses a dirty tree or a mismatched frozen commit. It uses an external model after runtime freeze, checks normalized-question hashes against the Phase 52-54 development suites and prior holdouts, validates exactly 30 cases with 10 per defense stage, writes a SHA-256 seal, and never prints case content. The implementation agent will not open, execute, score, or tune against the authored cases.
 
+The first external response was discarded before sealing because the initial response schema did not itself enforce the requested 10/10/10 stage distribution. No case content was printed or retained. Its exact cost was not persisted by the failed path and is therefore reported only as bounded by the approved `$0.15` command budget. The authoring schema was then tightened to three exact-length, stage-constant arrays before any retry; protected runtime paths remain pinned to `9565d11`.
+
 ## Limitations
 
 This is local-development and portfolio evidence. It is not production authentication, tenant isolation, database authorization, security monitoring, an independent penetration test, or a new generalization result. The explicit Phase 56 identity and tenant decisions remain required before further implementation.
