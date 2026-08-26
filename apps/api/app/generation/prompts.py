@@ -51,6 +51,7 @@ def build_multi_doc_user_prompt(
     grouped_docs: list[dict],
     memory_context: str | None = None,
     original_question: str | None = None,
+    evidence_action: str | None = None,
 ) -> str:
     parts = []
     if original_question and original_question != question:
@@ -60,6 +61,12 @@ def build_multi_doc_user_prompt(
         parts.append(f"Question:\n{question}")
     if memory_context:
         parts.append(f"Conversation memory for query clarification only:\n{memory_context}")
+    if evidence_action == "partial_answer":
+        parts.append(
+            "Evidence sufficiency control: only a supported subset is available. "
+            "Answer only that supported subset, state generically what remains unsupported, "
+            "and return response_type `partial_answer`."
+        )
     parts.append(f"Retrieved context (grouped by document):\n{format_context_grouped(grouped_docs)}")
     return "\n\n".join(parts)
 
@@ -69,6 +76,7 @@ def build_answer_user_prompt(
     chunks: list[RetrievedChunk],
     memory_context: str | None = None,
     original_question: str | None = None,
+    evidence_action: str | None = None,
 ) -> str:
     parts = []
     if original_question and original_question != question:
@@ -78,5 +86,11 @@ def build_answer_user_prompt(
         parts.append(f"Question:\n{question}")
     if memory_context:
         parts.append(f"Conversation memory for query clarification only:\n{memory_context}")
+    if evidence_action == "partial_answer":
+        parts.append(
+            "Evidence sufficiency control: only a supported subset is available. "
+            "Answer only that supported subset, state generically what remains unsupported, "
+            "and return response_type `partial_answer`."
+        )
     parts.append(f"Retrieved context:\n{format_context(chunks)}")
     return "\n\n".join(parts)

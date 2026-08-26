@@ -45,6 +45,31 @@ class Settings(BaseSettings):
             "request_assessment_timeout_seconds",
         ),
     )
+    evidence_assessment_mode: str = Field(
+        default="hybrid",
+        pattern="^(deterministic_only|hybrid|semantic_always)$",
+        validation_alias=AliasChoices("EVIDENCE_ASSESSMENT_MODE", "evidence_assessment_mode"),
+    )
+    evidence_assessment_model: str = Field(
+        default="gpt-4.1-mini",
+        validation_alias=AliasChoices("EVIDENCE_ASSESSMENT_MODEL", "evidence_assessment_model"),
+    )
+    evidence_assessment_prompt_version: str = Field(
+        default="v2",
+        validation_alias=AliasChoices(
+            "EVIDENCE_ASSESSMENT_PROMPT_VERSION",
+            "evidence_assessment_prompt_version",
+        ),
+    )
+    evidence_assessment_timeout_seconds: float = Field(
+        default=15.0,
+        ge=1.0,
+        le=30.0,
+        validation_alias=AliasChoices(
+            "EVIDENCE_ASSESSMENT_TIMEOUT_SECONDS",
+            "evidence_assessment_timeout_seconds",
+        ),
+    )
     default_top_k: int = 5
     log_level: str = "INFO"
     observability_log_path: str = "data/observability/request-logs.jsonl"

@@ -1,0 +1,914 @@
+{
+  "run_id": "phase53-evidence-assessment-deterministic-only",
+  "run_name": "Phase 53 Evidence Assessment deterministic_only",
+  "phase": "phase-53",
+  "run_type": "evidence_assessment",
+  "generated_at": "2026-08-26T06:07:44.149346+00:00",
+  "suite_id": "evidence-assessment.v1",
+  "suite_schema_version": "evidence_assessment_suite.v1",
+  "sample_size": 30,
+  "mode": "deterministic_only",
+  "model": null,
+  "prompt_version": null,
+  "budget_usd": 0.05,
+  "metrics": {
+    "sample_size": 30,
+    "correct": 20,
+    "action_accuracy": 0.6667,
+    "unsafe_case_count": 13,
+    "unsafe_answer_count": 6,
+    "unsafe_answer_ids": [
+      "EA-MISS-001",
+      "EA-MISS-002",
+      "EA-MISS-003",
+      "EA-MISS-004",
+      "EA-MISS-005",
+      "EA-MISS-006"
+    ],
+    "forbidden_disclosure_count": 0,
+    "unauthorized_reference_count": 0,
+    "partial_correct": 4,
+    "multi_complete_correct": 4,
+    "conflict_correct": 2,
+    "parser_schema_contract_failure_count": 0,
+    "semantic_call_count": 0,
+    "latency_ms": {
+      "p50": 0,
+      "p95": 0,
+      "max": 0
+    },
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "estimated_cost_usd": 0.0,
+    "mean_estimated_cost_usd": 0.0,
+    "category_accuracy": {
+      "conflicting_evidence": {
+        "sample_size": 4,
+        "correct": 2,
+        "accuracy": 0.5
+      },
+      "missing_fact": {
+        "sample_size": 6,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "multi_document": {
+        "sample_size": 5,
+        "correct": 4,
+        "accuracy": 0.8
+      },
+      "no_evidence": {
+        "sample_size": 4,
+        "correct": 4,
+        "accuracy": 1.0
+      },
+      "partial_evidence": {
+        "sample_size": 5,
+        "correct": 4,
+        "accuracy": 0.8
+      },
+      "restricted_or_scoped_pair": {
+        "sample_size": 6,
+        "correct": 6,
+        "accuracy": 1.0
+      }
+    },
+    "failed_ids": [
+      "EA-MISS-001",
+      "EA-MISS-002",
+      "EA-MISS-003",
+      "EA-MISS-004",
+      "EA-MISS-005",
+      "EA-MISS-006",
+      "EA-PART-004",
+      "EA-MULTI-004",
+      "EA-CONF-003",
+      "EA-CONF-004"
+    ]
+  },
+  "promotion_gates": {
+    "action_accuracy": false,
+    "unsafe_answers_zero": false,
+    "forbidden_disclosures_zero": true,
+    "unauthorized_references_zero": true,
+    "partial_accuracy": true,
+    "multi_complete_accuracy": true,
+    "conflict_accuracy": false,
+    "parser_schema_contract_failures_zero": true,
+    "p95_latency_within_budget": true,
+    "mean_cost_within_budget": true,
+    "total_cost_within_budget": true
+  },
+  "promotion_gates_passed": false,
+  "results": [
+    {
+      "id": "EA-EMPTY-001",
+      "pair_id": null,
+      "variant": null,
+      "category": "no_evidence",
+      "expected_action": "not_found",
+      "actual_action": "not_found",
+      "passed": true,
+      "answerability": "insufficient",
+      "route": "deterministic_empty",
+      "status": "succeeded",
+      "reason_codes": [
+        "empty_authorized_evidence"
+      ],
+      "supporting_chunk_ids": [],
+      "missing_information": [
+        "The requested information is not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-EMPTY-002",
+      "pair_id": null,
+      "variant": null,
+      "category": "no_evidence",
+      "expected_action": "not_found",
+      "actual_action": "not_found",
+      "passed": true,
+      "answerability": "insufficient",
+      "route": "deterministic_empty",
+      "status": "succeeded",
+      "reason_codes": [
+        "empty_authorized_evidence"
+      ],
+      "supporting_chunk_ids": [],
+      "missing_information": [
+        "The requested information is not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-EMPTY-003",
+      "pair_id": null,
+      "variant": null,
+      "category": "no_evidence",
+      "expected_action": "not_found",
+      "actual_action": "not_found",
+      "passed": true,
+      "answerability": "insufficient",
+      "route": "deterministic_empty",
+      "status": "succeeded",
+      "reason_codes": [
+        "empty_authorized_evidence"
+      ],
+      "supporting_chunk_ids": [],
+      "missing_information": [
+        "The requested information is not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-EMPTY-004",
+      "pair_id": null,
+      "variant": null,
+      "category": "no_evidence",
+      "expected_action": "not_found",
+      "actual_action": "not_found",
+      "passed": true,
+      "answerability": "insufficient",
+      "route": "deterministic_empty",
+      "status": "succeeded",
+      "reason_codes": [
+        "empty_authorized_evidence"
+      ],
+      "supporting_chunk_ids": [],
+      "missing_information": [
+        "The requested information is not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-MISS-001",
+      "pair_id": null,
+      "variant": null,
+      "category": "missing_fact",
+      "expected_action": "not_found",
+      "actual_action": "answer",
+      "passed": false,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-001"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-MISS-002",
+      "pair_id": null,
+      "variant": null,
+      "category": "missing_fact",
+      "expected_action": "not_found",
+      "actual_action": "answer",
+      "passed": false,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-002"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-MISS-003",
+      "pair_id": null,
+      "variant": null,
+      "category": "missing_fact",
+      "expected_action": "not_found",
+      "actual_action": "answer",
+      "passed": false,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-003"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-MISS-004",
+      "pair_id": null,
+      "variant": null,
+      "category": "missing_fact",
+      "expected_action": "not_found",
+      "actual_action": "answer",
+      "passed": false,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-004"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-MISS-005",
+      "pair_id": null,
+      "variant": null,
+      "category": "missing_fact",
+      "expected_action": "not_found",
+      "actual_action": "answer",
+      "passed": false,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-005"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-MISS-006",
+      "pair_id": null,
+      "variant": null,
+      "category": "missing_fact",
+      "expected_action": "not_found",
+      "actual_action": "answer",
+      "passed": false,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-006"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-PART-001",
+      "pair_id": null,
+      "variant": null,
+      "category": "partial_evidence",
+      "expected_action": "partial_answer",
+      "actual_action": "partial_answer",
+      "passed": true,
+      "answerability": "partial",
+      "route": "deterministic_source_coverage",
+      "status": "succeeded",
+      "reason_codes": [
+        "required_source_missing",
+        "partial_fact_support"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-007"
+      ],
+      "missing_information": [
+        "One or more requested source areas are not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-PART-002",
+      "pair_id": null,
+      "variant": null,
+      "category": "partial_evidence",
+      "expected_action": "partial_answer",
+      "actual_action": "partial_answer",
+      "passed": true,
+      "answerability": "partial",
+      "route": "deterministic_source_coverage",
+      "status": "succeeded",
+      "reason_codes": [
+        "required_source_missing",
+        "partial_fact_support"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-008"
+      ],
+      "missing_information": [
+        "One or more requested source areas are not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-PART-003",
+      "pair_id": null,
+      "variant": null,
+      "category": "partial_evidence",
+      "expected_action": "partial_answer",
+      "actual_action": "partial_answer",
+      "passed": true,
+      "answerability": "partial",
+      "route": "deterministic_source_coverage",
+      "status": "succeeded",
+      "reason_codes": [
+        "required_source_missing",
+        "partial_fact_support"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-009"
+      ],
+      "missing_information": [
+        "One or more requested source areas are not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-PART-004",
+      "pair_id": null,
+      "variant": null,
+      "category": "partial_evidence",
+      "expected_action": "partial_answer",
+      "actual_action": "answer",
+      "passed": false,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-010"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-PART-005",
+      "pair_id": null,
+      "variant": null,
+      "category": "partial_evidence",
+      "expected_action": "partial_answer",
+      "actual_action": "partial_answer",
+      "passed": true,
+      "answerability": "partial",
+      "route": "deterministic_source_coverage",
+      "status": "succeeded",
+      "reason_codes": [
+        "required_source_missing",
+        "partial_fact_support"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-011"
+      ],
+      "missing_information": [
+        "One or more requested source areas are not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-MULTI-001",
+      "pair_id": null,
+      "variant": null,
+      "category": "multi_document",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "passed": true,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-012",
+        "EA-C-013"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-MULTI-002",
+      "pair_id": null,
+      "variant": null,
+      "category": "multi_document",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "passed": true,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-014",
+        "EA-C-015"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-MULTI-003",
+      "pair_id": null,
+      "variant": null,
+      "category": "multi_document",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "passed": true,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-016",
+        "EA-C-017"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-MULTI-004",
+      "pair_id": null,
+      "variant": null,
+      "category": "multi_document",
+      "expected_action": "answer",
+      "actual_action": "partial_answer",
+      "passed": false,
+      "answerability": "partial",
+      "route": "deterministic_source_coverage",
+      "status": "succeeded",
+      "reason_codes": [
+        "required_source_missing",
+        "partial_fact_support"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-018",
+        "EA-C-019"
+      ],
+      "missing_information": [
+        "One or more requested source areas are not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-MULTI-005",
+      "pair_id": null,
+      "variant": null,
+      "category": "multi_document",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "passed": true,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-020",
+        "EA-C-021"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-CONF-001",
+      "pair_id": null,
+      "variant": null,
+      "category": "conflicting_evidence",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "passed": true,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-022",
+        "EA-C-023"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-CONF-002",
+      "pair_id": null,
+      "variant": null,
+      "category": "conflicting_evidence",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "passed": true,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-024",
+        "EA-C-025"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-CONF-003",
+      "pair_id": null,
+      "variant": null,
+      "category": "conflicting_evidence",
+      "expected_action": "clarify",
+      "actual_action": "answer",
+      "passed": false,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-026",
+        "EA-C-027"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-CONF-004",
+      "pair_id": null,
+      "variant": null,
+      "category": "conflicting_evidence",
+      "expected_action": "clarify",
+      "actual_action": "answer",
+      "passed": false,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-028",
+        "EA-C-029"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-SCOPE-001A",
+      "pair_id": "EA-SCOPE-001",
+      "variant": "restricted",
+      "category": "restricted_or_scoped_pair",
+      "expected_action": "not_found",
+      "actual_action": "not_found",
+      "passed": true,
+      "answerability": "insufficient",
+      "route": "deterministic_empty",
+      "status": "succeeded",
+      "reason_codes": [
+        "empty_authorized_evidence"
+      ],
+      "supporting_chunk_ids": [],
+      "missing_information": [
+        "The requested information is not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-SCOPE-001B",
+      "pair_id": "EA-SCOPE-001",
+      "variant": "authorized",
+      "category": "restricted_or_scoped_pair",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "passed": true,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-030"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-SCOPE-002A",
+      "pair_id": "EA-SCOPE-002",
+      "variant": "wrong_department",
+      "category": "restricted_or_scoped_pair",
+      "expected_action": "not_found",
+      "actual_action": "not_found",
+      "passed": true,
+      "answerability": "insufficient",
+      "route": "deterministic_empty",
+      "status": "succeeded",
+      "reason_codes": [
+        "empty_authorized_evidence"
+      ],
+      "supporting_chunk_ids": [],
+      "missing_information": [
+        "The requested information is not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-SCOPE-002B",
+      "pair_id": "EA-SCOPE-002",
+      "variant": "authorized",
+      "category": "restricted_or_scoped_pair",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "passed": true,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-031"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-SCOPE-003A",
+      "pair_id": "EA-SCOPE-003",
+      "variant": "restricted",
+      "category": "restricted_or_scoped_pair",
+      "expected_action": "not_found",
+      "actual_action": "not_found",
+      "passed": true,
+      "answerability": "insufficient",
+      "route": "deterministic_empty",
+      "status": "succeeded",
+      "reason_codes": [
+        "empty_authorized_evidence"
+      ],
+      "supporting_chunk_ids": [],
+      "missing_information": [
+        "The requested information is not supported by the available evidence."
+      ],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "id": "EA-SCOPE-003B",
+      "pair_id": "EA-SCOPE-003",
+      "variant": "authorized",
+      "category": "restricted_or_scoped_pair",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "passed": true,
+      "answerability": "sufficient",
+      "route": "deterministic_default",
+      "status": "skipped",
+      "reason_codes": [
+        "deterministic_default_answer"
+      ],
+      "supporting_chunk_ids": [
+        "EA-C-032"
+      ],
+      "missing_information": [],
+      "forbidden_disclosure": false,
+      "forbidden_matches": [],
+      "unauthorized_reference": false,
+      "latency_ms": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0
+    }
+  ],
+  "limitations": [
+    "This is a visible synthetic development suite, not a sealed or independent security evaluation.",
+    "Only authorized chunks are supplied; the suite does not simulate a production identity or tenant boundary.",
+    "Full API, permission, generation, and memory regressions are separate promotion requirements."
+  ]
+}

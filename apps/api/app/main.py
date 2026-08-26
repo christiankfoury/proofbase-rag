@@ -72,7 +72,13 @@ from apps.api.app.projects.project_store import create_department as create_depa
 from apps.api.app.projects.project_store import create_project as create_project_record
 from apps.api.app.projects.project_store import update_department as update_department_record
 from apps.api.app.projects.project_store import update_project as update_project_record
-from apps.api.app.reasoning.clarification import clarification_answer
+from apps.api.app.reasoning.clarification import ClarificationDecision, clarification_answer
+from apps.api.app.reasoning.evidence_assessment import (
+    EvidenceAssessment,
+    assess_evidence,
+    evidence_generation_action,
+    evidence_response_reason,
+)
 from apps.api.app.reasoning.evidence_grouper import group_chunks_by_document
 from apps.api.app.reasoning.multi_doc_detector import is_multi_document_question
 from apps.api.app.reasoning.query_decomposer import retrieve_multi_doc
@@ -1572,6 +1578,7 @@ def _query_response_payload(
     multi_doc: bool,
     effective_role: str,
     request_assessment: RequestAssessment,
+    evidence_assessment: EvidenceAssessment | None,
 ) -> dict:
     return {
         "session_id": session_id,
@@ -1590,6 +1597,7 @@ def _query_response_payload(
         "validation_notes": answer["validation_notes"],
         "clarification_reason": answer.get("clarification_reason"),
         "request_assessment": request_assessment.model_dump(mode="json"),
+        "evidence_assessment": evidence_assessment.model_dump(mode="json") if evidence_assessment else None,
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "scope": {
@@ -1679,6 +1687,77 @@ def _assess_before_retrieval(
     return assessment, clarification_answer(decision) if decision else None
 
 
+def _assess_after_retrieval(
+    question: str,
+    *,
+    request_assessment: RequestAssessment,
+    chunks: list,
+    multi_doc: bool,
+    effective_role: str,
+    user_id: str | None,
+    project_id: str | None,
+    department_id: str | None,
+) -> EvidenceAssessment:
+    assessment = assess_evidence(
+        question,
+        request_assessment=request_assessment,
+        authorized_chunks=chunks,
+        multi_document=multi_doc,
+    )
+    if assessment.recommended_action in {"clarify", "temporary_unavailable"}:
+        log_audit_event(
+            action=(
+                "evidence_assessment_failed_safe"
+                if assessment.status == "failed_safe"
+                else "authorized_evidence_conflict_detected"
+            ),
+            user_role=effective_role,
+            user_id=user_id,
+            resource_type="query",
+            outcome="blocked",
+            reason=evidence_response_reason(assessment),
+            metadata={
+                "project_id": project_id,
+                "department_id": department_id,
+                "assessment_route": assessment.route,
+                "recommended_action": assessment.recommended_action,
+                "reason_codes": list(assessment.reason_codes),
+                "authorized_chunk_count": len(chunks),
+            },
+        )
+    return assessment
+
+
+def _evidence_stop_answer(assessment: EvidenceAssessment) -> dict | None:
+    if assessment.recommended_action == "clarify":
+        return clarification_answer(
+            ClarificationDecision(
+                reason="authorized_evidence_conflicting",
+                question=(
+                    "The accessible sources conflict on a material part of this request. "
+                    "Which applicable policy, version, or time period should I use?"
+                ),
+            )
+        )
+    if assessment.recommended_action == "temporary_unavailable":
+        return clarification_answer(
+            ClarificationDecision(
+                reason="evidence_assessment_unavailable",
+                question=(
+                    "I can’t safely verify whether the available evidence is sufficient right now, "
+                    "so I haven’t generated an answer. Please try again."
+                ),
+            )
+        )
+    return None
+
+
+def _evidence_generation_chunks(chunks: list, assessment: EvidenceAssessment) -> list:
+    if assessment.recommended_action not in {"answer", "partial_answer"}:
+        return []
+    return list(chunks)
+
+
 @app.post("/query/stream")
 def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user)]) -> StreamingResponse:
     def events():
@@ -1698,6 +1777,7 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
         }
         answer: dict = {}
         request_assessment: RequestAssessment | None = None
+        evidence_assessment: EvidenceAssessment | None = None
         session_id = request.session_id
 
         def submit_failure_telemetry(exc: BaseException) -> None:
@@ -1809,33 +1889,72 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                     },
                 )
 
-                trace.start("generation")
-                yield _sse("status", {"status": "generation_started", "message": "Generating answer."})
-                for generation_event in generate_answer_stream(
+                yield _sse(
+                    "status",
+                    {"status": "evidence_assessment_started", "message": "Checking accessible evidence sufficiency."},
+                )
+                evidence_assessment = _assess_after_retrieval(
                     retrieval_question,
-                    chunks,
-                    user_role=effective_role,
-                    memory_context=memory_text,
-                    original_question=request.question,
-                    prompt_name=request.prompt_name,
-                    prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                    request_assessment=request_assessment,
+                    chunks=chunks,
                     multi_doc=multi_doc,
-                    grouped_docs=grouped_docs,
-                ):
-                    event_type = generation_event.get("type")
-                    if event_type == "answer_delta":
-                        yield _sse("answer_delta", {"delta": generation_event["delta"]})
-                    elif event_type == "status":
-                        yield _sse(
-                            "status",
-                            {
-                                "status": generation_event.get("status", "generation_status"),
-                                "message": generation_event.get("message", "Generation status updated."),
-                            },
-                        )
-                    elif event_type == "final":
-                        answer = generation_event["answer"]
-                trace.stop("generation")
+                    effective_role=effective_role,
+                    user_id=user.get("id"),
+                    project_id=project_id,
+                    department_id=department_id,
+                )
+                yield _sse(
+                    "status",
+                    {
+                        "status": "evidence_assessment_complete",
+                        "message": f"Evidence assessment recommended {evidence_assessment.recommended_action}.",
+                        "route": evidence_assessment.route,
+                        "recommended_action": evidence_assessment.recommended_action,
+                        "reason_codes": list(evidence_assessment.reason_codes),
+                    },
+                )
+                answer = _evidence_stop_answer(evidence_assessment) or {}
+                generation_chunks = _evidence_generation_chunks(chunks, evidence_assessment)
+                if evidence_assessment.recommended_action == "not_found":
+                    answer = generate_answer(
+                        retrieval_question,
+                        [],
+                        user_role=effective_role,
+                        prompt_name=request.prompt_name,
+                        prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                    )
+                elif answer:
+                    yield _sse("answer_delta", {"delta": answer["answer"]})
+                else:
+                    trace.start("generation")
+                    yield _sse("status", {"status": "generation_started", "message": "Generating answer."})
+                    generation_grouped_docs = group_chunks_by_document(generation_chunks) if multi_doc else None
+                    for generation_event in generate_answer_stream(
+                        retrieval_question,
+                        generation_chunks,
+                        user_role=effective_role,
+                        memory_context=memory_text,
+                        original_question=request.question,
+                        prompt_name=request.prompt_name,
+                        prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                        multi_doc=multi_doc,
+                        grouped_docs=generation_grouped_docs,
+                        evidence_action=evidence_generation_action(evidence_assessment),
+                    ):
+                        event_type = generation_event.get("type")
+                        if event_type == "answer_delta":
+                            yield _sse("answer_delta", {"delta": generation_event["delta"]})
+                        elif event_type == "status":
+                            yield _sse(
+                                "status",
+                                {
+                                    "status": generation_event.get("status", "generation_status"),
+                                    "message": generation_event.get("message", "Generation status updated."),
+                                },
+                            )
+                        elif event_type == "final":
+                            answer = generation_event["answer"]
+                    trace.stop("generation")
             if not answer:
                 raise RuntimeError("Streaming generation did not return a final answer.")
             if request_assessment is None:
@@ -1941,6 +2060,7 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                 multi_doc=multi_doc,
                 effective_role=effective_role,
                 request_assessment=request_assessment,
+                evidence_assessment=evidence_assessment,
             )
             yield _sse("metadata", payload)
             yield _sse("complete", {"status": "complete"})
@@ -1974,6 +2094,7 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
     rewrite: dict = {"rewritten_question": request.question, "is_followup": False, "memory_used": False, "rewrite_strategy": None, "original_question": request.question}
     answer: dict = {}
     request_assessment: RequestAssessment | None = None
+    evidence_assessment: EvidenceAssessment | None = None
     session_id = request.session_id
     project_id = _validate_project_id(request.project_id) if request.project_id else None
     department_id = _validate_project_id(request.department_id) if request.department_id else None
@@ -2062,19 +2183,42 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
                 grouped_docs = None
             trace.stop("retrieval")
 
-            trace.start("generation")
-            answer = generate_answer(
+            evidence_assessment = _assess_after_retrieval(
                 retrieval_question,
-                chunks,
-                user_role=effective_role,
-                memory_context=memory_text,
-                original_question=request.question,
-                prompt_name=request.prompt_name,
-                prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                request_assessment=request_assessment,
+                chunks=chunks,
                 multi_doc=multi_doc,
-                grouped_docs=grouped_docs,
+                effective_role=effective_role,
+                user_id=user.get("id"),
+                project_id=project_id,
+                department_id=department_id,
             )
-            trace.stop("generation")
+            answer = _evidence_stop_answer(evidence_assessment) or {}
+            generation_chunks = _evidence_generation_chunks(chunks, evidence_assessment)
+            if evidence_assessment.recommended_action == "not_found":
+                answer = generate_answer(
+                    retrieval_question,
+                    [],
+                    user_role=effective_role,
+                    prompt_name=request.prompt_name,
+                    prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                )
+            elif not answer:
+                trace.start("generation")
+                generation_grouped_docs = group_chunks_by_document(generation_chunks) if multi_doc else None
+                answer = generate_answer(
+                    retrieval_question,
+                    generation_chunks,
+                    user_role=effective_role,
+                    memory_context=memory_text,
+                    original_question=request.question,
+                    prompt_name=request.prompt_name,
+                    prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                    multi_doc=multi_doc,
+                    grouped_docs=generation_grouped_docs,
+                    evidence_action=evidence_generation_action(evidence_assessment),
+                )
+                trace.stop("generation")
     except HTTPException as exc:
         submit_failure_telemetry(exc)
         raise
@@ -2194,6 +2338,7 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         "validation_notes": answer["validation_notes"],
         "clarification_reason": answer.get("clarification_reason"),
         "request_assessment": request_assessment.model_dump(mode="json"),
+        "evidence_assessment": evidence_assessment.model_dump(mode="json") if evidence_assessment else None,
         "retrieval_mode": config.retrieval_mode,
         "chunking_strategy": config.chunking_strategy,
         "scope": {

@@ -500,6 +500,9 @@ def _enforce_semantic_contract(
     )
     if searchable_subject:
         return _normalized_continue(decision), "searchable_named_subject"
+    has_unresolved_reference = any(word in _UNRESOLVED_REFERENCE_WORDS for word in words)
+    if not has_unresolved_reference and not decision.decision_variables:
+        return _normalized_continue(decision), "clear_information_request"
     return decision, None
 
 

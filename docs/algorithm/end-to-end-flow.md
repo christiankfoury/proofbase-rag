@@ -11,11 +11,12 @@ This document follows a user question through the live API path. The main entry 
 5. Deterministic request guards run first. Every remaining request receives a strict-schema semantic assessment that can continue, clarify, block, or fail safely, but cannot grant access.
 6. Only a continued request reaches retrieval, which runs against Postgres with project, department, and role filters.
 7. Multi-document mode may decompose the question into subqueries and merge results.
-8. The answer generator receives only retrieved chunks that passed filtering.
-9. Generation either returns a deterministic policy response, a no-access/not-found response, or calls OpenAI with a prompt version and retrieved context.
-10. Citations are matched to retrieved chunks, optionally backfilled from retrieved chunks, then validated.
-11. Confidence scores, citations, retrieved chunk previews, request-assessment metadata, memory metadata, and permission checks are returned.
-12. The request is logged for observability. Guarded requests and permission-filtered retrieval are audit logged.
+8. A permission-aware evidence assessment sees only those authorized chunks and decides whether the request is answerable, partially answerable, unsupported, conflicting, or temporarily unverifiable.
+9. Only `answer` or `partial_answer` proceeds to ordinary generation. Missing evidence returns not found, conflicts request clarification, and assessment failures stop safely.
+10. Generation either returns a deterministic policy response, a no-access/not-found response, or calls OpenAI with a prompt version and authorized retrieved context.
+11. Citations are matched to retrieved chunks, optionally backfilled from retrieved chunks, then validated.
+12. Confidence scores, citations, retrieved chunk previews, request- and evidence-assessment metadata, memory metadata, and permission checks are returned.
+13. The request is logged for observability. Guarded requests, permission-filtered retrieval, evidence conflicts, and assessment failures are audit logged.
 
 ## Request Flow Diagram
 
@@ -27,6 +28,7 @@ sequenceDiagram
   participant Assess as Request assessor
   participant Retriever as Retriever
   participant DB as Postgres + pgvector
+  participant Evidence as Evidence assessor
   participant Gen as Answer generator
   participant OpenAI as OpenAI chat
 
@@ -44,7 +46,13 @@ sequenceDiagram
   Retriever->>DB: Query indexed active documents only
   DB-->>Retriever: Allowed chunks
   Retriever-->>API: RetrievedChunk list
-  API->>Gen: Generate from retrieved chunks
+  API->>Evidence: Rewritten request + authorized chunks only
+  alt Missing, conflicting, or assessment unavailable
+    Evidence-->>API: Not found, clarify, or fail safely
+    API-->>Web: Safe non-generation response
+  else Sufficient or partial
+    Evidence-->>API: Answer action + authorized support metadata
+  API->>Gen: Generate from permission-filtered chunks
   Gen->>Gen: Check unauthorized chunks again
   alt Policy/no chunks
     Gen-->>API: Refusal, clarify, or not-found
@@ -55,6 +63,7 @@ sequenceDiagram
     Gen-->>API: Answer payload
   end
   API-->>Web: Answer, citations, confidence, metadata
+  end
   end
 ```
 
@@ -113,6 +122,14 @@ Every retriever filters by:
 - project and department scope, when supplied
 - role overlap via `d.access_roles && %s`
 
+## Evidence Sufficiency Step
+
+Before generation, `apps/api/app/reasoning/evidence_assessment.py` runs only after retrieval has applied identity, project, department, document-role, active-version, and chunk filters. Empty evidence and missing required source coverage use deterministic fast paths; unresolved cases use the versioned strict-schema semantic assessor.
+
+The assessor receives the normalized request, bounded Phase 52 routing fields, and authorized chunks. It receives no role, membership, hidden candidate, filtered document ID, secret, tool authority, or memory text. Application code validates or removes every model-authored chunk reference against the authorized input allowlist and derives duplicated action/source metadata deterministically. This normalization cannot add evidence or authorization.
+
+An `answer` or `partial_answer` action preserves the complete permission-filtered retrieval set for generation; semantic support IDs explain the assessment but are not a second retriever. `not_found`, unresolved conflict, timeout, schema failure, or provider failure stops before ordinary generation.
+
 ## Generation Step
 
 The answer generator first checks for unsafe state:
@@ -137,6 +154,7 @@ The API response includes:
 | `retrieved_chunks` | Chunk metadata and content previews, not full chunk text. |
 | `memory` | Follow-up detection and rewrite metadata. |
 | `request_assessment` | Typed intent/risk/action, route, safe reason codes, normalization, model, prompt, latency, token, and estimated-cost metadata. |
+| `evidence_assessment` | Post-permission answerability, required facts/source coverage, conflicts, action, authorized support IDs, normalization, model, prompt, latency, tokens, and estimated cost. It is null when request assessment stops before retrieval. |
 | `permission_check` | Effective role and whether unauthorized chunks reached generation. |
 | `confidence` fields | Retrieval, citation, answer, and final confidence. |
 | `scope` | Project and department scope used by retrieval. |

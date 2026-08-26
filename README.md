@@ -451,7 +451,7 @@ The core portfolio scope and Phase 47–49 independent evaluation are complete. 
 
 Current and planned work includes:
 
-- Structured semantic request assessment is implemented and measured; permission-aware evidence sufficiency, claim/source-instruction validation, and consolidated adversarial evaluation evidence remain Phases 53-55.
+- Structured semantic request assessment and permission-aware evidence sufficiency are implemented and measured; claim/source-instruction validation and consolidated adversarial evaluation evidence remain Phases 54-55.
 - Real authentication and tenant ownership with database-enforced authorization and isolation.
 - Distributed rate limits, quotas, and AI cost-abuse controls.
 - Quarantined, scanned, isolated file processing backed by production object storage.

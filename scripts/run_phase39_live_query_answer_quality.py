@@ -337,6 +337,12 @@ def _row(question: dict[str, Any], response: dict[str, Any], latency_ms: int, to
         "request_assessment_route": (response.get("request_assessment") or {}).get("route"),
         "request_assessment_latency_ms": (response.get("request_assessment") or {}).get("latency_ms"),
         "request_assessment_estimated_cost_usd": (response.get("request_assessment") or {}).get("estimated_cost_usd"),
+        "evidence_assessment": response.get("evidence_assessment"),
+        "evidence_assessment_action": (response.get("evidence_assessment") or {}).get("recommended_action"),
+        "evidence_assessment_route": (response.get("evidence_assessment") or {}).get("route"),
+        "evidence_assessment_status": (response.get("evidence_assessment") or {}).get("status"),
+        "evidence_assessment_latency_ms": (response.get("evidence_assessment") or {}).get("latency_ms"),
+        "evidence_assessment_estimated_cost_usd": (response.get("evidence_assessment") or {}).get("estimated_cost_usd"),
         **scores,
     }
     failed_item = failed_question_item(question, row_for_scoring, scores)
@@ -398,6 +404,15 @@ def _summary(
         "request_assessment_mean_latency_ms": _average(
             [row.get("request_assessment_latency_ms") for row in rows]
         ),
+        "evidence_assessment_estimated_cost": _sum_cost(
+            [row.get("evidence_assessment_estimated_cost_usd") for row in rows]
+        ),
+        "evidence_assessment_mean_latency_ms": _average(
+            [row.get("evidence_assessment_latency_ms") for row in rows]
+        ),
+        "evidence_assessment_failed_safe_count": sum(
+            1 for row in rows if row.get("evidence_assessment_status") == "failed_safe"
+        ),
         "pricing_status": "estimated",
         "started_at": started_at,
     }
@@ -441,6 +456,10 @@ def _dashboard_run(result: dict[str, Any]) -> dict[str, Any]:
             "input_tokens": summary.get("input_tokens"),
             "output_tokens": summary.get("output_tokens"),
             "estimated_cost": summary.get("estimated_cost"),
+            "request_assessment_estimated_cost": summary.get("request_assessment_estimated_cost"),
+            "evidence_assessment_estimated_cost": summary.get("evidence_assessment_estimated_cost"),
+            "evidence_assessment_mean_latency_ms": summary.get("evidence_assessment_mean_latency_ms"),
+            "evidence_assessment_failed_safe_count": summary.get("evidence_assessment_failed_safe_count"),
             "failed_question_count": summary.get("failed_question_count"),
             "submetric_issue_count": summary.get("submetric_issue_count"),
             "actionable_submetric_issue_count": summary.get("actionable_submetric_issue_count"),
@@ -454,8 +473,9 @@ def _dashboard_run(result: dict[str, Any]) -> dict[str, Any]:
         "citation_failure_category_counts": _citation_failure_counts(result.get("failed_questions") or []),
         "notes": (
             f"{PHASE} live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, "
-            "memory session loading, auto multi-document detection, permission-filtered retrieval, generation, "
-            "citation validation, and the API response payload. Uploaded-document fixtures are excluded from this "
+            "memory session loading, request assessment, auto multi-document detection, permission-filtered retrieval, "
+            "post-permission evidence assessment, generation, citation validation, and the API response payload. "
+            "Uploaded-document fixtures are excluded from this "
             "benchmark run before generation. Expected answers, expected behavior, and expected sources are unchanged."
         ),
         "sample_size": summary["question_count"],
@@ -526,6 +546,7 @@ def _write_report(result: dict[str, Any], dashboard_run: dict[str, Any]) -> None
             "",
             "- This runner calls `POST /query` instead of the prompt-experiment retrieval/generation helper.",
             "- Permission filtering happens inside the normal API retrieval path before generation.",
+            "- Evidence assessment runs after permission filtering and before generation; its cost and latency are recorded separately.",
             "- Uploaded-document fixtures are excluded from benchmark retrieval before generation.",
             "- Memory benchmark rows are represented as local eval sessions with their previous turns inserted before the live query.",
             "- Memory `answer_with_memory` response-type half-credit is retained for historical comparability but reported as a diagnostic note when answer and citation behavior are otherwise correct.",
@@ -562,6 +583,8 @@ def run_live_query_eval(args: argparse.Namespace) -> dict[str, Any]:
             cumulative_cost += float(row["estimated_cost_usd"])
         if row.get("request_assessment_estimated_cost_usd") is not None:
             cumulative_cost += float(row["request_assessment_estimated_cost_usd"])
+        if row.get("evidence_assessment_estimated_cost_usd") is not None:
+            cumulative_cost += float(row["evidence_assessment_estimated_cost_usd"])
         if args.budget_usd is not None and cumulative_cost >= args.budget_usd:
             raise RuntimeError(
                 f"Experiment budget stop reached: ${cumulative_cost:.6f} >= ${args.budget_usd:.2f}."

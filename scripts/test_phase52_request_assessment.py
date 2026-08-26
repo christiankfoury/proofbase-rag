@@ -174,6 +174,21 @@ def test_semantic_contract_normalizes_clear_search_requests_only() -> None:
     assert named_subject.recommended_action == "continue"
     assert named_subject.normalization_reason == "searchable_named_subject"
 
+    broad_but_searchable = semantic_request_assessment(
+        "What were the detailed outcomes of prior HR investigations?",
+        previous_turns=[],
+        client=FakeClient(FakeCompletions(_decision(
+            referents="unresolved",
+            missing_referents=["specific HR investigations or time frame"],
+            ambiguity="clarification_required",
+            recommended_action="clarify",
+            reason_codes=["unresolved_reference", "missing_context"],
+        ))),
+        emit_telemetry=False,
+    )
+    assert broad_but_searchable.recommended_action == "continue"
+    assert broad_but_searchable.normalization_reason == "clear_information_request"
+
     ambiguous = semantic_request_assessment(
         "What limit applies here?",
         previous_turns=[],

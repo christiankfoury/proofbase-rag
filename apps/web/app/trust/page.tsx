@@ -176,7 +176,7 @@ export default function TrustAndSafetyPage() {
             ))}
           </ol>
           <p className="mt-4 rounded border border-steel bg-steel-soft/60 p-3 text-sm leading-6 text-steel-dark">
-            Step 2 is implemented and measured in Phase 52. Step 5 and the semantic part of step 7 remain Phase 53-54 roadmap work; their presence in this target flow does not mean they are implemented today.
+            Steps 2 and 5 are implemented and measured in Phases 52-53. The semantic part of step 7 remains Phase 54 roadmap work; its presence in this target flow does not mean it is implemented today.
           </p>
         </Card>
 

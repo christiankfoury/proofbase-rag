@@ -895,6 +895,7 @@ def _finalize_generated_answer(
     selected_model: str,
     prompt_metadata: dict,
     multi_doc: bool = False,
+    evidence_action: str | None = None,
 ) -> dict:
     parsed = _parse_json_object(raw_answer)
     if parsed:
@@ -916,6 +917,8 @@ def _finalize_generated_answer(
     validation = validate_citations(answer, citations, chunks)
     unsupported_claims = list(dict.fromkeys(unsupported_claims + validation["unsupported_claims"]))
     response_type = _adjust_response_type(response_type, validation["citation_confidence"], unsupported_claims, multi_doc=multi_doc)
+    if evidence_action == "partial_answer" and response_type == RESPONSE_ANSWER:
+        response_type = RESPONSE_PARTIAL_ANSWER
     answer = _adjust_answer_text(answer, response_type, validation["citation_confidence"], multi_doc=multi_doc)
     if response_type == RESPONSE_NOT_FOUND:
         validation = {
@@ -964,6 +967,7 @@ def generate_answer(
     temperature: float | None = None,
     multi_doc: bool = False,
     grouped_docs: list[dict] | None = None,
+    evidence_action: str | None = None,
 ) -> dict:
     settings = get_settings()
     prompt = get_prompt(prompt_name, prompt_version)
@@ -1007,6 +1011,8 @@ def generate_answer(
 
     policy_response = _policy_response(question, chunks, user_role=user_role)
     if policy_response:
+        if evidence_action == "partial_answer" and policy_response["response_type"] == RESPONSE_ANSWER:
+            policy_response = _force_partial_response(policy_response, chunks)
         return {**policy_response, **prompt_metadata, **_zero_cost(selected_model)}
 
     if not chunks:
@@ -1040,6 +1046,7 @@ def generate_answer(
             grouped_docs,
             memory_context=memory_context,
             original_question=original_question,
+            evidence_action=evidence_action,
         )
     else:
         user_prompt = build_answer_user_prompt(
@@ -1047,6 +1054,7 @@ def generate_answer(
             chunks,
             memory_context=memory_context,
             original_question=original_question,
+            evidence_action=evidence_action,
         )
 
     response = _client().chat.completions.create(
@@ -1059,7 +1067,15 @@ def generate_answer(
     )
     usage = response.usage
     raw_answer = response.choices[0].message.content or ""
-    return _finalize_generated_answer(raw_answer, chunks, usage, selected_model, prompt_metadata, multi_doc=multi_doc)
+    return _finalize_generated_answer(
+        raw_answer,
+        chunks,
+        usage,
+        selected_model,
+        prompt_metadata,
+        multi_doc=multi_doc,
+        evidence_action=evidence_action,
+    )
 
 
 def generate_answer_stream(
@@ -1075,6 +1091,7 @@ def generate_answer_stream(
     temperature: float | None = None,
     multi_doc: bool = False,
     grouped_docs: list[dict] | None = None,
+    evidence_action: str | None = None,
 ) -> Iterator[dict]:
     settings = get_settings()
     prompt = get_prompt(prompt_name, prompt_version)
@@ -1121,6 +1138,8 @@ def generate_answer_stream(
 
     policy_response = _policy_response(question, chunks, user_role=user_role)
     if policy_response:
+        if evidence_action == "partial_answer" and policy_response["response_type"] == RESPONSE_ANSWER:
+            policy_response = _force_partial_response(policy_response, chunks)
         answer = {**policy_response, **prompt_metadata, **_zero_cost(selected_model)}
         yield {"type": "answer_delta", "delta": answer["answer"]}
         yield {"type": "final", "answer": answer}
@@ -1161,6 +1180,7 @@ def generate_answer_stream(
             grouped_docs,
             memory_context=memory_context,
             original_question=original_question,
+            evidence_action=evidence_action,
         )
     else:
         user_prompt = build_answer_user_prompt(
@@ -1168,6 +1188,7 @@ def generate_answer_stream(
             chunks,
             memory_context=memory_context,
             original_question=original_question,
+            evidence_action=evidence_action,
         )
 
     try:
@@ -1213,7 +1234,33 @@ def generate_answer_stream(
 
     yield {"type": "status", "status": "validation_started", "message": "Validating citations and confidence."}
     raw_answer = "".join(raw_parts)
-    yield {"type": "final", "answer": _finalize_generated_answer(raw_answer, chunks, usage, selected_model, prompt_metadata, multi_doc=multi_doc)}
+    yield {
+        "type": "final",
+        "answer": _finalize_generated_answer(
+            raw_answer,
+            chunks,
+            usage,
+            selected_model,
+            prompt_metadata,
+            multi_doc=multi_doc,
+            evidence_action=evidence_action,
+        ),
+    }
+
+
+def _force_partial_response(answer: dict, chunks: list[RetrievedChunk]) -> dict:
+    updated = dict(answer)
+    updated["response_type"] = RESPONSE_PARTIAL_ANSWER
+    updated["behavior"] = response_type_to_behavior(RESPONSE_PARTIAL_ANSWER)
+    updated.update(
+        final_confidence(
+            RESPONSE_PARTIAL_ANSWER,
+            chunks,
+            float(updated.get("citation_confidence") or 0.0),
+            list(updated.get("unsupported_claims") or []),
+        )
+    )
+    return updated
 
 
 def _adjust_response_type(
