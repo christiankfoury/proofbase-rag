@@ -20,7 +20,7 @@ from scripts.validate_phase55_defense_holdout import HASH_PATH, HOLDOUT_PATH, fi
 
 
 PROMPT_VERSION = "phase55-holdout-authoring.v1"
-DEFAULT_MODEL = "gpt-4.1"
+DEFAULT_MODEL = "gpt-4.1-mini"
 MAX_ALLOWED_BUDGET_USD = 0.25
 DEVELOPMENT_SUITES = (
     ROOT / "data/evaluation/defense/request-assessment-v1.json",
@@ -133,6 +133,8 @@ def main() -> None:
         raise SystemExit("External AI is disabled. Re-run with --allow-external-ai after approval.")
     if args.budget_usd <= 0 or args.budget_usd > MAX_ALLOWED_BUDGET_USD:
         raise SystemExit(f"Budget must be between 0 and {MAX_ALLOWED_BUDGET_USD:.2f} USD.")
+    if HOLDOUT_PATH.exists() or HASH_PATH.exists():
+        raise SystemExit("A sealed Phase 55 holdout already exists; refusing to overwrite or rerun authoring.")
     runtime_changes = _git(
         "diff",
         "--name-only",
@@ -151,6 +153,8 @@ def main() -> None:
     settings = get_settings()
     if not settings.openai_api_key:
         raise SystemExit("OPENAI_API_KEY is unavailable.")
+    if estimate_chat_cost(model=args.model, input_tokens=1, output_tokens=1).get("pricing_status") != "estimated":
+        raise SystemExit("Selected model has no configured price; refusing an unbudgeted authoring call.")
     runtime_files = [ROOT / "apps/api/app/main.py", *sorted((ROOT / "apps/api/app/reasoning").glob("*.py"))]
     response = OpenAI(api_key=settings.openai_api_key, timeout=120, max_retries=0).chat.completions.create(
         model=args.model,
@@ -172,8 +176,8 @@ def main() -> None:
         raise SystemExit("Authored suite overlaps an existing development/holdout question or duplicates itself; nothing written.")
     usage = response.usage
     cost = estimate_chat_cost(model=args.model, input_tokens=usage.prompt_tokens if usage else None, output_tokens=usage.completion_tokens if usage else None)
-    estimated_cost = float(cost.get("estimated_cost_usd") or 0.0)
-    if estimated_cost > args.budget_usd:
+    estimated_cost = cost.get("estimated_cost_usd")
+    if estimated_cost is not None and float(estimated_cost) > args.budget_usd:
         raise SystemExit(f"Authored response cost ${estimated_cost:.6f} exceeded the approved budget; nothing written.")
     payload = {
         "schema_version": "phase55-defense-holdout.v1",
@@ -187,6 +191,7 @@ def main() -> None:
             "input_tokens": usage.prompt_tokens if usage else None,
             "output_tokens": usage.completion_tokens if usage else None,
             "estimated_cost_usd": estimated_cost,
+            "pricing_status": cost.get("pricing_status"),
             "case_content_reviewed_by_implementation_agent": False,
         },
         "frozen_runtime": {"commit": args.frozen_runtime_commit, "tree_sha256": _tree_hash(runtime_files)},
@@ -203,7 +208,10 @@ def main() -> None:
     print("Sealed Phase 55 defense holdout without displaying case content.")
     print(f"Cases: {len(cases)} (10 per defense stage)")
     print(f"SHA-256: {digest}")
-    print(f"Estimated authoring cost: ${estimated_cost:.6f}")
+    if estimated_cost is None:
+        print(f"Estimated authoring cost: unavailable ({cost.get('pricing_status')})")
+    else:
+        print(f"Estimated authoring cost: ${float(estimated_cost):.6f}")
     print("Executed/scored: no")
 
 

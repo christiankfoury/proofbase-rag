@@ -94,7 +94,7 @@ export default function DefenseReadinessPage() {
           {defenseEvidence.limitations.map((limitation) => <li key={limitation}>{limitation}</li>)}
         </ul>
         <p className="mt-4 rounded border border-rust bg-rust-soft/40 p-3 text-sm leading-6 text-rust-dark">
-          The new holdout is sealed only after runtime freeze and remains unexecuted. Phase 56 cannot begin until the identity provider, tenant ownership, multi-tenant membership, session/MFA, offboarding, and seeded-data migration decisions are supplied.
+          The new {defenseEvidence.holdout.case_count}-case holdout is {defenseEvidence.holdout.status.replaceAll("_", " ")} against runtime {defenseEvidence.holdout.frozen_runtime_commit?.slice(0, 7)} and supports no current claim. Phase 56 cannot begin until the identity provider, tenant ownership, multi-tenant membership, session/MFA, offboarding, and seeded-data migration decisions are supplied.
         </p>
       </Card>
     </Shell>

@@ -39,6 +39,7 @@ Passed before the runtime-freeze commit:
 - `python scripts/validate_defense_evaluation.py`
 - `python scripts/export_defense_readiness.py`
 - three identical `build_summary()` passes with timestamps excluded
+- `python scripts/run_defense_evidence_stability.py` persisted the three canonical summary hashes rather than relying on a declared value
 - `python scripts/test_phase55_defense_readiness.py`
 - `python scripts/test_phase52_request_assessment.py`
 - `python scripts/test_phase53_evidence_assessment.py`
@@ -55,6 +56,21 @@ The first external response was discarded before sealing because the initial res
 
 The next request was rejected by the API before inference because the strict-schema stage constants omitted explicit JSON `type` fields. It consumed no authoring tokens, wrote no files, and was corrected with a focused schema-compatibility assertion before retry.
 
+The corrected authoring request sealed 30 cases with exactly 10 per stage using `609` input and `3003` output tokens. The repository pricing table lacked a `gpt-4.1` entry, so the final metadata uses the official `$2.00/M` input and `$8.00/M` output rates to record `$0.025242` instead of the initial misleading local `$0` result. Only provenance was corrected before the final SHA-256 seal; authored case content remained untouched, unopened, and unexecuted. The authoring command now refuses an existing seal and any future model without configured pricing.
+
 ## Limitations
 
 This is local-development and portfolio evidence. It is not production authentication, tenant isolation, database authorization, security monitoring, an independent penetration test, or a new generalization result. The explicit Phase 56 identity and tenant decisions remain required before further implementation.
+
+## Final verification and seal
+
+- final holdout SHA-256: `6d8c1bb75852a6403e03ea50fdeabf42ee979e9a7e028beed5d5168b4438f280`
+- case count/stages: `30`, exactly `10/10/10`
+- frozen runtime: `9565d11dffe4b22222f383654caf122b89d67bb8`
+- execution/scoring: `false`
+- content reviewed by implementation agent: `false`
+- authoring tokens: `609` input, `3003` output
+- estimated successful authoring cost: `$0.025242` from the [official GPT-4.1 model price](https://developers.openai.com/api/docs/models/gpt-4.1); the discarded first inference remains only bounded by its approved `$0.15` command budget
+- deterministic readiness summary: `3/3` identical canonical SHA-256 values
+
+The final pass reran manifest and seal validators, Phase 52-55 focused tests, Phase 39 multi-document and pre-Phase 39 guardrails, benchmark validation, targeted compileall, Docker Compose configuration, diff/secret checks, and the production Next.js build. Both `/trust` and `/dev-admin/defense-readiness` prerendered successfully.

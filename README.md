@@ -468,6 +468,7 @@ The Phase 48/49 product-quality backlog also remains preserved for a separately 
 - Architecture: [System Overview](docs/phase-4/architecture-overview.md), [Algorithm Reading Guide](docs/algorithm/README.md), and [Permissions And Scope](docs/algorithm/permissions-and-scope.md)
 - Core evaluation: [Benchmark Design](docs/phase-3/benchmark-design.md), [Evaluation Metrics](docs/algorithm/evaluation-metrics.md), and [Regression Scorecard](docs/phase-37/regression-scorecard.md)
 - Independent evaluation: [Phase 47 Holdout](docs/phase-47/holdout-results.md), [Phase 48 Interruption Record](docs/phase-48/holdout-interruption.md), [Phase 49 Results](docs/phase-49/fresh-holdout-results.md), and [Phase 49 Adjudication](docs/phase-49/human-adjudication.md)
+- Defense readiness: [Phase 55 Design](docs/phase-55/design.md) and [Phase 55 Verification](docs/phase-55/verification.md)
 - Evaluation integrity: [Phase 49 Reliability Design](docs/phase-49/evaluation-reliability-design.md) and [Verification](docs/phase-49/verification.md)
 - Current status: [Roadmap Progress](docs/roadmap/progress.md) and [Defense And Production Readiness Plan](docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md)
 

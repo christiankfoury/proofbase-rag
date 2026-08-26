@@ -84,6 +84,8 @@ class Phase55DefenseReadinessTests(unittest.TestCase):
         self.assertEqual(summary["manifest"]["sample_size"], 102)
         self.assertFalse(summary["independent_security_assessment"])
         self.assertFalse(summary["holdout"]["supports_current_claims"])
+        self.assertTrue(summary["stability"]["passed"])
+        self.assertEqual(summary["stability"]["passes"], 3)
 
     def test_trace_has_seven_bounded_stages_without_content_or_identity(self) -> None:
         trace = build_defense_trace(
@@ -145,6 +147,13 @@ class Phase55DefenseReadinessTests(unittest.TestCase):
             self.assertEqual(properties[name]["maxItems"], 10)
             self.assertEqual(properties[name]["items"]["properties"]["stage"]["type"], "string")
             self.assertEqual(properties[name]["items"]["properties"]["stage"]["const"], stage)
+
+    def test_default_holdout_authoring_model_has_budget_pricing(self) -> None:
+        from apps.api.app.costing.estimator import estimate_chat_cost
+        from scripts.author_phase55_defense_holdout import DEFAULT_MODEL
+
+        estimate = estimate_chat_cost(model=DEFAULT_MODEL, input_tokens=1, output_tokens=1)
+        self.assertEqual(estimate["pricing_status"], "estimated")
 
 
 if __name__ == "__main__":

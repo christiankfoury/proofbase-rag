@@ -372,7 +372,7 @@ export const productionReadinessCatalog: DefenseCatalogItem[] = [
     summary: "Run deterministic and budgeted semantic suites, preserve fresh sealed holdouts, and block releases on hard safety failures.",
     boundary: "Development suites and previously opened holdouts cannot be relabeled as fresh independent release evidence.",
     evidence: [],
-    limitations: ["The Phase 51-55 runtime and a new separated holdout must be frozen before a new generalization claim."],
+    limitations: [`The ${defenseEvidence.holdout.case_count}-case Phase 55 holdout is sealed and unexecuted; it supports no claim until a future predeclared release protocol opens it without runtime tuning.`],
     last_verified: "Not yet verified",
   },
 ];

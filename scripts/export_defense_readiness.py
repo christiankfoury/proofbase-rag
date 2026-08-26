@@ -18,6 +18,7 @@ EVIDENCE_RESULT = ROOT / "data/evaluation/defense/phase53-evidence-assessment-hy
 VALIDATOR_RESULT = ROOT / "data/evaluation/defense/phase54-post-generation-validation-v4.json"
 RUNTIME_RESULT = ROOT / "data/evaluation/eval-runs/phase54-live-query-regression-v5.json"
 PERMISSION_RESULT = ROOT / "data/evaluation/eval-runs/phase54-permission-evaluation.json"
+STABILITY_RESULT = ROOT / "data/evaluation/defense/phase55-evidence-stability.json"
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -109,6 +110,13 @@ def build_summary() -> dict[str, Any]:
         _threshold("Runtime benchmark answer accuracy", runtime_metrics["answer_accuracy"], 0.95, "gte"),
     ]
     holdout_validation = validate_holdout() if HOLDOUT_PATH.is_file() else None
+    stability = _load(STABILITY_RESULT) if STABILITY_RESULT.is_file() else {
+        "target": "3/3 identical bounded summaries with timestamps excluded",
+        "passes": 0,
+        "attempts": 0,
+        "passed": False,
+        "scope": "deterministic manifest validation and evidence export only",
+    }
     return {
         "schema_version": "defense-readiness-evidence.v1",
         "evidence_id": "phase55-defense-readiness-v1",
@@ -145,13 +153,7 @@ def build_summary() -> dict[str, Any]:
         "hard_gates_passed": all(gate["passed"] for gate in hard_gates),
         "evidence_gates": evidence_gates,
         "evidence_gates_passed": all(gate["passed"] for gate in evidence_gates),
-        "stability": {
-            "target": "3/3 identical bounded summaries with timestamps excluded",
-            "passes": 3,
-            "attempts": 3,
-            "passed": True,
-            "scope": "deterministic manifest validation and evidence export only",
-        },
+        "stability": stability,
         "holdout": (
             {
                 "status": "sealed_unexecuted" if holdout_validation and holdout_validation["valid"] else "invalid",
