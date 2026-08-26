@@ -480,6 +480,7 @@ export function ChatDemoClient() {
   const departments = selectedProject?.departments ?? [];
   const selectedDepartment = departments.find((department) => department.id === selectedDepartmentId) ?? null;
   const scopeLabel = `${selectedProject?.name ?? "Loading project"} / ${selectedDepartment?.name ?? "All departments"}`;
+  const assistantTitle = selectedProject?.name ? `${selectedProject.name} assistant` : "Proofbase assistant";
   const queryDisabled = loading || scopeLoading || !selectedProjectId || !question.trim();
   const role = currentUser?.business_role ?? "Employee";
   const identityName = currentUser?.display_name ?? (identityLoading ? "Loading demo user" : "Demo identity unavailable");
@@ -929,7 +930,7 @@ export function ChatDemoClient() {
                 <Sparkles className="h-5 w-5" />
               </span>
               <div className="min-w-0">
-                <h2 className="truncate text-base font-semibold text-ink">Northstar assistant</h2>
+                <h2 className="truncate text-base font-semibold text-ink">{assistantTitle}</h2>
                 <p className="truncate text-xs text-stone-600">
                   {scopeLabel}
                 </p>

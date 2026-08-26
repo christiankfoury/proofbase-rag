@@ -6,7 +6,7 @@
 
 | Area | What is implemented |
 | --- | --- |
-| Product | Project workspaces, department document libraries, scoped chat, PDF-to-Markdown review, optional AI cleanup, and explicit approve/index. |
+| Product | Project workspaces, owner-managed demo access, department document libraries, scoped chat, PDF-to-Markdown review, optional AI cleanup, and explicit approve/index. |
 | RAG | PostgreSQL/pgvector, keyword search, vector + lexical reranking, multi-source planning, structured response types, citations, and confidence signals. |
 | Security | Local demo identity, project membership, role-filtered retrieval before generation, defensive generation checks, and permission audits. |
 | Evaluation | 130-question regression benchmark, three independently sealed holdouts, human adjudication, failure matrices, cost tracking, and durable exactly-once-oriented execution evidence. |
@@ -48,9 +48,9 @@ See the [interactive demo guide](docs/demo/interactive-demo-guide.md) and [scree
 ## Core Capabilities
 
 - **Knowledge lifecycle:** synthetic enterprise corpus, section-based ingestion, PDF extraction, editable Markdown review, optional AI cleanup, versioning, and approval-gated indexing.
-- **Scoped retrieval:** global Dev/Admin retrieval plus strict project, department, and role filters for App queries.
+- **Scoped retrieval:** global Dev/Admin retrieval plus strict project, department, membership, and document-role filters for App queries.
 - **Grounded generation:** vector + lexical reranking, multi-document planning, structured answer/refusal/clarification behavior, citation validation, and confidence interpretation.
-- **Safety:** pre-generation permission filtering, restricted-answer handling, prompt-injection defenses, audit events, and zero-tolerance leakage gates.
+- **Safety:** pre-generation permission filtering, direct prompt-override blocking, restricted-answer handling, adversarial-source defenses, audit events, and zero-tolerance leakage gates.
 - **Evaluation:** retrieval, answer, citation, hallucination, memory, permission, multi-document, independent holdout, stability, and human-review workflows.
 - **Operations:** feedback review, request telemetry, token/cost estimates, Dockerized services, CI, and deployment-readiness documentation.
 
@@ -160,6 +160,7 @@ Benchmark artifacts:
 - [Phase 49 Fresh Holdout Results](docs/phase-49/fresh-holdout-results.md)
 - [Phase 49 Human Adjudication](docs/phase-49/human-adjudication.md)
 - [Phase 49 Evaluation Reliability](docs/phase-49/evaluation-reliability-design.md)
+- [Phase 50 Manual-Test Remediation](docs/phase-50/design.md)
 
 ## Detailed Evaluation Evidence
 
@@ -180,12 +181,12 @@ Source: [Lexical Rerank Candidate (Phase 33) Results](docs/phase-33/precision-ca
 
 | Metric | Value | Run | Sample |
 |---|---:|---|---:|
-| Answer accuracy | `1.000` | Live Query Answer Quality v8 (`phase39-live-query-answer-quality-v8`) | 130 |
-| Citation accuracy | `1.000` | Live Query Answer Quality v8 (`phase39-live-query-answer-quality-v8`) | 130 |
-| Hallucination rate | `0.000` | Live Query Answer Quality v8 (`phase39-live-query-answer-quality-v8`) | 130 |
-| Failed questions | `0` | Live Query Answer Quality v8 (`phase39-live-query-answer-quality-v8`) | 130 |
+| Answer accuracy | `1.000` | Phase 50 manual-findings regression (`phase50-manual-findings-regression`) | 130 |
+| Citation accuracy | `1.000` | Phase 50 manual-findings regression (`phase50-manual-findings-regression`) | 130 |
+| Hallucination rate | `0.000` | Phase 50 manual-findings regression (`phase50-manual-findings-regression`) | 130 |
+| Failed questions | `0` | Phase 50 manual-findings regression (`phase50-manual-findings-regression`) | 130 |
 
-Source: [Phase 39 Live Query Answer-Quality Results](docs/phase-39/live-query-answer-quality-results.md)
+Source: [Phase 50 Answer-Quality Regression](docs/phase-50/answer-quality-regression.md)
 
 ### Independent Generalization And Frozen Holdout
 

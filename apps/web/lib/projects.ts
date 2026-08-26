@@ -101,6 +101,17 @@ export type ProjectActivity = {
   created_at: string;
 };
 
+export type ProjectMembership = {
+  user_id: string;
+  display_name: string;
+  email: string;
+  business_role: string;
+  is_admin: boolean;
+  membership_level: "viewer" | "contributor" | "owner" | null;
+  created_at?: string | null;
+  updated_at?: string | null;
+};
+
 export type Project = {
   id: string;
   name: string;
@@ -198,6 +209,36 @@ export async function archiveProject(projectId: string): Promise<Project> {
     method: "DELETE",
   });
   return result.project;
+}
+
+export async function fetchProjectMemberships(projectId: string): Promise<ProjectMembership[]> {
+  const result = await projectRequest<{ memberships: ProjectMembership[] }>(
+    `/projects/${encodeURIComponent(projectId)}/memberships`,
+    { cache: "no-store" }
+  );
+  return result.memberships;
+}
+
+export async function updateProjectMembership(
+  projectId: string,
+  userId: string,
+  membershipLevel: "viewer" | "contributor" | "owner"
+): Promise<ProjectMembership> {
+  const result = await projectRequest<{ membership: ProjectMembership }>(
+    `/projects/${encodeURIComponent(projectId)}/memberships/${encodeURIComponent(userId)}`,
+    {
+      method: "PUT",
+      body: JSON.stringify({ membership_level: membershipLevel }),
+    }
+  );
+  return result.membership;
+}
+
+export async function removeProjectMembership(projectId: string, userId: string): Promise<void> {
+  await projectRequest(
+    `/projects/${encodeURIComponent(projectId)}/memberships/${encodeURIComponent(userId)}`,
+    { method: "DELETE" }
+  );
 }
 
 export async function fetchDepartment(projectId: string, departmentId: string, includeArchived = false): Promise<ProjectDepartment> {

@@ -16,10 +16,14 @@ from apps.api.app.auth.demo_auth import (
     DEMO_USER_HEADER,
     accessible_project_ids,
     list_demo_users,
+    list_project_memberships,
+    remove_project_membership,
     require_admin,
     require_project_editor,
     require_project_member,
+    require_project_owner,
     resolve_demo_user,
+    set_project_membership,
 )
 from apps.api.app.core.config import get_settings
 from apps.api.app.db.session import get_connection
@@ -198,6 +202,10 @@ class ProjectUpdateRequest(BaseModel):
     user_id: str | None = None
 
 
+class ProjectMembershipUpdateRequest(BaseModel):
+    membership_level: str = Field(..., pattern="^(viewer|contributor|owner)$")
+
+
 class DepartmentCreateRequest(BaseModel):
     name: str = Field(..., min_length=1, max_length=120)
     icon: str = Field("building", pattern="^(people|shield|chart|briefcase|lock|key|building)$")
@@ -220,11 +228,15 @@ class DepartmentUpdateRequest(BaseModel):
 
 
 def _validate_project_id(project_id: str) -> str:
+    return _validate_uuid(project_id, "Project ID")
+
+
+def _validate_uuid(value: str, label: str) -> str:
     try:
-        uuid.UUID(project_id)
+        uuid.UUID(value)
     except ValueError as exc:
-        raise HTTPException(status_code=400, detail="Project ID must be a valid UUID.") from exc
-    return project_id
+        raise HTTPException(status_code=400, detail=f"{label} must be a valid UUID.") from exc
+    return value
 
 
 def _normalize_roles(roles: list[str] | None) -> list[str] | None:
@@ -674,11 +686,12 @@ def create_evaluation_review_route(request: EvaluationReviewRequest, user: Annot
 def evaluation_reviews_route(
     user: Annotated[dict, Depends(current_admin_user)],
     source_type: str | None = None,
+    source_id: str | None = None,
     decision: str | None = None,
     limit: int = 50,
 ) -> dict:
     try:
-        reviews = list_review_decisions(source_type=source_type, decision=decision, limit=limit)
+        reviews = list_review_decisions(source_type=source_type, source_id=source_id, decision=decision, limit=limit)
     except PsycopgError as exc:
         raise HTTPException(status_code=503, detail="Database error loading evaluation reviews.") from exc
     return {"reviews": reviews, "count": len(reviews)}
@@ -817,6 +830,86 @@ def project_detail_route(project_id: str, user: Annotated[dict, Depends(current_
     if not project:
         raise HTTPException(status_code=404, detail="Project not found.")
     return {"project": project}
+
+
+@app.get("/projects/{project_id}/memberships")
+def project_memberships_route(project_id: str, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+    project_id = _validate_project_id(project_id)
+    require_project_owner(user, project_id)
+    try:
+        if not get_project(project_id):
+            raise HTTPException(status_code=404, detail="Project not found.")
+        memberships = list_project_memberships(project_id)
+    except HTTPException:
+        raise
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error loading project memberships.") from exc
+    return {"memberships": memberships, "count": len(memberships)}
+
+
+@app.put("/projects/{project_id}/memberships/{user_id}")
+def update_project_membership_route(
+    project_id: str,
+    user_id: str,
+    request: ProjectMembershipUpdateRequest,
+    user: Annotated[dict, Depends(current_demo_user)],
+) -> dict:
+    project_id = _validate_project_id(project_id)
+    user_id = _validate_uuid(user_id, "Demo user ID")
+    require_project_owner(user, project_id)
+    try:
+        membership = set_project_membership(project_id, user_id, request.membership_level)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error saving project membership.") from exc
+    if not membership:
+        raise HTTPException(status_code=404, detail="Active project or assignable demo user not found.")
+
+    log_audit_event(
+        action="project_membership_updated",
+        user_role=user["business_role"],
+        user_id=user["id"],
+        resource_type="project",
+        document_id=project_id,
+        outcome="success",
+        reason=request.membership_level,
+        metadata={
+            "project_id": project_id,
+            "member_user_id": user_id,
+            "membership_level": request.membership_level,
+        },
+    )
+    return {"membership": membership, "status": "saved"}
+
+
+@app.delete("/projects/{project_id}/memberships/{user_id}")
+def delete_project_membership_route(
+    project_id: str,
+    user_id: str,
+    user: Annotated[dict, Depends(current_demo_user)],
+) -> dict:
+    project_id = _validate_project_id(project_id)
+    user_id = _validate_uuid(user_id, "Demo user ID")
+    require_project_owner(user, project_id)
+    try:
+        removed = remove_project_membership(project_id, user_id)
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="Database error removing project membership.") from exc
+    if not removed:
+        raise HTTPException(status_code=404, detail="Project membership not found.")
+
+    log_audit_event(
+        action="project_membership_removed",
+        user_role=user["business_role"],
+        user_id=user["id"],
+        resource_type="project",
+        document_id=project_id,
+        outcome="success",
+        reason="access_removed",
+        metadata={"project_id": project_id, "member_user_id": user_id},
+    )
+    return {"status": "removed", "user_id": user_id}
 
 
 @app.get("/projects/{project_id}/documents")
@@ -1533,6 +1626,8 @@ def _maybe_clarify_before_retrieval(
     project_id: str | None,
     department_id: str | None,
     rewrite: dict,
+    effective_role: str,
+    user_id: str | None,
 ) -> dict | None:
     decision = classify_clarification_need(
         request.question,
@@ -1543,6 +1638,16 @@ def _maybe_clarify_before_retrieval(
     )
     if not decision:
         return None
+    if decision.reason == "unsafe_user_instruction_override":
+        log_audit_event(
+            action="user_prompt_override_blocked",
+            user_role=effective_role,
+            user_id=user_id,
+            resource_type="query",
+            outcome="blocked",
+            reason=decision.reason,
+            metadata={"project_id": project_id, "department_id": department_id},
+        )
     return clarification_answer(decision)
 
 
@@ -1633,6 +1738,8 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                 project_id=project_id,
                 department_id=department_id,
                 rewrite=rewrite,
+                effective_role=effective_role,
+                user_id=user.get("id"),
             )
 
             if clarification:
@@ -1888,6 +1995,8 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
             project_id=project_id,
             department_id=department_id,
             rewrite=rewrite,
+            effective_role=effective_role,
+            user_id=user.get("id"),
         )
 
         if clarification:

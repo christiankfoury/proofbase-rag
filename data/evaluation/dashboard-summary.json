@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-24T00:55:11.182134+00:00",
+  "generated_at": "2026-08-26T01:50:49.958038+00:00",
   "source": "docs/phase-6 through docs/phase-36",
   "benchmark_context": {
     "benchmark_version": "1.1",
@@ -1278,6 +1278,208 @@
       "run_timestamp": "2026-08-23T22:15:53.534272+00:00"
     },
     {
+      "run_id": "phase50-manual-findings-regression",
+      "run_name": "phase50-manual-findings-regression",
+      "phase": "phase-50",
+      "run_type": "live_query_eval",
+      "timestamp": "2026-08-26T01:50:31.292189+00:00",
+      "retrieval_mode": "vector_lexical_rerank",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_name": "answer_generation",
+      "prompt_version": "v8",
+      "multi_doc_mode": "auto",
+      "evaluation_excluded_document_prefixes": [
+        "UPLOAD-"
+      ],
+      "model": "gpt-4.1-mini",
+      "total_questions": 130,
+      "source_question_count": 130,
+      "question_filter": "all",
+      "metrics": {
+        "any_source_hit": 0.933,
+        "all_sources_hit": 0.933,
+        "expected_source_recall": 0.933,
+        "precision_at_k": 0.673,
+        "mrr": 0.912,
+        "answer_accuracy": 1.0,
+        "citation_accuracy": 1.0,
+        "faithfulness": 0.886,
+        "hallucination_rate": 0.0,
+        "response_type_accuracy": 0.923,
+        "refusal_accuracy": 1.0,
+        "not_found_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "final_confidence": 0.76,
+        "input_tokens": null,
+        "output_tokens": null,
+        "estimated_cost": 0.069203,
+        "failed_question_count": 0,
+        "submetric_issue_count": 26,
+        "actionable_submetric_issue_count": 0,
+        "diagnostic_submetric_note_count": 26
+      },
+      "failed_questions": [],
+      "submetric_issue_ids": [
+        "AMB-001",
+        "AMB-004",
+        "AMB-005",
+        "MEM-001",
+        "MEM-002",
+        "MEM-003",
+        "MEM-004",
+        "MEM-005",
+        "MEM-006",
+        "MEM-007",
+        "MEM-008",
+        "MEM-009",
+        "MEM-010",
+        "MEM-011",
+        "MEM-012",
+        "MEM-013",
+        "MEM-014",
+        "MEM-015",
+        "MEM-016",
+        "MEM-017",
+        "MEM-018",
+        "MEM-019",
+        "MEM-020",
+        "AMB-006",
+        "AMB-008",
+        "AMB-009"
+      ],
+      "submetric_issue_breakdown": {
+        "actionable": {
+          "count": 0,
+          "ids": []
+        },
+        "memory_response_type_diagnostic": {
+          "count": 20,
+          "ids": [
+            "MEM-001",
+            "MEM-002",
+            "MEM-003",
+            "MEM-004",
+            "MEM-005",
+            "MEM-006",
+            "MEM-007",
+            "MEM-008",
+            "MEM-009",
+            "MEM-010",
+            "MEM-011",
+            "MEM-012",
+            "MEM-013",
+            "MEM-014",
+            "MEM-015",
+            "MEM-016",
+            "MEM-017",
+            "MEM-018",
+            "MEM-019",
+            "MEM-020"
+          ]
+        },
+        "clarification_source_coverage_diagnostic": {
+          "count": 6,
+          "ids": [
+            "AMB-001",
+            "AMB-004",
+            "AMB-005",
+            "AMB-006",
+            "AMB-008",
+            "AMB-009"
+          ]
+        }
+      },
+      "category_breakdown": {
+        "ambiguous": 10,
+        "conflicting_source": 5,
+        "conversation_memory": 20,
+        "missing_information": 20,
+        "multi_document": 20,
+        "permission_restricted": 20,
+        "prompt_injection": 5,
+        "simple_factual": 30
+      },
+      "failure_reason_counts": {},
+      "citation_failure_category_counts": {},
+      "notes": "phase-50 live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, memory session loading, auto multi-document detection, permission-filtered retrieval, generation, citation validation, and the API response payload. Uploaded-document fixtures are excluded from this benchmark run before generation. Expected answers, expected behavior, and expected sources are unchanged.",
+      "sample_size": 130,
+      "passed_count": 130,
+      "failed_count": 0,
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-08-26T01:50:31.292189+00:00"
+    },
+    {
+      "run_id": "phase50-prompt-injection-regression",
+      "run_name": "phase50-prompt-injection-regression",
+      "phase": "phase-50",
+      "run_type": "live_query_eval",
+      "timestamp": "2026-08-26T01:19:52.765906+00:00",
+      "retrieval_mode": "vector_lexical_rerank",
+      "chunking_strategy": "section_based",
+      "top_k": 5,
+      "prompt_name": "answer_generation",
+      "prompt_version": "v8",
+      "multi_doc_mode": "auto",
+      "evaluation_excluded_document_prefixes": [
+        "UPLOAD-"
+      ],
+      "model": "gpt-4.1-mini",
+      "total_questions": 5,
+      "source_question_count": 130,
+      "question_filter": "prompt_injection",
+      "metrics": {
+        "any_source_hit": 1.0,
+        "all_sources_hit": 1.0,
+        "expected_source_recall": 1.0,
+        "precision_at_k": 0.6,
+        "mrr": 0.867,
+        "answer_accuracy": 1.0,
+        "citation_accuracy": 1.0,
+        "faithfulness": 0.793,
+        "hallucination_rate": 0.0,
+        "response_type_accuracy": 1.0,
+        "refusal_accuracy": null,
+        "not_found_accuracy": null,
+        "clarification_accuracy": null,
+        "final_confidence": 0.743,
+        "input_tokens": null,
+        "output_tokens": null,
+        "estimated_cost": 0.001337,
+        "failed_question_count": 0,
+        "submetric_issue_count": 0,
+        "actionable_submetric_issue_count": 0,
+        "diagnostic_submetric_note_count": 0
+      },
+      "failed_questions": [],
+      "submetric_issue_ids": [],
+      "submetric_issue_breakdown": {
+        "actionable": {
+          "count": 0,
+          "ids": []
+        },
+        "memory_response_type_diagnostic": {
+          "count": 0,
+          "ids": []
+        },
+        "clarification_source_coverage_diagnostic": {
+          "count": 0,
+          "ids": []
+        }
+      },
+      "category_breakdown": {
+        "prompt_injection": 5
+      },
+      "failure_reason_counts": {},
+      "citation_failure_category_counts": {},
+      "notes": "phase-50 live /query answer-quality evaluation over benchmark v1.1. Exercises API query orchestration, memory session loading, auto multi-document detection, permission-filtered retrieval, generation, citation validation, and the API response payload. Uploaded-document fixtures are excluded from this benchmark run before generation. Expected answers, expected behavior, and expected sources are unchanged.",
+      "sample_size": 5,
+      "passed_count": 5,
+      "failed_count": 0,
+      "benchmark_version": "1.1",
+      "run_timestamp": "2026-08-26T01:19:52.765906+00:00"
+    },
+    {
       "run_id": "phase36-permission-evaluation",
       "run_name": "phase36-permission-evaluation",
       "phase": "phase-36",
@@ -1749,7 +1951,7 @@
   "overview": {
     "best_retrieval_run": "vector-section",
     "retrieval_conclusion": "Hybrid did not clearly outperform vector-only retrieval; vector-section remained best overall.",
-    "current_answer_run_id": "phase48-benchmark-regression",
+    "current_answer_run_id": "phase50-manual-findings-regression",
     "current_failed_question_count": 0,
     "progress_summary": {
       "improved": [
@@ -1835,14 +2037,14 @@
         }
       },
       "answer_accuracy": {
-        "run_id": "phase48-benchmark-regression",
-        "run_name": "phase48-benchmark-regression",
+        "run_id": "phase50-manual-findings-regression",
+        "run_name": "phase50-manual-findings-regression",
         "metric_key": "answer_accuracy",
         "sample_size": 130,
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-08-23T22:15:53.534272+00:00",
+        "run_timestamp": "2026-08-26T01:50:31.292189+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1855,14 +2057,14 @@
         }
       },
       "citation_accuracy": {
-        "run_id": "phase48-benchmark-regression",
-        "run_name": "phase48-benchmark-regression",
+        "run_id": "phase50-manual-findings-regression",
+        "run_name": "phase50-manual-findings-regression",
         "metric_key": "citation_accuracy",
         "sample_size": 130,
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-08-23T22:15:53.534272+00:00",
+        "run_timestamp": "2026-08-26T01:50:31.292189+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1875,14 +2077,14 @@
         }
       },
       "hallucination_rate": {
-        "run_id": "phase48-benchmark-regression",
-        "run_name": "phase48-benchmark-regression",
+        "run_id": "phase50-manual-findings-regression",
+        "run_name": "phase50-manual-findings-regression",
         "metric_key": "hallucination_rate",
         "sample_size": 130,
         "passed_count": 130,
         "failed_count": 0,
         "benchmark_version": "1.1",
-        "run_timestamp": "2026-08-23T22:15:53.534272+00:00",
+        "run_timestamp": "2026-08-26T01:50:31.292189+00:00",
         "category_breakdown": {
           "ambiguous": 10,
           "conflicting_source": 5,
@@ -1959,7 +2161,7 @@
   },
   "regression_scorecard": {
     "phase": "phase-37",
-    "generated_at": "2026-08-24T00:55:11.107186+00:00",
+    "generated_at": "2026-08-26T01:50:49.949754+00:00",
     "benchmark_version": "1.1",
     "benchmark_question_count": 130,
     "category_breakdown": {
@@ -1980,7 +2182,7 @@
     ],
     "current_run_ids": [
       "phase33-vector-lexical-rerank-top3",
-      "phase48-benchmark-regression",
+      "phase50-manual-findings-regression",
       "phase36-permission-evaluation",
       "phase36-memory-evaluation",
       "phase36-memory-permission-boundary",
@@ -2088,13 +2290,13 @@
           "run_timestamp": "2026-06-21T00:27:59.813367+00:00"
         },
         "current": {
-          "run_id": "phase48-benchmark-regression",
-          "run_name": "phase48-benchmark-regression",
+          "run_id": "phase50-manual-findings-regression",
+          "run_name": "phase50-manual-findings-regression",
           "value": 1.0,
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-08-23T22:15:53.534272+00:00"
+          "run_timestamp": "2026-08-26T01:50:31.292189+00:00"
         },
         "delta": 0.15,
         "target_passed": true,
@@ -2116,13 +2318,13 @@
           "run_timestamp": "2026-06-21T00:27:59.813367+00:00"
         },
         "current": {
-          "run_id": "phase48-benchmark-regression",
-          "run_name": "phase48-benchmark-regression",
+          "run_id": "phase50-manual-findings-regression",
+          "run_name": "phase50-manual-findings-regression",
           "value": 1.0,
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-08-23T22:15:53.534272+00:00"
+          "run_timestamp": "2026-08-26T01:50:31.292189+00:00"
         },
         "delta": 0.156,
         "target_passed": true,
@@ -2144,13 +2346,13 @@
           "run_timestamp": "2026-06-21T00:27:59.813367+00:00"
         },
         "current": {
-          "run_id": "phase48-benchmark-regression",
-          "run_name": "phase48-benchmark-regression",
+          "run_id": "phase50-manual-findings-regression",
+          "run_name": "phase50-manual-findings-regression",
           "value": 0.0,
           "sample_size": 130,
           "failed_count": 0,
           "benchmark_version": "1.1",
-          "run_timestamp": "2026-08-23T22:15:53.534272+00:00"
+          "run_timestamp": "2026-08-26T01:50:31.292189+00:00"
         },
         "delta": -0.205,
         "target_passed": true,
@@ -2214,7 +2416,7 @@
       }
     ],
     "failed_question_summary": {
-      "current_answer_run_id": "phase48-benchmark-regression",
+      "current_answer_run_id": "phase50-manual-findings-regression",
       "failed_question_count": 0,
       "failure_reason_counts": {},
       "failed_question_ids": []

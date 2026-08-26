@@ -1,8 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import type { Citation, RetrievedChunk } from "@/lib/api";
-import { createEvaluationReview } from "@/lib/reviews";
+import { createEvaluationReview, getEvaluationReviews } from "@/lib/reviews";
+import type { EvaluationReview } from "@/lib/reviews";
 import type { CorrectnessLabel, ReviewDecision } from "@/lib/reviews";
 
 const scoreOptions: Array<{ value: CorrectnessLabel; label: string }> = [
@@ -10,6 +11,12 @@ const scoreOptions: Array<{ value: CorrectnessLabel; label: string }> = [
   { value: "0.5", label: "0.5 partial" },
   { value: "0", label: "0.0 incorrect" },
 ];
+
+function correctnessLabel(value: number): CorrectnessLabel {
+  if (value === 1) return "1";
+  if (value === 0) return "0";
+  return "0.5";
+}
 
 export function EvaluationReviewPanel({
   sourceType,
@@ -37,6 +44,51 @@ export function EvaluationReviewPanel({
   const [notes, setNotes] = useState("");
   const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [savedReviews, setSavedReviews] = useState<EvaluationReview[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
+  const [historyError, setHistoryError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    setHistoryLoading(true);
+    setHistoryError(null);
+    setStatus(null);
+    setSavedReviews([]);
+    setAnswerCorrectness("0.5");
+    setCitationCorrectness("0.5");
+    setDecision("needs_fix");
+    setEditableExpectedAnswer(expectedAnswer ?? "");
+    setNotes("");
+    getEvaluationReviews({ source_type: sourceType, source_id: sourceId, limit: 10 })
+      .then(({ reviews }) => {
+        if (!active) return;
+        setSavedReviews(reviews);
+        const latest = reviews[0];
+        if (latest) {
+          setAnswerCorrectness(correctnessLabel(latest.answer_correctness));
+          setCitationCorrectness(correctnessLabel(latest.citation_correctness));
+          setDecision(latest.decision);
+          setEditableExpectedAnswer(latest.expected_answer ?? "");
+          setNotes(latest.notes);
+        } else {
+          setAnswerCorrectness("0.5");
+          setCitationCorrectness("0.5");
+          setDecision("needs_fix");
+          setEditableExpectedAnswer(expectedAnswer ?? "");
+          setNotes("");
+        }
+      })
+      .catch((exc) => {
+        if (!active) return;
+        setHistoryError(exc instanceof Error ? exc.message : "Saved reviews could not be loaded.");
+      })
+      .finally(() => {
+        if (active) setHistoryLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [expectedAnswer, sourceId, sourceType]);
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -58,7 +110,7 @@ export function EvaluationReviewPanel({
         notes,
       });
       setStatus(`Review saved: ${review.id}`);
-      setNotes("");
+      setSavedReviews((items) => [review, ...items.filter((item) => item.id !== review.id)]);
     } catch (exc) {
       setStatus(exc instanceof Error ? exc.message : "Review save failed.");
     } finally {
@@ -103,6 +155,44 @@ export function EvaluationReviewPanel({
         <button type="submit" disabled={saving} className="btn-accent">{saving ? "Saving..." : "Save review"}</button>
         {status ? <p className="text-sm text-stone-700">{status}</p> : null}
       </div>
+      <section className="mt-5 border-t border-stone-300 pt-4" aria-live="polite">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h5 className="font-semibold text-ink">Saved review history</h5>
+          <span className="text-xs text-stone-500">
+            {historyLoading ? "Loading..." : `${savedReviews.length} saved`}
+          </span>
+        </div>
+        {historyError ? <p className="mt-2 text-sm text-rust-dark">{historyError}</p> : null}
+        {!historyLoading && !historyError && savedReviews.length === 0 ? (
+          <p className="mt-2 text-sm text-stone-600">No saved reviews for this item yet.</p>
+        ) : null}
+        {savedReviews.length ? (
+          <ol className="mt-3 space-y-3">
+            {savedReviews.map((review, index) => (
+              <li key={review.id} className="rounded border border-stone-300 bg-white p-3 text-sm text-stone-700">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="font-semibold text-ink">
+                    {review.decision.replaceAll("_", " ")}{index === 0 ? " · latest" : ""}
+                  </p>
+                  <time className="text-xs text-stone-500" dateTime={review.created_at}>
+                    {new Date(review.created_at).toLocaleString()}
+                  </time>
+                </div>
+                <p className="mt-1 text-xs text-stone-600">
+                  Answer {review.answer_correctness.toFixed(1)} · Citation {review.citation_correctness.toFixed(1)} · {review.reviewer_role}
+                </p>
+                {review.expected_answer ? (
+                  <p className="mt-2"><span className="font-semibold text-ink">Expected:</span> {review.expected_answer}</p>
+                ) : null}
+                {review.notes ? (
+                  <p className="mt-1"><span className="font-semibold text-ink">Notes:</span> {review.notes}</p>
+                ) : null}
+                <p className="mt-2 break-all text-xs text-stone-500">Review ID: {review.id}</p>
+              </li>
+            ))}
+          </ol>
+        ) : null}
+      </section>
     </form>
   );
 }

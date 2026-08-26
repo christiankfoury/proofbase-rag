@@ -9,6 +9,8 @@ import { DepartmentIconTile } from "@/components/DepartmentIconTile";
 import { EmptyState } from "@/components/EmptyState";
 import { RoleMultiSelect } from "@/components/RoleMultiSelect";
 import { SectionHeading } from "@/components/SectionHeading";
+import { DEMO_USER_CHANGED_EVENT, fetchCurrentDemoUser } from "@/lib/demoAuth";
+import type { DemoUser } from "@/lib/demoAuth";
 import {
   archiveProject,
   createDepartment,
@@ -17,10 +19,14 @@ import {
   DepartmentIcon,
   fetchProject,
   fetchProjectDocuments,
+  fetchProjectMemberships,
   fetchProjects,
   Project,
   ProjectDocument,
+  ProjectMembership,
+  removeProjectMembership,
   updateProject,
+  updateProjectMembership,
 } from "@/lib/projects";
 
 type ProjectFormState = {
@@ -134,12 +140,20 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<DemoUser | null>(null);
+  const [memberships, setMemberships] = useState<ProjectMembership[]>([]);
+  const [membershipsLoading, setMembershipsLoading] = useState(false);
+  const [membershipSavingUserId, setMembershipSavingUserId] = useState<string | null>(null);
+  const [membershipStatus, setMembershipStatus] = useState<string | null>(null);
+  const [membershipError, setMembershipError] = useState<string | null>(null);
 
   const selectedListProject = useMemo(
     () => projects.find((project) => project.id === selectedId) ?? projects[0],
     [projects, selectedId]
   );
   const activeProject = selectedProject ?? selectedListProject ?? null;
+  const currentProjectMembership = currentUser?.memberships.find((item) => item.project_id === activeProject?.id);
+  const canManageMemberships = Boolean(currentUser?.is_admin || currentProjectMembership?.membership_level === "owner");
 
   async function refreshProjects(preferredProjectId?: string) {
     const nextProjects = await fetchProjects();
@@ -151,6 +165,39 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
     setSelectedId(nextSelectedId);
     return { nextProjects, nextSelectedId };
   }
+
+  useEffect(() => {
+    let active = true;
+    async function loadIdentity() {
+      try {
+        const user = await fetchCurrentDemoUser();
+        if (active) setCurrentUser(user);
+      } catch (err) {
+        if (active) setMembershipError(err instanceof Error ? err.message : "Demo identity could not be loaded.");
+      }
+    }
+    async function onIdentityChanged() {
+      setSelectedProject(null);
+      setProjectDocuments([]);
+      setMemberships([]);
+      setLoading(true);
+      await loadIdentity();
+      try {
+        await refreshProjects();
+      } catch (err) {
+        if (active) setError(err instanceof Error ? err.message : "Projects could not be loaded for this demo user.");
+      }
+    }
+
+    loadIdentity();
+    window.addEventListener(DEMO_USER_CHANGED_EVENT, onIdentityChanged);
+    window.addEventListener("storage", onIdentityChanged);
+    return () => {
+      active = false;
+      window.removeEventListener(DEMO_USER_CHANGED_EVENT, onIdentityChanged);
+      window.removeEventListener("storage", onIdentityChanged);
+    };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -224,6 +271,31 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
     };
   }, [activeProject?.id]);
 
+  useEffect(() => {
+    if (!activeProject?.id || !canManageMemberships) {
+      setMemberships([]);
+      setMembershipError(null);
+      return;
+    }
+    let active = true;
+    setMembershipsLoading(true);
+    setMembershipError(null);
+    setMembershipStatus(null);
+    fetchProjectMemberships(activeProject.id)
+      .then((items) => {
+        if (active) setMemberships(items);
+      })
+      .catch((err: Error) => {
+        if (active) setMembershipError(err.message);
+      })
+      .finally(() => {
+        if (active) setMembershipsLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [activeProject?.id, canManageMemberships]);
+
   async function handleCreate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSaving(true);
@@ -295,6 +367,36 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
       setError(err instanceof Error ? err.message : "Department could not be created.");
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleMembershipChange(member: ProjectMembership, nextLevel: string) {
+    if (!activeProject) return;
+    setMembershipSavingUserId(member.user_id);
+    setMembershipError(null);
+    setMembershipStatus(null);
+    try {
+      if (nextLevel === "none") {
+        if (member.membership_level) await removeProjectMembership(activeProject.id, member.user_id);
+        setMemberships((items) =>
+          items.map((item) => (item.user_id === member.user_id ? { ...item, membership_level: null } : item))
+        );
+        setMembershipStatus(`${member.display_name} no longer has project access.`);
+      } else {
+        const membership = await updateProjectMembership(
+          activeProject.id,
+          member.user_id,
+          nextLevel as "viewer" | "contributor" | "owner"
+        );
+        setMemberships((items) => items.map((item) => (item.user_id === member.user_id ? membership : item)));
+        setMembershipStatus(`${member.display_name} now has ${nextLevel} access.`);
+      }
+      const refreshedProject = await fetchProject(activeProject.id);
+      setSelectedProject(refreshedProject);
+    } catch (err) {
+      setMembershipError(err instanceof Error ? err.message : "Project membership could not be updated.");
+    } finally {
+      setMembershipSavingUserId(null);
     }
   }
 
@@ -836,6 +938,55 @@ export function ProjectWorkspaceClient({ initialProjectId }: { initialProjectId?
                     </button>
                   </div>
                 </form>
+
+                {canManageMemberships ? (
+                  <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
+                    <SectionHeading
+                      title="Project Access"
+                      description="Assign demo users to this project. Retrieval still applies each document’s access roles after project membership is checked."
+                    />
+                    <div className="mt-3 rounded border border-steel bg-steel-soft p-3 text-sm text-steel-dark">
+                      Viewer can open and ask; contributor can also edit, upload, and index; owner can manage project access. Kai Admin always has an admin override.
+                    </div>
+                    {membershipError ? (
+                      <p className="mt-3 rounded border border-rust bg-rust-soft p-3 text-sm text-rust-dark">{membershipError}</p>
+                    ) : null}
+                    {membershipStatus ? (
+                      <p className="mt-3 rounded border border-moss bg-moss-soft p-3 text-sm text-moss-dark">{membershipStatus}</p>
+                    ) : null}
+                    {membershipsLoading ? (
+                      <div className="mt-4 space-y-2">
+                        <div className="h-16 skeleton-soft" />
+                        <div className="h-16 skeleton-soft" />
+                      </div>
+                    ) : (
+                      <ul className="mt-4 divide-y divide-stone-200 rounded border border-stone-200">
+                        {memberships.map((member) => (
+                          <li key={member.user_id} className="grid gap-3 p-3 sm:grid-cols-[minmax(0,1fr)_180px] sm:items-center">
+                            <div className="min-w-0">
+                              <p className="font-semibold text-ink">{member.display_name}</p>
+                              <p className="truncate text-xs text-stone-600">{member.business_role} · {member.email}</p>
+                            </div>
+                            <label>
+                              <span className="sr-only">Access for {member.display_name}</span>
+                              <select
+                                className="field w-full"
+                                value={member.membership_level ?? "none"}
+                                disabled={membershipSavingUserId === member.user_id}
+                                onChange={(event) => handleMembershipChange(member, event.target.value)}
+                              >
+                                <option value="none">No access</option>
+                                <option value="viewer">Viewer</option>
+                                <option value="contributor">Contributor</option>
+                                <option value="owner">Owner</option>
+                              </select>
+                            </label>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ) : null}
 
                 <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
                   <SectionHeading title="Recent Activity" />

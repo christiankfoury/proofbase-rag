@@ -63,12 +63,13 @@ export async function createEvaluationReview(payload: {
   return result.review;
 }
 
-export async function getEvaluationReviews(params: { source_type?: string; decision?: string; limit?: number } = {}): Promise<{
+export async function getEvaluationReviews(params: { source_type?: string; source_id?: string; decision?: string; limit?: number } = {}): Promise<{
   reviews: EvaluationReview[];
   count: number;
 }> {
   const search = new URLSearchParams();
   if (params.source_type) search.set("source_type", params.source_type);
+  if (params.source_id) search.set("source_id", params.source_id);
   if (params.decision) search.set("decision", params.decision);
   if (params.limit) search.set("limit", String(params.limit));
   const query = search.toString() ? `?${search.toString()}` : "";

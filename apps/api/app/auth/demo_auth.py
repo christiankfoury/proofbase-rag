@@ -12,6 +12,7 @@ from apps.api.app.db.session import get_connection
 
 DEMO_USER_HEADER = "X-Demo-User-Id"
 EDITOR_LEVELS = {"contributor", "owner"}
+VALID_MEMBERSHIP_LEVELS = {"viewer", "contributor", "owner"}
 
 
 def _membership_from_row(row: dict[str, Any]) -> dict[str, Any]:
@@ -67,6 +68,76 @@ def list_demo_users() -> list[dict[str, Any]]:
             user_row = dict(row)
             users.append(_user_from_row(user_row, _load_memberships(conn, user_row["id"])))
     return users
+
+
+def list_project_memberships(project_id: str) -> list[dict[str, Any]]:
+    with get_connection() as conn:
+        rows = conn.execute(
+            """
+            select
+              u.id::text as user_id,
+              u.display_name,
+              u.email,
+              u.business_role,
+              u.is_admin,
+              pm.membership_level,
+              pm.created_at,
+              pm.updated_at
+            from demo_users u
+            left join project_memberships pm
+              on pm.user_id = u.id
+             and pm.project_id = %s::uuid
+            where u.status = 'active'
+              and u.is_admin = false
+            order by u.display_name asc
+            """,
+            (project_id,),
+        ).fetchall()
+    return [dict(row) for row in rows]
+
+
+def set_project_membership(project_id: str, user_id: str, membership_level: str) -> dict[str, Any] | None:
+    if membership_level not in VALID_MEMBERSHIP_LEVELS:
+        raise ValueError("Membership level must be viewer, contributor, or owner.")
+    with get_connection() as conn:
+        eligible = conn.execute(
+            """
+            select u.id
+            from demo_users u
+            join projects p on p.id = %s::uuid
+            where u.id = %s::uuid
+              and u.status = 'active'
+              and u.is_admin = false
+              and p.status <> 'archived'
+            """,
+            (project_id, user_id),
+        ).fetchone()
+        if not eligible:
+            return None
+        conn.execute(
+            """
+            insert into project_memberships (project_id, user_id, membership_level)
+            values (%s::uuid, %s::uuid, %s)
+            on conflict (project_id, user_id) do update set
+              membership_level = excluded.membership_level,
+              updated_at = now()
+            """,
+            (project_id, user_id, membership_level),
+        )
+    return next((item for item in list_project_memberships(project_id) if item["user_id"] == user_id), None)
+
+
+def remove_project_membership(project_id: str, user_id: str) -> bool:
+    with get_connection() as conn:
+        cursor = conn.execute(
+            """
+            delete from project_memberships
+            where project_id = %s::uuid
+              and user_id = %s::uuid
+            """,
+            (project_id, user_id),
+        )
+    return cursor.rowcount > 0
 
 
 def get_demo_user(user_id: str) -> dict[str, Any] | None:
@@ -130,4 +201,13 @@ def require_project_editor(user: dict[str, Any], project_id: str) -> dict[str, A
     membership = require_project_member(user, project_id)
     if membership and membership["membership_level"] not in EDITOR_LEVELS:
         raise HTTPException(status_code=403, detail="Project changes require contributor, owner, or admin access.")
+    return membership
+
+
+def require_project_owner(user: dict[str, Any], project_id: str) -> dict[str, Any] | None:
+    if user["is_admin"]:
+        return None
+    membership = require_project_member(user, project_id)
+    if membership and membership["membership_level"] != "owner":
+        raise HTTPException(status_code=403, detail="Project membership changes require owner or admin access.")
     return membership

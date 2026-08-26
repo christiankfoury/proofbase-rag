@@ -93,6 +93,7 @@ def create_review_decision(
 def list_review_decisions(
     *,
     source_type: str | None = None,
+    source_id: str | None = None,
     decision: str | None = None,
     limit: int = 50,
 ) -> list[dict[str, Any]]:
@@ -101,6 +102,9 @@ def list_review_decisions(
     if source_type:
         conditions.append("source_type = %s")
         params.append(source_type)
+    if source_id:
+        conditions.append("source_id = %s")
+        params.append(source_id)
     if decision:
         conditions.append("decision = %s")
         params.append(decision)
