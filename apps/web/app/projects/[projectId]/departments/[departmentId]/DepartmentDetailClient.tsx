@@ -455,7 +455,8 @@ export function DepartmentDetailClient({
   }
 
   const reviewMarkdownReady = reviewMarkdown.trim().length > 0;
-  const cleanedDraftMarkdown = cleanupResult?.document.id === selectedDocument?.id ? cleanupResult.cleaned_markdown : null;
+  const cleanedDraftMarkdown =
+    cleanupResult && selectedDocument && cleanupResult.document.id === selectedDocument.id ? cleanupResult.cleaned_markdown : null;
   const editedAfterCleanup = cleanupEditedAfterDraft(cleanedDraftMarkdown, reviewMarkdown);
   const extractedMarkdown = selectedDocument?.review_markdown ?? selectedDocument?.markdown_preview ?? "";
   const diffRows = selectedDocumentNeedsReview ? markdownDiff(extractedMarkdown, reviewMarkdown) : [];
