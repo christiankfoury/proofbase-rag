@@ -19,7 +19,7 @@ Open `http://localhost:3000`.
 3. Open a seeded department and inspect document inventory, access roles, active version metadata, PDF extraction, editable Markdown review, optional AI cleanup draft, cleanup provenance, before/after diff, approval/indexing controls, and Markdown preview.
 4. Open `/chat` from a guided link, project-home suggested question, or department shortcut, ask a scoped question, and show `Why this answer?` proof with citations plus retrieved context.
 5. Open `/dev-admin/retrieval-playground` to compare algorithm profiles and historical failure evidence.
-6. Open `/dev-admin/failed-questions` or `/dev-admin/feedback` to show human review labels without claiming automatic benchmark promotion.
+6. Open `/trust` to separate implemented and measured defenses from planned production dependencies, then use `/dev-admin/failed-questions` or `/dev-admin/feedback` for detailed review evidence.
 
 ## Pages To Show
 
@@ -30,6 +30,7 @@ Open `http://localhost:3000`.
 | Projects | `/projects` | Project CRUD, seeded Northstar workspace, owner/admin-managed demo access, scoped ask entry points, department shortcuts, representative documents, upload/indexing status, quality status, and project audit events. |
 | Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, PDF upload for Markdown review, optional AI cleanup draft, cleanup provenance, extraction/current-review diff, active version metadata, extracted Markdown preview, edit, and archive controls. |
 | Chat Demo | `/chat` | Live scoped RAG query, project and department selection, role selection, `Why this answer?` proof, citations, confidence, latency, retrieved context, and feedback. |
+| Trust & Safety | `/trust` | Layered defense flow, code-owned control status, named evidence, local-demo limitations, and Phase 56-63 production-readiness checklist. |
 | Dev/Admin Overview | `/dev-admin` | Benchmark metrics plus a separate Independent Evaluation section showing the 70-case development run, one-time 30-case frozen holdout, stability slice, hard gates, failures, cost, and limitations without blending scores. |
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts with explicit pass/fail counts. |
 | Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows for Answer Generation v1 (`phase11-answer-generation-v1`) when detailed JSON exists. |

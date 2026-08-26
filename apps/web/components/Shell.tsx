@@ -32,6 +32,7 @@ const navGroups: NavGroup[] = [
       ["Project Workspaces", "/projects"],
       ["Chat Demo", "/chat"],
       ["Algorithm Guide", "/algorithm"],
+      ["Trust & Safety", "/trust"],
     ],
   },
   {
@@ -118,6 +119,7 @@ const routeLabels: Array<[RegExp, BreadcrumbItem[]]> = [
   [/^\/demo$/, [{ label: "Home", href: "/" }, { label: "Guided Demo", href: "/demo" }]],
   [/^\/projects$/, [{ label: "Home", href: "/" }, { label: "Project Workspaces", href: "/projects" }]],
   [/^\/algorithm$/, [{ label: "Home", href: "/" }, { label: "Algorithm Guide", href: "/algorithm" }]],
+  [/^\/trust$/, [{ label: "Home", href: "/" }, { label: "Trust & Safety", href: "/trust" }]],
   [
     /^\/projects\/([^/]+)$/,
     [
