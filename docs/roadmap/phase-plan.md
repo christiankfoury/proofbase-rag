@@ -431,6 +431,38 @@ Implementation rule:
 - A valid, reproducible, honestly reported holdout result completes the evaluation even if quality targets are missed.
 - Quality misses narrow portfolio claims and create a later remediation backlog; they do not authorize expectation changes, selective reruns, or holdout-specific fixes in Phase 47.
 
+## Phases 51-63: Defense Hardening And Production Readiness
+
+After Phase 50, continue from `docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md`. That document is the executable source of truth for the next defense and production-readiness sequence.
+
+Phase mapping:
+
+- Phase 51: Trust And Safety Product Page.
+- Phase 52: Structured Semantic Request Assessment.
+- Phase 53: Permission-Aware Evidence Sufficiency Gate.
+- Phase 54: Post-Generation Claim And Source-Instruction Validation.
+- Phase 55: Defense Evaluation, Observability, And Page Evidence.
+- Phase 56: Real Authentication And Tenant Model.
+- Phase 57: Database-Enforced Authorization And Tenant Isolation.
+- Phase 58: Rate Limiting, Quotas, And Cost Abuse Controls.
+- Phase 59: Secure File Processing And Storage.
+- Phase 60: Secrets, Privacy, And Log Controls.
+- Phase 61: Security Monitoring And Incident Response.
+- Phase 62: Independent Penetration Testing And Remediation.
+- Phase 63: Ongoing Adversarial Evaluation And Release Gates.
+
+Implementation rules:
+
+- Keep deterministic guards for obvious cases, but assess every remaining App query semantically under the default candidate; do not make regex matching the sole ambiguity or injection defense.
+- Treat classifiers as integrity-routing controls, never as identity, tenant, permission, or scope authorities.
+- Run evidence sufficiency only after permission filtering and validate generated claims only against authorized evidence.
+- Preserve authentication, tenant isolation, database authorization, pre-generation permission filtering, and post-generation citation/claim validation as independent boundaries.
+- Label the Trust & Safety page with Implemented, Measured, Planned, Production dependency, and Independent validation required statuses backed by evidence.
+- Do not claim production readiness from local demo auth, a checklist, mocked infrastructure, development evaluations, or an agent-authored review.
+- Pause at the explicit decision gates for identity/tenancy, object storage and malware scanning, monitoring ownership, and independent penetration testing.
+- Preserve the Phase 47-49 sealed holdouts. Any new generalization claim requires a newly authored and sealed holdout after the new runtime is frozen.
+- Use the full plan, implement, verify, commit, review, fix, push loop for each phase.
+
 ## Cross-Cutting Algorithm Explanation Audit
 
 Before or between implementation phases, the user may request a documentation-first review of the current algorithm. Use `docs/roadmap/algorithm-explanation-audit-plan.md` for that work.

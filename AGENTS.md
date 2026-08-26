@@ -139,6 +139,23 @@ For every Phase 41-46 implementation, use the full operating loop: plan, impleme
 
 Do not stop after Phase 41, 42, 43, 44, or 45 just because the commit was pushed. Treat the push as the handoff point into the next phase. Send a final user-facing summary only when the active queue is complete, the user asks for status-only output, or a real blocker prevents continuing.
 
+## Post-Phase 50 Defense And Production Readiness Focus
+
+After Phase 50, continue with `docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md`. The next sequence is:
+
+- Phase 51: Trust And Safety Product Page.
+- Phase 52: Structured Semantic Request Assessment.
+- Phase 53: Permission-Aware Evidence Sufficiency Gate.
+- Phase 54: Post-Generation Claim And Source-Instruction Validation.
+- Phase 55: Defense Evaluation, Observability, And Page Evidence.
+- Phases 56-63: production identity and tenancy, database authorization, rate limiting, secure file processing, secrets/log controls, monitoring and incident response, independent penetration testing, and ongoing adversarial release gates.
+
+Preserve deterministic guards as fast paths, but do not rely on pattern matching as the sole ambiguity or prompt-injection defense. Semantic assessment is a routing/integrity control and must never grant identity, tenant, scope, role, document, or tool access. Evidence sufficiency runs only after permission filtering, and post-generation validation uses only authorized evidence.
+
+Proceed autonomously through Phases 51-55 using the full operating loop and predeclared evaluation gates. Pause at the roadmap's explicit production decision gates before choosing an identity/tenant model, object storage or malware scanner, monitoring owner/destination, or independent penetration tester. Do not present a local test double, self-review, or checklist as a completed production control.
+
+Keep the Phase 47-49 sealed holdouts immutable. A future generalization claim requires a newly authored and sealed holdout after the new runtime is frozen.
+
 ## Algorithm Explanation And Audit Mode
 
 When the user starts a new chat to understand whether the algorithm makes sense, treat it as a documentation and reasoning pass before changing behavior.

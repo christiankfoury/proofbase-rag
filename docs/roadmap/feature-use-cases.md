@@ -320,3 +320,33 @@ Validation:
 - Demo can be completed in five minutes.
 - Screenshots show both App and Dev/Admin surfaces.
 - No page requires reading README to understand the core value.
+
+## UC-13: Understand Assistant Defenses And Production Gaps
+
+User: Employee, Admin, RAG Evaluator, Security Reviewer, or Recruiter/Reviewer.
+
+Goal: Understand how Proofbase handles ambiguity, prompt injection, permissions, evidence, and citations, and distinguish the local demo from a production-quality deployment.
+
+Flow:
+
+1. User selects **Trust & Safety** from the App navigation.
+2. User reviews the layered request flow from request assessment through authorization, retrieval, evidence sufficiency, generation, and validation.
+3. User compares Implemented, Measured, Planned, Production dependency, and Independent validation required controls.
+4. User opens evidence for current claims and reviews limitations.
+5. User reviews the production-readiness checklist for identity and tenant isolation, database authorization, rate limiting, secure files, secrets/logs, monitoring, independent testing, and ongoing adversarial evaluation.
+
+Expected behavior:
+
+- The page explains control boundaries in plain language without exposing prompts, secrets, private logs, or exact detection signatures.
+- A semantic classifier is described as a routing defense, not as an authorization boundary.
+- Permission filtering and evidence/citation validation are shown as separate layers.
+- Every implemented or measured claim links to current evidence.
+- Planned and externally dependent controls cannot look complete.
+- Local demo authentication is explicitly distinguished from real authentication and tenant isolation.
+
+Validation:
+
+- The page is reachable from the App nav, direct route, refresh, back/forward, and keyboard navigation.
+- Status and evidence content come from one typed catalog and render responsively.
+- Content review finds no unsupported production or independent-security claim.
+- README, demo guide, screenshots checklist, and the Phase 51 verification notes reference the page.

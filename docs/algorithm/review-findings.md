@@ -15,7 +15,7 @@ The algorithm makes sense for a portfolio-grade enterprise RAG demo. Its stronge
 The main fragile areas are:
 
 - multi-document planning is still heuristic
-- several answer-quality fixes are hand-tuned policy patterns
+- several answer-quality and Phase 50 ambiguity/injection fixes are hand-tuned policy patterns
 - citation and answer metrics are deterministic approximations
 - uploaded PDFs are reviewable and locally indexable after explicit approval, with optional AI cleanup drafts before indexing
 - production identity and real connector permissions are not implemented
@@ -69,17 +69,19 @@ Severity: medium.
 Evidence:
 
 - `answer_generator.py` has an `AMBIGUOUS_PATTERNS` list.
+- Phase 50 adds pre-retrieval ambiguity and direct prompt-override guards for known patterns while preserving a source-discussion exemption.
 - Prompt `answer_generation_v8.md` tells the model to clarify for underspecified approval, location, role, amount, contract, vendor, deployment, and sales-stage questions.
 - Phase 46 improved generalization-probe clarification behavior from `0.000` to `1.000`.
 
 Risk:
 
-New ambiguous phrasing may bypass the pattern list and depend on the model prompt alone.
+New ambiguous phrasing, obfuscated direct attacks, or instructions embedded in retrieved sources may bypass a pattern list and depend on model behavior. The Phase 50 development checks do not prove production robustness.
 
 Recommended verification:
 
 - Keep pre-retrieval clarification reasons visible in API and App proof surfaces.
 - Add broader regression cases for ambiguous questions with new wording.
+- Follow `docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md`: add typed semantic request assessment for non-deterministic cases, then a permission-aware evidence-sufficiency gate and post-generation claim/source-instruction validation. Keep permission enforcement independent of classifier output.
 
 ### F4. Some answer improvements are direct policy responses, not general reasoning
 

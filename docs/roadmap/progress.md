@@ -1,6 +1,6 @@
 # Roadmap Progress Tracker
 
-This file is the durable source of truth for roadmap progress. At the start of each phase, read this file with `AGENTS.md`, `docs/roadmap/phase-plan.md`, `docs/roadmap/phases-improvement.md`, `docs/roadmap/post-phase-37-remediation-plan.md`, the latest `docs/phase-*` notes, and recent Git history.
+This file is the durable source of truth for roadmap progress. At the start of each phase, read this file with `AGENTS.md`, `docs/roadmap/phase-plan.md`, `docs/roadmap/phases-improvement.md`, `docs/roadmap/post-phase-37-remediation-plan.md`, `docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md`, the latest `docs/phase-*` notes, and recent Git history.
 
 Update this tracker before committing each phase. Keep entries factual: record what was implemented, what was verified, what was skipped, and which commit or commits contain the work.
 
@@ -10,14 +10,17 @@ Update this tracker before committing each phase. Keep entries factual: record w
 - Last completed phase activity: Phase 50 closed the seven findings from the complete user-facing manual test campaign: the empty-department crash hotfix, ambiguity and fresh-pronoun clarification, direct prompt-override blocking, saved-review history, project-aware assistant naming, and owner/admin demo membership management.
 - Last completed non-implementation pass: documentation-first algorithm explanation and audit under `docs/algorithm/`, including `docs/algorithm/codebase-verification-report.md` in commit `2fb9f95`; current-facing docs were refreshed after Phase 46 and the `vector_lexical_rerank` default change.
 - Last verification focus: Phase 50 passed the final non-sealed benchmark `130/130`, the prompt-injection slice `5/5`, the generalization suite `20/20`, and the permission suite with zero leakage/exposure/restricted-citation/unauthorized-generation rates. Compile, benchmark validation, production web build, Docker rebuild, live API/web smokes, dashboard export, and targeted regression scripts passed. The Phase 47-49 sealed holdouts were not rerun or changed.
-- Next expected work: preserve the Phase 48 six-product-failure backlog and Phase 49 product/mixed evidence (`P49-H3-006`, `P49-H3-007`, `P49-H3-013`, `P49-H3-027`) for a separately planned product-remediation phase. Do not tune against or rerun any sealed holdout.
+- Next expected work: Phase 51 Trust And Safety Product Page, followed by the layered defense and production-readiness sequence in `docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md`. Preserve the Phase 48 six-product-failure backlog and Phase 49 product/mixed evidence (`P49-H3-006`, `P49-H3-007`, `P49-H3-013`, `P49-H3-027`) without tuning against or rerunning any sealed holdout.
 
 ## Next Work Queue
 
-The Phase 50 manual-test remediation queue is complete. Keep all holdouts immutable and zero-leakage gates ahead of optional product expansion.
+The Phase 50 manual-test remediation queue is complete. The approved next roadmap is `docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md`. Keep all sealed holdouts immutable and zero-leakage gates ahead of product or infrastructure claims.
 
-1. Plan a later product-remediation phase from the preserved Phase 48 six-case backlog and Phase 49 product/mixed evidence; do not use holdout questions for in-phase tuning.
-2. Later product backlog: hosted storage/Azure Blob, production auth, project-specific evaluation authoring, exportable demo reports, and multi-tenant deployment hardening.
+1. Phase 51: add the nav-accessible Trust & Safety product page with evidence-backed Implemented, Measured, Planned, Production dependency, and Independent validation required states.
+2. Phases 52-55: add structured semantic request assessment, a permission-aware evidence-sufficiency gate, post-generation claim/source-instruction validation, and measured defense observability.
+3. Before Phase 56, obtain the documented identity-provider, tenant-ownership, session/MFA, and demo-data migration decisions.
+4. Phases 56-63: implement production identity/tenancy, database enforcement, rate limits, secure file processing, secret/log controls, monitoring/response, independent penetration testing, and ongoing adversarial release gates.
+5. Preserve the Phase 48/49 product-quality backlog for a separate measured remediation; do not reuse sealed holdout cases as development tests.
 
 ## Phase Status
 
@@ -61,6 +64,7 @@ The Phase 50 manual-test remediation queue is complete. Keep all holdouts immuta
 | 48: Generalization Failure Remediation And Fresh Holdout | Complete | Runtime freeze `7bbb8b4`; sealed holdout `d134ce3`; fixture recovery `2067479`, `f4c1ef6`; evidence `600cc69` | Development `70/70`; benchmark `130/130`; permission hard gates all zero; memory `20/20`; fresh holdout terminal observation `19/30` at `$0.023159`; aggregate target metrics unavailable after interrupted atomic write. | Phase 47 remains permanently `14/30`. Fresh holdout cases each executed exactly once, but cases 1-29 lost detailed rows before the fixture preflight failure. Human review: 1 evaluator-only, 6 product, 4 indeterminate. The 24/30 and 27/30 targets were missed; no improvement claim. |
 | 49: Holdout Evaluation Reliability And Fresh Measurement | Complete | Evaluator freeze `3d3706e`; sealed holdout `4d51ea3`; evidence/reporting `9a28d9f` | Reliability interruption suite and broad regressions passed. Blind holdout v3 completed 30/30 exactly once with one attempt per case, verified journal, no duplicate calls, and persisted-row-only aggregation. Official result `22/30`, cost `$0.022624`; all hard safety gates zero; behavior `0.967`, recall `0.982`, completeness `0.875`, citation `0.947`; hallucination `0.133` and overall target missed. All 8 failures and 3/22 passes were adjudicated separately. | Adds complete preflight, atomic rows, append-only hash-chained journal, durable checkpoint, idempotent recovery, completeness reporting, and blind fresh measurement. No RAG runtime behavior changed, no prior holdout was rerun, and no improvement claim is allowed. |
 | 50: Manual-Test Findings Remediation | Complete | Empty-department hotfix `0c3c934`; implementation/evidence `f2bec50` | Targeted Phase 50/38/46/48 controls, benchmark validation, isolated-cache compile, API import/routes, Next.js production build, Docker config/rebuild/live smokes, prompt-injection `5/5`, generalization `20/20`, permission zero-leakage gates, final benchmark `130/130`, dashboard export, and `git diff --check` passed. | Adds ambiguity and direct-override guards, source-discussion safety boundary, project-aware assistant title, reloadable review history, and owner/admin demo membership management. The initial full run exposed two over-broad guard findings; both were fixed before the final clean run. Sealed holdouts were untouched. |
+| 51-63: Defense Hardening And Production Readiness | Planned | Pending | Defined in `docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md`; no implementation or new measurement has occurred yet. | Starts with the Trust & Safety product page and layered ambiguity/injection/evidence defenses. Production phases have explicit identity, tenancy, storage/scanning, monitoring, and independent-testing decision gates. |
 
 ## Update Rules
 

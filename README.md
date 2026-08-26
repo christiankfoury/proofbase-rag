@@ -445,14 +445,20 @@ The sealed Phase 47–49 holdout runners are not routine regression commands. Th
 
 ## Roadmap
 
-The core portfolio scope and Phase 47–49 independent evaluation are complete. Remaining work is optional and depends on whether the project is taken beyond portfolio scope:
+The core portfolio scope and Phase 47–49 independent evaluation are complete. The approved next sequence is the [Post-Phase 50 Defense And Production Readiness Plan](docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md): first a nav-accessible Trust & Safety page and layered semantic/evidence defenses, then the separately gated work required for production-quality security.
 
-- Deploy to Azure with managed PostgreSQL/pgvector and Blob Storage.
-- Replace local demo auth with production identity and session hardening.
-- Add DOCX conversion and real enterprise connectors.
-- Extend cost accounting to embeddings, ingestion, and cloud infrastructure.
-- Add project-specific evaluation authoring and promotion gates.
-- Preserve the Phase 49 product/mixed failure backlog for a separately planned remediation; validate any future claim with a new sealed holdout.
+Planned work includes:
+
+- Structured semantic request assessment, permission-aware evidence sufficiency, claim/source-instruction validation, and adversarial evaluation evidence.
+- Real authentication and tenant ownership with database-enforced authorization and isolation.
+- Distributed rate limits, quotas, and AI cost-abuse controls.
+- Quarantined, scanned, isolated file processing backed by production object storage.
+- Managed secrets, privacy-safe logs, security monitoring, and incident response.
+- Independent penetration testing and ongoing release-gated adversarial evaluation.
+
+Identity provider, tenant ownership, production storage/scanning, monitoring ownership, and independent-assessment choices are explicit decision gates. They must not be inferred by an implementation agent or presented as completed production controls.
+
+The Phase 48/49 product-quality backlog also remains preserved for a separately measured remediation. Any future generalization claim requires a new sealed holdout; the Phase 47–49 holdouts must not be rerun or used for tuning.
 
 ## Selected Documentation
 
@@ -461,7 +467,7 @@ The core portfolio scope and Phase 47–49 independent evaluation are complete. 
 - Core evaluation: [Benchmark Design](docs/phase-3/benchmark-design.md), [Evaluation Metrics](docs/algorithm/evaluation-metrics.md), and [Regression Scorecard](docs/phase-37/regression-scorecard.md)
 - Independent evaluation: [Phase 47 Holdout](docs/phase-47/holdout-results.md), [Phase 48 Interruption Record](docs/phase-48/holdout-interruption.md), [Phase 49 Results](docs/phase-49/fresh-holdout-results.md), and [Phase 49 Adjudication](docs/phase-49/human-adjudication.md)
 - Evaluation integrity: [Phase 49 Reliability Design](docs/phase-49/evaluation-reliability-design.md) and [Verification](docs/phase-49/verification.md)
-- Current status: [Roadmap Progress](docs/roadmap/progress.md)
+- Current status: [Roadmap Progress](docs/roadmap/progress.md) and [Defense And Production Readiness Plan](docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md)
 
 ## Final Portfolio Description
 
