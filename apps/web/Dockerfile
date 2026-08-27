@@ -12,6 +12,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
 COPY --from=deps /app/apps/web/node_modules ./node_modules
 COPY apps/web ./
+COPY data/evaluation/defense/phase55-defense-readiness.json /app/data/evaluation/defense/phase55-defense-readiness.json
 RUN npm run build
 
 FROM node:20-alpine AS runner
