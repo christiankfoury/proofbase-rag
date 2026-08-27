@@ -157,6 +157,7 @@ Benchmark artifacts:
 - [Benchmark Design](docs/phase-3/benchmark-design.md)
 - [Scoring Rubric](docs/phase-3/scoring-rubric.md)
 - [Dashboard Summary Data](data/evaluation/dashboard-summary.json)
+- [Evaluation Artifact Retention](docs/evaluation-artifact-retention.md)
 - [Phase 49 Fresh Holdout Results](docs/phase-49/fresh-holdout-results.md)
 - [Phase 49 Human Adjudication](docs/phase-49/human-adjudication.md)
 - [Phase 49 Evaluation Reliability](docs/phase-49/evaluation-reliability-design.md)

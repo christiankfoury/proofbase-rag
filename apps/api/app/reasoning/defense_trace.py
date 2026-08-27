@@ -92,10 +92,13 @@ def build_defense_trace(
             ),
             DefenseTraceStage(
                 name="permission_filter",
-                status="succeeded",
+                status="succeeded" if unauthorized_count == 0 else "failed_safe",
                 route="application_authorization",
                 action="allow_authorized_only" if unauthorized_count == 0 else "security_invariant_failed",
-                reason_codes=["pre_generation_role_filter"],
+                reason_codes=[
+                    "pre_generation_role_filter",
+                    *(["unauthorized_chunk_invariant"] if unauthorized_count else []),
+                ],
                 authorized_chunk_count=len(authorized_chunks) - unauthorized_count,
                 unauthorized_chunk_count=unauthorized_count,
                 memory_used_as_evidence=False,

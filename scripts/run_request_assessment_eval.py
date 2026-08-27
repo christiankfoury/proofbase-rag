@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import sys
@@ -274,9 +275,14 @@ def main() -> None:
     args.detail_path.parent.mkdir(parents=True, exist_ok=True)
     args.eval_run_path.parent.mkdir(parents=True, exist_ok=True)
     args.report_path.parent.mkdir(parents=True, exist_ok=True)
-    rendered = json.dumps(payload, indent=2) + "\n"
-    args.detail_path.write_text(rendered, encoding="utf-8")
-    args.eval_run_path.write_text(rendered, encoding="utf-8")
+    args.detail_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    compact = {key: value for key, value in payload.items() if key != "results"}
+    try:
+        compact["detail_artifact_path"] = args.detail_path.resolve().relative_to(ROOT).as_posix()
+    except ValueError:
+        compact["detail_artifact_path"] = str(args.detail_path.resolve()).replace("\\", "/")
+    compact["detail_artifact_sha256"] = hashlib.sha256(args.detail_path.read_bytes()).hexdigest()
+    args.eval_run_path.write_text(json.dumps(compact, indent=2) + "\n", encoding="utf-8")
     args.report_path.write_text(_report(payload), encoding="utf-8")
     print(json.dumps({"run_id": payload["run_id"], "metrics": payload["metrics"], "promotion_gates": payload["promotion_gates"]}, indent=2))
 

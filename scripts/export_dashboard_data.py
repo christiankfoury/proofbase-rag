@@ -46,6 +46,7 @@ PHASE48_HOLDOUT_RUN_PATH = RUNS_DIR / "phase48-independent-holdout-v2.json"
 PHASE49_HOLDOUT_RUN_PATH = RUNS_DIR / "phase49-independent-holdout-v3.json"
 EVALUATION_RELIABILITY_PATH = ROOT / "data/evaluation/evaluation-reliability.json"
 SCORECARD_PATH = ROOT / "data/evaluation/regression-scorecard.json"
+RAW_ARTIFACT_INDEX_PATH = ROOT / "data/evaluation/raw-artifact-index.json"
 
 REQUIRED_REPORTS = [
     PHASE6_RESULTS,
@@ -479,6 +480,40 @@ def _expanded_baseline_runs() -> list[dict[str, Any]]:
         if isinstance(run, dict):
             runs.append(run)
     return runs
+
+
+def _retained_compact_runs() -> list[dict[str, Any]]:
+    """Load compact summaries whose raw per-question payloads were retired."""
+    if not RAW_ARTIFACT_INDEX_PATH.is_file():
+        return []
+    index = json.loads(RAW_ARTIFACT_INDEX_PATH.read_text(encoding="utf-8"))
+    runs: list[dict[str, Any]] = []
+    artifacts = sorted(
+        index.get("artifacts") or [],
+        key=lambda item: str(item.get("compact_summary_path") or ""),
+    )
+    for artifact in artifacts:
+        summary_path = ROOT / str(artifact.get("compact_summary_path") or "")
+        if not summary_path.is_file():
+            raise ValueError(f"Retained compact evaluation summary is missing: {summary_path}")
+        payload = json.loads(summary_path.read_text(encoding="utf-8"))
+        if not isinstance(payload, dict) or not payload.get("run_id"):
+            raise ValueError(f"Retained compact evaluation summary is invalid: {summary_path}")
+        runs.append(payload)
+    return runs
+
+
+def _deduplicate_runs(runs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    by_id: dict[str, dict[str, Any]] = {}
+    order: list[str] = []
+    for run in runs:
+        run_id = str(run.get("run_id") or "")
+        if not run_id:
+            continue
+        if run_id not in by_id:
+            order.append(run_id)
+        by_id[run_id] = run
+    return [by_id[run_id] for run_id in order]
 
 
 def _safety_runs() -> list[dict[str, Any]]:
@@ -1219,12 +1254,14 @@ def main() -> None:
         raise SystemExit(f"Expected {EXPECTED_RUN_COUNT} dashboard runs, found {len(runs)}.")
     runs.extend(_prompt_experiment_runs())
     runs.extend(_expanded_baseline_runs())
+    runs.extend(_retained_compact_runs())
     runs.extend(_safety_runs())
     for path in [PHASE47_DEVELOPMENT_RUN_PATH, PHASE47_HOLDOUT_RUN_PATH]:
         if path.exists():
             payload = json.loads(path.read_text(encoding="utf-8"))
             if isinstance(payload, dict):
                 runs.append(payload)
+    runs = _deduplicate_runs(runs)
     runs = [_annotate_run(run, current_benchmark_version=current_benchmark_version) for run in runs]
 
     current_answer_run = _current_answer_run(runs)

@@ -420,7 +420,7 @@ def _normalize_source_instruction_decision(
     candidate: dict,
     authorized_chunks: list[RetrievedChunk],
 ) -> SemanticValidationDecision:
-    instruction_chunk_ids = {
+    deterministic_instruction_ids = {
         chunk.chunk_id
         for chunk in authorized_chunks
         if any(pattern in chunk.content.casefold() for pattern in SOURCE_INSTRUCTION_PATTERNS)
@@ -429,14 +429,33 @@ def _normalize_source_instruction_decision(
     rejection_markers = ("untrusted", "not followed", "did not follow", "should not", "must not", "reject")
     compliance_markers = ("i will", "i'll", "will comply", "as the document requests", "as instructed")
     deterministic_following = (
-        bool(instruction_chunk_ids)
+        bool(deterministic_instruction_ids)
         and any(pattern in answer for pattern in SOURCE_INSTRUCTION_PATTERNS)
         and any(marker in answer for marker in compliance_markers)
         and not any(marker in answer for marker in rejection_markers)
     )
-    semantic_following = decision.source_instruction_followed and bool(instruction_chunk_ids)
+
+    # The phrase list is a fast path, not an allowlist for semantic findings.
+    # Preserve model findings for novel or obfuscated instructions. Missing or
+    # unauthorized evidence IDs remain intact so strict contract validation
+    # fails safe instead of silently suppressing the semantic finding.
+    semantic_instruction_ids = list(dict.fromkeys(decision.source_instruction_evidence_chunk_ids))
+    if decision.source_instruction_followed and (
+        not semantic_instruction_ids
+        or set(semantic_instruction_ids) - {chunk.chunk_id for chunk in authorized_chunks}
+    ):
+        return decision
+
+    semantic_following = decision.source_instruction_followed
     followed = deterministic_following or semantic_following
-    ids = sorted(instruction_chunk_ids)[:8] if followed else []
+    ids = (
+        sorted(
+            deterministic_instruction_ids
+            | (set(semantic_instruction_ids) if semantic_following else set())
+        )[:8]
+        if followed
+        else []
+    )
     return decision.model_copy(
         update={
             "source_instruction_followed": followed,

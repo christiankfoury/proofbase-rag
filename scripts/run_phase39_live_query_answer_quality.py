@@ -37,13 +37,13 @@ from apps.api.app.retrieval.types import RetrievedChunk
 
 
 BENCHMARK_PATH = ROOT / "data/evaluation/benchmark-questions.json"
-OUTPUT_DIR = ROOT / "data/evaluation/expanded-baseline"
+LOCAL_RESULT_DIR = ROOT / "data/evaluation/local-runs"
 EVAL_RUN_DIR = ROOT / "data/evaluation/eval-runs"
 PHASE_DIR = ROOT / "docs/phase-39"
 RUN_ID = "phase39-live-query-answer-quality-v8"
 PHASE = "phase-39"
 REPORT_TITLE = "Phase 39 Live Query Answer-Quality Results"
-OUTPUT_JSON = OUTPUT_DIR / f"{RUN_ID}.json"
+OUTPUT_JSON = LOCAL_RESULT_DIR / f"{RUN_ID}.json"
 EVAL_RUN_JSON = EVAL_RUN_DIR / f"{RUN_ID}.json"
 REPORT_PATH = PHASE_DIR / "live-query-answer-quality-results.md"
 ADMIN_USER_ID = "00000000-0000-0000-0000-000000002706"
@@ -108,6 +108,22 @@ def _category_breakdown(rows: list[dict[str, Any]]) -> dict[str, int]:
         if question_type:
             counts[str(question_type)] = counts.get(str(question_type), 0) + 1
     return dict(sorted(counts.items()))
+
+
+def _memory_as_evidence_metrics(rows: list[dict[str, Any]]) -> tuple[int, float]:
+    memory_rows = [row for row in rows if row.get("question_type") == "conversation_memory"]
+    violations = 0
+    for row in memory_rows:
+        for citation in row.get("citations") or []:
+            rendered_source = " ".join(
+                str(citation.get(field) or "")
+                for field in ("document_id", "document_title", "source")
+            ).casefold()
+            if "memory" in rendered_source or "conversation" in rendered_source:
+                violations += 1
+                break
+    rate = round(violations / len(memory_rows), 4) if memory_rows else 0.0
+    return len(memory_rows), rate
 
 
 def _failure_reason_counts(failed_questions: list[dict[str, Any]]) -> dict[str, int]:
@@ -367,6 +383,7 @@ def _summary(
 ) -> dict[str, Any]:
     submetric_issue_ids = _submetric_issue_ids(rows)
     submetric_issue_breakdown = _submetric_issue_breakdown(rows)
+    memory_case_count, memory_as_evidence_violation_rate = _memory_as_evidence_metrics(rows)
     return {
         "experiment_id": RUN_ID,
         "run_name": RUN_ID,
@@ -388,6 +405,8 @@ def _summary(
         "submetric_issue_breakdown": submetric_issue_breakdown,
         "actionable_submetric_issue_count": submetric_issue_breakdown["actionable"]["count"],
         "diagnostic_submetric_note_count": _diagnostic_submetric_note_count(submetric_issue_breakdown),
+        "memory_case_count": memory_case_count,
+        "memory_as_evidence_violation_rate": memory_as_evidence_violation_rate,
         "any_source_hit": _average([row["any_source_hit"] for row in rows]),
         "all_sources_hit": _average([row["all_sources_hit"] for row in rows]),
         "expected_source_recall": _average([row["expected_source_recall"] for row in rows]),
@@ -491,6 +510,8 @@ def _dashboard_run(result: dict[str, Any]) -> dict[str, Any]:
             "submetric_issue_count": summary.get("submetric_issue_count"),
             "actionable_submetric_issue_count": summary.get("actionable_submetric_issue_count"),
             "diagnostic_submetric_note_count": summary.get("diagnostic_submetric_note_count"),
+            "memory_case_count": summary.get("memory_case_count"),
+            "memory_as_evidence_violation_rate": summary.get("memory_as_evidence_violation_rate"),
         },
         "failed_questions": failed_question_ids,
         "submetric_issue_ids": summary.get("submetric_issue_ids") or [],
@@ -679,7 +700,7 @@ def main() -> None:
     RUN_ID = args.run_id
     PHASE = args.phase
     REPORT_TITLE = args.report_title
-    OUTPUT_JSON = Path(args.output_json) if args.output_json else OUTPUT_DIR / f"{RUN_ID}.json"
+    OUTPUT_JSON = Path(args.output_json) if args.output_json else LOCAL_RESULT_DIR / f"{RUN_ID}.json"
     EVAL_RUN_JSON = Path(args.eval_run_json) if args.eval_run_json else EVAL_RUN_DIR / f"{RUN_ID}.json"
     REPORT_PATH = Path(args.report_path) if args.report_path else ROOT / "docs" / PHASE / "live-query-answer-quality-results.md"
     PHASE_DIR = REPORT_PATH.parent
@@ -715,7 +736,7 @@ def main() -> None:
     if not args.allow_external_ai:
         raise SystemExit(EXTERNAL_AI_APPROVAL_MESSAGE)
 
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     EVAL_RUN_DIR.mkdir(parents=True, exist_ok=True)
     PHASE_DIR.mkdir(parents=True, exist_ok=True)
     result = run_live_query_eval(args)

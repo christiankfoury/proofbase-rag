@@ -1,5 +1,11 @@
 # Phase 55 Verification
 
+## Post-review correction
+
+The post-review remediation replaces three literal-zero readiness gates with hash-bound machine-readable evidence, fixes semantic handling of novel embedded source instructions, marks permission-filter invariant failures as `failed_safe`, and applies the repository's compact evaluation-artifact policy. See `docs/phase-55/post-review-remediation.md` and `docs/evaluation-artifact-retention.md`.
+
+The refreshed focused evidence reports zero assessment-caused scope expansions in one malicious extra-field contract check, zero memory-as-evidence violations across 20 Phase 54 memory cases, and zero unsafe continuations across three malformed-schema stage checks. These remain local development checks, not independent validation.
+
 ## Consolidated measured evidence
 
 The versioned manifest validates `102` fixed development cases without referencing or changing the Phase 47-49 sealed holdouts.

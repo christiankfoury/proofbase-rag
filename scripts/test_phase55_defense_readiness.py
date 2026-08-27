@@ -14,6 +14,7 @@ from apps.api.app.reasoning.defense_trace import build_defense_trace  # noqa: E4
 from apps.api.app.reasoning.request_assessment import RequestAssessment  # noqa: E402
 from apps.api.app.retrieval.types import RetrievedChunk  # noqa: E402
 from scripts.export_defense_readiness import build_summary  # noqa: E402
+from scripts import export_defense_readiness  # noqa: E402
 from scripts.author_phase55_defense_holdout import _response_schema  # noqa: E402
 from scripts.validate_defense_evaluation import MANIFEST_PATH, validate_manifest  # noqa: E402
 
@@ -86,6 +87,28 @@ class Phase55DefenseReadinessTests(unittest.TestCase):
         self.assertFalse(summary["holdout"]["supports_current_claims"])
         self.assertTrue(summary["stability"]["passed"])
         self.assertEqual(summary["stability"]["passes"], 3)
+        self.assertEqual(
+            {gate["source"] for gate in summary["hard_gates"] if gate["name"] in {
+                "Assessment-caused tenant or scope expansion",
+                "Memory used as source evidence",
+                "Invalid assessment schemas silently continued",
+            }},
+            {"phase55-focused-hard-gates-v1"},
+        )
+
+    def test_generated_evidence_rejects_stale_source_binding(self) -> None:
+        evidence = json.loads(export_defense_readiness.HARD_GATE_RESULT.read_text(encoding="utf-8"))
+        evidence["source_sha256"]["apps/api/app/main.py"] = "0" * 64
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "stale-hard-gates.json"
+            path.write_text(json.dumps(evidence), encoding="utf-8")
+            original = export_defense_readiness.HARD_GATE_RESULT
+            try:
+                export_defense_readiness.HARD_GATE_RESULT = path
+                with self.assertRaisesRegex(ValueError, "stale"):
+                    export_defense_readiness.build_summary()
+            finally:
+                export_defense_readiness.HARD_GATE_RESULT = original
 
     def test_trace_has_seven_bounded_stages_without_content_or_identity(self) -> None:
         trace = build_defense_trace(
@@ -123,6 +146,7 @@ class Phase55DefenseReadinessTests(unittest.TestCase):
             generation_latency_ms=0,
         )
         permission = next(stage for stage in trace.stages if stage.name == "permission_filter")
+        self.assertEqual(permission.status, "failed_safe")
         self.assertEqual(permission.action, "security_invariant_failed")
         self.assertEqual(permission.unauthorized_chunk_count, 1)
         self.assertEqual(permission.authorized_chunk_count, 0)
