@@ -26,10 +26,11 @@ def _upsert_document(conn, document):
     row = conn.execute(
         """
         insert into documents (
-          project_id, department_id, external_document_id, title, department, category, source_type,
+          tenant_id, project_id, department_id, external_document_id, title, department, category, source_type,
           source_path, access_roles, sensitivity, restricted, status, updated_at
         )
         values (
+          '00000000-0000-0000-0000-000000002801',
           '00000000-0000-0000-0000-000000000019',
           (
             select id from project_departments
@@ -73,10 +74,11 @@ def _upsert_version(conn, document_id: str, document):
     row = conn.execute(
         """
         insert into document_versions (
-          document_id, version_label, effective_date, owner, review_cycle,
+          tenant_id, document_id, version_label, effective_date, owner, review_cycle,
           content_hash, extracted_text, metadata_json, ingestion_status, indexed_at
         )
-        values (%s, %s, %s, %s, %s, %s, %s, %s::jsonb, 'indexed', now())
+        select tenant_id, %s, %s, %s, %s, %s, %s, %s, %s::jsonb, 'indexed', now()
+        from documents where id = %s::uuid
         on conflict (document_id, version_label) do update set
           effective_date = excluded.effective_date,
           owner = excluded.owner,
@@ -99,6 +101,7 @@ def _upsert_version(conn, document_id: str, document):
             content_hash,
             document.body,
             json.dumps(metadata, default=str),
+            document_id,
         ),
     ).fetchone()
     conn.execute(
@@ -115,11 +118,12 @@ def _upsert_ingestion_job(conn, document_id: str, version_id: str, document) -> 
     conn.execute(
         """
         insert into ingestion_jobs (
-          project_id, department_id, document_id, document_version_id,
+          tenant_id, project_id, department_id, document_id, document_version_id,
           source_file_name, source_file_type, status, stage, status_detail,
           content_hash, started_at, completed_at, metadata_json, updated_at
         )
         select
+          d.tenant_id,
           d.project_id,
           d.department_id,
           d.id,
@@ -203,10 +207,10 @@ def ingest_documents(
                     chunk_row = conn.execute(
                         """
                         insert into chunks (
-                          document_id, document_version_id, chunk_index, section_heading,
+                          tenant_id, document_id, document_version_id, chunk_index, section_heading,
                           content, content_hash, token_count, chunking_strategy, metadata_json
                         )
-                        values (%s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb)
+                        values ('00000000-0000-0000-0000-000000002801', %s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb)
                         returning id::text
                         """,
                         (
@@ -231,8 +235,8 @@ def ingest_documents(
                     ).fetchone()
                     conn.execute(
                         """
-                        insert into chunk_embeddings (chunk_id, embedding_model, embedding)
-                        values (%s, %s, %s::vector)
+                        insert into chunk_embeddings (tenant_id, chunk_id, embedding_model, embedding)
+                        values ('00000000-0000-0000-0000-000000002801', %s, %s, %s::vector)
                         """,
                         (chunk_row["id"], settings.openai_embedding_model, to_vector_literal(embedding)),
                     )

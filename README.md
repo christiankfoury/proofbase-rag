@@ -8,7 +8,7 @@
 | --- | --- |
 | Product | Project workspaces, owner-managed demo access, department document libraries, scoped chat, PDF-to-Markdown review, optional AI cleanup, and explicit approve/index. |
 | RAG | PostgreSQL/pgvector, keyword search, vector + lexical reranking, multi-source planning, evidence sufficiency, structured response types, post-generation claim validation, citations, and confidence signals. |
-| Security | Public Trust & Safety status page, local demo identity, project membership, role-filtered retrieval before generation, defensive generation checks, and permission audits. |
+| Security | Public Trust & Safety status page, local demo identity, provider-neutral OIDC/tenant boundary, project membership, role-filtered retrieval before generation, defensive generation checks, and permission audits. |
 | Evaluation | 130-question regression benchmark, three independently sealed holdouts, human adjudication, failure matrices, cost tracking, and durable exactly-once-oriented execution evidence. |
 | Operations | Feedback, observability, audit logs, health/readiness endpoints, Docker Compose, CI, and Azure-ready deployment documentation. |
 
@@ -284,7 +284,7 @@ The frontend separates the recruiter-facing product from the engineering proof s
 | Evaluation lab | `/dev-admin`, `/dev-admin/runs`, `/dev-admin/failed-questions`, `/dev-admin/retrieval-playground` | Metrics, run comparison, failure evidence, adjudication, and retrieval experiments |
 | Operations | `/dev-admin/observability`, `/dev-admin/feedback`, `/dev-admin/audit`, `/dev-admin/permission-demo` | Latency, cost, feedback, audit events, and role-based refusal behavior |
 
-The API derives the query role from the selected local demo user rather than trusting a free-form role selector. This is suitable for a portfolio demo, not a claim of production SSO.
+The API derives the query role from the selected local demo user rather than trusting a free-form role selector. Phase 56 also provides a production-rejecting demo boundary, locally verified OIDC fixtures, immutable issuer/subject mapping, and explicit tenant ownership. No hosted identity provider is connected, so this remains a portfolio control rather than a production SSO claim.
 
 See the [Interactive Demo Guide](docs/demo/interactive-demo-guide.md) and [Screenshots Checklist](docs/demo/screenshots-checklist.md).
 
@@ -453,13 +453,13 @@ The core portfolio scope and Phase 47–49 independent evaluation are complete. 
 Current and planned work includes:
 
 - Structured request assessment, permission-aware evidence sufficiency, post-generation validation, and consolidated defense observability are implemented and measured. `/dev-admin/defense-readiness` reads a generated 102-case evidence manifest plus the definitive 130-question runtime and 40-check permission artifacts.
-- Provider-neutral OIDC authentication and tenant ownership with database-enforced authorization and isolation, verified locally before any optional live provider integration.
+- Provider-neutral OIDC authentication and tenant ownership are implemented and verified locally; database-enforced authorization and isolation remain Phase 57, before any optional live provider integration.
 - Distributed rate limits, quotas, and AI cost-abuse controls.
 - Quarantined, scanned, isolated file processing behind storage and scanner interfaces; hosted providers remain optional.
 - Managed secrets, privacy-safe logs, security monitoring, and incident response.
 - Security-assessment readiness, optional independent penetration testing, and ongoing release-gated adversarial evaluation.
 
-Tenant semantics remain an explicit Phase 56 decision gate. Live identity, storage/scanning, monitoring, and independent-assessment integrations are optional external gates and must not be inferred or presented as completed production controls. Any Azure or billable deployment also requires an explicit financial-safety review covering subscription limits, allowed services/SKUs, quotas, expiration, automatic teardown, and separate external-AI controls.
+The Phase 56 tenant, membership, demo-data, session, and offboarding decisions are approved and recorded in `docs/phase-55/phase-56-decision-gate.md`. Live identity, storage/scanning, monitoring, and independent-assessment integrations remain optional external gates and must not be inferred or presented as completed production controls. Any Azure or billable deployment also requires an explicit financial-safety review covering subscription limits, allowed services/SKUs, quotas, expiration, automatic teardown, and separate external-AI controls.
 
 The Phase 48/49 product-quality backlog also remains preserved for a separately measured remediation. Phase 55 seals a new post-freeze defense holdout but does not execute or score it; until a future predeclared release protocol opens it, it supports no new generalization claim. The Phase 47–49 holdouts must not be rerun or used for tuning.
 

@@ -6,6 +6,48 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    app_environment: str = Field(
+        default="local",
+        pattern="^(local|development|test|production)$",
+        validation_alias=AliasChoices("APP_ENVIRONMENT", "app_environment"),
+    )
+    auth_mode: str = Field(
+        default="local_demo",
+        pattern="^(local_demo|oidc_fixture|oidc)$",
+        validation_alias=AliasChoices("AUTH_MODE", "auth_mode"),
+    )
+    oidc_issuer: str = Field(
+        default="https://identity.local.proofbase.invalid",
+        validation_alias=AliasChoices("OIDC_ISSUER", "oidc_issuer"),
+    )
+    oidc_audience: str = Field(
+        default="proofbase-api",
+        validation_alias=AliasChoices("OIDC_AUDIENCE", "oidc_audience"),
+    )
+    oidc_local_signing_secret: str = Field(
+        default="",
+        validation_alias=AliasChoices("OIDC_LOCAL_SIGNING_SECRET", "oidc_local_signing_secret"),
+    )
+    oidc_future_provider: str = Field(
+        default="microsoft_entra_id",
+        validation_alias=AliasChoices("OIDC_FUTURE_PROVIDER", "oidc_future_provider"),
+    )
+    session_absolute_minutes: int = Field(
+        default=480,
+        ge=5,
+        le=1440,
+        validation_alias=AliasChoices("SESSION_ABSOLUTE_MINUTES", "session_absolute_minutes"),
+    )
+    session_idle_minutes: int = Field(
+        default=30,
+        ge=5,
+        le=240,
+        validation_alias=AliasChoices("SESSION_IDLE_MINUTES", "session_idle_minutes"),
+    )
+    default_demo_tenant_id: str = Field(
+        default="00000000-0000-0000-0000-000000002801",
+        validation_alias=AliasChoices("DEFAULT_DEMO_TENANT_ID", "default_demo_tenant_id"),
+    )
     database_url: str = "postgresql://postgres:postgres@localhost:5432/enterprise_knowledge_agent"
     openai_api_key: str = Field(
         default="",
@@ -153,6 +195,16 @@ class Settings(BaseSettings):
             self.openai_api_key = Path(self.openai_api_key_file).read_text(encoding="utf-8").strip()
         except OSError:
             self.openai_api_key = ""
+        return self
+
+    @model_validator(mode="after")
+    def reject_unsafe_production_identity(self) -> "Settings":
+        if self.app_environment == "production" and self.auth_mode in {"local_demo", "oidc_fixture"}:
+            raise ValueError("Production requires AUTH_MODE=oidc; demo and local fixture identities are forbidden.")
+        if self.auth_mode == "oidc_fixture" and len(self.oidc_local_signing_secret.encode("utf-8")) < 32:
+            raise ValueError("OIDC fixture mode requires an OIDC_LOCAL_SIGNING_SECRET of at least 32 bytes.")
+        if self.session_idle_minutes >= self.session_absolute_minutes:
+            raise ValueError("SESSION_IDLE_MINUTES must be shorter than SESSION_ABSOLUTE_MINUTES.")
         return self
 
 

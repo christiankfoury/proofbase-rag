@@ -1,5 +1,7 @@
 # Permissions And Scope
 
+> Phase 56 update: every App request now resolves an explicit tenant alongside the internal user. The default UI still uses the isolated Northstar demo tenant. Optional local OIDC fixtures validate signed claims and then require an active internal tenant membership; token claims cannot create membership. Database row-level enforcement is introduced separately in Phase 57.
+
 Permission filtering is a hard design requirement in this project. Restricted chunks should not reach the model, citations, memory evidence, or user-visible retrieved context for roles that cannot access them.
 
 ## Scope Layers

@@ -1,6 +1,27 @@
 create extension if not exists "uuid-ossp";
 create extension if not exists vector;
 
+create table if not exists tenants (
+  id uuid primary key default uuid_generate_v4(),
+  name text not null,
+  slug text not null unique,
+  status text not null default 'active' check (status in ('active', 'suspended', 'archived')),
+  data_classification text not null default 'internal',
+  retention_policy_key text not null default 'tenant_configured',
+  is_demo boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+insert into tenants (id, name, slug, status, is_demo)
+values ('00000000-0000-0000-0000-000000002801', 'Northstar Analytics Demo', 'northstar-demo', 'active', true)
+on conflict (id) do update set
+  name = excluded.name,
+  slug = excluded.slug,
+  status = excluded.status,
+  is_demo = excluded.is_demo,
+  updated_at = now();
+
 create table if not exists demo_users (
   id uuid primary key default uuid_generate_v4(),
   display_name text not null,
@@ -32,8 +53,97 @@ on conflict (id) do update set
   status = 'active',
   updated_at = now();
 
+create table if not exists tenant_memberships (
+  id uuid primary key default uuid_generate_v4(),
+  tenant_id uuid not null references tenants(id) on delete cascade,
+  user_id uuid not null references demo_users(id) on delete cascade,
+  tenant_role text not null default 'member' check (tenant_role in ('member', 'admin', 'owner')),
+  status text not null default 'active' check (status in ('invited', 'active', 'disabled', 'removed')),
+  provisioned_by text not null default 'administrator',
+  disabled_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (tenant_id, user_id)
+);
+
+create index if not exists idx_tenant_memberships_user on tenant_memberships(user_id, status);
+
+insert into tenant_memberships (tenant_id, user_id, tenant_role, status, provisioned_by)
+select
+  '00000000-0000-0000-0000-000000002801'::uuid,
+  id,
+  case when is_admin then 'owner' else 'member' end,
+  'active',
+  'seeded_demo'
+from demo_users
+on conflict (tenant_id, user_id) do update set
+  tenant_role = excluded.tenant_role,
+  status = excluded.status,
+  provisioned_by = excluded.provisioned_by,
+  disabled_at = null,
+  updated_at = now();
+
+create table if not exists external_identities (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid not null references demo_users(id) on delete cascade,
+  issuer text not null,
+  subject text not null,
+  status text not null default 'active' check (status in ('active', 'revoked')),
+  last_authenticated_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (issuer, subject)
+);
+
+insert into external_identities (user_id, issuer, subject, status)
+select id, 'https://identity.local.proofbase.invalid', 'northstar:' || id::text, 'active'
+from demo_users
+on conflict (issuer, subject) do update set
+  user_id = excluded.user_id,
+  status = excluded.status,
+  updated_at = now();
+
+create table if not exists auth_sessions (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid not null references demo_users(id) on delete cascade,
+  tenant_id uuid not null references tenants(id) on delete cascade,
+  provider_session_id text,
+  refresh_token_ciphertext text,
+  csrf_token_hash text not null,
+  auth_time timestamptz not null,
+  last_seen_at timestamptz not null,
+  idle_expires_at timestamptz not null,
+  absolute_expires_at timestamptz not null,
+  mfa_satisfied boolean not null default false,
+  status text not null default 'active' check (status in ('active', 'revoked', 'expired')),
+  revoked_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_auth_sessions_principal on auth_sessions(tenant_id, user_id, status);
+
+create table if not exists oidc_authorization_transactions (
+  id uuid primary key default uuid_generate_v4(),
+  state_hash text not null unique,
+  nonce_hash text not null,
+  return_path text not null default '/',
+  expires_at timestamptz not null,
+  consumed_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists revoked_oidc_tokens (
+  issuer text not null,
+  token_id_hash text not null,
+  expires_at timestamptz not null,
+  revoked_at timestamptz not null default now(),
+  reason_code text not null default 'session_revoked',
+  primary key (issuer, token_id_hash)
+);
+
 create table if not exists projects (
   id uuid primary key default uuid_generate_v4(),
+  tenant_id uuid not null references tenants(id),
   name text not null,
   description text not null default '',
   status text not null default 'active' check (status in ('active', 'paused', 'archived')),
@@ -50,11 +160,12 @@ create index if not exists idx_projects_status on projects(status);
 create index if not exists idx_projects_updated_at on projects(updated_at);
 
 insert into projects (
-  id, name, description, status, default_retrieval_profile,
+  id, tenant_id, name, description, status, default_retrieval_profile,
   seeded_data_key, quality_status, quality_summary
 )
 values (
   '00000000-0000-0000-0000-000000000019',
+  '00000000-0000-0000-0000-000000002801',
   'Northstar Analytics',
   'Seeded workspace backed by the synthetic HR, IT/security, sales, manager, finance, legal, engineering, support, operations, HR admin, and IT admin corpus.',
   'active',
@@ -80,6 +191,7 @@ on conflict (seeded_data_key) do update set
 
 create table if not exists project_memberships (
   id uuid primary key default uuid_generate_v4(),
+  tenant_id uuid not null references tenants(id),
   project_id uuid not null references projects(id) on delete cascade,
   user_id uuid not null references demo_users(id) on delete cascade,
   membership_level text not null check (membership_level in ('viewer', 'contributor', 'owner')),
@@ -91,20 +203,21 @@ create table if not exists project_memberships (
 create index if not exists idx_project_memberships_project on project_memberships(project_id);
 create index if not exists idx_project_memberships_user on project_memberships(user_id);
 
-insert into project_memberships (project_id, user_id, membership_level)
+insert into project_memberships (tenant_id, project_id, user_id, membership_level)
 values
-  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002701', 'viewer'),
-  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002702', 'viewer'),
-  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002703', 'viewer'),
-  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002704', 'viewer'),
-  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002705', 'viewer'),
-  ('00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002706', 'owner')
+  ('00000000-0000-0000-0000-000000002801', '00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002701', 'viewer'),
+  ('00000000-0000-0000-0000-000000002801', '00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002702', 'viewer'),
+  ('00000000-0000-0000-0000-000000002801', '00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002703', 'viewer'),
+  ('00000000-0000-0000-0000-000000002801', '00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002704', 'viewer'),
+  ('00000000-0000-0000-0000-000000002801', '00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002705', 'viewer'),
+  ('00000000-0000-0000-0000-000000002801', '00000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000002706', 'owner')
 on conflict (project_id, user_id) do update set
   membership_level = excluded.membership_level,
   updated_at = now();
 
 create table if not exists project_departments (
   id uuid primary key default uuid_generate_v4(),
+  tenant_id uuid not null references tenants(id),
   project_id uuid not null references projects(id) on delete cascade,
   name text not null,
   icon text not null default 'building',
@@ -124,11 +237,12 @@ create index if not exists idx_project_departments_project on project_department
 create index if not exists idx_project_departments_status on project_departments(status);
 
 insert into project_departments (
-  id, project_id, name, icon, color, description, default_access_roles, seeded_data_key
+  id, tenant_id, project_id, name, icon, color, description, default_access_roles, seeded_data_key
 )
 values
   (
     '00000000-0000-0000-0000-000000002001',
+    '00000000-0000-0000-0000-000000002801',
     '00000000-0000-0000-0000-000000000019',
     'People Operations',
     'people',
@@ -139,6 +253,7 @@ values
   ),
   (
     '00000000-0000-0000-0000-000000002002',
+    '00000000-0000-0000-0000-000000002801',
     '00000000-0000-0000-0000-000000000019',
     'HR Admin',
     'lock',
@@ -149,6 +264,7 @@ values
   ),
   (
     '00000000-0000-0000-0000-000000002003',
+    '00000000-0000-0000-0000-000000002801',
     '00000000-0000-0000-0000-000000000019',
     'IT and Security',
     'shield',
@@ -159,6 +275,7 @@ values
   ),
   (
     '00000000-0000-0000-0000-000000002004',
+    '00000000-0000-0000-0000-000000002801',
     '00000000-0000-0000-0000-000000000019',
     'IT Admin',
     'key',
@@ -169,6 +286,7 @@ values
   ),
   (
     '00000000-0000-0000-0000-000000002005',
+    '00000000-0000-0000-0000-000000002801',
     '00000000-0000-0000-0000-000000000019',
     'Sales',
     'chart',
@@ -179,6 +297,7 @@ values
   ),
   (
     '00000000-0000-0000-0000-000000002006',
+    '00000000-0000-0000-0000-000000002801',
     '00000000-0000-0000-0000-000000000019',
     'Management',
     'briefcase',
@@ -189,6 +308,7 @@ values
   ),
   (
     '00000000-0000-0000-0000-000000002007',
+    '00000000-0000-0000-0000-000000002801',
     '00000000-0000-0000-0000-000000000019',
     'Finance',
     'building',
@@ -199,6 +319,7 @@ values
   ),
   (
     '00000000-0000-0000-0000-000000002008',
+    '00000000-0000-0000-0000-000000002801',
     '00000000-0000-0000-0000-000000000019',
     'Legal',
     'lock',
@@ -209,6 +330,7 @@ values
   ),
   (
     '00000000-0000-0000-0000-000000002009',
+    '00000000-0000-0000-0000-000000002801',
     '00000000-0000-0000-0000-000000000019',
     'Engineering',
     'key',
@@ -219,6 +341,7 @@ values
   ),
   (
     '00000000-0000-0000-0000-000000002010',
+    '00000000-0000-0000-0000-000000002801',
     '00000000-0000-0000-0000-000000000019',
     'Support',
     'briefcase',
@@ -229,6 +352,7 @@ values
   ),
   (
     '00000000-0000-0000-0000-000000002011',
+    '00000000-0000-0000-0000-000000002801',
     '00000000-0000-0000-0000-000000000019',
     'Operations',
     'building',
@@ -589,3 +713,83 @@ create table if not exists evaluation_reviews (
 create index if not exists idx_evaluation_reviews_source on evaluation_reviews(source_type, source_id);
 create index if not exists idx_evaluation_reviews_decision on evaluation_reviews(decision);
 create index if not exists idx_evaluation_reviews_created_at on evaluation_reviews(created_at);
+
+-- Phase 56 tenant ownership backfill. Platform benchmark rows intentionally keep
+-- a null tenant_id; tenant-scoped evaluation rows must provide one when created.
+alter table projects add column if not exists tenant_id uuid references tenants(id);
+update projects set tenant_id = '00000000-0000-0000-0000-000000002801'::uuid where tenant_id is null;
+alter table projects alter column tenant_id set not null;
+create index if not exists idx_projects_tenant on projects(tenant_id, status);
+
+alter table project_departments add column if not exists tenant_id uuid references tenants(id);
+update project_departments pd set tenant_id = p.tenant_id from projects p
+where pd.project_id = p.id and pd.tenant_id is null;
+alter table project_departments alter column tenant_id set not null;
+create index if not exists idx_project_departments_tenant on project_departments(tenant_id, project_id);
+
+alter table project_memberships add column if not exists tenant_id uuid references tenants(id);
+update project_memberships pm set tenant_id = p.tenant_id from projects p
+where pm.project_id = p.id and pm.tenant_id is null;
+alter table project_memberships alter column tenant_id set not null;
+create index if not exists idx_project_memberships_tenant on project_memberships(tenant_id, user_id);
+
+alter table documents add column if not exists tenant_id uuid references tenants(id);
+update documents d set tenant_id = p.tenant_id from projects p
+where d.project_id = p.id and d.tenant_id is null;
+alter table documents alter column tenant_id set not null;
+create index if not exists idx_documents_tenant on documents(tenant_id, project_id);
+
+alter table document_versions add column if not exists tenant_id uuid references tenants(id);
+update document_versions dv set tenant_id = d.tenant_id from documents d
+where dv.document_id = d.id and dv.tenant_id is null;
+alter table document_versions alter column tenant_id set not null;
+create index if not exists idx_document_versions_tenant on document_versions(tenant_id, document_id);
+
+alter table ingestion_jobs add column if not exists tenant_id uuid references tenants(id);
+update ingestion_jobs ij set tenant_id = p.tenant_id from projects p
+where ij.project_id = p.id and ij.tenant_id is null;
+alter table ingestion_jobs alter column tenant_id set not null;
+create index if not exists idx_ingestion_jobs_tenant on ingestion_jobs(tenant_id, status);
+
+alter table chunks add column if not exists tenant_id uuid references tenants(id);
+update chunks c set tenant_id = d.tenant_id from documents d
+where c.document_id = d.id and c.tenant_id is null;
+alter table chunks alter column tenant_id set not null;
+create index if not exists idx_chunks_tenant on chunks(tenant_id, document_id);
+
+alter table chunk_embeddings add column if not exists tenant_id uuid references tenants(id);
+update chunk_embeddings ce set tenant_id = c.tenant_id from chunks c
+where ce.chunk_id = c.id and ce.tenant_id is null;
+alter table chunk_embeddings alter column tenant_id set not null;
+create index if not exists idx_chunk_embeddings_tenant on chunk_embeddings(tenant_id, chunk_id);
+
+alter table chat_sessions add column if not exists tenant_id uuid references tenants(id);
+update chat_sessions set tenant_id = '00000000-0000-0000-0000-000000002801'::uuid where tenant_id is null;
+alter table chat_sessions alter column tenant_id set not null;
+create index if not exists idx_chat_sessions_tenant on chat_sessions(tenant_id, updated_at);
+
+alter table chat_messages add column if not exists tenant_id uuid references tenants(id);
+update chat_messages cm set tenant_id = cs.tenant_id from chat_sessions cs
+where cm.session_id = cs.id and cm.tenant_id is null;
+alter table chat_messages alter column tenant_id set not null;
+create index if not exists idx_chat_messages_tenant on chat_messages(tenant_id, session_id);
+
+alter table feedback add column if not exists tenant_id uuid references tenants(id);
+update feedback f set tenant_id = cs.tenant_id from chat_sessions cs
+where f.session_id = cs.id and f.tenant_id is null;
+update feedback set tenant_id = '00000000-0000-0000-0000-000000002801'::uuid where tenant_id is null;
+alter table feedback alter column tenant_id set not null;
+create index if not exists idx_feedback_tenant on feedback(tenant_id, created_at);
+
+alter table audit_logs add column if not exists tenant_id uuid references tenants(id);
+update audit_logs set tenant_id = '00000000-0000-0000-0000-000000002801'::uuid where tenant_id is null;
+alter table audit_logs alter column tenant_id set not null;
+create index if not exists idx_audit_logs_tenant on audit_logs(tenant_id, created_at);
+
+alter table evaluation_questions add column if not exists tenant_id uuid references tenants(id);
+alter table evaluation_runs add column if not exists tenant_id uuid references tenants(id);
+alter table evaluation_results add column if not exists tenant_id uuid references tenants(id);
+alter table evaluation_reviews add column if not exists tenant_id uuid references tenants(id);
+create index if not exists idx_evaluation_runs_tenant on evaluation_runs(tenant_id, started_at);
+create index if not exists idx_evaluation_results_tenant on evaluation_results(tenant_id, evaluation_run_id);
+create index if not exists idx_evaluation_reviews_tenant on evaluation_reviews(tenant_id, created_at);

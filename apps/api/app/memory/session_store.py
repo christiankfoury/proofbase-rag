@@ -3,17 +3,19 @@ from __future__ import annotations
 import json
 
 from apps.api.app.db.session import get_connection
+from apps.api.app.auth.tenant_context import current_tenant_id
 
 
-def create_session(user_role: str, user_id: str | None = None) -> str:
+def create_session(user_role: str, user_id: str | None = None, tenant_id: str | None = None) -> str:
+    selected_tenant_id = tenant_id or current_tenant_id()
     with get_connection() as conn:
         row = conn.execute(
             """
-            insert into chat_sessions (user_id, user_role)
-            values (%s, %s)
+            insert into chat_sessions (tenant_id, user_id, user_role)
+            values (%s::uuid, %s, %s)
             returning id::text
             """,
-            (user_id, user_role),
+            (selected_tenant_id, user_id, user_role),
         ).fetchone()
     return row["id"]
 
@@ -22,7 +24,7 @@ def get_session(session_id: str) -> dict | None:
     with get_connection() as conn:
         row = conn.execute(
             """
-            select id::text, user_id, user_role, created_at, updated_at
+            select id::text, tenant_id::text, user_id, user_role, created_at, updated_at
             from chat_sessions
             where id = %s
             """,
@@ -68,20 +70,21 @@ def add_message(
         row = conn.execute(
             """
             insert into chat_messages (
-              session_id, role, content, response_type,
+              tenant_id, session_id, role, content, response_type,
               citations_json, confidence_json, metadata_json
             )
-            values (%s, %s, %s, %s, %s::jsonb, %s::jsonb, %s::jsonb)
+            select tenant_id, id, %s, %s, %s, %s::jsonb, %s::jsonb, %s::jsonb
+            from chat_sessions where id = %s::uuid
             returning id::text
             """,
             (
-                session_id,
                 role,
                 content,
                 response_type,
                 json.dumps(citations or []),
                 json.dumps(confidence or {}),
                 json.dumps(metadata or {}),
+                session_id,
             ),
         ).fetchone()
         conn.execute(
@@ -89,4 +92,3 @@ def add_message(
             (session_id,),
         )
     return row["id"]
-

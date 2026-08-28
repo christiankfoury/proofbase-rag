@@ -4,6 +4,7 @@ import json
 from typing import Any
 
 from apps.api.app.db.session import get_connection
+from apps.api.app.auth.tenant_context import current_tenant_id
 
 
 VALID_RATINGS = {"thumbs_up", "thumbs_down"}
@@ -35,23 +36,25 @@ def submit_feedback(
     rating: str,
     user_comment: str | None,
     feedback_category: str,
+    tenant_id: str | None = None,
 ) -> str:
     if rating not in VALID_RATINGS:
         raise ValueError(f"Invalid rating '{rating}'. Must be one of: {sorted(VALID_RATINGS)}")
     if feedback_category not in VALID_CATEGORIES:
         feedback_category = "other"
     with get_connection() as conn:
+        selected_tenant_id = tenant_id or current_tenant_id()
         row = conn.execute(
             """
             insert into feedback (
-              session_id, message_id, question, answer, response_type,
+              tenant_id, session_id, message_id, question, answer, response_type,
               citations_json, user_role, rating, user_comment, feedback_category
             )
-            values (%s, %s, %s, %s, %s, %s::jsonb, %s, %s, %s, %s)
+            values (%s::uuid, %s, %s, %s, %s, %s, %s::jsonb, %s, %s, %s, %s)
             returning id::text
             """,
             (
-                session_id,
+                selected_tenant_id, session_id,
                 message_id,
                 question,
                 answer,

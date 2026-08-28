@@ -4,6 +4,7 @@ import json
 from typing import Any
 
 from apps.api.app.db.session import get_connection
+from apps.api.app.auth.tenant_context import current_tenant_id
 
 
 def log_audit_event(
@@ -16,20 +17,22 @@ def log_audit_event(
     user_id: str | None = None,
     reason: str | None = None,
     metadata: dict[str, Any] | None = None,
+    tenant_id: str | None = None,
 ) -> bool:
     safe_metadata = metadata or {}
     try:
         with get_connection() as conn:
+            selected_tenant_id = tenant_id or current_tenant_id()
             conn.execute(
                 """
                 insert into audit_logs (
-                  user_id, user_role, action, document_id, resource_type,
+                  tenant_id, user_id, user_role, action, document_id, resource_type,
                   outcome, reason, metadata_json
                 )
-                values (%s, %s, %s, %s, %s, %s, %s, %s::jsonb)
+                values (%s::uuid, %s, %s, %s, %s, %s, %s, %s, %s::jsonb)
                 """,
                 (
-                    user_id,
+                    selected_tenant_id, user_id,
                     user_role,
                     action,
                     document_id,

@@ -1,6 +1,15 @@
 # Phase 56 Decision Gate: OIDC Identity And Tenancy
 
-Phase 55 is complete. Phase 56 may proceed locally after the product/data decisions below are explicit. A live identity provider or Azure deployment is not required for the portfolio implementation.
+Phase 55 is complete. The user approved the decision package on 2026-08-28, and Phase 56 proceeded locally. A live identity provider or Azure deployment is not required for the portfolio implementation.
+
+## Approved decision record
+
+- Tenant: one customer organization owning its projects and tenant-scoped data; global benchmark definitions remain platform-owned.
+- Membership: multi-tenant users with one explicitly selected tenant per request/session.
+- Demo data: Northstar remains in a dedicated demo-only tenant and is excluded from production migrations by default.
+- Session: eight-hour absolute and 30-minute idle limits, server-held refresh tokens, provider MFA/conditional access, and step-up for sensitive administration/exports.
+- Provisioning: administrator/invitation-led, pre-authorized JIT only, future SCIM adapter, immediate access/session revocation on offboarding, immutable historical actor IDs, and tenant-policy content retention.
+- Provider boundary: provider-neutral OIDC locally; Microsoft Entra ID is the optional future target. No live integration was authorized.
 
 ## Decisions required
 
@@ -26,10 +35,10 @@ Phase 55 is complete. Phase 56 may proceed locally after the product/data decisi
 
 Cloud provisioning requires a separate explicit approval after documenting the subscription/spending-limit behavior, cost model, allowed services/SKUs, quotas, manual deployment, expiration, automatic teardown, cleanup verification, budget alerts, Marketplace exclusions, and separate external-AI limits. Without that approval, implementation remains local and infrastructure-as-code remains undeployed.
 
-## Boundary while pending
+## Boundary after approval
 
 - Local demo identity and signed-token fixtures remain explicitly non-production.
-- No tenant semantics, migration strategy, MFA/session policy, or offboarding workflow is inferred.
-- Phase 57 database authorization cannot be designed honestly until tenant ownership and membership rules are fixed.
+- Tenant semantics, migration strategy, session policy, and offboarding behavior are recorded above and implemented locally in Phase 56.
+- Phase 57 may implement database authorization against the approved ownership and membership rules.
 - No Azure resource, paid service, Marketplace product, or premium licence may be created from this decision gate.
 - The Phase 55 sealed holdout remains unexecuted and supports no new generalization claim.

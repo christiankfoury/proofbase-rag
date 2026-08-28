@@ -19,6 +19,7 @@ def _project_from_row(row: dict[str, Any]) -> dict[str, Any]:
 
     return {
         "id": row["id"],
+        "tenant_id": row.get("tenant_id"),
         "name": row["name"],
         "description": row["description"],
         "status": row["status"],
@@ -39,6 +40,7 @@ def _base_project_select(where_clause: str) -> str:
     return f"""
         select
           p.id::text,
+          p.tenant_id::text,
           p.name,
           p.description,
           p.status,
@@ -71,8 +73,15 @@ def _base_project_select(where_clause: str) -> str:
     """
 
 
-def list_projects(*, include_archived: bool = False) -> list[dict[str, Any]]:
-    where = "" if include_archived else "where p.status <> 'archived'"
+def list_projects(*, tenant_id: str | None = None, include_archived: bool = False) -> list[dict[str, Any]]:
+    conditions: list[str] = []
+    params: list[Any] = []
+    if tenant_id is not None:
+        conditions.append("p.tenant_id = %s::uuid")
+        params.append(tenant_id)
+    if not include_archived:
+        conditions.append("p.status <> 'archived'")
+    where = ("where " + " and ".join(conditions)) if conditions else ""
     with get_connection() as conn:
         rows = conn.execute(
             _base_project_select(where)
@@ -81,15 +90,22 @@ def list_projects(*, include_archived: bool = False) -> list[dict[str, Any]]:
                 case when p.seeded_data_key = 'northstar_synthetic' then 0 else 1 end,
                 p.updated_at desc,
                 p.name asc
-            """
+            """,
+            params,
         ).fetchall()
     return [_project_from_row(dict(row)) for row in rows]
 
 
-def get_project(project_id: str, *, include_archived: bool = False) -> dict[str, Any] | None:
-    where = "where p.id = %s::uuid" + ("" if include_archived else " and p.status <> 'archived'")
+def get_project(project_id: str, *, tenant_id: str | None = None, include_archived: bool = False) -> dict[str, Any] | None:
+    where = "where p.id = %s::uuid"
+    params: list[Any] = [project_id]
+    if tenant_id is not None:
+        where += " and p.tenant_id = %s::uuid"
+        params.append(tenant_id)
+    if not include_archived:
+        where += " and p.status <> 'archived'"
     with get_connection() as conn:
-        row = conn.execute(_base_project_select(where), (project_id,)).fetchone()
+        row = conn.execute(_base_project_select(where), params).fetchone()
         if not row:
             return None
         project = _project_from_row(dict(row))
@@ -176,6 +192,8 @@ def get_department(project_id: str, department_id: str, *, include_archived: boo
 
 def create_project(
     *,
+    tenant_id: str,
+    created_by_user_id: str,
     name: str,
     description: str = "",
     status: str = "active",
@@ -187,17 +205,28 @@ def create_project(
         row = conn.execute(
             """
             insert into projects (
-              name, description, status, default_retrieval_profile, quality_status, quality_summary
+              tenant_id, name, description, status, default_retrieval_profile, quality_status, quality_summary
             )
             values (
-              %s, %s, %s, %s, 'project_evaluation_pending',
+              %s::uuid, %s, %s, %s, %s, 'project_evaluation_pending',
               '{"label": "Project evaluation pending", "detail": "No project-scoped benchmark has been run for this workspace yet."}'::jsonb
             )
             returning id::text
             """,
-            (name, description, status, default_retrieval_profile),
+            (tenant_id, name, description, status, default_retrieval_profile),
         ).fetchone()
-    project = get_project(row["id"], include_archived=True)
+        conn.execute(
+            """
+            insert into project_memberships (tenant_id, project_id, user_id, membership_level)
+            values (%s::uuid, %s::uuid, %s::uuid, 'owner')
+            on conflict (project_id, user_id) do update set
+              tenant_id = excluded.tenant_id,
+              membership_level = 'owner',
+              updated_at = now()
+            """,
+            (tenant_id, row["id"], created_by_user_id),
+        )
+    project = get_project(row["id"], tenant_id=tenant_id, include_archived=True)
     if project is None:
         raise RuntimeError("Created project could not be loaded.")
     return project
@@ -268,12 +297,14 @@ def create_department(
         row = conn.execute(
             """
             insert into project_departments (
-              project_id, name, icon, color, description, default_access_roles
+              tenant_id, project_id, name, icon, color, description, default_access_roles
             )
-            values (%s::uuid, %s, %s, %s, %s, %s)
+            select tenant_id, id, %s, %s, %s, %s, %s
+            from projects
+            where id = %s::uuid
             returning id::text
             """,
-            (project_id, name, icon, color, description, roles),
+            (name, icon, color, description, roles, project_id),
         ).fetchone()
     department = get_department(project_id, row["id"], include_archived=True)
     if department is None:

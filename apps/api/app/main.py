@@ -14,6 +14,7 @@ from apps.api.app.audit.audit_logger import audit_summary as get_audit_summary
 from apps.api.app.audit.audit_logger import list_audit_events, log_audit_event
 from apps.api.app.auth.demo_auth import (
     DEMO_USER_HEADER,
+    TENANT_HEADER,
     accessible_project_ids,
     list_demo_users,
     list_project_memberships,
@@ -23,8 +24,12 @@ from apps.api.app.auth.demo_auth import (
     require_project_member,
     require_project_owner,
     resolve_demo_user,
+    resolve_oidc_user,
     set_project_membership,
 )
+from apps.api.app.auth.oidc import LocalFixtureTokenVerifier, OidcValidationError, OidcVerifierConfig
+from apps.api.app.auth.identity_store import token_is_revoked
+from apps.api.app.auth.tenant_context import set_request_principal
 from apps.api.app.core.config import get_settings
 from apps.api.app.confidence.confidence_scorer import final_confidence
 from apps.api.app.db.session import get_connection
@@ -277,8 +282,46 @@ def _safe_upload_name(filename: str | None) -> str:
 
 def current_demo_user(
     x_demo_user_id: Annotated[str | None, Header(alias=DEMO_USER_HEADER)] = None,
+    x_tenant_id: Annotated[str | None, Header(alias=TENANT_HEADER)] = None,
+    authorization: Annotated[str | None, Header(alias="Authorization")] = None,
 ) -> dict:
-    return resolve_demo_user(x_demo_user_id)
+    settings = get_settings()
+    if settings.auth_mode == "local_demo":
+        user = resolve_demo_user(x_demo_user_id, x_tenant_id)
+        set_request_principal(tenant_id=user["tenant_id"], user_id=user["id"])
+        return user
+    if x_demo_user_id is not None:
+        raise HTTPException(status_code=400, detail="Demo identity headers are disabled outside local demo mode.")
+    if settings.auth_mode == "oidc":
+        raise HTTPException(status_code=503, detail="The hosted OIDC provider adapter is not connected.")
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="A bearer token is required.")
+    if not x_tenant_id:
+        raise HTTPException(status_code=400, detail="X-Tenant-Id is required for multi-tenant requests.")
+    verifier = LocalFixtureTokenVerifier(
+        OidcVerifierConfig(
+            issuer=settings.oidc_issuer,
+            audience=settings.oidc_audience,
+            local_signing_secret=settings.oidc_local_signing_secret,
+        )
+    )
+    try:
+        bearer_token = authorization.removeprefix("Bearer ").strip()
+        claims = verifier.verify(bearer_token)
+        token_id = claims.get("jti")
+        if isinstance(token_id, str) and token_is_revoked(issuer=claims["iss"], token_id=token_id):
+            raise OidcValidationError("Bearer token is revoked.")
+    except OidcValidationError as exc:
+        raise HTTPException(status_code=401, detail=str(exc)) from exc
+    tenant_ids = claims.get("tenant_ids")
+    if not isinstance(tenant_ids, list) or x_tenant_id not in tenant_ids:
+        raise HTTPException(status_code=403, detail="The token does not authorize the selected tenant.")
+    try:
+        user = resolve_oidc_user(issuer=claims["iss"], subject=claims["sub"], tenant_id=x_tenant_id)
+        set_request_principal(tenant_id=user["tenant_id"], user_id=user["id"])
+        return user
+    except PsycopgError as exc:
+        raise HTTPException(status_code=503, detail="OIDC identity mapping is unavailable.") from exc
 
 
 def current_admin_user(user: Annotated[dict, Depends(current_demo_user)]) -> dict:
@@ -398,6 +441,10 @@ def health() -> dict:
 def ready() -> dict:
     required_tables = [
         "projects",
+        "tenants",
+        "tenant_memberships",
+        "external_identities",
+        "auth_sessions",
         "project_departments",
         "documents",
         "document_versions",
@@ -467,6 +514,8 @@ def ready() -> dict:
 
 @app.get("/auth/demo-users")
 def demo_users_route() -> dict:
+    if get_settings().auth_mode != "local_demo":
+        raise HTTPException(status_code=404, detail="Demo identities are disabled.")
     try:
         users = list_demo_users()
     except PsycopgError as exc:
@@ -476,7 +525,7 @@ def demo_users_route() -> dict:
 
 @app.get("/auth/me")
 def auth_me_route(user: Annotated[dict, Depends(current_demo_user)]) -> dict:
-    return {"user": user, "auth_mode": "local_demo"}
+    return {"user": user, "auth_mode": get_settings().auth_mode}
 
 
 @app.post("/chat/sessions")
@@ -798,7 +847,7 @@ def audit_summary_route(user: Annotated[dict, Depends(current_admin_user)]) -> d
 @app.get("/projects")
 def projects_route(user: Annotated[dict, Depends(current_demo_user)], include_archived: bool = False) -> dict:
     try:
-        projects = list_projects(include_archived=include_archived)
+        projects = list_projects(tenant_id=user["tenant_id"], include_archived=include_archived)
     except PsycopgError as exc:
         raise HTTPException(status_code=503, detail="Database is not ready or the project schema has not been applied.") from exc
     allowed_project_ids = accessible_project_ids(user)
@@ -818,6 +867,8 @@ def create_project_route(request: ProjectCreateRequest, user: Annotated[dict, De
         raise HTTPException(status_code=400, detail="Default retrieval profile is required.")
     try:
         project = create_project_record(
+            tenant_id=user["tenant_id"],
+            created_by_user_id=user["id"],
             name=name,
             description=description,
             status=request.status,
@@ -2024,6 +2075,8 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                 session = get_session(session_id)
                 if not session:
                     raise HTTPException(status_code=404, detail="Chat session not found.")
+                if session.get("tenant_id") != user["tenant_id"]:
+                    raise HTTPException(status_code=404, detail="Chat session not found.")
                 if session.get("user_id") and session["user_id"] != user["id"]:
                     raise HTTPException(status_code=403, detail="Chat session belongs to another demo user.")
                 previous_turns = list_messages(session_id)
@@ -2364,6 +2417,8 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         if session_id:
             session = get_session(session_id)
             if not session:
+                raise HTTPException(status_code=404, detail="Chat session not found.")
+            if session.get("tenant_id") != user["tenant_id"]:
                 raise HTTPException(status_code=404, detail="Chat session not found.")
             if session.get("user_id") and session["user_id"] != user["id"]:
                 raise HTTPException(status_code=403, detail="Chat session belongs to another demo user.")

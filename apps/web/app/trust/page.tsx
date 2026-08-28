@@ -149,7 +149,7 @@ export default function TrustAndSafetyPage() {
               <p className="badge-warn">Local demo boundary</p>
               <h2 className="mt-3 text-2xl font-semibold text-ink">Useful defenses, not a production security certification</h2>
               <p className="mt-3 leading-7 text-stone-700">
-                Proofbase uses local demo identity and synthetic enterprise data. Its development suites and self-review provide engineering evidence, but they are not production authentication, tenant isolation, operational monitoring, or an independent security assessment.
+                Proofbase uses local demo identity and synthetic enterprise data by default. Its OIDC-compatible tenant boundary and local signed-token tests provide engineering evidence, but they are not a connected production identity provider, database-enforced tenant isolation, operational monitoring, or an independent security assessment.
               </p>
             </div>
             <div className="rounded-md border border-rust bg-white p-4 shadow-card">
@@ -177,7 +177,7 @@ export default function TrustAndSafetyPage() {
             ))}
           </ol>
           <p className="mt-4 rounded border border-steel bg-steel-soft/60 p-3 text-sm leading-6 text-steel-dark">
-            Steps 2, 5, and 7 are implemented and measured in Phases 52-54. Identity, tenant isolation, database authorization, operational monitoring, and independent validation remain production dependencies rather than implied model capabilities.
+            Steps 2, 5, and 7 are implemented and measured in Phases 52-54. Phase 56 adds the local identity/tenant boundary; hosted identity, database authorization, operational monitoring, and independent validation remain separate dependencies rather than implied model capabilities.
           </p>
         </Card>
 

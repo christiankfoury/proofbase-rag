@@ -6,6 +6,7 @@ import hashlib
 from typing import Any
 
 from apps.api.app.db.session import get_connection
+from apps.api.app.auth.tenant_context import current_tenant_id
 from apps.api.app.embeddings.openai_embeddings import embed_texts, to_vector_literal
 from apps.api.app.ingestion.chunker import chunk_markdown_document
 from apps.api.app.ingestion.markdown_loader import MarkdownDocument
@@ -269,6 +270,7 @@ def create_pending_review_document(
     extracted_markdown: str,
     extraction_metadata: dict[str, Any],
 ) -> dict[str, Any]:
+    tenant_id = current_tenant_id()
     sensitivity = sensitivity_from_restricted(restricted)
     category = department.get("seeded_data_key") or department["name"]
     now = datetime.now(UTC).isoformat()
@@ -294,17 +296,17 @@ def create_pending_review_document(
         document_row = conn.execute(
             """
             insert into documents (
-              project_id, department_id, external_document_id, title, department, category,
+              tenant_id, project_id, department_id, external_document_id, title, department, category,
               source_type, source_path, access_roles, sensitivity, restricted, status, updated_at
             )
             values (
-              %s::uuid, %s::uuid, %s, %s, %s, %s,
+              %s::uuid, %s::uuid, %s::uuid, %s, %s, %s, %s,
               %s, %s, %s, %s, %s, 'active', now()
             )
             returning id::text
             """,
             (
-                project_id,
+                tenant_id, project_id,
                 department["id"],
                 external_document_id,
                 title,
@@ -321,17 +323,17 @@ def create_pending_review_document(
         version_row = conn.execute(
             """
             insert into document_versions (
-              document_id, version_label, effective_date, owner, review_cycle,
+              tenant_id, document_id, version_label, effective_date, owner, review_cycle,
               content_hash, extracted_text, metadata_json, ingestion_status
             )
             values (
-              %s::uuid, 'v1', null, %s, 'manual review required',
+              %s::uuid, %s::uuid, 'v1', null, %s, 'manual review required',
               %s, %s, %s::jsonb, 'pending_review'
             )
             returning id::text
             """,
             (
-                document_id,
+                tenant_id, document_id,
                 "Admin",
                 _hash_text(extracted_markdown),
                 extracted_markdown,
@@ -346,18 +348,18 @@ def create_pending_review_document(
         conn.execute(
             """
             insert into ingestion_jobs (
-              project_id, department_id, document_id, document_version_id,
+              tenant_id, project_id, department_id, document_id, document_version_id,
               source_file_name, source_file_type, status, stage, status_detail,
               content_hash, started_at, completed_at, metadata_json
             )
             values (
-              %s::uuid, %s::uuid, %s::uuid, %s::uuid,
+              %s::uuid, %s::uuid, %s::uuid, %s::uuid, %s::uuid,
               %s, %s, 'pending_review', 'review_pending', %s,
               %s, now(), now(), %s::jsonb
             )
             """,
             (
-                project_id,
+                tenant_id, project_id,
                 department["id"],
                 document_id,
                 version_id,
@@ -381,6 +383,7 @@ def approve_and_index_document(
     reviewed_markdown: str | None = None,
     chunking_strategy: str = "section_based",
 ) -> dict[str, Any] | None:
+    tenant_id = current_tenant_id()
     row = _load_current_document_version(project_id=project_id, department_id=department_id, document_id=document_id)
     if not row:
         return None
@@ -465,14 +468,14 @@ def approve_and_index_document(
                 chunk_row = conn.execute(
                     """
                     insert into chunks (
-                      document_id, document_version_id, chunk_index, section_heading,
+                      tenant_id, document_id, document_version_id, chunk_index, section_heading,
                       content, content_hash, token_count, chunking_strategy, metadata_json
                     )
-                    values (%s::uuid, %s::uuid, %s, %s, %s, %s, %s, %s, %s::jsonb)
+                    values (%s::uuid, %s::uuid, %s::uuid, %s, %s, %s, %s, %s, %s, %s::jsonb)
                     returning id::text
                     """,
                     (
-                        document_id,
+                        tenant_id, document_id,
                         version_id,
                         chunk.chunk_index,
                         chunk.section_heading,
@@ -495,12 +498,12 @@ def approve_and_index_document(
                 ).fetchone()
                 conn.execute(
                     """
-                    insert into chunk_embeddings (chunk_id, embedding_model, embedding)
-                    values (%s::uuid, %s, %s::vector)
+                    insert into chunk_embeddings (tenant_id, chunk_id, embedding_model, embedding)
+                    values (%s::uuid, %s::uuid, %s, %s::vector)
                     on conflict (chunk_id, embedding_model) do update set
                       embedding = excluded.embedding
                     """,
-                    (chunk_row["id"], settings.openai_embedding_model, to_vector_literal(embedding)),
+                    (tenant_id, chunk_row["id"], settings.openai_embedding_model, to_vector_literal(embedding)),
                 )
             conn.execute(
                 """
