@@ -1,6 +1,6 @@
 # Permissions And Scope
 
-> Phase 56 update: every App request now resolves an explicit tenant alongside the internal user. The default UI still uses the isolated Northstar demo tenant. Optional local OIDC fixtures validate signed claims and then require an active internal tenant membership; token claims cannot create membership. Database row-level enforcement is introduced separately in Phase 57.
+> Phase 57 update: every App request resolves an explicit tenant alongside the internal user. The default UI still uses the isolated Northstar demo tenant. Optional local OIDC fixtures validate signed claims and then require an active internal membership; token claims cannot create membership. Normal database transactions assume a non-bypass runtime role with forced PostgreSQL row-level security, so a missing application tenant predicate does not expose another tenant.
 
 Permission filtering is a hard design requirement in this project. Restricted chunks should not reach the model, citations, memory evidence, or user-visible retrieved context for roles that cannot access them.
 
@@ -10,7 +10,8 @@ The system applies three different boundaries:
 
 | Boundary | Where it is applied | Purpose |
 | --- | --- | --- |
-| Project membership | API route before retrieval | A demo user must belong to the selected project. |
+| Tenant RLS | PostgreSQL policy on every tenant-owned table | Prevents runtime transactions from reading or mutating another tenant even if an application predicate is missing. |
+| Project membership | API route before retrieval | The active user must belong to the selected project inside the active tenant. |
 | Department scope | SQL retrieval filter when supplied | Restricts retrieval to one department inside a project. |
 | Role access | SQL retrieval filter and generation recheck | Prevents documents outside the user's role from becoming evidence. |
 
@@ -35,6 +36,12 @@ and d.department_id = %s::uuid
 ```
 
 Department scope is strict. It is not a ranking boost.
+
+## Database Enforcement
+
+Each normal database transaction sets a local runtime role plus tenant, user, and platform-admin settings. The runtime role is non-login, non-superuser, and cannot bypass RLS. Forced policies cover application data, ingestion data, identity/session records, audit records, and tenant-owned evaluations. Composite tenant foreign keys prevent children from being attached to parents in a different tenant.
+
+Global benchmark evidence remains platform-owned with a null tenant and is writable only from the explicit platform system context. Local setup and evaluation scripts use that context outside production. A hosted database with separately provisioned owner/runtime logins has not been connected, so this is local policy evidence rather than a hosted deployment claim.
 
 ## Role Filtering Before Generation
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import uuid
+import hashlib
 from typing import Any
 
 from fastapi import HTTPException
@@ -317,7 +318,22 @@ def _require_project_tenant(user: dict[str, Any], project_id: str) -> None:
             (project_id, tenant_id),
         ).fetchone()
     if not row:
+        _log_project_denial(user, project_id)
         raise HTTPException(status_code=404, detail="Project not found.")
+
+
+def _log_project_denial(user: dict[str, Any], project_id: str) -> None:
+    from apps.api.app.audit.audit_logger import log_audit_event
+
+    log_audit_event(
+        action="project_access_denied",
+        user_role=user["business_role"],
+        user_id=user["id"],
+        resource_type="project",
+        outcome="denied",
+        reason="not_found_or_not_authorized",
+        metadata={"requested_id_hash": hashlib.sha256(project_id.encode("utf-8")).hexdigest()},
+    )
 
 
 def require_project_member(user: dict[str, Any], project_id: str) -> dict[str, Any] | None:
@@ -328,6 +344,7 @@ def require_project_member(user: dict[str, Any], project_id: str) -> dict[str, A
         return None
     membership = membership_for_project(user, project_id)
     if not membership:
+        _log_project_denial(user, project_id)
         raise HTTPException(status_code=403, detail="This demo user is not a member of that project.")
     return membership
 

@@ -4,9 +4,10 @@ import time
 from openai import OpenAI
 
 from apps.api.app.core.config import get_settings
+from apps.api.app.auth.tenant_context import current_tenant_id
 from apps.api.app.observability.auxiliary_telemetry import submit_auxiliary_telemetry
 
-_EMBEDDING_CACHE: dict[tuple[str, str], list[float]] = {}
+_EMBEDDING_CACHE: dict[tuple[str, str, str], list[float]] = {}
 
 
 def _client() -> OpenAI:
@@ -20,8 +21,8 @@ def clear_embedding_cache() -> None:
     _EMBEDDING_CACHE.clear()
 
 
-def _cache_key(model: str, text: str) -> tuple[str, str]:
-    return model, hashlib.sha256(text.encode("utf-8")).hexdigest()
+def _cache_key(model: str, text: str) -> tuple[str, str, str]:
+    return str(current_tenant_id()), model, hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def embed_texts(texts: list[str]) -> list[list[float]]:
@@ -31,8 +32,8 @@ def embed_texts(texts: list[str]) -> list[list[float]]:
     settings = get_settings()
     model = settings.openai_embedding_model
     uncached_texts: list[str] = []
-    uncached_keys: list[tuple[str, str]] = []
-    seen_uncached: set[tuple[str, str]] = set()
+    uncached_keys: list[tuple[str, str, str]] = []
+    seen_uncached: set[tuple[str, str, str]] = set()
     for text in texts:
         key = _cache_key(model, text)
         if key in _EMBEDDING_CACHE or key in seen_uncached:

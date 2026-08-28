@@ -35,6 +35,7 @@ def build_request_entry(
     *,
     request_id: str,
     timestamp: str,
+    tenant_id: str,
     user_role: str,
     session_id: str | None,
     question_truncated: str,
@@ -65,6 +66,7 @@ def build_request_entry(
     return {
         "request_id": request_id,
         "timestamp": timestamp,
+        "tenant_id": tenant_id,
         "user_role": user_role,
         "session_id": session_id,
         "question": question_truncated,

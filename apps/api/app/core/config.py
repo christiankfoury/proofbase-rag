@@ -1,5 +1,6 @@
 from functools import lru_cache
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 from pydantic import AliasChoices, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -47,6 +48,15 @@ class Settings(BaseSettings):
     default_demo_tenant_id: str = Field(
         default="00000000-0000-0000-0000-000000002801",
         validation_alias=AliasChoices("DEFAULT_DEMO_TENANT_ID", "default_demo_tenant_id"),
+    )
+    database_enforce_rls: bool = Field(
+        default=True,
+        validation_alias=AliasChoices("DATABASE_ENFORCE_RLS", "database_enforce_rls"),
+    )
+    database_runtime_role: str = Field(
+        default="proofbase_runtime",
+        pattern="^[a-z_][a-z0-9_]{0,62}$",
+        validation_alias=AliasChoices("DATABASE_RUNTIME_ROLE", "database_runtime_role"),
     )
     database_url: str = "postgresql://postgres:postgres@localhost:5432/enterprise_knowledge_agent"
     openai_api_key: str = Field(
@@ -201,6 +211,11 @@ class Settings(BaseSettings):
     def reject_unsafe_production_identity(self) -> "Settings":
         if self.app_environment == "production" and self.auth_mode in {"local_demo", "oidc_fixture"}:
             raise ValueError("Production requires AUTH_MODE=oidc; demo and local fixture identities are forbidden.")
+        database_user = unquote(urlsplit(self.database_url).username or "")
+        if self.app_environment == "production" and database_user.lower() == "postgres":
+            raise ValueError("Production DATABASE_URL must not use the PostgreSQL superuser.")
+        if self.app_environment == "production" and not self.database_enforce_rls:
+            raise ValueError("Production requires DATABASE_ENFORCE_RLS=true.")
         if self.auth_mode == "oidc_fixture" and len(self.oidc_local_signing_secret.encode("utf-8")) < 32:
             raise ValueError("OIDC fixture mode requires an OIDC_LOCAL_SIGNING_SECRET of at least 32 bytes.")
         if self.session_idle_minutes >= self.session_absolute_minutes:

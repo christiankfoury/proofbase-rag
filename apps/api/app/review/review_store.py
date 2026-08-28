@@ -5,6 +5,7 @@ from decimal import Decimal
 from typing import Any
 
 from apps.api.app.db.session import get_connection
+from apps.api.app.auth.tenant_context import current_tenant_id
 
 
 def _normalize_review(row: dict[str, Any]) -> dict[str, Any]:
@@ -32,10 +33,12 @@ def create_review_decision(
     reviewer_id: str | None,
     notes: str,
 ) -> dict[str, Any]:
+    tenant_id = current_tenant_id()
     with get_connection() as conn:
         row = conn.execute(
             """
             insert into evaluation_reviews (
+              tenant_id,
               source_type,
               source_id,
               question,
@@ -51,7 +54,7 @@ def create_review_decision(
               reviewer_id,
               notes
             )
-            values (%s, %s, %s, %s, %s, %s, %s::jsonb, %s::jsonb, %s, %s, %s, %s, %s, %s)
+            values (%s::uuid, %s, %s, %s, %s, %s, %s, %s::jsonb, %s::jsonb, %s, %s, %s, %s, %s, %s)
             returning
               id::text,
               source_type,
@@ -71,7 +74,7 @@ def create_review_decision(
               created_at
             """,
             (
-                source_type,
+                tenant_id, source_type,
                 source_id,
                 question,
                 answer,

@@ -29,7 +29,7 @@ from apps.api.app.auth.demo_auth import (
 )
 from apps.api.app.auth.oidc import LocalFixtureTokenVerifier, OidcValidationError, OidcVerifierConfig
 from apps.api.app.auth.identity_store import token_is_revoked
-from apps.api.app.auth.tenant_context import set_request_principal
+from apps.api.app.auth.tenant_context import current_tenant_id, set_request_principal
 from apps.api.app.core.config import get_settings
 from apps.api.app.confidence.confidence_scorer import final_confidence
 from apps.api.app.db.session import get_connection
@@ -287,7 +287,13 @@ def current_demo_user(
 ) -> dict:
     settings = get_settings()
     if settings.auth_mode == "local_demo":
-        user = resolve_demo_user(x_demo_user_id, x_tenant_id)
+        try:
+            selected_tenant_id = str(uuid.UUID(x_tenant_id or settings.default_demo_tenant_id))
+            selected_user_id = str(uuid.UUID(x_demo_user_id or settings.default_demo_user_id))
+        except (ValueError, AttributeError) as exc:
+            raise HTTPException(status_code=400, detail="Identity selections must be valid UUIDs.") from exc
+        set_request_principal(tenant_id=selected_tenant_id, user_id=selected_user_id)
+        user = resolve_demo_user(selected_user_id, selected_tenant_id)
         set_request_principal(tenant_id=user["tenant_id"], user_id=user["id"])
         return user
     if x_demo_user_id is not None:
@@ -298,6 +304,10 @@ def current_demo_user(
         raise HTTPException(status_code=401, detail="A bearer token is required.")
     if not x_tenant_id:
         raise HTTPException(status_code=400, detail="X-Tenant-Id is required for multi-tenant requests.")
+    try:
+        selected_tenant_id = str(uuid.UUID(x_tenant_id))
+    except (ValueError, AttributeError) as exc:
+        raise HTTPException(status_code=400, detail="X-Tenant-Id must be a valid UUID.") from exc
     verifier = LocalFixtureTokenVerifier(
         OidcVerifierConfig(
             issuer=settings.oidc_issuer,
@@ -314,10 +324,11 @@ def current_demo_user(
     except OidcValidationError as exc:
         raise HTTPException(status_code=401, detail=str(exc)) from exc
     tenant_ids = claims.get("tenant_ids")
-    if not isinstance(tenant_ids, list) or x_tenant_id not in tenant_ids:
+    if not isinstance(tenant_ids, list) or selected_tenant_id not in tenant_ids:
         raise HTTPException(status_code=403, detail="The token does not authorize the selected tenant.")
     try:
-        user = resolve_oidc_user(issuer=claims["iss"], subject=claims["sub"], tenant_id=x_tenant_id)
+        set_request_principal(tenant_id=selected_tenant_id, user_id=claims["sub"])
+        user = resolve_oidc_user(issuer=claims["iss"], subject=claims["sub"], tenant_id=selected_tenant_id)
         set_request_principal(tenant_id=user["tenant_id"], user_id=user["id"])
         return user
     except PsycopgError as exc:
@@ -1128,7 +1139,13 @@ async def upload_department_document_route(
 
     settings = get_settings()
     upload_id = str(uuid.uuid4())
-    relative_path = Path(settings.upload_storage_dir) / project_id / department_id / f"{upload_id}-{safe_name}"
+    relative_path = (
+        Path(settings.upload_storage_dir)
+        / user["tenant_id"]
+        / project_id
+        / department_id
+        / f"{upload_id}-{safe_name}"
+    )
     storage_path = ROOT / relative_path
     storage_path.parent.mkdir(parents=True, exist_ok=True)
     storage_path.write_bytes(raw_bytes)
@@ -2281,6 +2298,7 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
                 build_request_entry(
                     request_id=request_id,
                     timestamp=request_timestamp,
+                    tenant_id=user.get("tenant_id") or str(current_tenant_id()),
                     user_role=effective_role,
                     session_id=session_id,
                     question_truncated=request.question[:120],
@@ -2572,6 +2590,7 @@ def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user
         build_request_entry(
             request_id=request_id,
             timestamp=request_timestamp,
+            tenant_id=user.get("tenant_id") or str(current_tenant_id()),
             user_role=effective_role,
             session_id=session_id,
             question_truncated=request.question[:120],

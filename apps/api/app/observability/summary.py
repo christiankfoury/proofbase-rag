@@ -7,6 +7,7 @@ from typing import Any
 
 from apps.api.app.costing.estimator import estimate_chat_cost
 from apps.api.app.observability.logger import get_observability_log_path
+from apps.api.app.auth.tenant_context import current_tenant_id
 
 
 def _safe_float(value: Any) -> float | None:
@@ -43,6 +44,7 @@ def _entry_cost(entry: dict) -> float | None:
 
 
 def compute_live_summary(limit: int = 20) -> dict[str, Any]:
+    tenant_id = current_tenant_id()
     log_path = get_observability_log_path()
     if not log_path.exists():
         return {
@@ -68,7 +70,9 @@ def compute_live_summary(limit: int = 20) -> dict[str, Any]:
                 line = line.strip()
                 if line:
                     try:
-                        entries.append(json.loads(line))
+                        entry = json.loads(line)
+                        if entry.get("tenant_id") == tenant_id:
+                            entries.append(entry)
                     except json.JSONDecodeError:
                         continue
     except OSError:

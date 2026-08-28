@@ -793,3 +793,158 @@ alter table evaluation_reviews add column if not exists tenant_id uuid reference
 create index if not exists idx_evaluation_runs_tenant on evaluation_runs(tenant_id, started_at);
 create index if not exists idx_evaluation_results_tenant on evaluation_results(tenant_id, evaluation_run_id);
 create index if not exists idx_evaluation_reviews_tenant on evaluation_reviews(tenant_id, created_at);
+
+-- Phase 57 runtime authorization: migrations stay owned by the schema owner;
+-- application transactions assume this non-bypass role.
+do $$
+begin
+  if not exists (select 1 from pg_roles where rolname = 'proofbase_runtime') then
+    create role proofbase_runtime nologin nosuperuser nocreatedb nocreaterole noinherit nobypassrls;
+  else
+    alter role proofbase_runtime nologin nosuperuser nocreatedb nocreaterole noinherit nobypassrls;
+  end if;
+end
+$$;
+
+create unique index if not exists uq_projects_tenant_id_id on projects(tenant_id, id);
+create unique index if not exists uq_departments_tenant_id_id on project_departments(tenant_id, id);
+create unique index if not exists uq_documents_tenant_id_id on documents(tenant_id, id);
+create unique index if not exists uq_document_versions_tenant_id_id on document_versions(tenant_id, id);
+create unique index if not exists uq_chunks_tenant_id_id on chunks(tenant_id, id);
+create unique index if not exists uq_chat_sessions_tenant_id_id on chat_sessions(tenant_id, id);
+create unique index if not exists uq_chat_messages_tenant_id_id on chat_messages(tenant_id, id);
+create unique index if not exists uq_evaluation_runs_tenant_id_id on evaluation_runs(tenant_id, id);
+
+do $$
+begin
+  if not exists (select 1 from pg_constraint where conname = 'departments_tenant_project_fk') then
+    alter table project_departments add constraint departments_tenant_project_fk foreign key (tenant_id, project_id) references projects(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'memberships_tenant_project_fk') then
+    alter table project_memberships add constraint memberships_tenant_project_fk foreign key (tenant_id, project_id) references projects(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'documents_tenant_project_fk') then
+    alter table documents add constraint documents_tenant_project_fk foreign key (tenant_id, project_id) references projects(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'documents_tenant_department_fk') then
+    alter table documents add constraint documents_tenant_department_fk foreign key (tenant_id, department_id) references project_departments(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'versions_tenant_document_fk') then
+    alter table document_versions add constraint versions_tenant_document_fk foreign key (tenant_id, document_id) references documents(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'jobs_tenant_project_fk') then
+    alter table ingestion_jobs add constraint jobs_tenant_project_fk foreign key (tenant_id, project_id) references projects(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'jobs_tenant_department_fk') then
+    alter table ingestion_jobs add constraint jobs_tenant_department_fk foreign key (tenant_id, department_id) references project_departments(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'jobs_tenant_document_fk') then
+    alter table ingestion_jobs add constraint jobs_tenant_document_fk foreign key (tenant_id, document_id) references documents(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'jobs_tenant_version_fk') then
+    alter table ingestion_jobs add constraint jobs_tenant_version_fk foreign key (tenant_id, document_version_id) references document_versions(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'chunks_tenant_document_fk') then
+    alter table chunks add constraint chunks_tenant_document_fk foreign key (tenant_id, document_id) references documents(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'chunks_tenant_version_fk') then
+    alter table chunks add constraint chunks_tenant_version_fk foreign key (tenant_id, document_version_id) references document_versions(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'embeddings_tenant_chunk_fk') then
+    alter table chunk_embeddings add constraint embeddings_tenant_chunk_fk foreign key (tenant_id, chunk_id) references chunks(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'messages_tenant_session_fk') then
+    alter table chat_messages add constraint messages_tenant_session_fk foreign key (tenant_id, session_id) references chat_sessions(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'feedback_tenant_session_fk') then
+    alter table feedback add constraint feedback_tenant_session_fk foreign key (tenant_id, session_id) references chat_sessions(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'feedback_tenant_message_fk') then
+    alter table feedback add constraint feedback_tenant_message_fk foreign key (tenant_id, message_id) references chat_messages(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'results_tenant_run_fk') then
+    alter table evaluation_results add constraint results_tenant_run_fk foreign key (tenant_id, evaluation_run_id) references evaluation_runs(tenant_id, id);
+  end if;
+end
+$$;
+
+grant usage on schema public to proofbase_runtime;
+grant select, insert, update, delete on all tables in schema public to proofbase_runtime;
+grant usage, select on all sequences in schema public to proofbase_runtime;
+alter default privileges in schema public grant select, insert, update, delete on tables to proofbase_runtime;
+alter default privileges in schema public grant usage, select on sequences to proofbase_runtime;
+
+create or replace function proofbase_current_tenant_id() returns uuid
+language sql stable as $$
+  select nullif(current_setting('app.tenant_id', true), '')::uuid
+$$;
+
+create or replace function proofbase_platform_admin() returns boolean
+language sql stable as $$
+  select coalesce(nullif(current_setting('app.platform_admin', true), '')::boolean, false)
+$$;
+
+alter table tenants enable row level security;
+alter table tenants force row level security;
+drop policy if exists tenant_isolation on tenants;
+create policy tenant_isolation on tenants
+  using (id = proofbase_current_tenant_id() or proofbase_platform_admin())
+  with check (id = proofbase_current_tenant_id() or proofbase_platform_admin());
+
+alter table demo_users enable row level security;
+alter table demo_users force row level security;
+drop policy if exists tenant_isolation on demo_users;
+create policy tenant_isolation on demo_users using (
+  proofbase_platform_admin() or exists (
+    select 1 from tenant_memberships tm
+    where tm.user_id = demo_users.id and tm.tenant_id = proofbase_current_tenant_id()
+  )
+);
+
+alter table external_identities enable row level security;
+alter table external_identities force row level security;
+drop policy if exists tenant_isolation on external_identities;
+create policy tenant_isolation on external_identities using (
+  proofbase_platform_admin() or exists (
+    select 1 from tenant_memberships tm
+    where tm.user_id = external_identities.user_id and tm.tenant_id = proofbase_current_tenant_id()
+  )
+);
+
+do $$
+declare protected_table text;
+begin
+  foreach protected_table in array array[
+    'tenant_memberships', 'auth_sessions', 'projects', 'project_memberships',
+    'project_departments', 'documents', 'document_versions', 'ingestion_jobs',
+    'chunks', 'chunk_embeddings', 'chat_sessions', 'chat_messages', 'feedback', 'audit_logs'
+  ]
+  loop
+    execute format('alter table %I enable row level security', protected_table);
+    execute format('alter table %I force row level security', protected_table);
+    execute format('drop policy if exists tenant_isolation on %I', protected_table);
+    execute format(
+      'create policy tenant_isolation on %I using (tenant_id = proofbase_current_tenant_id() or proofbase_platform_admin()) with check (tenant_id = proofbase_current_tenant_id() or proofbase_platform_admin())',
+      protected_table
+    );
+  end loop;
+end
+$$;
+
+do $$
+declare evaluation_table text;
+begin
+  foreach evaluation_table in array array[
+    'evaluation_questions', 'evaluation_runs', 'evaluation_results', 'evaluation_reviews'
+  ]
+  loop
+    execute format('alter table %I enable row level security', evaluation_table);
+    execute format('alter table %I force row level security', evaluation_table);
+    execute format('drop policy if exists tenant_isolation on %I', evaluation_table);
+    execute format(
+      'create policy tenant_isolation on %I using (tenant_id = proofbase_current_tenant_id() or tenant_id is null) with check (tenant_id = proofbase_current_tenant_id() or (tenant_id is null and proofbase_platform_admin()))',
+      evaluation_table
+    );
+  end loop;
+end
+$$;
