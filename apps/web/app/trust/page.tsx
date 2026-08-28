@@ -240,10 +240,10 @@ export default function TrustAndSafetyPage() {
 
         <section aria-labelledby="production-readiness-heading">
           <SectionHeading
-            title="Production-Readiness Checklist"
-            description="Phases 56-63 require infrastructure, policy, ownership, migration, operations, and independent assessment beyond the local portfolio implementation."
+            title="Production-Shaped Readiness Checklist"
+            description="Phases 56-63 implement production-shaped controls locally first; cloud integrations and independent validation remain optional, separately approved evidence."
           />
-          <h2 id="production-readiness-heading" className="sr-only">Production readiness control catalog</h2>
+          <h2 id="production-readiness-heading" className="sr-only">Production-shaped readiness control catalog</h2>
           <div className="grid gap-4 xl:grid-cols-2">
             {productionReadinessCatalog.map((item) => <ControlCard key={item.id} item={item} />)}
           </div>

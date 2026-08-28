@@ -263,22 +263,40 @@ Turn the new defenses into measurable, reviewable product evidence before beginn
 
 Predeclare non-zero quality, false-positive, latency, cost, sample-size, and stability targets before live runs. If targets are missed, report the valid result and preserve the failure backlog; do not tune the frozen holdout or inflate the Trust & Safety claim.
 
-## Production Readiness Boundary
+## Portfolio Production-Shaped Boundary
 
-Phases 51-55 strengthen the portfolio/local-demo implementation. They are not sufficient for a production deployment. The following phases require infrastructure and policy choices, migration work, operational ownership, and in one case an independent party.
+Phases 51-55 strengthen the portfolio/local-demo implementation. Phases 56-61 and 63 now prioritize production-shaped controls that can be implemented and verified locally without requiring a continuously hosted or paid cloud environment. Provider adapters, infrastructure-as-code, local integrations, migration rehearsals, and explicit operating policies are valid portfolio evidence when their status is labeled accurately.
 
-## Phase 56: Real Authentication And Tenant Model
+They are not proof that a production environment is operating. A live Azure deployment is an optional, temporary capstone behind the financial-safety gate below. Managed-service, hosted-monitoring, and independent-assessment claims require the corresponding external service or party.
+
+### Mandatory financial-safety gate before cloud provisioning
+
+No agent may create an Azure resource, paid service, Marketplace purchase, premium identity licence, or other billable external infrastructure until the user explicitly approves all of the following:
+
+- the subscription type and whether a real spending limit exists
+- a service-by-service cost model and maximum deployment duration
+- an allowlist of resource types, regions, and low-cost SKUs enforced through policy where available
+- manual deployment approval, bounded replica/concurrency quotas, and disabled deploy-on-push behavior
+- an expiration tag, automatic teardown, a second cleanup path, and post-teardown verification
+- budget/anomaly alerts, while acknowledging that alerts are delayed and are not a hard Pay-As-You-Go cap
+- separate external-AI quotas and a kill switch because Azure controls do not cap directly billed providers
+- exclusion of Marketplace and separately billed products unless the user approves each one explicitly
+
+Local implementation must continue without cloud provisioning when this gate is not satisfied.
+
+## Phase 56: OIDC Authentication And Tenant Model
 
 ### Required user decision before implementation
 
-Choose the production identity provider and hosting context, for example Microsoft Entra ID/OIDC or another OIDC provider. Also decide:
+Choose the tenant semantics and authentication boundary. A provider-neutral OIDC implementation with local signed-token fixtures is the portfolio default; Microsoft Entra ID configuration and live hosting remain optional. Decide:
 
 - what constitutes a tenant and who owns projects and uploaded data
 - whether users may belong to multiple tenants
 - how existing seeded demo data is migrated or isolated
 - required session duration, MFA/conditional-access expectations, and offboarding behavior
+- whether a later live identity integration should target Microsoft Entra ID or another OIDC provider
 
-Do not silently choose a provider or claim production authentication from local demo cookies.
+Do not claim production authentication from local demo cookies, fixtures, or an unconnected provider adapter.
 
 ### Scope
 
@@ -289,10 +307,11 @@ Do not silently choose a provider or claim production authentication from local 
 - Make tenant-aware foreign keys and uniqueness constraints explicit.
 - Separate local demo mode from production configuration and refuse demo identity headers/cookies in production.
 - Define provisioning, role changes, revocation, offboarding, and data-retention behavior.
+- Provide an OIDC configuration boundary that can target Entra ID without requiring Azure resources during local implementation.
 
 ### Verification
 
-- Authentication integration tests for valid, expired, wrong-issuer, wrong-audience, tampered, revoked, and missing tokens.
+- Authentication integration tests with local signed-token fixtures for valid, expired, wrong-issuer, wrong-audience, tampered, revoked, and missing tokens.
 - Cross-tenant ID enumeration and direct-route tests.
 - Session fixation, CSRF, logout, privilege-change, and disabled-user tests.
 - Migration/backfill and rollback rehearsal on non-production data.
@@ -325,7 +344,7 @@ Make accidental omission of an application filter insufficient to expose another
 
 ### Scope
 
-- Choose a distributed limiter suitable for the deployment, such as managed Redis; an in-process counter is development-only.
+- Implement a distributed limiter contract and verify it with a local Redis-compatible service. A managed Redis deployment remains optional and must not be claimed until connected and tested.
 - Limit by authenticated identity, tenant, IP risk context, endpoint, and expensive operation.
 - Add chat, streaming, upload, cleanup, embedding, indexing, evaluation, and admin-operation limits.
 - Bound request size, question length, conversation length, upload count/size, concurrent streams, retries, and background jobs.
@@ -344,13 +363,13 @@ Make accidental omission of an application filter insufficient to expose another
 
 ### Required user decision before implementation
 
-Choose production object storage, malware scanning approach, supported file formats, maximum sizes/pages, retention policy, and whether original files may contain regulated or personal data.
+Choose supported file formats, maximum sizes/pages, retention policy, and whether original files may contain regulated or personal data. Local quarantine plus a scanner interface is the portfolio default. Production object storage and a hosted malware scanner are optional external integrations behind the financial-safety gate.
 
 ### Scope
 
-- Upload to a quarantine area with randomized tenant-scoped keys.
+- Upload to a quarantine area with randomized tenant-scoped keys behind a storage-provider interface.
 - Validate extension, declared MIME, file signature, parser result, size, page count, compression ratio, and archive nesting; reject mismatches and unsupported active content.
-- Scan for malware before parsing or making content available.
+- Scan for malware before parsing or making content available; use approved safe fixtures locally and label the scanner accurately.
 - Run parsers in isolated workers/containers with no unnecessary network, read-only runtime, timeouts, CPU/memory/disk limits, and patched dependencies.
 - Protect against path traversal, decompression bombs, parser exploits, oversized OCR, duplicate processing, and poisoned metadata.
 - Encrypt in transit and at rest; use short-lived scoped access rather than public URLs.
@@ -368,7 +387,7 @@ Choose production object storage, malware scanning approach, supported file form
 
 ### Scope
 
-- Use a managed secret store and workload identity; production startup must reject placeholder or development secrets.
+- Implement a secret-provider boundary and production startup rejection of placeholder or development secrets. Managed secret-store and workload-identity claims require a connected provider; local verification must be labeled as such.
 - Remove long-lived credentials where managed identity is available and define rotation/revocation procedures.
 - Inventory sensitive data in prompts, uploads, chats, feedback, traces, audit events, and evaluation artifacts.
 - Default logs to IDs, bounded reason codes, timings, counts, and hashes rather than full user prompts or source text.
@@ -390,7 +409,7 @@ Choose production object storage, malware scanning approach, supported file form
 
 - Define a security-event taxonomy for authentication failures, authorization denials, cross-tenant attempts, injection detections, evidence/validator failures, rate limits, upload malware, parser failures, admin changes, secret/config failures, and unusual cost.
 - Emit structured, privacy-safe, correlation-ready events.
-- Connect to the selected monitoring/SIEM destination through a provider-neutral interface.
+- Implement a provider-neutral monitoring/SIEM interface and a local structured-event sink. A live monitoring destination is optional and must not be claimed until end-to-end delivery is tested.
 - Add alerts with documented thresholds, severity, owner, escalation, and false-positive handling.
 - Create runbooks for account compromise, tenant-isolation concern, malicious upload, secret exposure, AI cost abuse, and suspected prompt-injection campaign.
 - Make audit records tamper-evident or send them to storage the application runtime cannot rewrite.
@@ -402,7 +421,7 @@ Choose production object storage, malware scanning approach, supported file form
 - Tabletop exercises execute each high-severity runbook.
 - Confirm monitoring cannot expose another tenant’s content or become a prompt/source exfiltration channel.
 
-## Phase 62: Independent Penetration Testing And Remediation
+## Phase 62: Security Assessment Readiness And Optional Independent Testing
 
 ### Preparation scope
 
@@ -412,9 +431,13 @@ Choose production object storage, malware scanning approach, supported file form
 - Complete internal SAST, dependency, container, DAST, authorization, tenant-isolation, and adversarial prechecks.
 - Set remediation severity and retest SLAs.
 
-### External dependency
+### Portfolio completion boundary
 
-The implementation agent can prepare the system and fix findings but cannot truthfully mark an independent penetration test complete. Completion requires a qualified independent tester, a written report, triaged findings, remediation evidence, and an independent retest of material findings. The public page should report only the assessment date, scope, disposition summary, and limitations approved for disclosure.
+The portfolio phase is complete when the preparation scope, internal prechecks, finding triage workflow, and remediation/retest procedure are implemented and verified. It must be labeled `Independent validation required`.
+
+### Optional external dependency
+
+The implementation agent can prepare the system and fix findings but cannot truthfully mark an independent penetration test complete. An independent-validation claim requires a qualified independent tester, a written report, triaged findings, remediation evidence, and an independent retest of material findings. The public page should report only the assessment date, scope, disposition summary, and limitations approved for disclosure.
 
 ## Phase 63: Ongoing Adversarial Evaluation And Release Gates
 
@@ -447,10 +470,11 @@ At minimum, a production promotion must require:
 
 The implementation agent should proceed autonomously through Phases 51-55 using existing project defaults and measured promotion gates. It must pause before decisions that materially change production ownership or external services:
 
-1. Before Phase 56: identity provider, tenant ownership/membership model, session/MFA expectations, and seeded-data migration.
-2. Before Phase 59: object storage, scanning service, accepted formats, regulated-data stance, and retention.
-3. Before Phase 61 external integration: monitoring/SIEM destination, on-call owner, and notification channel.
-4. Before Phase 62 execution: independent assessor, scope, authorization, schedule, and rules of engagement.
+1. Before Phase 56: tenant ownership/membership model, session behavior, offboarding, and seeded-data migration. A live identity provider is not required for local implementation.
+2. Before any cloud provisioning: every item in the mandatory financial-safety gate, followed by explicit user approval.
+3. Before Phase 59: accepted formats, regulated-data stance, and retention. Object storage and hosted scanning decisions are required only for optional external integration.
+4. Before Phase 61 external integration: monitoring/SIEM destination, on-call owner, and notification channel. Local structured monitoring may proceed without them.
+5. Before an optional Phase 62 independent assessment: assessor, scope, authorization, schedule, cost, and rules of engagement.
 
 Provider-neutral interfaces, local test doubles, threat models, and decision documents may be prepared before those choices, but they must not be presented as completed production controls.
 
@@ -476,4 +500,6 @@ The Trust & Safety page and documentation must use the same status vocabulary an
 
 Phases 51-55 are complete when the layered defenses are implemented, measured, visible, and honestly limited on the product page without weakening permission safety or current regression quality.
 
-Phases 56-63 are complete only when the chosen production environment enforces real identity and tenant isolation, database authorization, distributed abuse controls, secure file processing, secrets/privacy controls, monitored incident response, independently tested remediation, and ongoing release-gated adversarial evaluation. A local implementation, mocked integration, checklist, or agent-authored security review is not enough for those production claims.
+The portfolio track for Phases 56-63 is complete when OIDC-compatible identity, tenant isolation, database authorization, distributed abuse controls, secure file-processing boundaries, secrets/privacy controls, structured monitoring, security-assessment preparation, and adversarial release gates are implemented and verified with honest local evidence. Phase 62 may remain `Independent validation required`.
+
+Production-operation claims remain separate: they require connected managed services, a real hosted identity provider, operational ownership, end-to-end monitoring, and any claimed independent assessment. A local implementation, test double, checklist, or agent-authored review must never be presented as that external evidence.

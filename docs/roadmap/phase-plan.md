@@ -442,13 +442,13 @@ Phase mapping:
 - Phase 53: Permission-Aware Evidence Sufficiency Gate.
 - Phase 54: Post-Generation Claim And Source-Instruction Validation.
 - Phase 55: Defense Evaluation, Observability, And Page Evidence.
-- Phase 56: Real Authentication And Tenant Model.
+- Phase 56: OIDC Authentication And Tenant Model.
 - Phase 57: Database-Enforced Authorization And Tenant Isolation.
 - Phase 58: Rate Limiting, Quotas, And Cost Abuse Controls.
 - Phase 59: Secure File Processing And Storage.
 - Phase 60: Secrets, Privacy, And Log Controls.
 - Phase 61: Security Monitoring And Incident Response.
-- Phase 62: Independent Penetration Testing And Remediation.
+- Phase 62: Security Assessment Readiness And Optional Independent Testing.
 - Phase 63: Ongoing Adversarial Evaluation And Release Gates.
 
 Implementation rules:
@@ -459,7 +459,9 @@ Implementation rules:
 - Preserve authentication, tenant isolation, database authorization, pre-generation permission filtering, and post-generation citation/claim validation as independent boundaries.
 - Label the Trust & Safety page with Implemented, Measured, Planned, Production dependency, and Independent validation required statuses backed by evidence.
 - Do not claim production readiness from local demo auth, a checklist, mocked infrastructure, development evaluations, or an agent-authored review.
-- Pause at the explicit decision gates for identity/tenancy, object storage and malware scanning, monitoring ownership, and independent penetration testing.
+- Complete production-shaped controls locally by default and distinguish that portfolio evidence from a live production-operation claim.
+- Pause at the tenant/data decision gate and before optional external identity, storage/scanning, monitoring, or independent-testing integrations.
+- Never provision Azure or another billable external service until the financial-safety gate is documented and the user explicitly approves the exact bounded deployment.
 - Preserve the Phase 47-49 sealed holdouts. Any new generalization claim requires a newly authored and sealed holdout after the new runtime is frozen.
 - Use the full plan, implement, verify, commit, review, fix, push loop for each phase.
 

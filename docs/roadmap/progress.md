@@ -6,11 +6,11 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-- Current phase: Phase 55 Defense Evaluation, Observability, And Page Evidence is complete. Work is paused at the explicit Phase 56 production identity and tenancy decision gate.
+- Current phase: Phase 55 Defense Evaluation, Observability, And Page Evidence is complete. The Phase 56-63 queue has been adjusted to a production-shaped portfolio track; work is paused at the narrowed Phase 56 tenant/data decision gate.
 - Last completed phase activity: the Phase 55 post-review remediation fixed semantic handling of novel embedded source instructions, replaced three literal-zero readiness gates with hash-bound executable evidence, corrected permission-invariant trace status, and removed or compacted duplicated raw evaluation payloads while preserving provenance and compact summaries.
 - Last completed non-implementation pass: documentation-first algorithm explanation and audit under `docs/algorithm/`, including `docs/algorithm/codebase-verification-report.md` in commit `2fb9f95`; current-facing docs were refreshed after Phase 46 and the `vector_lexical_rerank` default change.
 - Last verification focus: all seven Phase 55 hard gates pass from generated evidence; the three corrected gates are backed by a scope-contract check, 20 measured memory cases, and malformed-schema checks across all three semantic stages. The artifact-retention validator confirms seven raw runtime payloads are absent from the current tree and compact summaries/provenance remain. The sealed holdout remains unopened and unchanged.
-- Next expected work: obtain the Phase 56 decisions recorded in `docs/phase-55/phase-56-decision-gate.md` for identity provider and hosting context, tenant/data ownership, multi-tenant membership, session/MFA/conditional access, offboarding, and seeded-demo-data migration. Do not begin production identity implementation until those choices are explicit. Preserve the Phase 48/49 backlog and every sealed holdout without tuning or routine reruns.
+- Next expected work: obtain the Phase 56 tenant/data ownership, multi-tenant membership, session behavior, offboarding, and seeded-demo-data decisions recorded in `docs/phase-55/phase-56-decision-gate.md`, then implement the provider-neutral OIDC boundary locally. No live identity provider or cloud deployment is required. Preserve the Phase 48/49 backlog and every sealed holdout without tuning or routine reruns.
 
 ## Next Work Queue
 
@@ -18,9 +18,11 @@ The Phase 50 manual-test remediation queue is complete. The approved next roadma
 
 1. Phase 51: add the nav-accessible Trust & Safety product page with evidence-backed Implemented, Measured, Planned, Production dependency, and Independent validation required states.
 2. Phases 52-55: add structured semantic request assessment, a permission-aware evidence-sufficiency gate, post-generation claim/source-instruction validation, and measured defense observability.
-3. Before Phase 56, obtain the documented identity-provider, tenant-ownership, session/MFA, and demo-data migration decisions.
-4. Phases 56-63: implement production identity/tenancy, database enforcement, rate limits, secure file processing, secret/log controls, monitoring/response, independent penetration testing, and ongoing adversarial release gates.
-5. Preserve the Phase 48/49 product-quality backlog for a separate measured remediation; do not reuse sealed holdout cases as development tests.
+3. Before Phase 56, obtain the documented tenant-ownership, membership, session/offboarding, and demo-data migration decisions; use provider-neutral OIDC and local signed-token fixtures by default.
+4. Phases 56-61 and 63: implement and verify production-shaped identity/tenancy, database enforcement, distributed rate limits, secure file processing, secret/log controls, monitoring/response, and adversarial release gates locally.
+5. Phase 62: complete security-assessment preparation and internal prechecks; leave independent validation explicitly required unless an external assessor is separately approved and engaged.
+6. Treat live Azure deployment as an optional temporary capstone. No billable resource may be created without the documented financial-safety gate and explicit user approval.
+7. Preserve the Phase 48/49 product-quality backlog for a separate measured remediation; do not reuse sealed holdout cases as development tests.
 
 ## Phase Status
 
@@ -70,7 +72,7 @@ The Phase 50 manual-test remediation queue is complete. The approved next roadma
 | 54: Post-Generation Claim And Source-Instruction Validation | Complete | `892aff9` | Fixed suite `23/24`, unsafe accepts `0`, unauthorized citation accepts `0`, p95 `2966 ms`, cost `$0.010142`; live benchmark `130/130`, hallucination `0.000`, four repairs, validator fail-safe/final downgrade `0`; focused permission hard gates all zero. | Added exact and semantic claim checks, authorized citation support, embedded-instruction outcome validation, one same-evidence repair, streaming buffer, supported-only partial downgrade, typed response/audit/telemetry metadata, and measured Trust evidence. Sealed holdouts were untouched. |
 | 55: Defense Evaluation, Observability, And Page Evidence | Complete | Runtime freeze `9565d11`; authoring fixes `9369556`, `ddfe179`; seal/evidence `593779b`; tooling hardening `c51ec03` | Manifest validates 102 development cases; every predeclared and hard gate passes; deterministic evidence hashes match 3/3; web build and focused/shared regressions pass; the 30-case holdout validates 10/10/10 by stage and remains unexecuted. | Added privacy-safe seven-stage traces, generated readiness evidence, Dev/Admin page, Trust evidence automation, guarded post-freeze authoring, immutable raw-byte sealing, and pre-call token-budget enforcement. One structurally invalid response was discarded, one API schema request failed before inference, and final case content remained unopened. The successful call is estimated at `$0.025242`; the discarded inference is bounded by `$0.15`. |
 | Phase 55 post-review remediation | Complete | `690189e` | Focused Phase 54-55 tests, executable hard-gate evidence, retention validation, shared checks, and web build. | Fixed novel source-instruction semantic handling, artifact-backed hard gates, permission trace status, and generated-artifact retention without rewriting history or changing sealed holdouts. |
-| 56-63: Production Readiness | Decision gate | Pending | Not started. | Production identity/tenancy, storage/scanning, monitoring ownership, and independent-testing decisions require user input before implementation. |
+| 56-63: Production-Shaped Portfolio Readiness | Decision gate | Pending | Not started. | Local implementation awaits the narrowed Phase 56 tenant/data decisions. Live identity, cloud infrastructure, hosted storage/scanning, monitoring, and independent testing are optional external integrations behind separate approval gates. |
 
 ## Update Rules
 

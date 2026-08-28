@@ -148,11 +148,13 @@ After Phase 50, continue with `docs/roadmap/post-phase-50-defense-and-production
 - Phase 53: Permission-Aware Evidence Sufficiency Gate.
 - Phase 54: Post-Generation Claim And Source-Instruction Validation.
 - Phase 55: Defense Evaluation, Observability, And Page Evidence.
-- Phases 56-63: production identity and tenancy, database authorization, rate limiting, secure file processing, secrets/log controls, monitoring and incident response, independent penetration testing, and ongoing adversarial release gates.
+- Phases 56-63: production-shaped OIDC identity and tenancy, database authorization, rate limiting, secure file processing, secrets/log controls, monitoring and incident response, security-assessment readiness, and ongoing adversarial release gates.
 
 Preserve deterministic guards as fast paths, but do not rely on pattern matching as the sole ambiguity or prompt-injection defense. Semantic assessment is a routing/integrity control and must never grant identity, tenant, scope, role, document, or tool access. Evidence sufficiency runs only after permission filtering, and post-generation validation uses only authorized evidence.
 
-Proceed autonomously through Phases 51-55 using the full operating loop and predeclared evaluation gates. Pause at the roadmap's explicit production decision gates before choosing an identity/tenant model, object storage or malware scanner, monitoring owner/destination, or independent penetration tester. Do not present a local test double, self-review, or checklist as a completed production control.
+Proceed autonomously through Phases 51-55 using the full operating loop and predeclared evaluation gates. For Phases 56-63, prioritize production-shaped controls that can be verified locally and labeled honestly. Pause for the tenant/data decisions required by Phase 56 and at the roadmap's external-integration gates. Do not present a local test double, self-review, or checklist as a completed production control.
+
+Before any Azure resource, paid service, Marketplace purchase, premium licence, or other billable infrastructure is created, satisfy the roadmap's mandatory financial-safety gate and obtain explicit user approval. Local implementation and undeployed infrastructure-as-code do not authorize cloud provisioning. Independent penetration testing is optional for the portfolio track and must remain `Independent validation required` unless a qualified external assessor completes it.
 
 Keep the Phase 47-49 sealed holdouts immutable. A future generalization claim requires a newly authored and sealed holdout after the new runtime is frozen.
 
