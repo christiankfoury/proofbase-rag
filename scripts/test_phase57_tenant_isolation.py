@@ -22,6 +22,7 @@ from apps.api.app.db.session import apply_schema
 from apps.api.app.embeddings import openai_embeddings
 from apps.api.app.observability import summary as observability_summary
 from apps.api.app.main import app
+from apps.api.app.files.secure_files import FilePolicyError, LocalQuarantineStorage
 from fastapi.testclient import TestClient
 
 
@@ -266,8 +267,16 @@ def test_tenant_scoped_cache_and_storage_contract() -> None:
         second = openai_embeddings.embed_text("same text")
     assert fake.calls == 2
     assert first != second
-    main_source = (ROOT / "apps/api/app/main.py").read_text(encoding="utf-8")
-    assert '/ user["tenant_id"]' in main_source
+    with tempfile.TemporaryDirectory() as directory:
+        storage = LocalQuarantineStorage(Path(directory))
+        storage_key = storage.put(DEMO_TENANT, b"tenant scoped")
+        assert storage.path_for_parser(DEMO_TENANT, storage_key).read_bytes() == b"tenant scoped"
+        try:
+            storage.path_for_parser(OTHER_TENANT, storage_key)
+        except FilePolicyError as exc:
+            assert exc.reason_code == "tenant_storage_scope_mismatch"
+        else:
+            raise AssertionError("Cross-tenant storage access was not denied")
 
 
 def test_tenant_scoped_observability() -> None:

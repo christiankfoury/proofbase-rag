@@ -290,6 +290,7 @@ export async function uploadDepartmentDocument(
   if (payload.title) formData.append("title", payload.title);
   if (payload.access_roles?.length) formData.append("access_roles", payload.access_roles.join(", "));
   formData.append("restricted", String(Boolean(payload.restricted)));
+  formData.append("data_classification", "non_sensitive");
 
   const response = await fetch(
     `${API_BASE}/projects/${encodeURIComponent(projectId)}/departments/${encodeURIComponent(departmentId)}/documents/upload`,

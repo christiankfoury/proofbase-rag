@@ -269,6 +269,7 @@ def create_pending_review_document(
     restricted: bool,
     extracted_markdown: str,
     extraction_metadata: dict[str, Any],
+    file_object_id: str | None = None,
 ) -> dict[str, Any]:
     tenant_id = current_tenant_id()
     sensitivity = sensitivity_from_restricted(restricted)
@@ -285,6 +286,7 @@ def create_pending_review_document(
         "source_file_name": source_file_name,
         "source_file_type": source_file_type,
         "uploaded_at": now,
+        "file_object_id": file_object_id,
         **extraction_metadata,
     }
     status_detail = (
@@ -345,15 +347,28 @@ def create_pending_review_document(
             "update documents set current_version_id = %s::uuid where id = %s::uuid",
             (version_id, document_id),
         )
+        if file_object_id:
+            bound = conn.execute(
+                """
+                update file_objects set document_id = %s::uuid, document_version_id = %s::uuid,
+                  lifecycle_state = 'clean', updated_at = now()
+                where id = %s::uuid and lifecycle_state = 'clean'
+                """,
+                (document_id, version_id, file_object_id),
+            )
+            if bound.rowcount != 1:
+                raise ValueError("File lifecycle binding failed.")
         conn.execute(
             """
             insert into ingestion_jobs (
               tenant_id, project_id, department_id, document_id, document_version_id,
+              file_object_id,
               source_file_name, source_file_type, status, stage, status_detail,
               content_hash, started_at, completed_at, metadata_json
             )
             values (
               %s::uuid, %s::uuid, %s::uuid, %s::uuid, %s::uuid,
+              %s::uuid,
               %s, %s, 'pending_review', 'review_pending', %s,
               %s, now(), now(), %s::jsonb
             )
@@ -363,6 +378,7 @@ def create_pending_review_document(
                 department["id"],
                 document_id,
                 version_id,
+                file_object_id,
                 source_file_name,
                 source_file_type,
                 status_detail,

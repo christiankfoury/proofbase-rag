@@ -79,6 +79,23 @@ services:
     secrets:
       - openai_api_key
 
+  file-parser-contract:
+    profiles: ["security-contract"]
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    command: ["python", "-m", "apps.api.app.files.secure_parser_worker"]
+    network_mode: "none"
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 64
+    mem_limit: 256m
+    cpus: 0.50
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=32m
+
   web:
     build:
       context: .

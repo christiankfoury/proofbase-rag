@@ -72,6 +72,17 @@ class Settings(BaseSettings):
     max_question_chars: int = Field(default=4_000, ge=100, le=4_000)
     tenant_daily_ai_budget_usd: float = Field(default=5.0, gt=0, le=10_000)
     external_ai_max_retries: int = Field(default=1, ge=0, le=2)
+    file_quarantine_dir: str = "data/quarantine"
+    file_max_bytes: int = Field(default=10 * 1024 * 1024, ge=1024, le=10 * 1024 * 1024)
+    file_max_pages: int = Field(default=100, ge=1, le=100)
+    file_max_extracted_chars: int = Field(default=2_000_000, ge=10_000, le=2_000_000)
+    file_max_expansion_ratio: int = Field(default=200, ge=10, le=500)
+    file_parser_timeout_seconds: int = Field(default=15, ge=1, le=60)
+    file_parser_mode: str = Field(default="subprocess", pattern="^(subprocess|isolated_worker)$")
+    file_scanner_mode: str = Field(default="fixture_signature", pattern="^(fixture_signature|hosted)$")
+    file_quarantine_retention_days: int = Field(default=7, ge=1, le=7)
+    file_approved_original_retention_days: int = Field(default=30, ge=1, le=30)
+    file_access_signing_secret: str = "local-file-grant-secret-change-before-production"
     openai_api_key: str = Field(
         default="",
         validation_alias=AliasChoices("OPENAI_API_KEY", "openai_api_key"),
@@ -231,6 +242,10 @@ class Settings(BaseSettings):
             raise ValueError("Production requires DATABASE_ENFORCE_RLS=true.")
         if self.app_environment == "production" and self.rate_limit_backend != "redis":
             raise ValueError("Production requires RATE_LIMIT_BACKEND=redis or a reviewed shared-store adapter.")
+        if self.app_environment == "production" and self.file_parser_mode != "isolated_worker":
+            raise ValueError("Production requires an isolated file-parser worker.")
+        if self.app_environment == "production" and self.file_scanner_mode != "hosted":
+            raise ValueError("Production requires a connected malware-scanner adapter.")
         if self.auth_mode == "oidc_fixture" and len(self.oidc_local_signing_secret.encode("utf-8")) < 32:
             raise ValueError("OIDC fixture mode requires an OIDC_LOCAL_SIGNING_SECRET of at least 32 bytes.")
         if self.session_idle_minutes >= self.session_absolute_minutes:

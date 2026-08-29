@@ -47,7 +47,16 @@ from apps.api.app.generation.answer_generator import (
     repair_answer_once,
     retrieved_chunks_payload,
 )
-from apps.api.app.ingestion.pdf_extractor import extract_pdf_to_markdown
+from apps.api.app.files.secure_files import (
+    FilePolicyError,
+    LocalQuarantineStorage,
+    create_file_object,
+    configured_scanner,
+    mark_file_object_approved,
+    parse_pdf_isolated,
+    transition_file_object,
+    validate_pdf_envelope,
+)
 from apps.api.app.memory.context_builder import build_memory_context, memory_context_text
 from apps.api.app.memory.query_rewriter import rewrite_followup_question
 from apps.api.app.memory.session_store import (
@@ -119,7 +128,6 @@ FAILED_QUESTIONS_PATH = ROOT / "data/evaluation/failed-questions/failed-question
 PROMPT_EXPERIMENT_DIR = ROOT / "data/evaluation/prompt-experiments"
 EXPANDED_BASELINE_DIR = ROOT / "data/evaluation/expanded-baseline"
 MULTI_DOC_EVAL_PATH = ROOT / "data/evaluation/multi-doc-eval.json"
-MAX_UPLOAD_BYTES = 10 * 1024 * 1024
 
 
 def _cors_origins() -> list[str]:
@@ -386,7 +394,22 @@ def _safe_upload_name(filename: str | None) -> str:
     stem = Path(name).stem or "upload"
     suffix = Path(name).suffix.lower() or ".pdf"
     safe_stem = "".join(char if char.isalnum() or char in {"-", "_"} else "-" for char in stem).strip("-")
-    return f"{safe_stem or 'upload'}{suffix}"
+    return f"{(safe_stem or 'upload')[:100]}{suffix[:10]}"
+
+
+def _safe_document_title(value: str) -> str:
+    title = " ".join(value.replace("\x00", "").split()).strip()
+    if not title:
+        raise FilePolicyError("invalid_document_title")
+    return title[:200]
+
+
+def _reject_file_object_best_effort(file_object_id: str, reason_code: str) -> None:
+    try:
+        transition_file_object(file_object_id, state="rejected", reason_code=reason_code)
+    except Exception:
+        # Preserve the bounded client response if persistence is already unavailable.
+        return
 
 
 def current_demo_user(
@@ -1243,52 +1266,68 @@ async def upload_department_document_route(
     title: str | None = Form(None),
     access_roles: str | None = Form(None),
     restricted: bool = Form(False),
+    data_classification: str = Form("non_sensitive"),
 ) -> dict:
     project_id = _validate_project_id(project_id)
     department_id = _validate_project_id(department_id)
     require_project_editor(user, project_id)
     _enforce_operation_limit("upload", user, request)
     safe_name = _safe_upload_name(file.filename)
-    if not safe_name.lower().endswith(".pdf"):
-        raise HTTPException(status_code=400, detail="Only PDF uploads are supported in this phase.")
+    raw_bytes = await file.read(get_settings().file_max_bytes + 1)
+    try:
+        validate_pdf_envelope(
+            filename=safe_name,
+            declared_mime=file.content_type,
+            content=raw_bytes,
+            data_classification=data_classification,
+        )
+    except FilePolicyError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.reason_code) from exc
 
-    raw_bytes = await file.read()
-    if len(raw_bytes) > MAX_UPLOAD_BYTES:
-        raise HTTPException(status_code=413, detail="PDF uploads are limited to 10 MB in the local demo.")
-    if not raw_bytes.startswith(b"%PDF"):
-        raise HTTPException(status_code=400, detail="Uploaded file is not a valid PDF.")
-
-    settings = get_settings()
     upload_id = str(uuid.uuid4())
-    relative_path = (
-        Path(settings.upload_storage_dir)
-        / user["tenant_id"]
-        / project_id
-        / department_id
-        / f"{upload_id}-{safe_name}"
-    )
-    storage_path = ROOT / relative_path
-    storage_path.parent.mkdir(parents=True, exist_ok=True)
-    storage_path.write_bytes(raw_bytes)
-
-    document_title = (title or Path(safe_name).stem.replace("-", " ")).strip()
+    try:
+        document_title = _safe_document_title(title or Path(safe_name).stem.replace("-", " "))
+    except FilePolicyError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.reason_code) from exc
     external_document_id = f"UPLOAD-{upload_id[:8].upper()}"
+    storage = LocalQuarantineStorage()
+    storage_key: str | None = None
+    file_object_id: str | None = None
 
     try:
         department = get_department(project_id, department_id)
         if not department:
-            storage_path.unlink(missing_ok=True)
             raise HTTPException(status_code=404, detail="Department not found.")
         roles = _normalize_roles(access_roles.split(",")) if access_roles else list(department["default_access_roles"])
         if not roles:
             roles = ["Employee"]
-        extraction = extract_pdf_to_markdown(storage_path, title=document_title)
+        storage_key = storage.put(user["tenant_id"], raw_bytes)
+        file_object = create_file_object(
+            project_id=project_id,
+            department_id=department_id,
+            original_name=safe_name,
+            declared_mime=file.content_type or "",
+            content=raw_bytes,
+            storage_key=storage_key,
+        )
+        file_object_id = file_object["id"]
+        transition_file_object(file_object_id, state="scanning")
+        scan = configured_scanner().scan(raw_bytes)
+        if scan.verdict == "rejected":
+            transition_file_object(file_object_id, state="rejected", scanner=scan, reason_code=scan.reason_code)
+            raise FilePolicyError(scan.reason_code)
+        transition_file_object(file_object_id, state="scanning", scanner=scan)
+        extraction = parse_pdf_isolated(
+            storage.path_for_parser(user["tenant_id"], storage_key),
+            title=document_title,
+        )
+        transition_file_object(file_object_id, state="clean", scanner=scan, page_count=extraction.page_count)
         document = create_pending_review_document(
             project_id=project_id,
             department=department,
             external_document_id=external_document_id,
             title=document_title,
-            source_path=str(relative_path).replace("\\", "/"),
+            source_path=storage_key,
             source_file_name=safe_name,
             source_file_type="pdf",
             raw_file_bytes=raw_bytes,
@@ -1297,21 +1336,37 @@ async def upload_department_document_route(
             extracted_markdown=extraction.markdown,
             extraction_metadata={
                 "extractor": "pypdf",
+                "parser_boundary": "local_subprocess",
+                "scanner": scan.scanner,
+                "scanner_verdict": scan.verdict,
                 "page_count": extraction.page_count,
                 "pages_with_text": extraction.pages_with_text,
                 "extraction_confidence": extraction.confidence,
                 "warnings": extraction.warnings,
                 "review_required": True,
             },
+            file_object_id=file_object_id,
         )
     except HTTPException:
         raise
+    except FilePolicyError as exc:
+        if file_object_id and exc.reason_code != "known_test_signature":
+            _reject_file_object_best_effort(file_object_id, exc.reason_code)
+        elif storage_key and not file_object_id:
+            storage.delete(user["tenant_id"], storage_key)
+        raise HTTPException(status_code=exc.status_code, detail=exc.reason_code) from exc
     except PsycopgError as exc:
-        storage_path.unlink(missing_ok=True)
-        raise HTTPException(status_code=503, detail="Database error saving extracted document.") from exc
+        if storage_key and not file_object_id:
+            storage.delete(user["tenant_id"], storage_key)
+        elif file_object_id:
+            _reject_file_object_best_effort(file_object_id, "document_persistence_failed")
+        raise HTTPException(status_code=503, detail="file_persistence_failed") from exc
     except Exception as exc:
-        storage_path.unlink(missing_ok=True)
-        raise HTTPException(status_code=400, detail=f"PDF extraction failed: {exc}") from exc
+        if storage_key and not file_object_id:
+            storage.delete(user["tenant_id"], storage_key)
+        elif file_object_id:
+            _reject_file_object_best_effort(file_object_id, "file_processing_failed")
+        raise HTTPException(status_code=400, detail="file_processing_failed") from exc
 
     log_audit_event(
         action="document_uploaded_for_review",
@@ -1353,6 +1408,7 @@ def approve_department_document_route(
     limit_context = _enforce_operation_limit("indexing", user, http_request)
     _reserve_external_ai(limit_context, estimated_cost_microusd=100_000)
     cleanup_review_metadata: dict | None = None
+    file_object_id: str | None = None
     try:
         if not get_department(project_id, department_id):
             raise HTTPException(status_code=404, detail="Department not found.")
@@ -1363,6 +1419,7 @@ def approve_department_document_route(
             include_archived=False,
         )
         if current_document:
+            file_object_id = (current_document.get("version", {}).get("metadata") or {}).get("file_object_id")
             cleanup_metadata = (current_document.get("version", {}).get("metadata") or {}).get("ai_cleanup")
             if isinstance(cleanup_metadata, dict) and request and request.reviewed_markdown is not None:
                 reviewed_hash = hash_markdown(request.reviewed_markdown.strip())
@@ -1394,6 +1451,8 @@ def approve_department_document_route(
         raise HTTPException(status_code=503, detail="Database error indexing approved document.") from exc
     if not document:
         raise HTTPException(status_code=404, detail="Document not found.")
+    if file_object_id and document["version"]["ingestion_status"] == "indexed":
+        mark_file_object_approved(file_object_id)
 
     log_audit_event(
         action="document_approved_for_indexing",

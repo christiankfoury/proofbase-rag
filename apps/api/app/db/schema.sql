@@ -868,6 +868,82 @@ begin
 end
 $$;
 
+create or replace function proofbase_current_tenant_id() returns uuid
+language sql stable as $$
+  select nullif(current_setting('app.tenant_id', true), '')::uuid
+$$;
+
+create or replace function proofbase_platform_admin() returns boolean
+language sql stable as $$
+  select coalesce(nullif(current_setting('app.platform_admin', true), '')::boolean, false)
+$$;
+
+-- Phase 59 local secure-file lifecycle. Objects remain quarantined and
+-- tenant-scoped; hosted object storage and malware scanning are external gates.
+create table if not exists file_objects (
+  id uuid primary key default uuid_generate_v4(),
+  tenant_id uuid not null references tenants(id),
+  project_id uuid not null references projects(id),
+  department_id uuid not null references project_departments(id),
+  document_id uuid references documents(id) on delete set null,
+  document_version_id uuid references document_versions(id) on delete set null,
+  storage_key text not null unique,
+  original_name_hash text not null,
+  declared_mime text not null,
+  detected_mime text not null,
+  size_bytes bigint not null check (size_bytes >= 0 and size_bytes <= 10485760),
+  content_sha256 text not null,
+  lifecycle_state text not null check (lifecycle_state in ('quarantined', 'scanning', 'clean', 'rejected', 'deleted')),
+  scanner_name text,
+  scanner_verdict text,
+  page_count integer check (page_count is null or page_count between 1 and 100),
+  rejection_reason text,
+  data_classification text not null check (data_classification = 'non_sensitive'),
+  legal_hold boolean not null default false,
+  retention_expires_at timestamptz not null,
+  deleted_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create unique index if not exists uq_file_objects_tenant_id_id on file_objects(tenant_id, id);
+create unique index if not exists uq_file_objects_active_content
+  on file_objects(tenant_id, project_id, department_id, content_sha256)
+  where lifecycle_state not in ('rejected', 'deleted');
+create index if not exists idx_file_objects_retention on file_objects(lifecycle_state, retention_expires_at)
+  where legal_hold = false and lifecycle_state <> 'deleted';
+
+alter table ingestion_jobs add column if not exists file_object_id uuid;
+
+do $$
+begin
+  if not exists (select 1 from pg_constraint where conname = 'file_objects_tenant_project_fk') then
+    alter table file_objects add constraint file_objects_tenant_project_fk foreign key (tenant_id, project_id) references projects(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'file_objects_tenant_department_fk') then
+    alter table file_objects add constraint file_objects_tenant_department_fk foreign key (tenant_id, department_id) references project_departments(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'file_objects_tenant_document_fk') then
+    alter table file_objects add constraint file_objects_tenant_document_fk foreign key (tenant_id, document_id) references documents(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'file_objects_tenant_version_fk') then
+    alter table file_objects add constraint file_objects_tenant_version_fk foreign key (tenant_id, document_version_id) references document_versions(tenant_id, id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'jobs_tenant_file_object_fk') then
+    alter table ingestion_jobs add constraint jobs_tenant_file_object_fk foreign key (tenant_id, file_object_id) references file_objects(tenant_id, id);
+  end if;
+end
+$$;
+
+alter table file_objects enable row level security;
+alter table file_objects force row level security;
+drop policy if exists tenant_isolation on file_objects;
+create policy tenant_isolation on file_objects
+  using (tenant_id = proofbase_current_tenant_id() or proofbase_platform_admin())
+  with check (tenant_id = proofbase_current_tenant_id() or proofbase_platform_admin());
+
+grant select, insert, update, delete on file_objects to proofbase_runtime;
+
 grant usage on schema public to proofbase_runtime;
 grant select, insert, update, delete on all tables in schema public to proofbase_runtime;
 grant usage, select on all sequences in schema public to proofbase_runtime;

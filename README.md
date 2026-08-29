@@ -8,7 +8,7 @@
 | --- | --- |
 | Product | Project workspaces, owner-managed demo access, department document libraries, scoped chat, PDF-to-Markdown review, optional AI cleanup, and explicit approve/index. |
 | RAG | PostgreSQL/pgvector, keyword search, vector + lexical reranking, multi-source planning, evidence sufficiency, structured response types, post-generation claim validation, citations, and confidence signals. |
-| Security | Public Trust & Safety status page, local demo identity, provider-neutral OIDC/tenant boundary, project membership, role-filtered retrieval before generation, defensive generation checks, and permission audits. |
+| Security | Public Trust & Safety status page, local OIDC/tenant and database-policy boundaries, distributed abuse-control contract, tenant-scoped PDF quarantine, role-filtered retrieval before generation, defensive generation checks, and permission audits. |
 | Evaluation | 130-question regression benchmark, three independently sealed holdouts, human adjudication, failure matrices, cost tracking, and durable exactly-once-oriented execution evidence. |
 | Operations | Feedback, observability, audit logs, health/readiness endpoints, Docker Compose, CI, and Azure-ready deployment documentation. |
 
@@ -33,7 +33,7 @@ Human review classified the eight Phase 49 automated failures as four evaluator-
 - Permission filtering before generation, with zero leakage across the latest fresh holdout.
 - Benchmark-driven iteration without presenting tuned regression scores as unseen performance.
 - Independent holdout authoring, immutable one-time runs, human adjudication, and durable recovery-aware evaluation infrastructure.
-- Honest boundaries: synthetic data, local demo auth, heuristic metrics, local uploaded-file storage, and no production deployment claim.
+- Honest boundaries: synthetic/non-sensitive upload data, local fixture scanning and subprocess parsing, local demo auth, heuristic metrics, and no production deployment claim.
 
 ## Five-Minute Review Path
 
@@ -47,7 +47,7 @@ See the [interactive demo guide](docs/demo/interactive-demo-guide.md) and [scree
 
 ## Core Capabilities
 
-- **Knowledge lifecycle:** synthetic enterprise corpus, section-based ingestion, PDF extraction, editable Markdown review, optional AI cleanup, versioning, and approval-gated indexing.
+- **Knowledge lifecycle:** synthetic enterprise corpus, section-based ingestion, strict PDF envelope checks, tenant quarantine, fixture scanning, bounded extraction, editable Markdown review, optional AI cleanup, versioning, and approval-gated indexing.
 - **Scoped retrieval:** global Dev/Admin retrieval plus strict project, department, membership, and document-role filters for App queries.
 - **Grounded generation:** vector + lexical reranking, multi-document planning, evidence-sufficiency routing, structured answer/refusal/clarification behavior, exact and semantic claim validation, one bounded repair, citation validation, and confidence interpretation.
 - **Safety:** pre-generation permission filtering, structured request assessment, direct prompt-override blocking, restricted-answer handling, source-instruction validation, audit events, and zero-tolerance leakage gates.

@@ -796,9 +796,13 @@ export function DepartmentDetailClient({
         <div className="rounded-md border border-stone-300 bg-white p-5 shadow-card">
           <SectionHeading
             title="Upload PDF"
-            description="Extract text to Markdown for review, then approve it for local indexing."
+            description="Quarantine and inspect a PDF, extract text to Markdown for review, then approve it for local indexing."
           />
           <form onSubmit={handleUpload} className="space-y-3 rounded border border-dashed border-stone-300 bg-stone-50 p-4">
+            <p className="rounded border border-rust/40 bg-rust-soft/40 p-3 text-sm leading-6 text-rust-dark">
+              Synthetic or non-sensitive business data only. Do not upload personal, regulated, health, payment-card,
+              government-ID, credential, or secret-bearing content. PDF only, up to 10 MB and 100 pages.
+            </p>
             <label className="block">
               <span className="text-sm font-medium text-stone-700">PDF file</span>
               <input
