@@ -33,7 +33,7 @@ CHECKS = (
     ("phase62_assessment", [sys.executable, "scripts/test_phase62_security_prechecks.py"]),
     ("phase63_release_gate", [sys.executable, "scripts/test_phase63_release_gates.py"]),
     ("repository_secret_scan", [sys.executable, "scripts/scan_phase60_secrets.py", "--scan-path", "."]),
-    ("web_typecheck", [NPM_EXECUTABLE, "--prefix", "apps/web", "exec", "--", "tsc", "--noEmit", "--incremental", "false"]),
+    ("web_typecheck", [NPM_EXECUTABLE, "--prefix", "apps/web", "exec", "--", "tsc", "--project", "apps/web/tsconfig.json", "--noEmit", "--incremental", "false"]),
     ("compose_config", ["docker", "compose", "config", "--quiet"]),
 )
 

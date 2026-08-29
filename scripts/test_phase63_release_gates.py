@@ -11,7 +11,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from apps.api.app.evaluation.release_gate import ReleaseGateError, evaluate_release, load_json, sha256_file
-from scripts.run_phase63_deterministic_checks import NPM_EXECUTABLE
+from scripts.run_phase63_deterministic_checks import CHECKS, NPM_EXECUTABLE
 
 POLICY_PATH = ROOT / "data" / "evaluation" / "release-gates" / "phase63-policy.json"
 READINESS_PATH = ROOT / "data" / "evaluation" / "defense" / "phase55-defense-readiness.json"
@@ -139,6 +139,8 @@ def test_drift_inputs_require_reviewed_sources() -> None:
 def test_platform_executables_are_resolved() -> None:
     if os.name == "nt":
         assert NPM_EXECUTABLE.lower().endswith(("npm.cmd", "npm.exe"))
+    web_command = next(command for check_id, command in CHECKS if check_id == "web_typecheck")
+    assert web_command[web_command.index("--project") + 1] == "apps/web/tsconfig.json"
 
 
 def main() -> None:
