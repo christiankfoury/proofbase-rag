@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import { defenseEvidence } from "@/lib/defenseEvidence";
+import { releaseEvidence } from "@/lib/releaseEvidence";
 
 const formatRate = (value: number) => `${(value * 100).toFixed(value === 0 ? 0 : 1)}%`;
 const formatCost = (value: number) => `$${value.toFixed(6)}`;
@@ -88,13 +89,26 @@ export default function DefenseReadinessPage() {
         </Card>
       </section>
 
+      <Card tone={releaseEvidence.production_promotion_allowed ? "good" : "warn"} className="mt-8">
+        <SectionHeading title="Phase 63 Release Decision" description={`Exact runtime ${releaseEvidence.runtime_commit.slice(0, 12)}; ${releaseEvidence.deterministic_checks.check_count} deterministic checks.`} />
+        <div className="grid gap-3 sm:grid-cols-3">
+          <MetricCard label="Portfolio controls" value={releaseEvidence.portfolio_release_controls_ready ? "READY" : "BLOCKED"} tone={releaseEvidence.portfolio_release_controls_ready ? "good" : "warn"} />
+          <MetricCard label="Hard security gates" value={releaseEvidence.hard_security_gates.passed ? "PASS" : "FAIL"} tone={releaseEvidence.hard_security_gates.passed ? "good" : "risk"} />
+          <MetricCard label="Production promotion" value={releaseEvidence.production_promotion_allowed ? "ALLOWED" : "BLOCKED"} tone={releaseEvidence.production_promotion_allowed ? "good" : "warn"} />
+        </div>
+        <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-stone-700">
+          {releaseEvidence.production_blockers.map((blocker) => <li key={blocker}>{blocker.replaceAll("_", " ")}</li>)}
+        </ul>
+        <p className="mt-4 text-sm leading-6 text-stone-600">{releaseEvidence.claim_boundary}</p>
+      </Card>
+
       <Card className="mt-8">
         <SectionHeading title="Known Limits And Next Gate" />
         <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-stone-700">
           {defenseEvidence.limitations.map((limitation) => <li key={limitation}>{limitation}</li>)}
         </ul>
         <p className="mt-4 rounded border border-rust bg-rust-soft/40 p-3 text-sm leading-6 text-rust-dark">
-          The new {defenseEvidence.holdout.case_count}-case holdout is {defenseEvidence.holdout.status.replaceAll("_", " ")} against runtime {defenseEvidence.holdout.frozen_runtime_commit?.slice(0, 7)} and supports no current claim. Phase 56 may proceed locally after tenant ownership, multi-tenant membership, session behavior, offboarding, and seeded-data migration decisions are supplied; live identity or cloud integration requires separate approval.
+          The {defenseEvidence.holdout.case_count}-case Phase 55 holdout is {defenseEvidence.holdout.status.replaceAll("_", " ")} against runtime {defenseEvidence.holdout.frozen_runtime_commit?.slice(0, 7)} and supports no current claim. A future claim requires a newly authored post-freeze suite; live identity, monitoring, availability evidence, human review, and independent validation remain external gates.
         </p>
       </Card>
     </Shell>

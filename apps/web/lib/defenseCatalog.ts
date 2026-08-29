@@ -1,4 +1,5 @@
 import { defenseEvidence, defenseStage } from "@/lib/defenseEvidence";
+import { releaseEvidence } from "@/lib/releaseEvidence";
 
 export type DefenseStatus =
   | "implemented"
@@ -389,12 +390,15 @@ export const productionReadinessCatalog: DefenseCatalogItem[] = [
     id: "release-gates",
     title: "Ongoing adversarial release gates",
     phase: "Phase 63",
-    status: "planned",
-    summary: "Run deterministic and budgeted semantic suites, preserve fresh sealed holdouts, and block releases on hard safety failures.",
-    boundary: "Development suites and previously opened holdouts cannot be relabeled as fresh independent release evidence.",
-    evidence: [],
-    limitations: [`The ${defenseEvidence.holdout.case_count}-case Phase 55 holdout is sealed and unexecuted; it supports no claim until a future predeclared release protocol opens it without runtime tuning.`],
-    last_verified: "Not yet verified",
+    status: "implemented",
+    summary: `Binds ${releaseEvidence.deterministic_checks.check_count} deterministic checks and hard, quality, finding, human, rollback, monitoring, availability, and sealed-custody gates to an exact runtime commit.`,
+    boundary: `Local portfolio controls are ready, but production promotion is blocked (${releaseEvidence.production_blockers.length} explicit blockers). Development suites and prior holdouts cannot be relabeled as fresh release evidence.`,
+    evidence: [
+      { label: "Defense readiness", href: "/dev-admin/defense-readiness", detail: `Shows the decision for runtime ${releaseEvidence.runtime_commit.slice(0, 12)} and its explicit production blockers.` },
+      { label: "Trust & Safety", href: "/trust", detail: "Keeps the local release-control implementation separate from production and fresh-holdout claims." },
+    ],
+    limitations: [releaseEvidence.claim_boundary, `Production blockers: ${releaseEvidence.production_blockers.join(", ")}. All protected Phase 47-49 and Phase 55 holdout hashes match and no protected suite was executed.`],
+    last_verified: "2026-08-28",
   },
 ];
 
