@@ -25,6 +25,9 @@ jobs:
       - name: Compile Python
         run: python -m compileall apps scripts
 
+      - name: Scan source for secrets
+        run: python scripts/scan_phase60_secrets.py
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -42,8 +45,14 @@ jobs:
           NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
         run: npm run build
 
+      - name: Scan frontend build output for secrets
+        run: python scripts/scan_phase60_secrets.py --scan-path apps/web/.next --include-build-output
+
       - name: Docker build API
         run: docker build -f apps/api/Dockerfile -t proofbase-api:ci .
+
+      - name: Scan API image for secrets
+        run: python scripts/scan_phase60_secrets.py --container-image proofbase-api:ci
 
       - name: Docker build web
         run: docker build -f apps/web/Dockerfile -t proofbase-web:ci .

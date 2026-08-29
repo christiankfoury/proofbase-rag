@@ -5,6 +5,7 @@ from typing import Any
 
 from apps.api.app.db.session import get_connection
 from apps.api.app.auth.tenant_context import current_tenant_id
+from apps.api.app.privacy.redaction import bounded_reason_code, sanitize_for_log
 
 
 def log_audit_event(
@@ -19,7 +20,7 @@ def log_audit_event(
     metadata: dict[str, Any] | None = None,
     tenant_id: str | None = None,
 ) -> bool:
-    safe_metadata = metadata or {}
+    safe_metadata = sanitize_for_log(metadata or {})
     try:
         with get_connection() as conn:
             selected_tenant_id = tenant_id or current_tenant_id()
@@ -38,7 +39,7 @@ def log_audit_event(
                     document_id,
                     resource_type,
                     outcome,
-                    reason,
+                    bounded_reason_code(reason),
                     json.dumps(safe_metadata),
                 ),
             )
@@ -78,7 +79,12 @@ def list_audit_events(
                 """,
                 params,
             ).fetchall()
-        return [dict(row) for row in rows]
+        result: list[dict[str, Any]] = []
+        for row in rows:
+            event = dict(row)
+            event["metadata_json"] = sanitize_for_log(event.get("metadata_json") or {})
+            result.append(event)
+        return result
     except Exception:
         return []
 

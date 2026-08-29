@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import json
+import os
 import threading
 from pathlib import Path
 from typing import Any
 
 from apps.api.app.core.config import get_settings
+from apps.api.app.privacy.redaction import sanitize_for_log, text_fingerprint
 
 ROOT = Path(__file__).resolve().parents[4]
 
@@ -23,10 +25,15 @@ def log_request(entry: dict[str, Any]) -> None:
     try:
         log_path = get_observability_log_path()
         log_path.parent.mkdir(parents=True, exist_ok=True)
-        line = json.dumps(entry, default=str) + "\n"
+        line = (json.dumps(sanitize_for_log(entry), default=str) + "\n").encode("utf-8")
         with _lock:
-            with log_path.open("a", encoding="utf-8") as fh:
+            descriptor = os.open(log_path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+            with os.fdopen(descriptor, "ab") as fh:
                 fh.write(line)
+            try:
+                log_path.chmod(0o600)
+            except OSError:
+                pass
     except Exception:
         return
 
@@ -69,8 +76,8 @@ def build_request_entry(
         "tenant_id": tenant_id,
         "user_role": user_role,
         "session_id": session_id,
-        "question": question_truncated,
-        "rewritten_question": rewritten_question,
+        "question_hash": text_fingerprint(question_truncated, length=32),
+        "rewritten_question_hash": text_fingerprint(rewritten_question, length=32),
         "retrieval_mode": retrieval_mode,
         "chunking_strategy": chunking_strategy,
         "top_k": top_k,

@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, Request, UploadFile
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 from psycopg import Error as PsycopgError
@@ -149,6 +150,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.exception_handler(RequestValidationError)
+async def request_validation_error_handler(_request: Request, exc: RequestValidationError) -> JSONResponse:
+    errors = [
+        {
+            "location": [str(part)[:80] for part in error.get("loc", ())],
+            "type": str(error.get("type", "validation_error"))[:80],
+        }
+        for error in exc.errors()[:20]
+    ]
+    return JSONResponse(status_code=422, content={"detail": "Request validation failed.", "errors": errors})
 
 
 def _limit_context(user: dict, request: Request) -> LimitContext:
@@ -1446,7 +1459,7 @@ def approve_department_document_route(
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except RuntimeError as exc:
-        raise HTTPException(status_code=503, detail=str(exc)) from exc
+        raise HTTPException(status_code=503, detail="Document indexing is temporarily unavailable.") from exc
     except PsycopgError as exc:
         raise HTTPException(status_code=503, detail="Database error indexing approved document.") from exc
     if not document:
@@ -1565,10 +1578,10 @@ def cleanup_department_document_markdown_route(
                 resource_type="document",
                 document_id=document["external_document_id"],
                 outcome="failed",
-                reason=str(exc),
+                reason="cleanup_validation_failed",
                 metadata={"project_id": project_id, "department_id": department_id, "document_id": document["id"]},
             )
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail="Markdown cleanup request was rejected.") from exc
     except RuntimeError as exc:
         if document:
             log_audit_event(
@@ -1578,10 +1591,10 @@ def cleanup_department_document_markdown_route(
                 resource_type="document",
                 document_id=document["external_document_id"],
                 outcome="failed",
-                reason=str(exc),
+                reason="cleanup_provider_failed",
                 metadata={"project_id": project_id, "department_id": department_id, "document_id": document["id"]},
             )
-        raise HTTPException(status_code=503, detail=str(exc)) from exc
+        raise HTTPException(status_code=503, detail="Markdown cleanup is temporarily unavailable.") from exc
     except PsycopgError as exc:
         if document:
             log_audit_event(
@@ -2741,13 +2754,13 @@ def query(request: QueryRequest, http_request: Request, user: Annotated[dict, De
         raise
     except RuntimeError as exc:
         submit_failure_telemetry(exc)
-        raise HTTPException(status_code=503, detail=str(exc)) from exc
+        raise HTTPException(status_code=503, detail="Answer generation is temporarily unavailable.") from exc
     except PsycopgError as exc:
         submit_failure_telemetry(exc)
         raise HTTPException(status_code=503, detail="Database is not ready or the baseline schema has not been applied.") from exc
     except ValueError as exc:
         submit_failure_telemetry(exc)
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail="Invalid query request.") from exc
 
     user_message_id = None
     assistant_message_id = None

@@ -41,7 +41,7 @@ export default async function ObservabilityPage() {
     <Shell>
       <PageHeader
         title="Observability"
-        description="Live latency, token usage, and confidence from RAG request logs. Auto-refreshes every 15 seconds."
+        description="Live latency, token usage, confidence, and privacy-safe prompt fingerprints from RAG request logs. Auto-refreshes every 15 seconds."
         actions={<ObservabilityRefresh />}
       />
 
@@ -66,7 +66,7 @@ export default async function ObservabilityPage() {
                 <tr>
                   <th>Time</th>
                   <th>Role</th>
-                  <th>Question</th>
+                  <th>Question fingerprint</th>
                   <th>Response Type</th>
                   <th className="text-right">Confidence</th>
                   <th className="text-right">Total ms</th>
@@ -88,7 +88,7 @@ export default async function ObservabilityPage() {
                     </td>
                     <td className="whitespace-nowrap">{entry.user_role}</td>
                     <td className="max-w-xs text-stone-700">
-                      {entry.question.slice(0, 60)}{entry.question.length > 60 ? "…" : ""}
+                      <code className="text-xs">{entry.question_hash?.slice(0, 16) ?? "not recorded"}</code>
                     </td>
                     <td className="whitespace-nowrap">{entry.response_type ?? "-"}</td>
                     <td className={`text-right ${goodRateClass(entry.final_confidence)}`}>{entry.final_confidence?.toFixed(3) ?? "-"}</td>

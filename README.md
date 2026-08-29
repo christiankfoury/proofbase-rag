@@ -8,7 +8,7 @@
 | --- | --- |
 | Product | Project workspaces, owner-managed demo access, department document libraries, scoped chat, PDF-to-Markdown review, optional AI cleanup, and explicit approve/index. |
 | RAG | PostgreSQL/pgvector, keyword search, vector + lexical reranking, multi-source planning, evidence sufficiency, structured response types, post-generation claim validation, citations, and confidence signals. |
-| Security | Public Trust & Safety status page, local OIDC/tenant and database-policy boundaries, distributed abuse-control contract, tenant-scoped PDF quarantine, role-filtered retrieval before generation, defensive generation checks, and permission audits. |
+| Security | Public Trust & Safety status page, local OIDC/tenant and database-policy boundaries, distributed abuse controls, tenant PDF quarantine, mounted-secret boundary, privacy-safe logs, role-filtered retrieval, defensive generation checks, and permission audits. |
 | Evaluation | 130-question regression benchmark, three independently sealed holdouts, human adjudication, failure matrices, cost tracking, and durable exactly-once-oriented execution evidence. |
 | Operations | Feedback, observability, audit logs, health/readiness endpoints, Docker Compose, CI, and Azure-ready deployment documentation. |
 
@@ -52,7 +52,7 @@ See the [interactive demo guide](docs/demo/interactive-demo-guide.md) and [scree
 - **Grounded generation:** vector + lexical reranking, multi-document planning, evidence-sufficiency routing, structured answer/refusal/clarification behavior, exact and semantic claim validation, one bounded repair, citation validation, and confidence interpretation.
 - **Safety:** pre-generation permission filtering, structured request assessment, direct prompt-override blocking, restricted-answer handling, source-instruction validation, audit events, and zero-tolerance leakage gates.
 - **Evaluation:** retrieval, answer, citation, hallucination, memory, permission, multi-document, independent holdout, stability, and human-review workflows.
-- **Operations:** feedback review, request telemetry, token/cost estimates, Dockerized services, CI, and deployment-readiness documentation.
+- **Operations:** feedback review, content-minimized request telemetry, centralized redaction, token/cost estimates, secret scanning, Dockerized services, CI, and deployment-readiness documentation.
 
 ## Tech Stack
 

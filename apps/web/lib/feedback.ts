@@ -28,8 +28,8 @@ export type RequestLogEntry = {
   timestamp: string;
   user_role: string;
   session_id: string | null;
-  question: string;
-  rewritten_question: string | null;
+  question_hash: string | null;
+  rewritten_question_hash: string | null;
   retrieval_mode: string;
   response_type: string | null;
   final_confidence: number | null;

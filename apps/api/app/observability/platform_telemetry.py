@@ -8,6 +8,7 @@ from urllib import request
 from urllib.error import HTTPError, URLError
 
 from apps.api.app.core.config import Settings, get_settings
+from apps.api.app.privacy.redaction import sanitize_for_log
 
 logger = logging.getLogger("proofbase.platform_telemetry")
 
@@ -139,7 +140,7 @@ def sanitize_telemetry_event(
         payload[normalized_key] = _sanitize_value(value)
 
     payload.setdefault("source_app", "proofbase")
-    return payload
+    return sanitize_for_log(payload)
 
 
 def _send_json(endpoint: str, payload: dict[str, Any], api_key: str, timeout: float) -> int:
