@@ -456,7 +456,7 @@ Current and planned work includes:
 - Provider-neutral OIDC authentication, tenant ownership, and forced PostgreSQL row-level authorization are implemented and verified locally. A hosted identity provider and separately provisioned hosted database roles remain optional integration evidence, not completed production claims.
 - Identity/tenant/operation rate limits, shared concurrency leases, bounded payloads/retries, and tenant AI admission budgets are implemented and verified against the free local Redis Compose service; managed cache deployment remains optional and unclaimed.
 - Quarantined, scanned, isolated file processing behind storage and scanner interfaces; hosted providers remain optional.
-- Managed secrets, privacy-safe logs, security monitoring, and incident response.
+- Managed-secret boundaries, privacy-safe logs, local tenant-scoped security monitoring, tamper-evident event chaining, alert thresholds, and incident runbooks are implemented. Live SIEM/paging, named ownership, immutable external retention, and operational response remain unconnected.
 - Security-assessment readiness, optional independent penetration testing, and ongoing release-gated adversarial evaluation.
 
 The Phase 56 tenant, membership, demo-data, session, and offboarding decisions are approved and recorded in `docs/phase-55/phase-56-decision-gate.md`. Live identity, storage/scanning, monitoring, and independent-assessment integrations remain optional external gates and must not be inferred or presented as completed production controls. Any Azure or billable deployment also requires an explicit financial-safety review covering subscription limits, allowed services/SKUs, quotas, expiration, automatic teardown, and separate external-AI controls.

@@ -197,6 +197,9 @@ class Settings(BaseSettings):
     observability_retention_days: int = Field(default=30, ge=1, le=365)
     audit_retention_days: int = Field(default=365, ge=30, le=2555)
     incident_evidence_hold: bool = False
+    security_event_sink_mode: str = Field(default="local_jsonl", pattern="^(local_jsonl|external)$")
+    security_event_log_path: str = "data/security/security-events.jsonl"
+    security_notification_log_path: str = "data/security/local-notifications.jsonl"
     upload_storage_dir: str = "data/uploads"
     default_demo_user_id: str = "00000000-0000-0000-0000-000000002701"
     proofbase_telemetry_enabled: bool = Field(
@@ -301,6 +304,8 @@ class Settings(BaseSettings):
             raise ValueError("Production requires a connected malware-scanner adapter.")
         if self.app_environment == "production" and self.secret_provider_mode == "environment":
             raise ValueError("Production rejects environment-only secrets; use mounted_files or a connected managed provider.")
+        if self.app_environment == "production" and self.security_event_sink_mode != "external":
+            raise ValueError("Production requires a connected external security-event sink.")
         if self.app_environment == "production":
             if is_placeholder_secret(self.openai_api_key):
                 raise ValueError("Production requires a non-placeholder OpenAI credential from the selected secret provider.")
@@ -314,6 +319,8 @@ class Settings(BaseSettings):
                 raise ValueError("Production Redis requires TLS and a non-placeholder credential.")
             if self.proofbase_telemetry_enabled and is_placeholder_secret(self.proofbase_telemetry_api_key):
                 raise ValueError("Enabled production telemetry requires a non-placeholder credential.")
+            if self.security_event_sink_mode == "external":
+                raise ValueError("External security-event sink is selected but no destination adapter is connected.")
         if self.auth_mode == "oidc_fixture" and len(self.oidc_local_signing_secret.encode("utf-8")) < 32:
             raise ValueError("OIDC fixture mode requires an OIDC_LOCAL_SIGNING_SECRET of at least 32 bytes.")
         if self.session_idle_minutes >= self.session_absolute_minutes:

@@ -6,6 +6,7 @@ from typing import Any
 from apps.api.app.db.session import get_connection
 from apps.api.app.auth.tenant_context import current_tenant_id
 from apps.api.app.privacy.redaction import bounded_reason_code, sanitize_for_log
+from apps.api.app.monitoring.security_events import emit_audit_security_event
 
 
 def log_audit_event(
@@ -43,6 +44,14 @@ def log_audit_event(
                     json.dumps(safe_metadata),
                 ),
             )
+        emit_audit_security_event(
+            action=action,
+            outcome=outcome,
+            reason=bounded_reason_code(reason),
+            tenant_id=str(selected_tenant_id),
+            user_id=user_id,
+            metadata=safe_metadata,
+        )
         return True
     except Exception:
         # Audit logging must never expose content or break the user-facing path.

@@ -30,7 +30,7 @@ Open `http://localhost:3000`.
 | Projects | `/projects` | Project CRUD, seeded Northstar workspace, owner/admin-managed demo access, scoped ask entry points, department shortcuts, representative documents, upload/indexing status, quality status, and project audit events. |
 | Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, PDF upload for Markdown review, optional AI cleanup draft, cleanup provenance, extraction/current-review diff, active version metadata, extracted Markdown preview, edit, and archive controls. |
 | Chat Demo | `/chat` | Live scoped RAG query, project and department selection, role selection, `Why this answer?` proof, citations, confidence, latency, retrieved context, and feedback. |
-| Trust & Safety | `/trust` | Layered defense flow, code-owned control status, Phase 56-60 local identity/tenant/database-policy/abuse-control/secure-file/privacy evidence, hosted-integration limitations, and the Phase 61-63 readiness checklist. |
+| Trust & Safety | `/trust` | Layered defense flow, code-owned control status, Phase 56-61 local identity/tenant/database-policy/abuse/file/privacy/monitoring evidence, hosted-integration limitations, and the Phase 62-63 readiness checklist. |
 | Dev/Admin Overview | `/dev-admin` | Benchmark metrics plus a separate Independent Evaluation section showing the 70-case development run, one-time 30-case frozen holdout, stability slice, hard gates, failures, cost, and limitations without blending scores. |
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts with explicit pass/fail counts. |
 | Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows for Answer Generation v1 (`phase11-answer-generation-v1`) when detailed JSON exists. |
@@ -113,6 +113,11 @@ Open `http://localhost:3000`.
    - Page: `/dev-admin/defense-readiness`, then `/trust`.
    - Expected: the Dev/Admin page shows the versioned 102-case development manifest, definitive 130-question runtime, 40-check permission evidence, stage latency/cost and false-positive signals, and all hard gates. The public page uses the same generated numbers while retaining code-reviewed limitations.
    - Boundary: the post-freeze Phase 55 holdout is sealed but unexecuted and does not support a new generalization claim.
+
+13. Local security monitoring
+   - Page: `/dev-admin/security-monitoring` as `Kai Admin`.
+   - Expected: the active tenant's content-free events, active local alerts, hash-chain integrity, and full threshold catalog.
+   - Boundary: local JSONL delivery is not a live SIEM, pager, immutable external audit store, or staffed response capability; owners remain visibly unassigned.
 
 ## Demo Notes
 

@@ -66,6 +66,7 @@ from apps.api.app.memory.session_store import (
     get_session,
     list_messages,
 )
+from apps.api.app.monitoring.security_events import emit_security_event, security_snapshot
 from apps.api.app.observability.logger import build_request_entry, log_request
 from apps.api.app.observability.query_telemetry import (
     query_error_category,
@@ -446,6 +447,13 @@ def current_demo_user(
     if settings.auth_mode == "oidc":
         raise HTTPException(status_code=503, detail="The hosted OIDC provider adapter is not connected.")
     if not authorization or not authorization.startswith("Bearer "):
+        emit_security_event(
+            category="authentication_failure",
+            action="http_authentication_failed",
+            outcome="denied",
+            reason="bearer_token_required",
+            tenant_id=x_tenant_id,
+        )
         raise HTTPException(status_code=401, detail="A bearer token is required.")
     if not x_tenant_id:
         raise HTTPException(status_code=400, detail="X-Tenant-Id is required for multi-tenant requests.")
@@ -467,9 +475,24 @@ def current_demo_user(
         if isinstance(token_id, str) and token_is_revoked(issuer=claims["iss"], token_id=token_id):
             raise OidcValidationError("Bearer token is revoked.")
     except OidcValidationError as exc:
+        emit_security_event(
+            category="authentication_failure",
+            action="identity_validation_failed",
+            outcome="denied",
+            reason="token_validation_failed",
+            tenant_id=selected_tenant_id,
+        )
         raise HTTPException(status_code=401, detail=str(exc)) from exc
     tenant_ids = claims.get("tenant_ids")
     if not isinstance(tenant_ids, list) or selected_tenant_id not in tenant_ids:
+        emit_security_event(
+            category="cross_tenant_attempt",
+            action="cross_tenant_identity_attempt",
+            outcome="denied",
+            reason="selected_tenant_not_in_claims",
+            tenant_id=selected_tenant_id,
+            user_id=str(claims.get("sub") or ""),
+        )
         raise HTTPException(status_code=403, detail="The token does not authorize the selected tenant.")
     try:
         set_request_principal(tenant_id=selected_tenant_id, user_id=claims["sub"])
@@ -481,7 +504,18 @@ def current_demo_user(
 
 
 def current_admin_user(user: Annotated[dict, Depends(current_demo_user)]) -> dict:
-    require_admin(user)
+    try:
+        require_admin(user)
+    except HTTPException:
+        emit_security_event(
+            category="authorization_denial",
+            action="admin_access_denied",
+            outcome="denied",
+            reason="admin_role_required",
+            tenant_id=user.get("tenant_id"),
+            user_id=user.get("id"),
+        )
+        raise
     return user
 
 
@@ -1004,6 +1038,17 @@ def audit_summary_route(user: Annotated[dict, Depends(current_admin_user)]) -> d
     return get_audit_summary()
 
 
+@app.get("/security/monitoring")
+def security_monitoring_route(
+    user: Annotated[dict, Depends(current_admin_user)],
+    limit: int = 100,
+) -> dict:
+    try:
+        return security_snapshot(tenant_id=user["tenant_id"], limit=max(1, min(limit, 500)))
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail="Security monitoring destination is unavailable.") from exc
+
+
 @app.get("/projects")
 def projects_route(user: Annotated[dict, Depends(current_demo_user)], include_archived: bool = False) -> dict:
     try:
@@ -1295,6 +1340,15 @@ async def upload_department_document_route(
             data_classification=data_classification,
         )
     except FilePolicyError as exc:
+        log_audit_event(
+            action="file_processing_rejected",
+            user_role=user["business_role"],
+            user_id=user["id"],
+            resource_type="file",
+            outcome="rejected",
+            reason=exc.reason_code,
+            metadata={"project_id": project_id, "department_id": department_id, "stage": "envelope"},
+        )
         raise HTTPException(status_code=exc.status_code, detail=exc.reason_code) from exc
 
     upload_id = str(uuid.uuid4())
@@ -1367,6 +1421,16 @@ async def upload_department_document_route(
             _reject_file_object_best_effort(file_object_id, exc.reason_code)
         elif storage_key and not file_object_id:
             storage.delete(user["tenant_id"], storage_key)
+        log_audit_event(
+            action="file_processing_rejected",
+            user_role=user["business_role"],
+            user_id=user["id"],
+            resource_type="file",
+            document_id=file_object_id,
+            outcome="rejected",
+            reason=exc.reason_code,
+            metadata={"project_id": project_id, "department_id": department_id, "stage": "scan_or_parse"},
+        )
         raise HTTPException(status_code=exc.status_code, detail=exc.reason_code) from exc
     except PsycopgError as exc:
         if storage_key and not file_object_id:

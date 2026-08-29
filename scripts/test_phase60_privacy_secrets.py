@@ -159,9 +159,9 @@ def test_secret_provider_rotation_revocation_and_production_guards() -> None:
         secret_path.write_text(second, encoding="utf-8")
         assert provider.get("openai_api_key") == second
 
-        production = Settings(
+        mounted = Settings(
             _env_file=None,
-            app_environment="production",
+            app_environment="development",
             auth_mode="oidc",
             database_url="postgresql://" + "proofbase_runtime:StrongDatabaseCredential123@db/proofbase",
             database_enforce_rls=True,
@@ -172,8 +172,24 @@ def test_secret_provider_rotation_revocation_and_production_guards() -> None:
             secret_provider_mode="mounted_files",
             secret_mount_dir=str(root),
         )
-        assert production.openai_api_key == second
-        assert second not in repr(production) and "S" * 64 not in repr(production)
+        assert mounted.openai_api_key == second
+        assert second not in repr(mounted) and "S" * 64 not in repr(mounted)
+
+        production_values = mounted.model_dump()
+        production_values.update({
+            "_env_file": None,
+            "app_environment": "production",
+            "security_event_sink_mode": "external",
+            "secret_provider_mode": "mounted_files",
+            "secret_mount_dir": str(root),
+        })
+        try:
+            Settings(**production_values)
+        except ValueError as exc:
+            assert "no destination adapter" in str(exc)
+            assert second not in str(exc)
+        else:
+            raise AssertionError("Production claimed an unconnected security-event destination")
 
         secret_path.unlink()
         assert provider.get("openai_api_key") is None
@@ -184,7 +200,9 @@ def test_secret_provider_rotation_revocation_and_production_guards() -> None:
         else:
             raise AssertionError("Traversal secret name was accepted")
 
-        common = production.model_dump()
+        common = mounted.model_dump()
+        common["app_environment"] = "production"
+        common["security_event_sink_mode"] = "external"
         common.update({"_env_file": None, "openai_api_key": second, "file_access_signing_secret": "S" * 64})
         common.pop("secret_provider_mode", None)
         common.pop("secret_mount_dir", None)
