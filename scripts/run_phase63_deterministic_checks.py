@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -13,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "data" / "evaluation" / "release-gates" / "phase63-deterministic-checks.json"
 ALLOWED_DIRTY = {"data/observability/request-logs.jsonl"}
+NPM_EXECUTABLE = shutil.which("npm") or "npm"
 
 CHECKS = (
     ("python_compile", [sys.executable, "-m", "py_compile", "apps/api/app/main.py", "apps/api/app/evaluation/release_gate.py", "scripts/run_phase63_release_gate.py"]),
@@ -31,7 +33,7 @@ CHECKS = (
     ("phase62_assessment", [sys.executable, "scripts/test_phase62_security_prechecks.py"]),
     ("phase63_release_gate", [sys.executable, "scripts/test_phase63_release_gates.py"]),
     ("repository_secret_scan", [sys.executable, "scripts/scan_phase60_secrets.py", "--scan-path", "."]),
-    ("web_typecheck", ["npm", "--prefix", "apps/web", "exec", "--", "tsc", "--noEmit", "--incremental", "false"]),
+    ("web_typecheck", [NPM_EXECUTABLE, "--prefix", "apps/web", "exec", "--", "tsc", "--noEmit", "--incremental", "false"]),
     ("compose_config", ["docker", "compose", "config", "--quiet"]),
 )
 

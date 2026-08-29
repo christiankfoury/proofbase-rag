@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -10,6 +11,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from apps.api.app.evaluation.release_gate import ReleaseGateError, evaluate_release, load_json, sha256_file
+from scripts.run_phase63_deterministic_checks import NPM_EXECUTABLE
 
 POLICY_PATH = ROOT / "data" / "evaluation" / "release-gates" / "phase63-policy.json"
 READINESS_PATH = ROOT / "data" / "evaluation" / "defense" / "phase55-defense-readiness.json"
@@ -134,6 +136,11 @@ def test_drift_inputs_require_reviewed_sources() -> None:
     assert "reviewed incidents" in docs and "reviewed feedback" in docs
 
 
+def test_platform_executables_are_resolved() -> None:
+    if os.name == "nt":
+        assert NPM_EXECUTABLE.lower().endswith(("npm.cmd", "npm.exe"))
+
+
 def main() -> None:
     test_current_local_evidence_passes_controls_but_blocks_production()
     test_hard_failure_and_open_high_block()
@@ -141,6 +148,7 @@ def main() -> None:
     test_sealed_suite_cannot_be_development_input()
     test_missing_check_and_provenance_mismatch_fail_closed()
     test_drift_inputs_require_reviewed_sources()
+    test_platform_executables_are_resolved()
     print("Phase 63 adversarial release-gate checks passed.")
 
 
