@@ -17,6 +17,18 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: proofbase-redis
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "64mb", "--maxmemory-policy", "noeviction"]
+    ports:
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   api:
     build:
       context: .
@@ -24,6 +36,8 @@ services:
     container_name: proofbase-api
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/enterprise_knowledge_agent
@@ -38,6 +52,12 @@ services:
       DEFAULT_DEMO_TENANT_ID: ${DEFAULT_DEMO_TENANT_ID:-00000000-0000-0000-0000-000000002801}
       DATABASE_ENFORCE_RLS: ${DATABASE_ENFORCE_RLS:-true}
       DATABASE_RUNTIME_ROLE: ${DATABASE_RUNTIME_ROLE:-proofbase_runtime}
+      RATE_LIMIT_BACKEND: ${RATE_LIMIT_BACKEND:-redis}
+      REDIS_URL: redis://redis:6379/0
+      MAX_REQUEST_BYTES: ${MAX_REQUEST_BYTES:-12000000}
+      MAX_QUESTION_CHARS: ${MAX_QUESTION_CHARS:-4000}
+      TENANT_DAILY_AI_BUDGET_USD: ${TENANT_DAILY_AI_BUDGET_USD:-5.0}
+      EXTERNAL_AI_MAX_RETRIES: ${EXTERNAL_AI_MAX_RETRIES:-1}
       OPENAI_API_KEY_FILE: /run/secrets/openai_api_key
       OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4.1-mini}
       OPENAI_CHAT_MODEL: ${OPENAI_CHAT_MODEL:-gpt-4.1-mini}

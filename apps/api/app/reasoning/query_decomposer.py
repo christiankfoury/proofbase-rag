@@ -26,7 +26,7 @@ _DECOMPOSE_SYSTEM = (
 
 def _client() -> OpenAI:
     settings = get_settings()
-    return OpenAI(api_key=settings.openai_api_key)
+    return OpenAI(api_key=settings.openai_api_key, max_retries=settings.external_ai_max_retries)
 
 
 def decompose_question(question: str, model: str = "gpt-4.1-mini") -> list[str]:

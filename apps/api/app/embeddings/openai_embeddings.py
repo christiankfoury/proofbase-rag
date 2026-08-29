@@ -14,7 +14,7 @@ def _client() -> OpenAI:
     settings = get_settings()
     if not settings.openai_api_key:
         raise RuntimeError("OPENAI_API_KEY is required for embedding generation")
-    return OpenAI(api_key=settings.openai_api_key)
+    return OpenAI(api_key=settings.openai_api_key, max_retries=settings.external_ai_max_retries)
 
 
 def clear_embedding_cache() -> None:

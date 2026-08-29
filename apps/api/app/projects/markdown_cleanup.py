@@ -29,7 +29,7 @@ def _client() -> OpenAI:
     settings = get_settings()
     if not settings.openai_api_key:
         raise RuntimeError("OPENAI_API_KEY is required for AI Markdown cleanup")
-    return OpenAI(api_key=settings.openai_api_key)
+    return OpenAI(api_key=settings.openai_api_key, max_retries=settings.external_ai_max_retries)
 
 
 def _validate_cleaned_markdown(cleaned_markdown: str, source_markdown: str) -> str:

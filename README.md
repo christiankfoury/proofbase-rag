@@ -454,7 +454,7 @@ Current and planned work includes:
 
 - Structured request assessment, permission-aware evidence sufficiency, post-generation validation, and consolidated defense observability are implemented and measured. `/dev-admin/defense-readiness` reads a generated 102-case evidence manifest plus the definitive 130-question runtime and 40-check permission artifacts.
 - Provider-neutral OIDC authentication, tenant ownership, and forced PostgreSQL row-level authorization are implemented and verified locally. A hosted identity provider and separately provisioned hosted database roles remain optional integration evidence, not completed production claims.
-- Distributed rate limits, quotas, and AI cost-abuse controls.
+- Identity/tenant/operation rate limits, shared concurrency leases, bounded payloads/retries, and tenant AI admission budgets are implemented and verified against the free local Redis Compose service; managed cache deployment remains optional and unclaimed.
 - Quarantined, scanned, isolated file processing behind storage and scanner interfaces; hosted providers remain optional.
 - Managed secrets, privacy-safe logs, security monitoring, and incident response.
 - Security-assessment readiness, optional independent penetration testing, and ongoing release-gated adversarial evaluation.

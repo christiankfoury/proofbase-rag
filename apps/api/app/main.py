@@ -4,14 +4,20 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Annotated
 
-from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from psycopg import Error as PsycopgError
 from pydantic import BaseModel, Field
 
 from apps.api.app.audit.audit_logger import audit_summary as get_audit_summary
 from apps.api.app.audit.audit_logger import list_audit_events, log_audit_event
+from apps.api.app.abuse.limiter import (
+    LimitContext,
+    LimiterUnavailableError,
+    OperationLease,
+    get_rate_limit_manager,
+)
 from apps.api.app.auth.demo_auth import (
     DEMO_USER_HEADER,
     TENANT_HEADER,
@@ -137,8 +143,111 @@ app.add_middleware(
 )
 
 
+def _limit_context(user: dict, request: Request) -> LimitContext:
+    client_host = request.client.host if request.client else "unknown"
+    return LimitContext(
+        tenant_id=user.get("tenant_id") or str(current_tenant_id()),
+        user_id=user.get("id") or "unknown-user",
+        ip_risk_context=f"direct:{client_host}",
+    )
+
+
+def _raise_rate_limit(*, operation: str, context: LimitContext, retry_after_seconds: int) -> None:
+    try:
+        audit_allowed = get_rate_limit_manager().allow_denial_audit(operation, context)
+    except LimiterUnavailableError:
+        audit_allowed = False
+    if audit_allowed:
+        log_audit_event(
+            action="rate_limit_denied",
+            user_role="System",
+            user_id=context.user_id,
+            resource_type="abuse_control",
+            outcome="denied",
+            reason=operation,
+            metadata={"operation": operation, "retry_after_bucket": min(3600, max(1, retry_after_seconds))},
+        )
+    raise HTTPException(
+        status_code=429,
+        detail="Request limit reached. Retry later.",
+        headers={"Retry-After": str(max(1, retry_after_seconds))},
+    )
+
+
+def _enforce_operation_limit(operation: str, user: dict, request: Request) -> LimitContext:
+    context = _limit_context(user, request)
+    try:
+        result = get_rate_limit_manager().enforce(operation, context)
+    except LimiterUnavailableError as exc:
+        raise HTTPException(status_code=503, detail="Abuse controls are temporarily unavailable.") from exc
+    if not result.allowed:
+        _raise_rate_limit(operation=operation, context=context, retry_after_seconds=result.retry_after_seconds)
+    return context
+
+
+def _enforce_question_length(question: str) -> None:
+    if len(question) > get_settings().max_question_chars:
+        raise HTTPException(status_code=413, detail="Question is too long.")
+
+
+def _acquire_operation_lease(operation: str, context: LimitContext) -> OperationLease | None:
+    try:
+        result, lease = get_rate_limit_manager().acquire(operation, context)
+    except LimiterUnavailableError as exc:
+        raise HTTPException(status_code=503, detail="Abuse controls are temporarily unavailable.") from exc
+    if not result.allowed:
+        _raise_rate_limit(operation=operation, context=context, retry_after_seconds=result.retry_after_seconds)
+    return lease
+
+
+def _reserve_external_ai(context: LimitContext, *, estimated_cost_microusd: int) -> None:
+    try:
+        result = get_rate_limit_manager().reserve_external_ai(
+            context,
+            estimated_cost_microusd=estimated_cost_microusd,
+        )
+    except LimiterUnavailableError as exc:
+        raise HTTPException(status_code=503, detail="Cost controls are temporarily unavailable.") from exc
+    if not result.allowed:
+        _raise_rate_limit(
+            operation="external_ai_budget",
+            context=context,
+            retry_after_seconds=result.retry_after_seconds,
+        )
+
+
+@app.middleware("http")
+async def bound_request_size_and_auth_rate(request: Request, call_next):
+    settings = get_settings()
+    content_length = request.headers.get("content-length")
+    if content_length:
+        try:
+            if int(content_length) > settings.max_request_bytes:
+                return JSONResponse(status_code=413, content={"detail": "Request body is too large."})
+        except ValueError:
+            return JSONResponse(status_code=400, content={"detail": "Invalid Content-Length header."})
+    if request.url.path.startswith("/auth/"):
+        client_host = request.client.host if request.client else "unknown"
+        context = LimitContext(
+            tenant_id=f"preauth:{client_host}",
+            user_id=f"preauth:{client_host}",
+            ip_risk_context=f"direct:{client_host}",
+        )
+        try:
+            result = get_rate_limit_manager().enforce("auth", context)
+        except LimiterUnavailableError:
+            return JSONResponse(status_code=503, content={"detail": "Abuse controls are temporarily unavailable."})
+        if not result.allowed:
+            return JSONResponse(
+                status_code=429,
+                content={"detail": "Request limit reached. Retry later."},
+                headers={"Retry-After": str(max(1, result.retry_after_seconds))},
+            )
+    return await call_next(request)
+
+
 class QueryRequest(BaseModel):
-    question: str = Field(..., min_length=1)
+    question: str = Field(..., min_length=1, max_length=4_000)
     user_role: str = "Employee"
     session_id: str | None = None
     user_id: str | None = None
@@ -163,13 +272,13 @@ class CreateSessionRequest(BaseModel):
 class FeedbackRequest(BaseModel):
     session_id: str | None = None
     message_id: str | None = None
-    question: str = Field(..., min_length=1)
-    answer: str = Field(..., min_length=1)
+    question: str = Field(..., min_length=1, max_length=4_000)
+    answer: str = Field(..., min_length=1, max_length=20_000)
     response_type: str | None = None
     citations: list[dict] | None = None
     user_role: str = "Employee"
     rating: str = Field(..., pattern="^(thumbs_up|thumbs_down)$")
-    user_comment: str | None = None
+    user_comment: str | None = Field(None, max_length=2_000)
     feedback_category: str = "other"
 
 
@@ -540,7 +649,8 @@ def auth_me_route(user: Annotated[dict, Depends(current_demo_user)]) -> dict:
 
 
 @app.post("/chat/sessions")
-def create_chat_session(request: CreateSessionRequest, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+def create_chat_session(request: CreateSessionRequest, http_request: Request, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+    _enforce_operation_limit("chat_session", user, http_request)
     effective_role = _effective_query_role(request.user_role, user, project_scoped=False)
     session_id = create_session(effective_role, user_id=user["id"])
     return {"session_id": session_id, "user_role": effective_role, "user_id": user["id"]}
@@ -692,7 +802,8 @@ def evaluation_failed_questions_enriched(user: Annotated[dict, Depends(current_a
 
 
 @app.post("/evaluation/algorithm-reviews", status_code=201)
-def algorithm_review_route(request: AlgorithmReviewRequest, user: Annotated[dict, Depends(current_admin_user)]) -> dict:
+def algorithm_review_route(request: AlgorithmReviewRequest, http_request: Request, user: Annotated[dict, Depends(current_admin_user)]) -> dict:
+    _enforce_operation_limit("evaluation", user, http_request)
     review_id = str(uuid.uuid4())
     recorded = log_audit_event(
         action="algorithm_profile_reviewed",
@@ -722,7 +833,8 @@ def algorithm_review_route(request: AlgorithmReviewRequest, user: Annotated[dict
 
 
 @app.post("/evaluation/reviews", status_code=201)
-def create_evaluation_review_route(request: EvaluationReviewRequest, user: Annotated[dict, Depends(current_admin_user)]) -> dict:
+def create_evaluation_review_route(request: EvaluationReviewRequest, http_request: Request, user: Annotated[dict, Depends(current_admin_user)]) -> dict:
+    _enforce_operation_limit("evaluation", user, http_request)
     if request.answer_correctness not in {0, 0.5, 1} or request.citation_correctness not in {0, 0.5, 1}:
         raise HTTPException(status_code=400, detail="Correctness labels must be 0, 0.5, or 1.")
     try:
@@ -779,7 +891,8 @@ def evaluation_reviews_route(
 
 
 @app.post("/feedback")
-def post_feedback(request: FeedbackRequest, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+def post_feedback(request: FeedbackRequest, http_request: Request, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+    _enforce_operation_limit("feedback", user, http_request)
     effective_role = user["business_role"]
     try:
         feedback_id = submit_feedback(
@@ -868,7 +981,8 @@ def projects_route(user: Annotated[dict, Depends(current_demo_user)], include_ar
 
 
 @app.post("/projects", status_code=201)
-def create_project_route(request: ProjectCreateRequest, user: Annotated[dict, Depends(current_admin_user)]) -> dict:
+def create_project_route(request: ProjectCreateRequest, http_request: Request, user: Annotated[dict, Depends(current_admin_user)]) -> dict:
+    _enforce_operation_limit("admin", user, http_request)
     name = request.name.strip()
     description = request.description.strip()
     default_retrieval_profile = request.default_retrieval_profile.strip()
@@ -935,11 +1049,13 @@ def update_project_membership_route(
     project_id: str,
     user_id: str,
     request: ProjectMembershipUpdateRequest,
+    http_request: Request,
     user: Annotated[dict, Depends(current_demo_user)],
 ) -> dict:
     project_id = _validate_project_id(project_id)
     user_id = _validate_uuid(user_id, "Demo user ID")
     require_project_owner(user, project_id)
+    _enforce_operation_limit("admin", user, http_request)
     try:
         membership = set_project_membership(project_id, user_id, request.membership_level)
     except ValueError as exc:
@@ -970,11 +1086,13 @@ def update_project_membership_route(
 def delete_project_membership_route(
     project_id: str,
     user_id: str,
+    http_request: Request,
     user: Annotated[dict, Depends(current_demo_user)],
 ) -> dict:
     project_id = _validate_project_id(project_id)
     user_id = _validate_uuid(user_id, "Demo user ID")
     require_project_owner(user, project_id)
+    _enforce_operation_limit("admin", user, http_request)
     try:
         removed = remove_project_membership(project_id, user_id)
     except PsycopgError as exc:
@@ -1022,9 +1140,10 @@ def project_documents_route(
 
 
 @app.post("/projects/{project_id}/departments", status_code=201)
-def create_department_route(project_id: str, request: DepartmentCreateRequest, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+def create_department_route(project_id: str, request: DepartmentCreateRequest, http_request: Request, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
     project_id = _validate_project_id(project_id)
     require_project_editor(user, project_id)
+    _enforce_operation_limit("admin", user, http_request)
     name = request.name.strip()
     description = request.description.strip()
     default_access_roles = _normalize_roles(request.default_access_roles) or []
@@ -1118,6 +1237,7 @@ def department_document_detail_route(
 async def upload_department_document_route(
     project_id: str,
     department_id: str,
+    request: Request,
     user: Annotated[dict, Depends(current_demo_user)],
     file: UploadFile = File(...),
     title: str | None = Form(None),
@@ -1127,6 +1247,7 @@ async def upload_department_document_route(
     project_id = _validate_project_id(project_id)
     department_id = _validate_project_id(department_id)
     require_project_editor(user, project_id)
+    _enforce_operation_limit("upload", user, request)
     safe_name = _safe_upload_name(file.filename)
     if not safe_name.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only PDF uploads are supported in this phase.")
@@ -1221,6 +1342,7 @@ def approve_department_document_route(
     project_id: str,
     department_id: str,
     document_id: str,
+    http_request: Request,
     user: Annotated[dict, Depends(current_demo_user)],
     request: ApproveIndexRequest | None = None,
 ) -> dict:
@@ -1228,6 +1350,8 @@ def approve_department_document_route(
     department_id = _validate_project_id(department_id)
     document_id = _validate_project_id(document_id)
     require_project_editor(user, project_id)
+    limit_context = _enforce_operation_limit("indexing", user, http_request)
+    _reserve_external_ai(limit_context, estimated_cost_microusd=100_000)
     cleanup_review_metadata: dict | None = None
     try:
         if not get_department(project_id, department_id):
@@ -1249,12 +1373,17 @@ def approve_department_document_route(
                     "cleanup_cleaned_content_hash": cleanup_metadata.get("cleaned_content_hash"),
                     "cleanup_model": cleanup_metadata.get("model"),
                 }
-        document = approve_and_index_document(
-            project_id=project_id,
-            department_id=department_id,
-            document_id=document_id,
-            reviewed_markdown=request.reviewed_markdown if request else None,
-        )
+        lease = _acquire_operation_lease("indexing", limit_context)
+        try:
+            document = approve_and_index_document(
+                project_id=project_id,
+                department_id=department_id,
+                document_id=document_id,
+                reviewed_markdown=request.reviewed_markdown if request else None,
+            )
+        finally:
+            if lease:
+                lease.release()
     except HTTPException:
         raise
     except ValueError as exc:
@@ -1314,6 +1443,7 @@ def cleanup_department_document_markdown_route(
     project_id: str,
     department_id: str,
     document_id: str,
+    http_request: Request,
     user: Annotated[dict, Depends(current_demo_user)],
     request: CleanupMarkdownRequest | None = None,
 ) -> dict:
@@ -1321,6 +1451,8 @@ def cleanup_department_document_markdown_route(
     department_id = _validate_project_id(department_id)
     document_id = _validate_project_id(document_id)
     require_project_editor(user, project_id)
+    limit_context = _enforce_operation_limit("cleanup", user, http_request)
+    _reserve_external_ai(limit_context, estimated_cost_microusd=50_000)
     document = None
     try:
         if not get_department(project_id, department_id):
@@ -1448,12 +1580,14 @@ def revert_department_document_cleanup_route(
     project_id: str,
     department_id: str,
     document_id: str,
+    http_request: Request,
     user: Annotated[dict, Depends(current_demo_user)],
 ) -> dict:
     project_id = _validate_project_id(project_id)
     department_id = _validate_project_id(department_id)
     document_id = _validate_project_id(document_id)
     require_project_editor(user, project_id)
+    _enforce_operation_limit("admin", user, http_request)
     try:
         if not get_department(project_id, department_id):
             raise HTTPException(status_code=404, detail="Department not found.")
@@ -1515,11 +1649,13 @@ def update_department_route(
     project_id: str,
     department_id: str,
     request: DepartmentUpdateRequest,
+    http_request: Request,
     user: Annotated[dict, Depends(current_demo_user)],
 ) -> dict:
     project_id = _validate_project_id(project_id)
     department_id = _validate_project_id(department_id)
     require_project_editor(user, project_id)
+    _enforce_operation_limit("admin", user, http_request)
     updates = request.model_dump(exclude={"user_role", "user_id"}, exclude_unset=True)
     if "name" in updates and updates["name"] is not None:
         updates["name"] = updates["name"].strip()
@@ -1558,11 +1694,13 @@ def update_department_route(
 def archive_department_route(
     project_id: str,
     department_id: str,
+    http_request: Request,
     user: Annotated[dict, Depends(current_demo_user)],
 ) -> dict:
     project_id = _validate_project_id(project_id)
     department_id = _validate_project_id(department_id)
     require_project_editor(user, project_id)
+    _enforce_operation_limit("admin", user, http_request)
     try:
         department = archive_department(project_id, department_id)
     except PsycopgError as exc:
@@ -1584,9 +1722,10 @@ def archive_department_route(
 
 
 @app.patch("/projects/{project_id}")
-def update_project_route(project_id: str, request: ProjectUpdateRequest, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+def update_project_route(project_id: str, request: ProjectUpdateRequest, http_request: Request, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
     project_id = _validate_project_id(project_id)
     require_project_editor(user, project_id)
+    _enforce_operation_limit("admin", user, http_request)
     updates = request.model_dump(exclude={"user_role", "user_id"}, exclude_unset=True)
     if "name" in updates and updates["name"] is not None:
         updates["name"] = updates["name"].strip()
@@ -1620,9 +1759,10 @@ def update_project_route(project_id: str, request: ProjectUpdateRequest, user: A
 
 
 @app.delete("/projects/{project_id}")
-def archive_project_route(project_id: str, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+def archive_project_route(project_id: str, http_request: Request, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
     project_id = _validate_project_id(project_id)
     require_project_editor(user, project_id)
+    _enforce_operation_limit("admin", user, http_request)
     try:
         project = archive_project(project_id)
     except PsycopgError as exc:
@@ -2020,7 +2160,12 @@ def _validation_safe_downgrade(
 
 
 @app.post("/query/stream")
-def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user)]) -> StreamingResponse:
+def query_stream(request: QueryRequest, http_request: Request, user: Annotated[dict, Depends(current_demo_user)]) -> StreamingResponse:
+    _enforce_question_length(request.question)
+    limit_context = _enforce_operation_limit("stream", user, http_request)
+    _reserve_external_ai(limit_context, estimated_cost_microusd=100_000)
+    stream_lease = _acquire_operation_lease("stream", limit_context)
+
     def events():
         request_id = str(uuid.uuid4())
         request_timestamp = datetime.now(UTC).isoformat()
@@ -2367,6 +2512,9 @@ def query_stream(request: QueryRequest, user: Annotated[dict, Depends(current_de
         except ValueError as exc:
             submit_failure_telemetry(exc)
             yield _sse("error", {"status_code": 400, "message": str(exc)})
+        finally:
+            if stream_lease:
+                stream_lease.release()
 
     return StreamingResponse(events(), media_type="text/event-stream")
 
@@ -2376,7 +2524,10 @@ def _sse(event: str, data: dict) -> str:
 
 
 @app.post("/query")
-def query(request: QueryRequest, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+def query(request: QueryRequest, http_request: Request, user: Annotated[dict, Depends(current_demo_user)]) -> dict:
+    _enforce_question_length(request.question)
+    limit_context = _enforce_operation_limit("chat", user, http_request)
+    _reserve_external_ai(limit_context, estimated_cost_microusd=100_000)
     request_id = str(uuid.uuid4())
     request_timestamp = datetime.now(UTC).isoformat()
     trace = RequestTrace()

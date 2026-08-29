@@ -282,7 +282,7 @@ def semantic_request_assessment(
         api = client or OpenAI(
             api_key=settings.openai_api_key,
             timeout=settings.request_assessment_timeout_seconds,
-            max_retries=1,
+            max_retries=settings.external_ai_max_retries,
         )
         response = api.chat.completions.create(
             model=selected_model,

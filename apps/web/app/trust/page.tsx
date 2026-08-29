@@ -149,7 +149,7 @@ export default function TrustAndSafetyPage() {
               <p className="badge-warn">Local demo boundary</p>
               <h2 className="mt-3 text-2xl font-semibold text-ink">Useful defenses, not a production security certification</h2>
               <p className="mt-3 leading-7 text-stone-700">
-                Proofbase uses local demo identity and synthetic enterprise data by default. Its OIDC-compatible identity boundary and forced PostgreSQL row-level-security tests provide local engineering evidence, but they are not a connected production identity provider, hosted database deployment, operational monitoring, or an independent security assessment.
+                Proofbase uses local demo identity and synthetic enterprise data by default. Its OIDC identity boundary, forced PostgreSQL row-level-security tests, and shared Redis limiter contract provide local engineering evidence, but they are not connected hosted identity/database/cache deployments, operational monitoring, or an independent security assessment.
               </p>
             </div>
             <div className="rounded-md border border-rust bg-white p-4 shadow-card">
@@ -177,7 +177,7 @@ export default function TrustAndSafetyPage() {
             ))}
           </ol>
           <p className="mt-4 rounded border border-steel bg-steel-soft/60 p-3 text-sm leading-6 text-steel-dark">
-            Steps 2, 5, and 7 are implemented and measured in Phases 52-54. Phases 56-57 add the local identity, tenant, and database-policy boundaries; hosted identity/database deployment, operational monitoring, and independent validation remain separate dependencies rather than implied model capabilities.
+            Steps 2, 5, and 7 are implemented and measured in Phases 52-54. Phases 56-58 add local identity, tenant, database-policy, and shared abuse-control boundaries; hosted integrations, operational monitoring, and independent validation remain separate dependencies rather than implied model capabilities.
           </p>
         </Card>
 

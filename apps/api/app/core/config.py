@@ -59,6 +59,19 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("DATABASE_RUNTIME_ROLE", "database_runtime_role"),
     )
     database_url: str = "postgresql://postgres:postgres@localhost:5432/enterprise_knowledge_agent"
+    rate_limit_backend: str = Field(
+        default="memory",
+        pattern="^(memory|redis)$",
+        validation_alias=AliasChoices("RATE_LIMIT_BACKEND", "rate_limit_backend"),
+    )
+    redis_url: str = Field(
+        default="redis://localhost:6379/0",
+        validation_alias=AliasChoices("REDIS_URL", "redis_url"),
+    )
+    max_request_bytes: int = Field(default=12_000_000, ge=1024, le=25_000_000)
+    max_question_chars: int = Field(default=4_000, ge=100, le=4_000)
+    tenant_daily_ai_budget_usd: float = Field(default=5.0, gt=0, le=10_000)
+    external_ai_max_retries: int = Field(default=1, ge=0, le=2)
     openai_api_key: str = Field(
         default="",
         validation_alias=AliasChoices("OPENAI_API_KEY", "openai_api_key"),
@@ -216,6 +229,8 @@ class Settings(BaseSettings):
             raise ValueError("Production DATABASE_URL must not use the PostgreSQL superuser.")
         if self.app_environment == "production" and not self.database_enforce_rls:
             raise ValueError("Production requires DATABASE_ENFORCE_RLS=true.")
+        if self.app_environment == "production" and self.rate_limit_backend != "redis":
+            raise ValueError("Production requires RATE_LIMIT_BACKEND=redis or a reviewed shared-store adapter.")
         if self.auth_mode == "oidc_fixture" and len(self.oidc_local_signing_secret.encode("utf-8")) < 32:
             raise ValueError("OIDC fixture mode requires an OIDC_LOCAL_SIGNING_SECRET of at least 32 bytes.")
         if self.session_idle_minutes >= self.session_absolute_minutes:
