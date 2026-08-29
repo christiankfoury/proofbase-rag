@@ -30,7 +30,7 @@ Open `http://localhost:3000`.
 | Projects | `/projects` | Project CRUD, seeded Northstar workspace, owner/admin-managed demo access, scoped ask entry points, department shortcuts, representative documents, upload/indexing status, quality status, and project audit events. |
 | Department Workspace | `/projects/00000000-0000-0000-0000-000000000019/departments/00000000-0000-0000-0000-000000002001` | Department icon, access defaults, document library, PDF upload for Markdown review, optional AI cleanup draft, cleanup provenance, extraction/current-review diff, active version metadata, extracted Markdown preview, edit, and archive controls. |
 | Chat Demo | `/chat` | Live scoped RAG query, project and department selection, role selection, `Why this answer?` proof, citations, confidence, latency, retrieved context, and feedback. |
-| Trust & Safety | `/trust` | Layered defense flow, code-owned control status, Phase 56-62 local identity/tenant/database-policy/abuse/file/privacy/monitoring/assessment-preparation evidence, hosted-integration limitations, and the Phase 63 readiness checklist. |
+| Trust & Safety | `/trust` | Layered defense flow and Phase 56-63 code-owned evidence, including the exact-commit release gate, sealed-suite custody, and visibly blocked production dependencies. |
 | Dev/Admin Overview | `/dev-admin` | Benchmark metrics plus a separate Independent Evaluation section showing the 70-case development run, one-time 30-case frozen holdout, stability slice, hard gates, failures, cost, and limitations without blending scores. |
 | Evaluation | `/dev-admin/runs` | Run comparison across retrieval, answer quality, permissions, memory, and prompts with explicit pass/fail counts. |
 | Run Detail | `/dev-admin/evaluation/runs/phase11-answer-generation-v1` | Per-question benchmark rows for Answer Generation v1 (`phase11-answer-generation-v1`) when detailed JSON exists. |
@@ -118,6 +118,11 @@ Open `http://localhost:3000`.
    - Page: `/dev-admin/security-monitoring` as `Kai Admin`.
    - Expected: the active tenant's content-free events, active local alerts, hash-chain integrity, and full threshold catalog.
    - Boundary: local JSONL delivery is not a live SIEM, pager, immutable external audit store, or staffed response capability; owners remain visibly unassigned.
+
+14. Release decision
+   - Page: `/dev-admin/defense-readiness`, then `/trust`.
+   - Expected: 18 deterministic checks, portfolio controls `READY`, hard gates `PASS`, and production promotion `BLOCKED`.
+   - Blockers: human review, production monitoring/on-call, hosted availability evidence, and independent validation. All protected holdouts remain sealed and unexecuted.
 
 ## Demo Notes
 

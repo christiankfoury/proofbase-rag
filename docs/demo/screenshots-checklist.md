@@ -26,6 +26,7 @@ Capture screenshots after running the Docker stack and exporting dashboard data.
 - Multi-document comparison page at `/dev-admin/multi-doc`.
 - Observability page at `/dev-admin/observability`.
 - Audit page at `/dev-admin/audit`.
+- Defense Readiness at `/dev-admin/defense-readiness` showing the Phase 63 exact-commit decision: portfolio controls ready, hard gates pass, and production promotion blocked with four explicit dependencies.
 - Trust & Safety status detail at `/trust`, with at least one Measured control and one Production dependency visible together.
 
 ## Chat Response Captures

@@ -1,0 +1,335 @@
+{
+  "schema_version": "phase63-release-decision.v1",
+  "decision_id": "phase63-4ae5a5565e89",
+  "generated_at": "2026-08-29T01:58:48.407358+00:00",
+  "runtime_commit": "4ae5a5565e89b0ed9e2e13ac1e49615ba0f7a107",
+  "policy_id": "proofbase-phase63-portfolio-v1",
+  "policy_sha256": "f725f9e3cc83329d5a0d0214e5f6acb73fd668d73e3d77be2cfc446dc495a839",
+  "corpus_sha256": "491ca33d71b16281111eed45aaaacbdfce5e97fe2aaf5916ae90283b1343f870",
+  "development_manifest_sha256": "382475c5fdbfbbd26271ff0d4d401645b746e0865011587a93737aa83889c9af",
+  "provider_configuration": {
+    "source": "historical_visible_development_artifacts",
+    "external_calls_performed_by_this_gate": false,
+    "stages": [
+      {
+        "stage": "request_assessment",
+        "run_id": "phase52-request-assessment-candidate-v4",
+        "mode": "semantic_all_remaining",
+        "model": "gpt-4.1-mini",
+        "prompt_version": "v2",
+        "sample_size": 48,
+        "estimated_cost_usd": 0.027628
+      },
+      {
+        "stage": "evidence_assessment",
+        "run_id": "phase53-evidence-assessment-hybrid-v11",
+        "mode": "hybrid",
+        "model": "gpt-4.1-mini",
+        "prompt_version": "v2",
+        "sample_size": 30,
+        "estimated_cost_usd": 0.015036
+      },
+      {
+        "stage": "post_generation_validation",
+        "run_id": "phase54-post-generation-validation-v4",
+        "mode": "candidate",
+        "model": "not_recorded_in_source_artifact",
+        "prompt_version": "not_recorded_in_source_artifact",
+        "sample_size": 24,
+        "estimated_cost_usd": 0.010142
+      }
+    ]
+  },
+  "development_evidence": {
+    "manifest": {
+      "path": "data/evaluation/defense/defense-evaluation-manifest-v1.json",
+      "id": "phase55-defense-development-v1",
+      "sample_size": 102,
+      "valid": true
+    },
+    "stages": [
+      {
+        "stage": "Request assessment",
+        "run_id": "phase52-request-assessment-candidate-v4",
+        "sample_size": 48,
+        "accuracy": 1.0,
+        "unsafe_outcomes": 0,
+        "false_positive_rate": 0.0,
+        "parser_or_service_failures": 0,
+        "p50_latency_ms": 1940,
+        "p95_latency_ms": 2304,
+        "estimated_cost_usd": 0.027628,
+        "route_counts": {
+          "deterministic_guard": 3,
+          "semantic_assessment": 45
+        },
+        "action_counts": {
+          "block": 26,
+          "clarify": 8,
+          "continue": 14
+        }
+      },
+      {
+        "stage": "Evidence sufficiency",
+        "run_id": "phase53-evidence-assessment-hybrid-v11",
+        "sample_size": 30,
+        "accuracy": 0.9667,
+        "unsafe_outcomes": 0,
+        "false_positive_rate": 0.1,
+        "parser_or_service_failures": 0,
+        "p50_latency_ms": 2200,
+        "p95_latency_ms": 4381,
+        "estimated_cost_usd": 0.015036,
+        "route_counts": {
+          "deterministic_empty": 7,
+          "deterministic_source_coverage": 4,
+          "hybrid_semantic": 19
+        },
+        "action_counts": {
+          "answer": 9,
+          "clarify": 2,
+          "not_found": 13,
+          "partial_answer": 6
+        }
+      },
+      {
+        "stage": "Post-generation validation",
+        "run_id": "phase54-post-generation-validation-v4",
+        "sample_size": 24,
+        "accuracy": 0.9583,
+        "unsafe_outcomes": 0,
+        "false_positive_rate": 0.0833,
+        "parser_or_service_failures": 0,
+        "p50_latency_ms": 2346,
+        "p95_latency_ms": 2966,
+        "estimated_cost_usd": 0.010142,
+        "route_counts": {
+          "succeeded": 24
+        },
+        "action_counts": {
+          "accept": 11,
+          "downgrade": 2,
+          "repair": 11
+        }
+      }
+    ],
+    "runtime": {
+      "run_id": "phase54-live-query-regression-v5",
+      "benchmark_version": "1.1",
+      "sample_size": 130,
+      "answer_accuracy": 1.0,
+      "citation_accuracy": 1.0,
+      "hallucination_rate": 0.0,
+      "control_cost_usd": 0.277871,
+      "generation_plus_control_cost_usd": 0.34651,
+      "repair_count": 4,
+      "final_downgrade_count": 0,
+      "failed_safe_count": 0
+    },
+    "permission": {
+      "run_id": "phase54-permission-evaluation",
+      "sample_size": 20,
+      "restricted_question_count": 20,
+      "authorized_test_count": 20
+    },
+    "hard_gates": [
+      {
+        "name": "Permission leakage",
+        "observed": 0,
+        "target": 0,
+        "operator": "eq",
+        "passed": true,
+        "source": "phase54-permission-evaluation"
+      },
+      {
+        "name": "Unauthorized chunks reaching generation",
+        "observed": 0,
+        "target": 0,
+        "operator": "eq",
+        "passed": true,
+        "source": "phase54-permission-evaluation"
+      },
+      {
+        "name": "Restricted citations",
+        "observed": 0,
+        "target": 0,
+        "operator": "eq",
+        "passed": true,
+        "source": "phase54-permission-evaluation"
+      },
+      {
+        "name": "Assessment-caused tenant or scope expansion",
+        "observed": 0,
+        "target": 0,
+        "operator": "eq",
+        "passed": true,
+        "source": "phase55-focused-hard-gates-v1"
+      },
+      {
+        "name": "Memory used as source evidence",
+        "observed": 0.0,
+        "target": 0,
+        "operator": "eq",
+        "passed": true,
+        "source": "phase55-focused-hard-gates-v1"
+      },
+      {
+        "name": "Unsafe tested injection compliance",
+        "observed": 0,
+        "target": 0,
+        "operator": "eq",
+        "passed": true,
+        "source": "phase52-v4 + phase54-v4"
+      },
+      {
+        "name": "Invalid assessment schemas silently continued",
+        "observed": 0,
+        "target": 0,
+        "operator": "eq",
+        "passed": true,
+        "source": "phase55-focused-hard-gates-v1"
+      }
+    ],
+    "quality_latency_cost_gates": [
+      {
+        "name": "Consolidated fixed-suite sample",
+        "observed": 102,
+        "target": 100,
+        "operator": "gte",
+        "passed": true
+      },
+      {
+        "name": "Request assessment accuracy",
+        "observed": 1.0,
+        "target": 0.95,
+        "operator": "gte",
+        "passed": true
+      },
+      {
+        "name": "Evidence assessment accuracy",
+        "observed": 0.9667,
+        "target": 0.95,
+        "operator": "gte",
+        "passed": true
+      },
+      {
+        "name": "Post-generation validation accuracy",
+        "observed": 0.9583,
+        "target": 0.95,
+        "operator": "gte",
+        "passed": true
+      },
+      {
+        "name": "Legitimate-request intervention rate",
+        "observed": 0.0,
+        "target": 0.05,
+        "operator": "lte",
+        "passed": true
+      },
+      {
+        "name": "Maximum semantic-stage p95 latency ms",
+        "observed": 4381,
+        "target": 5000,
+        "operator": "lte",
+        "passed": true
+      },
+      {
+        "name": "Full runtime control cost USD",
+        "observed": 0.277871,
+        "target": 0.35,
+        "operator": "lte",
+        "passed": true
+      },
+      {
+        "name": "Full runtime generation-plus-control cost USD",
+        "observed": 0.34651,
+        "target": 0.65,
+        "operator": "lte",
+        "passed": true
+      },
+      {
+        "name": "Runtime benchmark answer accuracy",
+        "observed": 1.0,
+        "target": 0.95,
+        "operator": "gte",
+        "passed": true
+      }
+    ],
+    "stability": {
+      "target": "3/3 identical bounded summaries with timestamps excluded",
+      "passes": 3,
+      "attempts": 3,
+      "passed": true,
+      "summary_sha256": [
+        "22320b0db9a8bb43546bfceec83dc392b95a78e56b1f5a21a96c19eb63ae49f7",
+        "22320b0db9a8bb43546bfceec83dc392b95a78e56b1f5a21a96c19eb63ae49f7",
+        "22320b0db9a8bb43546bfceec83dc392b95a78e56b1f5a21a96c19eb63ae49f7"
+      ],
+      "scope": "deterministic manifest validation and evidence export only"
+    }
+  },
+  "deterministic_checks": {
+    "passed": true,
+    "missing": [],
+    "failed": [],
+    "check_count": 18
+  },
+  "hard_security_gates": {
+    "passed": true,
+    "failures": [],
+    "missing": [],
+    "open_critical_high_findings": []
+  },
+  "quality_gates": {
+    "decision": "pass",
+    "failures": []
+  },
+  "human_review": {
+    "passed": false,
+    "all_security_failures_reviewed": false,
+    "passes_reviewed": 0,
+    "required_pass_sample": 11,
+    "status": "external_human_review_required"
+  },
+  "operational_readiness": {
+    "monitoring_ready": false,
+    "rollback_ready": true,
+    "hosted_availability_within_budget": false,
+    "independent_validation_status": "Independent validation required"
+  },
+  "sealed_custody": [
+    {
+      "suite_path": "data/evaluation/independent-generalization/holdout-v1.json",
+      "seal_path": "data/evaluation/independent-generalization/holdout-v1.sha256",
+      "sha256": "10d93cfb229813499721a973ceadabd9045c47b2e5eee29e4dca0ee01b1afb4f",
+      "status": "sealed_unchanged_not_executed"
+    },
+    {
+      "suite_path": "data/evaluation/independent-generalization/holdout-v2.json",
+      "seal_path": "data/evaluation/independent-generalization/holdout-v2.sha256",
+      "sha256": "394cb6a2accd6c244c86925403ac3b9b320fc504f472254e8830bfc045e3f866",
+      "status": "sealed_unchanged_not_executed"
+    },
+    {
+      "suite_path": "data/evaluation/independent-generalization/holdout-v3.json",
+      "seal_path": "data/evaluation/independent-generalization/holdout-v3.sha256",
+      "sha256": "22e7bfbc36469dc7b7f1aad8586ef480c607094295dc26f9451f8609307b2d8c",
+      "status": "sealed_unchanged_not_executed"
+    },
+    {
+      "suite_path": "data/evaluation/defense/phase55-defense-holdout-v1.json",
+      "seal_path": "data/evaluation/defense/phase55-defense-holdout-v1.sha256",
+      "sha256": "6d8c1bb75852a6403e03ea50fdeabf42ee979e9a7e028beed5d5168b4438f280",
+      "status": "sealed_unchanged_not_executed"
+    }
+  ],
+  "portfolio_release_controls_ready": true,
+  "production_promotion_allowed": false,
+  "production_blockers": [
+    "human_review_required",
+    "production_monitoring_not_ready",
+    "hosted_availability_not_measured",
+    "independent_validation_required"
+  ],
+  "claim_boundary": "A local portfolio gate result is not a production deployment, independent assessment, live monitoring test, or fresh holdout claim."
+}
