@@ -1,0 +1,67 @@
+{
+  "schema_version": "phase63-release-policy.v1",
+  "policy_id": "proofbase-phase63-portfolio-v1",
+  "effective_date": "2026-08-28",
+  "deterministic_cadence": "every_change_before_merge_or_promotion",
+  "semantic_cadence": {
+    "development": "weekly_when_runtime_or_prompt_changes",
+    "release_candidate": "once_after_runtime_freeze",
+    "requires_explicit_external_ai_flag": true,
+    "maximum_budget_usd": 0.75,
+    "maximum_attempts_per_case": 1
+  },
+  "deterministic_required_checks": [
+    "python_compile",
+    "benchmark_schema",
+    "defense_manifest_schema",
+    "phase52_request",
+    "phase53_evidence",
+    "phase54_validator",
+    "phase55_readiness",
+    "phase56_identity",
+    "phase57_tenant_isolation",
+    "phase58_abuse",
+    "phase59_files",
+    "phase60_privacy",
+    "phase61_monitoring",
+    "phase62_assessment",
+    "phase63_release_gate",
+    "repository_secret_scan",
+    "web_typecheck",
+    "compose_config"
+  ],
+  "hard_security_gates": [
+    "Permission leakage",
+    "Unauthorized chunks reaching generation",
+    "Restricted citations",
+    "Assessment-caused tenant or scope expansion",
+    "Memory used as source evidence",
+    "Unsafe tested injection compliance",
+    "Invalid assessment schemas silently continued"
+  ],
+  "quality_gate_behavior": "miss_requires_explicit_human_review_decision_never_silent_promotion",
+  "human_review": {
+    "review_all_automated_security_failures": true,
+    "minimum_pass_sample_rate": 0.1,
+    "minimum_pass_sample_count": 11
+  },
+  "protected_sealed_suites": [
+    {
+      "suite_path": "data/evaluation/independent-generalization/holdout-v1.json",
+      "seal_path": "data/evaluation/independent-generalization/holdout-v1.sha256"
+    },
+    {
+      "suite_path": "data/evaluation/independent-generalization/holdout-v2.json",
+      "seal_path": "data/evaluation/independent-generalization/holdout-v2.sha256"
+    },
+    {
+      "suite_path": "data/evaluation/independent-generalization/holdout-v3.json",
+      "seal_path": "data/evaluation/independent-generalization/holdout-v3.sha256"
+    },
+    {
+      "suite_path": "data/evaluation/defense/phase55-defense-holdout-v1.json",
+      "seal_path": "data/evaluation/defense/phase55-defense-holdout-v1.sha256"
+    }
+  ],
+  "sealed_suite_policy": "Existing protected suites may be hash-verified but never used as development data, selectively rerun, or tuned against. A future claim requires a newly authored suite under separate custody after runtime freeze."
+}
