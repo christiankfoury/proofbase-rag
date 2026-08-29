@@ -6,6 +6,8 @@ import json
 import re
 import subprocess
 import sys
+import tarfile
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,6 +28,7 @@ FORBIDDEN_IMAGE_ARTIFACTS = (
     "data/audit",
     "data/observability",
     "data/quarantine",
+    "data/security",
     "data/uploads",
     ".env",
 )
@@ -81,13 +84,70 @@ def _scan_container(image: str) -> list[dict[str, object]]:
         "python", "scripts/scan_phase60_secrets.py", "--filesystem", "--root", "/app",
     ]
     result = subprocess.run(command, capture_output=True, text=True, check=False)
-    if result.returncode != 0:
+    if result.returncode == 0:
+        try:
+            payload = json.loads(result.stdout)
+            return list(payload.get("findings") or [])
+        except json.JSONDecodeError:
+            pass
+    return _scan_container_archive(image)
+
+
+def _scan_container_archive(image: str) -> list[dict[str, object]]:
+    """Fallback for minimal images that do not contain Python or this scanner."""
+    created = subprocess.run(
+        ["docker", "create", "--network", "none", image],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    container_id = created.stdout.strip()
+    if created.returncode != 0 or not container_id:
         return [{"path": image, "line": 0, "kind": "container_scan_failed", "fingerprint": "not_available"}]
+    findings: list[dict[str, object]] = []
     try:
-        payload = json.loads(result.stdout)
-    except json.JSONDecodeError:
-        return [{"path": image, "line": 0, "kind": "container_scan_invalid", "fingerprint": "not_available"}]
-    return list(payload.get("findings") or [])
+        with tempfile.TemporaryDirectory() as directory:
+            archive_path = Path(directory) / "filesystem.tar"
+            exported = subprocess.run(
+                ["docker", "export", "--output", str(archive_path), container_id],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if exported.returncode != 0:
+                return [{"path": image, "line": 0, "kind": "container_scan_failed", "fingerprint": "not_available"}]
+            with tarfile.open(archive_path, "r") as archive:
+                for member in archive.getmembers():
+                    relative = member.name.lstrip("./")
+                    if any(relative == f"app/{path}" or relative.startswith(f"app/{path}/") for path in FORBIDDEN_IMAGE_ARTIFACTS):
+                        findings.append({"path": f"{image}:{relative}", "line": 0, "kind": "forbidden_runtime_artifact", "fingerprint": "present"})
+                    candidate = Path(relative)
+                    if not member.isfile() or not relative.startswith("app/") or member.size > 5_000_000:
+                        continue
+                    if candidate.suffix.lower() not in TEXT_SUFFIXES and candidate.name not in {"Dockerfile", ".env.example", ".dockerignore"}:
+                        continue
+                    extracted = archive.extractfile(member)
+                    if extracted is None:
+                        continue
+                    try:
+                        text = extracted.read().decode("utf-8")
+                    except UnicodeDecodeError:
+                        continue
+                    for line_number, line in enumerate(text.splitlines(), start=1):
+                        for kind, pattern in PATTERNS.items():
+                            for match in pattern.finditer(line):
+                                matched = match.group(0)
+                                if kind == "credential_url" and _allowed_local_fixture(matched):
+                                    continue
+                                findings.append({
+                                    "path": f"{image}:{relative}",
+                                    "line": line_number,
+                                    "kind": kind,
+                                    "fingerprint": hashlib.sha256(matched.encode()).hexdigest()[:12],
+                                })
+        return findings
+    finally:
+        subprocess.run(["docker", "rm", "--force", container_id], capture_output=True, text=True, check=False)
 
 
 def main() -> None:

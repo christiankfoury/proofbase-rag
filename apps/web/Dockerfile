@@ -23,10 +23,12 @@ ENV NODE_ENV=production \
     HOSTNAME=0.0.0.0 \
     PORT=3000
 
-COPY --from=builder /app/apps/web/package*.json ./
-COPY --from=builder /app/apps/web/node_modules ./node_modules
-COPY --from=builder /app/apps/web/.next ./.next
-COPY --from=builder /app/apps/web/next.config.mjs ./
+COPY --chown=node:node --from=builder /app/apps/web/package*.json ./
+COPY --chown=node:node --from=builder /app/apps/web/node_modules ./node_modules
+COPY --chown=node:node --from=builder /app/apps/web/.next ./.next
+COPY --chown=node:node --from=builder /app/apps/web/next.config.mjs ./
+
+USER node
 
 EXPOSE 3000
 

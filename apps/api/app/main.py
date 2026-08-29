@@ -153,6 +153,27 @@ app.add_middleware(
 )
 
 
+@app.middleware("http")
+async def add_api_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-store"
+    if request.url.path in {"/docs", "/redoc"}:
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'none'; frame-ancestors 'none'; "
+            "script-src https://cdn.jsdelivr.net; style-src https://cdn.jsdelivr.net 'unsafe-inline'; "
+            "img-src https://fastapi.tiangolo.com data:; connect-src 'self'"
+        )
+    else:
+        response.headers["Content-Security-Policy"] = "default-src 'none'; frame-ancestors 'none'"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    response.headers["Referrer-Policy"] = "no-referrer"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    if get_settings().app_environment == "production":
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    return response
+
+
 @app.exception_handler(RequestValidationError)
 async def request_validation_error_handler(_request: Request, exc: RequestValidationError) -> JSONResponse:
     errors = [

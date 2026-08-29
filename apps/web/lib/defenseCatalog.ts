@@ -376,11 +376,14 @@ export const productionReadinessCatalog: DefenseCatalogItem[] = [
     title: "Security assessment readiness",
     phase: "Phase 62",
     status: "independent_validation_required",
-    summary: "Prepare the threat model, internal prechecks, finding workflow, and retest process; keep external testing optional.",
+    summary: "Maintains a threat model, assessment rules of engagement, OWASP coverage map, internal prechecks, finding workflow, and severity/retest targets.",
     boundary: "An agent-authored review, checklist, local test double, or internal scan cannot satisfy this control.",
-    evidence: [],
-    limitations: ["Independent validation requires a separately approved assessor, authorization, scope, report, remediation, and retest."],
-    last_verified: "Not yet verified",
+    evidence: [
+      { label: "Defense readiness", href: "/dev-admin/defense-readiness", detail: "Separates deterministic internal evidence from independent assessment status." },
+      { label: "Security monitoring", href: "/dev-admin/security-monitoring", detail: "Shows local response signals without claiming a staffed security operation." },
+    ],
+    limitations: ["Python dependency pinning, current CVE/SBOM tooling, network DAST, hosted-provider tests, and independent validation remain open. Independent testing requires a separately approved assessor, authorization, scope, report, remediation, and retest."],
+    last_verified: "2026-08-28",
   },
   {
     id: "release-gates",

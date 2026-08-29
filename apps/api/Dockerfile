@@ -5,6 +5,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
+RUN groupadd --system proofbase \
+    && useradd --system --gid proofbase --home-dir /app --shell /usr/sbin/nologin proofbase
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
@@ -12,10 +15,12 @@ RUN apt-get update \
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY apps ./apps
-COPY data ./data
-COPY docs ./docs
-COPY scripts ./scripts
+COPY --chown=proofbase:proofbase apps ./apps
+COPY --chown=proofbase:proofbase data ./data
+COPY --chown=proofbase:proofbase docs ./docs
+COPY --chown=proofbase:proofbase scripts ./scripts
+
+USER proofbase
 
 EXPOSE 8000
 
