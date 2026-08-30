@@ -2,6 +2,14 @@
 
 **Proofbase** is a full-stack enterprise RAG reference application. It organizes internal knowledge into project and department workspaces, filters evidence by role before generation, and returns cited answers with visible retrieval, confidence, latency, evaluation, and audit proof.
 
+## Table of Contents
+
+- **Overview:** [At A Glance](#at-a-glance) · [Evidence Snapshot](#evidence-snapshot) · [What This Demonstrates](#what-this-demonstrates) · [Five-Minute Review Path](#five-minute-review-path)
+- **Product:** [Product Walkthrough](#product-walkthrough) ([Projects](#1-project-workspaces), [Departments](#2-department-workspace), [Chat](#3-permission-aware-chat)) · [Core Capabilities](#core-capabilities) · [Tech Stack](#tech-stack) · [Architecture](#architecture) · [App And Dev/Admin UI](#app-and-devadmin-ui)
+- **Evaluation:** [Evaluation Benchmark](#evaluation-benchmark) · [Detailed Evaluation Evidence](#detailed-evaluation-evidence)
+- **Run Locally:** [Docker Quickstart](#docker-quickstart) · [Optional Platform Telemetry](#optional-production-ai-platform-telemetry) · [Database Setup And Ingestion](#database-setup-and-ingestion) · [Smoke Test](#smoke-test) · [Evaluation Commands](#evaluation-commands)
+- **Project Resources:** [Demo And Project Materials](#demo-and-project-materials) · [Known Limitations](#known-limitations) · [Roadmap](#roadmap) · [Selected Documentation](#selected-documentation) · [Project Summary](#project-summary)
+
 ## At A Glance
 
 | Area | What is implemented |
