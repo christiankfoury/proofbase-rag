@@ -956,7 +956,7 @@ export function ChatDemoClient() {
       </header>
 
       <main ref={transcriptRef} data-testid="chat-transcript" className="min-h-0 flex-1 overflow-y-auto px-4 py-6 md:px-6 xl:px-8 2xl:px-10">
-        <div className="mx-auto flex max-w-4xl flex-col gap-5">
+        <div className="mx-auto flex max-w-6xl flex-col gap-5">
           {scopeNotice ? (
             <div className="rounded-md border border-rust bg-rust-soft p-3 text-sm text-rust-dark">
               <span className="font-semibold">Scope note:</span> {scopeNotice}
@@ -970,7 +970,7 @@ export function ChatDemoClient() {
                 </span>
                 <div>
                   <h3 className="text-xl font-semibold text-ink">Ask a project-scoped knowledge question.</h3>
-                  <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-700">
+                  <p className="mt-2 max-w-4xl text-sm leading-6 text-stone-700">
                     The demo still uses the live enterprise RAG API, permission-filtered retrieval, citations, validation, metrics, and feedback. The response text is revealed gradually after the completed `/query` response returns.
                   </p>
                 </div>
@@ -1006,12 +1006,12 @@ export function ChatDemoClient() {
                 <div className="max-w-2xl rounded-full border border-stone-200 bg-white px-4 py-2 text-center text-xs text-stone-600 shadow-sm">{message.content}</div>
               ) : (
                 <div
-                  className={`max-w-[88%] rounded-2xl px-4 py-3 shadow-sm md:max-w-[78%] ${
+                  className={`max-w-[94%] rounded-2xl px-4 py-3 shadow-sm ${
                     message.role === "user"
-                      ? "rounded-br-md bg-ink text-white"
+                      ? "rounded-br-md bg-ink text-white md:max-w-[72%]"
                       : message.status === "error"
-                        ? "rounded-bl-md border border-rust bg-rust-soft text-rust-dark"
-                        : "rounded-bl-md border border-stone-200 bg-white text-stone-800"
+                        ? "rounded-bl-md border border-rust bg-rust-soft text-rust-dark md:max-w-[92%]"
+                        : "rounded-bl-md border border-stone-200 bg-white text-stone-800 md:max-w-[92%]"
                   }`}
                 >
                   {message.role === "assistant" ? (
@@ -1111,7 +1111,7 @@ export function ChatDemoClient() {
       </main>
 
       <form onSubmit={onSubmit} className="z-20 shrink-0 bg-stone-50 px-4 pb-5 pt-2 md:px-6 xl:px-8 2xl:px-10">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-6xl">
           <div className="mb-2 flex flex-nowrap gap-2 overflow-x-auto pb-1">
             {presets.slice(0, 4).map((preset) => (
               <button
