@@ -145,6 +145,31 @@ def test_request_and_production_guards() -> None:
         raise AssertionError("Production accepted a process-local limiter")
 
 
+def test_auth_preflight_does_not_consume_auth_budget() -> None:
+    manager = RateLimitManager(InMemoryLimitBackend(), prefix="phase58-auth-preflight")
+    client = TestClient(app)
+    with patch("apps.api.app.main.get_rate_limit_manager", return_value=manager):
+        responses = [
+            client.options(
+                "/auth/me",
+                headers={
+                    "Origin": "http://localhost:3001",
+                    "Access-Control-Request-Method": "GET",
+                    "Access-Control-Request-Headers": "x-demo-user-id",
+                },
+            )
+            for _ in range(25)
+        ]
+
+    assert all(response.status_code == 200 for response in responses)
+    context = LimitContext(
+        tenant_id="preauth:testclient",
+        user_id="preauth:testclient",
+        ip_risk_context="direct:testclient",
+    )
+    assert manager.enforce("auth", context).allowed
+
+
 def test_redis_contract(redis_url: str) -> None:
     import redis
 
@@ -194,6 +219,7 @@ def main() -> None:
     test_memory_contract()
     test_api_denial_prevents_expensive_work()
     test_request_and_production_guards()
+    test_auth_preflight_does_not_consume_auth_budget()
     if args.require_redis:
         test_redis_contract(args.redis_url)
     print(f"Phase 58 abuse-control tests passed (redis={'required' if args.require_redis else 'not requested'}).")

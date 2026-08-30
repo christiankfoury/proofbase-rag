@@ -269,7 +269,11 @@ async def bound_request_size_and_auth_rate(request: Request, call_next):
                 return JSONResponse(status_code=413, content={"detail": "Request body is too large."})
         except ValueError:
             return JSONResponse(status_code=400, content={"detail": "Invalid Content-Length header."})
-    if request.url.path.startswith("/auth/"):
+    # CORS preflights do not attempt authentication and must not consume the
+    # pre-authentication request budget. Browsers can issue one OPTIONS request
+    # for every authenticated fetch, which otherwise exhausts the demo bucket
+    # during ordinary navigation and refreshes.
+    if request.method != "OPTIONS" and request.url.path.startswith("/auth/"):
         client_host = request.client.host if request.client else "unknown"
         context = LimitContext(
             tenant_id=f"preauth:{client_host}",
