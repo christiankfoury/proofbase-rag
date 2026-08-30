@@ -5,7 +5,7 @@
 ## Table of Contents
 
 - **Overview:** [At A Glance](#at-a-glance) · [Evidence Snapshot](#evidence-snapshot) · [What This Demonstrates](#what-this-demonstrates) · [Five-Minute Review Path](#five-minute-review-path)
-- **Product:** [Product Walkthrough](#product-walkthrough) ([Projects](#1-project-workspaces), [Departments](#2-department-workspace), [Chat](#3-permission-aware-chat)) · [Core Capabilities](#core-capabilities) · [Tech Stack](#tech-stack) · [Architecture](#architecture) · [App And Dev/Admin UI](#app-and-devadmin-ui)
+- **Product:** [Product Walkthrough](#product-walkthrough) ([Projects](#1-project-workspaces), [Departments](#2-department-workspace), [Chat](#3-permission-aware-chat)) · [Core Capabilities](#core-capabilities) · [Tech Stack](#tech-stack) · [Architecture](#architecture) · [RAG Algorithm Map](#rag-algorithm-map) · [App And Dev/Admin UI](#app-and-devadmin-ui)
 - **Evaluation:** [Evaluation Benchmark](#evaluation-benchmark) · [Detailed Evaluation Evidence](#detailed-evaluation-evidence)
 - **Run Locally:** [Docker Quickstart](#docker-quickstart) · [Optional Platform Telemetry](#optional-production-ai-platform-telemetry) · [Database Setup And Ingestion](#database-setup-and-ingestion) · [Smoke Test](#smoke-test) · [Evaluation Commands](#evaluation-commands)
 - **Project Resources:** [Demo And Project Materials](#demo-and-project-materials) · [Known Limitations](#known-limitations) · [Roadmap](#roadmap) · [Selected Documentation](#selected-documentation) · [Project Summary](#project-summary)
@@ -160,6 +160,21 @@ More detail:
 - [Permissions Design](docs/phase-4/permissions-design.md)
 - [Docker And Azure Readiness (Phase 14) Deployment Architecture](docs/phase-14/deployment-architecture.md)
 - [Demo Architecture Diagram Guide](docs/demo/architecture-diagram.md)
+
+## RAG Algorithm Map
+
+| Stage | Implemented method | Role in the pipeline |
+| --- | --- | --- |
+| Ingestion and chunking | Markdown section-based chunking is the main path; overlapping fixed-size chunks remain available for experiments. | Produces searchable, human-citable units before embeddings are generated. |
+| Retrieval candidates | Four implemented modes: pgvector cosine similarity, PostgreSQL full-text keyword search, normalized weighted hybrid fusion, and vector retrieval with lexical reranking. | Retrieves relevant chunks while allowing measured algorithm comparisons. |
+| Reranking and selection | Lexical overlap weights document IDs, titles, headings, content, and lead-document continuity before selecting top-k. | Improves precision and keeps the strongest measured retrieval candidate near the top. |
+| Scope and authorization | Tenant, project, department, membership, and document-role filters are applied in retrieval before evidence reaches generation. | Prevents inaccessible chunks from becoming model context; authorization is never inferred by the model. |
+| Request understanding and memory | Deterministic fast paths plus structured semantic assessment route unsafe or ambiguous requests; recent turns may rewrite a follow-up into a standalone retrieval query. | Blocks prompt overrides, asks for missing context, and uses memory for query interpretation—not factual evidence or access. |
+| Multi-document planning | Heuristic detection, source planning, optional query decomposition, per-subquery retrieval, deduplication, and coverage-first grouping. | Collects evidence across multiple authorized documents for questions that require synthesis. |
+| Evidence and generation | A permission-aware evidence-sufficiency assessment routes to structured `answer`, `partial_answer`, `not_found`, `refuse_no_access`, or `clarify` behavior. | Allows generation only from authorized evidence and makes non-answer behavior explicit. |
+| Validation and confidence | Exact and semantic claim checks, citation-to-chunk validation, source-instruction checks, one bounded repair or downgrade, and separate retrieval/citation/answer confidence signals. | Rejects unsupported output and exposes how strongly the final behavior is supported. |
+
+See the [Algorithm Guide](docs/algorithm/README.md) for the detailed flow, tradeoffs, implementation files, and limitations. Measured outcomes remain separate in [Detailed Evaluation Evidence](#detailed-evaluation-evidence), where each result includes its run and sample size.
 
 ## Evaluation Benchmark
 
