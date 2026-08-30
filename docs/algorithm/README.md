@@ -2,7 +2,7 @@
 
 This folder explains how Proofbase answers a question, why the algorithm is shaped this way, and where the current implementation is strong or fragile.
 
-The intended reader is a portfolio reviewer, recruiter-facing engineering manager, or developer who knows basic web apps but may be new to retrieval-augmented generation, vector search, prompt versions, or permission-filtered retrieval.
+The intended reader is a product or technical reviewer, or a developer who knows basic web apps but may be new to retrieval-augmented generation, vector search, prompt versions, or permission-filtered retrieval.
 
 ## Reading Order
 

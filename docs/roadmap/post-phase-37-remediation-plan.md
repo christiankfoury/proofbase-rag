@@ -22,7 +22,7 @@ Do not treat this roadmap as permission to hide failures or move targets. Improv
 
 ## Post-Phase 40 Handoff
 
-Phases 38-40 and the Phase 39/40 polish/audit-backlog work are complete. For the next executable sequence, use `docs/roadmap/post-phase-40-product-polish-plan.md`, which promotes recruiter/demo polish, guarded AI Markdown cleanup, and memory/ambiguity generalization into Phases 41-46.
+Phases 38-40 and the Phase 39/40 polish/audit-backlog work are complete. For the next executable sequence, use `docs/roadmap/post-phase-40-product-polish-plan.md`, which promotes product/demo polish, guarded AI Markdown cleanup, and memory/ambiguity generalization into Phases 41-46.
 
 ## Documentation-First Algorithm Audit
 

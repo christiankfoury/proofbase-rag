@@ -6,7 +6,7 @@ Status: Phases 41-46 from this plan are complete. The larger-generalization-suit
 
 This roadmap is the executable source of truth after the completed Phase 39/40 remediation and polish work. It focuses on the next three product-quality improvements:
 
-1. Recruiter/demo polish so the App side feels immediately understandable.
+1. Product/demo polish so the App side feels immediately understandable.
 2. AI Markdown cleanup for uploads, with explicit human control before indexing.
 3. Memory and ambiguity generalization beyond benchmark-shaped questions.
 
@@ -43,7 +43,7 @@ Phase completion is not a natural stopping point. After a successful push and cl
 - Every product-facing quality claim must name the run, sample size, benchmark/probe version, and skipped checks when applicable.
 - If a phase changes algorithm behavior, capture before/after artifacts and rerun permission safety.
 
-## Phase 41: Recruiter Demo Project Home
+## Phase 41: Guided Demo Project Home
 
 Goal: make the project workspace first screen feel like a real App-side product surface.
 
@@ -51,7 +51,7 @@ User-facing outcome:
 
 - `Northstar Analytics` opens to a polished project home/dashboard.
 - The first screen shows useful App-side concepts without requiring Dev/Admin knowledge.
-- Recruiters can understand projects, departments, documents, upload status, and scoped asking in under one minute.
+- The project model, departments, documents, upload status, and scoped assistant are understandable in under one minute.
 
 Scope:
 
@@ -432,5 +432,5 @@ These are not part of the first post-Phase-40 polish sequence unless a later roa
 - Production SSO and hosted auth.
 - Larger non-benchmark generalization suite: promoted to planned Phase 47 Independent Generalization And Holdout Evaluation.
 - Project-specific evaluation authoring.
-- Exportable demo reports for recruiter walkthroughs.
+- Exportable demo reports for technical walkthroughs.
 - Multi-tenant deployment hardening.

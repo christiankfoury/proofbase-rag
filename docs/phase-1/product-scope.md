@@ -8,15 +8,9 @@ The product simulates how a real company would deploy an internal AI assistant. 
 
 The business problem is internal knowledge fragmentation. Employees waste time searching across handbooks, onboarding docs, policies, sales playbooks, and process documents. A normal chatbot is risky because it can hallucinate, cite weak evidence, or expose restricted information. This project demonstrates a production-minded alternative: an evaluated enterprise RAG system with access control, citations, measurable retrieval quality, and continuous improvement.
 
-## Recruiter-Facing Positioning
+## Product Positioning
 
 Proofbase is an enterprise RAG platform that simulates a secure internal company assistant. It combines document ingestion, hybrid retrieval, role-based permissions, cited answers, citation confidence, and an evaluation dashboard to show measurable improvements across retrieval and answer quality experiments. Unlike a simple PDF chatbot, it is built around evaluation-driven development: benchmark questions are defined upfront, retrieval and answer quality are measured, permission leaks are tested, and latency/cost are tracked as part of production readiness.
-
-## Resume and Portfolio One-Liners
-
-1. Built an enterprise RAG knowledge assistant with hybrid retrieval, RBAC, citations, and evaluation-driven quality improvements.
-2. Developed a permission-aware internal AI assistant using FastAPI, Next.js, PostgreSQL/pgvector, OpenAI, and measurable RAG benchmarks.
-3. Created a production-style AI knowledge agent with citation validation, retrieval metrics, hallucination checks, and cost/latency tracking.
 
 ## MVP Scope
 
@@ -32,7 +26,7 @@ Included:
 - Benchmark question set created before chatbot implementation.
 - Evaluation runner measuring retrieval quality, answer quality, citations, permissions, latency, and cost.
 - Simple dashboard or report showing baseline versus improved versions.
-- Recruiter demo flow with four scripted enterprise scenarios.
+- Guided demo flow with four scripted enterprise scenarios.
 
 ## Later Version Scope
 

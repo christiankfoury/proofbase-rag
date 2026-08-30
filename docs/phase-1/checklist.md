@@ -5,7 +5,7 @@ Complete these items before moving to Phase 2 implementation.
 ## Product Scope
 
 - [x] Finalize the product overview.
-- [x] Finalize recruiter-facing positioning.
+- [x] Finalize product positioning.
 - [x] Finalize MVP boundaries.
 - [x] Finalize later-version scope.
 - [x] Finalize intentionally excluded features.
@@ -33,7 +33,7 @@ Complete these items before moving to Phase 2 implementation.
 - [x] Define baseline system behavior: retrieve, answer with citations, refuse unsupported or unauthorized questions.
 - [x] Decide PostgreSQL full-text search and/or pgvector comes before Azure AI Search.
 - [x] Decide LangGraph/LangChain is deferred unless orchestration complexity requires it.
-- [x] Define the recruiter demo narrative: baseline RAG to improved RAG to enterprise RAG with measurable gains.
+- [x] Define the guided demo narrative: baseline RAG to improved RAG to enterprise RAG with measurable gains.
 
 ## Ready for Phase 2 When
 

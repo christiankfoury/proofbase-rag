@@ -7,7 +7,7 @@ This roadmap turns Proofbase from an evaluation-heavy RAG dashboard into a prese
 - App side: the user-facing knowledge workspace where people create projects, organize departments, upload knowledge, and ask project-scoped questions.
 - Dev/Admin side: the evaluation, ingestion, permissions, observability, audit, cost, and algorithm control center.
 
-The goal is not to remove the existing engineering depth. The goal is to make that depth support a product experience recruiters can understand immediately.
+The goal is not to remove the existing engineering depth. The goal is to make that depth support a product experience that is immediately understandable.
 
 ## Current State
 
@@ -219,7 +219,7 @@ Why it matters:
 
 - Maps cleanly onto the existing synthetic corpus.
 - Makes access, source coverage, and scoped answers visible.
-- Gives the recruiter demo a simple mental model.
+- Gives the guided demo a simple mental model.
 
 ### File Upload And Conversion
 
@@ -302,7 +302,7 @@ The next UI pass should make these points obvious:
 
 ## Agent Decision Defaults
 
-Future phases should be implemented through a recruiter-demo and engineering-manager review lens. The agent should make a plan internally, use the repo and roadmap to choose reasonable defaults, and proceed without asking for plan approval. Ask the user only for decisions that are genuinely blocking, risky, costly, irreversible, or outside the established product direction.
+Future phases should be implemented through a product-demo and technical-review lens. The agent should make a plan internally, use the repo and roadmap to choose reasonable defaults, and proceed without asking for plan approval. Ask the user only for decisions that are genuinely blocking, risky, costly, irreversible, or outside the established product direction.
 
 Default product choices:
 

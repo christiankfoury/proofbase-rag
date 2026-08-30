@@ -1,6 +1,6 @@
 # Phase 26 Checklist
 
-Goal: make the recruiter demo feel finished while keeping Dev/Admin proof honest and measurable.
+Goal: make the guided demo feel finished while keeping Dev/Admin proof honest and measurable.
 
 ## App Presentation
 
@@ -20,7 +20,7 @@ Goal: make the recruiter demo feel finished while keeping Dev/Admin proof honest
 - [x] Demo script leads with App workflow before API or Dev/Admin proof.
 - [x] Interactive guide includes a five-minute presentation path.
 - [x] Screenshot checklist covers project workspace, department documents, scoped assistant, citations, Algorithm Quality Lab, failed-question inspection, feedback review, observability, and audit.
-- [x] Portfolio case study reflects project workspaces, document libraries, scoped retrieval, algorithm review, and human review.
+- [x] Engineering case study reflects project workspaces, document libraries, scoped retrieval, algorithm review, and human review.
 - [x] Final cleanup checklist includes review controls and no-overclaim reminders.
 
 ## README And Roadmap

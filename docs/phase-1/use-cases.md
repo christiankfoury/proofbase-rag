@@ -10,7 +10,7 @@
 | Expected behavior | Retrieve HR docs, answer with citations, refuse if policy is not found, distinguish general policy guidance from legal advice |
 | Failure cases | Hallucinated policy, outdated citation, unauthorized manager policy shown |
 | Enterprise value | Reduces HR ticket volume and improves policy consistency |
-| Recruiter value | Shows grounded answers, citations, and refusal behavior |
+| Demonstrated capability | Grounded answers, citations, and refusal behavior |
 
 ## 2. IT/Security Policy Assistant
 
@@ -22,7 +22,7 @@
 | Expected behavior | Provide concise policy answer with security citations and allowed scope |
 | Failure cases | Gives operational security details, misses restricted policy boundaries |
 | Enterprise value | Improves compliance and reduces repetitive IT questions |
-| Recruiter value | Shows permission-aware security RAG |
+| Demonstrated capability | Permission-aware security RAG |
 
 ## 3. Sales Knowledge Assistant
 
@@ -34,7 +34,7 @@
 | Expected behavior | Retrieve sales-approved content, cite playbooks, flag unsupported competitive claims |
 | Failure cases | Uses stale claims, invents customer proof, exposes restricted strategy |
 | Enterprise value | Helps reps find approved answers quickly |
-| Recruiter value | Demonstrates domain-specific retrieval and hybrid search value |
+| Demonstrated capability | Domain-specific retrieval and hybrid search |
 
 ## 4. Manager-Only Knowledge Assistant
 
@@ -46,4 +46,4 @@
 | Expected behavior | Answer only for manager role, cite manager docs, refuse for employee role |
 | Failure cases | Permission leak, missing refusal, vague citation |
 | Enterprise value | Protects sensitive internal processes while improving manager productivity |
-| Recruiter value | Strongly demonstrates RBAC and enterprise trust controls |
+| Demonstrated capability | RBAC and enterprise trust controls |

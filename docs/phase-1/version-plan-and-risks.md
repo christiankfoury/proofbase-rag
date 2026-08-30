@@ -33,7 +33,7 @@ Metrics to compare:
 - Refusal accuracy
 - Permission leakage rate
 
-Recruiter-facing achievement:
+Verified milestone:
 
 > Built a measured baseline enterprise RAG assistant with citations, RBAC filtering, and benchmark-driven evaluation.
 
@@ -68,7 +68,7 @@ Metrics to compare:
 - Hallucination rate
 - Cost per answer
 
-Recruiter-facing achievement:
+Verified milestone:
 
 > Improved RAG quality through hybrid retrieval and evaluation-backed experiments, showing measurable gains over a baseline.
 
@@ -93,7 +93,7 @@ What is being tested:
 
 Expected output:
 
-- Deployed recruiter-ready product demo with scripted enterprise scenarios and measurable evaluation history.
+- Deployed guided product demo with scripted enterprise scenarios and measurable evaluation history.
 
 Metrics to compare:
 
@@ -104,7 +104,7 @@ Metrics to compare:
 - Accepted answer rate
 - Regression rate by prompt/retrieval version
 
-Recruiter-facing achievement:
+Verified milestone:
 
 > Delivered a production-style enterprise AI knowledge assistant with RBAC, citations, evaluation dashboards, observability, and measurable quality improvement.
 
@@ -121,4 +121,4 @@ Recruiter-facing achievement:
 | No measurable improvement | Project looks like a static demo | Compare Version 1, Version 2, and Version 3 using the same benchmark |
 | Overengineering | Solo project becomes too large | Keep MVP narrow: four use cases, synthetic docs, evaluation runner, baseline RAG |
 | Hallucinated policy answers | Dangerous in HR/security contexts | Refuse when evidence is missing and measure faithfulness |
-| Recruiter demo too technical | Hiring managers miss the value | Prepare scripted persona-based scenarios showing business value and metrics |
+| Demo too technical | Product value is unclear | Prepare scripted persona-based scenarios showing business value and metrics |

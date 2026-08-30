@@ -2,7 +2,7 @@
 
 ## Goal
 
-Make the recruiter-facing project workspace first screen feel like a real App-side product home for the seeded `Northstar Analytics` workspace.
+Make the project workspace first screen feel like a real App-side product home for the seeded `Northstar Analytics` workspace.
 
 ## Completed In This Slice
 

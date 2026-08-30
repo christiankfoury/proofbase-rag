@@ -12,7 +12,7 @@ These use cases define the planned App-side features and the supporting Dev/Admi
 | Department Owner | Manages documents and source coverage for one department. |
 | Admin | Creates projects, departments, uploads documents, reviews extracted Markdown, and manages roles, permissions, ingestion, audits, and system settings. |
 | RAG Evaluator | Reviews algorithm comparison, benchmark failures, and quality regressions. |
-| Recruiter/Reviewer | Views the polished demo flow and understands the system quickly. |
+| Demo User | Follows the guided flow and understands the system quickly. |
 
 ## UC-01: Create A Project
 
@@ -294,9 +294,9 @@ Validation:
 - Unauthorized chunk exposure remains zero.
 - Permission matrix matches expected access.
 
-## UC-12: Recruiter Demo Flow
+## UC-12: Guided Demo Flow
 
-User: Recruiter/Reviewer.
+User: Demo User.
 
 Goal: Understand the project quickly.
 
@@ -323,7 +323,7 @@ Validation:
 
 ## UC-13: Understand Assistant Defenses And Production Gaps
 
-User: Employee, Admin, RAG Evaluator, Security Reviewer, or Recruiter/Reviewer.
+User: Employee, Admin, RAG Evaluator, Security Reviewer, or Demo User.
 
 Goal: Understand how Proofbase handles ambiguity, prompt injection, permissions, evidence, and citations, and distinguish the local demo from a production-quality deployment.
 

@@ -1,6 +1,6 @@
 # Phase 28 Checklist
 
-Goal: make Dev/Admin evaluation metrics transparent enough for recruiter and engineering-manager review without changing retrieval, prompt, or scoring behavior.
+Goal: make Dev/Admin evaluation metrics transparent enough for product and technical review without changing retrieval, prompt, or scoring behavior.
 
 ## Implemented
 
@@ -31,6 +31,6 @@ Goal: make Dev/Admin evaluation metrics transparent enough for recruiter and eng
 - No new metric improvements or target claims.
 - No new OpenAI-backed evaluation run.
 
-## Recruiter Demo Note
+## Technical Review Note
 
 Use `/dev-admin` to show that each headline number cites its source run and sample size. Use `/dev-admin/runs` to show detailed run provenance and subset warnings before discussing score quality.

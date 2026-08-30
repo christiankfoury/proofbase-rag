@@ -24,7 +24,7 @@ The current frontend is strongest as a Dev/Admin and evaluation dashboard. The n
 
 ## Current Known Product Gap
 
-The engine is credible, but the product presentation is still too engineering-oriented. Most visible pages are evaluation, observability, audit, failed questions, and retrieval playground pages. Those are valuable for the Dev/Admin side, but recruiters also need to see the end-user application:
+The engine is credible, but the product presentation is still too engineering-oriented. Most visible pages are evaluation, observability, audit, failed questions, and retrieval playground pages. Those are valuable for the Dev/Admin side, but the public product surface also needs to show the end-user application:
 
 - Create and manage projects.
 - Open a project workspace.
@@ -77,7 +77,7 @@ Do not pause at "here is the plan" unless the user explicitly asks for plan-only
 
 ## Evaluation Lens
 
-Every phase should be judged through the eyes of someone reviewing the project as a portfolio application, recruiter demo, or engineering-manager screen.
+Every phase should be judged through the eyes of someone reviewing the project as a reference application, product demonstration, or technical review.
 
 Prioritize:
 
@@ -86,7 +86,7 @@ Prioritize:
 - Dev/Admin depth that proves safety, quality, and operational maturity
 - honest limitations instead of inflated claims
 - measurable RAG quality and permission safety
-- clean implementation that is easy to explain in an interview
+- clean implementation that is easy to explain in a technical review
 - demoability within a few minutes
 
 When there is a tradeoff between a technically interesting feature and a more presentable product slice, choose the product slice unless the technical feature is required to keep claims honest.
@@ -124,14 +124,14 @@ For Phase 38, target `<=8` failed answer-quality cases without weakening citatio
 
 After Phase 40 and the Phase 39/40 polish/audit-backlog work are complete, continue with `docs/roadmap/post-phase-40-product-polish-plan.md`. The next sequence is product-polish driven:
 
-- Phase 41: recruiter demo project home.
+- Phase 41: guided demo project home.
 - Phase 42: guided demo flow and answer proof.
 - Phase 43: guarded AI Markdown cleanup draft.
 - Phase 44: AI cleanup metadata, cost, and review diff.
 - Phase 45: generalization probe suite baseline.
 - Phase 46: memory and ambiguity generalization remediation.
 
-Keep the order unless a new correctness, permission, or secret-handling issue becomes more urgent. Recruiter/demo polish comes first because the App side must communicate product value quickly. AI Markdown cleanup must remain explicitly editor-triggered, reviewable, and non-indexing until approval. Memory and ambiguity work must start with a non-benchmark baseline before remediation, and memory must remain query context only, never source evidence.
+Keep the order unless a new correctness, permission, or secret-handling issue becomes more urgent. Product/demo polish comes first because the App side must communicate product value quickly. AI Markdown cleanup must remain explicitly editor-triggered, reviewable, and non-indexing until approval. Memory and ambiguity work must start with a non-benchmark baseline before remediation, and memory must remain query context only, never source evidence.
 
 OpenAI external calls are approved for this roadmap run. Use the explicit approval flags required by existing scripts, prefer dry-runs and local tests first, and record live OpenAI-backed checks and estimated costs in the relevant phase docs.
 
@@ -338,7 +338,7 @@ After review, choose the next highest-value phase from the roadmap. Prefer work 
 
 ## Product Rules
 
-- Keep the App side user-centered and recruiter-presentable.
+- Keep the App side user-centered and review-ready.
 - Keep the Dev/Admin side detailed, auditable, and metric-driven.
 - Prefer durable, real product concepts over fake UI. Seeded demo data is allowed only when it is honest and clearly tied to the synthetic corpus.
 - Do not hide known failures such as unresolved multi-document or citation issues.

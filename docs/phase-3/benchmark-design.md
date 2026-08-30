@@ -49,6 +49,6 @@ The benchmark supports these metrics:
 - Conversation-memory questions must include previous turns and must still respect permissions.
 - Ambiguous questions should ask for clarification instead of inventing approval.
 
-## Recruiter-Facing Value
+## Demonstrated Value
 
 This benchmark makes the project measurable. It allows the portfolio demo to show baseline RAG results, identify weak retrieval or citation behavior, improve the system, and show measurable gains across versions.

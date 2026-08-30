@@ -101,7 +101,7 @@ Add a public App-side page that explains how Proofbase handles prompt injection,
 ### Product scope
 
 - Add `/trust` to the App navigation as **Trust & Safety** and add the matching breadcrumb.
-- Make the page understandable to a recruiter, product reviewer, security reviewer, or developer without requiring the README.
+- Make the page understandable to product stakeholders, security reviewers, and developers without requiring the README.
 - Show the request lifecycle as a compact layered-defense flow.
 - Explain ambiguity handling, direct prompt-injection handling, indirect/source injection, permission filtering, memory boundaries, evidence sufficiency, citation validation, and audit evidence separately.
 - Include a production-readiness checklist covering all Phases 56-63.

@@ -43,7 +43,7 @@ Verification:
 
 - Frontend build passes.
 - Existing routes still render.
-- Recruiter demo flow starts on App side.
+- Guided demo flow starts on App side.
 
 Questions before starting:
 
@@ -258,7 +258,7 @@ Questions before starting:
 - Should review labels follow the existing 1.0/0.5/0.0 rubric?
 - Should users write expected answers manually, or can AI draft them for review?
 
-## Phase 26: Recruiter Presentation Polish
+## Phase 26: Product Presentation Polish
 
 Goal: Make the project demo feel finished without hiding engineering depth.
 
@@ -274,7 +274,7 @@ Scope:
 - Demo data reset path.
 - Screenshot checklist update.
 - README update.
-- Portfolio case study update.
+- Engineering case study update.
 - Known limitations update.
 
 Verification:
@@ -286,7 +286,7 @@ Verification:
 
 Questions before starting:
 
-- Should the final presentation optimize for recruiters, engineering managers, or AI platform teams?
+- Should the final presentation optimize for product stakeholders, security reviewers, or AI platform teams?
 - Should the README lead with product screenshots or metrics?
 
 ## Phase 27: Auth And Deployment Readiness
@@ -368,7 +368,7 @@ After Phase 40 and the Phase 39/40 polish/audit-backlog work, continue from `doc
 
 Phase mapping:
 
-- Phase 41: Recruiter Demo Project Home.
+- Phase 41: Guided Demo Project Home.
 - Phase 42: Guided Demo Flow And Answer Proof.
 - Phase 43: Guarded AI Markdown Cleanup Draft.
 - Phase 44: AI Cleanup Metadata, Cost, And Review Diff.

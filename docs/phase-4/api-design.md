@@ -140,7 +140,7 @@ Feedback request:
 
 ## Frontend Pages
 
-| Page | Purpose | Main Components | API Data | Recruiter Demo Value |
+| Page | Purpose | Main Components | API Data | Demonstrated Value |
 |---|---|---|---|---|
 | Project overview | Explain architecture and measured improvement | Architecture cards, version timeline, metrics summary | Evaluation summaries | Shows production framing |
 | Chat | Ask role-aware questions | Chat panel, role badge, citations, feedback | Chat endpoints | Shows permission-aware RAG |

@@ -28,7 +28,7 @@ Include:
 
 ```mermaid
 flowchart LR
-  User[Reviewer / Demo User] --> Web[Next.js App + Dev/Admin UI]
+  User[Demo User] --> Web[Next.js App + Dev/Admin UI]
   Web --> Auth[Local Demo Auth + Project Memberships]
   Web --> API[FastAPI Backend]
 

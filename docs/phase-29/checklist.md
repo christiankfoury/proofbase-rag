@@ -22,6 +22,6 @@ Goal: add benchmark schema and source-reference validation without breaking exis
 - No retrieval, prompt, scoring, dashboard metric, or permission model behavior changed.
 - No OpenAI-backed evaluation run was executed.
 
-## Recruiter Demo Note
+## Technical Review Note
 
-Phase 29 strengthens the engineering-manager proof: benchmark data can now be validated before metrics are refreshed, reducing the chance that broken source references or malformed questions corrupt future evaluation runs.
+Phase 29 strengthens the technical proof: benchmark data can now be validated before metrics are refreshed, reducing the chance that broken source references or malformed questions corrupt future evaluation runs.

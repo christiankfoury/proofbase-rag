@@ -1,4 +1,4 @@
-# Phase 26 Recruiter Presentation Polish
+# Phase 26 Product Presentation Polish
 
 ## Goal
 
@@ -17,7 +17,7 @@ The preferred five-minute sequence is:
 5. Algorithm Quality Lab comparison
 6. Failed-question or feedback human review
 
-This keeps the demo recruiter-friendly while giving engineering managers direct access to the evidence layer.
+This keeps the demo product-readable while giving technical reviewers direct access to the evidence layer.
 
 ## App-Side Changes
 
@@ -57,7 +57,7 @@ Updated materials:
 - `docs/demo/interactive-demo-guide.md`
 - `docs/demo/screenshots-checklist.md`
 - `docs/demo/final-cleanup-checklist.md`
-- `docs/demo/portfolio-case-study.md`
+- `docs/demo/engineering-case-study.md`
 - `docs/roadmap/progress.md`
 
 ## Limitations Kept Visible

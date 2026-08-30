@@ -40,7 +40,7 @@ Use this order instead of tuning prompts blindly:
 
 ## Phase 28: Dashboard Transparency
 
-Goal: make the Dev & Admin dashboard honest, explicit, and recruiter-readable.
+Goal: make the Dev & Admin dashboard honest, explicit, and reviewer-readable.
 
 Key changes:
 
@@ -229,7 +229,7 @@ Acceptance criteria:
 
 ## Phase 35: Citation Accuracy Improvement
 
-Goal: make citations reliable and recruiter-worthy.
+Goal: make citations reliable and review-worthy.
 
 Current reference metric:
 

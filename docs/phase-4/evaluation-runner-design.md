@@ -80,7 +80,7 @@ The dashboard should compare:
 - top_k changes
 - model changes
 
-The most recruiter-friendly comparison is:
+The most useful comparison is:
 
 ```text
 baseline-vector-only -> improved-hybrid -> enterprise-hybrid-rerank

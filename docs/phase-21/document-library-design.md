@@ -17,7 +17,7 @@ Department pages now include:
 - extracted Markdown preview
 - disabled upload controls with Phase 22 copy
 
-This gives recruiters and engineering reviewers a product-shaped document management surface while avoiding a false claim that upload extraction is implemented.
+This gives product stakeholders and engineering reviewers a product-shaped document management surface while avoiding a false claim that upload extraction is implemented.
 
 ## Data Model
 

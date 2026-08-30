@@ -1,6 +1,6 @@
 # Interactive Demo Guide
 
-This guide walks through the recruiter-facing interactive demo pages added after Docker And Azure Readiness (Phase 14) and portfolio packaging work.
+This guide walks through the interactive product and technical-review pages added after Docker And Azure Readiness (Phase 14) and project packaging work.
 
 ## Start The Demo
 

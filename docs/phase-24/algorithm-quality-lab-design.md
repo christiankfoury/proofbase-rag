@@ -2,7 +2,7 @@
 
 ## Goal
 
-Phase 24 turns the old retrieval playground into a reviewable Algorithm Quality Lab for engineering-manager style evidence: named profiles, live comparisons, historical metrics, known failures, and explicit human review notes.
+Phase 24 turns the old retrieval playground into a reviewable Algorithm Quality Lab for technical evidence: named profiles, live comparisons, historical metrics, known failures, and explicit human review notes.
 
 ## Product Decision
 

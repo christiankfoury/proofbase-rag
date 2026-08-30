@@ -1,6 +1,6 @@
 # Proofbase Demo Script
 
-This five-minute demo is designed for recruiters and engineering interviewers. Lead with the App side, then move into Dev/Admin proof for quality, permissions, failures, and operations.
+This five-minute demo is designed for product stakeholders and technical reviewers. Lead with the App side, then move into Dev/Admin proof for quality, permissions, failures, and operations.
 
 ## Setup
 
@@ -95,7 +95,7 @@ Point out:
 
 - Retrieval is scoped to the selected project.
 - Citations are structured evidence, not decorative footnotes.
-- Retrieved context is shown for engineering review, while the App-side proof summary keeps the explanation recruiter-readable.
+- Retrieved context is shown for engineering review, while the App-side proof summary keeps the explanation concise.
 
 ## Scene 5: Safe Refusal And Role Contrast
 

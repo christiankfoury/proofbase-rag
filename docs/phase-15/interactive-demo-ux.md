@@ -2,7 +2,7 @@
 
 ## Goal
 
-Turn the existing evaluation dashboard into an interactive enterprise RAG demo that recruiters and engineers can use to test the system, inspect evidence, compare retrieval modes, verify permissions, submit feedback, and investigate benchmark failures.
+Turn the existing evaluation dashboard into an interactive enterprise RAG demo that reviewers and engineers can use to test the system, inspect evidence, compare retrieval modes, verify permissions, submit feedback, and investigate benchmark failures.
 
 ## Implemented Scope
 
@@ -18,7 +18,7 @@ Turn the existing evaluation dashboard into an interactive enterprise RAG demo t
   - `/dev-admin/retrieval-playground`
   - `/dev-admin/evaluation/runs/[run_id]`
 - Reworked `/dev-admin/failed-questions` into an expandable inspector.
-- Updated top navigation for recruiter demo flow.
+- Updated top navigation for guided demo flow.
 
 ## What Stayed Out Of Scope
 

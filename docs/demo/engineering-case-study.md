@@ -1,4 +1,4 @@
-# Portfolio Case Study: Proofbase
+# Engineering Case Study: Proofbase
 
 ## Problem
 

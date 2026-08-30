@@ -1,6 +1,6 @@
 # Proofbase: Permission-Aware Enterprise RAG
 
-**Proofbase** is a full-stack enterprise RAG portfolio application. It organizes internal knowledge into project and department workspaces, filters evidence by role before generation, and returns cited answers with visible retrieval, confidence, latency, evaluation, and audit proof.
+**Proofbase** is a full-stack enterprise RAG reference application. It organizes internal knowledge into project and department workspaces, filters evidence by role before generation, and returns cited answers with visible retrieval, confidence, latency, evaluation, and audit proof.
 
 ## At A Glance
 
@@ -10,7 +10,7 @@
 | RAG | PostgreSQL/pgvector, keyword search, vector + lexical reranking, multi-source planning, evidence sufficiency, structured response types, post-generation claim validation, citations, and confidence signals. |
 | Security | Public Trust & Safety status page, local OIDC/tenant and database-policy boundaries, distributed abuse controls, tenant PDF quarantine, mounted-secret boundary, privacy-safe logs, role-filtered retrieval, defensive generation checks, and permission audits. |
 | Evaluation | 130-question regression benchmark, three independently sealed holdouts, human adjudication, failure matrices, cost tracking, and durable exactly-once-oriented execution evidence. |
-| Operations | Feedback, observability, audit logs, health/readiness endpoints, Docker Compose, CI, and Azure-ready deployment documentation. |
+| Operations | Feedback, observability, audit logs, health/readiness endpoints, Docker Compose, CI, and a manually validated temporary Azure deployment. |
 
 ## Evidence Snapshot
 
@@ -73,7 +73,7 @@ See the [interactive demo guide](docs/demo/interactive-demo-guide.md) and [scree
 
 ```mermaid
 flowchart LR
-  User[Demo User / Reviewer] --> Web[Next.js App + Dev/Admin UI]
+  User[Demo User] --> Web[Next.js App + Dev/Admin UI]
   Web --> Auth[Local Demo Auth + Project Memberships]
   Web --> API[FastAPI Backend]
 
@@ -265,14 +265,14 @@ Source: [Multi-Doc Evaluation JSON](data/evaluation/multi-doc-eval.json)
 | Postgres/pgvector setup | Passed |
 | Smoke test | Passed in latest user run |
 | Local demo auth | Passed for member, guest, and admin/non-admin checks |
-| Azure deployment | Azure-ready, not deployed |
+| Temporary Azure deployment | Web, API, PostgreSQL/pgvector, and container registry smoke-tested successfully; no production-operation claim |
 | Chat cost tracking | Estimated from configured model pricing |
 
-Source: [Docker And Azure Readiness (Phase 14) Smoke Test Results](docs/phase-14/smoke-test-results.md)
+Sources: [Docker And Azure Readiness (Phase 14) Smoke Test Results](docs/phase-14/smoke-test-results.md) and [Temporary Azure Deployment Validation](docs/demo/azure-deployment-validation.md).
 
 ## App And Dev/Admin UI
 
-The frontend separates the recruiter-facing product from the engineering proof surfaces.
+The frontend separates the product experience from the engineering proof surfaces.
 
 | Surface | Main routes | What it demonstrates |
 |---|---|---|
@@ -414,12 +414,12 @@ Open the dashboard after exporting data. Run the benchmark validator before publ
 
 The sealed Phase 47–49 holdout runners are not routine regression commands. Their committed results should not be rerun or used for tuning; any future generalization claim requires a newly authored and sealed holdout.
 
-## Demo And Portfolio Materials
+## Demo And Project Materials
 
 - [Demo Script](docs/demo/demo-script.md)
 - [Interactive Demo Guide](docs/demo/interactive-demo-guide.md)
-- [Portfolio Case Study](docs/demo/portfolio-case-study.md)
-- [Resume Bullets](docs/demo/resume-bullets.md)
+- [Engineering Case Study](docs/demo/engineering-case-study.md)
+- [Temporary Azure Deployment Validation](docs/demo/azure-deployment-validation.md)
 - [Architecture Diagram Guide](docs/demo/architecture-diagram.md)
 - [Screenshots Checklist](docs/demo/screenshots-checklist.md)
 - [Final Cleanup Checklist](docs/demo/final-cleanup-checklist.md)
@@ -427,7 +427,7 @@ The sealed Phase 47–49 holdout runners are not routine regression commands. Th
 ## Known Limitations
 
 - The corpus is synthetic and intentionally avoids real employee or customer data.
-- The project is Azure-ready but has not been deployed to Azure yet.
+- A temporary Azure deployment has been manually smoke-tested; hosted identity, operational monitoring/on-call, independent validation, and production availability evidence remain external requirements.
 - Local demo auth is implemented with seeded demo users and project memberships. Production authentication and SSO are not implemented.
 - There are no real SharePoint, Slack, Teams, Google Drive, or HRIS connectors yet.
 - Raw document storage still uses repository files, not Azure Blob Storage.
@@ -466,7 +466,7 @@ The Phase 48/49 product-quality backlog also remains preserved for a separately 
 
 ## Selected Documentation
 
-- Product: [Interactive Demo Guide](docs/demo/interactive-demo-guide.md), [Portfolio Case Study](docs/demo/portfolio-case-study.md), and [Product Scope](docs/phase-1/product-scope.md)
+- Product: [Interactive Demo Guide](docs/demo/interactive-demo-guide.md), [Engineering Case Study](docs/demo/engineering-case-study.md), and [Product Scope](docs/phase-1/product-scope.md)
 - Architecture: [System Overview](docs/phase-4/architecture-overview.md), [Algorithm Reading Guide](docs/algorithm/README.md), and [Permissions And Scope](docs/algorithm/permissions-and-scope.md)
 - Core evaluation: [Benchmark Design](docs/phase-3/benchmark-design.md), [Evaluation Metrics](docs/algorithm/evaluation-metrics.md), and [Regression Scorecard](docs/phase-37/regression-scorecard.md)
 - Independent evaluation: [Phase 47 Holdout](docs/phase-47/holdout-results.md), [Phase 48 Interruption Record](docs/phase-48/holdout-interruption.md), [Phase 49 Results](docs/phase-49/fresh-holdout-results.md), and [Phase 49 Adjudication](docs/phase-49/human-adjudication.md)
@@ -474,6 +474,6 @@ The Phase 48/49 product-quality backlog also remains preserved for a separately 
 - Evaluation integrity: [Phase 49 Reliability Design](docs/phase-49/evaluation-reliability-design.md) and [Verification](docs/phase-49/verification.md)
 - Current status: [Roadmap Progress](docs/roadmap/progress.md) and [Defense And Production Readiness Plan](docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md)
 
-## Final Portfolio Description
+## Project Summary
 
-**Proofbase** is a full-stack enterprise RAG portfolio project that combines a usable project-scoped knowledge assistant with the engineering evidence behind it: pre-generation permission filtering, grounded citations, memory boundaries, evaluation dashboards, durable holdout execution, observability, Dockerized local deployment, and Azure-ready architecture. Its latest sealed evaluation scored `22/30` with zero hard safety violations—and reports the remaining quality gaps without inflating the result.
+**Proofbase** is a full-stack enterprise RAG reference implementation that combines a usable project-scoped knowledge assistant with the engineering evidence behind it: pre-generation permission filtering, grounded citations, memory boundaries, evaluation dashboards, durable holdout execution, observability, Dockerized local deployment, and an optional Azure deployment path. Its latest sealed evaluation scored `22/30` with zero hard safety violations—and reports the remaining quality gaps without inflating the result.

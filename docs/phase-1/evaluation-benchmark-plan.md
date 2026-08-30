@@ -56,7 +56,7 @@ Each benchmark item should include:
 - If permission tests fail, fix authorization before adding features.
 - If latency or cost is high, reduce context size or optimize retrieval.
 
-## Recruiter Demo Angle
+## Demonstration Value
 
 The benchmark gives the project a clear story:
 

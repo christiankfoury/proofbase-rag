@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Phase 4 defines the technical architecture for the Proofbase before implementation begins. The system is designed as an enterprise-grade RAG knowledge agent with measurable retrieval quality, cited answers, permissions, evaluation runs, prompt versioning, feedback, audit logs, latency/cost tracking, and recruiter-facing metrics.
+Phase 4 defines the technical architecture for Proofbase before implementation begins. The system is designed as an enterprise-grade RAG knowledge agent with measurable retrieval quality, cited answers, permissions, evaluation runs, prompt versioning, feedback, audit logs, latency/cost tracking, and decision-ready metrics.
 
 This phase is documentation-only. No application code, migrations, frontend pages, backend endpoints, or scripts are implemented here.
 
@@ -17,7 +17,7 @@ The Phase 2 synthetic documents are the first ingestion source. The Phase 3 benc
 
 | Component | Responsibilities |
 |---|---|
-| Frontend | Chat UI, citation display, feedback controls, document admin UI, evaluation dashboard, prompt versions page, access control page, audit logs page, recruiter-facing project overview |
+| Frontend | Chat UI, citation display, feedback controls, document admin UI, evaluation dashboard, prompt versions page, access control page, audit logs page, and project overview |
 | Backend | FastAPI API, auth/session handling, ingestion orchestration, retrieval, answer generation, citation validation, benchmark runner, prompt lookup, permission checks, metrics logging |
 | PostgreSQL | Users, roles, documents, document versions, permissions, chunks, embeddings, chat sessions, prompt versions, retrieval logs, answer logs, citations, evaluation results, feedback, audit logs |
 | pgvector | Stores chunk embeddings and supports vector similarity search |
@@ -67,7 +67,7 @@ Critical rule: unauthorized chunks must never be passed to the LLM.
 - If the question is ambiguous, ask a clarifying question and cite the relevant policy constraint when safe.
 - If multiple documents are needed, synthesize only from retrieved accessible chunks and cite each source.
 
-## Recruiter-Facing Architecture Story
+## Architecture Review Narrative
 
 The architecture demonstrates a production-minded AI system rather than a simple chatbot:
 

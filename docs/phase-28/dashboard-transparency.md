@@ -56,8 +56,7 @@ Updated:
 
 - `README.md`
 - `docs/demo/interactive-demo-guide.md`
-- `docs/demo/resume-bullets.md`
-- `docs/demo/portfolio-case-study.md`
+- `docs/demo/engineering-case-study.md`
 - `docs/demo/architecture-diagram.md`
 
 The copy now states that the source corpus has 65 questions and that current dashboard metrics come from differently sized suites.

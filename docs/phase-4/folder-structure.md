@@ -61,7 +61,7 @@ The frontend can be scaffolded after the baseline RAG pipeline produces measurab
 
 | Folder | Responsibility |
 |---|---|
-| `apps/web` | Next.js app, recruiter overview, chat UI, admin UI, evaluation dashboard |
+| `apps/web` | Next.js app, project overview, chat UI, admin UI, evaluation dashboard |
 | `apps/api` | FastAPI backend, ingestion, retrieval, generation, evaluation, permissions |
 | `packages/shared` | Shared TypeScript types and constants when frontend/backend contracts stabilize |
 | `data/synthetic-documents` | Synthetic company documents used for ingestion |

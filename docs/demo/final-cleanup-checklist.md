@@ -1,6 +1,6 @@
 # Final Cleanup Checklist
 
-Use this before recording screenshots, publishing the project, or sending it to recruiters.
+Use this before recording screenshots, publishing the project, or sharing it externally.
 
 ## Repository Hygiene
 
@@ -58,13 +58,13 @@ docker compose run --rm api python scripts/run_multi_doc_eval.py
 docker compose run --rm api python scripts/export_dashboard_data.py
 ```
 
-## Final Portfolio Readiness
+## Final Project Readiness
 
 - [ ] README explains what the project is in the first screen.
 - [ ] Final metrics use real numbers only.
 - [ ] Demo script can be completed in roughly five minutes.
 - [ ] Demo script has exact questions, expected behavior, and honest limitations.
-- [ ] Resume bullets are copied into the resume or project page.
+- [ ] External project summary uses only verified claims and current metrics.
 - [ ] Screenshots are captured and reviewed.
 - [ ] Known limitations and roadmap are visible.
 - [ ] Uploaded PDF screenshots show the implemented local cleanup/review/approval/indexing steps without implying hosted storage or automatic AI indexing exists.

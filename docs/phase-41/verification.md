@@ -1,6 +1,6 @@
 # Phase 41 Verification
 
-Generated during the Recruiter Demo Project Home slice.
+Generated during the Guided Demo Project Home slice.
 
 ## Passed
 

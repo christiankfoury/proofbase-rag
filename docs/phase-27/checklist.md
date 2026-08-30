@@ -22,6 +22,6 @@
 - Tenant-level isolation beyond seeded local demo project membership.
 - Azure deployment.
 
-## Recruiter Demo Note
+## Technical Review Note
 
 Use the header selector to switch between demo users. Emma Employee can use the App workspace and scoped chat. Gus Guest demonstrates project denial. Kai Admin can access Dev/Admin evidence tools.
