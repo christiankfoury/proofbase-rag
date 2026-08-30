@@ -45,6 +45,48 @@ Human review classified the eight Phase 49 automated failures as four evaluator-
 
 See the [interactive demo guide](docs/demo/interactive-demo-guide.md) and [screenshot checklist](docs/demo/screenshots-checklist.md).
 
+## Product Walkthrough
+
+### 1. Project Workspaces
+
+Create a knowledge workspace, organize it into project-specific departments, and control who can access the project.
+
+> **Insert image 1:** Create a project workspace. Suggested file: `docs/demo/screenshots/project-create.png`
+
+> **Insert image 2:** Create and organize departments. Suggested file: `docs/demo/screenshots/project-departments.png`
+
+> **Insert image 3:** Configure project access and memberships. Suggested file: `docs/demo/screenshots/project-access.png`
+
+### 2. Department Workspace
+
+Upload a PDF, inspect the extracted Markdown, optionally clean it up, assign document access roles, and explicitly approve it for indexing.
+
+> **Insert image 4:** Upload a PDF and review the extracted Markdown. Suggested file: `docs/demo/screenshots/department-upload-review.png`
+
+> **Insert image 5:** Clean up Markdown, change access roles, and approve/index the document. Suggested file: `docs/demo/screenshots/department-permissions-indexing.png`
+
+### 3. Permission-Aware Chat
+
+Ask project-scoped questions with citations while the assistant handles unsafe, unclear, and unauthorized requests explicitly.
+
+> **Insert image 6:** Normal citation-backed answer with answer proof. Suggested file: `docs/demo/screenshots/chat-citation-backed-answer.png`
+
+> **Insert image 7:** Prompt-injection attempt rejected. Suggested file: `docs/demo/screenshots/chat-prompt-injection.png`
+
+> **Insert image 8:** Ambiguous question routed to clarification. Suggested file: `docs/demo/screenshots/chat-ambiguous-question.png`
+
+Place the final two screenshots side by side to show that authorization changes the result without changing the question:
+
+| Restricted user | Authorized user |
+| --- | --- |
+| **Insert image 9:** Permission refusal.<br>Suggested file: `docs/demo/screenshots/chat-permission-refusal.png` | **Insert image 10:** Authorized, citation-backed answer.<br>Suggested file: `docs/demo/screenshots/chat-permission-authorized.png` |
+
+Replace each placeholder with standard Markdown image syntax, for example:
+
+```markdown
+![Create a project workspace](docs/demo/screenshots/project-create.png)
+```
+
 ## Core Capabilities
 
 - **Knowledge lifecycle:** synthetic enterprise corpus, section-based ingestion, strict PDF envelope checks, tenant quarantine, fixture scanning, bounded extraction, editable Markdown review, optional AI cleanup, versioning, and approval-gated indexing.
