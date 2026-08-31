@@ -102,16 +102,17 @@ Place the final two screenshots side by side to show that authorization changes 
 
 | Area | Technology |
 |---|---|
-| Frontend | Next.js, TypeScript, Tailwind |
-| Backend | Python, FastAPI |
-| AI | OpenAI chat and embeddings APIs |
-| Database | PostgreSQL, pgvector |
-| Retrieval | Vector search, PostgreSQL full-text search, hybrid experiments |
-| Evaluation | Custom benchmark runners and deterministic scoring helpers |
-| Observability | JSONL request logs, live summary endpoints, cost estimates, dashboard views |
-| Security controls | Role-based document access, audit logs, permission evaluations |
-| Packaging | Docker, Docker Compose |
-| Cloud readiness | Azure Container Apps/App Service, Azure Database for PostgreSQL, ACR, Key Vault, Blob Storage future target |
+| Frontend | Next.js 15, React 18, TypeScript, Tailwind CSS, Lucide React |
+| Backend API | Python 3.12, FastAPI, Uvicorn, Pydantic Settings |
+| Data and persistence | PostgreSQL 16, pgvector, Psycopg, Redis 7 |
+| AI models and APIs | OpenAI API, `gpt-4.1-mini`, `text-embedding-3-small` |
+| Document processing | Markdown, pypdf, multipart PDF upload and isolated parsing |
+| RAG and search | Vector similarity, PostgreSQL full-text search, weighted hybrid fusion, lexical reranking, section/fixed-size chunking, multi-document retrieval |
+| Security | OIDC/JWT boundary, project RBAC, PostgreSQL row-level security, permission-filtered retrieval, Redis rate limiting, mounted secrets, audit logs |
+| Evaluation and observability | Custom Python benchmark runners, retrieval/answer/citation/safety metrics, JSONL telemetry, cost and latency tracking |
+| Testing and CI | FastAPI TestClient, deterministic regression scripts, GitHub Actions, source/build/container secret scanning |
+| Packaging | Docker, Docker Compose, non-root API and web containers |
+| Verified Azure deployment | Azure Container Apps, Azure Container Registry, Azure Database for PostgreSQL Flexible Server, managed identity and Azure RBAC |
 
 ## Architecture
 
