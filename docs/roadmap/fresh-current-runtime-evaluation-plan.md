@@ -24,4 +24,10 @@ Prepare a review packet for all 60 cases. A named person must inspect correctnes
 
 Each implementation phase follows plan, implement, verify, commit, commit/code review, push, then post-push verification. The queue ends with the concrete human-review packet if that review cannot be completed by an actual person in-session.
 
+## Replacement after the interrupted first execution
+
+The first execution exhausted the app's conservative $5 daily admission allowance after 50 query admissions; 58 cases were processed before upload approval interrupted the run. Preserve it under `data/evaluation/fresh-current-interrupted-v1`, with no full-suite percentage. Do not resume it.
+
+Before another freeze, set only the isolated evaluation process's admission allowance to $10, enough for 60 queries and two indexing reservations. The application default remains $5, and the shared actual external API ceiling remains $0.75 across both experiments and calibration. Verify a visible upload -> approve/index -> authorized cited query before freezing, preserve partial fixture stages, and require an indexed fixture. The semantic rubric and RAG code stay unchanged. Author a completely new 60-case suite after this corrected harness freeze, include all prior drafts/runs in mechanical overlap checks, validate/seal, then execute exactly once. Report the explicit capacity-setting difference alongside the final result.
+
 Reference: [existing custody rules](../phase-63/cadence-and-custody.md), [evaluation guidance](https://developers.openai.com/api/docs/guides/evaluation-best-practices), [structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs). Reviewed 2026-09-14. Grader choice remains an explicitly limited same-provider model, calibrated on visible fixtures, not an independent expert.

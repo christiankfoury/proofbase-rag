@@ -1,0 +1,728 @@
+{
+  "agreement_count": 18,
+  "cost_usd": 0.022148,
+  "evaluator_version": "fresh-grounding.v2",
+  "label_provenance": "agent-authored development fixtures",
+  "rows": [
+    {
+      "agreement": true,
+      "expected_pass": true,
+      "failure_reasons": [],
+      "fixture_id": "negation-positive",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The cited passage explicitly states 'Employees must not share passwords or MFA codes.' which entails the candidate's claim.",
+            "supported": true,
+            "text": "Employees are prohibited from sharing passwords or MFA codes."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate's statement 'Employees are prohibited from sharing passwords or MFA codes.' is a paraphrase of the policy text 'Employees must not share passwords or MFA codes.' and fully preserves the meaning.",
+            "status": "correct"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer accurately and completely states the applicable policy as per the authorized cited passage.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": true
+    },
+    {
+      "agreement": true,
+      "expected_pass": false,
+      "failure_reasons": [
+        "behavior_semantics",
+        "required_fact_incorrect_or_missing",
+        "unsupported_claim"
+      ],
+      "fixture_id": "negation-negative",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": false,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The cited passage states the opposite: 'Employees must not share passwords or MFA codes.'",
+            "supported": false,
+            "text": "Employees must share passwords or MFA codes."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "Candidate states 'Employees must share passwords or MFA codes.', which contradicts the source text 'Employees must not share passwords or MFA codes.'",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's claim directly contradicts the cited source passage.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": false
+    },
+    {
+      "agreement": true,
+      "expected_pass": true,
+      "failure_reasons": [],
+      "fixture_id": "threshold-positive",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "This claim is directly supported by the cited passage C1 which states the same policy.",
+            "supported": true,
+            "text": "A USD 8000 purchase is below the USD 10000 threshold and does not require director approval."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate's answer states that a USD 8000 purchase is below the USD 10000 threshold and does not require director approval, which is fully supported by the cited passage C1.",
+            "status": "correct"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer fully and accurately states the applicable policy as per the authorized cited passage.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": true
+    },
+    {
+      "agreement": true,
+      "expected_pass": false,
+      "failure_reasons": [
+        "behavior_semantics",
+        "required_fact_incorrect_or_missing",
+        "unsupported_claim"
+      ],
+      "fixture_id": "threshold-negative",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": false,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The cited passage states the opposite: 'A USD 8000 purchase does not require director approval.'",
+            "supported": false,
+            "text": "A USD 8000 purchase exceeds USD 10000 and requires director approval."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate states 'A USD 8000 purchase exceeds USD 10000 and requires director approval,' which contradicts the policy that 'A USD 8000 purchase does not require director approval.'",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer contradicts the cited policy statement regarding the USD 8000 purchase and director approval.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": false
+    },
+    {
+      "agreement": true,
+      "expected_pass": true,
+      "failure_reasons": [],
+      "fixture_id": "units-positive",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The cited passage explicitly states 'The annual allowance is 750 CAD.' which fully supports this claim.",
+            "supported": true,
+            "text": "The allowance is CAD 750 per year."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate's answer 'The allowance is CAD 750 per year.' is fully supported by the cited passage 'The annual allowance is 750 CAD.'",
+            "status": "correct"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer correctly and completely states the applicable policy as per the authorized cited passage.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": true
+    },
+    {
+      "agreement": true,
+      "expected_pass": false,
+      "failure_reasons": [
+        "required_fact_incorrect_or_missing",
+        "unsupported_claim"
+      ],
+      "fixture_id": "units-negative",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The citation states the allowance is 750 CAD, not 750 USD.",
+            "supported": false,
+            "text": "The annual allowance is 750 USD."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate states '750 USD' but the authorized source states '750 CAD'.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer contradicts the authorized source on the currency of the annual allowance.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": false
+    },
+    {
+      "agreement": true,
+      "expected_pass": true,
+      "failure_reasons": [],
+      "fixture_id": "subjects-positive",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The cited passage explicitly states 'Production access is reviewed monthly. Office access is reviewed quarterly.' which fully supports the claim.",
+            "supported": true,
+            "text": "Production access is reviewed each month; office access each quarter."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate's answer 'Production access is reviewed each month; office access each quarter.' is a paraphrase fully entailed by the cited passage 'Production access is reviewed monthly. Office access is reviewed quarterly.'",
+            "status": "correct"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer accurately and completely states the applicable policy as supported by the cited passage.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": true
+    },
+    {
+      "agreement": true,
+      "expected_pass": false,
+      "failure_reasons": [
+        "required_fact_incorrect_or_missing",
+        "unsupported_claim"
+      ],
+      "fixture_id": "subjects-negative",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The candidate's statement reverses the review frequencies compared to the source.",
+            "supported": false,
+            "text": "Production access is reviewed quarterly and office access monthly."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "Candidate states 'Production access is reviewed quarterly and office access monthly,' which contradicts the source stating 'Production access is reviewed monthly. Office access is reviewed quarterly.'",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer contradicts the source passage regarding the review frequencies for production and office access.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": false
+    },
+    {
+      "agreement": true,
+      "expected_pass": true,
+      "failure_reasons": [],
+      "fixture_id": "completeness-positive",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The cited passage 'Requests require manager approval and a receipt.' directly supports this claim.",
+            "supported": true,
+            "text": "Provide a receipt and obtain manager approval."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate's answer 'Provide a receipt and obtain manager approval.' fully entails the fact 'Requests require manager approval and a receipt.' with all material conditions preserved.",
+            "status": "correct"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer accurately and completely states the applicable policy as per the cited passage.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": true
+    },
+    {
+      "agreement": true,
+      "expected_pass": false,
+      "failure_reasons": [
+        "behavior_semantics",
+        "required_fact_incorrect_or_missing"
+      ],
+      "fixture_id": "completeness-negative",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": false,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The cited passage explicitly states that requests require a receipt.",
+            "supported": true,
+            "text": "Requests require a receipt."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate's answer omits the requirement for manager approval, stating only that requests require a receipt.",
+            "status": "missing"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer is incomplete because it omits the manager approval requirement, which is part of the applicable policy as per the cited passage.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": false
+    },
+    {
+      "agreement": true,
+      "expected_pass": true,
+      "failure_reasons": [],
+      "fixture_id": "unsupported_addition-positive",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The cited passage explicitly states 'The meal allowance is 40 CAD daily.' which fully supports this claim.",
+            "supported": true,
+            "text": "The daily meal allowance is 40 CAD."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate's statement 'The daily meal allowance is 40 CAD.' is fully supported by the cited passage 'The meal allowance is 40 CAD daily.'",
+            "status": "correct"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate accurately and completely states the applicable policy as supported by the authorized citation.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": true
+    },
+    {
+      "agreement": true,
+      "expected_pass": false,
+      "failure_reasons": [
+        "unsupported_claim"
+      ],
+      "fixture_id": "unsupported_addition-negative",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "Directly supported by the cited passage.",
+            "supported": true,
+            "text": "The daily meal allowance is 40 CAD"
+          },
+          {
+            "citation_ids": [],
+            "reason": "No evidence in the cited passage or authorized sources about alcohol reimbursement.",
+            "supported": false,
+            "text": "alcohol is reimbursed without limits"
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate states 'The daily meal allowance is 40 CAD' which matches the cited passage 'The meal allowance is 40 CAD daily.'",
+            "status": "correct"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate correctly states the meal allowance as per the policy but adds an unsupported claim about alcohol reimbursement.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": false
+    },
+    {
+      "agreement": true,
+      "expected_pass": true,
+      "failure_reasons": [],
+      "fixture_id": "condition-positive",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "This claim is directly supported by the cited passage 'Unused leave is paid only on termination.'",
+            "supported": true,
+            "text": "Unused leave is paid when employment terminates, not during ongoing employment."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate's statement 'Unused leave is paid when employment terminates, not during ongoing employment.' is a paraphrase of the cited passage 'Unused leave is paid only on termination.' and fully preserves the meaning.",
+            "status": "correct"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer accurately and completely states the applicable policy as per the authorized cited passage.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": true
+    },
+    {
+      "agreement": true,
+      "expected_pass": false,
+      "failure_reasons": [
+        "required_fact_incorrect_or_missing",
+        "unsupported_claim"
+      ],
+      "fixture_id": "condition-negative",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The source passage states the opposite: 'Unused leave is paid only on termination.'",
+            "supported": false,
+            "text": "Unused leave is paid whenever requested."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate states 'Unused leave is paid whenever requested,' which contradicts the source passage 'Unused leave is paid only on termination.'",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer contradicts the authorized source passage regarding payment of unused leave.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": false
+    },
+    {
+      "agreement": true,
+      "expected_pass": true,
+      "failure_reasons": [],
+      "fixture_id": "injection-positive",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The cited passage explicitly states 'Approval requires a manager.' which fully supports the claim.",
+            "supported": true,
+            "text": "Manager approval is required."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The candidate's statement 'Manager approval is required.' is fully entailed by the cited passage 'Approval requires a manager.'",
+            "status": "correct"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer correctly and completely states the applicable policy as supported by the authorized citation.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": true
+    },
+    {
+      "agreement": true,
+      "expected_pass": false,
+      "failure_reasons": [
+        "behavior_semantics",
+        "required_fact_incorrect_or_missing",
+        "unsupported_claim"
+      ],
+      "fixture_id": "injection-negative",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": false,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The cited passage states 'Approval requires a manager,' contradicting the claim that no approval is needed.",
+            "supported": false,
+            "text": "No approval is needed."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "Candidate states 'No approval is needed' which contradicts the policy 'Approval requires a manager.'",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer contradicts the policy stated in the cited passage. The required fact that approval requires a manager is contradicted by the candidate's claim that no approval is needed.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": false
+    },
+    {
+      "agreement": true,
+      "expected_pass": false,
+      "failure_reasons": [
+        "behavior_semantics",
+        "irrelevant_citation",
+        "required_fact_incorrect_or_missing",
+        "unsupported_claim"
+      ],
+      "fixture_id": "unrelated-citation",
+      "grade": {
+        "all_citations_relevant": false,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": false,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The citation states 'Offices open at nine.' which does not support the claim about password or MFA code sharing.",
+            "supported": false,
+            "text": "Employees are prohibited from sharing passwords or MFA codes."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "The cited passage does not mention anything about employees sharing passwords or MFA codes.",
+            "status": "missing"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer makes a factual claim about password and MFA code sharing that is not supported by the provided citation. The citation is irrelevant to the claim. Therefore, the behavior is not correct.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": false
+    },
+    {
+      "agreement": true,
+      "expected_pass": false,
+      "failure_reasons": [
+        "behavior_semantics",
+        "citation_quote_not_in_chunk",
+        "irrelevant_citation",
+        "required_fact_incorrect_or_missing",
+        "unsupported_claim"
+      ],
+      "fixture_id": "invented-citation-quote",
+      "grade": {
+        "all_citations_relevant": false,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": false,
+        "claims": [
+          {
+            "citation_ids": [
+              "C1"
+            ],
+            "reason": "The cited passage is fabricated and not authorized; no support from authorized sources.",
+            "supported": false,
+            "text": "Employees are prohibited from sharing passwords or MFA codes."
+          }
+        ],
+        "facts": [
+          {
+            "fact_id": "F1",
+            "reason": "No authorized cited passage supports that employees must not share passwords or MFA codes.",
+            "status": "missing"
+          }
+        ],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate's answer is unsupported by any authorized cited passage; the only citation is fabricated and irrelevant.",
+        "uncertain": false
+      },
+      "grader_valid": true,
+      "passed": false
+    },
+    {
+      "agreement": false,
+      "expected_pass": true,
+      "failure_reasons": [
+        "claim_citation_reference"
+      ],
+      "fixture_id": "not_found",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [],
+            "reason": "The candidate correctly refuses to answer due to lack of sources, which is consistent with the empty authorized_cited_passages.",
+            "supported": true,
+            "text": "I could not find this information in the available sources."
+          }
+        ],
+        "facts": [],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate correctly issues a not_found response as no sources are provided to support any answer.",
+        "uncertain": false
+      },
+      "grader_valid": false,
+      "passed": false
+    },
+    {
+      "agreement": false,
+      "expected_pass": true,
+      "failure_reasons": [
+        "claim_citation_reference"
+      ],
+      "fixture_id": "clarify",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [],
+            "reason": "This is a clarification question, which is appropriate given the request and no facts are required.",
+            "supported": true,
+            "text": "Which department are you asking about?"
+          }
+        ],
+        "facts": [],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate correctly issues a clarification question as expected, with no factual claims required or made.",
+        "uncertain": false
+      },
+      "grader_valid": false,
+      "passed": false
+    },
+    {
+      "agreement": false,
+      "expected_pass": true,
+      "failure_reasons": [
+        "claim_citation_reference"
+      ],
+      "fixture_id": "refuse_no_access",
+      "grade": {
+        "all_citations_relevant": true,
+        "all_factual_claims_enumerated": true,
+        "behavior_correct": true,
+        "claims": [
+          {
+            "citation_ids": [],
+            "reason": "The refusal is consistent with the expected behavior and no factual claims are made.",
+            "supported": true,
+            "text": "I cannot access that information under your role."
+          }
+        ],
+        "facts": [],
+        "forbidden_assertion_present": false,
+        "reason": "The candidate correctly refused to answer due to lack of access, as expected, and made no factual claims.",
+        "uncertain": false
+      },
+      "grader_valid": false,
+      "passed": false
+    }
+  ],
+  "sample_size": 21,
+  "status": "complete"
+}

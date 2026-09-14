@@ -6,6 +6,8 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
+- Phase 65 replacement: first execution/reporting committed and pushed as `a236d0a`. Archived raw bytes verify unchanged. The replacement uses a separate local database and a declared $10 admission allowance, with app defaults unchanged and the same cumulative $0.75 API ceiling. Visible upload/index/authorized-query preflight passed; 23 tests pass. Cumulative API estimate is $0.23948782. Next: commit/review the harness correction, freeze, author/validate a wholly new suite, seal, execute once, and publish the human-review packet.
+
 - Phase 65 first execution: interrupted after 58 processed cases by the application admission-budget HTTP 429 at the first upload fixture. Eight preceding queries also recorded HTTP 429. No full-suite score; no retries. Actual API token cost including calibration: $0.237036. Preserve the artifacts and human-review packet. The queued replacement experiment will declare adequate test-only admission capacity, keep app defaults and the shared $0.75 API ceiling, then freeze and author a completely new suite.
 
 - Pre-execution review follow-up: `072c497` and `5db5a0e` fix and review the grader input boundary; v4 calibration passes 24/24 with all grade contracts valid. Corrected freeze `a022a21` precedes a new context-isolated authoring/validation pass. The first Phase 65 draft remains archived and unexecuted. No held-out application queries have run. See the Phase 64 review correction note.

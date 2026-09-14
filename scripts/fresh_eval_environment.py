@@ -8,7 +8,7 @@ from pathlib import Path
 import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-DBNAME = "proofbase_eval_phase65"
+DBNAME = "proofbase_eval_phase65_v2"
 
 
 def configure():
@@ -22,10 +22,13 @@ def configure():
     isolated = make_conninfo(**parts)
     os.environ["DATABASE_URL"] = isolated
     os.environ["PROOFBASE_TELEMETRY_ENABLED"] = "false"
+    # Test-process admission capacity for 60 queries plus upload indexing.
+    # App defaults stay at $5; Ledger still caps actual external API work at $0.75.
+    os.environ["TENANT_DAILY_AI_BUDGET_USD"] = "10"
     for key, filename in {"OBSERVABILITY_LOG_PATH": "requests.jsonl", "AUDIT_LOG_PATH": "audit.jsonl",
                           "SECURITY_EVENT_LOG_PATH": "security.jsonl", "SECURITY_NOTIFICATION_LOG_PATH": "notifications.jsonl",
                           "UPLOAD_STORAGE_DIR": "uploads", "FILE_QUARANTINE_DIR": "quarantine"}.items():
-        os.environ[key] = str(ROOT / "data/evaluation/local-runs/fresh-current" / filename)
+        os.environ[key] = str(ROOT / "data/evaluation/local-runs/fresh-current-v2" / filename)
     # Dedicated Redis namespace prevents evaluation admission from consuming demo quotas.
     if original.rate_limit_backend == "redis":
         from urllib.parse import urlsplit, urlunsplit

@@ -4,6 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+import io
+import tarfile
 from collections import Counter
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -82,18 +84,37 @@ def validate_suite(suite):
     return errors
 
 
-def verify_custody():
-    freeze = json.loads((FOLDER / "freeze.json").read_text())
-    if freeze["files"] != file_inventory():
+def committed_inventory(freeze):
+    commit = freeze["commit"]
+    if len(commit) != 40 or any(c not in "0123456789abcdef" for c in commit):
+        raise ValueError("Invalid frozen commit")
+    data = subprocess.check_output(["git", "archive", "--format=tar", commit, "--", *freeze["files"]], cwd=ROOT)
+    with tarfile.open(fileobj=io.BytesIO(data)) as archive:
+        return {m.name: hashlib.sha256(archive.extractfile(m).read().replace(b"\r\n", b"\n")).hexdigest()
+                for m in archive.getmembers() if m.isfile()}
+
+
+def verify_custody(*, folder=None, require_current=True):
+    folder = folder or FOLDER
+    freeze = json.loads((folder / "freeze.json").read_text())
+    inventory = file_inventory() if require_current else committed_inventory(freeze)
+    if freeze["files"] != inventory:
         raise ValueError("Frozen files changed; do not execute holdout")
-    seal = json.loads((FOLDER / "seal.json").read_text())
-    if seal["freeze_sha256"] != digest(FOLDER / "freeze.json") or seal["suite_sha256"] != digest(FOLDER / "holdout.json"):
+    if not require_current:
+        grader = "scripts/fresh_eval_grader.py"
+        current_grader = hashlib.sha256((ROOT / grader).read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+        if current_grader != freeze["files"][grader]:
+            raise ValueError("Offline replay requires the frozen grader version")
+    seal = json.loads((folder / "seal.json").read_text())
+    if seal["freeze_sha256"] != digest(folder / "freeze.json") or seal["suite_sha256"] != digest(folder / "holdout.json"):
         raise ValueError("Custody hash mismatch")
-    review = json.loads((FOLDER / "author-validation.json").read_text())
+    review = json.loads((folder / "author-validation.json").read_text())
     if (review.get("suite_sha256") != seal["suite_sha256"] or review.get("status") != "approved"
-        or digest(FOLDER / "author-validation.json") != seal["validation_sha256"]):
+        or digest(folder / "author-validation.json") != seal["validation_sha256"]):
         raise ValueError("Separate author validation missing")
-    suite = json.loads((FOLDER / "holdout.json").read_text())
+    suite = json.loads((folder / "holdout.json").read_text())
+    if suite.get("authored_after_freeze") != freeze["commit"]:
+        raise ValueError("Authorship does not reference the frozen revision")
     errors = validate_suite(suite)
     if errors:
         raise ValueError(str(errors))

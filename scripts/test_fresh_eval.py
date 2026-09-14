@@ -81,6 +81,35 @@ class GraderTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 require_unstarted(Path(folder))
 
+    def test_unindexed_fixture_cannot_be_an_isolation_pass(self):
+        from unittest.mock import patch, MagicMock
+        from scripts.run_fresh_eval import setup_upload
+        client = MagicMock()
+        client.post.return_value.json.side_effect = [{"project": {"id": "p"}}, {"department": {"id": "d"}}]
+        stages = []
+        with patch("scripts.run_independent_generalization_eval._upload_content", return_value={"id": "doc"}), patch("scripts.run_independent_generalization_eval._approve", return_value={"version": {"ingestion_status": "pending"}}):
+            with self.assertRaisesRegex(RuntimeError, "actually indexed"):
+                setup_upload(client, {"case_id": "fixture", "upload_fixture": {"title": "test", "text": "synthetic"}}, progress=lambda s: stages.append(dict(s)))
+        self.assertEqual(stages[-1]["approved_document"]["version"]["ingestion_status"], "pending")
+
+    def test_admission_override_keeps_real_budget_and_app_default(self):
+        import os
+        from unittest.mock import patch
+        from apps.api.app.core.config import Settings, get_settings
+        from scripts.fresh_eval_environment import configure, DBNAME
+        from scripts.fresh_eval_budget import MAX_BUDGET
+        from psycopg.conninfo import conninfo_to_dict
+        try:
+            with patch.dict(os.environ, {"DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/test", "TENANT_DAILY_AI_BUDGET_USD": "5"}):
+                get_settings.cache_clear()
+                settings = configure()
+                self.assertEqual(settings.tenant_daily_ai_budget_usd, 10)
+                self.assertEqual(conninfo_to_dict(settings.database_url)["dbname"], DBNAME)
+                self.assertEqual(MAX_BUDGET, .75)
+                self.assertEqual(Settings.model_fields["tenant_daily_ai_budget_usd"].default, 5)
+        finally:
+            get_settings.cache_clear()
+
     def test_raw_response_survives_grader_failure(self):
         from unittest.mock import patch, MagicMock
         from scripts.run_fresh_eval import measure_case

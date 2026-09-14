@@ -15,17 +15,18 @@ from scripts.reliable_evaluation_run import write_json_atomic
 
 def reconstruct():
     freeze = json.loads((FOLDER / "freeze.json").read_text())
-    base = {"runtime_commit": freeze["commit"], "run_id": "fresh-current-run-v1", "suite_version": "fresh-current-1",
+    version = 1 if (FOLDER / "run-v1").exists() else 2
+    base = {"runtime_commit": freeze["commit"], "run_id": f"fresh-current-run-v{version}", "suite_version": f"fresh-current-{version}",
             "human_review": "pending", "status": "not_started", "expected_cases": 60, "completed_cases": 0,
             "full_response": {"passed": 0, "total": 0, "rate": None},
             "answer_expected": {"passed": 0, "total": 0, "rate": None},
             "non_answer_expected": {"passed": 0, "total": 0, "rate": None},
             "categories": {}, "difficulty": {}, "safety_flags": {}, "failure_taxonomy": {},
             "cost_usd_including_calibration": None, "record_hashes": {}}
-    run = FOLDER / "run-v1"
+    run = FOLDER / f"run-v{version}"
     if not run.exists():
         return base
-    _, suite = verify_custody()
+    _, suite = verify_custody(folder=FOLDER, require_current=False)
     rows = []
     for case in suite["cases"]:
         path = run / (case["case_id"] + ".json")
@@ -70,13 +71,15 @@ def reconstruct():
 
 
 def human_packet():
-    _, suite = verify_custody()
+    _, suite = verify_custody(folder=FOLDER, require_current=False)
+    run_name = "run-v1" if (FOLDER / "run-v1").exists() else "run-v2"
+    data_link = FOLDER.relative_to(ROOT).as_posix()
     lines = ["# Fresh holdout: human review packet", "",
              "Status: **pending**. This packet is prepared by an agent; it is not evidence of human review.", "",
              "For every case, a named person must inspect the question, history, expected facts, complete response and exact cited passages. Record correctness, completeness, source support and permission issues in `data/evaluation/fresh-current/human-review.json`, with name and UTC timestamp. Preserve disagreements with the automated rubric. Do not modify sealed labels or original responses.", "",
              "Source documents and response files are linked below. Missing responses are incomplete, not passes. In the automated grade, C1 means the first citation in raw_response.citations, C2 the second, and so on. Make your own decision before comparing the automated verdict.", ""]
     for case in suite["cases"]:
-        path = FOLDER / "run-v1" / (case["case_id"] + ".json")
+        path = FOLDER / run_name / (case["case_id"] + ".json")
         row = json.loads(path.read_text()) if path.exists() else {}
         lines.extend([f"## {case['case_id']} — {case['category']}", "", f"Role: {case['user_role']}; expected: {case['expected_behavior']}; difficulty: {case['difficulty']}", "",
                       f"Question: {case['question']}", "", f"Label rationale: {case['rationale']}", ""])
@@ -86,16 +89,20 @@ def human_packet():
             lines.extend([f"- {fact['fact_id']}: {fact['text']} — [source](../../{fact['source_path']})", f"  Source quote: {fact['source_quote']}", ""])
         lines.extend(["Forbidden assertions: " + json.dumps(case.get("forbidden_assertions", []), ensure_ascii=False), "",
                       "Response: " + row.get("raw_response", {}).get("answer", "No saved answer"), "",
-                      f"[Full response, citations and automated grading](../../data/evaluation/fresh-current/run-v1/{case['case_id']}.json)", "",
+                      f"[Full response, citations and automated grading](../../{data_link}/{run_name}/{case['case_id']}.json)", "",
                       "Human decision: pending. Reviewer: pending. Reviewed at: pending. Notes: pending.", ""])
     return "\n".join(lines)
 
 
 def main():
+    global FOLDER
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--human-packet", action="store_true")
+    parser.add_argument("--archive", action="store_true", help="Verify the preserved interrupted v1 experiment")
     args = parser.parse_args()
+    if args.archive:
+        FOLDER = ROOT / "data/evaluation/fresh-current-interrupted-v1"
     report = reconstruct()
     path = FOLDER / "public-report.json"
     if args.check:
@@ -106,7 +113,8 @@ def main():
         write_json_atomic(path, report)
         print(report["status"], report["completed_cases"], "completed cases")
     if args.human_packet:
-        (ROOT / "docs/phase-65/human-review-packet.md").write_text(human_packet(), encoding="utf-8")
+        filename = "interrupted-v1-human-review-packet.md" if args.archive else "human-review-packet.md"
+        (ROOT / "docs/phase-65" / filename).write_text(human_packet(), encoding="utf-8")
 
 
 if __name__ == "__main__":

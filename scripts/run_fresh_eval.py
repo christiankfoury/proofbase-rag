@@ -56,7 +56,7 @@ def authoritative_evidence(settings, case, payload):
     return evidence, sorted(set(flags))
 
 
-def setup_upload(client, case):
+def setup_upload(client, case, progress=None):
     """Real review/index workflow in a distinct project; query remains in Northstar."""
     from apps.api.app.auth.demo_auth import DEMO_USER_HEADER
     from scripts.run_independent_generalization_eval import _pdf_bytes, _upload_content, _approve, ADMIN_USER_ID
@@ -68,13 +68,30 @@ def setup_upload(client, case):
                            json={"name": "Isolated evaluation documents", "default_access_roles": ["Employee"]})
     response.raise_for_status()
     department = response.json()["department"]["id"]
+    state = {"project_id": project, "department_id": department}
+    if progress:
+        progress(state)
     fixture = case["upload_fixture"]
     document = _upload_content(client, project_id=project, department_id=department,
         title=fixture["title"], content=_pdf_bytes(fixture["text"]), filename=case["case_id"] + ".pdf",
         content_type="application/pdf", access_roles=["Employee", "Manager"], restricted=False)
-    approved = _approve(client, project_id=project, department_id=department, document_id=document["id"])
-    return {"project_id": project, "department_id": department,
-            "uploaded_document": document, "approved_document": approved}
+    state["uploaded_document"] = document
+    if progress:
+        progress(state)
+    try:
+        approved = _approve(client, project_id=project, department_id=department, document_id=document["id"])
+    except Exception as exc:
+        response = getattr(exc, "response", None)
+        state["approval_failure"] = {"exception_type": type(exc).__name__, "http_status": getattr(response, "status_code", None)}
+        if progress:
+            progress(state)
+        raise
+    state["approved_document"] = approved
+    if progress:
+        progress(state)
+    if approved.get("version", {}).get("ingestion_status") != "indexed":
+        raise RuntimeError("Upload isolation requires an actually indexed fixture")
+    return state
 
 
 def measure_case(client, settings, case, path, ledger):
@@ -86,7 +103,10 @@ def measure_case(client, settings, case, path, ledger):
               "status": "started", "call_start": len(ledger.data["calls"])}
     write_json_atomic(path, record)
     if case.get("upload_fixture"):
-        record["fixture"] = setup_upload(client, case)
+        def save_fixture(state):
+            record["fixture"] = state
+            write_json_atomic(path, record)
+        record["fixture"] = setup_upload(client, case, progress=save_fixture)
         write_json_atomic(path, record)
     session = None
     if case.get("previous_turns"):
@@ -143,7 +163,7 @@ def main():
     settings = configure()
     if freeze["environment"] != fingerprint(settings):
         raise SystemExit("Frozen configuration/database fingerprint changed")
-    run = FOLDER / "run-v1"
+    run = FOLDER / "run-v2"
     require_unstarted(run)
     if args.preflight:
         print("Custody, schema, environment, and unused run path verified; no API calls")
@@ -174,7 +194,7 @@ def main():
         summary["cost_usd_including_calibration"] = ledger.spent
         write_json_atomic(FOLDER / "summary.json", summary)
         packet = {"status": "pending", "instructions": "Named human: review ALL cases and exact citations; enter identity, UTC timestamp, decision and reasoning. Agent work is not human review.",
-                  "cases": [{"case_id": c["case_id"], "response_file": f"run-v1/{c['case_id']}.json",
+                  "cases": [{"case_id": c["case_id"], "response_file": f"run-v2/{c['case_id']}.json",
                              "reviewer": None, "reviewed_at": None, "decision": None, "notes": None} for c in suite["cases"]]}
         write_json_atomic(FOLDER / "human-review.json", packet)
         manifest.update(completed_cases=len(rows), finished_at=now())
