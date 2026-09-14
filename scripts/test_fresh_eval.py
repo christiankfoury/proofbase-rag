@@ -52,6 +52,21 @@ class GraderTests(unittest.TestCase):
         self.grade["claims"][0]["citation_ids"] = [{}]
         self.assertFalse(self.evaluate()["grader_valid"])
 
+    def test_grader_envelope_excludes_uncited_and_gold_evidence(self):
+        from unittest.mock import MagicMock
+        from scripts.fresh_eval_grader import grade_response
+        import json
+        client = MagicMock()
+        client.chat.completions.create.return_value.choices = [SimpleNamespace(
+            finish_reason="stop", message=SimpleNamespace(refusal=None, content=json.dumps(self.grade)))]
+        self.f["case"]["required_facts"][0]["source_quote"] = "HIDDEN_GOLD_QUOTE"
+        self.f["payload"]["retrieved_chunks"] = [{"content_preview": "UNCITED_PREVIEW"}]
+        self.f["payload"]["debug"] = "RUNTIME_VERDICT"
+        grade_response(client, self.f["case"], self.f["payload"], self.f["evidence"])
+        sent = client.chat.completions.create.call_args.kwargs["messages"][1]["content"]
+        for hidden in ("HIDDEN_GOLD_QUOTE", "UNCITED_PREVIEW", "RUNTIME_VERDICT"):
+            self.assertNotIn(hidden, sent)
+
     def test_partial_run_has_no_full_suite_rate(self):
         from scripts.run_fresh_eval import summarize
         cases = [{"case_id": "a", "expected_behavior": "answer"}, {"case_id": "b", "expected_behavior": "not_found"}]

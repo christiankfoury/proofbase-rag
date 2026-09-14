@@ -13,3 +13,9 @@ The $0.75 shared ledger reserves costs before application and grader calls. Unkn
 Verification: 12 focused tests and 7 existing evidence tests pass; legacy benchmark validation and public-evidence reconstruction pass. Calibration and smoke cost are retained in the shared API ledger. No old holdout was executed or edited. Fresh authoring is prohibited until evaluator, runner, corpus, settings and indexed database are frozen after commit/review.
 
 Next: independently author and validate the 60 cases using the neutral contract, seal before execution, run once, publish machine outcomes and a complete human-review packet. No runtime remediation using that holdout.
+
+## Pre-execution review correction
+
+After the first freeze and draft authoring, root code review found that passing the entire response to the grader exposed uncited retrieval previews and runtime diagnostics; passing entire gold facts also exposed source quotes. Calibration had used smaller response objects. No holdout question had been executed, and root had not inspected its contents. Version 4 now sends an explicit candidate field allowlist and only fact IDs/text; a focused test checks that previews, runtime verdicts and gold source quotes never enter the grading request. This changes only the evaluation envelope.
+
+The first freeze, 60-case draft, authoring/validation notes and overlap check are preserved under `data/evaluation/fresh-current/preflight-rejected-v1`, explicitly unexecuted. A fresh post-correction freeze and new context-isolated authoring pass replace that draft. The new overlap check includes the rejected draft so it cannot be silently reused. This additional step preserves the promised freeze-before-authoring boundary.

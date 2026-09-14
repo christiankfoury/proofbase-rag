@@ -6,6 +6,8 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
+- Pre-execution review follow-up: the first Phase 65 draft is preserved unexecuted after a grader input-boundary finding. Phase 64 v4 uses an explicit grading payload allowlist; a new calibration/freeze and new isolated authoring pass are required. No held-out application queries have run. See the Phase 64 review correction note.
+
 - Active authorized evaluation queue (2026-09-14): Phase 64 complete in `5841c9e`, reviewed and pushed. Verification: 19 local tests, 24/24 visible calibration, real endpoint smoke, compile, benchmark/evidence checks and source secret scan. The runtime/evaluator/corpus/configuration/index freeze is recorded in `data/evaluation/fresh-current/freeze.json`. Phase 65 is in progress: post-freeze authoring and validation, sealing, one-shot measurement, then named-human review packet. See `fresh-current-runtime-evaluation-plan.md`. Production integration gates remain separate.
 
 - Current phase: Phases 56-63 are complete for the approved local portfolio boundary. Production promotion is explicitly blocked at the external-integration and human-validation gates.

@@ -26,7 +26,7 @@ def tokens(text):
 def check():
     old = []
     for p in (ROOT / "data/evaluation").rglob("*.json"):
-        if p.is_relative_to(FOLDER) or "local-runs" in p.parts:
+        if (p.is_relative_to(FOLDER) and "preflight-rejected-v1" not in p.parts) or "local-runs" in p.parts:
             continue
         try:
             old.extend(tokens(q) for q in questions(json.loads(p.read_text(encoding="utf-8"))))
