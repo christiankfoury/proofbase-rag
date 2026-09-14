@@ -30,6 +30,6 @@ The target was at least 80% automated full-response passes with zero recorded pe
 
 Human review requires a named person to fill in all decisions, timestamps and reasons. Agent-authored calibration, separate agent authoring and separate agent validation do not establish independent human review or inter-rater agreement.
 
-The `preflight-rejected-v1` folder contains an earlier **unexecuted** draft and freeze. It was replaced after a code-review finding in the grader input envelope. It contributes no cases or outcomes to the current run. The correction and passing version-4 calibration are documented in Phase 64; the final authoring pass starts after that correction is frozen.
+The archived `data/evaluation/fresh-current-interrupted-v1/preflight-rejected-v1` folder contains an earlier **unexecuted** draft and freeze. It was replaced after a code-review finding in the grader input envelope. It contributes no cases or outcomes to the current run. The correction and passing version-4 calibration are documented in Phase 64; the final authoring pass starts after that correction is frozen.
 
 The interrupted original is archived at `data/evaluation/fresh-current-interrupted-v1`. Verify it with `python scripts/report_fresh_eval.py --archive --check`. Offline custody checks read the frozen Git revision (fetch full history if necessary); live execution still requires the current files to match the freeze.

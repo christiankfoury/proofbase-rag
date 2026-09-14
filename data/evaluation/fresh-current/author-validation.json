@@ -1,0 +1,614 @@
+{
+  "status": "approved",
+  "suite_version": "fresh-current-2",
+  "authored_after_freeze": "875700732e79016596aa26fc962d631976ddb990",
+  "suite_sha256": "2df8e5b58ce4bef0d550d4810f560d4fbd6c1c0071df3f2ffebbc23c36153a02",
+  "hash_method": "SHA-256 of exact raw holdout.json bytes",
+  "validator": "fresh_validator_v3",
+  "validator_id": "fresh_validator_v3",
+  "validation_kind": "context-isolated separate-agent review",
+  "human_review": false,
+  "external_independent_review": false,
+  "case_count": 60,
+  "required_fact_count": 89,
+  "reviewed_corpus_document_count": 19,
+  "gold_source_document_count": 17,
+  "category_counts": {
+    "factual": 8,
+    "multi_document": 10,
+    "memory": 8,
+    "permissions": 10,
+    "ambiguity": 6,
+    "missing_information": 6,
+    "injection": 6,
+    "conflicting_policies": 4,
+    "uploaded_document_isolation": 2
+  },
+  "difficulty_counts": {
+    "easy": 8,
+    "hard": 10,
+    "medium": 42
+  },
+  "behavior_counts": {
+    "answer": 37,
+    "not_found": 9,
+    "refuse_no_access": 8,
+    "clarify": 6
+  },
+  "review_details": {
+    "all_cases_manually_reviewed": true,
+    "gold_fact_meaning_and_completeness": "pass after revisions",
+    "exact_quotes": "all 89 checked against corpus",
+    "explicit_role_acl": "all gold facts checked; no Employee inheritance; IT Admin normalized only to IT/Admin",
+    "non_answer_rationales": "all 23 reviewed for absence, ambiguity, access denial or separate-project isolation",
+    "atomicity": "all gold facts checked; combined forbidden disclosure lists split before approval",
+    "multi_document": "all 10 require complementary facts from at least two authorized documents",
+    "permissions": "five allowed/denied pairs reviewed using explicit source membership",
+    "memory": "all 8 history contexts reviewed; fabricated assertions forbidden and source evidence required",
+    "injection": "two benign source-discussion controls and four adversarial cases reviewed",
+    "conflicting_policies": "all 4 rely on documented precedence or conditions",
+    "uploads": "both ASCII fixtures below 600 characters; novel fact absence verified against corpus; no actual upload executed",
+    "diversity": "60 unique wordings across nine categories, all five roles, 17 gold documents; cross-category topic reuse intentional; one redundant absent-fact topic replaced",
+    "difficulty": "8 easy, 42 medium, 10 hard; reasonable qualitative relative labels, no measured calibration"
+  },
+  "revisions_verified_case_ids": [
+    "fresh-026",
+    "fresh-027",
+    "fresh-028",
+    "fresh-036",
+    "fresh-045",
+    "fresh-051"
+  ],
+  "unresolved_defects": [],
+  "limitations": [
+    "Agent validation only: not human labeling or external independent review.",
+    "No runtime, evaluator, historical case/results, repository history or application/API inspection; actual runtime enforcement and upload/indexing outcomes were not tested.",
+    "The supplied frozen commit identity was checked against authored metadata; actual freeze ordering was not independently established.",
+    "Historical lexical overlap result was reported by parent; historical semantic originality was not independently verified. Within-suite wording and topic diversity were reviewed.",
+    "Difficulty labels are qualitative estimates, not empirical success or failure measurements.",
+    "Forbidden assertions are specific probes and are not an exhaustive catalogue of all possible falsehoods or leaks.",
+    "All cases use project-wide Northstar scope; department-scoped isolation is not independently covered by this suite."
+  ],
+  "case_reviews": [
+    {
+      "case_id": "fresh-001",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-002",
+      "status": "approved",
+      "required_facts_checked": 4,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-003",
+      "status": "approved",
+      "required_facts_checked": 3,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-004",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-005",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-006",
+      "status": "approved",
+      "required_facts_checked": 1,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-007",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-008",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-009",
+      "status": "approved",
+      "required_facts_checked": 5,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-010",
+      "status": "approved",
+      "required_facts_checked": 3,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-011",
+      "status": "approved",
+      "required_facts_checked": 3,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-012",
+      "status": "approved",
+      "required_facts_checked": 3,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-013",
+      "status": "approved",
+      "required_facts_checked": 3,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-014",
+      "status": "approved",
+      "required_facts_checked": 5,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-015",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-016",
+      "status": "approved",
+      "required_facts_checked": 3,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-017",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-018",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-019",
+      "status": "approved",
+      "required_facts_checked": 1,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-020",
+      "status": "approved",
+      "required_facts_checked": 1,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-021",
+      "status": "approved",
+      "required_facts_checked": 1,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-022",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-023",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-024",
+      "status": "approved",
+      "required_facts_checked": 5,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-025",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-026",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-027",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-028",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-029",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-030",
+      "status": "approved",
+      "required_facts_checked": 1,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-031",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-032",
+      "status": "approved",
+      "required_facts_checked": 1,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-033",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-034",
+      "status": "approved",
+      "required_facts_checked": 1,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-035",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-036",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-037",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-038",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-039",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-040",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-041",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-042",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-043",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-044",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-045",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-046",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-047",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-048",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-049",
+      "status": "approved",
+      "required_facts_checked": 4,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-050",
+      "status": "approved",
+      "required_facts_checked": 1,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-051",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-052",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-053",
+      "status": "approved",
+      "required_facts_checked": 1,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-054",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-055",
+      "status": "approved",
+      "required_facts_checked": 3,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-056",
+      "status": "approved",
+      "required_facts_checked": 3,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-057",
+      "status": "approved",
+      "required_facts_checked": 2,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-058",
+      "status": "approved",
+      "required_facts_checked": 5,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-059",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    },
+    {
+      "case_id": "fresh-060",
+      "status": "approved",
+      "required_facts_checked": 0,
+      "expected_behavior_reviewed": true,
+      "role_and_scope_reviewed": true,
+      "forbidden_assertions_reviewed": true,
+      "difficulty_and_rationale_reviewed": true
+    }
+  ]
+}

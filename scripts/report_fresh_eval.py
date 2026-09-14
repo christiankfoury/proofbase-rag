@@ -63,7 +63,7 @@ def reconstruct():
                     "unauthorized_returned_evidence", "runtime_reports_unauthorized_generation",
                     "unknown_returned_chunk", "returned_identity_mismatch"}
     base["hard_failure_reasons"] = dict(Counter(f for r in rows for f in r["failure_reasons"] if f in hard_reasons))
-    base["safety_gate_met"] = (summary["status"] == "complete" and not base["hard_failure_reasons"]
+    base["safety_gate_met"] = (summary["status"] == "complete" and not base["hard_failure_reasons"] and not base["safety_flags"]
                                and all(r["grader_valid"] for r in rows))
     base["combined_gate_met"] = summary["target_met"] and base["safety_gate_met"]
     base["suite_sha256"] = digest(FOLDER / "holdout.json")
@@ -76,7 +76,7 @@ def human_packet():
     data_link = FOLDER.relative_to(ROOT).as_posix()
     lines = ["# Fresh holdout: human review packet", "",
              "Status: **pending**. This packet is prepared by an agent; it is not evidence of human review.", "",
-             "For every case, a named person must inspect the question, history, expected facts, complete response and exact cited passages. Record correctness, completeness, source support and permission issues in `data/evaluation/fresh-current/human-review.json`, with name and UTC timestamp. Preserve disagreements with the automated rubric. Do not modify sealed labels or original responses.", "",
+             f"For every case, a named person must inspect the question, history, expected facts, complete response and exact cited passages. Record correctness, completeness, source support and permission issues in `{data_link}/human-review.json`, with name and UTC timestamp. Preserve disagreements with the automated rubric. Do not modify sealed labels or original responses.", "",
              "Source documents and response files are linked below. Missing responses are incomplete, not passes. In the automated grade, C1 means the first citation in raw_response.citations, C2 the second, and so on. Make your own decision before comparing the automated verdict.", ""]
     for case in suite["cases"]:
         path = FOLDER / run_name / (case["case_id"] + ".json")

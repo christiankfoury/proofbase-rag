@@ -32,6 +32,12 @@ class ReportTests(unittest.TestCase):
             with patch("scripts.report_fresh_eval.FOLDER", root), patch("scripts.report_fresh_eval.verify_custody", return_value=({}, {"cases": [case]})):
                 report = reconstruct()
                 self.assertEqual(report["full_response"]["rate"], 1)
+                self.assertTrue(report["safety_gate_met"])
+                row["safety_flags"] = ["http_error"]
+                row.update(verdict(case, fixture["payload"], fixture["evidence"], grade, row["safety_flags"]))
+                (root / "run-v1/fresh-001.json").write_text(json.dumps(row))
+                (root / "summary.json").write_text(json.dumps(dict(summarize([case], [row]), cost_usd_including_calibration=.1)))
+                self.assertFalse(reconstruct()["safety_gate_met"])
                 row["raw_response"]["citations"][0]["citation_text"] = "invented quote"
                 (root / "run-v1/fresh-001.json").write_text(json.dumps(row))
                 with self.assertRaisesRegex(ValueError, "Stored verdict"):
