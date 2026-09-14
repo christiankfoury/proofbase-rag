@@ -6,7 +6,7 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-- Active authorized evaluation queue (2026-09-14): Phase 64 evaluator/protocol implemented and verified (19 local tests, 24/24 visible calibration, real endpoint smoke, compile, benchmark/evidence checks, source secret scan). Commit/review precede the freeze and Phase 65 post-freeze authoring/measurement. See `fresh-current-runtime-evaluation-plan.md` and `../phase-64/evaluator-and-protocol.md`. The production integration gates below remain separate.
+- Active authorized evaluation queue (2026-09-14): Phase 64 complete in `5841c9e`, reviewed and pushed. Verification: 19 local tests, 24/24 visible calibration, real endpoint smoke, compile, benchmark/evidence checks and source secret scan. The runtime/evaluator/corpus/configuration/index freeze is recorded in `data/evaluation/fresh-current/freeze.json`. Phase 65 is in progress: post-freeze authoring and validation, sealing, one-shot measurement, then named-human review packet. See `fresh-current-runtime-evaluation-plan.md`. Production integration gates remain separate.
 
 - Current phase: Phases 56-63 are complete for the approved local portfolio boundary. Production promotion is explicitly blocked at the external-integration and human-validation gates.
 - Last completed phase activity: Phase 63 local portfolio release controls and exact-runtime evidence (`4ae5a55`) completed; production remains blocked at the documented external and human-review gates. Phase 55 post-review remediation is preserved in the phase history below.
