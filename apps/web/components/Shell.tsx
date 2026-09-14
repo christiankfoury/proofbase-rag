@@ -54,6 +54,7 @@ const navGroups: NavGroup[] = [
     title: "Deep Evaluation",
     icon: BookOpen,
     links: [
+      ["Evaluation Methodology", "/dev-admin/evaluation"],
       ["Retrieval Experiments", "/dev-admin/retrieval-experiments"],
       ["Prompt History", "/dev-admin/prompt-experiments"],
     ],

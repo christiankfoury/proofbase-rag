@@ -6,7 +6,7 @@
 
 - **Overview:** [At A Glance](#at-a-glance) · [Evidence Snapshot](#evidence-snapshot) · [What This Demonstrates](#what-this-demonstrates) · [Five-Minute Review Path](#five-minute-review-path)
 - **Product:** [Product Walkthrough](#product-walkthrough) ([Projects](#1-project-workspaces), [Departments](#2-department-workspace), [Chat](#3-permission-aware-chat)) · [Core Capabilities](#core-capabilities) · [Tech Stack](#tech-stack) · [Architecture](#architecture) · [RAG Algorithm Map](#rag-algorithm-map) · [App And Dev/Admin UI](#app-and-devadmin-ui)
-- **Evaluation:** [Evaluation Benchmark](#evaluation-benchmark) · [Detailed Evaluation Evidence](#detailed-evaluation-evidence)
+- **Evaluation:** [Reviewer Guide And Methodology](docs/evaluation/README.md) · [Evaluation Benchmark](#evaluation-benchmark) · [Detailed Evaluation Evidence](#detailed-evaluation-evidence)
 - **Run Locally:** [Docker Quickstart](#docker-quickstart) · [Optional Platform Telemetry](#optional-production-ai-platform-telemetry) · [Database Setup And Ingestion](#database-setup-and-ingestion) · [Smoke Test](#smoke-test) · [Evaluation Commands](#evaluation-commands)
 - **Project Resources:** [Demo And Project Materials](#demo-and-project-materials) · [Known Limitations](#known-limitations) · [Roadmap](#roadmap) · [Selected Documentation](#selected-documentation) · [Project Summary](#project-summary)
 
@@ -17,30 +17,32 @@
 | Product | Project workspaces, owner-managed demo access, department document libraries, scoped chat, PDF-to-Markdown review, optional AI cleanup, and explicit approve/index. |
 | RAG | PostgreSQL/pgvector, keyword search, vector + lexical reranking, multi-source planning, evidence sufficiency, structured response types, post-generation claim validation, citations, and confidence signals. |
 | Security | Public Trust & Safety status page, local OIDC/tenant and database-policy boundaries, distributed abuse controls, tenant PDF quarantine, mounted-secret boundary, privacy-safe logs, role-filtered retrieval, defensive generation checks, and permission audits. |
-| Evaluation | 130-question regression benchmark, three independently sealed holdouts, human adjudication, failure matrices, cost tracking, and durable exactly-once-oriented execution evidence. |
+| Evaluation | Public 130-question synthetic regression benchmark, separately sealed holdout suites, recorded project review, failure matrices, and offline-reproducible results. |
 | Operations | Feedback, observability, audit logs, health/readiness endpoints, Docker Compose, CI, and a manually validated temporary Azure deployment. |
 
 ## Evidence Snapshot
 
-| Evidence | Current result | Interpretation |
+**The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.
+
+| Evidence | Historical result | Interpretation |
 | --- | ---: | --- |
-| Known benchmark regression | `130/130` | Strong regression result; not unseen-generalization proof. |
-| Phase 49 fresh holdout | `22/30` | Valid one-time automated result; missed the `27/30` claim target. |
+| Known benchmark regression | `0/130` recorded failures | Phase 50, benchmark v1.1; answer/citation scores each cover only 80 answerable cases. Still has 26 diagnostic notes. |
+| Phase 49 separate holdout | `22/30` (`73.3%`) | One-time automated pass rate on frozen runtime `7bbb8b4`; missed the `27/30` target. Does not measure today's runtime. |
 | Holdout behavior / source recall | `0.967` / `0.982` | Both predeclared gates passed. |
-| Holdout completeness / citation accuracy | `0.875` / `0.947` | Both predeclared gates passed. |
-| Holdout heuristic hallucination | `0.133` | Missed the `<=0.05` gate; human review found all four automated flags were evaluator false positives, plus one separate unflagged factual error. |
-| Fresh-holdout safety | `0` violations | No permission leakage, restricted citations, unauthorized generation, or memory-as-evidence violations. |
+| Holdout completeness / expected-document citation score | `0.875` / `0.947` | Scores on 19 answer-expected cases; document presence does not prove claim-level support. |
+| Holdout heuristic hallucination | `4/30` (`0.133`) | Missed the `<=0.05` gate; recorded project review classified four false positives and found a separate unflagged factual error. |
+| Holdout safety flags | `0` observed | Zero recorded flags across 30 rows; dedicated permission aggregate n=6 and memory aggregate n=5. Finite synthetic coverage, not a guarantee. |
 | Evaluation reliability | `30/30` durable rows | 62 verified journal events, one attempt per case, and no duplicate external calls. |
 
-Human review classified the eight Phase 49 automated failures as four evaluator-only, three product, and one mixed. The automated `22/30` remains official; no human-adjusted score or generalization-improvement claim is published.
+Recorded project review classified the eight Phase 49 automated failures as four evaluator-only, three product, and one mixed. The artifact does not establish independent human assessment. The automated `22/30` remains official; no adjusted score or generalization-improvement claim is published. Verify the saved evidence without a database or API key: `python scripts/build_evaluation_evidence.py --check`.
 
 ## What This Demonstrates
 
 - A usable App side: projects, departments, document review, scoped assistant workflows, and answer proof.
 - A serious Dev/Admin side: evaluation runs, failed cases, permissions, memory, feedback, observability, audit, and algorithm comparison.
-- Permission filtering before generation, with zero leakage across the latest fresh holdout.
+- Permission filtering before generation, with zero observed safety flags in the historical holdout's bounded test coverage.
 - Benchmark-driven iteration without presenting tuned regression scores as unseen performance.
-- Independent holdout authoring, immutable one-time runs, human adjudication, and durable recovery-aware evaluation infrastructure.
+- Separate holdout authoring, immutable one-time runs, recorded review, and durable recovery-aware evaluation infrastructure; no external-assessor claim.
 - Honest boundaries: synthetic/non-sensitive upload data, local fixture scanning and subprocess parsing, local demo auth, heuristic metrics, and no production deployment claim.
 
 ## Five-Minute Review Path
@@ -179,9 +181,9 @@ See the [Algorithm Guide](docs/algorithm/README.md) for the detailed flow, trade
 
 ## Evaluation Benchmark
 
-The main benchmark contains 130 synthetic enterprise questions. It is used for development and regression, not presented as unseen evidence. Independent generalization is measured separately through sealed one-time holdouts whose questions are not used for in-phase runtime tuning.
+The main benchmark contains 130 synthetic enterprise questions, authored and checked by the project author with AI assistance. It is used for development and regression, and influenced system tuning. Separately authored sealed holdouts improve separation from in-phase tuning; they do not establish external human independence. See the [dataset card](docs/evaluation/dataset-card.md) and [implemented scoring methodology](docs/evaluation/methodology.md).
 
-The latest valid independent measurement is Phase 49 holdout v3:
+The latest complete executed sealed-holdout measurement is the historical Phase 49 holdout v3. Later runtime changes have not been measured with a new executed sealed holdout:
 
 - Frozen RAG runtime: `7bbb8b4`.
 - Hardened evaluator: `3d3706e`.
@@ -203,9 +205,9 @@ The corpus covers:
 Evaluation covers:
 
 - Retrieval hit rate, source recall, Precision@k, MRR.
-- Answer accuracy and response type accuracy.
-- Citation accuracy and citation faithfulness signals.
-- Hallucination rate.
+- Expected-answer overlap and response-type scores.
+- Expected-document citation scores and citation faithfulness signals.
+- Heuristic hallucination flags.
 - Permission leakage and unauthorized chunk exposure.
 - Memory rewrite and memory answer accuracy.
 - Multi-document source coverage and all-required-sources citation rate.
@@ -213,9 +215,13 @@ Evaluation covers:
 
 Benchmark artifacts:
 
+- [Evaluation Reviewer Guide](docs/evaluation/README.md)
+- [Failure Taxonomy And Concrete Cases](docs/evaluation/failure-taxonomy.md)
+- [Offline Reproduction And Live-Run Instructions](docs/evaluation/reproducing-results.md)
+- [Verified Public Evidence With Metric Denominators](data/evaluation/public-evidence.json)
 - [Benchmark Questions](data/evaluation/benchmark-questions.json)
 - [Benchmark Design](docs/phase-3/benchmark-design.md)
-- [Scoring Rubric](docs/phase-3/scoring-rubric.md)
+- [Implemented Scoring Rules](docs/evaluation/methodology.md) (the [Phase 3 rubric](docs/phase-3/scoring-rubric.md) is historical design intent)
 - [Dashboard Summary Data](data/evaluation/dashboard-summary.json)
 - [Evaluation Artifact Retention](docs/evaluation-artifact-retention.md)
 - [Phase 49 Fresh Holdout Results](docs/phase-49/fresh-holdout-results.md)
@@ -225,7 +231,7 @@ Benchmark artifacts:
 
 ## Detailed Evaluation Evidence
 
-All numbers below come from committed evaluation artifacts and do not all use the same sample size. Benchmark v1.1, focused permission and memory suites, and independently sealed holdouts are reported separately. Chat-generation cost is estimated from configured model pricing; embedding and infrastructure cost remain outside these totals.
+All numbers below come from committed historical artifacts and do not all use the same sample size or metric denominator. Benchmark v1.1, focused permission and memory suites, and separately sealed holdouts are reported separately. None measures today's runtime. Chat-generation cost is estimated from configured model pricing; embedding and infrastructure cost remain outside these totals.
 
 ### Retrieval
 
@@ -240,18 +246,19 @@ Source: [Lexical Rerank Candidate (Phase 33) Results](docs/phase-33/precision-ca
 
 ### Answer Quality
 
-| Metric | Value | Run | Sample |
+| Metric | Value | Run | Scored cases |
 |---|---:|---|---:|
-| Answer accuracy | `1.000` | Phase 50 manual-findings regression (`phase50-manual-findings-regression`) | 130 |
-| Citation accuracy | `1.000` | Phase 50 manual-findings regression (`phase50-manual-findings-regression`) | 130 |
-| Hallucination rate | `0.000` | Phase 50 manual-findings regression (`phase50-manual-findings-regression`) | 130 |
-| Failed questions | `0` | Phase 50 manual-findings regression (`phase50-manual-findings-regression`) | 130 |
+| Expected-answer overlap score | `1.000` | Phase 50 manual-findings regression (`phase50-manual-findings-regression`) | 80 of 130 |
+| Expected-document citation score | `1.000` | Same run | 80 of 130 |
+| Heuristic unsupported-answer flags | `0/80` | Same run | 80 generated answers |
+| Recorded failure cases | `0/130` | Same run | 130 |
+| Raw response-type score / diagnostic notes | `0.923` / `26` | Same run | 130 |
 
-Source: [Phase 50 Answer-Quality Regression](docs/phase-50/answer-quality-regression.md)
+The other 50 cases test refusal, missing information, and clarification. Extra irrelevant citations and some factual contradictions can escape these heuristics. The historical Phase 32 baseline scored `0.850` on answer overlap and `0.844` on expected-document citations, also across 80 cases. Different request paths and configuration changes limit causal comparisons. Sources: [verified rows and denominators](data/evaluation/public-evidence.json), [methodology](docs/evaluation/methodology.md), [Phase 50 report](docs/phase-50/answer-quality-regression.md).
 
-### Independent Generalization And Frozen Holdout
+### Separate Generalization Evaluation And Frozen Holdout
 
-Independent results are never merged into benchmark `1.1`. Each holdout used a different sealed suite, so the history is evidence of the evaluation process—not a directly comparable score progression.
+Holdout results are never merged into benchmark `1.1`. Each holdout used a different sealed suite, so the history is evidence of the evaluation process rather than a directly comparable score progression. Isolated authoring is not independent human assessment.
 
 | Holdout | Automated result | Integrity / interpretation |
 | --- | ---: | --- |
@@ -259,14 +266,14 @@ Independent results are never merged into benchmark `1.1`. Each holdout used a d
 | Phase 48 v2 | `19/30` observed | Execution was interrupted before atomic row persistence; exact aggregate metrics are unavailable and no improvement claim was made. |
 | Phase 49 v3 | `22/30` | Complete valid run with 30 atomic rows, one attempt per case, 62 verified journal events, and no duplicate calls. |
 
-Phase 49 current metrics:
+Phase 49 historical metrics:
 
 | Metric | Result | Predeclared gate |
 | --- | ---: | ---: |
 | Behavior accuracy | `0.967` | `>=0.90` — passed |
 | Required-source recall | `0.982` | `>=0.90` — passed |
 | Required-fact completeness | `0.875` | `>=0.85` — passed |
-| Citation accuracy | `0.947` | `>=0.90` — passed |
+| Expected-document citation score (n=19) | `0.947` | `>=0.90` — passed |
 | Heuristic hallucination rate | `0.133` | `<=0.05` — missed |
 | Overall automated passes | `22/30` | `>=27/30` — missed |
 | Permission, restricted-citation, unauthorized-generation, and memory-evidence violations | `0` | `0` — passed |
@@ -492,9 +499,9 @@ The sealed Phase 47–49 holdout runners are not routine regression commands. Th
 - There are no real SharePoint, Slack, Teams, Google Drive, or HRIS connectors yet.
 - Raw document storage still uses repository files, not Azure Blob Storage.
 - Chat-generation cost is estimated from configured model pricing; embedding, hosting, and Azure infrastructure costs are not included yet.
-- The current regression benchmark is `130/130`, but it is a development suite and must not be read as unseen generalization proof.
+- The historical Phase 50 regression has zero recorded failures across 130 development cases, but answer/citation scores cover only 80 cases and 26 diagnostic notes remain. This is not unseen or current-runtime generalization proof.
 - Phase 49's valid fresh holdout scored `22/30`. It passed behavior, recall, completeness, citation, and all hard safety targets, but missed the `27/30` overall and hallucination targets; therefore no generalization-improvement claim is made.
-- Phase 49 human review classified the eight automated failures as four evaluator-only, three product, one mixed, and zero benchmark defects. The automated score remains unchanged, and one unflagged factual threshold error prevents a zero-hallucination claim.
+- Phase 49 recorded project review classified the eight automated failures as four evaluator-only, three product, one mixed, and zero benchmark defects. Independent human assessment is not established. The automated score remains unchanged, and one unflagged factual threshold error prevents a zero-hallucination claim.
 - Phase 48 produced a machine-observed `19/30`, but an interrupted persistence path left exact aggregate metrics unavailable. Those cases were not rerun, and Phase 49 used a newly authored sealed suite.
 - Multi-document detection is heuristic.
 - Phase 52 structured request assessment is implemented with deterministic fast paths and a strict-schema semantic default. Its 48-case visible development suite passed all predeclared gates, but this is not unseen generalization or production-security proof; provider failure stops before retrieval.

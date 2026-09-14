@@ -1,5 +1,7 @@
 # Scoring Rubric
 
+> Historical Phase 3 design intent, not the implemented automated scoring contract. In particular, answer scores use token overlap, citation scores use expected document presence, and implemented leakage rates use 0 for no observed leakage. Use the [current methodology](../evaluation/methodology.md) and [denominator report](../../data/evaluation/public-evidence.json) to interpret published numbers.
+
 Use a simple scoring model for each metric:
 
 - `1.0`: correct

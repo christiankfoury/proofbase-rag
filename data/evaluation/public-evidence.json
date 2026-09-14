@@ -1,0 +1,346 @@
+{
+  "schema_version": "public-evidence.v1",
+  "method": "Offline aggregation of saved scores; answer/citation rescoring; durable holdout integrity checks. No new inference or human adjudication.",
+  "benchmark": {
+    "version": "1.1",
+    "sample_size": 130,
+    "difficulty_counts": {
+      "easy": 32,
+      "hard": 28,
+      "medium": 70
+    },
+    "expected_behavior_counts": {
+      "answer": 60,
+      "answer_with_memory": 20,
+      "ask_clarifying_question": 10,
+      "refuse_no_access": 20,
+      "say_not_found": 20
+    }
+  },
+  "historical_regressions": [
+    {
+      "run_id": "phase32-expanded-answer-generation-v5",
+      "sample_size": 130,
+      "recorded_failed_cases": 43,
+      "recorded_failure_taxonomy": {
+        "ambiguity_failure": 5,
+        "answer_not_generated": 7,
+        "incomplete_answer": 1,
+        "missed_refusal": 9,
+        "multi_document_failure": 2,
+        "not_found_failure": 1,
+        "retrieval_miss": 1,
+        "unsupported_answer": 10,
+        "wrong_citation": 7
+      },
+      "metrics": {
+        "answer_accuracy": {
+          "scored_cases": 80,
+          "excluded_cases": 50,
+          "score_sum": 68.0,
+          "mean": 0.85
+        },
+        "citation_accuracy": {
+          "scored_cases": 80,
+          "excluded_cases": 50,
+          "score_sum": 67.5,
+          "mean": 0.844
+        },
+        "hallucination_rate": {
+          "scored_cases": 78,
+          "excluded_cases": 52,
+          "score_sum": 16.0,
+          "mean": 0.205
+        },
+        "response_type_accuracy": {
+          "scored_cases": 130,
+          "excluded_cases": 0,
+          "score_sum": 98.5,
+          "mean": 0.758
+        }
+      },
+      "diagnostic_notes": null,
+      "configuration": {
+        "experiment_id": "phase32-expanded-answer-generation-v5",
+        "run_name": "expanded-answer-generation-v5",
+        "phase": "phase-32",
+        "retrieval_mode": "vector_only",
+        "chunking_strategy": "section_based",
+        "top_k": 5,
+        "prompt_name": "answer_generation",
+        "prompt_version": "v5",
+        "model": "gpt-4.1-mini",
+        "temperature": 0.0,
+        "confidence_thresholds": {
+          "not_found": 0.5,
+          "partial_answer": 0.7
+        },
+        "citation_validation_mode": "heuristic",
+        "notes": "Expanded Phase 32 baseline using the current strongest answer-generation prompt."
+      },
+      "category_counts": {
+        "ambiguous": 10,
+        "conflicting_source": 5,
+        "conversation_memory": 20,
+        "missing_information": 20,
+        "multi_document": 20,
+        "permission_restricted": 20,
+        "prompt_injection": 5,
+        "simple_factual": 30
+      }
+    },
+    {
+      "run_id": "phase50-manual-findings-regression",
+      "sample_size": 130,
+      "recorded_failed_cases": 0,
+      "recorded_failure_taxonomy": {},
+      "metrics": {
+        "answer_accuracy": {
+          "scored_cases": 80,
+          "excluded_cases": 50,
+          "score_sum": 80.0,
+          "mean": 1.0
+        },
+        "citation_accuracy": {
+          "scored_cases": 80,
+          "excluded_cases": 50,
+          "score_sum": 80.0,
+          "mean": 1.0
+        },
+        "hallucination_rate": {
+          "scored_cases": 80,
+          "excluded_cases": 50,
+          "score_sum": 0.0,
+          "mean": 0.0
+        },
+        "response_type_accuracy": {
+          "scored_cases": 130,
+          "excluded_cases": 0,
+          "score_sum": 120.0,
+          "mean": 0.923
+        }
+      },
+      "diagnostic_notes": 26,
+      "configuration": {
+        "run_id": "phase50-manual-findings-regression",
+        "retrieval_mode": "vector_lexical_rerank",
+        "top_k": 5,
+        "prompt_version": "v8",
+        "multi_doc_mode": "auto",
+        "question_filter": "all"
+      },
+      "category_counts": {
+        "ambiguous": 10,
+        "conflicting_source": 5,
+        "conversation_memory": 20,
+        "missing_information": 20,
+        "multi_document": 20,
+        "permission_restricted": 20,
+        "prompt_injection": 5,
+        "simple_factual": 30
+      }
+    }
+  ],
+  "historical_holdout": {
+    "run_id": "phase49-independent-holdout-v3",
+    "sample_size": 30,
+    "automated_passes": 22,
+    "automated_pass_rate": 0.7333,
+    "failed_case_ids": [
+      "P49-H3-006",
+      "P49-H3-007",
+      "P49-H3-008",
+      "P49-H3-009",
+      "P49-H3-013",
+      "P49-H3-021",
+      "P49-H3-027",
+      "P49-H3-029"
+    ],
+    "metrics": {
+      "behavior_accuracy": {
+        "scored_cases": 30,
+        "excluded_cases": 0,
+        "score_sum": 29.0,
+        "mean": 0.967
+      },
+      "required_fact_completeness": {
+        "scored_cases": 19,
+        "excluded_cases": 0,
+        "score_sum": 16.628,
+        "mean": 0.875
+      },
+      "citation_document_accuracy": {
+        "scored_cases": 19,
+        "excluded_cases": 0,
+        "score_sum": 18.0,
+        "mean": 0.947
+      },
+      "expected_source_recall": {
+        "scored_cases": 19,
+        "excluded_cases": 0,
+        "score_sum": 18.667,
+        "mean": 0.982
+      },
+      "hallucination_rate": {
+        "scored_cases": 30,
+        "excluded_cases": 0,
+        "score_sum": 4.0,
+        "mean": 0.133
+      }
+    },
+    "provenance": {
+      "configuration": {
+        "budget_usd": 2.0,
+        "corpus_hash": "491ca33d71b16281111eed45aaaacbdfce5e97fe2aaf5916ae90283b1343f870",
+        "embedding_model": "text-embedding-3-small",
+        "model": "gpt-4.1-mini",
+        "prompt_version": "v9",
+        "rerank_candidate_limit": 20,
+        "retrieval_profile": "vector_lexical_rerank",
+        "temperature": 0.0,
+        "top_k": 5
+      },
+      "evaluation_commit": "3d3706e4bbe1b42a18d3a4909464cdad63dfbedc",
+      "runtime_commit": "7bbb8b4af9e5f43e069347f69f2599b652d1a2c8",
+      "suite_hash": "22e7bfbc36469dc7b7f1aad8586ef480c607094295dc26f9451f8609307b2d8c"
+    },
+    "categories": {
+      "ambiguity_boundaries": {
+        "sample_size": 3,
+        "passed": 3
+      },
+      "conflicting_versioned_sources": {
+        "sample_size": 1,
+        "passed": 0
+      },
+      "factual_robustness": {
+        "sample_size": 4,
+        "passed": 4
+      },
+      "missing_information_abstention": {
+        "sample_size": 3,
+        "passed": 3
+      },
+      "multi_document_claim_coverage": {
+        "sample_size": 5,
+        "passed": 1
+      },
+      "multi_turn_memory": {
+        "sample_size": 5,
+        "passed": 4
+      },
+      "permission_scope_pairs": {
+        "sample_size": 5,
+        "passed": 4
+      },
+      "prompt_injection_adversarial": {
+        "sample_size": 3,
+        "passed": 2
+      },
+      "uploaded_document_project_isolation": {
+        "sample_size": 1,
+        "passed": 1
+      }
+    },
+    "safety_violations_all_rows": {
+      "unauthorized_chunk_exposure": 0,
+      "restricted_citation_leakage": 0,
+      "unauthorized_chunks_reached_generation": 0,
+      "memory_as_evidence_violation": 0
+    },
+    "dedicated_safety_denominators": {
+      "behavior_accuracy": {
+        "denominator": 30,
+        "numerator": 29,
+        "value": 0.967
+      },
+      "memory_as_evidence": {
+        "denominator": 5,
+        "numerator": 0,
+        "value": 0.0
+      },
+      "overall_pass": {
+        "denominator": 30,
+        "numerator": 22,
+        "value": 0.733
+      },
+      "permission_leakage": {
+        "denominator": 6,
+        "numerator": 0,
+        "value": 0.0
+      }
+    }
+  },
+  "focused_permission": {
+    "run_id": "phase46-permission-evaluation",
+    "unauthorized_cases": 20,
+    "authorized_controls": 20,
+    "metrics": {
+      "permission_leakage": {
+        "scored_cases": 20,
+        "excluded_cases": 0,
+        "score_sum": 0.0,
+        "mean": 0.0
+      },
+      "unauthorized_chunk_exposure": {
+        "scored_cases": 20,
+        "excluded_cases": 0,
+        "score_sum": 0.0,
+        "mean": 0.0
+      },
+      "restricted_citation_leakage": {
+        "scored_cases": 20,
+        "excluded_cases": 0,
+        "score_sum": 0.0,
+        "mean": 0.0
+      },
+      "unauthorized_chunks_reached_generation": {
+        "scored_cases": 20,
+        "excluded_cases": 0,
+        "score_sum": 0.0,
+        "mean": 0.0
+      }
+    },
+    "authorized_answer_quality": "not measured"
+  },
+  "source_hash_format": "SHA-256 of canonical JSON (journal parsed as array); portable across checkout line endings; not a replacement for original raw-byte seals.",
+  "source_hashes": {
+    "data/evaluation/benchmark-questions.json": "4ea48e826875b896da1ba3104621927dd8e86de44e95c2ccd253110b6b662888",
+    "data/evaluation/expanded-baseline/phase32-expanded-answer-generation-v5.json": "4b38262b6c2455459cb4f34be7fed14ad87afadc115572b7e17a10768b4b0a73",
+    "data/evaluation/expanded-baseline/phase50-manual-findings-regression.json": "f348526f79299c1b5ee5f0a87d7873f742c5f3ee85a0c4e2268585aa964eff9a",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/001-P49-H3-001.json": "689fe90c4e57d8e008daa1bf2230e06abfc6c07578fc9e839928769b8fe24000",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/002-P49-H3-002.json": "34b3dadb99e2f8727a02bdd18e07cf2153a41425df9aae6b3249d58386d93809",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/003-P49-H3-003.json": "19ae009155efead214ba10837814bcfb7c00e3378128a4c3e7f2ac46e71ae24a",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/004-P49-H3-004.json": "33cd32d778cb47f21f9c6ff792f492aec93ebca244eaff6233a8107da03fe384",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/005-P49-H3-005.json": "b924726a10e915d126812a6ce3e1fd0c8ee0425d559bf93d296ca9352e9627ae",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/006-P49-H3-006.json": "f7347b456e1886617345866d1f587752feef2dcc582c07d1647e4aca72df2401",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/007-P49-H3-007.json": "ca7281f24f3cdb0ed33e0f39072d064afe23db92fd59cb08e0ca6afafb0ed3c5",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/008-P49-H3-008.json": "7ce631b58d06d623d0bc867e7f4fc4e0b56f9ae98329409dd219b8dd5b37ba00",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/009-P49-H3-009.json": "4532eb42a1b1f191d92a1dd2180c7273f9d393f53b6af26ac766a3295ff3af11",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/010-P49-H3-010.json": "cc0a9b5197ecc1719d0e72983b6410795ed0c366f177aceafbae14b826c6d06c",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/011-P49-H3-011.json": "c07ab28c8c53902134ffaf6e1c654614b634aa7bea6d29382f18da1e6f70f6c9",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/012-P49-H3-012.json": "fee4ee7fb41d37e649b12f9054cea82f27eb0444d78153b5f7a88e4db5c83ab8",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/013-P49-H3-013.json": "8858508d4a887b8d423ce9ad01f2a78b6e96652bee1bfe20bc4866d4ad346a7a",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/014-P49-H3-014.json": "28b4e10f3d4444933c90bfd862724cbaba28c08b021109ef2e9acf06b7ca3f5b",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/015-P49-H3-015.json": "572dcc040512bdbc043c28ef2a222efa01f3cca68f2e3f64a8b32dceac29a430",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/016-P49-H3-016.json": "0a919942553793121f0e18cef0613ce96cfc1cf13a378adebf4f8757a687b462",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/017-P49-H3-017.json": "9d7aac2bc0902d9fd53dc709d870acc2f446d3f4318d870e533a41fa4c62c80f",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/018-P49-H3-018.json": "08ce9b8283a827e521efacf8293bb102faa04cafb144f94d7a022b45454399cb",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/019-P49-H3-019.json": "f67a4a647ffbf1d8cb7fbecdcedcfb9a8f00b6c1c47d26377ac579d03609f24e",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/020-P49-H3-020.json": "30faaf4ed9038996b5441af9c17fa98dd4a6a24b87b78ea9bfcdc1fd4dd8c99f",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/021-P49-H3-021.json": "95f23e3415025d52051aba05ebef2a38af06cc7469b569c13daf3b4b3c5092de",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/022-P49-H3-022.json": "712bfb7608ebd9afc1b1541b118b17f1f08dbe999de8ef4a93807560f932fbf1",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/023-P49-H3-023.json": "a652e8018f3869f1fb770c542b3cbdb115e47a26a0538817c7f86c4b054515be",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/024-P49-H3-024.json": "a0bc5aac075bda68fe3e2ebd1592eef23dc3f2f6f1e1ac7fed365f4098af526a",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/025-P49-H3-025.json": "b1268475d3478ba2370811b044da82e4acce91e75f4a6c7b6d1653e85c1671e4",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/026-P49-H3-026.json": "d66dfa7400add78432526b8acf9bf5678c51228bdff0286b2d0fb94cf4270bfe",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/027-P49-H3-027.json": "aa6b9699119aae7f0ec694c6a13bc6ac13ce37e00d4978e9f478fcb513689447",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/028-P49-H3-028.json": "b6d8ecfba6aba641200c44606c3dc6b0033cbdd66ae99f8746d4367a76698cbc",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/029-P49-H3-029.json": "45b95a7822a82e5b63805cff22fa26f6b14380d086b98021deb63e4cd44166ba",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/cases/030-P49-H3-030.json": "36cc85cc80c0b5504c06f2caac3633050b1a19fefb4154e54f16310e012b3457",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/final.json": "b8943e09f37515e7232066e6ce2c8e6d49a82d46aa740a96a6c9cf8129ca5475",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/journal.jsonl": "5d2ec8ac21e1adf83d291fcce416a55b387efcac97537bd36e360336c85ea324",
+    "data/evaluation/independent-generalization/runs/phase49-independent-holdout-v3/manifest.json": "f965d427b37ac71be896ea5bdaad7ae6ea7d046a4a0536eb68b833326b562d98",
+    "data/evaluation/phase46-permission-evaluation.json": "08461d4eea5b4d30d5b2bb5a7e6f63f0fb8cb617c2213b9e25ee64c5299521e1"
+  }
+}

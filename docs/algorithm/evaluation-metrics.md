@@ -1,6 +1,6 @@
 # Evaluation Metrics
 
-The evaluation system makes the RAG behavior measurable. It is not a human judge, and it is not production monitoring. It is a deterministic benchmark suite over a synthetic enterprise corpus.
+The evaluation system makes the RAG behavior measurable. Its scoring and saved-row aggregation are deterministic; external model generation is not guaranteed to repeat. It is a synthetic development benchmark, not an independent human judge or production monitoring. Start with the [reviewer guide](../evaluation/README.md) for authorship, exact denominators, historical-versus-current scope, and reproducible evidence.
 
 ## Benchmark Shape
 
@@ -92,6 +92,8 @@ Defined in `apps/api/app/evaluation/answer_metrics.py`.
 | Clarification accuracy | Whether ambiguous questions produce `clarify`. | Only applies to ambiguity questions. |
 
 These are useful regression signals. They are not equivalent to expert human answer review.
+
+Answer and citation means exclude non-answer expectations: each covers 80 of the 130 benchmark cases. The hallucination flag denominator depends on generated-answer count. The [implemented methodology](../evaluation/methodology.md) details these exclusions and why zero recorded failures can coexist with diagnostic issues.
 
 ## Permission Metrics
 

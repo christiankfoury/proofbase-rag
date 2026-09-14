@@ -32,9 +32,9 @@ const metricLabels: Record<string, string> = {
   retrieval_hit_rate: "Source Recall",
   precision_at_k: "Precision@k",
   mrr: "MRR / First Source Rank",
-  answer_accuracy: "Answer Accuracy",
-  citation_accuracy: "Citation Accuracy",
-  hallucination_rate: "Hallucination Rate",
+  answer_accuracy: "Answer Overlap Score",
+  citation_accuracy: "Expected-Document Citation Score",
+  hallucination_rate: "Heuristic Hallucination Flags",
   permission_leakage_rate: "Permission Leakage Rate",
   memory_accuracy: "Memory Answer Accuracy",
 };
@@ -132,7 +132,7 @@ export default async function OverviewPage() {
               A permission-aware enterprise RAG assistant with citations, confidence scoring, benchmark evaluation, and interactive demos.
             </p>
             <p className="mt-3 text-stone-700">
-              This dashboard compares real evaluation runs across retrieval, answer quality, citations, permission safety, and memory.
+              This dashboard compares recorded synthetic evaluation runs. Scores are heuristic and historical; run sample sizes can differ from metric denominators.
             </p>
           </>
         }
@@ -146,6 +146,9 @@ export default async function OverviewPage() {
             </Link>
             <Link href="/dev-admin/retrieval-playground" className="btn-secondary">
               Open Algorithm Lab
+            </Link>
+            <Link href="/dev-admin/evaluation" className="btn-secondary">
+              How Evaluation Is Scored
             </Link>
           </>
         }
@@ -174,6 +177,14 @@ export default async function OverviewPage() {
           ))}
         </div>
       </section>
+      <Card className="mb-6">
+        <p className="text-sm leading-6 text-stone-700">
+          The 130-case benchmark was authored and checked by the project author with AI assistance, then used during development.
+          Answer and citation scores exclude non-answer expectations: a full benchmark run scores 80 answerable cases.
+          The separate historical Phase 49 holdout passed 22/30 under its automated rubric. Neither result establishes universal accuracy or current-runtime generalization.
+          {" "}<Link className="underline underline-offset-4" href="/dev-admin/evaluation">Inspect methodology, failures, and reproducible evidence.</Link>
+        </p>
+      </Card>
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <MetricCard
           label="Source Recall"
@@ -196,21 +207,21 @@ export default async function OverviewPage() {
           context={contextLine(metricContext.mrr)}
         />
         <MetricCard
-          label="Answer Accuracy"
+          label="Answer Overlap Score"
           value={metrics.answer_accuracy}
-          detail="Deterministic answer scoring."
+          detail="Mean expected-term overlap credit; excludes non-answer expectations."
           context={contextLine(metricContext.answer_accuracy)}
         />
         <MetricCard
-          label="Citation Accuracy"
+          label="Expected-Document Citation Score"
           value={metrics.citation_accuracy}
-          detail="Citations match expected documents."
+          detail="Expected document IDs are cited; does not prove claim support."
           context={contextLine(metricContext.citation_accuracy)}
         />
         <MetricCard
-          label="Hallucination Rate"
+          label="Heuristic Hallucination Flags"
           value={metrics.hallucination_rate}
-          detail="Unsupported-answer signal."
+          detail="Flags among generated answers; may miss factual errors."
           context={contextLine(metricContext.hallucination_rate)}
           badge="Risk"
           tone="warn"

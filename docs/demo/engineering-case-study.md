@@ -71,12 +71,14 @@ Retrieval:
 - Precision@k: `0.778`
 - MRR: `0.965`
 
-Answer quality:
+Historical answer-quality regression (`phase50-manual-findings-regression`, benchmark `1.1`):
 
-- Answer accuracy: `1.000`
-- Citation accuracy: `1.000`
-- Hallucination rate: `0.000`
-- Current failed questions: `0`
+- Expected-answer overlap score: `1.000` across 80 answerable cases; 50 non-answer cases excluded.
+- Expected-document citation score: `1.000` across the same 80 cases; not claim-level accuracy.
+- Heuristic unsupported-answer flags: `0/80`; recorded failure cases: `0/130`, with 26 diagnostic notes.
+- Separately authored historical Phase 49 holdout: `22/30` automated passes (`73.3%`), missing its target and exposing both product and evaluator failures.
+
+The project author authored and checked the benchmark with AI assistance; it influenced development. Neither result measures today's runtime or establishes independent human assessment. See the [methodology and reproducible evidence](../evaluation/README.md).
 
 Permission safety:
 
