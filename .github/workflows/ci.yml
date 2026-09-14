@@ -30,6 +30,9 @@ jobs:
           python scripts/build_evaluation_evidence.py --check
           python -m unittest scripts.test_evaluation_evidence
           python -m unittest scripts.test_fresh_eval
+          python -m unittest scripts.test_fresh_report
+          python -m unittest scripts.test_fresh_report
+          python scripts/report_fresh_eval.py --check
 
       - name: Scan source for secrets
         run: python scripts/scan_phase60_secrets.py

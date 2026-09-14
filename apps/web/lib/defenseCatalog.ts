@@ -214,7 +214,7 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
       {
         label: "Phase 53 live regression",
         href: "/dev-admin/runs",
-        detail: "Run phase53-live-query-regression-v5 passed benchmark 1.1 at 130/130 with answer and citation accuracy 1.000, hallucination 0.000, and zero failed-safe evidence assessments.",
+        detail: "Run phase53-live-query-regression-v5 recorded zero failures on the 130-case development benchmark 1.1. Expected-answer overlap and expected-document presence scored 1.000 on 80 answerable cases; these heuristics do not establish claim-level accuracy.",
       },
       {
         label: "Permission evaluation",
@@ -245,7 +245,7 @@ export const currentDefenseCatalog: DefenseCatalogItem[] = [
       {
         label: "Phase 54 live regression",
         href: "/dev-admin/runs",
-        detail: "Run phase54-live-query-regression-v5 passed benchmark 1.1 at 130/130 with answer and citation accuracy 1.000, hallucination 0.000, four bounded repairs, and zero validator fail-safes or final downgrades.",
+        detail: "Run phase54-live-query-regression-v5 recorded zero failures on the 130-case development benchmark 1.1, with four bounded repairs. Expected-answer overlap and expected-document presence scored 1.000 on 80 answerable cases; these heuristics do not establish claim-level accuracy.",
       },
     ],
     limitations: [

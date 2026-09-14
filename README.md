@@ -24,6 +24,8 @@
 
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.
 
+The [fresh current-runtime evaluation](docs/phase-65/results.md) uses a separate 60-case post-freeze suite and a stricter full-response rubric. Its saved evidence, execution status and pending human review are reported separately from the historical numbers below. Verify it offline with `python scripts/report_fresh_eval.py --check`.
+
 | Evidence | Historical result | Interpretation |
 | --- | ---: | --- |
 | Known benchmark regression | `0/130` recorded failures | Phase 50, benchmark v1.1; answer/citation scores each cover only 80 answerable cases. Still has 26 diagnostic notes. |

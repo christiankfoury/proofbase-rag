@@ -2,6 +2,12 @@
 
 This describes code and saved evidence, not the aspirational Phase 3 scoring rubric. Historical artifacts retain their original field names for auditability; public labels explain what those fields actually measure.
 
+## Fresh full-response rubric
+
+The separate [Phase 64 evaluator](../phase-64/evaluator-and-protocol.md) requires every material expected fact and exact authorized citation support for every factual claim. It checks negation, quantities, conditions, completeness, unsupported additions and non-answer behavior semantically, then enforces deterministic schema/citation contracts. The grader sees only candidate answer/type/citations and fact IDs/text; uncited previews, runtime verdicts and gold source quotes are excluded. Expected facts are labels, never evidence.
+
+The model grader is calibrated on visible agent-authored fixtures, not human ground truth. Its decisions can still be wrong. [Phase 65 results](../phase-65/results.md) keep automated outcomes and named-human review separate, report answer/non-answer denominators and publish no full-suite rate for interrupted runs. This rubric does not rewrite historical scores below.
+
 ## Regression scores
 
 The functions in [answer_metrics.py](../../apps/api/app/evaluation/answer_metrics.py) implement:

@@ -2,7 +2,7 @@
 
 Proofbase has a useful regression benchmark, but it does **not** establish 100% real-world answer or citation accuracy. The benchmark was authored and checked by the project author with AI assistance, and used repeatedly during development. Its automated scores use heuristics.
 
-The clearest evidence of that limit is the separately authored Phase 49 holdout: **22/30 automated passes (73.3%)**, with eight failures available for inspection. This is a historical result against runtime `7bbb8b4`, not a measurement of today's runtime. Later runtime work has no new executed sealed holdout supporting a current generalization claim.
+The separately authored Phase 49 holdout recorded **22/30 automated passes (73.3%)**, with eight failures available for inspection. This is a historical result against runtime `7bbb8b4`, not a measurement of today's runtime. The [fresh frozen-runtime experiment](../phase-65/results.md) reports its execution status separately with a stronger rubric and pending named-human review. Its percentage must not be presented as a before/after improvement over Phase 49.
 
 | Reviewer question | Evidence |
 | --- | --- |

@@ -112,7 +112,7 @@ export default async function OverviewPage() {
   const progressSummary = data.overview.progress_summary ?? {
     improved: [
       "Permission tests reached zero leakage.",
-      "Memory follow-up tests reached full accuracy.",
+      "Historical memory follow-up tests reached 1.000 under their automated rubric.",
       "Chat-generation cost tracking is implemented.",
     ],
     still_needs_work: [
@@ -397,7 +397,7 @@ export default async function OverviewPage() {
                       <dd className="font-semibold text-ink">{formatMetric(run?.metrics.expected_source_recall)}</dd>
                     </div>
                     <div>
-                      <dt className="text-stone-500">Citation accuracy</dt>
+                      <dt className="text-stone-500">Expected-document citation score</dt>
                       <dd className="font-semibold text-ink">{formatMetric(run?.metrics.citation_document_accuracy)}</dd>
                     </div>
                     <div>
@@ -438,7 +438,7 @@ export default async function OverviewPage() {
                 </p>
                 {independentEvaluation.reliability.phase49_adjudication ? (
                   <p className="mt-1 text-xs text-stone-600">
-                    Phase 49 human review: {independentEvaluation.reliability.phase49_adjudication.automated_failures_reviewed ?? "pending"}/{independentEvaluation.reliability.phase49_adjudication.automated_failure_count ?? "pending"} failures and {independentEvaluation.reliability.phase49_adjudication.automated_passes_reviewed ?? "pending"}/{independentEvaluation.reliability.phase49_adjudication.automated_pass_count ?? "pending"} passes; automated and adjudicated results remain separate.
+                    Phase 49 recorded project review: {independentEvaluation.reliability.phase49_adjudication.automated_failures_reviewed ?? "pending"}/{independentEvaluation.reliability.phase49_adjudication.automated_failure_count ?? "pending"} failures and {independentEvaluation.reliability.phase49_adjudication.automated_passes_reviewed ?? "pending"}/{independentEvaluation.reliability.phase49_adjudication.automated_pass_count ?? "pending"} passes; automated and reviewed results remain separate. Independent human assessment is not established.
                   </p>
                 ) : null}
               </div>

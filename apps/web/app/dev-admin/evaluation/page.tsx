@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Shell } from "@/components/Shell";
 import evidence from "../../../../../data/evaluation/public-evidence.json";
+import fresh from "../../../../../data/evaluation/fresh-current/public-report.json";
 
 const repo = "https://github.com/christiankfoury/proofbase-rag/blob/main/";
 const reading = [
@@ -22,6 +23,31 @@ export default function EvaluationMethodologyPage() {
     <Shell>
       <PageHeader title="How Evaluation Is Scored" description="Public evidence, exact denominators, and known limits of the automated rubric." />
       <Card className="mb-6">
+        <SectionHeading title="Fresh runtime evaluation" description="Separately authored after the runtime and evaluator freeze. Human review is pending." />
+        <p className="text-3xl font-semibold text-ink">
+          {fresh.full_response.rate === null
+            ? `${fresh.completed_cases}/${fresh.expected_cases} cases completed — no full-suite score`
+            : `${fresh.full_response.passed}/${fresh.full_response.total} (${(fresh.full_response.rate * 100).toFixed(1)}%) automated passes`}
+        </p>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          The new rubric requires every expected fact and exact citation support for every factual claim.
+          Its model grader passed 24 visible development fixtures after two failed calibration versions.
+          This is model-assisted scoring on synthetic cases; it is not an independent human accuracy assessment.
+        </p>
+        <p className="mt-3 text-sm text-stone-700">
+          Answer-expected cases: {fresh.answer_expected.passed}/{fresh.answer_expected.total} completed passes.
+          Non-answer cases: {fresh.non_answer_expected.passed}/{fresh.non_answer_expected.total} completed passes.
+          An incomplete run has no full-suite rate. The historical 73.3% uses a different runtime, suite and evaluator and cannot establish a before/after improvement.
+        </p>
+        <p className="mt-3 break-all text-xs text-stone-500">Run: {fresh.run_id}; suite: {fresh.suite_version}; runtime: {fresh.runtime_commit}</p>
+        <div className="mt-4 flex flex-wrap gap-4 text-sm">
+          <a className="underline" href={`${repo}docs/phase-65/results.md`}>Results and limitations</a>
+          <a className="underline" href={`${repo.replace("/blob/", "/tree/")}data/evaluation/fresh-current/`}>Dataset, freeze and saved evidence</a>
+          <a className="underline" href={`${repo}docs/phase-65/human-review-packet.md`}>Human-review packet</a>
+        </div>
+        <pre className="mt-4 overflow-x-auto rounded border border-stone-300 bg-stone-50 p-4 text-sm">python scripts/report_fresh_eval.py --check</pre>
+      </Card>
+      <Card className="mb-6">
         <SectionHeading title="A regression score is a bounded result" />
         <p className="text-sm leading-6 text-stone-700">
           The project author created and checked the synthetic benchmark with AI assistance. These questions influenced development.
@@ -38,7 +64,7 @@ export default function EvaluationMethodologyPage() {
             Separate authoring and a frozen runtime do not establish independent human assessment.
           </p>
           <p className="mt-3 break-all text-xs text-stone-500">Frozen runtime: {holdout.provenance.runtime_commit}</p>
-          <p className="mt-2 text-sm text-stone-700">This historical run does not measure the current runtime. No new holdout was executed for this report.</p>
+          <p className="mt-2 text-sm text-stone-700">This historical run does not measure the current runtime. The separate fresh evaluation above uses a different rubric.</p>
         </Card>
         <Card>
           <SectionHeading title="Known benchmark regression" />
@@ -55,7 +81,7 @@ export default function EvaluationMethodologyPage() {
         </Card>
       </section>
       <Card className="mt-6">
-        <SectionHeading title="Where the holdout failed" description="Category counts come from the committed offline report. These small, designed samples are not population estimates." />
+        <SectionHeading title="Historical holdout category results" description="Phase 49 counts from the committed offline report. These small, designed samples are not population estimates." />
         <div className="overflow-x-auto">
           <table className="data-table">
             <thead><tr><th>Category</th><th>Automated passes</th><th>Cases</th></tr></thead>

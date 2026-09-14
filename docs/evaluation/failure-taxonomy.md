@@ -2,6 +2,8 @@
 
 Keep automated failure labels, product findings, and evaluator defects separate. The original automated outcome remains official even when review identifies a scoring error. The report reproduces historical labels; it does not silently reclassify old results with a new evaluator.
 
+For the [fresh run](../phase-65/results.md), `required_fact_incorrect_or_missing` covers omissions/contradictions; `unsupported_claim` and `irrelevant_citation` assess exact passage support; `citation_quote_not_in_chunk` rejects invented quotes; `citation_not_in_authorized_retrieval` rejects unmatched evidence; `behavior_mismatch`/`behavior_semantics` cover incorrect response behavior; `forbidden_assertion` flags prohibited disclosure; schema/coverage/uncertainty failures mean the evaluator cannot establish a pass. Raw records preserve the fact- and claim-level reasons. Infrastructure interruption is a separate incomplete-run status, never a silently excluded failure or a full-suite score.
+
 | Failure family | Evidence to inspect | Recorded example |
 | --- | --- | --- |
 | Retrieval/source coverage | Expected IDs versus retrieved IDs and exact source passages | `P49-H3-007`: missing `SALES-002`, omitting key prohibited sales commitments |

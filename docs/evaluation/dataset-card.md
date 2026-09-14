@@ -1,5 +1,7 @@
 # Dataset card
 
+The [fresh 60-case suite](../../data/evaluation/fresh-current/holdout.json) is a separate experiment. See [agent authorship](../phase-65/authorship.md), [separate agent validation](../phase-65/author-validation.md), [freeze](../../data/evaluation/fresh-current/freeze.json) and [results](../phase-65/results.md). It is authored after the corrected runtime/evaluator freeze, with no access to runtime code or previous cases/results. Difficulty labels are author judgments, not empirical population strata. Historical overlap checks cannot establish semantic independence. No independent human assessment is claimed.
+
 ## Ownership and purpose
 
 - Dataset: [benchmark-questions.json](../../data/evaluation/benchmark-questions.json), version `1.1`, 130 cases.
