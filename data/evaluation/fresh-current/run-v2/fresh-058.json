@@ -1,0 +1,695 @@
+{
+  "authorized_evidence": [
+    {
+      "access_roles": [
+        "Manager",
+        "IT/Admin"
+      ],
+      "chunk_id": "074357ce-532a-43e8-8e76-8bc49ed2923e",
+      "content": "Change Freeze\n\nNorthstar observes deployment freezes during payroll close, quarter-end financial reporting, and announced customer migration windows. The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar.",
+      "department_id": "00000000-0000-0000-0000-000000002009",
+      "document_id": "ENG-001",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Manager",
+        "IT/Admin"
+      ],
+      "chunk_id": "2c2a7311-edec-468a-a9bf-54ef7fc4a28d",
+      "content": "Release Windows\n\nStandard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.\n\nFriday deployments are limited to severity-one fixes, security patches approved by IT Admin, or customer-impacting incidents where waiting would increase risk. Weekend deployments require the incident commander to approve the change before execution.",
+      "department_id": "00000000-0000-0000-0000-000000002009",
+      "document_id": "ENG-001",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Manager",
+        "IT/Admin"
+      ],
+      "chunk_id": "d0cab3f6-9771-40cf-9a66-78a470bb69f7",
+      "content": "Deployment Approval\n\n| Change Type | Required Review | Required Approver |\n| --- | --- | --- |\n| Documentation-only release | Peer review | Team lead |\n| Low-risk application change | Peer review and automated tests | Team lead |\n| Database migration | Peer review, rollback plan, staging proof | Engineering Manager |\n| Security-sensitive change | Peer review, IT Admin review | Engineering Manager |\n| Emergency hotfix | Incident commander review | Engineering Manager on call |\n\nAll production changes must include a rollback plan. A rollback plan that says \"revert if needed\" is not sufficient; it must name the specific revert, migration rollback, feature flag, or mitigation.",
+      "department_id": "00000000-0000-0000-0000-000000002009",
+      "document_id": "ENG-001",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Employee",
+        "Sales Representative",
+        "Manager",
+        "HR Admin",
+        "IT/Admin"
+      ],
+      "chunk_id": "9a6d1350-41b8-4720-91d4-9052b314fdac",
+      "content": "Working Hours\n\nStandard collaboration hours are 10:00 a.m. to 3:00 p.m. local time from Monday to Thursday. Teams may define additional overlap windows when customer coverage or release coordination requires it.\n\nEmployees should keep calendars accurate and mark focus time when unavailable. Repeated inability to meet team collaboration expectations should be discussed with the employee's manager.",
+      "department_id": "00000000-0000-0000-0000-000000002001",
+      "document_id": "HR-001",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Sales Representative",
+        "Manager",
+        "HR Admin",
+        "IT/Admin"
+      ],
+      "chunk_id": "1b7eecee-b087-4769-8a43-9236f859ff4c",
+      "content": "Legal Hold\n\nWhen Legal issues a hold notice, normal deletion schedules stop for the named matter. Recipients must preserve email, chat, files, ticket records, and notes that relate to the hold. Managers must confirm that affected team members understand the hold within five business days.",
+      "department_id": "00000000-0000-0000-0000-000000002008",
+      "document_id": "LEGAL-001",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    }
+  ],
+  "call_end": 663,
+  "call_start": 657,
+  "case_id": "fresh-058",
+  "category": "conflicting_policies",
+  "completed_at": "2026-09-14T22:19:16.782214+00:00",
+  "failure_reasons": [
+    "behavior_mismatch",
+    "claim_citation_reference"
+  ],
+  "grade": {
+    "all_citations_relevant": true,
+    "all_factual_claims_enumerated": true,
+    "behavior_correct": true,
+    "claims": [
+      {
+        "citation_ids": [
+          "C2"
+        ],
+        "kind": "factual",
+        "reason": "Directly supported by citation C2.",
+        "supported": true,
+        "text": "The usual release window for production deployments is Tuesday through Thursday between 10:00 and 15:00 Eastern Time"
+      },
+      {
+        "citation_ids": [
+          "C2"
+        ],
+        "kind": "factual",
+        "reason": "Directly supported by citation C2.",
+        "supported": true,
+        "text": "deployments outside this window require approval from the Engineering Manager on call with a written reason in the change record"
+      },
+      {
+        "citation_ids": [],
+        "kind": "factual",
+        "reason": "No citation explicitly states that deployment freezes during announced customer migration windows are governed by the change calendar; only that the change calendar is the source of truth and that team chat messages do not override the freeze calendar.",
+        "supported": false,
+        "text": "deployment freezes during announced customer migration windows are governed by the change calendar, which is the source of truth"
+      },
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "kind": "factual",
+        "reason": "Directly supported by citation C1.",
+        "supported": true,
+        "text": "Older release notes or team chat messages do not override the current freeze calendar"
+      },
+      {
+        "citation_ids": [],
+        "kind": "factual",
+        "reason": "No citation explicitly states that the release window alone does not settle the issue; this is inferred but not directly supported.",
+        "supported": false,
+        "text": "the release window alone does not settle whether a Thursday release can proceed during a customer migration freeze; the change calendar controls the freeze"
+      },
+      {
+        "citation_ids": [],
+        "kind": "factual",
+        "reason": "No citation mentions additional deployment approvals or rollback plans.",
+        "supported": false,
+        "text": "Additional deployment approvals and rollback plans are also required depending on the change type"
+      },
+      {
+        "citation_ids": [],
+        "kind": "factual",
+        "reason": "This is a statement about lack of information, which is consistent with the citations.",
+        "supported": true,
+        "text": "What remains unsupported by the available documents is whether any specific override or exception process exists for releases during a migration freeze beyond the change calendar and usual approval processes"
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "Supported by citation C2: 'Standard production deployments occur Tuesday through Thursday'.",
+        "status": "correct"
+      },
+      {
+        "fact_id": "fact-2",
+        "reason": "Supported by citation C2: 'between 10:00 and 15:00 Eastern Time'.",
+        "status": "correct"
+      },
+      {
+        "fact_id": "fact-3",
+        "reason": "No citation explicitly states that Northstar observes deployment freezes during announced customer migration windows.",
+        "status": "missing"
+      },
+      {
+        "fact_id": "fact-4",
+        "reason": "Supported by citation C1: 'The change calendar is the source of truth.'.",
+        "status": "correct"
+      },
+      {
+        "fact_id": "fact-5",
+        "reason": "Supported by citation C1: 'Older release notes or team chat messages do not override the current freeze calendar.'.",
+        "status": "correct"
+      }
+    ],
+    "forbidden_assertion_present": false,
+    "reason": "The answer correctly addresses the question using the cited passages, does not assert the forbidden claim, and enumerates all relevant factual claims with appropriate support or lack thereof.",
+    "uncertain": false
+  },
+  "grader_valid": false,
+  "http_status": 200,
+  "latency_ms": 17693.78,
+  "passed": false,
+  "raw_response": {
+    "answer": "The usual release window for production deployments is Tuesday through Thursday between 10:00 and 15:00 Eastern Time, and deployments outside this window require approval from the Engineering Manager on call with a written reason in the change record. However, deployment freezes during announced customer migration windows are governed by the change calendar, which is the source of truth. Older release notes or team chat messages do not override the current freeze calendar. Therefore, the release window alone does not settle whether a Thursday release can proceed during a customer migration freeze; the change calendar controls the freeze. Additional deployment approvals and rollback plans are also required depending on the change type. What remains unsupported by the available documents is whether any specific override or exception process exists for releases during a migration freeze beyond the change calendar and usual approval processes.",
+    "answer_confidence": 0.745,
+    "assistant_message_id": null,
+    "behavior": "answer",
+    "chunking_strategy": "section_based",
+    "citation_confidence": 0.895,
+    "citations": [
+      {
+        "chunk_id": "074357ce-532a-43e8-8e76-8bc49ed2923e",
+        "citation_text": "The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar.",
+        "citation_type": "model",
+        "confidence": 0.928,
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "section_heading": "Change Freeze",
+        "source": "Source: ENG-001 Deployment, On-Call, and API Standards Handbook, Section: Change Freeze"
+      },
+      {
+        "chunk_id": "2c2a7311-edec-468a-a9bf-54ef7fc4a28d",
+        "citation_text": "Standard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.",
+        "citation_type": "model",
+        "confidence": 0.861,
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "section_heading": "Release Windows",
+        "source": "Source: ENG-001 Deployment, On-Call, and API Standards Handbook, Section: Release Windows"
+      }
+    ],
+    "clarification_reason": null,
+    "defense_trace": {
+      "privacy_mode": "bounded_metadata_only",
+      "schema_version": "defense_trace.v1",
+      "stages": [
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": null,
+          "name": "deterministic_guard",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "not_selected",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.00065,
+          "latency_ms": 1551,
+          "memory_used_as_evidence": false,
+          "name": "semantic_request_assessment",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "repair_count": null,
+          "route": "semantic_assessment",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "allow_authorized_only",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "permission_filter",
+          "reason_codes": [
+            "pre_generation_role_filter"
+          ],
+          "repair_count": null,
+          "route": "application_authorization",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "partial_answer",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": 0.001381,
+          "latency_ms": 2999,
+          "memory_used_as_evidence": false,
+          "name": "evidence_assessment",
+          "reason_codes": [
+            "partial_fact_support"
+          ],
+          "repair_count": null,
+          "route": "hybrid_semantic",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "generated",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": 0.001351,
+          "latency_ms": 5338,
+          "memory_used_as_evidence": false,
+          "name": "generator",
+          "reason_codes": [
+            "authorized_chunks_only"
+          ],
+          "repair_count": null,
+          "route": "authorized_evidence_only",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "accept",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": 0.00183,
+          "latency_ms": 6654,
+          "memory_used_as_evidence": false,
+          "name": "post_generation_validation",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "partial_answer",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "final_response",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "application_response_policy",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        }
+      ]
+    },
+    "estimated_cost_usd": 0.001351,
+    "evidence_assessment": {
+      "answerability": "partial",
+      "assessment_confidence": 0.9,
+      "conflicts": [],
+      "estimated_cost_usd": 0.001381,
+      "input_cost_usd": 0.0009,
+      "input_tokens": 2249,
+      "latency_ms": 2999,
+      "missing_information": [
+        "Specific source controls or approvals required to proceed with a release during a customer migration freeze"
+      ],
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.000482,
+      "output_tokens": 301,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "partial_fact_support"
+      ],
+      "recommended_action": "partial_answer",
+      "required_facts": [
+        {
+          "description": "Whether the usual release window or team chat messages override the announced customer migration freeze",
+          "fact_id": "freeze_override_source",
+          "support": "supported",
+          "supporting_chunk_ids": [
+            "074357ce-532a-43e8-8e76-8bc49ed2923e"
+          ]
+        },
+        {
+          "description": "The usual release window for standard production deployments",
+          "fact_id": "release_window_policy",
+          "support": "supported",
+          "supporting_chunk_ids": [
+            "2c2a7311-edec-468a-a9bf-54ef7fc4a28d"
+          ]
+        },
+        {
+          "description": "The authoritative source for change freezes and overrides",
+          "fact_id": "source_of_truth_for_freeze",
+          "support": "supported",
+          "supporting_chunk_ids": [
+            "074357ce-532a-43e8-8e76-8bc49ed2923e"
+          ]
+        },
+        {
+          "description": "Specific source controls or approvals required to proceed with a release during a freeze",
+          "fact_id": "source_controls_for_release_during_freeze",
+          "support": "unsupported",
+          "supporting_chunk_ids": []
+        }
+      ],
+      "required_source_coverage": [],
+      "route": "hybrid_semantic",
+      "schema_version": "evidence_assessment.v1",
+      "status": "succeeded",
+      "supporting_chunk_ids": [
+        "074357ce-532a-43e8-8e76-8bc49ed2923e",
+        "2c2a7311-edec-468a-a9bf-54ef7fc4a28d"
+      ]
+    },
+    "final_confidence": 0.783,
+    "generation_latency_ms": 5338,
+    "input_cost_usd": 0.000454,
+    "memory": {
+      "is_followup": false,
+      "memory_used": false,
+      "original_question": "A team chat says our Thursday release can proceed during an announced customer migration freeze. Does the usual release window settle it, or what source controls?",
+      "previous_topic": null,
+      "rewrite_strategy": "none",
+      "rewritten_question": "A team chat says our Thursday release can proceed during an announced customer migration freeze. Does the usual release window settle it, or what source controls?"
+    },
+    "model": "gpt-4.1-mini",
+    "multi_doc_mode": "auto",
+    "multi_doc_used": false,
+    "output_cost_usd": 0.000898,
+    "permission_check": {
+      "retrieved_chunks_count": 5,
+      "unauthorized_chunks_reached_generation": false,
+      "user_role": "IT Admin"
+    },
+    "post_generation_validation": {
+      "action": "accept",
+      "citation_checks": [
+        {
+          "citation_chunk_id": "074357ce-532a-43e8-8e76-8bc49ed2923e",
+          "supported_claim_ids": [
+            "c3",
+            "c4",
+            "c5",
+            "c7"
+          ],
+          "supports_claims": true
+        },
+        {
+          "citation_chunk_id": "2c2a7311-edec-468a-a9bf-54ef7fc4a28d",
+          "supported_claim_ids": [
+            "c1",
+            "c2",
+            "c5",
+            "c7"
+          ],
+          "supports_claims": true
+        }
+      ],
+      "claims": [
+        {
+          "claim_id": "c1",
+          "claim_text": "The usual release window for production deployments is Tuesday through Thursday between 10:00 and 15:00 Eastern Time.",
+          "claim_type": "exact",
+          "evidence_chunk_ids": [
+            "2c2a7311-edec-468a-a9bf-54ef7fc4a28d"
+          ],
+          "support_status": "supported"
+        },
+        {
+          "claim_id": "c2",
+          "claim_text": "Deployments outside this window require approval from the Engineering Manager on call with a written reason in the change record.",
+          "claim_type": "exact",
+          "evidence_chunk_ids": [
+            "2c2a7311-edec-468a-a9bf-54ef7fc4a28d"
+          ],
+          "support_status": "supported"
+        },
+        {
+          "claim_id": "c3",
+          "claim_text": "Deployment freezes during announced customer migration windows are governed by the change calendar, which is the source of truth.",
+          "claim_type": "exact",
+          "evidence_chunk_ids": [
+            "074357ce-532a-43e8-8e76-8bc49ed2923e"
+          ],
+          "support_status": "supported"
+        },
+        {
+          "claim_id": "c4",
+          "claim_text": "Older release notes or team chat messages do not override the current freeze calendar.",
+          "claim_type": "exact",
+          "evidence_chunk_ids": [
+            "074357ce-532a-43e8-8e76-8bc49ed2923e"
+          ],
+          "support_status": "supported"
+        },
+        {
+          "claim_id": "c5",
+          "claim_text": "Therefore, the release window alone does not settle whether a Thursday release can proceed during a customer migration freeze; the change calendar controls the freeze.",
+          "claim_type": "semantic",
+          "evidence_chunk_ids": [
+            "074357ce-532a-43e8-8e76-8bc49ed2923e",
+            "2c2a7311-edec-468a-a9bf-54ef7fc4a28d"
+          ],
+          "support_status": "supported"
+        },
+        {
+          "claim_id": "c6",
+          "claim_text": "Additional deployment approvals and rollback plans are also required depending on the change type.",
+          "claim_type": "semantic",
+          "evidence_chunk_ids": [
+            "d0cab3f6-9771-40cf-9a66-78a470bb69f7"
+          ],
+          "support_status": "supported"
+        },
+        {
+          "claim_id": "c7",
+          "claim_text": "What remains unsupported by the available documents is whether any specific override or exception process exists for releases during a migration freeze beyond the change calendar and usual approval processes.",
+          "claim_type": "negation",
+          "evidence_chunk_ids": [
+            "074357ce-532a-43e8-8e76-8bc49ed2923e",
+            "2c2a7311-edec-468a-a9bf-54ef7fc4a28d",
+            "d0cab3f6-9771-40cf-9a66-78a470bb69f7"
+          ],
+          "support_status": "supported"
+        }
+      ],
+      "estimated_cost_usd": 0.00183,
+      "exact_literals": [
+        "10",
+        "00",
+        "15"
+      ],
+      "input_cost_usd": 0.000705,
+      "input_tokens": 1763,
+      "latency_ms": 6654,
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.001125,
+      "output_tokens": 703,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "all_claims_supported"
+      ],
+      "repair_count": 0,
+      "route": "hybrid_semantic",
+      "schema_version": "post_generation_validation.v1",
+      "source_instruction_followed": false,
+      "status": "succeeded",
+      "unsupported_exact_literals": []
+    },
+    "pricing_status": "estimated",
+    "prompt_name": "answer_generation",
+    "prompt_version": "v1",
+    "request_assessment": {
+      "ambiguity": "none",
+      "assessment_confidence": 0.95,
+      "decision_variables": [
+        "usual release window policy",
+        "source control policies during migration freeze"
+      ],
+      "estimated_cost_usd": 0.00065,
+      "injection_risk": "none",
+      "input_cost_usd": 0.000498,
+      "input_tokens": 1244,
+      "intent": "question",
+      "latency_ms": 1551,
+      "missing_referents": [],
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.000152,
+      "output_tokens": 95,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "no_risk"
+      ],
+      "recommended_action": "continue",
+      "referents": "resolved",
+      "response_reason": null,
+      "route": "semantic_assessment",
+      "schema_version": "request_assessment.v1",
+      "status": "succeeded",
+      "topic": "deployment",
+      "topic_description": "Inquiry about release scheduling and source control policies during a customer migration freeze."
+    },
+    "response_type": "partial_answer",
+    "retrieval_confidence": 0.682,
+    "retrieval_latency_ms": 1037,
+    "retrieval_mode": "vector_lexical_rerank",
+    "retrieved_chunks": [
+      {
+        "access_roles": [
+          "Manager",
+          "IT/Admin"
+        ],
+        "chunk_id": "074357ce-532a-43e8-8e76-8bc49ed2923e",
+        "content_preview": "Change Freeze\n\nNorthstar observes deployment freezes during payroll close, quarter-end financial reporting, and announced customer migration windows. The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar.",
+        "department_id": "00000000-0000-0000-0000-000000002009",
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "hybrid_score": 0.6404808228206514,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 1,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.6404808228206514,
+        "section_heading": "Change Freeze",
+        "sensitivity": "restricted",
+        "vector_score": 0.5798925875265337
+      },
+      {
+        "access_roles": [
+          "Manager",
+          "IT/Admin"
+        ],
+        "chunk_id": "2c2a7311-edec-468a-a9bf-54ef7fc4a28d",
+        "content_preview": "Release Windows\n\nStandard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.\n\nFriday deployments are limited to severity-one fixes, security patches approved by IT Admin, or customer-impacting incidents where waiting would increase risk. Weekend deployments require the incident commander to approve the change before execution.",
+        "department_id": "00000000-0000-0000-0000-000000002009",
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "hybrid_score": 0.5918383254024339,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 2,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.5918383254024339,
+        "section_heading": "Release Windows",
+        "sensitivity": "restricted",
+        "vector_score": 0.5430147959906692
+      },
+      {
+        "access_roles": [
+          "Manager",
+          "IT/Admin"
+        ],
+        "chunk_id": "d0cab3f6-9771-40cf-9a66-78a470bb69f7",
+        "content_preview": "Deployment Approval\n\n| Change Type | Required Review | Required Approver |\n| --- | --- | --- |\n| Documentation-only release | Peer review | Team lead |\n| Low-risk application change | Peer review and automated tests | Team lead |\n| Database migration | Peer review, rollback plan, staging proof | Engineering Manager |\n| Security-sensitive change | Peer review, IT Admin review | Engineering Manager |\n| Emergency hotfix | Incident commander review | Engineering Manager on call |\n\nAll production cha",
+        "department_id": "00000000-0000-0000-0000-000000002009",
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "hybrid_score": 0.5255260748739737,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 3,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.5255260748739737,
+        "section_heading": "Deployment Approval",
+        "sensitivity": "restricted",
+        "vector_score": 0.48611431016809137
+      },
+      {
+        "access_roles": [
+          "Employee",
+          "Sales Representative",
+          "Manager",
+          "HR Admin",
+          "IT/Admin"
+        ],
+        "chunk_id": "9a6d1350-41b8-4720-91d4-9052b314fdac",
+        "content_preview": "Working Hours\n\nStandard collaboration hours are 10:00 a.m. to 3:00 p.m. local time from Monday to Thursday. Teams may define additional overlap windows when customer coverage or release coordination requires it.\n\nEmployees should keep calendars accurate and mark focus time when unavailable. Repeated inability to meet team collaboration expectations should be discussed with the employee's manager.",
+        "department_id": "00000000-0000-0000-0000-000000002001",
+        "document_id": "HR-001",
+        "document_title": "Employee Handbook",
+        "hybrid_score": 0.43914453747375937,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 4,
+        "restricted": false,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.43914453747375937,
+        "section_heading": "Working Hours",
+        "sensitivity": "internal",
+        "vector_score": 0.429732772767877
+      },
+      {
+        "access_roles": [
+          "Sales Representative",
+          "Manager",
+          "HR Admin",
+          "IT/Admin"
+        ],
+        "chunk_id": "1b7eecee-b087-4769-8a43-9236f859ff4c",
+        "content_preview": "Legal Hold\n\nWhen Legal issues a hold notice, normal deletion schedules stop for the named matter. Recipients must preserve email, chat, files, ticket records, and notes that relate to the hold. Managers must confirm that affected team members understand the hold within five business days.",
+        "department_id": "00000000-0000-0000-0000-000000002008",
+        "document_id": "LEGAL-001",
+        "document_title": "Contract, NDA, and Data Retention Policy",
+        "hybrid_score": 0.37319364480528333,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 5,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.37319364480528333,
+        "section_heading": "Legal Hold",
+        "sensitivity": "restricted",
+        "vector_score": 0.36848776245234216
+      }
+    ],
+    "scope": {
+      "department_id": null,
+      "project_id": "00000000-0000-0000-0000-000000000019"
+    },
+    "session_id": null,
+    "supported_claims": [
+      "The change calendar is the source of truth for deployment freezes during announced customer migration windows.",
+      "Standard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time.",
+      "Deployments outside the standard release window require approval from the Engineering Manager on call and a written reason.",
+      "ENG-001: Change Freeze",
+      "ENG-001: Release Windows"
+    ],
+    "temperature": 0.2,
+    "total_latency_ms": 17658,
+    "unsupported_claims": [
+      "Whether the usual release window alone settles if a release can proceed during a migration freeze.",
+      "Any specific override or exception process for releases during a migration freeze beyond the change calendar and usual approval processes."
+    ],
+    "user_message_id": null,
+    "validation_notes": "Strong citation support."
+  },
+  "request": {
+    "department_id": null,
+    "project_id": "00000000-0000-0000-0000-000000000019",
+    "question": "A team chat says our Thursday release can proceed during an announced customer migration freeze. Does the usual release window settle it, or what source controls?",
+    "rerank_candidate_limit": 20,
+    "retrieval_mode": "vector_lexical_rerank",
+    "session_id": null,
+    "top_k": 5
+  },
+  "safety_flags": [],
+  "started_at": "2026-09-14T22:18:53.461961+00:00",
+  "status": "complete"
+}

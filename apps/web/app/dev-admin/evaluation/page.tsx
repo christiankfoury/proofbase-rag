@@ -39,6 +39,12 @@ export default function EvaluationMethodologyPage() {
           Non-answer cases: {fresh.non_answer_expected.passed}/{fresh.non_answer_expected.total} completed passes.
           An incomplete run has no full-suite rate. The historical 73.3% uses a different runtime, suite and evaluator and cannot establish a before/after improvement.
         </p>
+        <p className="mt-3 text-sm text-stone-700">
+          Predeclared quality target: {(fresh.target * 100).toFixed(0)}% — {fresh.target_met ? "met" : "not met"}.
+          Overall gate: {fresh.combined_gate_met ? "passed" : "not passed"}.
+          Failures include strict response-type and citation-quote checks, plus invalid model-grader outputs;
+          this percentage is not a human-verified answer accuracy rate.
+        </p>
         <p className="mt-3 break-all text-xs text-stone-500">Run: {fresh.run_id}; suite: {fresh.suite_version}; runtime: {fresh.runtime_commit}</p>
         <div className="mt-4 flex flex-wrap gap-4 text-sm">
           <a className="underline" href={`${repo}docs/phase-65/results.md`}>Results and limitations</a>

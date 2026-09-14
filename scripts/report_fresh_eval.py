@@ -91,7 +91,7 @@ def human_packet():
                       "Response: " + row.get("raw_response", {}).get("answer", "No saved answer"), "",
                       f"[Full response, citations and automated grading](../../{data_link}/{run_name}/{case['case_id']}.json)", "",
                       "Human decision: pending. Reviewer: pending. Reviewed at: pending. Notes: pending.", ""])
-    return "\n".join(lines)
+    return "\n".join(line.rstrip() for line in lines)
 
 
 def main():

@@ -1,0 +1,494 @@
+{
+  "authorized_evidence": [
+    {
+      "access_roles": [
+        "Manager",
+        "IT/Admin"
+      ],
+      "chunk_id": "6b7996bf-697c-4b99-a971-0ab68e9770a8",
+      "content": "On-Call Severity Levels\n\n| Severity | Definition | Initial Response Target |\n| --- | --- | ---: |\n| SEV-1 | Widespread production outage or data exposure risk | 15 minutes |\n| SEV-2 | Major workflow unavailable for multiple customers | 30 minutes |\n| SEV-3 | Degraded feature with workaround available | 4 business hours |\n| SEV-4 | Low-impact defect or documentation issue | Next planning cycle |\n\nThe on-call engineer owns triage until an incident commander is assigned. The incident commander owns status updates, escalation, and post-incident review scheduling.",
+      "department_id": "00000000-0000-0000-0000-000000002009",
+      "document_id": "ENG-001",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Manager"
+      ],
+      "chunk_id": "facb837a-ace7-4994-ae31-1385a5333b0c",
+      "content": "Team Planning\n\nManagers should maintain a quarterly team plan with goals, ownership, dependencies, and risks. Plans should identify customer-impacting work, hiring assumptions, and capacity constraints.",
+      "department_id": "00000000-0000-0000-0000-000000002006",
+      "document_id": "MGR-001",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Manager"
+      ],
+      "chunk_id": "aca897cb-0dd2-4e10-94f2-f3cf9a1ce408",
+      "content": "Escalation Paths\n\nEmployee relations concerns should be escalated to People Operations. Security access issues should be escalated to IT Support. Customer-impacting delivery risks should be escalated to the relevant department leader.",
+      "department_id": "00000000-0000-0000-0000-000000002006",
+      "document_id": "MGR-001",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Manager",
+        "IT/Admin"
+      ],
+      "chunk_id": "d0cab3f6-9771-40cf-9a66-78a470bb69f7",
+      "content": "Deployment Approval\n\n| Change Type | Required Review | Required Approver |\n| --- | --- | --- |\n| Documentation-only release | Peer review | Team lead |\n| Low-risk application change | Peer review and automated tests | Team lead |\n| Database migration | Peer review, rollback plan, staging proof | Engineering Manager |\n| Security-sensitive change | Peer review, IT Admin review | Engineering Manager |\n| Emergency hotfix | Incident commander review | Engineering Manager on call |\n\nAll production changes must include a rollback plan. A rollback plan that says \"revert if needed\" is not sufficient; it must name the specific revert, migration rollback, feature flag, or mitigation.",
+      "department_id": "00000000-0000-0000-0000-000000002009",
+      "document_id": "ENG-001",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Manager",
+        "IT/Admin"
+      ],
+      "chunk_id": "2c2a7311-edec-468a-a9bf-54ef7fc4a28d",
+      "content": "Release Windows\n\nStandard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.\n\nFriday deployments are limited to severity-one fixes, security patches approved by IT Admin, or customer-impacting incidents where waiting would increase risk. Weekend deployments require the incident commander to approve the change before execution.",
+      "department_id": "00000000-0000-0000-0000-000000002009",
+      "document_id": "ENG-001",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    }
+  ],
+  "call_end": 412,
+  "call_start": 406,
+  "case_id": "fresh-006",
+  "category": "factual",
+  "completed_at": "2026-09-14T22:09:42.194172+00:00",
+  "failure_reasons": [],
+  "grade": {
+    "all_citations_relevant": true,
+    "all_factual_claims_enumerated": true,
+    "behavior_correct": true,
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "kind": "factual",
+        "reason": "This claim is directly supported by the cited passage C1.",
+        "supported": true,
+        "text": "The on-call engineer owns triage before an incident commander is appointed."
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The candidate's answer exactly matches the authorized cited passage stating 'The on-call engineer owns triage until an incident commander is assigned.'",
+        "status": "correct"
+      }
+    ],
+    "forbidden_assertion_present": false,
+    "reason": "The candidate's answer is fully supported by the authorized citation and correctly addresses the question.",
+    "uncertain": false
+  },
+  "grader_valid": true,
+  "http_status": 200,
+  "latency_ms": 10134.52,
+  "passed": true,
+  "raw_response": {
+    "answer": "The on-call engineer owns triage before an incident commander is appointed.",
+    "answer_confidence": 0.774,
+    "assistant_message_id": null,
+    "behavior": "answer",
+    "chunking_strategy": "section_based",
+    "citation_confidence": 0.774,
+    "citations": [
+      {
+        "chunk_id": "6b7996bf-697c-4b99-a971-0ab68e9770a8",
+        "citation_text": "The on-call engineer owns triage until an incident commander is assigned.",
+        "citation_type": "model",
+        "confidence": 0.774,
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "section_heading": "On-Call Severity Levels",
+        "source": "Source: ENG-001 Deployment, On-Call, and API Standards Handbook, Section: On-Call Severity Levels"
+      }
+    ],
+    "clarification_reason": null,
+    "defense_trace": {
+      "privacy_mode": "bounded_metadata_only",
+      "schema_version": "defense_trace.v1",
+      "stages": [
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": null,
+          "name": "deterministic_guard",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "not_selected",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.000603,
+          "latency_ms": 1707,
+          "memory_used_as_evidence": false,
+          "name": "semantic_request_assessment",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "repair_count": null,
+          "route": "semantic_assessment",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "allow_authorized_only",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "permission_filter",
+          "reason_codes": [
+            "pre_generation_role_filter"
+          ],
+          "repair_count": null,
+          "route": "application_authorization",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "answer",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": 0.001093,
+          "latency_ms": 2082,
+          "memory_used_as_evidence": false,
+          "name": "evidence_assessment",
+          "reason_codes": [
+            "authorized_evidence_sufficient"
+          ],
+          "repair_count": null,
+          "route": "hybrid_semantic",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "generated",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": 0.000747,
+          "latency_ms": 2612,
+          "memory_used_as_evidence": false,
+          "name": "generator",
+          "reason_codes": [
+            "authorized_chunks_only"
+          ],
+          "repair_count": null,
+          "route": "authorized_evidence_only",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "accept",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": 0.00084,
+          "latency_ms": 2742,
+          "memory_used_as_evidence": false,
+          "name": "post_generation_validation",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "answer",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "final_response",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "application_response_policy",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        }
+      ]
+    },
+    "estimated_cost_usd": 0.000747,
+    "evidence_assessment": {
+      "answerability": "sufficient",
+      "assessment_confidence": 1.0,
+      "conflicts": [],
+      "estimated_cost_usd": 0.001093,
+      "input_cost_usd": 0.000906,
+      "input_tokens": 2264,
+      "latency_ms": 2082,
+      "missing_information": [],
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.000187,
+      "output_tokens": 117,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "authorized_evidence_sufficient"
+      ],
+      "recommended_action": "answer",
+      "required_facts": [
+        {
+          "description": "Who owns triage before an incident commander is appointed",
+          "fact_id": "owner_of_triage_before_incident_commander",
+          "support": "supported",
+          "supporting_chunk_ids": [
+            "6b7996bf-697c-4b99-a971-0ab68e9770a8"
+          ]
+        }
+      ],
+      "required_source_coverage": [],
+      "route": "hybrid_semantic",
+      "schema_version": "evidence_assessment.v1",
+      "status": "succeeded",
+      "supporting_chunk_ids": [
+        "6b7996bf-697c-4b99-a971-0ab68e9770a8"
+      ]
+    },
+    "final_confidence": 0.733,
+    "generation_latency_ms": 2612,
+    "input_cost_usd": 0.000443,
+    "memory": {
+      "is_followup": false,
+      "memory_used": false,
+      "original_question": "Who owns triage before an incident commander is appointed?",
+      "previous_topic": null,
+      "rewrite_strategy": "none",
+      "rewritten_question": "Who owns triage before an incident commander is appointed?"
+    },
+    "model": "gpt-4.1-mini",
+    "multi_doc_mode": "auto",
+    "multi_doc_used": false,
+    "output_cost_usd": 0.000304,
+    "permission_check": {
+      "retrieved_chunks_count": 5,
+      "unauthorized_chunks_reached_generation": false,
+      "user_role": "Manager"
+    },
+    "post_generation_validation": {
+      "action": "accept",
+      "citation_checks": [
+        {
+          "citation_chunk_id": "6b7996bf-697c-4b99-a971-0ab68e9770a8",
+          "supported_claim_ids": [
+            "c1"
+          ],
+          "supports_claims": true
+        }
+      ],
+      "claims": [
+        {
+          "claim_id": "c1",
+          "claim_text": "The on-call engineer owns triage before an incident commander is appointed.",
+          "claim_type": "semantic",
+          "evidence_chunk_ids": [
+            "6b7996bf-697c-4b99-a971-0ab68e9770a8"
+          ],
+          "support_status": "supported"
+        }
+      ],
+      "estimated_cost_usd": 0.00084,
+      "exact_literals": [],
+      "input_cost_usd": 0.000621,
+      "input_tokens": 1553,
+      "latency_ms": 2742,
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.000219,
+      "output_tokens": 137,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "all_claims_supported"
+      ],
+      "repair_count": 0,
+      "route": "hybrid_semantic",
+      "schema_version": "post_generation_validation.v1",
+      "source_instruction_followed": false,
+      "status": "succeeded",
+      "unsupported_exact_literals": []
+    },
+    "pricing_status": "estimated",
+    "prompt_name": "answer_generation",
+    "prompt_version": "v1",
+    "request_assessment": {
+      "ambiguity": "none",
+      "assessment_confidence": 0.95,
+      "decision_variables": [],
+      "estimated_cost_usd": 0.000603,
+      "injection_risk": "none",
+      "input_cost_usd": 0.000483,
+      "input_tokens": 1208,
+      "intent": "question",
+      "latency_ms": 1707,
+      "missing_referents": [],
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.00012,
+      "output_tokens": 75,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "no_risk"
+      ],
+      "recommended_action": "continue",
+      "referents": "resolved",
+      "response_reason": null,
+      "route": "semantic_assessment",
+      "schema_version": "request_assessment.v1",
+      "status": "succeeded",
+      "topic": "customer_support",
+      "topic_description": "Incident management process ownership"
+    },
+    "response_type": "answer",
+    "retrieval_confidence": 0.657,
+    "retrieval_latency_ms": 884,
+    "retrieval_mode": "vector_lexical_rerank",
+    "retrieved_chunks": [
+      {
+        "access_roles": [
+          "Manager",
+          "IT/Admin"
+        ],
+        "chunk_id": "6b7996bf-697c-4b99-a971-0ab68e9770a8",
+        "content_preview": "On-Call Severity Levels\n\n| Severity | Definition | Initial Response Target |\n| --- | --- | ---: |\n| SEV-1 | Widespread production outage or data exposure risk | 15 minutes |\n| SEV-2 | Major workflow unavailable for multiple customers | 30 minutes |\n| SEV-3 | Degraded feature with workaround available | 4 business hours |\n| SEV-4 | Low-impact defect or documentation issue | Next planning cycle |\n\nThe on-call engineer owns triage until an incident commander is assigned. The incident commander owns",
+        "department_id": "00000000-0000-0000-0000-000000002009",
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "hybrid_score": 0.5573789216987439,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 1,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.5573789216987439,
+        "section_heading": "On-Call Severity Levels",
+        "sensitivity": "restricted",
+        "vector_score": 0.49537892169874387
+      },
+      {
+        "access_roles": [
+          "Manager"
+        ],
+        "chunk_id": "facb837a-ace7-4994-ae31-1385a5333b0c",
+        "content_preview": "Team Planning\n\nManagers should maintain a quarterly team plan with goals, ownership, dependencies, and risks. Plans should identify customer-impacting work, hiring assumptions, and capacity constraints.",
+        "department_id": "00000000-0000-0000-0000-000000002006",
+        "document_id": "MGR-001",
+        "document_title": "Manager Handbook",
+        "hybrid_score": 0.32871238559267346,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 2,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.32871238559267346,
+        "section_heading": "Team Planning",
+        "sensitivity": "restricted",
+        "vector_score": 0.32871238559267346
+      },
+      {
+        "access_roles": [
+          "Manager"
+        ],
+        "chunk_id": "aca897cb-0dd2-4e10-94f2-f3cf9a1ce408",
+        "content_preview": "Escalation Paths\n\nEmployee relations concerns should be escalated to People Operations. Security access issues should be escalated to IT Support. Customer-impacting delivery risks should be escalated to the relevant department leader.",
+        "department_id": "00000000-0000-0000-0000-000000002006",
+        "document_id": "MGR-001",
+        "document_title": "Manager Handbook",
+        "hybrid_score": 0.3133325895737029,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 3,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.3133325895737029,
+        "section_heading": "Escalation Paths",
+        "sensitivity": "restricted",
+        "vector_score": 0.3133325895737029
+      },
+      {
+        "access_roles": [
+          "Manager",
+          "IT/Admin"
+        ],
+        "chunk_id": "d0cab3f6-9771-40cf-9a66-78a470bb69f7",
+        "content_preview": "Deployment Approval\n\n| Change Type | Required Review | Required Approver |\n| --- | --- | --- |\n| Documentation-only release | Peer review | Team lead |\n| Low-risk application change | Peer review and automated tests | Team lead |\n| Database migration | Peer review, rollback plan, staging proof | Engineering Manager |\n| Security-sensitive change | Peer review, IT Admin review | Engineering Manager |\n| Emergency hotfix | Incident commander review | Engineering Manager on call |\n\nAll production cha",
+        "department_id": "00000000-0000-0000-0000-000000002009",
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "hybrid_score": 0.3064792865863665,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 4,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.3064792865863665,
+        "section_heading": "Deployment Approval",
+        "sensitivity": "restricted",
+        "vector_score": 0.26047928658636643
+      },
+      {
+        "access_roles": [
+          "Manager",
+          "IT/Admin"
+        ],
+        "chunk_id": "2c2a7311-edec-468a-a9bf-54ef7fc4a28d",
+        "content_preview": "Release Windows\n\nStandard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.\n\nFriday deployments are limited to severity-one fixes, security patches approved by IT Admin, or customer-impacting incidents where waiting would increase risk. Weekend deployments require the incident commander to approve the change before execution.",
+        "department_id": "00000000-0000-0000-0000-000000002009",
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "hybrid_score": 0.30403560361258564,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 5,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.30403560361258564,
+        "section_heading": "Release Windows",
+        "sensitivity": "restricted",
+        "vector_score": 0.2580356036125856
+      }
+    ],
+    "scope": {
+      "department_id": null,
+      "project_id": "00000000-0000-0000-0000-000000000019"
+    },
+    "session_id": null,
+    "supported_claims": [
+      "The on-call engineer owns triage before an incident commander is appointed.",
+      "ENG-001: On-Call Severity Levels"
+    ],
+    "temperature": 0.2,
+    "total_latency_ms": 10096,
+    "unsupported_claims": [],
+    "user_message_id": null,
+    "validation_notes": "Acceptable citation support."
+  },
+  "request": {
+    "department_id": null,
+    "project_id": "00000000-0000-0000-0000-000000000019",
+    "question": "Who owns triage before an incident commander is appointed?",
+    "rerank_candidate_limit": 20,
+    "retrieval_mode": "vector_lexical_rerank",
+    "session_id": null,
+    "top_k": 5
+  },
+  "safety_flags": [],
+  "started_at": "2026-09-14T22:09:29.859180+00:00",
+  "status": "complete"
+}
