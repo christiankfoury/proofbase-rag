@@ -57,3 +57,7 @@ application limitations. Human review is not claimed.
 The implementation and fresh measurement are complete, but evaluator reliability
 is not a solved problem. The evidence supports inspection of this runtime on this
 suite; it does not justify a factual-accuracy headline or release approval.
+
+Results commit `f203386` was inspected and self-reviewed, then pushed to `origin/main`.
+Post-push main alignment was verified. Unrelated user request-log changes were
+preserved outside the commits.
