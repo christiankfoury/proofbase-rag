@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import re
+
+from apps.api.app.memory.followup_detector import is_followup_question
+
 
 def _last_user_turn(previous_turns: list[dict]) -> str:
     for turn in reversed(previous_turns):
@@ -46,7 +50,19 @@ TOPIC_RULES = [
 ]
 
 
+def requires_full_context(text: str) -> bool:
+    """Do not discard exclusions, corrections, or multiple named topics."""
+    markers = {topic for marker, topic in TOPIC_RULES if marker in text.lower()}
+    return bool(
+        "\n" in text
+        or len(markers) > 1
+        or re.search(r"\b(?:not|no|never|rather|instead|actually|correction|ignore|except|but)\b|\bi (?:mean|meant)\b|n['’]t\b", text, re.I)
+    )
+
+
 def _known_topic(text: str) -> str | None:
+    if requires_full_context(text):
+        return None
     normalized = text.lower()
     for marker, topic in TOPIC_RULES:
         if marker in normalized:
@@ -55,15 +71,18 @@ def _known_topic(text: str) -> str | None:
 
 
 def extract_previous_topic(previous_turns: list[dict]) -> str:
-    for role in ("user", "assistant"):
-        for turn in reversed(previous_turns):
-            if turn.get("role") != role:
-                continue
-            content = str(turn.get("content") or "")
-            topic = _known_topic(content)
-            if topic:
-                return topic
-    return _last_user_turn(previous_turns)
+    user_turns = [turn for turn in previous_turns if turn.get("role") == "user"]
+    if user_turns:
+        latest = str(user_turns[-1].get("content") or "")
+        if topic := _known_topic(latest):
+            return topic
+        if not requires_full_context(latest) and is_followup_question(latest, user_turns[:-1]):
+            # Retain a bounded chronological anchor for anaphoric follow-ups.
+            # Assistant assertions are never copied into this user context.
+            return "\n".join(str(turn.get("content") or "") for turn in user_turns[-4:])
+        return latest
+    assistant_content = str(_last_assistant_turn(previous_turns).get("content") or "")
+    return _known_topic(assistant_content) or ""
 
 
 def extract_referenced_topic(question: str, previous_turns: list[dict]) -> str:
@@ -71,15 +90,7 @@ def extract_referenced_topic(question: str, previous_turns: list[dict]) -> str:
     user_turns = [str(turn.get("content") or "") for turn in previous_turns if turn.get("role") == "user"]
 
     if any(marker in normalized for marker in ("first topic", "original topic", "back to the original", "return to the first")):
-        for content in user_turns:
-            if topic := _known_topic(content):
-                return topic
-        return user_turns[0] if user_turns else ""
-
-    correction_markers = ("actually", "correction", "ignore that", "instead", "i meant")
-    for content in reversed(user_turns):
-        if any(marker in content.lower() for marker in correction_markers):
-            return _known_topic(content) or content
+        return (_known_topic(user_turns[0]) or user_turns[0]) if user_turns else ""
 
     return extract_previous_topic(previous_turns)
 

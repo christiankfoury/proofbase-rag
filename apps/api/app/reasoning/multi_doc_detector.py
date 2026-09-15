@@ -99,6 +99,13 @@ def is_multi_document_question(question: str) -> bool:
     normalized = question.lower()
     words = normalized.split()
 
+    # Independent interrogative clauses need their own retrieval opportunity.
+    # This is a routing hint, not a claim that their evidence spans documents.
+    if len(words) >= 8 and re.search(
+        r"(?:\band\s+|[?;]\s*)(?:what|who|when|where|why|how|which)\b", question, re.I
+    ):
+        return True
+
     if _EXPLICIT_MULTI_SOURCE_RE.search(question):
         return True
 

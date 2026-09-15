@@ -1,4 +1,4 @@
-from apps.api.app.memory.context_builder import extract_referenced_topic
+from apps.api.app.memory.context_builder import extract_referenced_topic, requires_full_context
 from apps.api.app.memory.followup_detector import is_followup_question
 
 
@@ -20,7 +20,10 @@ def rewrite_followup_question(question: str, previous_turns: list[dict] | None =
     rewritten = question
     strategy = "topic_prefix"
 
-    if "vacation" in normalized_topic and "carry" in normalized_question:
+    if requires_full_context(topic):
+        rewritten = f"{question} Context: {topic}"
+        strategy = "preserved_user_context"
+    elif "vacation" in normalized_topic and "carry" in normalized_question:
         rewritten = "Can employees carry unused vacation days into next year?"
         strategy = "vacation_carryover"
     elif "remote work location" in normalized_topic and "fewer than 15" in normalized_question:

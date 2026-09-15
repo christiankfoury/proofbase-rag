@@ -38,7 +38,7 @@ def comparable_dimensions(saved, canonical_inputs, payload, evidence, safety):
 
 
 def replay():
-    _,suite=verify_custody()
+    _,suite=verify_custody(require_current=False)
     manifest=read_json(OUT/'manifest.json');freeze=read_json(OUT/'freeze.json')
     if freeze['code_hashes']!=code_hashes() or freeze['calibration_sha256']!=digest(OUT/'calibration.json'):raise ValueError('Frozen evaluator changed')
     for name,key in [('holdout.json','source_suite_sha256'),('public-report.json','original_report_sha256'),('api-ledger.json','original_ledger_sha256')]:

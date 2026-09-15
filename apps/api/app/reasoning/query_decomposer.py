@@ -129,6 +129,12 @@ def _coverage_first_chunks(
     selected_ids: set[str] = set()
     for plan_item, chunks in per_query_results:
         if not plan_item:
+            # Scores from separate searches are not calibrated against each
+            # other. Preserve the strongest available result for each query.
+            candidate = next((chunk for chunk in chunks if chunk.chunk_id not in selected_ids), None)
+            if candidate is not None:
+                selected.append(candidate)
+                selected_ids.add(candidate.chunk_id)
             continue
         for document_id in plan_item.target_document_ids:
             candidates = [chunk for chunk in chunks if chunk.document_id == document_id and chunk.chunk_id not in selected_ids]
