@@ -38,6 +38,8 @@ jobs:
           python -m unittest scripts.test_dimension_grader
           python scripts/report_dimension_reanalysis.py --check
           python -m unittest scripts.test_phase67_context_coverage
+          python -m unittest scripts.test_current_dimension_grader scripts.test_current_eval_integrity
+          python scripts/report_current_eval.py --check
 
       - name: Scan source for secrets
         run: python scripts/scan_phase60_secrets.py

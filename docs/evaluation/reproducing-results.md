@@ -58,3 +58,18 @@ python scripts/run_phase39_live_query_answer_quality.py --dry-run --run-id revie
 After deliberately approving the external calls, remove `--dry-run` and add `--allow-external-ai --budget-usd 2` to that command. The runner's estimate/budget is not a billing cap covering every embedding, auxiliary model call, or infrastructure charge. Use a unique run ID/output paths for subsequent runs. Local outputs in this example are ignored by Git and do not replace the official dashboard artifacts.
 
 This tests the current runtime on **known development questions**. It cannot reproduce the frozen historical environment merely by selecting the same prompt name. Do not execute or selectively rerun the Phase 47–49 or Phase 55 holdouts. A future generalization measurement requires a new runtime freeze, separately authored and sealed suite, predeclared scoring and budgets, and one complete run.
+
+
+## Phase 68 saved-evidence replay
+
+Run `python scripts/report_current_eval.py --check` to check the recorded runtime
+revision, suite seal, per-case hashes, authorized evidence, exact UTF-8 grader
+inputs, raw grader-call replay, separated counts and publication artifacts.
+No API key or application service is used by this command. Tests are
+`python -m unittest scripts.test_current_dimension_grader scripts.test_current_eval_integrity`.
+
+`python scripts/current_eval_run.py --allow-external-ai` is the one-shot execution
+entry point. It refuses an existing run folder; do not delete the folder or
+change the seal to repeat the experiment. A new live measurement needs newly
+frozen code/configuration/index and a newly authored suite. Current DB state is
+not expected to equal the pre-run fingerprint after upload fixtures execute.

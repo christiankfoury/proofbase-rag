@@ -7,6 +7,7 @@ import evidence from "../../../../../data/evaluation/public-evidence.json";
 import fresh from "../../../../../data/evaluation/fresh-current/public-report.json";
 
 import reanalysis from "../../../../../data/evaluation/dimension-reanalysis-v1/public-summary.json";
+import current from "../../../../../data/evaluation/current-runtime-v3/public-report.json";
 
 const repo = "https://github.com/christiankfoury/proofbase-rag/blob/main/";
 const reading = [
@@ -25,7 +26,38 @@ export default function EvaluationMethodologyPage() {
     <Shell>
       <PageHeader title="How Evaluation Is Scored" description="Public evidence, exact denominators, and known limits of the automated rubric." />
       <Card className="mb-6">
-        <SectionHeading title="What each answer got right or wrong" description="Separate model judgments on the same saved responses. No new application run and no combined accuracy score." />
+        <SectionHeading title="Latest frozen-runtime evaluation" description="New questions authored after the runtime freeze. Each quality dimension is reported separately." />
+        <p className="text-sm leading-6 text-stone-700">
+          {current.completed_cases}/{current.expected_cases} cases completed. Run status: {current.status}.
+          Runtime {current.runtime_commit.slice(0, 7)}; evaluator {current.version}.
+        </p>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead><tr><th className="p-2">Dimension</th><th className="p-2">Model pass</th><th className="p-2">Model fail</th><th className="p-2">Unresolved</th><th className="p-2">Not applicable</th></tr></thead>
+            <tbody>{Object.entries(current.dimensions).map(([name, values]) => (
+              <tr key={name} className="border-t border-stone-200">
+                <td className="p-2 capitalize">{name.replaceAll("_", " ")}</td>
+                <td className="p-2">{values.pass}</td><td className="p-2">{values.fail}</td>
+                <td className="p-2">{values.unresolved}</td><td className="p-2">{values.not_applicable}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <p className="mt-3 text-sm leading-6 text-stone-700">{current.limitation}</p>
+        <p className="mt-3 rounded border border-amber-300 bg-amber-50 p-3 text-sm text-stone-800">{current.audit_warning}</p>
+        <p className="mt-3 text-sm text-stone-700">
+          Schema/reference-invalid grades: {current.invalid_grades}. Semantic disagreements are listed in the source inspection.
+          Cases with recorded safety or HTTP flags: {current.safety_flag_cases.length}.
+          Passing 18 visible calibration examples does not establish independent grader accuracy.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-4 text-sm">
+          <a className="underline" href={`${repo}docs/phase-68/case-review.md`}>Inspect each answer and its evidence</a>
+          <a className="underline" href={`${repo}docs/phase-68/results.md`}>Results and methodology</a>
+          <a className="underline" href={`${repo}docs/phase-68/agent-review.md`}>Source inspection and grader disagreements</a>
+        </div>
+      </Card>
+      <Card className="mb-6">
+        <SectionHeading title="Earlier saved-response reanalysis" description="Separate model judgments on the same saved responses. No new application run and no combined accuracy score." />
         <p className="text-sm leading-6 text-stone-700">
           {reanalysis.cases_processed}/{reanalysis.cases_expected} saved answers reanalyzed.
           Unresolved means the evaluator could not establish a judgment; it does not mean factually wrong.

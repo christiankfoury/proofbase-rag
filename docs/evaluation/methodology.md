@@ -62,3 +62,27 @@ This supports offline reproduction of published arithmetic and integrity checks.
 [Phase 66](../phase-66/results.md) regrades the same saved responses with a new rubric, keeping the original score immutable. Factual support against available authorized evidence, required-fact coverage, relevance, cited-chunk support, contiguous quotation fidelity and semantic response behavior are separate. Invalid judgments are unresolved rather than product failures. Citation support now uses full cited chunks; it is not the original exact-excerpt metric. Pure non-answers have no factual-claim denominator. No combined pass rate or factual-accuracy percentage is inferred. Expected facts are excluded from the claim-verification call, and source evidence is excluded from the separate coverage call so the dimensions cannot substitute for one another.
 
 The user accepted agent observations but did not provide per-case human decisions. This is project-controlled model reanalysis, not completed human or independent assessment. Twelve visible calibration cases passed after four preserved failed attempts; the now-exposed response set does not establish generalization of the revised evaluator.
+
+
+## New runtime measurement after remediation
+
+[Phase 68](../phase-68/results.md) measures a new post-freeze suite after the
+Phase 67 context and retrieval changes. Its six dimensions remain separate.
+The v6 grader uses pinned GPT-4.1 and passed 18 visible author-designed
+calibration examples. This establishes the declared calibration gate, not
+independent grader accuracy or human adjudication.
+
+Factual-support inputs contain authorized retrieved chunks and verified gold
+source quotations; they exclude the question and expected-fact labels.
+Citation support uses only cited authorized chunks. The separate completeness
+and behavior call sees the question, history, answer and required-fact labels,
+without source text. Thus an uncited true answer, an incomplete answer and a
+wrong-topic true answer can have different dimension outcomes. Quotation
+formatting remains a separate deterministic check. Unknown claims and invalid
+model output are unresolved. No combined factual-accuracy percentage is implied.
+
+The new suite, prior suite, evaluator and runtime differ. Their percentages
+must not be described as a controlled improvement from one score to another.
+Actual grader requests and raw provider outputs are saved for each case, and
+UTF-8 reconstruction is checked offline. The application and model grader are
+not rerun during replay. Known development over-abstention is disclosed.
