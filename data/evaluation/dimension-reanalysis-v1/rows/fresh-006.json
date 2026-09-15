@@ -1,0 +1,100 @@
+{
+  "case_id": "fresh-006",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer provides a clear and direct response to the question as expected.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "The statement is directly supported by R1 and G1, which state that the on-call engineer owns triage until an incident commander is assigned.",
+        "source_ids": [
+          "R1",
+          "G1"
+        ],
+        "text": "The on-call engineer owns triage before an incident commander is appointed."
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer states that the on-call engineer owns triage before an incident commander is appointed, which matches the fact that the on-call engineer owns triage until an incident commander is assigned.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the question about who owns triage before an incident commander is appointed.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "The on-call engineer owns triage before an incident commander is appointed.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "On-Call Severity Levels\n\n| Severity | Definition | Initial Response Target |\n| --- | --- | ---: |\n| SEV-1 | Widespread production outage or data exposure risk | 15 minutes |\n| SEV-2 | Major workflow unavailable for multiple customers | 30 minutes |\n| SEV-3 | Degraded feature with workaround available | 4 business hours |\n| SEV-4 | Low-impact defect or documentation issue | Next planning cycle |\n\nThe on-call engineer owns triage until an incident commander is assigned. The incident commander owns status updates, escalation, and post-incident review scheduling."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "On-Call Severity Levels\n\n| Severity | Definition | Initial Response Target |\n| --- | --- | ---: |\n| SEV-1 | Widespread production outage or data exposure risk | 15 minutes |\n| SEV-2 | Major workflow unavailable for multiple customers | 30 minutes |\n| SEV-3 | Degraded feature with workaround available | 4 business hours |\n| SEV-4 | Low-impact defect or documentation issue | Next planning cycle |\n\nThe on-call engineer owns triage until an incident commander is assigned. The incident commander owns status updates, escalation, and post-incident review scheduling."
+      },
+      {
+        "source_id": "R2",
+        "text": "Team Planning\n\nManagers should maintain a quarterly team plan with goals, ownership, dependencies, and risks. Plans should identify customer-impacting work, hiring assumptions, and capacity constraints."
+      },
+      {
+        "source_id": "R3",
+        "text": "Escalation Paths\n\nEmployee relations concerns should be escalated to People Operations. Security access issues should be escalated to IT Support. Customer-impacting delivery risks should be escalated to the relevant department leader."
+      },
+      {
+        "source_id": "R4",
+        "text": "Deployment Approval\n\n| Change Type | Required Review | Required Approver |\n| --- | --- | --- |\n| Documentation-only release | Peer review | Team lead |\n| Low-risk application change | Peer review and automated tests | Team lead |\n| Database migration | Peer review, rollback plan, staging proof | Engineering Manager |\n| Security-sensitive change | Peer review, IT Admin review | Engineering Manager |\n| Emergency hotfix | Incident commander review | Engineering Manager on call |\n\nAll production changes must include a rollback plan. A rollback plan that says \"revert if needed\" is not sufficient; it must name the specific revert, migration rollback, feature flag, or mitigation."
+      },
+      {
+        "source_id": "R5",
+        "text": "Release Windows\n\nStandard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.\n\nFriday deployments are limited to severity-one fixes, security patches approved by IT Admin, or customer-impacting incidents where waiting would increase risk. Weekend deployments require the incident commander to approve the change before execution."
+      },
+      {
+        "source_id": "G1",
+        "text": "The on-call engineer owns triage until an incident commander is assigned."
+      }
+    ],
+    "forbidden_assertions": [],
+    "history_not_evidence": [],
+    "question": "Who owns triage before an incident commander is appointed?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "The on-call engineer owns triage until an incident commander is assigned."
+      }
+    ]
+  },
+  "source_sha256": "bf54f7fc522ead5596793641b63ceba7bd4de3c8dc5e99290e875c496d21c70e",
+  "status": "graded"
+}

@@ -63,6 +63,22 @@ class DimensionTests(unittest.TestCase):
         self.assertNotIn('question',first);self.assertNotIn('required_facts',first)
         self.assertNotIn('cited_sources',second);self.assertNotIn('factual_sources',second)
         self.assertNotEqual(calls[0].kwargs['messages'][0]['content'],calls[1].kwargs['messages'][0]['content'])
+    def test_encoding_mismatch_is_preserved_but_unresolved(self):
+        from scripts.report_dimension_reanalysis import comparable_dimensions
+        from copy import deepcopy
+        f=fixtures()[0];canonical=deepcopy(f['inputs']);canonical['answer']='I can\u2019t find that.'
+        received=deepcopy(canonical);received['answer']=canonical['answer'].encode('utf-8').decode('cp1252')
+        g=self.grade(f);g['claims']=[]
+        saved={'inputs':received,'grade':g,'dimensions':dimensions(received,g,f['payload'],f['evidence'],[])}
+        out=comparable_dimensions(saved,canonical,f['payload'],f['evidence'],[])
+        self.assertEqual(out['input_integrity'],'utf8_decoded_as_cp1252');self.assertEqual(out['factual_support'],'unresolved')
+        self.assertEqual(saved['inputs']['answer'],received['answer'])
+    def test_unexpected_input_change_is_not_normalized_away(self):
+        from scripts.report_dimension_reanalysis import comparable_dimensions
+        from copy import deepcopy
+        f=fixtures()[0];received=deepcopy(f['inputs']);received['question']='Another question'
+        g=self.grade(f);saved={'inputs':received,'grade':g,'dimensions':dimensions(received,g,f['payload'],f['evidence'],[])}
+        with self.assertRaisesRegex(ValueError,'Unexpected model input'):comparable_dimensions(saved,f['inputs'],f['payload'],f['evidence'],[])
     def test_claim_changes_rejected(self):
         f=fixtures()[0];g=self.grade(f);g['claims'][0]['text']='The equipment allowance is USD 900.';self.assertIn('claim_span',validate(g,f['inputs']))
 

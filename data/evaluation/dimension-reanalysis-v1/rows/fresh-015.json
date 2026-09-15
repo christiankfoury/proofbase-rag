@@ -1,0 +1,147 @@
+{
+  "case_id": "fresh-015",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [
+      "C1"
+    ],
+    "quotation_fidelity": "fail",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer provides a clear, direct response to the question without refusal or evasion.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R2 states admin accounts must be separate from normal user accounts, directly supporting the claim.",
+        "source_ids": [
+          "R2"
+        ],
+        "text": "for an IT admin preparing a privileged account, the admin account must be separate from the normal user account"
+      },
+      {
+        "citation_ids": [
+          "C2"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 states employees must not share passwords, MFA codes, access tokens, or accounts, supporting the claim.",
+        "source_ids": [
+          "R1"
+        ],
+        "text": "employees must not share their MFA codes with colleagues"
+      },
+      {
+        "citation_ids": [
+          "C2"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 states each employee is responsible for activity performed under their account, supporting the claim.",
+        "source_ids": [
+          "R1"
+        ],
+        "text": "each employee is responsible for activity performed under their own account"
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer explicitly states that the admin account must be separate from the normal user account, matching the fact.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-2",
+        "reason": "The answer clearly states that employees must not share their MFA codes with colleagues, matching the fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the question about separation of admin accounts and sharing of MFA codes.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "Yes, for an IT admin preparing a privileged account, the admin account must be separate from the normal user account. Additionally, employees must not share their MFA codes with colleagues, as each employee is responsible for activity performed under their own account.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R2",
+        "text": "Admin Account Handling\n\nAdmin accounts must be separate from normal user accounts. Admin access should use MFA, approved device posture, and session logging where supported.\n\nThis document does not contain passwords, tokens, secrets, or system credentials."
+      },
+      {
+        "citation_id": "C2",
+        "source_id": "R1",
+        "text": "Account Sharing\n\nEmployees must not share passwords, MFA codes, access tokens, or accounts. Each employee is responsible for activity performed under their account."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Account Sharing\n\nEmployees must not share passwords, MFA codes, access tokens, or accounts. Each employee is responsible for activity performed under their account."
+      },
+      {
+        "source_id": "R2",
+        "text": "Admin Account Handling\n\nAdmin accounts must be separate from normal user accounts. Admin access should use MFA, approved device posture, and session logging where supported.\n\nThis document does not contain passwords, tokens, secrets, or system credentials."
+      },
+      {
+        "source_id": "R3",
+        "text": "Company Devices\n\nEmployees who regularly access company systems should use a company-managed device. Company devices must have disk encryption, endpoint protection, automatic screen lock, and current operating system updates.\n\nEmployees may not disable security tools or remove device management controls from company devices."
+      },
+      {
+        "source_id": "R4",
+        "text": "Personal Devices\n\nPersonal devices may be used for limited work access only when enrolled in approved mobile device management or when access occurs through approved browser-based tools. Personal devices must use a passcode, supported operating system, and automatic lock.\n\nRestricted data must not be downloaded to personal devices. Confidential data should be accessed only through approved company systems."
+      },
+      {
+        "source_id": "R5",
+        "text": "Privileged Access Review\n\nPrivileged access must be reviewed monthly for production systems and quarterly for business applications. Reviewers must confirm business need, manager approval, and least-privilege alignment.\n\nPrivileged access exceptions require an owner, expiration date, and documented business justification."
+      },
+      {
+        "source_id": "G1",
+        "text": "Admin accounts must be separate from normal user accounts."
+      },
+      {
+        "source_id": "G2",
+        "text": "Employees must not share passwords, MFA codes, access tokens, or accounts."
+      }
+    ],
+    "forbidden_assertions": [
+      "A colleague may use a shared MFA code for an admin account."
+    ],
+    "history_not_evidence": [],
+    "question": "For an IT admin preparing a privileged account, must it be separate from the normal account, and may the employee share its MFA code with a colleague?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "Admin accounts must be separate from normal user accounts."
+      },
+      {
+        "fact_id": "fact-2",
+        "text": "Employees must not share MFA codes."
+      }
+    ]
+  },
+  "source_sha256": "8c21c82c0ed274d1133f99bd4c5fc1e15cd7a65c93c64abc4aadf59e76727a58",
+  "status": "graded"
+}

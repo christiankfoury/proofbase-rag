@@ -1,0 +1,175 @@
+{
+  "case_id": "fresh-056",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer provides a clear, direct response with relevant details and no unnecessary refusal or irrelevant content.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 and G2 state that sales representatives may recommend a service credit up to USD 1,000 for an Enterprise customer with a documented missed SLA and measurable disruption.",
+        "source_ids": [
+          "R1",
+          "G2"
+        ],
+        "text": "For an Enterprise customer with a documented missed SLA and measurable disruption, the current ceiling for a service credit that representatives can offer is USD 1,000."
+      },
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 and G3 state that the credit must be approved by a Manager before communication.",
+        "source_ids": [
+          "R1",
+          "G3"
+        ],
+        "text": "This credit must be approved by a Manager before it is communicated."
+      },
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 states that refunds above USD 1,000 require Manager and Legal review.",
+        "source_ids": [
+          "R1"
+        ],
+        "text": "Credits above USD 1,000 require Manager and Legal review."
+      },
+      {
+        "citation_ids": [
+          "C2"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R2 and G1 state that the February 15, 2026 guide replaces the 2025 support escalation sheet and older references to a USD 2,500 representative-level service credit are obsolete.",
+        "source_ids": [
+          "R2",
+          "G1"
+        ],
+        "text": "The older 2025 support sheet reference to a USD 2,500 representative-level service credit is obsolete as of the February 15, 2026 guide update."
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer states that the older 2025 support sheet reference to a USD 2,500 credit is obsolete as of the February 15, 2026 guide update, covering the fact that older references are obsolete.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-2",
+        "reason": "The answer specifies that the current ceiling for a service credit representatives can offer is USD 1,000 for the eligible Enterprise scenario, matching the fact.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-3",
+        "reason": "The answer states that the credit must be approved by a Manager before it is communicated, directly covering this fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the question about the current ceiling and approval rules for an Enterprise customer with a documented missed SLA and measurable disruption.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "For an Enterprise customer with a documented missed SLA and measurable disruption, the current ceiling for a service credit that representatives can offer is USD 1,000. This credit must be approved by a Manager before it is communicated. Credits above USD 1,000 require Manager and Legal review. The older 2025 support sheet reference to a USD 2,500 representative-level service credit is obsolete as of the February 15, 2026 guide update.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "Refund Guardrails\n\nSales Representatives may recommend a service credit up to USD 1,000 for an Enterprise customer when Northstar missed a documented SLA and the customer experienced measurable workflow disruption. The credit must be approved by a Manager before it is communicated.\n\nRefunds above USD 1,000, refunds tied to contract terms, and refunds requested as part of legal settlement discussions require Manager and Legal review. Support should not promise refunds, credits, free renewals, or roadmap commitments without approval."
+      },
+      {
+        "citation_id": "C2",
+        "source_id": "R2",
+        "text": "Version Note\n\nThe February 15, 2026 guide replaces the 2025 support escalation sheet. Older references to a USD 2,500 representative-level service credit are obsolete."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Refund Guardrails\n\nSales Representatives may recommend a service credit up to USD 1,000 for an Enterprise customer when Northstar missed a documented SLA and the customer experienced measurable workflow disruption. The credit must be approved by a Manager before it is communicated.\n\nRefunds above USD 1,000, refunds tied to contract terms, and refunds requested as part of legal settlement discussions require Manager and Legal review. Support should not promise refunds, credits, free renewals, or roadmap commitments without approval."
+      },
+      {
+        "source_id": "R2",
+        "text": "Version Note\n\nThe February 15, 2026 guide replaces the 2025 support escalation sheet. Older references to a USD 2,500 representative-level service credit are obsolete."
+      },
+      {
+        "source_id": "R3",
+        "text": "SLA Targets\n\n| Customer Tier | Initial Response | Status Update Cadence | Target Resolution |\n| --- | ---: | ---: | ---: |\n| Enterprise | 1 business hour | Every 4 business hours | 2 business days |\n| Growth | 4 business hours | Every business day | 5 business days |\n| Standard | 1 business day | Every 2 business days | 10 business days |\n\nThe SLA clock starts when the customer provides enough detail to identify the affected workspace, workflow, or integration. Requests with missing identifiers should receive a clarification response, not a resolution promise."
+      },
+      {
+        "source_id": "R4",
+        "text": "Escalation Triggers\n\nEscalate to a Manager when a customer reports suspected data exposure, repeated billing failures, executive escalation, blocked payroll or finance close, missed Enterprise SLA, or a production incident that affects more than one customer.\n\nEscalate to Engineering through the incident channel when support can reproduce a product defect, a workaround is not available, or logs show repeated failures for the same customer workflow."
+      },
+      {
+        "source_id": "R5",
+        "text": "Escalation Triggers\n\nEscalate to Legal before signature when a contract includes uncapped liability, customer audit rights broader than annual review, unusual data residency commitments, indemnity expansion, auto-renewal longer than one year, or commitments to future roadmap functionality."
+      },
+      {
+        "source_id": "G1",
+        "text": "Older references to a USD 2,500 representative-level service credit are obsolete."
+      },
+      {
+        "source_id": "G2",
+        "text": "Sales Representatives may recommend a service credit up to USD 1,000 for an Enterprise customer when Northstar missed a documented SLA and the customer experienced measurable workflow disruption."
+      },
+      {
+        "source_id": "G3",
+        "text": "The credit must be approved by a Manager before it is communicated."
+      }
+    ],
+    "forbidden_assertions": [
+      "The current representative-level Enterprise service-credit ceiling is USD 2,500.",
+      "A representative may communicate the credit before Manager approval."
+    ],
+    "history_not_evidence": [],
+    "question": "The 2025 support sheet says representatives can offer a USD 2,500 credit. For an Enterprise customer with a documented missed SLA and measurable disruption, what current ceiling and approval rule apply?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "Older references to a USD 2,500 representative-level service credit are obsolete."
+      },
+      {
+        "fact_id": "fact-2",
+        "text": "For the stated eligible Enterprise scenario, the representative may recommend up to USD 1,000 in service credit."
+      },
+      {
+        "fact_id": "fact-3",
+        "text": "The credit must be approved by a Manager before it is communicated."
+      }
+    ]
+  },
+  "source_sha256": "5af31ca8a14c1ba87d52b890c2776c8f59dd543f3cc7db89d5a119c620543c62",
+  "status": "graded"
+}

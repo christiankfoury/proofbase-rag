@@ -14,6 +14,7 @@ COPY --from=deps /app/apps/web/node_modules ./node_modules
 COPY apps/web ./
 COPY data/evaluation/public-evidence.json /app/data/evaluation/public-evidence.json
 COPY data/evaluation/fresh-current/public-report.json /app/data/evaluation/fresh-current/public-report.json
+COPY data/evaluation/dimension-reanalysis-v1/public-summary.json /app/data/evaluation/dimension-reanalysis-v1/public-summary.json
 COPY data/evaluation/defense/phase55-defense-readiness.json /app/data/evaluation/defense/phase55-defense-readiness.json
 COPY data/evaluation/release-gates/phase63-release-decision.json /app/data/evaluation/release-gates/phase63-release-decision.json
 RUN npm run build

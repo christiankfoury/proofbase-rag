@@ -1,0 +1,152 @@
+{
+  "case_id": "fresh-018",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [
+      "C1"
+    ],
+    "quotation_fidelity": "fail",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer provides a clear, direct response to the question as expected.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R2 states escalation to a Manager is triggered by suspected data exposure, supporting the claim that the escalation owner is a Manager in this case.",
+        "source_ids": [
+          "R2"
+        ],
+        "text": "For an Enterprise customer reporting suspected data exposure, the support escalation owner is a Manager, as escalation to a Manager is triggered by suspected data exposure."
+      },
+      {
+        "citation_ids": [
+          "C2"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R3 defines SEV-1 as widespread production outage or data exposure risk with a 15-minute initial response target, supporting the claim.",
+        "source_ids": [
+          "R3"
+        ],
+        "text": "If the incident is classified as SEV-1, the engineering initial-response target is 15 minutes, as SEV-1 severity corresponds to widespread production outage or data exposure risk with a 15-minute initial response target."
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer states that suspected data exposure triggers escalation to a Manager, matching the fact.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-2",
+        "reason": "The answer specifies the SEV-1 initial response target as 15 minutes, matching the fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the question about escalation owner and SEV-1 initial response target for suspected data exposure.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "For an Enterprise customer reporting suspected data exposure, the support escalation owner is a Manager, as escalation to a Manager is triggered by suspected data exposure. If the incident is classified as SEV-1, the engineering initial-response target is 15 minutes, as SEV-1 severity corresponds to widespread production outage or data exposure risk with a 15-minute initial response target.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R2",
+        "text": "Escalation Triggers\n\nEscalate to a Manager when a customer reports suspected data exposure, repeated billing failures, executive escalation, blocked payroll or finance close, missed Enterprise SLA, or a production incident that affects more than one customer.\n\nEscalate to Engineering through the incident channel when support can reproduce a product defect, a workaround is not available, or logs show repeated failures for the same customer workflow."
+      },
+      {
+        "citation_id": "C2",
+        "source_id": "R3",
+        "text": "On-Call Severity Levels\n\n| Severity | Definition | Initial Response Target |\n| --- | --- | ---: |\n| SEV-1 | Widespread production outage or data exposure risk | 15 minutes |\n| SEV-2 | Major workflow unavailable for multiple customers | 30 minutes |\n| SEV-3 | Degraded feature with workaround available | 4 business hours |\n| SEV-4 | Low-impact defect or documentation issue | Next planning cycle |\n\nThe on-call engineer owns triage until an incident commander is assigned. The incident commander owns status updates, escalation, and post-incident review scheduling."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Storage Rules\n\nInternal, Confidential, and Restricted data must be stored in approved company systems. Restricted data must not be downloaded to personal devices. Confidential data should not be stored in local folders unless there is a documented business need."
+      },
+      {
+        "source_id": "R2",
+        "text": "Escalation Triggers\n\nEscalate to a Manager when a customer reports suspected data exposure, repeated billing failures, executive escalation, blocked payroll or finance close, missed Enterprise SLA, or a production incident that affects more than one customer.\n\nEscalate to Engineering through the incident channel when support can reproduce a product defect, a workaround is not available, or logs show repeated failures for the same customer workflow."
+      },
+      {
+        "source_id": "R3",
+        "text": "On-Call Severity Levels\n\n| Severity | Definition | Initial Response Target |\n| --- | --- | ---: |\n| SEV-1 | Widespread production outage or data exposure risk | 15 minutes |\n| SEV-2 | Major workflow unavailable for multiple customers | 30 minutes |\n| SEV-3 | Degraded feature with workaround available | 4 business hours |\n| SEV-4 | Low-impact defect or documentation issue | Next planning cycle |\n\nThe on-call engineer owns triage until an incident commander is assigned. The incident commander owns status updates, escalation, and post-incident review scheduling."
+      },
+      {
+        "source_id": "R4",
+        "text": "Local Storage\n\nCustomer data, restricted data, and regulated data should not be stored locally unless there is a documented business need and approved protection. Files should be stored in company-approved cloud storage with access controls."
+      },
+      {
+        "source_id": "R5",
+        "text": "Sharing Rules\n\nEmployees may share data only with people who have a business need and appropriate access. Confidential and Restricted data must not be shared in public channels or with unapproved external recipients.\n\nSales materials may be shared externally only when marked as customer-approved or public-facing."
+      },
+      {
+        "source_id": "R6",
+        "text": "SLA Targets\n\n| Customer Tier | Initial Response | Status Update Cadence | Target Resolution |\n| --- | ---: | ---: | ---: |\n| Enterprise | 1 business hour | Every 4 business hours | 2 business days |\n| Growth | 4 business hours | Every business day | 5 business days |\n| Standard | 1 business day | Every 2 business days | 10 business days |\n\nThe SLA clock starts when the customer provides enough detail to identify the affected workspace, workflow, or integration. Requests with missing identifiers should receive a clarification response, not a resolution promise."
+      },
+      {
+        "source_id": "R7",
+        "text": "Escalation Paths\n\nEmployee relations concerns should be escalated to People Operations. Security access issues should be escalated to IT Support. Customer-impacting delivery risks should be escalated to the relevant department leader."
+      },
+      {
+        "source_id": "R8",
+        "text": "Approved Software\n\nEmployees should use company-approved software for messaging, file storage, source control, project tracking, and customer collaboration. Unapproved software that stores company data must not be used without IT review."
+      },
+      {
+        "source_id": "R9",
+        "text": "Refund Guardrails\n\nSales Representatives may recommend a service credit up to USD 1,000 for an Enterprise customer when Northstar missed a documented SLA and the customer experienced measurable workflow disruption. The credit must be approved by a Manager before it is communicated.\n\nRefunds above USD 1,000, refunds tied to contract terms, and refunds requested as part of legal settlement discussions require Manager and Legal review. Support should not promise refunds, credits, free renewals, or roadmap commitments without approval."
+      },
+      {
+        "source_id": "R10",
+        "text": "Classification Levels\n\nNorthstar uses four data classification levels: Public, Internal, Confidential, and Restricted.\n\nPublic data is approved for external sharing. Internal data is intended for Northstar employees. Confidential data includes customer business information, financial forecasts, non-public sales materials, and employee operational data. Restricted data includes secrets, credentials, regulated customer data, privileged security records, and sensitive HR case material."
+      },
+      {
+        "source_id": "G1",
+        "text": "Escalate to a Manager when a customer reports suspected data exposure, repeated billing failures, executive escalation, blocked payroll or finance close, missed Enterprise SLA, or a production incident that affects more than one customer."
+      },
+      {
+        "source_id": "G2",
+        "text": "| SEV-1 | Widespread production outage or data exposure risk | 15 minutes |"
+      }
+    ],
+    "forbidden_assertions": [],
+    "history_not_evidence": [],
+    "question": "An Enterprise customer has suspected data exposure. Which support escalation owner applies, and what engineering initial-response target applies if classified SEV-1?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "Suspected customer data exposure must be escalated to a Manager."
+      },
+      {
+        "fact_id": "fact-2",
+        "text": "The SEV-1 initial response target is 15 minutes."
+      }
+    ]
+  },
+  "source_sha256": "7a7c7138dc004027d3ca715b540106902c55574842ec270ece5603b453ef14c6",
+  "status": "graded"
+}

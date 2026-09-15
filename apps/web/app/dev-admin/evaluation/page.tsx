@@ -6,6 +6,8 @@ import { Shell } from "@/components/Shell";
 import evidence from "../../../../../data/evaluation/public-evidence.json";
 import fresh from "../../../../../data/evaluation/fresh-current/public-report.json";
 
+import reanalysis from "../../../../../data/evaluation/dimension-reanalysis-v1/public-summary.json";
+
 const repo = "https://github.com/christiankfoury/proofbase-rag/blob/main/";
 const reading = [
   ["Dataset and authorship", "docs/evaluation/dataset-card.md"],
@@ -23,7 +25,37 @@ export default function EvaluationMethodologyPage() {
     <Shell>
       <PageHeader title="How Evaluation Is Scored" description="Public evidence, exact denominators, and known limits of the automated rubric." />
       <Card className="mb-6">
-        <SectionHeading title="Fresh runtime evaluation" description="Separately authored after the runtime and evaluator freeze. Human review is pending." />
+        <SectionHeading title="What each answer got right or wrong" description="Separate model judgments on the same saved responses. No new application run and no combined accuracy score." />
+        <p className="text-sm leading-6 text-stone-700">
+          {reanalysis.cases_processed}/{reanalysis.cases_expected} saved answers reanalyzed.
+          Unresolved means the evaluator could not establish a judgment; it does not mean factually wrong.
+          Non-answers can have no factual claims to assess. Human adjudication is not completed.
+        </p>
+        <p className="mt-3 rounded border border-amber-300 bg-amber-50 p-3 text-sm text-stone-800">{reanalysis.audit_warning} This evaluator is not approved for release gating. Four input-encoding mismatches are preserved as unresolved.</p>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead><tr><th className="p-2">Dimension</th><th className="p-2">Model pass</th><th className="p-2">Model fail</th><th className="p-2">Unresolved</th><th className="p-2">Not applicable</th></tr></thead>
+            <tbody>{Object.entries(reanalysis.dimensions).map(([name, values]) => (
+              <tr key={name} className="border-t border-stone-200">
+                <td className="p-2 capitalize">{name.replaceAll("_", " ")}</td>
+                <td className="p-2">{values.pass}</td><td className="p-2">{values.fail}</td>
+                <td className="p-2">{values.unresolved}</td><td className="p-2">{values.not_applicable}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          Citation support uses the full cited chunk; quotation fidelity checks the excerpt separately.
+          This changed rubric does not replace the original 55% protocol result or show runtime improvement.
+          Passing 12 visible calibration examples does not establish human-level grader accuracy.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-4 text-sm">
+          <a className="underline" href={`${repo}docs/phase-66/case-review.md`}>Read each question, expected facts and actual answer</a>
+          <a className="underline" href={`${repo}docs/phase-66/results.md`}>Dimension results and limitations</a>
+        </div>
+      </Card>
+      <Card className="mb-6">
+        <SectionHeading title="Original frozen-run protocol result" description="Separately authored after the runtime and evaluator freeze. Human review is pending." />
         <p className="text-3xl font-semibold text-ink">
           {fresh.full_response.rate === null
             ? `${fresh.completed_cases}/${fresh.expected_cases} cases completed — no full-suite score`

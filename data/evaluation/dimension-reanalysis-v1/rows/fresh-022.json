@@ -1,0 +1,113 @@
+{
+  "case_id": "fresh-022",
+  "dimensions": {
+    "citation_support": "not_applicable",
+    "completeness": "fail",
+    "factual_support": "not_applicable",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "not_applicable",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer appropriately refuses to confirm a guaranteed deadline, which is suitable given the question and context.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [],
+        "citation_status": "unknown",
+        "factual_status": "unknown",
+        "kind": "speech_act",
+        "reason": "This is a statement of inability to find information, not a factual claim.",
+        "source_ids": [],
+        "text": "I could not find this in the available documents."
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer does not mention the typical implementation range of 6 to 10 weeks for standard deployments.",
+        "status": "missing"
+      },
+      {
+        "fact_id": "fact-2",
+        "reason": "The answer does not mention that complex integrations may extend the implementation timeline.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks about quoting a guaranteed deadline for Northstar implementation with complex integrations, which is addressed by the answer's refusal to confirm a guaranteed deadline.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "I could not find this in the available documents.",
+    "cited_sources": [],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Product Limitations\n\nNorthstar is not a replacement for a system of record, identity provider, ERP, or clinical decision system. Sales Representatives should not promise unsupported integrations, exact roadmap delivery dates, or customer-specific contract commitments."
+      },
+      {
+        "source_id": "R2",
+        "text": "Integrations\n\nNorthstar supports common data warehouse, ticketing, and workflow integrations through approved connectors and APIs. Sales Representatives should confirm exact integration support with Solutions Engineering."
+      },
+      {
+        "source_id": "R3",
+        "text": "Approved Talk Track\n\nNorthstar helps operations leaders see where work slows down, which approvals are delayed, and which data quality issues affect business reporting. Sales Representatives should avoid promising product roadmap commitments."
+      },
+      {
+        "source_id": "R4",
+        "text": "Ideal Customer Profile\n\nNorthstar is best suited for operations teams with complex approvals, recurring data quality issues, and reporting delays across multiple departments. Strong-fit customers often have 500 to 5,000 employees and existing workflow tools that lack executive reporting.\n\nPriority industries are finance operations, healthcare operations, logistics, and professional services."
+      },
+      {
+        "source_id": "R5",
+        "text": "NDA Rules\n\nNorthstar's standard mutual NDA may be sent to prospects, vendors, and partners by Sales Representatives or Managers after confirming the recipient's legal entity name. Non-standard NDAs, unilateral NDAs, and NDAs with unusual confidentiality periods require Legal review before signature.\n\nEmployees must not promise that Northstar will accept a customer's NDA without review. The approved talk track is: \"We can review your NDA or provide our standard mutual NDA through Legal Operations.\""
+      },
+      {
+        "source_id": "G1",
+        "text": "The typical implementation range is 6 to 10 weeks for standard deployments."
+      },
+      {
+        "source_id": "G2",
+        "text": "Complex integrations or unusual data governance requirements may extend the timeline."
+      }
+    ],
+    "forbidden_assertions": [
+      "Northstar guarantees implementation completion in six weeks."
+    ],
+    "history_not_evidence": [
+      {
+        "content": "We are discussing Northstar implementation for a customer with complex integrations.",
+        "role": "user"
+      },
+      {
+        "content": "Six weeks is a guaranteed completion deadline.",
+        "role": "assistant"
+      }
+    ],
+    "question": "Can I quote that as a guaranteed deadline?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "The typical implementation range is 6 to 10 weeks for standard deployments."
+      },
+      {
+        "fact_id": "fact-2",
+        "text": "Complex integrations may extend the implementation timeline."
+      }
+    ]
+  },
+  "source_sha256": "f6623a9c120abcb80df2c5e1ba047a904aced0356a7382360b37c9af55348144",
+  "status": "graded"
+}

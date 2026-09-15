@@ -1,0 +1,145 @@
+{
+  "case_id": "fresh-011",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [
+      "C2"
+    ],
+    "quotation_fidelity": "fail",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer provides a clear, direct response to the question as expected.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 states that customer-specific contract commitments must not be promised without approval from Legal and Deal Desk, supporting the claim about the sales handoff rule requiring such approval.",
+        "source_ids": [
+          "R1"
+        ],
+        "text": "The sales handoff rule requires approval from Legal and Deal Desk before promising any customer-specific contract commitments, including future roadmap features."
+      },
+      {
+        "citation_ids": [
+          "C2"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R3 states to escalate to Legal before signature when a contract includes commitments to future roadmap functionality, supporting the claim that Legal must be involved before contract signature in such cases.",
+        "source_ids": [
+          "R3"
+        ],
+        "text": "Legal must be involved before contract signature when the contract includes commitments to future roadmap functionality."
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer states Legal approval is required before promising customer-specific contract commitments.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-2",
+        "reason": "The answer states Deal Desk approval is required before promising customer-specific contract commitments.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-3",
+        "reason": "The answer states Legal must be involved before contract signature when commitments to future roadmap functionality are included.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses whose approval is required and when Legal must be involved for future roadmap features in contracts.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "The sales handoff rule requires approval from Legal and Deal Desk before promising any customer-specific contract commitments, including future roadmap features. Legal must be involved before contract signature when the contract includes commitments to future roadmap functionality.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "Handoff Rules\n\nSales must hand off qualified technical requirements to Solutions Engineering before technical validation. Customer-specific contract commitments must not be promised without approval from Legal and Deal Desk."
+      },
+      {
+        "citation_id": "C2",
+        "source_id": "R3",
+        "text": "Escalation Triggers\n\nEscalate to Legal before signature when a contract includes uncapped liability, customer audit rights broader than annual review, unusual data residency commitments, indemnity expansion, auto-renewal longer than one year, or commitments to future roadmap functionality."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Handoff Rules\n\nSales must hand off qualified technical requirements to Solutions Engineering before technical validation. Customer-specific contract commitments must not be promised without approval from Legal and Deal Desk."
+      },
+      {
+        "source_id": "R2",
+        "text": "Contract Approval Process\n\n| Contract Type | Legal Review | Finance Review | Final Approver |\n| --- | --- | --- | --- |\n| Standard customer order form under USD 25,000 ARR | Optional unless redlines exist | Deal Desk | Sales Manager |\n| Customer contract with security addendum | Required | Deal Desk | Sales Director |\n| Vendor agreement under USD 10,000 | Required if data processing applies | Finance | Department Manager |\n| Vendor agreement USD 10,000 or above | Required | Finance | Department Leader |\n| Employment-related agreement | Required | HR Admin | People Leader |\n\nNo employee may sign a contract on behalf of Northstar unless they are listed in the signature authority register maintained by Legal Operations."
+      },
+      {
+        "source_id": "R3",
+        "text": "Escalation Triggers\n\nEscalate to Legal before signature when a contract includes uncapped liability, customer audit rights broader than annual review, unusual data residency commitments, indemnity expansion, auto-renewal longer than one year, or commitments to future roadmap functionality."
+      },
+      {
+        "source_id": "R4",
+        "text": "Handoff Rules\n\nWhen Sales receives a support issue, the Sales Representative should create or link the support case and include customer impact, account tier, urgency, and any promised follow-up. Sales should not run a parallel support process in private notes.\n\nWhen Support identifies expansion, renewal risk, or contract dissatisfaction, Support should notify the account owner and Manager. The notification should distinguish product issue, adoption issue, billing issue, and contract issue."
+      },
+      {
+        "source_id": "R5",
+        "text": "NDA Rules\n\nNorthstar's standard mutual NDA may be sent to prospects, vendors, and partners by Sales Representatives or Managers after confirming the recipient's legal entity name. Non-standard NDAs, unilateral NDAs, and NDAs with unusual confidentiality periods require Legal review before signature.\n\nEmployees must not promise that Northstar will accept a customer's NDA without review. The approved talk track is: \"We can review your NDA or provide our standard mutual NDA through Legal Operations.\""
+      },
+      {
+        "source_id": "G1",
+        "text": "Customer-specific contract commitments must not be promised without approval from Legal and Deal Desk."
+      },
+      {
+        "source_id": "G2",
+        "text": "Customer-specific contract commitments must not be promised without approval from Legal and Deal Desk."
+      },
+      {
+        "source_id": "G3",
+        "text": "Escalate to Legal before signature when a contract includes uncapped liability, customer audit rights broader than annual review, unusual data residency commitments, indemnity expansion, auto-renewal longer than one year, or commitments to future roadmap functionality."
+      }
+    ],
+    "forbidden_assertions": [],
+    "history_not_evidence": [],
+    "question": "A customer wants a future roadmap feature in their contract. Whose approval does the sales handoff rule require, and when must Legal be involved?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "Customer-specific contract commitments require Legal approval before being promised."
+      },
+      {
+        "fact_id": "fact-2",
+        "text": "Customer-specific contract commitments require Deal Desk approval before being promised."
+      },
+      {
+        "fact_id": "fact-3",
+        "text": "Commitments to future roadmap functionality trigger escalation to Legal before signature."
+      }
+    ]
+  },
+  "source_sha256": "129f847248305110b0b45ff10b9fd1e0ad926626d471c9bd284e25cb2fddc7f4",
+  "status": "graded"
+}

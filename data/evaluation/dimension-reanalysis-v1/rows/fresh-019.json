@@ -1,0 +1,123 @@
+{
+  "case_id": "fresh-019",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer does not respond to the user's question about the wellness stipend; it instead discusses vacation days, which is irrelevant.",
+      "status": "fail"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "The claim exactly matches the statement in source R1 and cited source C1.",
+        "source_ids": [
+          "R1"
+        ],
+        "text": "Employees may carry over up to 5 unused vacation days into the next calendar year."
+      },
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "The claim exactly matches the statement in source R1 and cited source C1.",
+        "source_ids": [
+          "R1"
+        ],
+        "text": "These carried-over days must be used by March 31 or they expire unless local law requires a different outcome."
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer discusses vacation days carryover but does not address the wellness stipend carryover, which is the question's focus.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks about the wellness stipend carryover, but the answer only addresses vacation days carryover.",
+      "status": "fail"
+    }
+  },
+  "inputs": {
+    "answer": "Employees may carry over up to 5 unused vacation days into the next calendar year. These carried-over days must be used by March 31 or they expire unless local law requires a different outcome.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "Vacation Entitlement\n\nFull-time employees receive 20 paid vacation days per calendar year. Vacation is accrued monthly and may be used after the employee's first 30 days of employment. Part-time employees receive prorated vacation based on scheduled weekly hours.\n\nEmployees may carry over up to 5 unused vacation days into the next calendar year. Carried-over days must be used by March 31 or they expire unless local law requires a different outcome."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Vacation Entitlement\n\nFull-time employees receive 20 paid vacation days per calendar year. Vacation is accrued monthly and may be used after the employee's first 30 days of employment. Part-time employees receive prorated vacation based on scheduled weekly hours.\n\nEmployees may carry over up to 5 unused vacation days into the next calendar year. Carried-over days must be used by March 31 or they expire unless local law requires a different outcome."
+      },
+      {
+        "source_id": "R2",
+        "text": "Vacation Approval Workflow\n\nVacation requests of 1 to 5 business days should be submitted at least 10 business days in advance. Requests longer than 5 business days should be submitted at least 20 business days in advance.\n\nManagers approve vacation based on business coverage, project deadlines, and fairness across the team. Managers should not deny vacation without explaining the business reason."
+      },
+      {
+        "source_id": "R3",
+        "text": "Sick Leave\n\nEmployees receive 8 paid sick days per calendar year. Sick time may be used for personal illness, medical appointments, or short-term caregiving needs. Employees should notify their manager as soon as practical when taking sick leave.\n\nMedical details should not be shared in team channels. People Operations may request documentation only when required by policy or law."
+      },
+      {
+        "source_id": "R4",
+        "text": "Policy Status\n\nThis policy is effective February 1, 2026 and replaces the 2025 informal spend guidance. If an older team wiki or email thread lists a different limit, this policy controls unless Finance publishes a newer version.\n\nEmployees should submit expenses within 30 calendar days of the transaction date. Expenses submitted after 60 calendar days require manager approval and a Finance Operations exception note."
+      },
+      {
+        "source_id": "R5",
+        "text": "Wellness Stipend\n\nEligible full-time employees receive a wellness stipend of 750 CAD or 550 USD per calendar year, based on payroll country. The stipend may be used for fitness memberships, mental health apps, ergonomic equipment, or wellness programs.\n\nUnused wellness stipend amounts do not carry over into the next calendar year."
+      },
+      {
+        "source_id": "G1",
+        "text": "Unused wellness stipend amounts do not carry over into the next calendar year."
+      }
+    ],
+    "forbidden_assertions": [
+      "Unused wellness stipend can be banked indefinitely."
+    ],
+    "history_not_evidence": [
+      {
+        "content": "I mean my annual wellness stipend, not vacation days.",
+        "role": "user"
+      },
+      {
+        "content": "You can probably bank that stipend indefinitely.",
+        "role": "assistant"
+      }
+    ],
+    "question": "Does that unused amount roll into January?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "Unused wellness stipend amounts do not carry over into the next calendar year."
+      }
+    ]
+  },
+  "source_sha256": "cdd15acb8720519b3717329220561405da319554003bb095840e2f2005583327",
+  "status": "graded"
+}

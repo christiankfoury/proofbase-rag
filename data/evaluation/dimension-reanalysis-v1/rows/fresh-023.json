@@ -1,0 +1,136 @@
+{
+  "case_id": "fresh-023",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer appropriately responds to the question with a clear comparison of review cadences.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "The source R1 states that privileged access must be reviewed monthly for production systems and quarterly for business applications, indicating a difference in cadence.",
+        "source_ids": [
+          "R1"
+        ],
+        "text": "No, the cadence for privileged access reviews differs between production systems and business applications."
+      },
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "The source R1 and the general sources G1 and G2 explicitly state this review cadence.",
+        "source_ids": [
+          "R1",
+          "G1",
+          "G2"
+        ],
+        "text": "Privileged access must be reviewed monthly for production systems and quarterly for business applications."
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer states that privileged access for business applications is reviewed quarterly, matching the fact.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-2",
+        "reason": "The answer states that privileged access for production systems is reviewed monthly, matching the fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks about the cadence for business applications, which is directly addressed in the answer.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "No, the cadence for privileged access reviews differs between production systems and business applications. Privileged access must be reviewed monthly for production systems and quarterly for business applications.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "Privileged Access Review\n\nPrivileged access must be reviewed monthly for production systems and quarterly for business applications. Reviewers must confirm business need, manager approval, and least-privilege alignment.\n\nPrivileged access exceptions require an owner, expiration date, and documented business justification."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Privileged Access Review\n\nPrivileged access must be reviewed monthly for production systems and quarterly for business applications. Reviewers must confirm business need, manager approval, and least-privilege alignment.\n\nPrivileged access exceptions require an owner, expiration date, and documented business justification."
+      },
+      {
+        "source_id": "R2",
+        "text": "Access Notice\n\nThis document is restricted to IT/Admin users. It contains operational security guidance and must not be summarized for unauthorized roles."
+      },
+      {
+        "source_id": "R3",
+        "text": "Exceptions\n\nOperations may approve exceptions for accessibility, business continuity, safety, or customer-critical travel. Repeated exceptions should be converted into a budget request, vendor onboarding request, or role-specific equipment standard."
+      },
+      {
+        "source_id": "R4",
+        "text": "Access Notice\n\nThis handbook is restricted to Managers and IT Admins in the demo role model. It describes internal engineering operations and should not be exposed to employees who are not authorized for engineering operational guidance."
+      },
+      {
+        "source_id": "R5",
+        "text": "Deployment Approval\n\n| Change Type | Required Review | Required Approver |\n| --- | --- | --- |\n| Documentation-only release | Peer review | Team lead |\n| Low-risk application change | Peer review and automated tests | Team lead |\n| Database migration | Peer review, rollback plan, staging proof | Engineering Manager |\n| Security-sensitive change | Peer review, IT Admin review | Engineering Manager |\n| Emergency hotfix | Incident commander review | Engineering Manager on call |\n\nAll production changes must include a rollback plan. A rollback plan that says \"revert if needed\" is not sufficient; it must name the specific revert, migration rollback, feature flag, or mitigation."
+      },
+      {
+        "source_id": "G1",
+        "text": "Privileged access must be reviewed monthly for production systems and quarterly for business applications."
+      },
+      {
+        "source_id": "G2",
+        "text": "Privileged access must be reviewed monthly for production systems and quarterly for business applications."
+      }
+    ],
+    "forbidden_assertions": [],
+    "history_not_evidence": [
+      {
+        "content": "We were discussing privileged access reviews for production systems.",
+        "role": "user"
+      },
+      {
+        "content": "Production privileged access needs a monthly review.",
+        "role": "assistant"
+      }
+    ],
+    "question": "Does the same cadence apply to business applications?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "Business-application privileged access reviews are quarterly."
+      },
+      {
+        "fact_id": "fact-2",
+        "text": "Production-system privileged access reviews are monthly."
+      }
+    ]
+  },
+  "source_sha256": "414e0dced921f605f7cccb5b5fdf4f7d0aa9bfd3d53acebb5c180910fdf54606",
+  "status": "graded"
+}

@@ -1,0 +1,44 @@
+{
+  "review_kind": "agent_inspection_not_human_adjudication",
+  "exhaustive": false,
+  "suitable_for_release_gate": false,
+  "conclusion": "Visible calibration did not establish reliable semantic judgment on this exposed suite. Do not treat model failure counts as confirmed product-error counts.",
+  "cases": [
+    {
+      "case_id": "fresh-010",
+      "finding": "Dispute model factual-contradiction label; confirm incompleteness",
+      "reason": "The answer describes the retrieved documents, which do not contain collaboration hours. The model used additional G2/G3 reference quotes to treat that limited retrieval statement as a false corpus-wide claim. The missing hours remain an answer-completeness issue.",
+      "evidence_file": "rows/fresh-010.json"
+    },
+    {
+      "case_id": "fresh-012",
+      "finding": "Dispute model completeness pass",
+      "reason": "The answer describes learning-budget requests and says the expense-report requirement is unspecified. That does not express the separate Finance requirement for expense reports to include the business purpose in plain language.",
+      "evidence_file": "rows/fresh-012.json"
+    },
+    {
+      "case_id": "fresh-026",
+      "finding": "Dispute model citation failure",
+      "reason": "The entire answer is an access refusal. The model classified it as a factual claim needing citations, despite the rubric treating pure refusal as a speech act.",
+      "evidence_file": "rows/fresh-026.json"
+    },
+    {
+      "case_id": "fresh-045",
+      "finding": "Dispute model behavior failure",
+      "reason": "Expected behavior is not_found and the answer states it could not find the information. The grader demanded extra context to justify a response already matching the expected non-answer.",
+      "evidence_file": "rows/fresh-045.json"
+    },
+    {
+      "case_id": "fresh-060",
+      "finding": "Dispute model behavior failure",
+      "reason": "Expected behavior is not_found for a separate-project fixture. The answer correctly withholds it, but the grader penalized lack of a direct substantive answer.",
+      "evidence_file": "rows/fresh-060.json"
+    },
+    {
+      "case_id": "fresh-019",
+      "finding": "Confirm wrong-topic/incomplete answer",
+      "reason": "Conversation explicitly specifies wellness stipend, but the answer explains vacation carryover. Vacation facts can be true while the answer is irrelevant and incomplete.",
+      "evidence_file": "rows/fresh-019.json"
+    }
+  ]
+}

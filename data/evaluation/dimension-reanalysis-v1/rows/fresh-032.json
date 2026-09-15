@@ -1,0 +1,99 @@
+{
+  "case_id": "fresh-032",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer provides a clear and direct response to the question as expected.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "The SLA Targets table in source R1 states that for Enterprise customers, the status update cadence is every 4 business hours, which matches the claim exactly.",
+        "source_ids": [
+          "R1"
+        ],
+        "text": "For Enterprise customers, status updates should be delivered every 4 business hours."
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer states that Enterprise support status updates should be delivered every 4 business hours, matching the required fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the question about the frequency of Enterprise support status updates for account owners in Sales.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "For Enterprise customers, status updates should be delivered every 4 business hours.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "SLA Targets\n\n| Customer Tier | Initial Response | Status Update Cadence | Target Resolution |\n| --- | ---: | ---: | ---: |\n| Enterprise | 1 business hour | Every 4 business hours | 2 business days |\n| Growth | 4 business hours | Every business day | 5 business days |\n| Standard | 1 business day | Every 2 business days | 10 business days |\n\nThe SLA clock starts when the customer provides enough detail to identify the affected workspace, workflow, or integration. Requests with missing identifiers should receive a clarification response, not a resolution promise."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "SLA Targets\n\n| Customer Tier | Initial Response | Status Update Cadence | Target Resolution |\n| --- | ---: | ---: | ---: |\n| Enterprise | 1 business hour | Every 4 business hours | 2 business days |\n| Growth | 4 business hours | Every business day | 5 business days |\n| Standard | 1 business day | Every 2 business days | 10 business days |\n\nThe SLA clock starts when the customer provides enough detail to identify the affected workspace, workflow, or integration. Requests with missing identifiers should receive a clarification response, not a resolution promise."
+      },
+      {
+        "source_id": "R2",
+        "text": "Handoff Rules\n\nWhen Sales receives a support issue, the Sales Representative should create or link the support case and include customer impact, account tier, urgency, and any promised follow-up. Sales should not run a parallel support process in private notes.\n\nWhen Support identifies expansion, renewal risk, or contract dissatisfaction, Support should notify the account owner and Manager. The notification should distinguish product issue, adoption issue, billing issue, and contract issue."
+      },
+      {
+        "source_id": "R3",
+        "text": "Escalation Triggers\n\nEscalate to a Manager when a customer reports suspected data exposure, repeated billing failures, executive escalation, blocked payroll or finance close, missed Enterprise SLA, or a production incident that affects more than one customer.\n\nEscalate to Engineering through the incident channel when support can reproduce a product defect, a workaround is not available, or logs show repeated failures for the same customer workflow."
+      },
+      {
+        "source_id": "R4",
+        "text": "Refund Guardrails\n\nSales Representatives may recommend a service credit up to USD 1,000 for an Enterprise customer when Northstar missed a documented SLA and the customer experienced measurable workflow disruption. The credit must be approved by a Manager before it is communicated.\n\nRefunds above USD 1,000, refunds tied to contract terms, and refunds requested as part of legal settlement discussions require Manager and Legal review. Support should not promise refunds, credits, free renewals, or roadmap commitments without approval."
+      },
+      {
+        "source_id": "R5",
+        "text": "Access Notice\n\nThis guide is restricted to Sales Representatives and Managers. It contains internal customer handling, refund, and escalation guidance and should not be shared with customers as written."
+      },
+      {
+        "source_id": "G1",
+        "text": "| Enterprise | 1 business hour | Every 4 business hours | 2 business days |"
+      }
+    ],
+    "forbidden_assertions": [],
+    "history_not_evidence": [],
+    "question": "As account owner in Sales, how often should Enterprise support status updates be delivered?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "Enterprise support status updates occur every 4 business hours."
+      }
+    ]
+  },
+  "source_sha256": "d1c04cb2577865220b41bb7b24326c9320efb38da289aa73d5e83b0f3f3e66b9",
+  "status": "graded"
+}

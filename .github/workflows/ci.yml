@@ -35,6 +35,8 @@ jobs:
           python -m unittest scripts.test_fresh_report
           python scripts/report_fresh_eval.py --check
           python scripts/report_fresh_eval.py --archive --check
+          python -m unittest scripts.test_dimension_grader
+          python scripts/report_dimension_reanalysis.py --check
 
       - name: Scan source for secrets
         run: python scripts/scan_phase60_secrets.py

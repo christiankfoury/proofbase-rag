@@ -1,0 +1,239 @@
+{
+  "case_id": "fresh-058",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer appropriately explains the relationship between release windows, migration freezes, and the change calendar, and clarifies the controlling authority without making unsupported assertions.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C2"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R2 and G1,G2 explicitly state standard production deployments occur Tuesday through Thursday between 10:00 and 15:00 ET.",
+        "source_ids": [
+          "R2",
+          "G1",
+          "G2"
+        ],
+        "text": "The usual release window for production deployments is Tuesday through Thursday between 10:00 and 15:00 Eastern Time"
+      },
+      {
+        "citation_ids": [
+          "C2"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R2 states deployments outside the window require approval from Engineering Manager on call and a written reason in the change record.",
+        "source_ids": [
+          "R2"
+        ],
+        "text": "deployments outside this window require approval from the Engineering Manager on call with a written reason in the change record"
+      },
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 and G3,G4 state deployment freezes during announced customer migration windows are governed by the change calendar, the source of truth.",
+        "source_ids": [
+          "R1",
+          "G3",
+          "G4"
+        ],
+        "text": "deployment freezes during announced customer migration windows are governed by the change calendar, which is the source of truth"
+      },
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 and G5 state older release notes or team chat messages do not override the current freeze calendar.",
+        "source_ids": [
+          "R1",
+          "G5"
+        ],
+        "text": "Older release notes or team chat messages do not override the current freeze calendar"
+      },
+      {
+        "citation_ids": [
+          "C1",
+          "C2"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 and R2 together with G3,G4 imply that the change calendar controls freezes and release windows alone do not settle release during freeze.",
+        "source_ids": [
+          "R1",
+          "R2",
+          "G3",
+          "G4"
+        ],
+        "text": "the release window alone does not settle whether a Thursday release can proceed during a customer migration freeze; the change calendar controls the freeze"
+      },
+      {
+        "citation_ids": [],
+        "citation_status": "missing",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R3 details required approvals and rollback plans depending on change type, supporting this claim though no citation was provided.",
+        "source_ids": [
+          "R3"
+        ],
+        "text": "Additional deployment approvals and rollback plans are also required depending on the change type"
+      },
+      {
+        "citation_ids": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "kind": "factual",
+        "reason": "No source mentions any specific override or exception process beyond the change calendar and usual approvals for releases during migration freeze.",
+        "source_ids": [],
+        "text": "What remains unsupported by the available documents is whether any specific override or exception process exists for releases during a migration freeze beyond the change calendar and usual approval processes"
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer states the usual production deployment days are Tuesday through Thursday.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-2",
+        "reason": "The answer specifies the standard deployment hours as 10:00 to 15:00 Eastern Time.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-3",
+        "reason": "The answer mentions deployment freezes during announced customer migration windows.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-4",
+        "reason": "The answer identifies the change calendar as the source of truth for freezes.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-5",
+        "reason": "The answer clarifies that team chat messages do not override the current freeze calendar.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses whether the usual release window or source controls settle the question about releasing during a migration freeze.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "The usual release window for production deployments is Tuesday through Thursday between 10:00 and 15:00 Eastern Time, and deployments outside this window require approval from the Engineering Manager on call with a written reason in the change record. However, deployment freezes during announced customer migration windows are governed by the change calendar, which is the source of truth. Older release notes or team chat messages do not override the current freeze calendar. Therefore, the release window alone does not settle whether a Thursday release can proceed during a customer migration freeze; the change calendar controls the freeze. Additional deployment approvals and rollback plans are also required depending on the change type. What remains unsupported by the available documents is whether any specific override or exception process exists for releases during a migration freeze beyond the change calendar and usual approval processes.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "Change Freeze\n\nNorthstar observes deployment freezes during payroll close, quarter-end financial reporting, and announced customer migration windows. The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar."
+      },
+      {
+        "citation_id": "C2",
+        "source_id": "R2",
+        "text": "Release Windows\n\nStandard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.\n\nFriday deployments are limited to severity-one fixes, security patches approved by IT Admin, or customer-impacting incidents where waiting would increase risk. Weekend deployments require the incident commander to approve the change before execution."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Change Freeze\n\nNorthstar observes deployment freezes during payroll close, quarter-end financial reporting, and announced customer migration windows. The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar."
+      },
+      {
+        "source_id": "R2",
+        "text": "Release Windows\n\nStandard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.\n\nFriday deployments are limited to severity-one fixes, security patches approved by IT Admin, or customer-impacting incidents where waiting would increase risk. Weekend deployments require the incident commander to approve the change before execution."
+      },
+      {
+        "source_id": "R3",
+        "text": "Deployment Approval\n\n| Change Type | Required Review | Required Approver |\n| --- | --- | --- |\n| Documentation-only release | Peer review | Team lead |\n| Low-risk application change | Peer review and automated tests | Team lead |\n| Database migration | Peer review, rollback plan, staging proof | Engineering Manager |\n| Security-sensitive change | Peer review, IT Admin review | Engineering Manager |\n| Emergency hotfix | Incident commander review | Engineering Manager on call |\n\nAll production changes must include a rollback plan. A rollback plan that says \"revert if needed\" is not sufficient; it must name the specific revert, migration rollback, feature flag, or mitigation."
+      },
+      {
+        "source_id": "R4",
+        "text": "Working Hours\n\nStandard collaboration hours are 10:00 a.m. to 3:00 p.m. local time from Monday to Thursday. Teams may define additional overlap windows when customer coverage or release coordination requires it.\n\nEmployees should keep calendars accurate and mark focus time when unavailable. Repeated inability to meet team collaboration expectations should be discussed with the employee's manager."
+      },
+      {
+        "source_id": "R5",
+        "text": "Legal Hold\n\nWhen Legal issues a hold notice, normal deletion schedules stop for the named matter. Recipients must preserve email, chat, files, ticket records, and notes that relate to the hold. Managers must confirm that affected team members understand the hold within five business days."
+      },
+      {
+        "source_id": "G1",
+        "text": "Standard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time."
+      },
+      {
+        "source_id": "G2",
+        "text": "Standard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time."
+      },
+      {
+        "source_id": "G3",
+        "text": "Northstar observes deployment freezes during payroll close, quarter-end financial reporting, and announced customer migration windows."
+      },
+      {
+        "source_id": "G4",
+        "text": "The change calendar is the source of truth."
+      },
+      {
+        "source_id": "G5",
+        "text": "Older release notes or team chat messages do not override the current freeze calendar."
+      }
+    ],
+    "forbidden_assertions": [
+      "A Thursday release is authorized during a migration freeze merely because it is in the usual release window."
+    ],
+    "history_not_evidence": [],
+    "question": "A team chat says our Thursday release can proceed during an announced customer migration freeze. Does the usual release window settle it, or what source controls?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "Standard production deployment days are Tuesday through Thursday."
+      },
+      {
+        "fact_id": "fact-2",
+        "text": "Standard production deployment hours are 10:00 to 15:00 Eastern Time."
+      },
+      {
+        "fact_id": "fact-3",
+        "text": "Northstar observes deployment freezes during announced customer migration windows."
+      },
+      {
+        "fact_id": "fact-4",
+        "text": "The change calendar is the source of truth."
+      },
+      {
+        "fact_id": "fact-5",
+        "text": "Team chat messages do not override the current freeze calendar."
+      }
+    ]
+  },
+  "source_sha256": "0f484682560a1873fcba4a4f85b2b454e8c4227f601c50a28ed704516106bc24",
+  "status": "graded"
+}

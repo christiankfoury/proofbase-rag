@@ -40,3 +40,9 @@ Third calibration: 11/12 passed. The unsupported addition now fails citation sup
 Fourth calibration: 11/12 passed. A shared source-checking instruction caused the coverage-only call to demand source evidence for an exactly correct answer. Preserved in calibration-attempt4.json. Version 5 uses a distinct coverage prompt so coverage does not attempt to rejudge truth or citations. Expected fixtures remain unchanged.
 
 Fifth calibration passed 12/12 with valid grading contracts. Calibration hashes bind the grader, fixtures and budget wrapper. The runner additionally verifies the continued ledger preserves the entire original prefix; its final code is frozen separately after local testing. Passing these visible examples is not independent validation or a guarantee on the saved-response reanalysis.
+
+## Observed reanalysis limitations
+
+All 60 grader records were saved; final legacy aggregation failed because platform-default JSON decoding corrupted a curly apostrophe in four model inputs. Preserve all rows without retry; an explicit UTF-8 publisher compares source bytes and marks these four semantic outcomes unresolved. Any unexpected input mismatch still fails verification. The frozen runner remains historical evidence, not a recommended new-run entry point.
+
+Agent inspection also found semantic false positives and a missed omission despite 12/12 visible calibration. The dimension infrastructure is implemented, but the semantic evaluator is not approved for release gating or a factual-error headline. Preserve model labels, publish separate source-linked agent disputes, and use confirmed findings only for remediation planning. This is not completed per-case human adjudication.

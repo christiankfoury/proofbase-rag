@@ -1,0 +1,115 @@
+{
+  "case_id": "fresh-036",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer provides a clear and direct response to the question as expected.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "The claim is directly supported by R1 and G1 which state that customer contracts must be retained for seven years after expiration, and C1 cites R1 which contains this information.",
+        "source_ids": [
+          "R1",
+          "G1"
+        ],
+        "text": "In your Sales role, an expired customer contract should be retained for seven years after expiration."
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer states that expired customer contracts should be retained for seven years after expiration, matching the fact exactly.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-2",
+        "reason": "The answer does not mention that executed agreements must never be deleted from the contract repository.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the question about how long to keep expired customer contracts in a Sales role.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "In your Sales role, an expired customer contract should be retained for seven years after expiration.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "Data Retention\n\nCustomer contracts must be retained for seven years after expiration. Vendor agreements must be retained for six years after termination. Employee agreements must be retained according to HR retention rules and any legal hold instructions.\n\nDraft contracts that never reach signature may be deleted after 18 months unless they are part of an active dispute, audit, or legal hold. Executed agreements must never be deleted from the contract repository."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Data Retention\n\nCustomer contracts must be retained for seven years after expiration. Vendor agreements must be retained for six years after termination. Employee agreements must be retained according to HR retention rules and any legal hold instructions.\n\nDraft contracts that never reach signature may be deleted after 18 months unless they are part of an active dispute, audit, or legal hold. Executed agreements must never be deleted from the contract repository."
+      },
+      {
+        "source_id": "R2",
+        "text": "Contract Approval Process\n\n| Contract Type | Legal Review | Finance Review | Final Approver |\n| --- | --- | --- | --- |\n| Standard customer order form under USD 25,000 ARR | Optional unless redlines exist | Deal Desk | Sales Manager |\n| Customer contract with security addendum | Required | Deal Desk | Sales Director |\n| Vendor agreement under USD 10,000 | Required if data processing applies | Finance | Department Manager |\n| Vendor agreement USD 10,000 or above | Required | Finance | Department Leader |\n| Employment-related agreement | Required | HR Admin | People Leader |\n\nNo employee may sign a contract on behalf of Northstar unless they are listed in the signature authority register maintained by Legal Operations."
+      },
+      {
+        "source_id": "R3",
+        "text": "Handoff Rules\n\nSales must hand off qualified technical requirements to Solutions Engineering before technical validation. Customer-specific contract commitments must not be promised without approval from Legal and Deal Desk."
+      },
+      {
+        "source_id": "R4",
+        "text": "Escalation Triggers\n\nEscalate to Legal before signature when a contract includes uncapped liability, customer audit rights broader than annual review, unusual data residency commitments, indemnity expansion, auto-renewal longer than one year, or commitments to future roadmap functionality."
+      },
+      {
+        "source_id": "R5",
+        "text": "Current Version\n\nVersion 1.2 is effective March 1, 2026. It supersedes the November 2025 contract intake checklist. If a deal note, sales deck, or vendor email conflicts with this policy, Legal Operations must resolve the conflict before signature."
+      },
+      {
+        "source_id": "G1",
+        "text": "Customer contracts must be retained for seven years after expiration."
+      },
+      {
+        "source_id": "G2",
+        "text": "Executed agreements must never be deleted from the contract repository."
+      }
+    ],
+    "forbidden_assertions": [
+      "Executed customer agreements may be deleted from the contract repository after seven years."
+    ],
+    "history_not_evidence": [],
+    "question": "In my Sales role, how long should an expired customer contract be kept?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "Customer contracts must be retained for seven years after expiration."
+      },
+      {
+        "fact_id": "fact-2",
+        "text": "Executed agreements must never be deleted from the contract repository."
+      }
+    ]
+  },
+  "source_sha256": "d6cdb70cf02b70dc2bc2a03b8a462dc3b60366e32a3740bc77004051fa8e3382",
+  "status": "graded"
+}

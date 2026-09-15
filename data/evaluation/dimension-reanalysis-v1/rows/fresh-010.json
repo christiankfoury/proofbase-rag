@@ -1,0 +1,166 @@
+{
+  "case_id": "fresh-010",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer provides the requested information about one-on-one frequency and notes the absence of information on collaboration hours.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 and G1 explicitly state managers should hold one-on-one meetings with direct reports at least every two weeks, supported by citation C1 from R1.",
+        "source_ids": [
+          "R1",
+          "G1"
+        ],
+        "text": "the minimum frequency for one-on-one meetings with direct reports is at least every two weeks"
+      },
+      {
+        "citation_ids": [
+          "C2"
+        ],
+        "citation_status": "supported",
+        "factual_status": "contradicted",
+        "kind": "factual",
+        "reason": "R2 states hybrid teams should define collaboration days at least one month in advance but does not specify hours; however, G2 and G3 specify standard collaboration hours as 10:00 a.m. to 3:00 p.m. Monday to Thursday, contradicting the claim that documents do not specify standard collaboration hours.",
+        "source_ids": [
+          "R2",
+          "G2",
+          "G3"
+        ],
+        "text": "the retrieved documents do not specify the standard collaboration hours or the exact timing for collaboration sessions"
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer states one-on-one meetings should be at least every two weeks, matching the fact.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-2",
+        "reason": "The answer does not mention the standard collaboration hours from 10:00 a.m. to 3:00 p.m.",
+        "status": "missing"
+      },
+      {
+        "fact_id": "fact-3",
+        "reason": "The answer does not mention that standard collaboration hours apply Monday to Thursday.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks about one-on-one frequency and standard collaboration hours, which the answer addresses partially.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "As a manager planning a team routine, the minimum frequency for one-on-one meetings with direct reports is at least every two weeks. However, the retrieved documents do not specify the standard collaboration hours or the exact timing for collaboration sessions.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "One-on-One Expectations\n\nManagers should hold one-on-one meetings with direct reports at least every two weeks. Notes should focus on priorities, blockers, feedback, and growth needs. Sensitive personal details should not be recorded unless required for an HR process."
+      },
+      {
+        "citation_id": "C2",
+        "source_id": "R2",
+        "text": "Office Expectations\n\nHybrid teams should define collaboration days at least one month in advance. Employees should attend required team planning, onboarding, incident review, and customer workshop sessions in person when asked by their manager."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "One-on-One Expectations\n\nManagers should hold one-on-one meetings with direct reports at least every two weeks. Notes should focus on priorities, blockers, feedback, and growth needs. Sensitive personal details should not be recorded unless required for an HR process."
+      },
+      {
+        "source_id": "R2",
+        "text": "Office Expectations\n\nHybrid teams should define collaboration days at least one month in advance. Employees should attend required team planning, onboarding, incident review, and customer workshop sessions in person when asked by their manager."
+      },
+      {
+        "source_id": "R3",
+        "text": "Team Planning\n\nManagers should maintain a quarterly team plan with goals, ownership, dependencies, and risks. Plans should identify customer-impacting work, hiring assumptions, and capacity constraints."
+      },
+      {
+        "source_id": "R4",
+        "text": "Conflict Handling\n\nManagers should address team conflict early, document observed behavior, and avoid making unsupported conclusions about intent. Repeated conduct concerns should be discussed with People Operations."
+      },
+      {
+        "source_id": "R5",
+        "text": "Manager Responsibilities\n\nManagers are responsible for setting clear expectations, maintaining team operating rhythm, supporting employee growth, approving time off, and escalating risks early. Managers should document important decisions and keep role expectations current."
+      },
+      {
+        "source_id": "R6",
+        "text": "SLA Targets\n\n| Customer Tier | Initial Response | Status Update Cadence | Target Resolution |\n| --- | ---: | ---: | ---: |\n| Enterprise | 1 business hour | Every 4 business hours | 2 business days |\n| Growth | 4 business hours | Every business day | 5 business days |\n| Standard | 1 business day | Every 2 business days | 10 business days |\n\nThe SLA clock starts when the customer provides enough detail to identify the affected workspace, workflow, or integration. Requests with missing identifiers should receive a clarification response, not a resolution promise."
+      },
+      {
+        "source_id": "R7",
+        "text": "Release Windows\n\nStandard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.\n\nFriday deployments are limited to severity-one fixes, security patches approved by IT Admin, or customer-impacting incidents where waiting would increase risk. Weekend deployments require the incident commander to approve the change before execution."
+      },
+      {
+        "source_id": "R8",
+        "text": "Access Notice\n\nThis document is restricted to Managers. It contains manager-only operating guidance."
+      },
+      {
+        "source_id": "R9",
+        "text": "Related Policies\n\nFor time off, consult the PTO and Leave Policy. For remote work, consult the Remote and Hybrid Work Policy. For acceptable technology use, consult the Acceptable Use Policy."
+      },
+      {
+        "source_id": "R10",
+        "text": "Performance Documentation\n\nPerformance feedback should include specific examples, business impact, expected behavior, and follow-up actions. Managers should avoid vague labels and should distinguish between skill gaps, behavior concerns, and role mismatch."
+      },
+      {
+        "source_id": "G1",
+        "text": "Managers should hold one-on-one meetings with direct reports at least every two weeks."
+      },
+      {
+        "source_id": "G2",
+        "text": "Standard collaboration hours are 10:00 a.m. to 3:00 p.m. local time from Monday to Thursday."
+      },
+      {
+        "source_id": "G3",
+        "text": "Standard collaboration hours are 10:00 a.m. to 3:00 p.m. local time from Monday to Thursday."
+      }
+    ],
+    "forbidden_assertions": [],
+    "history_not_evidence": [],
+    "question": "As a manager planning a team routine, what is the minimum one-on-one frequency and when are standard collaboration hours?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "Managers should hold one-on-one meetings with direct reports at least every two weeks."
+      },
+      {
+        "fact_id": "fact-2",
+        "text": "Standard collaboration hours run from 10:00 a.m. to 3:00 p.m. local time."
+      },
+      {
+        "fact_id": "fact-3",
+        "text": "Standard collaboration hours apply Monday to Thursday."
+      }
+    ]
+  },
+  "source_sha256": "f99fe05c7735c7239ce242ba94e265294cbb64124379198441d95a7029c90051",
+  "status": "graded"
+}

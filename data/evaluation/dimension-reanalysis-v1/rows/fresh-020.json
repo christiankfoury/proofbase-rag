@@ -1,0 +1,110 @@
+{
+  "case_id": "fresh-020",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer directly responds to the question with the required information.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "The claim matches the statement in source R1 and citation C1: \"Requests longer than 5 business days should be submitted at least 20 business days in advance.\"",
+        "source_ids": [
+          "R1"
+        ],
+        "text": "For vacation requests longer than 5 business days, the advance notice required is at least 20 business days."
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer states that for vacations longer than 5 business days, at least 20 business days advance notice is required, matching the fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks about advance notice for the longer vacation option, which is addressed by the answer.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "For vacation requests longer than 5 business days, the advance notice required is at least 20 business days.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "Vacation Approval Workflow\n\nVacation requests of 1 to 5 business days should be submitted at least 10 business days in advance. Requests longer than 5 business days should be submitted at least 20 business days in advance.\n\nManagers approve vacation based on business coverage, project deadlines, and fairness across the team. Managers should not deny vacation without explaining the business reason."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Vacation Approval Workflow\n\nVacation requests of 1 to 5 business days should be submitted at least 10 business days in advance. Requests longer than 5 business days should be submitted at least 20 business days in advance.\n\nManagers approve vacation based on business coverage, project deadlines, and fairness across the team. Managers should not deny vacation without explaining the business reason."
+      },
+      {
+        "source_id": "R2",
+        "text": "Policy Status\n\nThis policy is effective February 1, 2026 and replaces the 2025 informal spend guidance. If an older team wiki or email thread lists a different limit, this policy controls unless Finance publishes a newer version.\n\nEmployees should submit expenses within 30 calendar days of the transaction date. Expenses submitted after 60 calendar days require manager approval and a Finance Operations exception note."
+      },
+      {
+        "source_id": "R3",
+        "text": "Parental Leave Summary\n\nEligible full-time employees may receive up to 12 weeks of company-supported parental leave after 6 months of service. Local statutory benefits may apply separately. Employees should contact People Operations at least 60 days before the expected leave date when possible.\n\nThis document provides a company policy summary and does not provide legal advice."
+      },
+      {
+        "source_id": "R4",
+        "text": "Vacation Entitlement\n\nFull-time employees receive 20 paid vacation days per calendar year. Vacation is accrued monthly and may be used after the employee's first 30 days of employment. Part-time employees receive prorated vacation based on scheduled weekly hours.\n\nEmployees may carry over up to 5 unused vacation days into the next calendar year. Carried-over days must be used by March 31 or they expire unless local law requires a different outcome."
+      },
+      {
+        "source_id": "R5",
+        "text": "Approval Requirements\n\nEmployees must receive manager approval before changing their regular work location. A temporary change within the same country for fewer than 15 business days may be approved by the manager. Longer changes require People Operations review.\n\nManagers should consider team coverage, customer needs, time zone overlap, and data handling requirements before approving remote work."
+      },
+      {
+        "source_id": "G1",
+        "text": "Requests longer than 5 business days should be submitted at least 20 business days in advance."
+      }
+    ],
+    "forbidden_assertions": [
+      "A seven-business-day vacation needs only five business days of notice."
+    ],
+    "history_not_evidence": [
+      {
+        "content": "I am comparing a four-business-day vacation with a seven-business-day vacation.",
+        "role": "user"
+      },
+      {
+        "content": "Both only need five business days of notice.",
+        "role": "assistant"
+      }
+    ],
+    "question": "What advance notice applies to the longer option?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "Requests longer than 5 business days should be submitted at least 20 business days in advance."
+      }
+    ]
+  },
+  "source_sha256": "d7b115f7ee5e2920c833ee4cee6c90c88f2d39f949d1791a0daadd881fd1e075",
+  "status": "graded"
+}

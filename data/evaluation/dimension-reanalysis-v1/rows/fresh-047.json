@@ -1,0 +1,76 @@
+{
+  "case_id": "fresh-047",
+  "dimensions": {
+    "citation_support": "not_applicable",
+    "completeness": "not_applicable",
+    "factual_support": "not_applicable",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "not_applicable",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer does not provide a direct response or clarification about the launch date; it only states inability to find information without confirming the absence of the date.",
+      "status": "fail"
+    },
+    "claims": [
+      {
+        "citation_ids": [],
+        "citation_status": "unknown",
+        "factual_status": "unknown",
+        "kind": "speech_act",
+        "reason": "This is a speech act indicating inability to find information, not a factual claim.",
+        "source_ids": [],
+        "text": "I could not find this in the available documents."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question about the exact launch date of the SAP S/4HANA connector is not addressed in the conversation history or answer.",
+      "status": "fail"
+    }
+  },
+  "inputs": {
+    "answer": "I could not find this in the available documents.",
+    "cited_sources": [],
+    "expected_behavior": "not_found",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Integrations\n\nNorthstar supports common data warehouse, ticketing, and workflow integrations through approved connectors and APIs. Sales Representatives should confirm exact integration support with Solutions Engineering."
+      },
+      {
+        "source_id": "R2",
+        "text": "Implementation Timeline\n\nThe typical implementation range is 6 to 10 weeks for standard deployments. Complex integrations or unusual data governance requirements may extend the timeline."
+      },
+      {
+        "source_id": "R3",
+        "text": "SLA Targets\n\n| Customer Tier | Initial Response | Status Update Cadence | Target Resolution |\n| --- | ---: | ---: | ---: |\n| Enterprise | 1 business hour | Every 4 business hours | 2 business days |\n| Growth | 4 business hours | Every business day | 5 business days |\n| Standard | 1 business day | Every 2 business days | 10 business days |\n\nThe SLA clock starts when the customer provides enough detail to identify the affected workspace, workflow, or integration. Requests with missing identifiers should receive a clarification response, not a resolution promise."
+      },
+      {
+        "source_id": "R4",
+        "text": "Product Limitations\n\nNorthstar is not a replacement for a system of record, identity provider, ERP, or clinical decision system. Sales Representatives should not promise unsupported integrations, exact roadmap delivery dates, or customer-specific contract commitments."
+      },
+      {
+        "source_id": "R5",
+        "text": "Approved Talk Track\n\nNorthstar helps operations leaders see where work slows down, which approvals are delayed, and which data quality issues affect business reporting. Sales Representatives should avoid promising product roadmap commitments."
+      }
+    ],
+    "forbidden_assertions": [
+      "The SAP S/4HANA connector will launch on October 1, 2026."
+    ],
+    "history_not_evidence": [],
+    "question": "Which exact date will the SAP S/4HANA connector launch?",
+    "required_facts": []
+  },
+  "source_sha256": "373f98b76ae1c7f6d4e9fba631c10b6eacf76a3cd0fc3393e3548a0ef5249cd4",
+  "status": "graded"
+}

@@ -1,0 +1,154 @@
+{
+  "case_id": "fresh-017",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "noncontiguous_or_changed_quotes": [],
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "all_claims_assessed": true,
+    "behavior": {
+      "reason": "The answer provides a clear and direct response to the question as expected.",
+      "status": "pass"
+    },
+    "claims": [
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 and G1 explicitly state that when Legal issues a hold notice, normal deletion schedules stop for the named matter, supported by C1.",
+        "source_ids": [
+          "R1",
+          "G1"
+        ],
+        "text": "When a legal hold is issued, normal deletion schedules stop for the named matter"
+      },
+      {
+        "citation_ids": [
+          "C1"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R1 states recipients must preserve email, chat, files, ticket records, and notes that relate to the hold, supported by C1.",
+        "source_ids": [
+          "R1"
+        ],
+        "text": "recipients must preserve all related records such as email, chat, files, ticket records, and notes"
+      },
+      {
+        "citation_ids": [
+          "C2",
+          "C3"
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "R3 and R5 state restricted data must not be downloaded to personal devices, supported by C2 and C3. G2 also confirms this.",
+        "source_ids": [
+          "R3",
+          "R5",
+          "G2"
+        ],
+        "text": "Regarding restricted records, they must not be downloaded to personal devices under any circumstances"
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "fact-1",
+        "reason": "The answer states that normal deletion schedules stop for the named matter when a legal hold is issued, matching the fact.",
+        "status": "covered"
+      },
+      {
+        "fact_id": "fact-2",
+        "reason": "The answer clearly states that restricted records must not be downloaded to personal devices under any circumstances, matching the fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the question about deletion schedules under legal hold and downloading restricted records to personal devices.",
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "answer": "Based on limited supporting evidence, When a legal hold is issued, normal deletion schedules stop for the named matter, and recipients must preserve all related records such as email, chat, files, ticket records, and notes. Regarding restricted records, they must not be downloaded to personal devices under any circumstances.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "Legal Hold\n\nWhen Legal issues a hold notice, normal deletion schedules stop for the named matter. Recipients must preserve email, chat, files, ticket records, and notes that relate to the hold. Managers must confirm that affected team members understand the hold within five business days."
+      },
+      {
+        "citation_id": "C2",
+        "source_id": "R3",
+        "text": "Storage Rules\n\nInternal, Confidential, and Restricted data must be stored in approved company systems. Restricted data must not be downloaded to personal devices. Confidential data should not be stored in local folders unless there is a documented business need."
+      },
+      {
+        "citation_id": "C3",
+        "source_id": "R5",
+        "text": "Personal Devices\n\nPersonal devices may be used for limited work access only when enrolled in approved mobile device management or when access occurs through approved browser-based tools. Personal devices must use a passcode, supported operating system, and automatic lock.\n\nRestricted data must not be downloaded to personal devices. Confidential data should be accessed only through approved company systems."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Legal Hold\n\nWhen Legal issues a hold notice, normal deletion schedules stop for the named matter. Recipients must preserve email, chat, files, ticket records, and notes that relate to the hold. Managers must confirm that affected team members understand the hold within five business days."
+      },
+      {
+        "source_id": "R2",
+        "text": "Retention Basics\n\nTeams should retain records according to the retention schedule in their approved system. This public policy does not include detailed legal retention rules or HR investigation outcomes."
+      },
+      {
+        "source_id": "R3",
+        "text": "Storage Rules\n\nInternal, Confidential, and Restricted data must be stored in approved company systems. Restricted data must not be downloaded to personal devices. Confidential data should not be stored in local folders unless there is a documented business need."
+      },
+      {
+        "source_id": "R4",
+        "text": "Data Retention\n\nCustomer contracts must be retained for seven years after expiration. Vendor agreements must be retained for six years after termination. Employee agreements must be retained according to HR retention rules and any legal hold instructions.\n\nDraft contracts that never reach signature may be deleted after 18 months unless they are part of an active dispute, audit, or legal hold. Executed agreements must never be deleted from the contract repository."
+      },
+      {
+        "source_id": "R5",
+        "text": "Personal Devices\n\nPersonal devices may be used for limited work access only when enrolled in approved mobile device management or when access occurs through approved browser-based tools. Personal devices must use a passcode, supported operating system, and automatic lock.\n\nRestricted data must not be downloaded to personal devices. Confidential data should be accessed only through approved company systems."
+      },
+      {
+        "source_id": "G1",
+        "text": "When Legal issues a hold notice, normal deletion schedules stop for the named matter."
+      },
+      {
+        "source_id": "G2",
+        "text": "Restricted data must not be downloaded to personal devices."
+      }
+    ],
+    "forbidden_assertions": [
+      "A legal hold permits downloading restricted records to personal devices."
+    ],
+    "history_not_evidence": [],
+    "question": "We are preserving records for a legal hold. What happens to normal deletion schedules, and can restricted records be downloaded to personal devices?",
+    "required_facts": [
+      {
+        "fact_id": "fact-1",
+        "text": "When Legal issues a hold notice, normal deletion schedules stop for the named matter."
+      },
+      {
+        "fact_id": "fact-2",
+        "text": "Restricted data must not be downloaded to personal devices."
+      }
+    ]
+  },
+  "source_sha256": "a728f8f0a68721a3687794c8985d6326c743b2b12ac5db4200f64d206644f4da",
+  "status": "graded"
+}
