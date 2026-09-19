@@ -85,6 +85,12 @@ USD 1.66165692 of USD 5. See [v9 results](../phase-69/calibration-v9-results.md)
 Frozen replay handles GPT-4.1 and GPT-5.4 mini costs separately. Next: concise v10
 rubric and separate-context confirmation, still no application/holdout calls.
 
+V9 evidence `d54367a` reviewed/pushed. V10 replaces accumulated prompt additions
+with a concise unified rubric and medium reasoning; unchanged model prices/caps.
+Five new tests plus prior coverage pass (59 total evaluator tests). Calibration
+bound USD 2.22903600 fits remaining USD 3.33834308. See
+[v10 preparation](../phase-69/evaluator-v10.md).
+
 ### Historical milestones (latest first)
 
 Entries below record status at their respective milestones; older references to
