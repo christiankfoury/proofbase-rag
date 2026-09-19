@@ -12,7 +12,10 @@ The user requested a new coding task to continue quality remediation. Follow
 [the Phase 68 handoff](post-phase-68-quality-remediation-handoff.md): validate a new
 evaluator, fix confirmed application failures on development cases, then freeze and
 run a newly authored holdout if validation and budget gates pass. Implementation
-of this new queue has not started. Target: at least 80% complete, grounded,
+has started with Phase 69 offline evaluator contracts and challenge cases; see
+[Phase 69 development notes](../phase-69/evaluator-repair.md). Semantic validation,
+runtime remediation, a new freeze and fresh measurement remain pending.
+Target: at least 80% complete, grounded,
 correctly behaved responses on 60 new cases, with zero observed unauthorized
 retrieval/disclosure. No validated replacement overall score exists yet.
 
@@ -22,6 +25,18 @@ cumulative estimated API spend: USD 1.19689392 of USD 2.00; remaining USD 0.8031
 No additional spending approval is implied by the handoff. Production integration
 gates are separate. Handoff verification: Markdown links and Git diff checks;
 no application changes or API calls.
+
+Phase 69 offline preparation: 22 visible development challenges and candidate v7
+span/behavior/review contracts; 21 new tests plus 70 historical tests pass. Saved
+historical reports, public evidence and benchmark validation pass unchanged.
+Ledger audit confirms 1,321 settled calls and the intact historical prefix; its
+stored-charge sum is USD 1.19689364000000003227161. Retain the stricter handoff
+allowance of USD 0.80310608. No external calls or ledger writes. Semantic
+validation is pending; supplied fixture judgments are not model calibration.
+The user approved the temporary branch, review, merge to `main` and push workflow
+on 2026-09-19. `codex/quality-remediation` now holds this work; the original
+workspace has `main` and its unrelated request-log edits are preserved.
+Application remediation and new holdout work have not started.
 
 ### Historical milestones (latest first)
 
