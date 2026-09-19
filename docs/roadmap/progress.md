@@ -36,7 +36,18 @@ validation is pending; supplied fixture judgments are not model calibration.
 The user approved the temporary branch, review, merge to `main` and push workflow
 on 2026-09-19. `codex/quality-remediation` now holds this work; the original
 workspace has `main` and its unrelated request-log edits are preserved.
-Application remediation and new holdout work have not started.
+Offline slice committed/reviewed/pushed as `8599647`; original main aligns with
+origin/main and its request-log edit was verified byte-identical across merge/push.
+The user subsequently authorized context-isolated challenge/holdout authoring and
+validation. A 24-case independently authored draft received eight validation
+findings, preserved with the draft; a revised suite and three reviewer probes are
+prepared with a guarded calibration runner. Independent validation approved all
+24 revised judgments and three probes; 107 local tests and all historical report
+checks pass. This is expectation validation, not semantic-model validation. See
+[calibration preparation](../phase-69/calibration-preparation.md). Whole-attempt
+reservation USD 2.713006 exceeds the current USD 0.80310608 remaining, so no live
+calls may start until an explicit cumulative-ceiling increase. Application
+remediation and new holdout work have not started.
 
 ### Historical milestones (latest first)
 

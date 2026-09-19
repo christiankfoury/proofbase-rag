@@ -1,0 +1,25 @@
+# Independent evaluator challenge authorship
+
+This 24-case suite was authored by a context-isolated agent from original fictional micro-policies. The only repository source read for authorship was `scripts/quality_eval_contract.py`, for field definitions and the grading rubric. The author did not inspect historical evaluation datasets, existing challenge fixtures or tests, prior reports, failure lists, or application corpus documents. No model/API calls or application runtime checks were performed during authorship.
+
+The cases and explicit expected dimensions are independent development calibration, not an application holdout, human adjudication, or evidence of population accuracy. Expected labels are authored judgments, not supplied candidate grades or review labels. All sources are authorized fictional evidence; conversation history is deliberately excluded from evidence. Each rationale links the expected outcome to evidence IDs or the absence of evidence. The suite includes paired access/search/clarification behavior traps, quotation variants, and grader-directed injection in both source and answer text.
+
+The semantic overall intentionally excludes byte-exact quotation fidelity, following the supplied contract. Unsupported extra claims are factually unresolved rather than automatically false; they still fail citation support when no cited source supports them. Incomplete substantive responses use `partial_answer`, consistent with the contract's coverage constraint. Pure nonanswers carry no factual claims, while a policy assertion appended to a nonanswer is still assessed. The quoted-source variant with altered wording therefore has semantic overall `pass` and quotation fidelity `fail`.
+
+Structural author checks confirmed 24 unique IDs, all six expected dimensions plus overall and actual behavior, matching input/payload answer text, empty safety flags, answers no longer than 500 characters, and total factual source text no longer than 900 characters per case. These checks validate fixture construction only; they do not validate any evaluator.
+
+## Revision v2 and reviewer probes
+
+The author read the separate validator's `challenge-validation-v1.json` and `challenge-validation.md`, then revised a copy as `challenges-v2.json`. The original draft remains byte-identical with SHA-256 `45d64290fa2ae45d7792e11d8750e08a0dad3ab5c63c49a8443c3107f52f70d9`. The validator's JSON identified eight rejected cases and findings V1-V5; its Markdown still described the earlier four-case rejection and old behavior taxonomy when read. The revision addresses the full JSON findings under the task's explicitly clarified rubric. The validation records were preserved, not edited by the author.
+
+Authored resolutions, made before any semantic-model outputs were observed:
+
+- V1: explicitly retain laboratory staff and the exclusive after-22:00 condition in the positive paraphrase. Keep its all-pass expectation because the revised prose fully preserves both facts.
+- V2: explicitly state up to 60 credits per calendar year before the invented insurance claim. Keep completeness pass while the unsupported extra claim independently makes factual support unresolved and citation support fail.
+- V3: narrow both Rowan questions to the normal meter-return deadline. Preserve the exact versus altered excerpt distinction and the separation between semantic overall and quotation fidelity.
+- V4: include the key-return refund condition in both the uncited answer and its required fact. This removes the advisory ambiguity without changing the intended citation failure.
+- V5: classify the four substantive wrong-value, wrong-topic, injected-source, and wrong-modality responses as `answer`. Their factual/completeness/relevance failures, where applicable, remain unchanged. Failed completeness still fails the derived response-behavior requirement. This supersedes the first-draft note that followed the earlier contract's coverage-dependent response taxonomy; `partial_answer` now denotes omitted requested parts, not mere incorrectness.
+
+`review-challenges-v1.json` adds three audit-only probes based on these original fictional cases: a covered label whose own reason says missing; a generic refusal falsely said to cover policy facts; and a candidate that omits the unsupported insurance claim while declaring all claims assessed. These contain deliberately disputed candidate judgments solely to test the reviewer. They are not supplied passing outputs for the semantic candidate evaluator. Expected dispute dimensions are authored expectations, not model or human adjudication.
+
+Construction checks preserved the 24 case IDs and draft bytes, checked input/payload text agreement and size bounds, and checked review-probe schema fields and exact span provenance. No APIs, semantic models, application runtime, git operations, or historical application datasets were used. A new independent review is required for v2; this revision does not erase the original rejection or itself validate an evaluator.

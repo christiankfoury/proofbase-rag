@@ -44,10 +44,14 @@ class QualityContractTests(unittest.TestCase):
         item["grade"]["claims"][0]["factual_status"] = "contradicted"
         self.assertIn("support_labels_conflict", validate(item["grade"], item["inputs"]))
 
-    def test_partial_fact_coverage_cannot_claim_complete_answer(self):
+    def test_incomplete_prose_cannot_earn_complete_answer_pass(self):
         item = fixtures()[1]
         item["grade"]["actual_behavior"] = "answer"
-        self.assertIn("complete_answer_with_uncovered_facts", validate(item["grade"], item["inputs"]))
+        self.assertEqual(validate(item["grade"], item["inputs"]), [])
+        result = evaluate(item)
+        self.assertEqual(result["response_behavior"], "fail")
+        self.assertEqual(result["overall"], "fail")
+        self.assertFalse(result["has_unresolved_judgment"])
 
     def test_nonanswer_cannot_credit_gold(self):
         item = fixtures()[4]

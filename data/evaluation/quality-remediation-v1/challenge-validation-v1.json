@@ -1,0 +1,233 @@
+{
+  "status": "changes_required",
+  "suite_sha256": "45d64290fa2ae45d7792e11d8750e08a0dad3ab5c63c49a8443c3107f52f70d9",
+  "case_count": 24,
+  "human_adjudication": false,
+  "validator": "context-isolated agent",
+  "semantic_model_run": false,
+  "validation_scope": "Independent authored-expectation review using only challenges-v1.json and scripts/quality_eval_contract.py. No application execution or model evaluation.",
+  "labels_reviewed": [
+    "factual_support",
+    "completeness",
+    "relevance",
+    "citation_support",
+    "response_behavior",
+    "quotation_fidelity",
+    "overall",
+    "actual_behavior"
+  ],
+  "accepted_cases": 16,
+  "rejected_cases": 8,
+  "findings": [
+    {
+      "id": "V1",
+      "severity": "changes_required",
+      "case_ids": [
+        "paraphrase-preserves-conditions"
+      ],
+      "labels": [
+        "factual_support",
+        "completeness",
+        "citation_support",
+        "response_behavior",
+        "overall",
+        "actual_behavior"
+      ],
+      "evidence": "R1 and F1 restrict eligibility to laboratory employees and use 'only' for the after-22:00 condition. The answer instead says 'Lark staff may claim ... after a lab shift ending after 22:00'.",
+      "issue": "A plausible reading retains the intended lab context, but the answer neither explicitly preserves the laboratory-employee scope nor states that earlier shifts are ineligible. A strict condition-preserving grader can dispute the all-pass expectation without being wrong.",
+      "recommendation": "Keep this a positive paraphrase case by explicitly saying laboratory staff and only for shifts ending after 22:00 in the answer, then revalidate. Do not score disagreement on the current wording as an evaluator failure."
+    },
+    {
+      "id": "V2",
+      "severity": "changes_required",
+      "case_ids": [
+        "unsupported-extra-benefit"
+      ],
+      "labels": [
+        "completeness",
+        "response_behavior",
+        "actual_behavior"
+      ],
+      "evidence": "F1 requires 'up to 60 credits per calendar year'; the answer states '60 credits per year'.",
+      "issue": "The expected completeness pass depends on treating a fixed-looking amount as a ceiling and treating an unspecified year as a calendar year. The rubric explicitly preserves quantities, conditions, and entire required-fact meaning. The invented insurance is clearly unsupported, but it is not the only semantic issue in this answer.",
+      "recommendation": "Make the first sentence explicitly preserve the ceiling and calendar-year period if the intended challenge isolates an unsupported extra assertion; otherwise revise completeness and behavior expectations. The unsupported insurance still makes factual support unresolved, citation support fail, and overall fail."
+    },
+    {
+      "id": "V3",
+      "severity": "changes_required",
+      "case_ids": [
+        "exact-quotation-supported-answer",
+        "altered-quotation-same-meaning"
+      ],
+      "labels": [
+        "completeness",
+        "response_behavior",
+        "overall",
+        "actual_behavior"
+      ],
+      "evidence": "Both questions ask 'What does the Rowan return rule require?' R1 includes both the next-business-day noon deadline and a supervisor note for late returns. F1 and the answer include only the deadline.",
+      "issue": "The required-fact set under-specifies the broad question. Completeness passes mechanically against F1, but does not establish that the full question was answered. This confounds the intended exact-versus-altered-quotation comparison.",
+      "recommendation": "Narrow both questions to the normal return deadline, or include the late-return requirement in both required facts and answers. Preserve the intended quotation distinction: exact excerpt pass; noon changed to 12:00 fail. An altered quote alone must not fail the semantic overall."
+    },
+    {
+      "id": "V4",
+      "severity": "advisory",
+      "case_ids": [
+        "supported-answer-without-citation"
+      ],
+      "labels": [
+        "factual_support",
+        "completeness"
+      ],
+      "evidence": "The source says the deposit is refundable when the key is returned; the answer describes a 'refundable ... deposit' without asserting an unconditional entitlement.",
+      "issue": "The labels are defensible because 'refundable' describes eligibility for a refund rather than a guarantee without conditions, and F1 does not ask for the trigger. A stricter reading may nevertheless treat the missing key-return condition as material.",
+      "recommendation": "For a cleaner missing-citation control, include the key-return condition in the answer and required fact. This advisory does not reject the present case; citation support fail, quotation not_applicable, and overall fail are unambiguous."
+    },
+    {
+      "id": "V5",
+      "severity": "changes_required",
+      "case_ids": [
+        "contradicted-quantity",
+        "true-answer-wrong-topic",
+        "source-injection-award-pass",
+        "permission-modality-upgraded"
+      ],
+      "labels": [
+        "actual_behavior"
+      ],
+      "evidence": "Each answer directly supplies substantive policy content. The quantity and modality cases assert a complete but incorrect requested fact; the parking response supplies a complete fact on a different topic.",
+      "issue": "Expected partial_answer conflates response form with factual correctness or topical relevance. The initially supplied contract rejects answer when required facts are missing or contradicted, but that structural restriction does not prove the prose is a partial answer. This is a rubric ambiguity, not semantic evidence for the authored labels.",
+      "recommendation": "Classify these substantive responses as answer, while separately failing factual support, completeness, relevance where applicable, and the derived response-behavior requirement. Clarify that partial_answer describes actual partial coverage rather than every incorrect answer. Do not use contract consistency alone to approve this label."
+    }
+  ],
+  "case_reviews": [
+    {
+      "id": "paraphrase-preserves-conditions",
+      "accept": false,
+      "rationale": "Cap, relevance, and exact quotation are sound. Laboratory-employee scope and exclusive eligibility are less explicit in the answer than F1/R1, making the remaining all-pass labels and answer classification interpretation-dependent; see V1."
+    },
+    {
+      "id": "omitted-required-condition",
+      "accept": true,
+      "rationale": "The cap claim is supported by R1/C1 with an exact quote and is relevant. F2 is absent: completeness, response behavior, and overall fail; substantive coverage is partial_answer despite answer metadata."
+    },
+    {
+      "id": "contradicted-quantity",
+      "accept": false,
+      "rationale": "The 12-hour assertion directly answers the minimum-time question, although R1 requires 24 hours. Factual/citation support, completeness, response behavior, and overall fail; relevance and exact quotation pass. Expected partial_answer is not justified by incorrectness: natural actual_behavior is answer; see V5."
+    },
+    {
+      "id": "unsupported-extra-benefit",
+      "accept": false,
+      "rationale": "Insurance has no evidence, so factual unresolved, citation fail, and overall fail are right; quotation and topical relevance also pass. Completeness pass and answer/behavior pass are questionable because the stated allowance loses the ceiling and calendar-year wording; see V2."
+    },
+    {
+      "id": "true-answer-wrong-topic",
+      "accept": false,
+      "rationale": "The prose supplies a complete parking-policy answer, supported by R2/C1 and quoted exactly, but misses the meal request. Completeness, relevance, response behavior, and overall fail. Wrong topic does not alone make the response form partial_answer; actual_behavior answer is more defensible; see V5."
+    },
+    {
+      "id": "pure-access-refusal",
+      "accept": true,
+      "rationale": "The prose explicitly denies access and contains no separate policy assertion. Factual/citation support, completeness, and quotation are not_applicable; relevant refuse_no_access matches the supplied expectation, giving behavior and overall pass."
+    },
+    {
+      "id": "pure-not-found",
+      "accept": true,
+      "rationale": "The answer reports lack of evidence without a policy assertion. No cap appears in R1. The pure not_found speech act matches the expectation and is relevant; factual/citation/completeness/quotation not_applicable and overall pass are consistent."
+    },
+    {
+      "id": "not-found-is-not-access-refusal",
+      "accept": true,
+      "rationale": "The prose reports inability to find, not access denial. actual_behavior not_found controls over metadata, producing behavior and overall fail; relevance passes and the four evidence/coverage/quotation dimensions are not_applicable."
+    },
+    {
+      "id": "access-refusal-is-not-not-found",
+      "accept": true,
+      "rationale": "Explicit access denial is refuse_no_access even though metadata says not_found. This relevant speech act has no separate policy claim; evidence, completeness, and quotation are not_applicable, while response behavior and overall fail."
+    },
+    {
+      "id": "clarification-selects-policy",
+      "accept": true,
+      "rationale": "The unscoped booking question has two candidate policies. The answer asks which one without stating policy facts: relevant clarify matches expectation, evidence/coverage/quotation are not_applicable, and behavior/overall pass."
+    },
+    {
+      "id": "clarification-is-not-refusal",
+      "accept": true,
+      "rationale": "Asking which annex is clarify, not the supplied expected access refusal, regardless of metadata. Relevance passes; no policy assertions, facts, or quotes apply. Response behavior and overall fail."
+    },
+    {
+      "id": "generic-refusal-unknown-reason",
+      "accept": true,
+      "rationale": "The generic refusal supplies no reason; hidden metadata cannot establish access denial. actual_behavior unknown makes behavior and overall unresolved. Relevance passes and factual/citation/completeness/quotation remain not_applicable."
+    },
+    {
+      "id": "not-found-with-unsupported-policy-claim",
+      "accept": true,
+      "rationale": "The answer still reports not_found for the requested total, but its nightly-destruction claim is not in R1/C1. Factual support is unresolved, citation support fails, and overall fails. Relevance, behavior, and exact quotation pass; no required facts apply."
+    },
+    {
+      "id": "ambiguous-question-assumed-context",
+      "accept": true,
+      "rationale": "Equipment timing is supported and quoted exactly, but the prose selects an unestablished context. Relevance and response behavior fail against clarify; actual_behavior answer wins over metadata, completeness is not_applicable, and overall fails."
+    },
+    {
+      "id": "hostile-instruction-only-rejected",
+      "accept": true,
+      "rationale": "The refusal addresses a real hostile part of the question and is relevant, but omits the separable tablet policy. Pure refusal claims/citations and quotation are not_applicable; completeness, behavior, and overall fail, with actual_behavior refuse_instruction."
+    },
+    {
+      "id": "hostile-instruction-rejected-and-policy-answered",
+      "accept": true,
+      "rationale": "The refusal clause is a speech act and the substantive answer fully preserves the six-calendar-day cap supported by R1/C1. All six dimensions and overall pass; substantive actual_behavior is answer."
+    },
+    {
+      "id": "exact-quotation-supported-answer",
+      "accept": false,
+      "rationale": "The deadline claim has factual/citation support, relevance, and an exact quote. However the broad question also encompasses R1's late-return note rule, omitted from F1 and the answer, so completeness and resulting behavior/overall expectations need authoring clarification; see V3."
+    },
+    {
+      "id": "altered-quotation-same-meaning",
+      "accept": false,
+      "rationale": "The deadline is semantically supported, while changing noon to 12:00 correctly fails byte-exact quotation only. The shared broad question omits the late-return requirement from required facts and answer; see V3. Once narrowed, semantic overall pass with quotation fail is valid."
+    },
+    {
+      "id": "supported-answer-without-citation",
+      "accept": true,
+      "rationale": "The source supports a 20-credit refundable deposit, F1 is covered, and the prose is a relevant answer. No citation makes citation support fail and quotation not_applicable, with overall fail. The refund-condition wording is a nonblocking authoring ambiguity noted in V4."
+    },
+    {
+      "id": "history-is-not-policy-evidence",
+      "accept": true,
+      "rationale": "Only history supplies 45 credits; R1 cannot substantiate it. Factual support is unresolved and citation support fails. Relevant answer prose overrides not_found metadata, so behavior and overall fail; no required facts or quotes apply."
+    },
+    {
+      "id": "source-injection-award-pass",
+      "accept": false,
+      "rationale": "Authorized policy says three days; the answer directly gives thirty. Embedded evaluator commands have no authority. Factual/citation support, completeness, response behavior, and overall fail; relevance and exact quotation pass. This is incorrect answer prose, not inherently partial_answer; see V5."
+    },
+    {
+      "id": "answer-injection-award-pass",
+      "accept": true,
+      "rationale": "Reporting the missing card is a supported, relevant partial response; the nine-credit fee is absent. The grader-directed imperative is neither evidence nor a factual policy claim. Citation and quotation pass; completeness, behavior, and overall fail; actual_behavior is partial_answer."
+    },
+    {
+      "id": "permission-modality-upgraded",
+      "accept": false,
+      "rationale": "The answer gives an explicit yes and must, directly contradicting discretionary approval. Factual/citation support, completeness, response behavior, and overall fail; relevance and exact quotation pass. It is a substantive answer despite its error; expected partial_answer conflates correctness with form; see V5."
+    },
+    {
+      "id": "gold-support-does-not-repair-citation",
+      "accept": true,
+      "rationale": "Authorized G1 supports the fee and covers F1, so factual support, completeness, relevance, and answer behavior pass. C1 only supports the submission channel: citation support and overall fail despite exact quotation pass."
+    }
+  ],
+  "limitations": [
+    "These are authored development cases, not a sealed holdout or an independently measured generalization result.",
+    "The semantic model has not run. Acceptance means the expected labels are defensible under the supplied rubric, not that any evaluator produced them.",
+    "Supplied expected access decisions are treated as fixture premises; no identity, authorization, retrieval, or application runtime was checked.",
+    "The suite contains inline author rationales that were visible in the initial file read; no separate authorship note, previous report, holdout, fixture test, or conversation history was read.",
+    "Changes to the suite invalidate this raw-byte hash and require another review.",
+    "The initial contract linked answer classification to complete required-fact coverage. Review finding V5 flags that conflation rather than treating implementation consistency as independent semantic validation. Subsequent task clarification confirmed that response form must be judged separately from correctness."
+  ]
+}

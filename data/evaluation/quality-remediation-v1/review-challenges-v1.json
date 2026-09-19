@@ -1,0 +1,317 @@
+{
+  "version": "quality-review-challenges.v1",
+  "provenance": {
+    "author": "context-isolated agent",
+    "human_adjudication": false
+  },
+  "cases": [
+    {
+      "id": "covered-label-with-missing-reason",
+      "inputs": {
+        "question": "For a Lark taxi claim, give both the cap and the shift condition.",
+        "history_not_evidence": [],
+        "answer": "The reimbursement cap is 38 credits per trip.",
+        "expected_behavior": "answer",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The cap is 38 credits per trip."
+          },
+          {
+            "fact_id": "F2",
+            "text": "Eligibility requires a lab shift ending after 22:00."
+          }
+        ],
+        "forbidden_assertions": [],
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Lark taxi reimbursement is capped at 38 credits per trip. A claim is eligible only if the lab shift ends after 22:00."
+          }
+        ],
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Lark taxi reimbursement is capped at 38 credits per trip. A claim is eligible only if the lab shift ends after 22:00."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "The reimbursement cap is 38 credits per trip.",
+        "response_type": "answer",
+        "citations": [
+          {
+            "chunk_id": "omitted-required-condition-chunk-1",
+            "document_id": "omitted-required-condition-document-1",
+            "citation_text": "Lark taxi reimbursement is capped at 38 credits per trip. A claim is eligible only if the lab shift ends after 22:00."
+          }
+        ]
+      },
+      "evidence": [
+        {
+          "chunk_id": "omitted-required-condition-chunk-1",
+          "document_id": "omitted-required-condition-document-1",
+          "content": "Lark taxi reimbursement is capped at 38 credits per trip. A claim is eligible only if the lab shift ends after 22:00."
+        }
+      ],
+      "safety_flags": [],
+      "candidate": {
+        "facts": [
+          {
+            "fact_id": "F1",
+            "status": "covered",
+            "answer_spans": [
+              "The reimbursement cap is 38 credits per trip."
+            ],
+            "reason": "The answer states the 38-credit per-trip cap."
+          },
+          {
+            "fact_id": "F2",
+            "status": "covered",
+            "answer_spans": [
+              "The reimbursement cap is 38 credits per trip."
+            ],
+            "reason": "The answer omits the required after-22:00 shift condition; this fact is missing."
+          }
+        ],
+        "claims": [
+          {
+            "text": "The reimbursement cap is 38 credits per trip.",
+            "factual_status": "supported",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Lark taxi reimbursement is capped at 38 credits per trip."
+              }
+            ],
+            "citation_status": "supported",
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Lark taxi reimbursement is capped at 38 credits per trip."
+              }
+            ],
+            "reason": "R1 and C1 support the stated cap."
+          }
+        ],
+        "all_claims_assessed": true,
+        "actual_behavior": "answer",
+        "behavior_span": "The reimbursement cap is 38 credits per trip.",
+        "behavior_reason": "Both requested parts are covered, so this is a complete answer.",
+        "relevance": {
+          "status": "pass",
+          "reason": "The response addresses the request."
+        },
+        "forbidden_assertion": "absent"
+      },
+      "expected_disputes": [
+        "completeness",
+        "response_behavior"
+      ],
+      "rationale": "F2 is labeled covered even though its reason correctly says missing. The copied cap span never states the R1 after-22:00 condition. The actual response is partial_answer and cannot satisfy the full-answer requirement. Factual and cited support for the cap itself remain sound."
+    },
+    {
+      "id": "generic-refusal-falsely-covers-policy",
+      "inputs": {
+        "question": "For a Lark taxi claim, give both the cap and the shift condition.",
+        "history_not_evidence": [],
+        "answer": "I cannot help with that request.",
+        "expected_behavior": "answer",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The cap is 38 credits per trip."
+          },
+          {
+            "fact_id": "F2",
+            "text": "Eligibility requires a lab shift ending after 22:00."
+          }
+        ],
+        "forbidden_assertions": [],
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Lark taxi reimbursement is capped at 38 credits per trip. A claim is eligible only if the lab shift ends after 22:00."
+          }
+        ],
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Lark taxi reimbursement is capped at 38 credits per trip. A claim is eligible only if the lab shift ends after 22:00."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "I cannot help with that request.",
+        "response_type": "answer",
+        "citations": [
+          {
+            "chunk_id": "omitted-required-condition-chunk-1",
+            "document_id": "omitted-required-condition-document-1",
+            "citation_text": "Lark taxi reimbursement is capped at 38 credits per trip. A claim is eligible only if the lab shift ends after 22:00."
+          }
+        ]
+      },
+      "evidence": [
+        {
+          "chunk_id": "omitted-required-condition-chunk-1",
+          "document_id": "omitted-required-condition-document-1",
+          "content": "Lark taxi reimbursement is capped at 38 credits per trip. A claim is eligible only if the lab shift ends after 22:00."
+        }
+      ],
+      "safety_flags": [],
+      "candidate": {
+        "facts": [
+          {
+            "fact_id": "F1",
+            "status": "covered",
+            "answer_spans": [
+              "I cannot help with that request."
+            ],
+            "reason": "The refusal communicates the 38-credit cap."
+          },
+          {
+            "fact_id": "F2",
+            "status": "covered",
+            "answer_spans": [
+              "I cannot help with that request."
+            ],
+            "reason": "The refusal communicates the after-22:00 condition."
+          }
+        ],
+        "claims": [
+          {
+            "text": "I cannot help with that request.",
+            "factual_status": "supported",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Lark taxi reimbursement is capped at 38 credits per trip. A claim is eligible only if the lab shift ends after 22:00."
+              }
+            ],
+            "citation_status": "supported",
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Lark taxi reimbursement is capped at 38 credits per trip. A claim is eligible only if the lab shift ends after 22:00."
+              }
+            ],
+            "reason": "The cited policy supports all factual meaning of this answer."
+          }
+        ],
+        "all_claims_assessed": true,
+        "actual_behavior": "answer",
+        "behavior_span": "I cannot help with that request.",
+        "behavior_reason": "The policy requirements have both been answered.",
+        "relevance": {
+          "status": "pass",
+          "reason": "The response addresses the request."
+        },
+        "forbidden_assertion": "absent"
+      },
+      "expected_disputes": [
+        "factual_support",
+        "completeness",
+        "citation_support",
+        "response_behavior"
+      ],
+      "rationale": "The generic refusal states neither F1 nor F2. It is a speech act with unknown reason, not a factual policy claim or substantive answer. R1/C1 contain the policy but cannot supply missing answer words. The fabricated supported-claim assessment and complete-answer classification both require dispute."
+    },
+    {
+      "id": "extra-factual-assertion-omitted-from-claims",
+      "inputs": {
+        "question": "What is the Alder bicycle service allowance?",
+        "history_not_evidence": [],
+        "answer": "The bicycle servicing allowance is up to 60 credits per calendar year. Employees also receive free theft insurance.",
+        "expected_behavior": "answer",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The bicycle service allowance is up to 60 credits per calendar year."
+          }
+        ],
+        "forbidden_assertions": [],
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+          }
+        ],
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "The bicycle servicing allowance is up to 60 credits per calendar year. Employees also receive free theft insurance.",
+        "response_type": "answer",
+        "citations": [
+          {
+            "chunk_id": "unsupported-extra-benefit-chunk-1",
+            "document_id": "unsupported-extra-benefit-document-1",
+            "citation_text": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+          }
+        ]
+      },
+      "evidence": [
+        {
+          "chunk_id": "unsupported-extra-benefit-chunk-1",
+          "document_id": "unsupported-extra-benefit-document-1",
+          "content": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+        }
+      ],
+      "safety_flags": [],
+      "candidate": {
+        "facts": [
+          {
+            "fact_id": "F1",
+            "status": "covered",
+            "answer_spans": [
+              "The bicycle servicing allowance is up to 60 credits per calendar year."
+            ],
+            "reason": "The full allowance cap and calendar-year period are present."
+          }
+        ],
+        "claims": [
+          {
+            "text": "The bicycle servicing allowance is up to 60 credits per calendar year.",
+            "factual_status": "supported",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+              }
+            ],
+            "citation_status": "supported",
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+              }
+            ],
+            "reason": "R1 and C1 support the allowance sentence."
+          }
+        ],
+        "all_claims_assessed": true,
+        "actual_behavior": "answer",
+        "behavior_span": "The bicycle servicing allowance is up to 60 credits per calendar year. Employees also receive free theft insurance.",
+        "behavior_reason": "The requested allowance is answered in full.",
+        "relevance": {
+          "status": "pass",
+          "reason": "The response addresses the request."
+        },
+        "forbidden_assertion": "absent"
+      },
+      "expected_disputes": [
+        "factual_support",
+        "citation_support"
+      ],
+      "rationale": "The candidate declares all_claims_assessed but omits the separate free-theft-insurance assertion from the answer. R1/C1 provide no support for that claim. F1 coverage and answer behavior are sound, but factual and citation judgments derived from the incomplete claim list must be disputed."
+    }
+  ]
+}

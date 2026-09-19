@@ -1,6 +1,8 @@
 # Phase 69: offline evaluator repair
 
-Status: offline candidate verified; semantic validation pending.
+Status: offline candidate committed, reviewed and pushed in `8599647`;
+independent challenge validation and the guarded live calibration runner follow.
+Semantic model validation remains pending.
 Starting commit: `f9c417a`. The user approved continuing with the proposed
 `codex/quality-remediation` branch, review, merge into `main` and push on
 2026-09-19. That branch is now selected; `main` remains checked out at
@@ -135,7 +137,10 @@ vacuous answer expectations. It checked immutable historical artifacts, the lack
 of API side effects, unresolved-case accounting, speech-act boundaries and honest
 claim wording. Remaining limitation: correct spans, schema and supplied review
 agreement do not prove semantic validity. Actual commit review, post-commit code
-review and push follow the user's approved branch workflow.
+review and push completed for `8599647`; main was verified aligned with
+origin/main, with the original request-log edit preserved byte-for-byte.
+The [calibration preparation note](calibration-preparation.md) records the next
+bounded slice and its financial gate.
 
 ## Next gates
 
