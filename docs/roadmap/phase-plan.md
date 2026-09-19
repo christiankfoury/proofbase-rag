@@ -1,6 +1,6 @@
 # Future Phase Plan
 
-Status: phases through Phase 46 are complete. Phase 47 Independent Generalization And Holdout Evaluation is planned. This file preserves the broader roadmap history and planned sequence, but `docs/roadmap/progress.md` is the current source of truth for what is complete and what remains next.
+Status: this file preserves the historical phase sequence. Work through Phase 68 has completed; follow [the active quality-remediation handoff](post-phase-68-quality-remediation-handoff.md) for the next evaluation work. `docs/roadmap/progress.md` is the current source of truth. Older planned statuses below are historical, not the active queue.
 
 ## Planning Rule
 

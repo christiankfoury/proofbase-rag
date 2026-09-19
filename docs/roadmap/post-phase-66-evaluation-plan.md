@@ -1,5 +1,13 @@
 # Runtime remediation and fresh measurement
 
+Status: Phase 67-68 work below is complete. Results were pushed in `f203386`,
+with closeout notes in `d3f24e1`. Continue with
+[the post-Phase 68 quality-remediation handoff](post-phase-68-quality-remediation-handoff.md).
+Current cumulative estimated API spend is USD 1.19689392 of the approved USD 2.00,
+leaving USD 0.80310608. The financial section below records the historical planning
+allowance, not the amount currently available. No validated new overall success
+rate was established; see [Phase 68 findings](../phase-68/agent-review.md).
+
 1. Phase 67: repair confirmed context and retrieval mechanisms; verify on new
    development variants and existing local regressions; commit, review and push.
 2. Phase 68 preparation: run bounded live development probes and inspect exact

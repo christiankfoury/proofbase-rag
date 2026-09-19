@@ -6,6 +6,29 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
+### Active handoff: quality remediation (2026-09-19)
+
+The user requested a new coding task to continue quality remediation. Follow
+[the Phase 68 handoff](post-phase-68-quality-remediation-handoff.md): validate a new
+evaluator, fix confirmed application failures on development cases, then freeze and
+run a newly authored holdout if validation and budget gates pass. Implementation
+of this new queue has not started. Target: at least 80% complete, grounded,
+correctly behaved responses on 60 new cases, with zero observed unauthorized
+retrieval/disclosure. No validated replacement overall score exists yet.
+
+Historical overall protocol result: 33/60 (55%). Phase 68 provisional inspected
+answer completeness: 28/38 (73.7%), not comparable overall accuracy. Current
+cumulative estimated API spend: USD 1.19689392 of USD 2.00; remaining USD 0.80310608.
+No additional spending approval is implied by the handoff. Production integration
+gates are separate. Handoff verification: Markdown links and Git diff checks;
+no application changes or API calls.
+
+### Historical milestones (latest first)
+
+Entries below record status at their respective milestones; older references to
+pending execution, budgets or next work are superseded by the completed Phase 68
+result and the active handoff above. Phase 68 closeout notes were pushed in `d3f24e1`.
+
 - Phase 68 measurement complete: runtime `89b5a38`, freeze `8f98e32`, suite seal `818afe2`; all 60 post-freeze cases executed once with HTTP 200, no recorded permission/scope flags, and both cross-project upload fixtures actually indexed. Cumulative API estimate USD 1.19689392 under the approved USD 2 ceiling. Exact UTF-8 inputs/raw grader calls, hashes, denominators and historical reports replay offline. Seventy local tests and the source secret scan pass. Source inspection confirms ten incomplete answers and identifies semantic grader false passes/failures despite 18/18 calibration and zero schema/reference-invalid outputs. Raw dimension counts remain diagnostic, not a factual-accuracy or release gate. Publication, production frontend build (25 routes), built-page checks, and source/build secret scans pass. All old evidence remains unchanged. Results committed, reviewed and pushed as `f203386`; main was verified aligned with origin after push. No human adjudication inferred. This completes the authorized measurement queue, with remaining application/evaluator defects explicitly retained for future remediation rather than a new accuracy claim.
 
 - Phase 68 development gates passed with limitations: v6 GPT-4.1 grader passes 18/18 visible fixtures; four live probes preserve the corrected memory topic and multi-query coverage, but memory generation still over-abstains despite sufficient retrieved evidence. No permission flags recorded. Cumulative estimate USD 0.65385488 under the newly approved USD 2 ceiling. Phase 67 commit `a7aa503` reviewed and pushed. Runtime/index frozen at `89b5a38` and committed as `8f98e32`; separately authored and validated 60-case/83-fact suite sealed in `818afe2`. Schema, quote, role, overlap and environment preflight passed. One-shot execution is in progress; publication is pending. See `docs/phase-68/preflight.md`.
