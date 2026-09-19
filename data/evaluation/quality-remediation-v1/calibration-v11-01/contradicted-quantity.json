@@ -1,0 +1,75 @@
+{
+  "case_id": "contradicted-quantity",
+  "cost_usd": "1.92418167",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the question, but with the wrong booking deadline.",
+    "behavior_span": "Book your seat at least 12 hours before departure.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Brindle shuttle seats must be booked at least 24 hours before departure."
+          }
+        ],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer asserts a 12-hour booking deadline, but the source states a 24-hour booking deadline, which is incompatible.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Brindle shuttle seats must be booked at least 24 hours before departure."
+          }
+        ],
+        "text": "Book your seat at least 12 hours before departure."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "at least 12 hours before departure"
+        ],
+        "fact_id": "F1",
+        "reason": "The answer gives 12 hours, which conflicts with the required fact that it must be booked at least 24 hours before departure.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "It addresses the same topic asked by the user: the booking deadline for a Brindle shuttle seat.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The answer’s 12-hour deadline is contradicted by the source’s 24-hour rule, so the candidate correctly marked the claim and required fact as contradicted. The cited source does not entail 12 hours, so citation support is correctly missing. The response is relevant, but because it gives the wrong deadline it fails completeness and response_behavior under the rubric. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

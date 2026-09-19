@@ -1,0 +1,93 @@
+{
+  "case_id": "omitted-required-condition",
+  "cost_usd": "1.91656467",
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "fail",
+    "disputed_dimensions": [
+      "factual_support",
+      "citation_support"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "partial_answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It answers the cap part of the question but omits the shift condition.",
+    "behavior_span": "The reimbursement cap is 38 credits per trip.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Lark taxi reimbursement is capped at 38 credits per trip."
+          }
+        ],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "The source supports a specific claim about Lark taxi reimbursement, but the answer states a broader, unspecified reimbursement cap.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Lark taxi reimbursement is capped at 38 credits per trip."
+          }
+        ],
+        "text": "The reimbursement cap is 38 credits per trip."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The reimbursement cap is 38 credits per trip."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer states the cap exactly.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [],
+        "fact_id": "F2",
+        "reason": "The answer does not mention any shift condition or lab shift ending after 22:00.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is about the requested Lark taxi claim cap, but it is incomplete.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {
+    "citation_support": {
+      "actual": "unresolved",
+      "expected": "pass"
+    },
+    "factual_support": {
+      "actual": "unresolved",
+      "expected": "pass"
+    }
+  },
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "agree",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "The answer’s only factual claim, “The reimbursement cap is 38 credits per trip,” is directly supported by R1/C1, so marking it unknown and uncited/missing is incorrect. The answer also omits the required shift condition, so completeness should fail. Its behavior is correctly partial_answer, relevance is on-topic, and there is no forbidden assertion present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

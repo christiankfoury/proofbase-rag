@@ -105,6 +105,19 @@ See [v11 notes](../phase-69/evaluator-v11.md). Sixteen isolated confirmation cas
 and independent validation are preserved; a guarded confirmation runner requires
 a complete development gate and source review before any calls.
 
+V10 evidence/v11 preparation `004b936` reviewed/pushed. V11 completed 20/24
+exact challenges and 3/3 exact probes; reliability still failed. All 75 calls
+preserved, incremental USD 0.238710; cumulative USD 2.13692667 of USD 5.
+See [v11 results](../phase-69/calibration-v11-results.md). V12 is prepared with
+full GPT-5.4 and context-only claim reference resolution; eight local tests pass.
+Its USD 7.72026250 conservative bound exceeds USD 2.86307333 remaining. A USD 10
+cumulative ceiling (USD 5 additional) was requested and is **pending**; USD 5
+remains enforced and no v12 calls occurred. See [v12 preparation](../phase-69/evaluator-v12.md).
+The 16-case confirmation remains unexecuted; application/runtime holdout untouched.
+Read-only [runtime trace triage](../phase-69/runtime-trace-triage.md) records distinct
+request, retrieval, deterministic generation and output-validation failure paths
+for future development after evaluator readiness.
+
 ### Historical milestones (latest first)
 
 Entries below record status at their respective milestones; older references to

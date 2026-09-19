@@ -1,0 +1,66 @@
+{
+  "case_id": "ambiguous-question-assumed-context",
+  "cost_usd": "2.01991242",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a concrete booking lead time, so it substantively answers the question. However, it also invents a specific topic/entity (“Morrow equipment”) not identified by the question or history, so relevance fails.",
+    "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source explicitly states the same booking deadline for Morrow equipment, and the cited source matches it exactly.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "text": "You must book Morrow equipment at least 2 days ahead."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "It introduces the ungrounded topic/entity “Morrow equipment,” which is not identified by the user question or history.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The answer’s only factual claim is fully supported by R1 and C1. There were no required facts to cover, so completeness is not applicable and the candidate’s treatment is fine. The response behavior is correctly marked as fail because the expected behavior was clarify, while the answer gives a substantive booking deadline instead. Relevance is correctly marked fail/irrelevant because it introduces the ungrounded entity/topic “Morrow equipment,” which the question and history do not identify. No forbidden assertion was supplied, so none is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

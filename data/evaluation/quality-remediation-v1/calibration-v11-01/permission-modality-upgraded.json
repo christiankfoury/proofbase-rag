@@ -1,0 +1,84 @@
+{
+  "case_id": "permission-modality-upgraded",
+  "cost_usd": "2.10057792",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [
+      "response_behavior",
+      "forbidden_assertion"
+    ],
+    "factual_support": "fail",
+    "forbidden_assertion": "unresolved",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "unresolved",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It directly answers the question, but with the wrong substantive claim.",
+    "behavior_span": "Yes. A supervisor must grant a remote-work extension after reviewing the request.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "An Iris supervisor may grant a remote-work extension after reviewing the request. Approval is discretionary, not guaranteed."
+          }
+        ],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source says the supervisor may grant the extension and that approval is discretionary, which is incompatible with a must-grant obligation.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "An Iris supervisor may grant a remote-work extension after reviewing the request. Approval is discretionary, not guaranteed."
+          }
+        ],
+        "text": "A supervisor must grant a remote-work extension after reviewing the request."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Yes.",
+          "A supervisor must grant a remote-work extension after reviewing the request."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer makes approval mandatory and guaranteed, which conflicts with the required fact that the supervisor may grant it and that approval is discretionary and not guaranteed.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is on-topic and addresses the remote-work extension review question.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {
+    "response_behavior": {
+      "actual": "unresolved",
+      "expected": "fail"
+    }
+  },
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "dispute",
+    "reason": "The answer’s substantive claim (“A supervisor must grant...”) is contradicted by the source, so factual_support and citation_support are correctly failed, and the required fact about discretionary, non-guaranteed approval is not covered, so completeness is correctly failed. Relevance is correct because the response addresses the remote-work-extension question. However, actual_behavior should be answer (it directly answers the question, albeit wrongly), so response_behavior should pass, not fail. Also, there are no forbidden assertions, so that dimension should be agree, not absent.",
+    "relevance": "agree",
+    "response_behavior": "dispute"
+  }
+}
