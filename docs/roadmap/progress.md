@@ -60,6 +60,12 @@ See [v7 calibration results](../phase-69/calibration-v7-results.md). Next: a sep
 versioned evaluator repair, not application tuning or holdout execution. Historical
 33/60 overall and Phase 68 provisional 28/38 completeness remain unchanged.
 
+V7 evidence/replay commits `9a0c395`, `2dabfc3` reviewed and pushed. Separate v8
+candidate now makes speech acts explicit and supplies projected candidate labels
+to the reviewer. Six new tests plus four frozen replay tests pass; unchanged
+development expectations and reviewer probes will be used. Preflight USD 2.921800
+fits USD 3.65143408 remaining. See [v8 notes](../phase-69/evaluator-v8.md).
+
 ### Historical milestones (latest first)
 
 Entries below record status at their respective milestones; older references to
