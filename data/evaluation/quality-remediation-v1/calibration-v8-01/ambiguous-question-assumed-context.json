@@ -1,0 +1,78 @@
+{
+  "case_id": "ambiguous-question-assumed-context",
+  "cost_usd": "1.44991592",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "unresolved",
+    "disputed_dimensions": [
+      "completeness"
+    ],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the question with a specific booking timeframe.",
+    "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "kind": "factual",
+        "reason": "The claim is directly supported by both the factual source and the cited source, which state the same requirement for booking Morrow equipment.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "text": "You must book Morrow equipment at least 2 days ahead."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer is directly relevant to the question about advance booking requirements.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {
+    "completeness": {
+      "actual": "unresolved",
+      "expected": "not_applicable"
+    },
+    "relevance": {
+      "actual": "pass",
+      "expected": "fail"
+    }
+  },
+  "review": {
+    "citation_support": "agree",
+    "completeness": "dispute",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Factual support and citation support are correct: the answer is directly supported by the provided source and citation. Relevance is correct: the answer addresses the question. Forbidden assertion is correct: no forbidden assertions are present. However, completeness should be 'fail' (not 'not_applicable') because the expected behavior is to clarify, but the answer only addresses Morrow equipment and does not clarify whether the requirement applies to other items or contexts, nor does it ask for clarification from the user. Response behavior is correctly marked as 'fail' because the answer does not clarify as expected.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

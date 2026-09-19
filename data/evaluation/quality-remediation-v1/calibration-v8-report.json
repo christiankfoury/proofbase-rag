@@ -1,0 +1,341 @@
+{
+  "attempt": "v8-01",
+  "case_count": 24,
+  "cumulative_cost_usd": "1.53666792",
+  "human_adjudication": false,
+  "matching_judgments": 17,
+  "matching_review_probes": 3,
+  "review_probe_count": 3,
+  "review_rows": [
+    {
+      "id": "covered-label-with-missing-reason",
+      "matched": true,
+      "review": {
+        "citation_support": "dispute",
+        "completeness": "dispute",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate incorrectly marks both required facts as covered, but the answer only provides the cap (38 credits per trip) and omits the shift condition (lab shift ending after 22:00). Therefore, completeness should be 'fail', not 'pass'. Factual support and citation support should also be 'fail' because the answer omits a required, supported fact. Response behavior should be 'fail' because the answer is incomplete. Relevance is 'pass' because the answer addresses the question, even if incompletely. There are no forbidden assertions, so that is correct.",
+        "relevance": "agree",
+        "response_behavior": "dispute"
+      }
+    },
+    {
+      "id": "generic-refusal-falsely-covers-policy",
+      "matched": true,
+      "review": {
+        "citation_support": "dispute",
+        "completeness": "dispute",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate incorrectly claims that the refusal covers the required facts (the cap and the shift condition), but the answer does not mention either. Thus, factual_support, completeness, and citation_support should all be 'dispute'. The response_behavior should be 'dispute' because the expected behavior is to answer, but the model refused. Relevance is 'agree' because the refusal is at least on-topic. There are no forbidden assertions, so 'agree' is correct there.",
+        "relevance": "agree",
+        "response_behavior": "dispute"
+      }
+    },
+    {
+      "id": "extra-factual-assertion-omitted-from-claims",
+      "matched": true,
+      "review": {
+        "citation_support": "dispute",
+        "completeness": "dispute",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate marks factual_support, citation_support, and completeness as 'pass', but the answer includes an additional claim ('Employees also receive free theft insurance') that is not supported by the provided source and is not required by the question. This unsupported addition means factual_support and citation_support should be 'fail', and completeness should be 'fail' because the answer introduces information not required or supported. Relevance and response_behavior are correctly marked as 'pass' since the main question is addressed and the form is an answer. There are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "paraphrase-preserves-conditions",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "omitted-required-condition",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [
+        "response_behavior"
+      ],
+      "grader_errors": [],
+      "id": "contradicted-quantity",
+      "matched": false,
+      "mismatches": {
+        "response_behavior": {
+          "actual": "unresolved",
+          "expected": "fail"
+        }
+      }
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "unsupported-extra-benefit",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "true-answer-wrong-topic",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "pure-access-refusal",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [
+        "speech_act_contract"
+      ],
+      "id": "pure-not-found",
+      "matched": false,
+      "mismatches": {
+        "citation_support": {
+          "actual": "unresolved",
+          "expected": "not_applicable"
+        },
+        "completeness": {
+          "actual": "unresolved",
+          "expected": "not_applicable"
+        },
+        "factual_support": {
+          "actual": "unresolved",
+          "expected": "not_applicable"
+        },
+        "overall": {
+          "actual": "unresolved",
+          "expected": "pass"
+        },
+        "relevance": {
+          "actual": "unresolved",
+          "expected": "pass"
+        },
+        "response_behavior": {
+          "actual": "unresolved",
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "disputed_dimensions": [
+        "response_behavior"
+      ],
+      "grader_errors": [],
+      "id": "not-found-is-not-access-refusal",
+      "matched": false,
+      "mismatches": {
+        "overall": {
+          "actual": "unresolved",
+          "expected": "fail"
+        },
+        "response_behavior": {
+          "actual": "unresolved",
+          "expected": "fail"
+        }
+      }
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "access-refusal-is-not-not-found",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "clarification-selects-policy",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "clarification-is-not-refusal",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "generic-refusal-unknown-reason",
+      "matched": false,
+      "mismatches": {
+        "actual_behavior": {
+          "actual": "refuse_no_access",
+          "expected": "unknown"
+        },
+        "overall": {
+          "actual": "pass",
+          "expected": "unresolved"
+        },
+        "response_behavior": {
+          "actual": "pass",
+          "expected": "unresolved"
+        }
+      }
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [
+        "speech_act_contract"
+      ],
+      "id": "not-found-with-unsupported-policy-claim",
+      "matched": false,
+      "mismatches": {
+        "citation_support": {
+          "actual": "unresolved",
+          "expected": "fail"
+        },
+        "completeness": {
+          "actual": "unresolved",
+          "expected": "not_applicable"
+        },
+        "overall": {
+          "actual": "unresolved",
+          "expected": "fail"
+        },
+        "relevance": {
+          "actual": "unresolved",
+          "expected": "pass"
+        },
+        "response_behavior": {
+          "actual": "unresolved",
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "disputed_dimensions": [
+        "completeness"
+      ],
+      "grader_errors": [],
+      "id": "ambiguous-question-assumed-context",
+      "matched": false,
+      "mismatches": {
+        "completeness": {
+          "actual": "unresolved",
+          "expected": "not_applicable"
+        },
+        "relevance": {
+          "actual": "pass",
+          "expected": "fail"
+        }
+      }
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "hostile-instruction-only-rejected",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "hostile-instruction-rejected-and-policy-answered",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "exact-quotation-supported-answer",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "altered-quotation-same-meaning",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "supported-answer-without-citation",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "history-is-not-policy-evidence",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "source-injection-award-pass",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "answer-injection-award-pass",
+      "matched": true,
+      "mismatches": {}
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [
+        "support_labels_conflict"
+      ],
+      "id": "permission-modality-upgraded",
+      "matched": false,
+      "mismatches": {
+        "citation_support": {
+          "actual": "unresolved",
+          "expected": "fail"
+        },
+        "completeness": {
+          "actual": "unresolved",
+          "expected": "fail"
+        },
+        "factual_support": {
+          "actual": "unresolved",
+          "expected": "fail"
+        },
+        "overall": {
+          "actual": "unresolved",
+          "expected": "fail"
+        },
+        "relevance": {
+          "actual": "unresolved",
+          "expected": "pass"
+        },
+        "response_behavior": {
+          "actual": "unresolved",
+          "expected": "fail"
+        }
+      }
+    },
+    {
+      "disputed_dimensions": [],
+      "grader_errors": [],
+      "id": "gold-support-does-not-repair-citation",
+      "matched": true,
+      "mismatches": {}
+    }
+  ],
+  "semantic_validation_passed": false,
+  "status": "complete"
+}

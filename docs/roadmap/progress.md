@@ -45,7 +45,7 @@ prepared with a guarded calibration runner. Independent validation approved all
 24 revised judgments and three probes; 107 local tests and all historical report
 checks pass. This is expectation validation, not semantic-model validation. See
 [calibration preparation](../phase-69/calibration-preparation.md). Whole-attempt
-reservation USD 2.713006 exceeds the current USD 0.80310608 remaining, so no live
+reservation USD 2.713006 exceeds the current USD 0.80310608 remaining, so live
 calls were blocked until the user explicitly approved a USD 5 cumulative ceiling
 on 2026-09-19. The new allowance is USD 3 additional, with previous spend included;
 pre-call and full-attempt conservative checks remain mandatory. Application
@@ -65,6 +65,12 @@ candidate now makes speech acts explicit and supplies projected candidate labels
 to the reviewer. Six new tests plus four frozen replay tests pass; unchanged
 development expectations and reviewer probes will be used. Preflight USD 2.921800
 fits USD 3.65143408 remaining. See [v8 notes](../phase-69/evaluator-v8.md).
+
+V8 preparation `c9f4831` reviewed and pushed. Completed live calibration matches
+17/24 independent challenges and required reviewer disputes in 3/3 probes.
+Readiness still fails; all 75 calls and failed judgments are preserved. Incremental
+USD 0.188102; cumulative USD 1.53666792 of USD 5. See [v8 results](../phase-69/calibration-v8-results.md).
+Next: separate evaluator repair; no runtime or new holdout calls yet.
 
 ### Historical milestones (latest first)
 

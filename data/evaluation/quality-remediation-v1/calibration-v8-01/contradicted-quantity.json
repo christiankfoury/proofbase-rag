@@ -1,0 +1,78 @@
+{
+  "case_id": "contradicted-quantity",
+  "cost_usd": "1.37377392",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [
+      "response_behavior"
+    ],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "unresolved",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response provides a direct answer to the question, even though it is factually incorrect.",
+    "behavior_span": "Book your seat at least 12 hours before departure.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "kind": "factual",
+        "reason": "The answer claims booking is required at least 12 hours before departure, but the source states it must be at least 24 hours. The cited source does not support the 12-hour claim and in fact contradicts it.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Brindle shuttle seats must be booked at least 24 hours before departure."
+          }
+        ],
+        "text": "Book your seat at least 12 hours before departure."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Book your seat at least 12 hours before departure."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer states 12 hours, but the required fact is 24 hours, directly contradicting the requirement.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer is relevant to the question about booking time for a Brindle shuttle seat, despite being incorrect.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {
+    "response_behavior": {
+      "actual": "unresolved",
+      "expected": "fail"
+    }
+  },
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly identifies that the answer contradicts the required fact (24 hours) and the source, so factual_support=fail, citation_support=fail, and completeness=fail are all correct. The answer is relevant to the question, so relevance=pass is correct. There are no forbidden assertions, so forbidden_assertion=absent is correct. However, response_behavior=fail is incorrect: the answer does provide a direct answer (albeit incorrect), so the expected behavior (answer) is met, even though the content is wrong. The correct label for response_behavior should be 'pass', not 'fail'.",
+    "relevance": "agree",
+    "response_behavior": "dispute"
+  }
+}

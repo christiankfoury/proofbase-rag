@@ -46,3 +46,13 @@ class CalibrationReplayTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CalibrationV8ReplayTests(unittest.TestCase):
+    def test_v8_replays_without_overstating_readiness(self):
+        from scripts.report_quality_calibration_v8 import replay
+        result = replay()
+        self.assertEqual(result["matching_judgments"], 17)
+        self.assertEqual(result["matching_review_probes"], 3)
+        self.assertFalse(result["semantic_validation_passed"])
+        self.assertEqual(result["cumulative_cost_usd"], "1.53666792")
