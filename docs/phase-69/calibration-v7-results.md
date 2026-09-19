@@ -50,6 +50,11 @@ dimensions, disagreements and reviewer outcomes. It rejects changed raw evidence
 and uses the frozen attempt ledger so later spending cannot rewrite this report.
 It verifies reproducibility, not semantic correctness.
 
+Post-commit review found that Git's Windows CRLF conversion changes working-copy
+source bytes although Python executes the same normalized source. Replay now
+compares normalized Python source text while retaining exact raw hashes for the
+frozen snapshots and all evidence. A separate test covers CRLF checkouts.
+
 Preserve v7 evaluator/transport/runner code. The next evaluator version must make
 speech-act classification explicit and present actual candidate dimension labels
 to the reviewer, with unambiguous correct/incorrect judgment semantics. Validate

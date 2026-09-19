@@ -42,8 +42,10 @@ def replay(attempt="v7-01"):
         if digest(folder / "code" / name) != expected:
             raise ValueError("Frozen source snapshot changed")
         # Imports used for reconstruction must match the recorded implementation.
-        if digest(ROOT / "scripts" / name) != expected:
-            raise ValueError("Replay requires the frozen v7 evaluator source bytes")
+        # Python normalizes source newlines; Git CRLF checkouts must replay the
+        # same program while raw frozen snapshot hashes remain exact above.
+        if (ROOT / "scripts" / name).read_text(encoding="utf-8") != (folder / "code" / name).read_text(encoding="utf-8"):
+            raise ValueError("Replay requires the frozen v7 evaluator source")
     ledger = Ledger(folder / "api-ledger.json")
     if str(ledger.spent) != manifest["cumulative_cost_usd"]:
         raise ValueError("Frozen ledger/manifest cost mismatch")

@@ -33,6 +33,16 @@ class CalibrationReplayTests(unittest.TestCase):
             with patch.object(report, "FOLDER", folder), self.assertRaisesRegex(ValueError, "Raw ledger binding changed"):
                 report.replay()
 
+    def test_windows_source_newlines_do_not_change_replay(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "scripts").mkdir()
+            for name in report.CODE:
+                source = (report.ROOT / "scripts" / name).read_text(encoding="utf-8")
+                (root / "scripts" / name).write_bytes(source.replace("\n", "\r\n").encode("utf-8"))
+            with patch.object(report, "ROOT", root):
+                self.assertEqual(report.replay()["matching_judgments"], 3)
+
 
 if __name__ == "__main__":
     unittest.main()
