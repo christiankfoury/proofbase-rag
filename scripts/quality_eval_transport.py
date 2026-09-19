@@ -10,10 +10,14 @@ from pathlib import Path
 
 from scripts.fresh_eval_grader import matches_schema
 from scripts.quality_eval_contract import request_parts, schema, review_schema, REVIEW_PROMPT
-from scripts.quality_eval_preflight import LEDGER, HANDOFF_SPENT, CEILING, budget_audit
+from scripts.quality_eval_preflight import LEDGER, HANDOFF_SPENT, budget_audit
 from scripts.reliable_evaluation_run import write_json_atomic
 
 MODEL = "gpt-4.1-2025-04-14"
+APPROVED_CEILING = Decimal("5.00")
+AUTHORIZATION = {"approved_cumulative_usd": "5.00", "prior_ceiling_usd": "2.00",
+                 "date": "2026-09-19", "source": "User: Approve USD 5 cumulative ceiling",
+                 "scope": "Quality remediation; each later stage requires conservative headroom"}
 # Verified 2026-09-19: https://developers.openai.com/api/docs/models/gpt-4.1
 INPUT_RATE, OUTPUT_RATE = Decimal("2"), Decimal("8")
 CAPS = {"claims": 2048, "coverage": 1400, "review": 900}
@@ -103,6 +107,8 @@ class Ledger:
         budget_audit()
         path = Path(path)
         data = json.loads(LEDGER.read_bytes())
+        data["limit_usd"] = float(APPROVED_CEILING)
+        data["continuation_authorization"] = deepcopy(AUTHORIZATION)
         data["continuation"] = {"historical_sha256": hashlib.sha256(LEDGER.read_bytes()).hexdigest(),
                                 "historical_calls": len(data["calls"]), "handoff_spent_floor_usd": str(HANDOFF_SPENT)}
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -119,7 +125,9 @@ class Ledger:
             raise BudgetStop("Complete historical prefix changed")
         if self.data.get("continuation") != {"historical_sha256": self.prefix_hash, "historical_calls": len(old), "handoff_spent_floor_usd": str(HANDOFF_SPENT)}:
             raise BudgetStop("Historical provenance changed")
-        if Decimal(str(self.data["limit_usd"])) != CEILING or self.data.get("budget_authorization") != self.prefix.get("budget_authorization"):
+        if (Decimal(str(self.data["limit_usd"])) != APPROVED_CEILING
+            or self.data.get("budget_authorization") != self.prefix.get("budget_authorization")
+            or self.data.get("continuation_authorization") != AUTHORIZATION):
             raise BudgetStop("Budget authorization changed")
         for index, row in enumerate(self.data["calls"]):
             charge = Decimal(str(row["charged_usd"]))
@@ -136,8 +144,8 @@ class Ledger:
         return max(old, HANDOFF_SPENT) + new
 
     def require_headroom(self, amount):
-        if self.spent + amount > CEILING:
-            raise BudgetStop(f"Conservative preflight needs USD {amount}; only USD {CEILING - self.spent} remains")
+        if self.spent + amount > APPROVED_CEILING:
+            raise BudgetStop(f"Conservative preflight needs USD {amount}; only USD {APPROVED_CEILING - self.spent} remains")
 
     def call(self, create, body, raw_path):
         with exclusive_lock(self.path.parent):
@@ -145,13 +153,15 @@ class Ledger:
             bound = reserve(body)
             self.require_headroom(bound["reserved_usd"])
             raw_path = Path(raw_path)
+            relative_raw = raw_path.resolve().relative_to(self.path.parent.resolve()).as_posix()
             if raw_path.exists():
                 raise BudgetStop("Request already attempted; preserve prior evidence")
             entry = {"request": deepcopy(body), "status": "started", "response": None}
             write_json_atomic(raw_path, entry)
             row = {"call_index": len(self.data["calls"]), "operation": "chat", "model": MODEL,
                    "status": "started", **{k: str(v) if isinstance(v, Decimal) else v for k, v in bound.items()},
-                   "charged_usd": str(bound["reserved_usd"]), "raw_path": raw_path.name}
+                   "charged_usd": str(bound["reserved_usd"]), "raw_path": relative_raw,
+                   "request_sha256": hashlib.sha256(json.dumps(body, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()}
             self.data["calls"].append(row)
             write_json_atomic(self.path, self.data)
             try:
@@ -168,7 +178,8 @@ class Ledger:
                 cost = (prompt_tokens * INPUT_RATE + completion_tokens * OUTPUT_RATE) / 1_000_000
                 row.update(status="completed", input_tokens=prompt_tokens, output_tokens=completion_tokens,
                            charged_usd=str(cost), response_model=response.model,
-                           system_fingerprint=getattr(response, "system_fingerprint", None))
+                           system_fingerprint=getattr(response, "system_fingerprint", None),
+                           raw_sha256=hashlib.sha256(raw_path.read_bytes()).hexdigest())
                 write_json_atomic(self.path, self.data)
                 return response
             except BaseException as exc:

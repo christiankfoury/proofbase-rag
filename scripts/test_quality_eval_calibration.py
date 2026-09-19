@@ -25,7 +25,7 @@ class CalibrationCustodyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             result = preflight(validation_path=Path(temp) / "absent.json")
         self.assertFalse(result["independently_checked"])
-        self.assertFalse(result["headroom_passed"])
+        self.assertTrue(result["headroom_passed"])
         self.assertEqual(result["external_calls"], 0)
         self.assertGreater(Decimal(result["upper_bound_usd"]), Decimal("0.80310608"))
 
@@ -52,7 +52,7 @@ class CalibrationCustodyTests(unittest.TestCase):
             validation.write_text(json.dumps(self.validation()))
             ledger = Ledger.initialize(folder / "ledger.json")
             before = ledger.path.read_bytes()
-            with self.assertRaises(BudgetStop):
+            with patch("scripts.quality_eval_transport.APPROVED_CEILING", Decimal("2")), self.assertRaises(BudgetStop):
                 execute("underfunded", lambda **kwargs: self.fail("Must not call API"), ledger,
                         validation_path=validation, folder=folder)
             self.assertFalse((folder / "calibration-underfunded").exists())

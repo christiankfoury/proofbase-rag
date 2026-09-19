@@ -75,8 +75,9 @@ For 24 three-stage challenges plus three audit-only reviews, preflight reserves
 **USD 2.713006**. Current conservative remaining funds are **USD 0.80310608** of the
 approved cumulative USD 2 ceiling. Thus **live execution is blocked before any
 call**. One full bounded attempt needs cumulative headroom of USD 3.90989992.
-The proposed cumulative USD 5 ceiling would cover it; that increase is not approved
-or implemented by this document. Additional development or holdout work still
+The user subsequently approved the cumulative USD 5 ceiling on 2026-09-19;
+the new continuation records this separately from the preserved old authorization.
+Available funds before the new attempt are USD 3.80310608. Additional development or holdout work still
 requires its own conservative preflight under whichever ceiling is explicitly
 authorized. There have been no new API calls or ledger writes in this slice.
 
@@ -99,8 +100,8 @@ but underfunded preflight is preserved as `calibration-preflight-v1.json`.
 The independent validator approved all 24 revised expected judgments and all
 three seeded reviewer probes, with both raw-byte hashes verified. This approves
 the authored expectations only; no semantic model has run. The user was asked
-to approve a cumulative USD 5 ceiling; until an explicit reply, USD 2 remains
-the enforced ceiling.
+to approve a cumulative USD 5 ceiling and explicitly approved it. The old blocked
+preflight remains immutable; a new preflight records the approved headroom.
 
 Self-review corrected an evaluator defect: a wrong substantive answer must produce
 confirmed factual/completeness failures rather than become contract-invalid solely
@@ -108,6 +109,13 @@ because its prose is classified as an answer. Incomplete expected answers still
 fail required behavior and cannot earn overall credit. Review also added pinned
 response-model checks and required all independent case/audit reviews, not merely
 an aggregate approved flag. No application/runtime or public metric changed.
+
+Post-commit review of `376d2ae` found that ledger raw-file basenames alone were
+ambiguous across cases. The follow-up stores relative request paths plus request
+and raw-response hashes. Tests verify the three calls' distinct bindings. The
+same follow-up records the explicit USD 5 approval and protects copied evaluator
+source bytes from Git newline conversion. All 37 targeted tests pass again; the
+approved preflight reserves USD 2.713006 against USD 3.80310608 remaining.
 
 Next: secure the required financial approval, retain it in the new ledger's
 authorization history, freeze the calibration implementation, execute the full

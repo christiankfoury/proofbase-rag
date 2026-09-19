@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.quality_eval_contract import BEHAVIORS, DIMENSIONS, VERSION, dimensions
 from scripts.quality_eval_preflight import budget_audit
-from scripts.quality_eval_transport import MODEL, Ledger, case_bound, grade_case, review_request, reserve, parsed, BudgetStop
+from scripts.quality_eval_transport import MODEL, APPROVED_CEILING, AUTHORIZATION, Ledger, case_bound, grade_case, review_request, reserve, parsed, BudgetStop
 from scripts.quality_eval_contract import schema, review_schema
 from scripts.fresh_eval_grader import matches_schema
 from scripts.reliable_evaluation_run import write_json_atomic
@@ -119,14 +119,15 @@ def preflight(suite_path=SUITE, validation_path=VALIDATION, audit_path=AUDITS):
     ledger_path = FOLDER / "api-ledger.json"
     if ledger_path.exists():
         ledger = Ledger(ledger_path)
-        available = Decimal(budget["ceiling_usd"]) - ledger.spent
+        available = APPROVED_CEILING - ledger.spent
     else:
-        available = Decimal(budget["conservative_remaining_usd"])
+        available = APPROVED_CEILING - max(Decimal(budget["ledger_sum_usd"]), Decimal(budget["handoff_spent_usd"]))
     return {"version": VERSION, "model": MODEL, "suite_sha256": digest(suite_path),
             "validation_sha256": digest(validation_path) if validation_path.exists() else None,
             "review_suite_sha256": digest(audit_path), "review_case_count": len(audits["cases"]),
             "independently_checked": independently_checked, "case_count": len(suite["cases"]),
             "upper_bound_usd": str(total), "available_usd": str(available),
+            "authorization": AUTHORIZATION,
             "headroom_passed": total <= available, "cases": costs, "code_sha256": code_hashes(),
             "semantic_validation_passed": False, "external_calls": 0}
 

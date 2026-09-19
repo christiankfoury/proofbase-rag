@@ -46,7 +46,9 @@ prepared with a guarded calibration runner. Independent validation approved all
 checks pass. This is expectation validation, not semantic-model validation. See
 [calibration preparation](../phase-69/calibration-preparation.md). Whole-attempt
 reservation USD 2.713006 exceeds the current USD 0.80310608 remaining, so no live
-calls may start until an explicit cumulative-ceiling increase. Application
+calls were blocked until the user explicitly approved a USD 5 cumulative ceiling
+on 2026-09-19. The new allowance is USD 3 additional, with previous spend included;
+pre-call and full-attempt conservative checks remain mandatory. Application
 remediation and new holdout work have not started.
 
 ### Historical milestones (latest first)

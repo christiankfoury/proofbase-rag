@@ -45,7 +45,7 @@ class QualityTransportTests(unittest.TestCase):
             ledger = Ledger.initialize(Path(temp) / "ledger.json")
             before = ledger.path.read_bytes()
             with self.assertRaises(BudgetStop):
-                ledger.require_headroom(Decimal("3"))
+                ledger.require_headroom(Decimal("6"))
             self.assertEqual(before, ledger.path.read_bytes())
 
     def test_raw_response_saved_and_cost_settled_before_parse_error(self):
@@ -114,6 +114,10 @@ class QualityTransportTests(unittest.TestCase):
             review_input = json.loads(bodies[2]["messages"][1]["content"])
             self.assertEqual(review_input["candidate"], grade)
             self.assertEqual(len(list((Path(temp) / "case").glob("*.json"))), 3)
+            self.assertEqual([row["raw_path"] for row in ledger.data["calls"][-3:]],
+                             ["case/claims.json", "case/coverage.json", "case/review.json"])
+            self.assertTrue(all(len(row["raw_sha256"]) == 64 and len(row["request_sha256"]) == 64
+                                for row in ledger.data["calls"][-3:]))
 
     def test_refusal_or_truncation_is_not_schema_success(self):
         contract = initial_requests(fixtures()[0]["inputs"])[0][1]["response_format"]["json_schema"]["schema"]
