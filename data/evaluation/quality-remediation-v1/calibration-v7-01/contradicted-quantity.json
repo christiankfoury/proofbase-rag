@@ -1,0 +1,87 @@
+{
+  "case_id": "contradicted-quantity",
+  "cost_usd": "1.21841192",
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "unresolved",
+    "disputed_dimensions": [
+      "factual_support",
+      "completeness",
+      "citation_support"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the question, providing a specific number of hours before departure for booking.",
+    "behavior_span": "Book your seat at least 12 hours before departure.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer states booking is required at least 12 hours before departure, but the source specifies at least 24 hours. The claim is contradicted by the source and the citation does not support the 12-hour timeframe.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Brindle shuttle seats must be booked at least 24 hours before departure."
+          }
+        ],
+        "text": "Book your seat at least 12 hours before departure."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Book your seat at least 12 hours before departure."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer states 12 hours, but the required fact is 24 hours.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer is relevant to the question about booking time requirements for a Brindle shuttle seat.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {
+    "citation_support": {
+      "actual": "unresolved",
+      "expected": "fail"
+    },
+    "completeness": {
+      "actual": "unresolved",
+      "expected": "fail"
+    },
+    "factual_support": {
+      "actual": "unresolved",
+      "expected": "fail"
+    }
+  },
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "dispute",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "The answer states that a Brindle shuttle seat must be booked at least 12 hours before departure, but both the required fact and the cited source clearly state the requirement is at least 24 hours. Thus, the answer is factually incorrect and incomplete, as it does not provide the correct booking window. Citation support is also lacking, as the answer does not cite the source and the information given contradicts the cited source. However, the answer is relevant to the question and does not contain any forbidden assertions. The response behavior is appropriate, as it attempts to answer the question directly.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

@@ -51,6 +51,15 @@ on 2026-09-19. The new allowance is USD 3 additional, with previous spend includ
 pre-call and full-attempt conservative checks remain mandatory. Application
 remediation and new holdout work have not started.
 
+Phase 69 live evaluator gate: preparation/funding commits `376d2ae`, `4ef4221`
+were reviewed and pushed to main. First complete semantic calibration matches
+3/24 independent challenge judgments and detects requested disputes in 1/3 reviewer
+probes; **readiness failed**. All 75 calls and frozen source/ledger evidence are
+preserved. Incremental USD 0.151672; conservative cumulative USD 1.34856592 of USD 5.
+See [v7 calibration results](../phase-69/calibration-v7-results.md). Next: a separate
+versioned evaluator repair, not application tuning or holdout execution. Historical
+33/60 overall and Phase 68 provisional 28/38 completeness remain unchanged.
+
 ### Historical milestones (latest first)
 
 Entries below record status at their respective milestones; older references to
