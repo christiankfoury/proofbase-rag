@@ -24,8 +24,9 @@ flowchart LR
   Scope --> Memory["Optional memory rewrite"]
   Memory --> Retrieval["Permission-filtered retrieval"]
   Retrieval --> Evidence["Retrieved chunks only"]
-  Evidence --> Generation["Answer generation"]
-  Generation --> Validation["Citation validation and confidence"]
+  Evidence --> Gate["Evidence sufficiency"]
+  Gate --> Generation["Answer generation"]
+  Generation --> Validation["Claim and citation validation, then confidence"]
   Validation --> Response["Answer, citations, metrics, logs"]
 ```
 
@@ -47,9 +48,11 @@ The key safety design is that retrieval applies role and scope filtering before 
 | Permission leakage | A restricted source appearing in retrieved chunks or citations for a role that should not access it. |
 | Memory | Previous turns used to rewrite a follow-up question. It is not source evidence. |
 
-## Current Measured Reference
+## Measured evidence and its limits
 
-The current strongest measured references come from existing artifacts:
+The earlier Phase 65 frozen runtime recorded [33/60 automated protocol passes](../phase-65/results.md), with invalid grader outputs and human review pending. The [Phase 68 60-case evaluation](../phase-68/results.md) reports separate dimensions and unresolved judgments; it has no validated replacement overall accuracy score. Portfolio fixes after those runs do not change their scores or retroactively measure the new runtime.
+
+The table below preserves **historical development/regression measurements**. Its answer/citation labels are heuristic scores on synthetic cases used during development, not expert accuracy or unseen performance:
 
 | Area | Reference run | Sample | Result summary |
 | --- | --- | ---: | --- |

@@ -1,0 +1,58 @@
+{
+  "kind": "portfolio_smoke_check",
+  "date": "2026-09-19",
+  "base_commit": "ab94f7d",
+  "patched_runtime": "Phase 70 portfolio commit (see git history)",
+  "not_an_accuracy_benchmark": true,
+  "web_origin": "http://127.0.0.1:3001",
+  "api_origin": "http://127.0.0.1:8001",
+  "checks": [
+    {
+      "question": "Where does Northstar Analytics have offices?",
+      "identity": "Emma Employee",
+      "scope": "Northstar Analytics / People Operations",
+      "response_type": "answer",
+      "answer": "Northstar Analytics has offices in Toronto, Montreal, and New York.",
+      "cited_documents": [
+        "HR-001",
+        "HR-003"
+      ],
+      "total_latency_ms": 11082,
+      "request_id": "618f6c06-955d-4ede-a6c3-ba9d88322d25",
+      "ui_permission_indicator": "No unauthorized chunks reached generation"
+    },
+    {
+      "question": "What is Northstar's sabbatical policy?",
+      "identity": "Emma Employee",
+      "scope": "Northstar Analytics / All departments",
+      "response_type": "not_found",
+      "answer": "I could not find this in the available documents.",
+      "total_latency_ms": 3956,
+      "request_id": "1976efd8-082c-41ca-8586-8cab822511a7"
+    },
+    {
+      "question": "What is the promotion calibration process?",
+      "identity": "Emma Employee",
+      "scope": "Northstar Analytics / All departments",
+      "response_type": "refuse_no_access",
+      "answer": "You do not have access to the required information.",
+      "total_latency_ms": 4968,
+      "request_id": "995f8250-1a0b-443e-81be-f10b3d96e321"
+    }
+  ],
+  "api_accounting": {
+    "prior_conservative_usd": "2.13692667",
+    "incremental_estimated_usd": "0.00635410",
+    "cumulative_estimated_usd": "2.14328077",
+    "approved_cumulative_ceiling_usd": "5.00",
+    "incremental_guard_usd": "0.50",
+    "new_sdk_calls": 11,
+    "all_calls_settled": true
+  },
+  "limitations": [
+    "Three designed demo questions, not a new holdout or generalization score.",
+    "No new upload, AI cleanup, full benchmark or production integration run.",
+    "UI generation cost omits auxiliary model work; SDK ledger is the verification cost record.",
+    "Historical measurements remain unchanged and do not measure this patched runtime."
+  ]
+}

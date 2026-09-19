@@ -179,7 +179,16 @@ def validate_candidate_answer(
         return result
 
     answer = str(candidate.get("answer") or "")
-    exact_literals = extract_exact_literals(answer)
+    # Source identifiers are citation metadata, not numeric policy claims. Strip
+    # only an exact authorized ID in a Source annotation; retain surrounding
+    # claims and unknown IDs for the normal literal checks.
+    literal_text = answer
+    for document_id in sorted({c.document_id for c in authorized_chunks}, key=len, reverse=True):
+        literal_text = re.sub(
+            r"(\bSource:\s*)" + re.escape(document_id) + r"(?![\w-])",
+            r"\1", literal_text, flags=re.IGNORECASE,
+        )
+    exact_literals = extract_exact_literals(literal_text)
     evidence_text = "\n".join(chunk.content for chunk in authorized_chunks)
     unsupported_exact = [literal for literal in exact_literals if not exact_literal_supported(literal, evidence_text)]
     if unsupported_exact:

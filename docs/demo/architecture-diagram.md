@@ -1,87 +1,67 @@
-# Architecture Diagram Guidance
+# Proofbase architecture
 
-## What The Diagram Should Show
+Proofbase answers questions from authorized document passages. The model supplies language and reasoning; it does not decide which tenant, role, project or document a user may access.
 
-The architecture diagram should make it clear that this is an evaluated enterprise RAG system, not only a chat completion wrapper.
+```mermaid
+flowchart TD
+  UI[Next.js App and Dev/Admin] --> API[FastAPI: identity, tenant and request limits]
+  API --> Scope[Resolve project, department and role]
+  Scope --> Assess[Request assessment and query orchestration]
+  Memory[Prior conversation] -. query context only .-> Assess
+  Assess --> Retrieve[Permission-filtered vector / keyword retrieval and reranking]
+  DB[(Postgres and pgvector)] <--> Retrieve
+  Retrieve --> Sufficiency[Authorized evidence sufficiency]
+  Sufficiency -->|supported or partial| Generate[Answer generation]
+  Sufficiency -->|missing / ambiguous / inaccessible| Safe[Abstain, clarify or refuse]
+  Generate --> Validate[Claim, number, citation and source-instruction checks]
+  Validate -->|one bounded repair if needed| Generate
+  Validate --> Final[Final response, citations and confidence signals]
+  Safe --> Final
+  Final --> UI
+  API --> Logs[Redacted operational logs and audit events]
+  Logs --> UI
+  Saved[Saved evaluation runs and failure reports] --> UI
+```
 
-Include:
-
-- Next.js App and Dev/Admin UI.
-- FastAPI backend.
-- PostgreSQL with pgvector.
-- Markdown ingestion pipeline.
-- Project workspaces and department document libraries.
-- PDF-to-Markdown review uploads.
-- Section-based chunking.
-- OpenAI embeddings.
-- Vector, keyword, hybrid, and vector + lexical rerank retrieval.
-- Role-based permission filtering before generation.
-- Answer generation.
-- Citation validation and confidence scoring.
-- Session memory and query rewriting.
-- Evaluation runner and 130-question benchmark data.
-- Feedback, human review, observability, and audit logs.
-- Docker Compose local stack.
-- Azure-ready deployment targets.
-
-## Mermaid Diagram
+## Knowledge enters through review
 
 ```mermaid
 flowchart LR
-  User[Demo User] --> Web[Next.js App + Dev/Admin UI]
-  Web --> Auth[Local Demo Auth + Project Memberships]
-  Web --> API[FastAPI Backend]
-
-  Docs[Synthetic Markdown Documents] --> Loader[Markdown Loader]
-  Uploads[PDF Uploads] --> Review[Editable Markdown Review]
-  Review --> Cleanup[Optional AI Cleanup Draft]
-  Cleanup --> Approve[Editor Approve + Index]
-  Review --> Approve
-  Loader --> Chunker[Section-Based Chunker]
-  Approve --> Chunker
-  Chunker --> Embeddings[OpenAI Embeddings]
-  Embeddings --> DB[(PostgreSQL + pgvector)]
-
-  API --> Projects[Projects + Departments]
-  Projects --> DB
-
-  API --> Memory[Session Memory + Query Rewrite]
-  Memory --> Retrieve[Project / Department / Role Filtered Retrieval]
-  Auth --> Retrieve
-  Retrieve <--> DB
-  Retrieve --> Rerank[Vector + Lexical Rerank]
-  Rerank --> Evidence[Allowed Evidence Context]
-  Evidence --> Generator[OpenAI Answer Generation]
-  Generator --> Validation[Citation Validation + Confidence]
-  Validation --> API
-
-  API --> Feedback[Feedback Store]
-  API --> Reviews[Human Review Decisions]
-  API --> Audit[Audit Logs]
-  API --> Logs[Observability JSONL]
-
-  Benchmark[130-Question Benchmark Corpus] --> Eval[Evaluation Scripts]
-  Eval --> Reports[Evaluation Reports + JSON]
-  Reports --> Web
-  Reviews --> Web
-  Logs --> Web
-  Audit --> Web
-
-  Compose[Docker Compose] --> Web
-  Compose --> API
-  Compose --> DB
-  Azure[Azure-Ready Plan] -. future target .-> Compose
+  Seed[Synthetic Markdown corpus] --> Chunk[Section chunks]
+  PDF[PDF upload] --> Extract[Quarantine, scan and bounded extraction]
+  Extract --> Review[Editable Markdown review]
+  Review --> Draft[Optional editor-triggered AI cleanup draft]
+  Draft --> Review
+  Review --> Approve[Explicit approve and index]
+  Approve --> Chunk
+  Chunk --> Embed[OpenAI embeddings]
+  Embed --> DB[(Postgres and pgvector)]
 ```
 
-## Diagram Notes
+Uploading or generating a cleanup draft does not make content searchable. Indexing is a separate action. Original sources and review state remain inspectable. The local parser and fixture scanner have documented production limits.
 
-- Put project, department, and role filtering before generation.
-- Show uploaded PDFs as reviewable and approval-gated before indexing.
-- Show evaluation scripts as first-class parts of the system.
-- Show observability and audit as operational outputs.
-- Label Azure as a readiness plan or future deployment target, not as completed deployment.
-- Keep raw document storage as repository files today; Azure Blob Storage is future work.
+## Follow one request
 
-## Suggested Caption
+1. The API resolves identity and authorization independently of the language model. Local demo mode maps the selected seeded user to a server-side role; production identity integration is a separate boundary.
+2. Memory may clarify a follow-up's subject. It is never cited as evidence. Request assessment chooses an answer, clarification or refusal route without granting access.
+3. Retrieval filters tenant, project, department and role before passages reach generation. Vector and keyword candidates can be combined and reranked; multi-document requests may issue several searches.
+4. The evidence gate asks whether the authorized passages support the requested answer. A topic keyword alone must not override a positive evidence decision with “not found.”
+5. Generation receives authorized passages. Claim and citation validation may accept, attempt one repair, or downgrade. Numeric policy claims are checked against source content; an authorized ID in a `Source:` annotation is citation metadata.
+6. The UI replaces streamed draft text with the final validated response and shows its proof. Confidence combines support signals; it is not a calibrated probability. Logs and saved evaluation reports help inspect behavior but do not guarantee correctness.
 
-> Proofbase uses a FastAPI RAG backend, PostgreSQL/pgvector retrieval, role-based permission filtering, OpenAI generation, citation validation, and a Next.js App plus Dev/Admin UI. The system has a 130-question benchmark corpus with current benchmark v1.1 retrieval and answer-quality runs plus separate permission and memory suites, then is packaged with Docker for local demos and Azure-ready deployment planning.
+## Code map
+
+| Responsibility | Entry point |
+| --- | --- |
+| API orchestration | `apps/api/app/main.py` |
+| Identity and access | `apps/api/app/auth`, `apps/api/app/permissions` |
+| Retrieval and ranking | `apps/api/app/retrieval` |
+| Request/evidence/claim checks | `apps/api/app/reasoning` |
+| Generation and repair | `apps/api/app/generation/answer_generator.py` |
+| Upload and indexing | `apps/api/app/ingestion`, `apps/api/app/files` |
+| Chat and proof UI | `apps/web/app/chat/ChatDemoClient.tsx` |
+| Measured evidence | `data/evaluation`, `docs/phase-65`, `docs/phase-68` |
+
+## What this architecture does not prove
+
+The system can still omit facts, select incomplete evidence, abstain unnecessarily, or make mistakes that its validator misses. Historical evaluation artifacts describe their frozen runtimes, not an accuracy guarantee for later changes. Local OIDC fixtures, scanner contracts and self-review do not establish production SSO, independent penetration testing or production readiness. See the [evaluation guide](../evaluation/README.md) and [deeper algorithm documentation](../algorithm/README.md).

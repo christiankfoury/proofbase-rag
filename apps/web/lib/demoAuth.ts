@@ -1,4 +1,3 @@
-import { formatPhaseLabel } from "@/lib/phases";
 import { API_BASE } from "@/lib/apiBase";
 
 export const DEMO_USER_HEADER = "X-Demo-User-Id";
@@ -43,19 +42,51 @@ export function demoAuthHeaders(userId = selectedDemoUserId()): Record<string, s
   return { [DEMO_USER_HEADER]: userId };
 }
 
-export async function fetchDemoUsers(): Promise<DemoUser[]> {
+// Shell and page components load identity together (twice in development
+// Strict Mode). Share concurrent lookups without caching completed identities.
+const identityRequests = new Map<string, Promise<unknown>>();
+
+function shareIdentityRequest<T>(key: string, request: () => Promise<T>): Promise<T> {
+  const pending = identityRequests.get(key);
+  if (pending) return pending as Promise<T>;
+  const promise = request();
+  identityRequests.set(key, promise);
+  const clear = () => { identityRequests.delete(key); };
+  promise.then(clear, clear);
+  return promise;
+}
+
+function identityError(response: Response): Error {
+  if (response.status === 429) {
+    const seconds = Number(response.headers.get("Retry-After"));
+    return new Error(Number.isFinite(seconds) && seconds > 0
+      ? `Too many identity requests. Retry in ${seconds} seconds.`
+      : "Too many identity requests. Wait a moment and refresh.");
+  }
+  return new Error(`Demo identity is unavailable (HTTP ${response.status}). Check the API and database setup.`);
+}
+
+export function fetchDemoUsers(): Promise<DemoUser[]> {
+  return shareIdentityRequest("users", loadDemoUsers);
+}
+
+async function loadDemoUsers(): Promise<DemoUser[]> {
   const response = await fetch(`${API_BASE}/auth/demo-users`, { cache: "no-store" });
-  if (!response.ok) throw new Error(`Demo users are unavailable. Apply the ${formatPhaseLabel("phase-27")} schema first.`);
+  if (!response.ok) throw identityError(response);
   const payload = (await response.json()) as { users: DemoUser[] };
   return payload.users;
 }
 
-export async function fetchCurrentDemoUser(userId = selectedDemoUserId()): Promise<DemoUser> {
+export function fetchCurrentDemoUser(userId = selectedDemoUserId()): Promise<DemoUser> {
+  return shareIdentityRequest(`user:${userId}`, () => loadCurrentDemoUser(userId));
+}
+
+async function loadCurrentDemoUser(userId: string): Promise<DemoUser> {
   const response = await fetch(`${API_BASE}/auth/me`, {
     cache: "no-store",
     headers: demoAuthHeaders(userId),
   });
-  if (!response.ok) throw new Error("Current demo user is unavailable.");
+  if (!response.ok) throw identityError(response);
   const payload = (await response.json()) as { user: DemoUser };
   return payload.user;
 }

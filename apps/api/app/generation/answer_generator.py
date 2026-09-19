@@ -244,7 +244,10 @@ def _zero_cost(model: str) -> dict:
     return estimate_chat_cost(model=model, input_tokens=0, output_tokens=0)
 
 
-def _policy_response(question: str, chunks: list[RetrievedChunk], user_role: str | None = None) -> dict | None:
+def _policy_response(
+    question: str, chunks: list[RetrievedChunk], user_role: str | None = None,
+    evidence_action: str | None = None,
+) -> dict | None:
     normalized = question.lower()
     if _is_adversarial_source_question(normalized) and not any(
         pattern in normalized for pattern in ADVERSARIAL_SOURCE_PATTERNS
@@ -283,7 +286,10 @@ def _policy_response(question: str, chunks: list[RetrievedChunk], user_role: str
             "estimated_cost_usd": None,
             **confidence,
         }
-    if any(pattern in normalized for pattern in MISSING_PATTERNS):
+    # A topic keyword is not evidence of absence after the authorized-evidence
+    # gate has established support. Generation and claim validation still apply.
+    evidence_supports_answer = bool(chunks) and evidence_action in {"answer", "partial_answer"}
+    if not evidence_supports_answer and any(pattern in normalized for pattern in MISSING_PATTERNS):
         response_type = RESPONSE_NOT_FOUND
         confidence = final_confidence(response_type, chunks, 0.0, [])
         return {
@@ -1009,7 +1015,7 @@ def generate_answer(
                 **confidence,
             }
 
-    policy_response = _policy_response(question, chunks, user_role=user_role)
+    policy_response = _policy_response(question, chunks, user_role=user_role, evidence_action=evidence_action)
     if policy_response:
         if evidence_action == "partial_answer" and policy_response["response_type"] == RESPONSE_ANSWER:
             policy_response = _force_partial_response(policy_response, chunks)
@@ -1216,7 +1222,7 @@ def generate_answer_stream(
             yield {"type": "final", "answer": answer}
             return
 
-    policy_response = _policy_response(question, chunks, user_role=user_role)
+    policy_response = _policy_response(question, chunks, user_role=user_role, evidence_action=evidence_action)
     if policy_response:
         if evidence_action == "partial_answer" and policy_response["response_type"] == RESPONSE_ANSWER:
             policy_response = _force_partial_response(policy_response, chunks)

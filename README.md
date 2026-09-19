@@ -51,15 +51,28 @@ Recorded project review classified the eight Phase 49 automated failures as four
 
 ## Five-Minute Review Path
 
-1. Open `/projects` and select the seeded **Northstar Analytics** workspace.
-2. Inspect a department document library and its indexed Markdown or upload review flow.
-3. Ask a scoped question in `/chat` and open **Why this answer?** for citations, scope, confidence, latency, and retrieved evidence.
-4. Open `/algorithm` for the plain-English RAG and permission model.
-5. Open `/trust` for implemented defenses, measured evidence, limitations, and the production-readiness boundary, then `/dev-admin` for detailed runs and audits.
+**Portfolio release:** the bounded demo finish is complete; further evaluator calibration and a new holdout are deferred. The release keeps historical evidence and does not claim a new overall accuracy score. [Verification and remaining limits](docs/phase-70/portfolio-finish.md).
 
-See the [interactive demo guide](docs/demo/interactive-demo-guide.md) and [screenshot checklist](docs/demo/screenshots-checklist.md).
+
+1. **0:00–0:45:** Open `/demo`, select **Emma Employee**, and open Northstar Analytics.
+2. **0:45–1:30:** Open People Operations and inspect the indexed Employee Handbook.
+3. **1:30–2:30:** Ask **Where does Northstar Analytics have offices?** in department-scoped chat. Wait for the final answer.
+4. **2:30–3:30:** Stay in the chat and expand **Why this answer?** Compare the cited passage with the answer.
+5. **3:30–5:00:** Select **Kai Admin**, open `/dev-admin/evaluation`, and explain the measured results and limitations.
+
+The [interactive demo guide](docs/demo/interactive-demo-guide.md) contains exact steps, expected behavior and recovery. Use the [presenter script](docs/demo/demo-script.md) and [architecture explanation](docs/demo/architecture-diagram.md) for a concise technical discussion.
+
+### Verified local demo capture
+
+Captured from the running application on September 19, 2026, as Emma Employee with synthetic data. This illustrates a checked demo question, not an accuracy score. [Capture notes](docs/demo/screenshots-checklist.md).
+
+| Guided walkthrough | Live scoped answer |
+| --- | --- |
+| ![Timed walkthrough in the final production build](docs/demo/screenshots/portfolio-guided-demo.png) | ![Live department-scoped office answer](docs/demo/screenshots/portfolio-scoped-answer.png) |
 
 ## Product Walkthrough
+
+Earlier workflow screenshots below remain useful feature illustrations; they are not new evaluation evidence.
 
 ### 1. Project Workspaces
 
@@ -121,6 +134,8 @@ Place the final two screenshots side by side to show that authorization changes 
 | Verified Azure deployment | Azure Container Apps, Azure Container Registry, Azure Database for PostgreSQL Flexible Server, managed identity and Azure RBAC |
 
 ## Architecture
+
+Read the [request-by-request architecture explanation](docs/demo/architecture-diagram.md) for the evidence gates, memory boundary, upload review, code map and limitations.
 
 ```mermaid
 flowchart LR
@@ -446,7 +461,7 @@ docker compose run --rm api python scripts/ingest_markdown.py --apply-schema --c
 
 The ingestion command calls the OpenAI embeddings API, so `OPENAI_API_KEY` must be configured.
 
-The seeded corpus contains 19 synthetic Markdown documents. Dashboard metrics come from committed benchmark v1.1 and focused-suite artifacts; independent Phase 47–49 holdout evidence is reported separately so tuned regression results are not presented as unseen generalization.
+The seeded corpus contains 19 synthetic Markdown documents. Run ingestion for initial setup or intentional corpus changes; an already indexed demo does not need re-ingestion. Dashboard metrics come from committed benchmark v1.1 and focused-suite artifacts; independent Phase 47–49 holdout evidence is reported separately so tuned regression results are not presented as unseen generalization.
 
 ## Smoke Test
 

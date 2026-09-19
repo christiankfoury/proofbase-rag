@@ -153,6 +153,16 @@ export default async function OverviewPage() {
           </>
         }
       />
+      <Card tone="warn" className="mb-6">
+        <SectionHeading title="Read the latest evidence first" description="The scorecard below preserves historical development benchmarks, not this release's accuracy." />
+        <p className="text-sm leading-6 text-stone-700">
+          The earlier Phase 65 evaluation recorded 33/60 automated protocol passes, with human review pending.
+          Phase 68 reports a different 60-case suite by dimension and has unresolved grading judgments;
+          there is no validated replacement overall score. The portfolio fixes have focused regression
+          coverage, with no new holdout run.
+          {" "}<Link href="/dev-admin/evaluation" className="underline underline-offset-4">Inspect current evidence and known limitations.</Link>
+        </p>
+      </Card>
       <section className="mb-8 grid gap-4 lg:grid-cols-2">
         <Card>
           <SectionHeading

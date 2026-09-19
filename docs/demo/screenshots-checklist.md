@@ -1,6 +1,17 @@
 # Screenshots Checklist
 
-Capture screenshots after running the Docker stack and exporting dashboard data.
+## Portfolio release captures — September 19, 2026
+
+These are actual local browser captures over synthetic data, at the in-app browser's default narrow viewport. They were not generated or edited to alter application behavior.
+
+- `screenshots/portfolio-scoped-answer.png`: Emma Employee; Northstar / People Operations; live office-locations answer. Captured from the verified development build; the same UI passed the production build. The developer indicator is visible.
+- `screenshots/portfolio-guided-demo.png`: final production build of `/demo`; timed walkthrough and seeded demo identity.
+
+Source revision: the Phase 70 portfolio-finish commit based on `ab94f7d` (see Git history). Web port 3001; API port 8001. [Live observations and limitations](../phase-70/portfolio-finish.md). Existing screenshots below are earlier workflow illustrations, not new measurements. Re-exporting or replacing historical evaluation data is not required to take screenshots.
+
+## Optional future captures
+
+The list below is reference material for a longer demo; it is not unfinished work for this release.
 
 ## Five-Minute Demo Screenshots
 

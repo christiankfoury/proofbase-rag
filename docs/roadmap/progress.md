@@ -6,7 +6,21 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active handoff: quality remediation (2026-09-19)
+### Complete: portfolio finish (2026-09-19)
+
+The user replaced the research-style evaluator/holdout queue with a bounded
+portfolio finish: run the application, fix a few demonstrated demo bugs, verify a
+five-minute walkthrough, polish README/screenshots/architecture, and finish this
+version. Evaluator v12 and the new holdout are deferred; the USD 10 request is
+superseded, not approved. Existing USD 5 cumulative authorization remains the cap
+for a small number of live demo checks. Prior spend USD 2.13692667 is preserved.
+No new overall accuracy claim is planned. Historical 33/60 and Phase 68 limitations
+remain visible. This instruction supersedes the prior evaluator-readiness gate
+for focused portfolio bug fixes. No production deployment is included.
+
+Completed the three demonstrated fixes, live three-question walkthrough, production web build, focused regressions, documentation, architecture and screenshot refresh. See [Phase 70 verification](../phase-70/portfolio-finish.md). Eleven SDK calls cost an additional estimated USD 0.00635410; cumulative conservative spend is USD 2.14328077 of USD 5. Historical artifacts remain unchanged. This is the final portfolio scope; the deferred queue below is archival and must not auto-resume. Commit reference: the commit containing this tracker entry (`git log -- docs/phase-70/portfolio-finish.md`).
+
+### Deferred handoff: quality remediation (2026-09-19)
 
 The user requested a new coding task to continue quality remediation. Follow
 [the Phase 68 handoff](post-phase-68-quality-remediation-handoff.md): validate a new

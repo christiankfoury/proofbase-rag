@@ -16,8 +16,8 @@ const demoSteps = [
   {
     number: "1",
     title: "Open the project home",
-    outcome: "Workspace map",
-    detail: "Start with Northstar Analytics, then point out departments, representative documents, upload/indexing status, and scoped question chips.",
+    outcome: "0:00–0:45",
+    detail: "Select Emma Employee in the header. Open Northstar Analytics and show the departments and indexed document counts. All company data is synthetic.",
     href: projectHref,
     action: "Open project",
     tone: "moss",
@@ -25,8 +25,8 @@ const demoSteps = [
   {
     number: "2",
     title: "Inspect department knowledge",
-    outcome: "Source evidence",
-    detail: "Open People Operations to show document roles, active version metadata, extracted Markdown, upload review, and indexing state.",
+    outcome: "0:45–1:30",
+    detail: "Open People Operations and preview an indexed handbook. Explain that uploaded PDFs must be reviewed and explicitly approved before indexing. Leave a new upload for the longer demo.",
     href: departmentHref,
     action: "Open department",
     tone: "steel",
@@ -34,8 +34,8 @@ const demoSteps = [
   {
     number: "3",
     title: "Ask with scope",
-    outcome: "Cited answer",
-    detail: "Use the scoped question link so chat opens with the project, department, and question already visible.",
+    outcome: "1:30–2:30",
+    detail: "Open the prepared office-locations question, confirm Northstar / People Operations, and press Send. Allow time for the final validated answer.",
     href: chatHref,
     action: "Ask scoped question",
     tone: "moss",
@@ -43,19 +43,19 @@ const demoSteps = [
   {
     number: "4",
     title: "Inspect why",
-    outcome: "Answer proof",
-    detail: "Open the chat proof panel to check citations, retrieved snippets, permission scope, confidence, and validation notes.",
-    href: chatHref,
-    action: "Open proof moment",
+    outcome: "2:30–3:30",
+    detail: "Stay in the same chat and expand Why this answer? Compare the cited handbook snippet with the answer. Confidence describes support signals; it is not a calibrated probability of correctness.",
+    href: null,
+    action: "Continue in the same chat",
     tone: "steel",
   },
   {
     number: "5",
     title: "Show admin evidence",
-    outcome: "Measured controls",
-    detail: "Finish in Dev/Admin when a reviewer wants benchmark runs, permission safety, failed-question review, observability, or audit logs.",
-    href: "/dev-admin",
-    action: "Open Dev/Admin",
+    outcome: "3:30–5:00",
+    detail: "Select Kai Admin before opening Dev/Admin. Show the saved evaluation evidence and known failures. The historical 33/60 automated protocol result is not human-verified accuracy or a score for this release.",
+    href: "/dev-admin/evaluation",
+    action: "Open evaluation evidence",
     tone: "rust",
   },
 ];
@@ -112,17 +112,7 @@ export default function GuidedDemoPage() {
     <Shell>
       <PageHeader
         title="Guided Demo"
-        description="Follow the short product path: project, department, upload/review, scoped ask, answer proof, then Dev/Admin evidence."
-        actions={
-          <>
-            <Link href={projectHref} className="btn-primary">
-              Start demo
-            </Link>
-            <Link href={chatHref} className="btn-secondary">
-              Ask scoped question
-            </Link>
-          </>
-        }
+        description="Five minutes: a synthetic workspace, an indexed source, a scoped answer, its evidence, and honest evaluation limits."
       />
 
       <section className="grid gap-5">
@@ -163,9 +153,9 @@ export default function GuidedDemoPage() {
                         <p className="mt-2 text-sm leading-6 text-stone-700">{step.detail}</p>
                       </div>
                     </div>
-                    <Link href={step.href} className="btn-secondary btn-sm shrink-0">
+                    {step.href ? <Link href={step.href} className="btn-secondary btn-sm shrink-0">
                       {step.action}
-                    </Link>
+                    </Link> : <span className="text-sm font-medium text-stone-600">{step.action}</span>}
                   </div>
                 </li>
               );
@@ -197,8 +187,9 @@ export default function GuidedDemoPage() {
             <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-stone-700">
               <li>Local demo auth is not production SSO.</li>
               <li>Azure Blob Storage and hosted storage remain future work.</li>
-              <li>AI Markdown cleanup starts in Phase 43 and must remain editor-triggered and reviewable.</li>
-              <li>Metrics must be read with their run IDs, sample sizes, and skipped checks.</li>
+              <li>AI Markdown cleanup is optional, editor-triggered, and reviewable; it does not approve or index a document.</li>
+              <li>Answers can omit facts or abstain unnecessarily. The latest 60-case evaluation has unresolved grading judgments and no validated overall accuracy score.</li>
+              <li>These demo fixes have focused regression coverage; historical measurements remain attached to their original runtime and run IDs.</li>
             </ul>
           </Card>
         </div>

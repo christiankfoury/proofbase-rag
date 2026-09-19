@@ -971,7 +971,7 @@ export function ChatDemoClient() {
                 <div>
                   <h3 className="text-xl font-semibold text-ink">Ask a project-scoped knowledge question.</h3>
                   <p className="mt-2 max-w-4xl text-sm leading-6 text-stone-700">
-                    The demo still uses the live enterprise RAG API, permission-filtered retrieval, citations, validation, metrics, and feedback. The response text is revealed gradually after the completed `/query` response returns.
+                    Answers use the live API and permission-filtered sources. Text may appear while processing; the final validated answer and its citations replace the draft when complete.
                   </p>
                 </div>
               </div>
