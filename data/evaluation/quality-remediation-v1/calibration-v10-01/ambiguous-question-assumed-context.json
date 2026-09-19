@@ -1,0 +1,75 @@
+{
+  "case_id": "ambiguous-question-assumed-context",
+  "cost_usd": "1.78548267",
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a direct lead-time answer to the booking question, even though it introduces an unrelated specific topic ('Morrow equipment').",
+    "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "citation_status": "unknown",
+        "factual_status": "unknown",
+        "reason": "The source supports the booking deadline for Morrow equipment, but the claim changes the subject to \"You,\" which is not explicitly entailed by the source.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "text": "You must book Morrow equipment at least 2 days ahead."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response chooses a specific entity/topic ('Morrow equipment') that is not identified in the question or history, so it is not reliably responsive to the user’s topic.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {
+    "citation_support": {
+      "actual": "unresolved",
+      "expected": "pass"
+    },
+    "factual_support": {
+      "actual": "unresolved",
+      "expected": "pass"
+    }
+  },
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The single factual claim is correctly marked unknown/unresolved because the sources state the Morrow-equipment deadline but do not explicitly entail the added \"You must\" wording. There are no required facts, so completeness is not applicable/correctly treated as such. The reply is a substantive answer rather than a clarification, matching the candidate’s response_behavior fail. The chosen topic is not identified in the question/history, so relevance fail is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

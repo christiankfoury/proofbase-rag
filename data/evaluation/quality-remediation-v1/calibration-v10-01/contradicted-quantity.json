@@ -1,0 +1,68 @@
+{
+  "case_id": "contradicted-quantity",
+  "cost_usd": "1.69165392",
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "fail",
+    "disputed_dimensions": [
+      "factual_support",
+      "citation_support"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the question with a specific booking time, though it is incorrect relative to the required fact.",
+    "behavior_span": "Book your seat at least 12 hours before departure.",
+    "claims": [],
+    "facts": [
+      {
+        "answer_spans": [
+          "at least 12 hours before departure"
+        ],
+        "fact_id": "F1",
+        "reason": "The answer gives a different booking deadline than the required fact: 12 hours instead of 24 hours.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "It addresses the exact topic asked: how many hours before departure a Brindle shuttle seat must be booked.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {
+    "citation_support": {
+      "actual": "unresolved",
+      "expected": "fail"
+    },
+    "factual_support": {
+      "actual": "unresolved",
+      "expected": "fail"
+    }
+  },
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "agree",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "The answer makes one factual claim: that the seat must be booked at least 12 hours before departure. That is contradicted by the provided source, which says at least 24 hours, so factual_support should not be treated as not_applicable. The cited source also does not entail the answer’s 12-hour claim, so citation_support is not_applicable only if there were no factual claims, which is not the case. The answer conflicts with the required fact, so completeness is correctly fail, and the prose is a substantive answer, but because it gives a wrong deadline, response_behavior is correctly fail. It addresses the asked Brindle shuttle timing, so relevance is pass. No forbidden assertion is present, so that judgment is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

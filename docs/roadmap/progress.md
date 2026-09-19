@@ -91,6 +91,20 @@ Five new tests plus prior coverage pass (59 total evaluator tests). Calibration
 bound USD 2.22903600 fits remaining USD 3.33834308. See
 [v10 preparation](../phase-69/evaluator-v10.md).
 
+V10 preparation `aeb7a0f` reviewed/pushed. Live calibration 17/24 exact cases and
+3/3 exact probes; readiness failed, especially normative policy imperatives
+omitted as nonfactual. All 75 calls preserved; incremental USD 0.23655975 and
+cumulative USD 1.89821667 of USD 5. See [v10 results](../phase-69/calibration-v10-results.md).
+Seventy historical tests and all saved-report/benchmark checks pass unchanged.
+Separately authored 16-case confirmation independently approved and unexecuted.
+
+V11 preparation clarifies normative imperatives, generic policy paraphrase,
+partial responsive coverage and mixed-request relevance without changing scoring.
+Whole calibration bound USD 2.27839650 fits USD 3.10178333 remaining.
+See [v11 notes](../phase-69/evaluator-v11.md). Sixteen isolated confirmation cases
+and independent validation are preserved; a guarded confirmation runner requires
+a complete development gate and source review before any calls.
+
 ### Historical milestones (latest first)
 
 Entries below record status at their respective milestones; older references to

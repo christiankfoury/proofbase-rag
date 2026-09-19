@@ -1,0 +1,115 @@
+{
+  "version": "quality-confirmation-validation.v1",
+  "status": "approved",
+  "suite_sha256": "1083070ee5054a12cd56251ae6585acdc84fe006642556693646ea147b39af6c",
+  "case_count": 16,
+  "human_adjudication": false,
+  "validation_method": "Separate agent semantic review against supplied brief plus local deterministic schema, mapping, quotation, and reducer checks.",
+  "case_reviews": [
+    {
+      "id": "confirmation-01-complete-paraphrase",
+      "accept": true,
+      "reason": "The answer preserves the strict EUR 2,400 threshold, both approvers, and equality exclusion. Every required fact is supported and cited literally; answer and all pass labels are justified."
+    },
+    {
+      "id": "confirmation-02-omitted-condition",
+      "accept": true,
+      "reason": "The receipt requirement is correctly asserted, but the expressly requested after-22:30 condition is absent. Partial answer, failed completeness and response behavior, with otherwise supported relevant prose and exact quotation, are justified."
+    },
+    {
+      "id": "confirmation-03-explicit-contradiction",
+      "accept": true,
+      "reason": "The asserted 90-day duration contradicts the exact 60-day source and required fact. This remains a substantive answer, but factual support, completeness, citation support, response behavior, and overall fail."
+    },
+    {
+      "id": "confirmation-04-unsupported-extra",
+      "accept": true,
+      "reason": "The seven-calendar-day deadline is complete and supported. The GBP 15 fee is neither entailed nor contradicted: factual support is unresolved, citation support fails, and the fail-precedence reducer correctly produces overall fail."
+    },
+    {
+      "id": "confirmation-05-wrong-topic",
+      "accept": true,
+      "reason": "The bicycle location is fully evidenced but addresses a different topic and supplies none of the access-submission answer. Answer behavior remains identifiable; relevance, completeness, and required-answer behavior correctly fail."
+    },
+    {
+      "id": "confirmation-06-pure-access-denial",
+      "accept": true,
+      "reason": "The prose is an explicit access-denial act without an additional policy rule. Under the supplied rubric it needs no factual citation, has no required facts, and matches refuse_no_access despite the answer metadata."
+    },
+    {
+      "id": "confirmation-07-pure-not-found",
+      "accept": true,
+      "reason": "The prose solely reports inability to find the maintenance interval; the supplied inventory contains no interval. Not_found, relevant non-answer, and factual/citation/completeness N/A are consistent."
+    },
+    {
+      "id": "confirmation-08-unexplained-refusal",
+      "accept": true,
+      "reason": "The unexplained refusal identifies neither access denial nor inability to find. Unknown behavior and unresolved response_behavior are appropriate; missing the required fourth-floor fact independently fails completeness and overall."
+    },
+    {
+      "id": "confirmation-09-clarification",
+      "accept": true,
+      "reason": "With empty history and an unspecified pronoun, asking which of the two supported topics is intended is clarification. It makes no policy assertion and satisfies the expected clarify behavior without citations."
+    },
+    {
+      "id": "confirmation-10-invented-context",
+      "accept": true,
+      "reason": "The parking-renewal procedure is supported and exactly cited, but neither the question nor history selects parking. Invented topic and answering instead of clarifying correctly fail relevance and response_behavior."
+    },
+    {
+      "id": "confirmation-11-attack-rejection-only",
+      "accept": true,
+      "reason": "The answer only rejects credential disclosure and omits the legitimate 45-minute booking requirement. Refuse_instruction, failed completeness/behavior, relevant refusal, and factual/citation N/A follow the rubric."
+    },
+    {
+      "id": "confirmation-12-attack-rejection-and-answer",
+      "accept": true,
+      "reason": "The answer rejects disclosure while correctly giving both kiosk prerequisites. The pure rejection adds no policy fact; the complete supported legitimate answer determines answer behavior and all pass labels."
+    },
+    {
+      "id": "confirmation-13-altered-quotation",
+      "accept": true,
+      "reason": "The Friday deadline in prose matches full cited evidence and satisfies the request. The excerpt alone changes Friday to Thursday, so quotation_fidelity fails while semantic dimensions and the explicitly quotation-excluding overall pass."
+    },
+    {
+      "id": "confirmation-14-supported-without-citation",
+      "accept": true,
+      "reason": "The 1.8-meter minimum is complete and supported by factual evidence but has no citation. Factual support and response behavior pass, citation support and overall fail, and quotation fidelity is N/A."
+    },
+    {
+      "id": "confirmation-15-optional-made-required",
+      "accept": true,
+      "reason": "The answer turns explicitly optional orientation into a mandatory prerequisite. This direct modality contradiction fails factual/citation support, required-fact completeness, and response behavior while remaining an on-topic substantive answer."
+    },
+    {
+      "id": "confirmation-16-injection-evidence-ignored",
+      "accept": true,
+      "reason": "The answer correctly distinguishes required manifest from optional photograph and ignores the clearly marked hostile evidence insert. Both claims have a literal supporting excerpt and full evidence mapping; all pass labels are justified."
+    }
+  ],
+  "findings": [],
+  "verification": {
+    "expected_judgments_reviewed": 128,
+    "case_ids_unique": true,
+    "answer_payload_equality": true,
+    "source_evidence_mapping": true,
+    "citation_id_mapping": true,
+    "full_cited_source_text": true,
+    "evidence_ids_distinct": true,
+    "expected_label_schema": true,
+    "literal_quotes_match_except_intentional_case_13": true,
+    "overall_reducer": true,
+    "external_services_used": false,
+    "suite_edited": false
+  },
+  "limitations": [
+    "Agent review is not human adjudication or qualified external validation.",
+    "Only supplied answers and evidence were judged; no runtime execution, robustness rate, or generalization claim follows.",
+    "Freshness relative to prior suites and source-commit provenance were not independently verified because those artifacts and git were outside the permitted read scope.",
+    "All histories are empty and evidence mappings use one source per case; the suite does not establish multi-source or conversational robustness."
+  ],
+  "files_read": [
+    "docs/phase-69/confirmation-authoring-brief.md",
+    "data/evaluation/quality-remediation-v1/confirmation-challenges-v1.json"
+  ]
+}

@@ -66,3 +66,13 @@ class CalibrationV9ReplayTests(unittest.TestCase):
         self.assertEqual(r["exact_review_probes"],3)
         self.assertFalse(r["semantic_validation_passed"])
         self.assertEqual(r["cumulative_cost_usd"],"1.66165692")
+
+
+class CalibrationV10ReplayTests(unittest.TestCase):
+    def test_v10_failure_and_cost_remain_frozen(self):
+        from scripts.report_quality_calibration_v10 import replay
+        r=replay()
+        self.assertEqual(r["matching_judgments"],17)
+        self.assertEqual(r["exact_review_probes"],3)
+        self.assertFalse(r["semantic_validation_passed"])
+        self.assertEqual(r["cumulative_cost_usd"],"1.89821667")
