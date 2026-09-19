@@ -72,6 +72,12 @@ Readiness still fails; all 75 calls and failed judgments are preserved. Incremen
 USD 0.188102; cumulative USD 1.53666792 of USD 5. See [v8 results](../phase-69/calibration-v8-results.md).
 Next: separate evaluator repair; no runtime or new holdout calls yet.
 
+V8 evidence `4e9d849` reviewed/pushed; independent inspection confirms one false
+pass and only 1/3 exact reviewer probes. V9 preparation uses a separately priced
+reasoning grader and original factual-only schema; no expectation changes.
+Five local tests pass; preflight USD 2.21678925 fits available USD 3.46333208.
+See [v9 preparation](../phase-69/evaluator-v9.md).
+
 ### Historical milestones (latest first)
 
 Entries below record status at their respective milestones; older references to
