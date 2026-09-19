@@ -56,3 +56,13 @@ class CalibrationV8ReplayTests(unittest.TestCase):
         self.assertEqual(result["matching_review_probes"], 3)
         self.assertFalse(result["semantic_validation_passed"])
         self.assertEqual(result["cumulative_cost_usd"], "1.53666792")
+
+
+class CalibrationV9ReplayTests(unittest.TestCase):
+    def test_v9_matches_preserved_judgments_and_mixed_model_costs(self):
+        from scripts.report_quality_calibration_v9 import replay
+        r = replay()
+        self.assertEqual(r["matching_judgments"],19)
+        self.assertEqual(r["exact_review_probes"],3)
+        self.assertFalse(r["semantic_validation_passed"])
+        self.assertEqual(r["cumulative_cost_usd"],"1.66165692")

@@ -78,6 +78,13 @@ reasoning grader and original factual-only schema; no expectation changes.
 Five local tests pass; preflight USD 2.21678925 fits available USD 3.46333208.
 See [v9 preparation](../phase-69/evaluator-v9.md).
 
+V9 preparation `7171e13` reviewed/pushed. Live run: 19/24 exact challenge judgments,
+3/3 exact reviewer probes; readiness failed, including semantically wrong review
+reasons masked by unchanged unresolved labels. Incremental USD 0.124989; cumulative
+USD 1.66165692 of USD 5. See [v9 results](../phase-69/calibration-v9-results.md).
+Frozen replay handles GPT-4.1 and GPT-5.4 mini costs separately. Next: concise v10
+rubric and separate-context confirmation, still no application/holdout calls.
+
 ### Historical milestones (latest first)
 
 Entries below record status at their respective milestones; older references to

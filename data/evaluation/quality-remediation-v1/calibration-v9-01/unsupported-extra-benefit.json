@@ -1,0 +1,85 @@
+{
+  "case_id": "unsupported-extra-benefit",
+  "cost_usd": "1.55868192",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [
+      "factual_support"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a direct substantive answer to the question; the extra sentence does not change the behavior classification.",
+    "behavior_span": "The bicycle servicing allowance is up to 60 credits per calendar year. Employees also receive free theft insurance.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source states that Alder employees may claim up to 60 credits per calendar year for bicycle servicing, which supports the allowance claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+          }
+        ],
+        "text": "The bicycle servicing allowance is up to 60 credits per calendar year."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "No provided source mentions theft insurance.",
+        "source_spans": [],
+        "text": "Employees also receive free theft insurance."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The bicycle servicing allowance is up to 60 credits per calendar year."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer states that the bicycle servicing allowance is up to 60 credits per calendar year, which matches the required fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested bicycle service allowance.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "The required allowance fact is correctly covered, so completeness and behavior/relevance are fine. But the answer also adds an unsupported claim about free theft insurance, so overall factual_support should not be unresolved; citation_support is correctly marked fail because that extra claim has no citation.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

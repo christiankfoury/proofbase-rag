@@ -1,0 +1,105 @@
+{
+  "case_id": "permission-modality-upgraded",
+  "cost_usd": "1.64799342",
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "unresolved",
+    "disputed_dimensions": [
+      "citation_support"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "unresolved",
+    "grader_errors": [
+      "support_labels_conflict"
+    ],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "unresolved",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "unresolved",
+    "response_behavior": "unresolved",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a direct substantive answer to the question.",
+    "behavior_span": "Yes. A supervisor must grant a remote-work extension after reviewing the request.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "An Iris supervisor may grant a remote-work extension after reviewing the request. Approval is discretionary, not guaranteed."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "contradicted",
+        "reason": "The source says the supervisor 'may grant' the extension and that approval is 'discretionary, not guaranteed,' which contradicts 'must grant'.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "An Iris supervisor may grant a remote-work extension after reviewing the request. Approval is discretionary, not guaranteed."
+          }
+        ],
+        "text": "A supervisor must grant a remote-work extension after reviewing the request."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Yes.",
+          "A supervisor must grant a remote-work extension after reviewing the request."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer says the extension is guaranteed and mandatory, but the required fact says approval is discretionary and not guaranteed.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "It addresses whether an Iris remote-work extension is guaranteed after review.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {
+    "citation_support": {
+      "actual": "unresolved",
+      "expected": "fail"
+    },
+    "completeness": {
+      "actual": "unresolved",
+      "expected": "fail"
+    },
+    "factual_support": {
+      "actual": "unresolved",
+      "expected": "fail"
+    },
+    "overall": {
+      "actual": "unresolved",
+      "expected": "fail"
+    },
+    "relevance": {
+      "actual": "unresolved",
+      "expected": "pass"
+    },
+    "response_behavior": {
+      "actual": "unresolved",
+      "expected": "fail"
+    }
+  },
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The answer directly contradicts the source on the key point: it says the supervisor must grant the extension, while the source says approval is discretionary and not guaranteed. So factual_support and completeness fail, and derived response_behavior fails despite the prose being an answer. Relevance is correct because it addresses the asked topic. Citation_support is incorrect to mark pass because the cited source does not support the contradicted claim.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
