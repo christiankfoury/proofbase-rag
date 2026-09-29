@@ -95,6 +95,12 @@ def rewrite_followup_question(question: str, previous_turns: list[dict] | None =
     elif topic:
         rewritten = f"{question} Context: {topic}."
 
+    # Canonical expansions improve search vocabulary, but must not replace the
+    # user's conditions, exclusions, or additional questions. Both strings are
+    # query context only; neither supplies factual evidence or authorization.
+    if strategy not in {"topic_prefix", "preserved_user_context"}:
+        rewritten = f"{question}\nSearch context: {rewritten}"
+
     return {
         "original_question": question,
         "rewritten_question": rewritten,

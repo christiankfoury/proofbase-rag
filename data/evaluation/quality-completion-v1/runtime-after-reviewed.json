@@ -1,0 +1,190 @@
+{
+  "count": 14,
+  "external_calls": 0,
+  "kind": "offline_development_boundary_probes",
+  "not_an_overall_quality_score": true,
+  "passed": 14,
+  "rows": [
+    {
+      "expected": "Keep complete original follow-up; exclude assistant factual claims",
+      "id": "memory-condition",
+      "observed": {
+        "is_followup": true,
+        "memory_used": true,
+        "original_question": "Can I carry those forward if local law allows a later expiry?",
+        "previous_topic": "vacation days",
+        "rewrite_strategy": "vacation_carryover",
+        "rewritten_question": "Can I carry those forward if local law allows a later expiry?\nSearch context: Can employees carry unused vacation days into next year?"
+      },
+      "passed": true,
+      "question": "Can I carry those forward if local law allows a later expiry?"
+    },
+    {
+      "expected": "Keep complete original follow-up; exclude assistant factual claims",
+      "id": "memory-second-question",
+      "observed": {
+        "is_followup": true,
+        "memory_used": true,
+        "original_question": "How long are they kept after expiration, and who can suspend deletion?",
+        "previous_topic": "customer contracts",
+        "rewrite_strategy": "customer_contract_retention",
+        "rewritten_question": "How long are they kept after expiration, and who can suspend deletion?\nSearch context: How long are customer contracts retained after expiration?"
+      },
+      "passed": true,
+      "question": "How long are they kept after expiration, and who can suspend deletion?"
+    },
+    {
+      "expected": "Keep complete original follow-up; exclude assistant factual claims",
+      "id": "memory-exclusion",
+      "observed": {
+        "is_followup": true,
+        "memory_used": true,
+        "original_question": "Can that happen on Friday if it is an emergency, not a routine change?",
+        "previous_topic": "production deployment",
+        "rewrite_strategy": "friday_deployment_rule",
+        "rewritten_question": "Can that happen on Friday if it is an emergency, not a routine change?\nSearch context: Can production deployments happen on Friday?"
+      },
+      "passed": true,
+      "question": "Can that happen on Friday if it is an emergency, not a routine change?"
+    },
+    {
+      "expected": [
+        {
+          "department": "probe-department",
+          "project": "probe-project",
+          "query": "Which receipt details are required, and who authorizes an urgent purchase?",
+          "role": "Employee"
+        }
+      ],
+      "id": "decomposition-empty",
+      "observed": {
+        "calls": [
+          {
+            "department": "probe-department",
+            "project": "probe-project",
+            "query": "Which receipt details are required, and who authorizes an urgent purchase?",
+            "role": "Employee"
+          }
+        ],
+        "chunk_ids": [
+          "c1"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "expected": [
+        {
+          "department": "probe-department",
+          "project": "probe-project",
+          "query": "Which receipt details are required, and who authorizes an urgent purchase?",
+          "role": "Employee"
+        }
+      ],
+      "id": "decomposition-blank",
+      "observed": {
+        "calls": [
+          {
+            "department": "probe-department",
+            "project": "probe-project",
+            "query": "Which receipt details are required, and who authorizes an urgent purchase?",
+            "role": "Employee"
+          }
+        ],
+        "chunk_ids": [
+          "c1"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "expected": [
+        {
+          "department": "probe-department",
+          "project": "probe-project",
+          "query": "Which receipt details are required, and who authorizes an urgent purchase?",
+          "role": "Employee"
+        }
+      ],
+      "id": "decomposition-invalid",
+      "observed": {
+        "calls": [
+          {
+            "department": "probe-department",
+            "project": "probe-project",
+            "query": "Which receipt details are required, and who authorizes an urgent purchase?",
+            "role": "Employee"
+          }
+        ],
+        "chunk_ids": [
+          "c1"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "evidence": "The allocation is 500 credits.",
+      "expected": false,
+      "id": "numeric-prefix",
+      "literal": "50",
+      "observed": false,
+      "passed": true
+    },
+    {
+      "evidence": "The retention period is 120 days.",
+      "expected": false,
+      "id": "numeric-suffix",
+      "literal": "20 days",
+      "observed": false,
+      "passed": true
+    },
+    {
+      "evidence": "The limit is 25.5 units.",
+      "expected": false,
+      "id": "numeric-decimal",
+      "literal": "25",
+      "observed": false,
+      "passed": true
+    },
+    {
+      "evidence": "The registration limit is $1500.",
+      "expected": true,
+      "id": "numeric-format",
+      "literal": "$1,500",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "evidence": "Return equipment within 10 business days.",
+      "expected": true,
+      "id": "numeric-duration",
+      "literal": "10 business days",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "expected": "unclear_followup_reference",
+      "id": "unresolved-intent",
+      "observed": "unclear_followup_reference",
+      "passed": true
+    },
+    {
+      "expected": "not_found",
+      "id": "no-evidence",
+      "observed": "not_found",
+      "passed": true
+    },
+    {
+      "expected": "refuse_no_access",
+      "id": "role-filter",
+      "observed": "refuse_no_access",
+      "passed": true
+    }
+  ],
+  "runtime_commit": "36798a036dd0bab2e4b170414d4c3081c0c39c84",
+  "source_sha256": {
+    "apps/api/app/memory/query_rewriter.py": "e82e072b33ebc4149d82c837ed5a6a0d11a407da7206367dfe083427233731b0",
+    "apps/api/app/reasoning/post_generation_validation.py": "d674ed2b16ac7275cb3ff2d552705872ab9d883e094f0bcb0e54b2caa842abf0",
+    "apps/api/app/reasoning/query_decomposer.py": "35e5777a85ae622ec9d9d034cee7ecdbbf84f1f82c3dd78fcbf9c59242adea7c"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "count": 14,
+  "external_calls": 0,
+  "kind": "offline_development_boundary_probes",
+  "not_an_overall_quality_score": true,
+  "passed": 6,
+  "rows": [
+    {
+      "expected": "Keep complete original follow-up; exclude assistant factual claims",
+      "id": "memory-condition",
+      "observed": {
+        "is_followup": true,
+        "memory_used": true,
+        "original_question": "Can I carry those forward if local law allows a later expiry?",
+        "previous_topic": "vacation days",
+        "rewrite_strategy": "vacation_carryover",
+        "rewritten_question": "Can employees carry unused vacation days into next year?"
+      },
+      "passed": false,
+      "question": "Can I carry those forward if local law allows a later expiry?"
+    },
+    {
+      "expected": "Keep complete original follow-up; exclude assistant factual claims",
+      "id": "memory-second-question",
+      "observed": {
+        "is_followup": true,
+        "memory_used": true,
+        "original_question": "How long are they kept after expiration, and who can suspend deletion?",
+        "previous_topic": "customer contracts",
+        "rewrite_strategy": "customer_contract_retention",
+        "rewritten_question": "How long are customer contracts retained after expiration?"
+      },
+      "passed": false,
+      "question": "How long are they kept after expiration, and who can suspend deletion?"
+    },
+    {
+      "expected": "Keep complete original follow-up; exclude assistant factual claims",
+      "id": "memory-exclusion",
+      "observed": {
+        "is_followup": true,
+        "memory_used": true,
+        "original_question": "Can that happen on Friday if it is an emergency, not a routine change?",
+        "previous_topic": "production deployment",
+        "rewrite_strategy": "friday_deployment_rule",
+        "rewritten_question": "Can production deployments happen on Friday?"
+      },
+      "passed": false,
+      "question": "Can that happen on Friday if it is an emergency, not a routine change?"
+    },
+    {
+      "expected": [
+        {
+          "department": "probe-department",
+          "project": "probe-project",
+          "query": "Which receipt details are required, and who authorizes an urgent purchase?",
+          "role": "Employee"
+        }
+      ],
+      "id": "decomposition-empty",
+      "observed": {
+        "calls": [],
+        "chunk_ids": []
+      },
+      "passed": false
+    },
+    {
+      "expected": [
+        {
+          "department": "probe-department",
+          "project": "probe-project",
+          "query": "Which receipt details are required, and who authorizes an urgent purchase?",
+          "role": "Employee"
+        }
+      ],
+      "id": "decomposition-blank",
+      "observed": {
+        "calls": [],
+        "chunk_ids": []
+      },
+      "passed": false
+    },
+    {
+      "expected": [
+        {
+          "department": "probe-department",
+          "project": "probe-project",
+          "query": "Which receipt details are required, and who authorizes an urgent purchase?",
+          "role": "Employee"
+        }
+      ],
+      "id": "decomposition-invalid",
+      "observed": {
+        "calls": [
+          {
+            "department": "probe-department",
+            "project": "probe-project",
+            "query": "Which receipt details are required, and who authorizes an urgent purchase?",
+            "role": "Employee"
+          }
+        ],
+        "chunk_ids": [
+          "c1"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "evidence": "The allocation is 500 credits.",
+      "expected": false,
+      "id": "numeric-prefix",
+      "literal": "50",
+      "observed": true,
+      "passed": false
+    },
+    {
+      "evidence": "The retention period is 120 days.",
+      "expected": false,
+      "id": "numeric-suffix",
+      "literal": "20 days",
+      "observed": true,
+      "passed": false
+    },
+    {
+      "evidence": "The limit is 25.5 units.",
+      "expected": false,
+      "id": "numeric-decimal",
+      "literal": "25",
+      "observed": true,
+      "passed": false
+    },
+    {
+      "evidence": "The registration limit is $1500.",
+      "expected": true,
+      "id": "numeric-format",
+      "literal": "$1,500",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "evidence": "Return equipment within 10 business days.",
+      "expected": true,
+      "id": "numeric-duration",
+      "literal": "10 business days",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "expected": "unclear_followup_reference",
+      "id": "unresolved-intent",
+      "observed": "unclear_followup_reference",
+      "passed": true
+    },
+    {
+      "expected": "not_found",
+      "id": "no-evidence",
+      "observed": "not_found",
+      "passed": true
+    },
+    {
+      "expected": "refuse_no_access",
+      "id": "role-filter",
+      "observed": "refuse_no_access",
+      "passed": true
+    }
+  ],
+  "runtime_commit": "c240cd14bc9f5efd69cbe6e7716cbf5ad8c474ce",
+  "source_sha256": {
+    "apps/api/app/memory/query_rewriter.py": "52737601dfd9a486efa11a7939b206180eac89b89db4c48923bd5ec025d697cd",
+    "apps/api/app/reasoning/post_generation_validation.py": "e086f210f83e29eeb1875bf95fdbfa23d00ba714f1db32d5cf2a37f44a211bb3",
+    "apps/api/app/reasoning/query_decomposer.py": "d84136656169aa0a54d9b3dda14af6a6f0f10a875f136ae08226dd1cedda9145"
+  }
+}

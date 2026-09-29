@@ -46,8 +46,9 @@ def decompose_question(question: str, model: str = "gpt-4.1-mini") -> list[str]:
         cost = estimate_chat_cost(model=model, input_tokens=input_tokens, output_tokens=output_tokens)
         raw = response.choices[0].message.content or ""
         parsed = json.loads(raw)
-        if isinstance(parsed, list) and all(isinstance(q, str) for q in parsed):
-            subqueries = [q for q in parsed if q.strip()][:3]
+        if (isinstance(parsed, list) and all(isinstance(q, str) for q in parsed)
+                and any(q.strip() for q in parsed)):
+            subqueries = [q.strip() for q in parsed if q.strip()][:3]
             submit_auxiliary_telemetry(
                 operation_type="query_decomposition",
                 model=model,

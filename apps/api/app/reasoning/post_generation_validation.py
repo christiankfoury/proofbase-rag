@@ -287,11 +287,24 @@ def extract_exact_literals(text: str) -> list[str]:
 
 
 def exact_literal_supported(literal: str, evidence: str) -> bool:
-    return _normalize_exact(literal) in _normalize_exact(evidence)
+    # Formatting normalization must not turn a different numeric token into
+    # evidence: 50 is not 500, 20 days is not 120 days, and 25 is not 25.5.
+    normalized = _normalize_exact(literal)
+    if not normalized:
+        return False
+    return bool(re.search(
+        r"(?<![\d.])" + re.escape(normalized) + r"(?!\d|\.\d)",
+        _normalize_exact(evidence),
+    ))
 
 
 def _normalize_exact(text: str) -> str:
-    return re.sub(r"[\s,]+", "", text.casefold())
+    # Preserve word/sentence boundaries: removing spaces makes '. 20' look like
+    # a decimal and joins separate quantities. Only normalize numeric grouping,
+    # whitespace runs, and spacing after a currency symbol.
+    text = re.sub(r"(?<=\d),(?=\d)", "", text.casefold())
+    text = re.sub(r"\s+", " ", text).strip()
+    return re.sub(r"([$€£])\s+", r"\1", text)
 
 
 def _semantic_validate(
