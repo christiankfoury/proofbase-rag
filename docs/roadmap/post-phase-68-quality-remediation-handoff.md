@@ -130,14 +130,14 @@ not weaker criteria or tuning followed by rerunning the same holdout.
 
 ## Cost and safety constraints
 
-The existing approved cumulative API ceiling is **USD 5.00**, not a new allowance.
-Last documented conservative cumulative spend is **USD 2.14328077**, leaving at most
-**USD 2.85671923**. Reconcile Phase 69/70 ledgers before any call. Preserve the
-complete historical prefix in the next ledger and keep historical ledgers frozen.
-Reserve conservative cost before calls, price all models, disable retries and stop
-on unknown outcomes. The last holdout alone added about USD 0.543039; do not assume
-remaining funds cover development, calibration, indexing and a new full run.
-Request additional explicit approval only if the conservative budget requires it.
+The user removed the former local USD 5 approval gate on 2026-09-28 for this
+quality queue, reporting a configured account-level hard budget. Follow the
+[current authorization](quality-completion-plan.md#api-spending-authorization-updated-2026-09-28),
+including a versioned runner update; historical USD 5 authorization records remain
+immutable. Last documented conservative spend is USD 2.14328077. Reconcile Phase
+69/70 ledgers, retain complete accounting, estimate costs and bound call counts.
+Disable automatic retries; stop on unknown outcomes and provider quota errors.
+No further approval to increase the superseded local ceiling is required.
 Existing credential reuse is authorized; never print credentials.
 
 Do not create billable infrastructure. Production integration and independent

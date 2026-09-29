@@ -38,6 +38,10 @@ replacement overall score. An 80% target is not a promised result.
   if exposure/custody is uncertain, replace them with newly isolated cases.
 - Use offline checks before a full calibration. Any small live diagnostic is
   labeled development evidence and cannot substitute for the full gate.
+- Recommended sequence: check the known v11 failure categories on visible
+  development cases before spending another full 75-call attempt. If the same
+  defects recur, stop that candidate early; retain the partial diagnostic result
+  without declaring calibration complete. Do not tune on confirmation cases.
 - Bound this phase to one full candidate attempt and, if justified by a specific
   new failure hypothesis, one repair attempt. If reliability still fails, record
   the blocker and request a method/scope decision; do not continue indefinitely
@@ -47,10 +51,12 @@ replacement overall score. An 80% target is not a promised result.
 
 ## Phase 72: confirmed runtime failures
 
-- Once evaluator readiness passes, use new development variants to establish
-  before/after evidence for incomplete answers, unnecessary abstention,
-  ambiguity, memory and multi-question behavior. Offline trace triage and test
-  preparation may proceed while the evaluator is budget-blocked.
+- Use new development variants to establish before/after evidence for incomplete
+  answers, unnecessary abstention, ambiguity, memory and multi-question behavior.
+  Confirmed defects may be fixed while evaluator validation is pending when
+  source inspection and meaningful regression tests establish the expected
+  behavior. Label these as focused development checks, not validated overall
+  quality gains. Evaluator readiness remains mandatory for Phase 73 measurement.
 - Reproduce on current main before fixing: Phase 70 already repaired the
   sufficient-evidence/generation handoff and authorized citation-ID numeric
   scanning. Do not implement these historical findings again.
@@ -66,7 +72,7 @@ replacement overall score. An 80% target is not a promised result.
 
 ## Phase 73: fresh measurement and publication
 
-- Require Phases 71/72 gates and whole-run budget preflight. Freeze runtime,
+- Require Phases 71/72 gates and whole-run cost/call-count preflight. Freeze runtime,
   evaluator, prompts, corpus, configuration and index before authoring cases.
 - Plan separate context-isolated authoring and validation for the new 60-case
   suite. Obtain applicable delegation authorization before spawning agents;
@@ -79,28 +85,30 @@ replacement overall score. An 80% target is not a promised result.
   disclosure is mandatory. Keep latency and full auxiliary-call costs visible.
 - Execute once, with no selective retries, expectation edits, dropped cases or
   tuning against this suite. Preserve and publish a valid miss as well as a pass.
-  Stop on custody, safety, unknown-call-outcome or budget failures.
+  Stop on custody, safety, unknown-call-outcome or provider quota failures.
 - Deliver docs/phase-73 notes, offline-reproducible evidence and consistent
   README/methodology/Dev-Admin reporting. No invented human adjudication or
   independent security validation. Stop after this bounded queue is completed.
 
-## Budget gate
+## API spending authorization (updated 2026-09-28)
 
-The current approved cumulative ceiling remains USD 5. Last documented
-conservative spend is USD 2.14328077, leaving USD 2.85671923 before any new calls.
-Reconcile durable ledgers before relying on this figure. No increase is implied
-by the user's request to prepare/resume these areas.
+The user explicitly removed the prior local USD 5 approval gate for this quality
+queue, stating that an account-level hard budget is configured. Do not ask again
+to increase the old USD 5 or proposed USD 10 ceiling. The account configuration
+is user-reported, not independently verified here; do not change it.
 
-The recorded v12 full-attempt reservation is USD 7.72026250, exceeding current
-headroom; combined with recorded spend it needs USD 9.86354327 cumulative capacity
-for calibration alone. These are historical reservation figures, not refreshed
-model prices or expected charges. Recheck prices and all-stage bounds first.
-The earlier USD 10 request was superseded, not approved, and would not itself
-guarantee enough headroom for confirmation, remediation and the holdout.
+Retain cost estimates, complete ledgers including auxiliary calls, bounded
+attempts/call counts, disabled automatic retries and stops on unknown outcomes
+or provider quota errors. Last documented conservative spend is USD 2.14328077;
+reconcile Phase 69/70 history without rewriting frozen ledgers. The recorded
+v12 USD 7.72026250 reservation is historical, not a current expected charge.
 
-Complete offline preparation and a concrete stage-by-stage cost proposal, then
-request explicit approval before exceeding USD 5. Never bypass conservative
-reservations or omit auxiliary calls to fit a cap. No cloud provisioning.
+The existing v12 runner still enforces USD 5 in code. Phase 71 must introduce
+and test a versioned successor authorization path recording this user instruction;
+do not silently alter frozen calibration evidence or pretend this Markdown edit
+removed the runtime check. Preserve application/tenant abuse limits: this change
+applies to the development/evaluation runner, not product-wide spending controls.
+This authorization does not extend to cloud provisioning or unrelated work.
 
 ## Efficient execution within the existing operating loop
 
@@ -123,9 +131,9 @@ reservations or omit auxiliary calls to fit a cap. No cloud provisioning.
 ## Planning estimate
 
 Estimated active agent time, not a measured SLA: Phase 71 3-6 hours, Phase 72
-4-8 hours, Phase 73 3-6 hours; total 10-20 hours assuming local services work,
-budget approval and evaluator convergence. Allow several sessions over 2-4 days.
-Approval waits, provider delays and failed reliability gates can extend this;
+4-8 hours, Phase 73 3-6 hours; total 10-20 hours assuming local services work
+and evaluator convergence. Allow several sessions over 2-4 days.
+Provider delays and failed reliability gates can extend this;
 the bounded attempt rule prevents pretending research has a guaranteed finish.
 Coding-agent usage and separately billed evaluation API spending are different.
 
