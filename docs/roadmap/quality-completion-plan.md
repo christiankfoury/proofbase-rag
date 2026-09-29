@@ -4,6 +4,7 @@ Prepared 2026-09-28 following the user's request to resume answer quality,
 evaluator reliability, and fresh measurement. This supersedes the Phase 70
 deferral for these three areas only. The portfolio release remains complete.
 This handoff preparation is documentation-only; implementation has not resumed.
+The user approved the bounded workflow below on 2026-09-28.
 
 ## Start here
 
@@ -38,7 +39,7 @@ replacement overall score. An 80% target is not a promised result.
   if exposure/custody is uncertain, replace them with newly isolated cases.
 - Use offline checks before a full calibration. Any small live diagnostic is
   labeled development evidence and cannot substitute for the full gate.
-- Recommended sequence: check the known v11 failure categories on visible
+- Required sequence: check the known v11 failure categories on visible
   development cases before spending another full 75-call attempt. If the same
   defects recur, stop that candidate early; retain the partial diagnostic result
   without declaring calibration complete. Do not tune on confirmation cases.
@@ -46,6 +47,10 @@ replacement overall score. An 80% target is not a promised result.
   new failure hypothesis, one repair attempt. If reliability still fails, record
   the blocker and request a method/scope decision; do not continue indefinitely
   through new version numbers or weaken expectations to obtain a passing score.
+  An early-stopped candidate consumes its attempt; do not reset this limit by
+  renaming versions or repeatedly running small diagnostics. Record the selected
+  diagnostic cases and expected judgments before calls. Passing the diagnostic
+  permits the full calibration but does not itself satisfy evaluator readiness.
 - Deliver docs/phase-71 notes, versioned artifacts, focused tests, ledger audit
   and a clear readiness decision. Failed results are retained and reported.
 

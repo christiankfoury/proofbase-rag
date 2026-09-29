@@ -9,6 +9,11 @@ Update this tracker before committing each phase. Keep entries factual: record w
 ### Reopened: three-area quality queue (2026-09-28)
 
 The user selected evaluator reliability, answer quality and fresh measurement.
+The user approved the bounded workflow: diagnose known grader failures first,
+allow one candidate attempt and one justified repair (including early stops),
+fix source-confirmed runtime defects without waiting for evaluator readiness,
+then run a fresh 60-case holdout only after validation and freeze. Publish the
+actual result even if below target. No repeated unbounded calibration loop.
 Follow [quality completion](quality-completion-plan.md) for Phases 71-73. This
 supersedes the deferral below only for those areas. Handoff documentation is
 prepared; runtime work has not resumed. Phase 71 starts with offline v12 and
