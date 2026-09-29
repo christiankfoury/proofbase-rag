@@ -1,6 +1,6 @@
 # Future Phase Plan
 
-Status: this file preserves the historical phase sequence. Work through Phase 68 has completed; follow [the active quality-remediation handoff](post-phase-68-quality-remediation-handoff.md) for the next evaluation work. `docs/roadmap/progress.md` is the current source of truth. Older planned statuses below are historical, not the active queue.
+Status: this file preserves the historical phase sequence. Phase 70 completed the portfolio finish; follow [quality completion, Phases 71-73](quality-completion-plan.md) for the selected evaluator, runtime and fresh-measurement queue. `docs/roadmap/progress.md` is the current source of truth. Older planned statuses below are historical, not the active queue.
 
 ## Planning Rule
 

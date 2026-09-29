@@ -6,6 +6,19 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
+### Reopened: three-area quality queue (2026-09-28)
+
+The user selected evaluator reliability, answer quality and fresh measurement.
+Follow [quality completion](quality-completion-plan.md) for Phases 71-73. This
+supersedes the deferral below only for those areas. Handoff documentation is
+prepared; runtime work has not resumed. Phase 71 starts with offline v12 and
+ledger/confirmation-path checks. Full live v12 calibration remains budget-blocked:
+USD 5 cumulative approval, USD 2.14328077 last recorded spend. No higher ceiling
+has been approved. Production integration, historical human adjudication and
+independent security assessment are recorded as future improvements, not queued.
+Documentation verification and commit reference: the commit containing this entry
+and quality-completion-plan.md. Existing request-log changes must be preserved.
+
 ### Complete: portfolio finish (2026-09-19)
 
 The user replaced the research-style evaluator/holdout queue with a bounded

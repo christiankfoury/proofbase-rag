@@ -51,7 +51,7 @@ Recorded project review classified the eight Phase 49 automated failures as four
 
 ## Five-Minute Review Path
 
-**Portfolio release:** the bounded demo finish is complete; further evaluator calibration and a new holdout are deferred. The release keeps historical evidence and does not claim a new overall accuracy score. [Verification and remaining limits](docs/phase-70/portfolio-finish.md).
+**Portfolio release:** the bounded demo finish is complete. A separate [quality-completion queue](docs/roadmap/quality-completion-plan.md) is prepared for evaluator reliability, answer remediation and fresh measurement; implementation and live budget gates remain pending. The release keeps historical evidence and does not claim a new overall accuracy score. [Verification and remaining limits](docs/phase-70/portfolio-finish.md).
 
 
 1. **0:00–0:45:** Open `/demo`, select **Emma Employee**, and open Northstar Analytics.

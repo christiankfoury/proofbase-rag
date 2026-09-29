@@ -1,9 +1,10 @@
 # Coding-agent handoff: quality remediation after Phase 68
 
-Prepared 2026-09-19. Status: planned; implementation has not started. This is the
-active evaluation-quality queue, superseding the completed Phase 67-68 queue.
-Read `AGENTS.md`, [progress](progress.md), and this document before changing code.
-The last completed work is `d3f24e1`; runtime measurement used `89b5a38`.
+Prepared 2026-09-19; status updated 2026-09-28. This document preserves the detailed
+quality and custody requirements. Use [quality completion](quality-completion-plan.md)
+as the current execution plan: Phase 69 prepared v12, Phase 70 shipped focused
+runtime fixes in `29a0a68`, and Phases 71-73 are now selected. Read `AGENTS.md` and
+[progress](progress.md) before changing code. Do not repeat already shipped fixes.
 
 ## Goal and honest starting point
 
@@ -129,9 +130,9 @@ not weaker criteria or tuning followed by rerunning the same holdout.
 
 ## Cost and safety constraints
 
-The existing approved cumulative API ceiling is **USD 2.00**, not a new allowance.
-Recorded cumulative estimated token spend is **USD 1.19689392**, leaving at most
-**USD 0.80310608**. Verify the latest durable ledger before any call. Preserve its
+The existing approved cumulative API ceiling is **USD 5.00**, not a new allowance.
+Last documented conservative cumulative spend is **USD 2.14328077**, leaving at most
+**USD 2.85671923**. Reconcile Phase 69/70 ledgers before any call. Preserve the
 complete historical prefix in the next ledger and keep historical ledgers frozen.
 Reserve conservative cost before calls, price all models, disable retries and stop
 on unknown outcomes. The last holdout alone added about USD 0.543039; do not assume
