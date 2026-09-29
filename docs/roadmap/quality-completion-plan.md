@@ -68,8 +68,9 @@ replacement overall score. An 80% target is not a promised result.
 
 - Require Phases 71/72 gates and whole-run budget preflight. Freeze runtime,
   evaluator, prompts, corpus, configuration and index before authoring cases.
-- Use separate context-isolated authoring and validation agents for the new
-  60-case suite; this plan explicitly requests those narrowly scoped agent tasks.
+- Plan separate context-isolated authoring and validation for the new 60-case
+  suite. Obtain applicable delegation authorization before spawning agents;
+  this documentation update does not itself grant that authorization.
   Provide frozen corpus/specification, not old questions, failures or answers.
   Preserve custody, source checks, hashes and validation before execution.
 - Predeclare the composite from the older handoff: complete relevant supported
