@@ -6,6 +6,19 @@ deferral for these three areas only. The portfolio release remains complete.
 This handoff preparation is documentation-only; implementation has not resumed.
 The user approved the bounded workflow below on 2026-09-28.
 
+## Approved replacement confirmation (2026-09-29)
+
+After the original v13 confirmation finished 15/16 because an incorrect sealed
+reference label survived separate agent validation, the user explicitly approved
+one fresh 16-case confirmation. Preserve the original 15/16 and all frozen evidence.
+Keep the evaluator unchanged; clarify ordered reference-label precedence and add
+mechanical reference consistency checks before fresh isolated authoring/validation.
+Freeze and seal before one run. Require 16/16 exact, valid contracts and zero
+unresolved semantic findings. If it passes, continue directly through Phase 73;
+if it fails, stop without further retries. This is one authorized replacement
+confirmation, not a third evaluator candidate or permission to tune on exposed
+cases. [Execution note](../phase-71/replacement-confirmation.md).
+
 ## Start here
 
 Read AGENTS.md, the current position in [progress](progress.md), this plan,
