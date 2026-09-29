@@ -6,6 +6,23 @@ deferral for these three areas only. The portfolio release remains complete.
 This handoff preparation is documentation-only; implementation has not resumed.
 The user approved the bounded workflow below on 2026-09-28.
 
+## Approved bounded evaluator correction (2026-09-29)
+
+After the replacement confirmation failed on temporal/contextual interpretation,
+the user approved one evaluator correction and the following rule: current policy
+evidence supports current permission; the word "still" alone is not a separate
+historical claim. Explicit past-policy, change or continuity claims still need
+evidence. Guessed user context still fails relevance and intended behavior.
+
+Implement one versioned candidate (v14), keep historical evidence unchanged, and
+add positive/negative development variants. Run one predeclared diagnostic, stop
+this candidate if it fails, then require one full 24/24 calibration plus 3/3 reviewer
+checks and clean source inspection. Freeze before one newly isolated 16-case
+confirmation with the same exact gate. Continue to Phase 73 only if all gates pass;
+otherwise retain results and stop with no extra correction or selective retry.
+[Execution note](../phase-71/v14-correction.md). Prior stopped attempts below remain
+historical; this explicit scope extension is the current authorization.
+
 ## Approved replacement confirmation (2026-09-29)
 
 After the original v13 confirmation finished 15/16 because an incorrect sealed

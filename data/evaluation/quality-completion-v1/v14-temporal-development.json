@@ -1,0 +1,358 @@
+{
+  "author": "primary agent",
+  "cases": [
+    {
+      "evidence": [
+        {
+          "chunk_id": 740001,
+          "content": "Current Aster equipment policy: Registered members may borrow the telescope for up to three nights.",
+          "document_id": 750001
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "id": "temporal-current-permission",
+      "inputs": {
+        "answer": "Yes. Registered members may borrow the Aster telescope for up to three nights.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Current Aster equipment policy: Registered members may borrow the telescope for up to three nights."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Current Aster equipment policy: Registered members may borrow the telescope for up to three nights."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "May registered members still borrow the Aster telescope?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Registered members may borrow the Aster telescope for up to three nights."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Yes. Registered members may borrow the Aster telescope for up to three nights.",
+        "citations": [
+          {
+            "chunk_id": 740001,
+            "citation_text": "Current Aster equipment policy: Registered members may borrow the telescope for up to three nights.",
+            "document_id": 750001
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Current permission supports ordinary affirmative confirmation; no explicit historical claim.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 740002,
+          "content": "Current Copper room rule: Employees may reserve the room on Tuesdays.",
+          "document_id": 750002
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "not_applicable",
+        "factual_support": "pass",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "fail",
+        "response_behavior": "fail"
+      },
+      "id": "temporal-ambiguous-topic",
+      "inputs": {
+        "answer": "Yes. Under the Copper room rule, employees may reserve the room on Tuesdays.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Current Copper room rule: Employees may reserve the room on Tuesdays."
+          }
+        ],
+        "expected_behavior": "clarify",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Current Copper room rule: Employees may reserve the room on Tuesdays."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Is that still allowed?",
+        "required_facts": []
+      },
+      "payload": {
+        "answer": "Yes. Under the Copper room rule, employees may reserve the room on Tuesdays.",
+        "citations": [
+          {
+            "chunk_id": 740002,
+            "citation_text": "Current Copper room rule: Employees may reserve the room on Tuesdays.",
+            "document_id": 750002
+          }
+        ],
+        "response_type": "clarify"
+      },
+      "rationale": "Current policy claim is supported; inferred user topic remains invalid and should clarify.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 740003,
+          "content": "Current Marigold studio rule: Staff may reserve the studio.",
+          "document_id": 750003
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "pass",
+        "factual_support": "unresolved",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "id": "temporal-explicit-history",
+      "inputs": {
+        "answer": "Staff may reserve the Marigold studio. This rule has been unchanged since 2014.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Current Marigold studio rule: Staff may reserve the studio."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Current Marigold studio rule: Staff may reserve the studio."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "May staff reserve the Marigold studio?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Staff may reserve the Marigold studio."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Staff may reserve the Marigold studio. This rule has been unchanged since 2014.",
+        "citations": [
+          {
+            "chunk_id": 740003,
+            "citation_text": "Current Marigold studio rule: Staff may reserve the studio.",
+            "document_id": 750003
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Current permission cannot establish explicit continuity since a past date.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 740004,
+          "content": "Current Opal shuttle policy: Visitors can use the shuttle.",
+          "document_id": 750004
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "pass",
+        "factual_support": "unresolved",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "id": "temporal-explicit-change",
+      "inputs": {
+        "answer": "Visitors can use the Opal shuttle. This permission was introduced last Friday.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Current Opal shuttle policy: Visitors can use the shuttle."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Current Opal shuttle policy: Visitors can use the shuttle."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Can visitors use the Opal shuttle?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Visitors can use the Opal shuttle."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Visitors can use the Opal shuttle. This permission was introduced last Friday.",
+        "citations": [
+          {
+            "chunk_id": 740004,
+            "citation_text": "Current Opal shuttle policy: Visitors can use the shuttle.",
+            "document_id": 750004
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Current permission does not entail the asserted introduction date.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 740005,
+          "content": "Expired Quartz policy, superseded: Cameras were allowed in the room. Current replacement policy: Cameras are prohibited in the Quartz room.",
+          "document_id": 750005
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "id": "temporal-superseded-rule",
+      "inputs": {
+        "answer": "Yes, cameras are still allowed in the Quartz room.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Expired Quartz policy, superseded: Cameras were allowed in the room. Current replacement policy: Cameras are prohibited in the Quartz room."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Expired Quartz policy, superseded: Cameras were allowed in the room. Current replacement policy: Cameras are prohibited in the Quartz room."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Are cameras still allowed in the Quartz room?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Cameras are prohibited in the Quartz room under the current replacement policy."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Yes, cameras are still allowed in the Quartz room.",
+        "citations": [
+          {
+            "chunk_id": 740005,
+            "citation_text": "Expired Quartz policy, superseded: Cameras were allowed in the room. Current replacement policy: Cameras are prohibited in the Quartz room.",
+            "document_id": 750005
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Still cannot turn a superseded permission into current permission against an explicit current ban.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 740006,
+          "content": "Current Willow work policy: Staff may work remotely on Mondays only with prior written manager approval. Remote work without that approval is prohibited.",
+          "document_id": 750006
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "id": "temporal-condition-preserved",
+      "inputs": {
+        "answer": "Yes, staff may work remotely on Mondays without approval.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Current Willow work policy: Staff may work remotely on Mondays only with prior written manager approval. Remote work without that approval is prohibited."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Current Willow work policy: Staff may work remotely on Mondays only with prior written manager approval. Remote work without that approval is prohibited."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "May staff still work remotely on Mondays without approval?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Remote work on Mondays requires prior written manager approval; without it remote work is prohibited."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Yes, staff may work remotely on Mondays without approval.",
+        "citations": [
+          {
+            "chunk_id": 740006,
+            "citation_text": "Current Willow work policy: Staff may work remotely on Mondays only with prior written manager approval. Remote work without that approval is prohibited.",
+            "document_id": 750006
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Affirmative discourse does not excuse explicit contradiction of an approval condition.",
+      "safety_flags": []
+    }
+  ],
+  "human_adjudication": false,
+  "kind": "visible_development_variants",
+  "source": "User-approved current-permission rule; newly composed variants, not a holdout.",
+  "version": "temporal-development.v1"
+}

@@ -6,6 +6,16 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
+### In progress: one authorized v14 evaluator correction (2026-09-29)
+
+The user approved the clarified current-permission rule and one bounded correction.
+Follow the [active plan](quality-completion-plan.md) and [v14 note](../phase-71/v14-correction.md).
+Prepare six new development variants plus six known failure-category diagnostics,
+then require 24/24 full calibration, 3/3 probes, source inspection, freeze and one
+fresh isolated 16/16 confirmation. No historical labels/results are changed.
+Phase 72 remains complete; Phase 73 remains gated. Existing request-log edits are
+unrelated and preserved. Starting cumulative history: 1,983 calls, USD 4.45340577.
+
 ### Stopped: authorized replacement confirmation gate failed (2026-09-29)
 
 The approved extension is complete as a failed-result deliverable. Frozen v13's
