@@ -30,3 +30,11 @@ checks because no frozen evaluator/application file changed. Historical confirma
 replay must still report 15/16. No external calls have run for this extension yet.
 Next: review/commit, freeze the wrapper/briefs, then fresh isolated authoring and
 validation. Starting cumulative ledger: 1,935 calls, estimated USD 4.00690577.
+
+
+Controls committed/pushed in `83c81d9`; replacement freeze pushed in `eeffca4`
+before isolated authoring. The new 16-case suite passed mechanical checks and
+separate agent source validation without revision. Both notes disclose procedural
+isolation and no human adjudication. The seal binds both briefs, author/validator
+notes, freeze, explicit approval and suite before execution. The next step is its
+single 48-call maximum run after seal commit; no current application calls.
