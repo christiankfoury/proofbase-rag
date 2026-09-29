@@ -1,0 +1,70 @@
+{
+  "case_id": "confirmation-v2-03",
+  "cost_usd": "3.71027577",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It provides a substantive direct answer to the user's question, though the value conflicts with the required fact.",
+    "behavior_span": "The Morrow badge battery test lasts 9 minutes.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer says the test lasts 9 minutes, but the factual source explicitly states it lasts exactly 6 minutes. The cited source also does not entail the claim and instead conflicts with it, so citation support is missing.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "The Morrow badge battery test lasts exactly 6 minutes."
+          }
+        ],
+        "text": "The Morrow badge battery test lasts 9 minutes."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "lasts 9 minutes"
+        ],
+        "fact_id": "F1",
+        "reason": "The answer gives a duration of 9 minutes, which is incompatible with the required fact that it lasts exactly 6 minutes.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the asked topic: the duration of the Morrow badge battery test.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted the only factual claim, and it is explicitly contradicted by the source saying the test lasts exactly 6 minutes, so factual_support=fail is correct. The cited source also does not entail the 9-minute claim, so citation_support=fail is correct. The required fact is contradicted by the answer, so completeness=fail is correct. The answer is still a substantive direct answer, so actual_behavior=answer is correct; however because the required fact is contradicted, response_behavior=fail is also correct. The answer is on-topic, so relevance=pass is correct. There are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

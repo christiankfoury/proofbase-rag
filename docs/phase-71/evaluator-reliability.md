@@ -93,3 +93,29 @@ readiness replay pass. The seal binds suite, validation, freeze and custody note
 before execution; preserve their bytes in Git. Preflight allows at most 48 calls
 with a conservative USD 5.0757050 reservation, not an actual charge. Run once with
 no selective retry or expectation edits, then replay and inspect every result.
+
+
+## Final bounded outcome
+
+Confirmation completed once: **15/16 exact judgments**, zero invalid contracts
+and zero model-review disputes. The gate failed. [Source inspection](confirmation-source-review.md)
+finds a sealed-reference precedence defect, not a false model pass: an expected
+answer missing its required fact forces derived behavior failure even when its
+prose is an unknown generic refusal. Both isolated agents missed that override.
+No expectation, evaluator, result or threshold was changed after execution.
+
+Both candidate attempts are consumed. Phase 71's failed-result deliverable is
+complete, Phase 72 is complete, and Phase 73 is blocked under the approved fallback.
+The machine-readable decision is `data/evaluation/quality-completion-v1/readiness-decision.json`.
+No additional runtime authoring, measurement or calibration is queued.
+
+Verification: full confirmation raw replay and source inspection, custody hashes,
+complete intended evidence/docs diff review and Git whitespace checks. Earlier
+11 successor tests, runtime/permission/citation regressions, benchmark validation
+and historical offline replays are reused unchanged. No frontend build, Docker
+image rebuild or live RAG suite was run for this evidence-only closeout.
+Confirmation used 48 calls and USD 0.37671500; total queue 228 calls and
+USD 1.86362500; reconciled total USD 4.00690577. Provider response timestamps span
+222 seconds for confirmation and 2,397 seconds across this queue (not active agent
+time). All calls settled; no retries, unknown outcomes, cloud provisioning or
+product spending-limit changes. Unrelated request-log additions remain preserved.

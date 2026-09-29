@@ -1,0 +1,73 @@
+{
+  "case_id": "confirmation-v2-05",
+  "cost_usd": "3.75904327",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "This is a substantive response, but it addresses a different topic rather than the requested network change window.",
+    "behavior_span": "The Orchard cafeteria serves lunch from 11:40 to 13:10.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C2",
+            "span": "The Orchard cafeteria serves lunch from 11:40 to 13:10."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The claim is directly entailed by factual source R2 and by cited source C2.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "The Orchard cafeteria serves lunch from 11:40 to 13:10."
+          }
+        ],
+        "text": "The Orchard cafeteria serves lunch from 11:40 to 13:10."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer does not mention the Orchard network change window or its time range.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is about cafeteria lunch hours, not the user's requested Orchard network change window.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted the only factual claim as the exact answer span and marked it supported by R2/C2, so factual_support and citation_support are pass. Required fact F1 about the network change window is omitted, so completeness is correctly fail. The answer is a substantive statement on a different topic, so actual_behavior=answer is correct, but response_behavior is still correctly fail because an expected answer omitted the required fact. The cafeteria-hours response is not responsive to the asked network change window, so relevance fail is correct. No forbidden assertion was made.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

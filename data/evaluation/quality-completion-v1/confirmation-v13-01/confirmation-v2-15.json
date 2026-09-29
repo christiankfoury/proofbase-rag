@@ -1,0 +1,70 @@
+{
+  "case_id": "confirmation-v2-15",
+  "cost_usd": "3.98087327",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with a substantive claim about whether attendance is required.",
+    "behavior_span": "Carina mentors must attend the Friday practice.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source says attendance is optional and not required, which explicitly conflicts with 'must attend'.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Carina mentors may attend the Friday practice. Attendance is optional and is not required."
+          }
+        ],
+        "text": "Carina mentors must attend the Friday practice."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Carina mentors must attend the Friday practice."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer says attendance is mandatory, which conflicts with the required fact that Friday practice is optional for Carina mentors.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer is responsive to the asked topic: whether Carina mentors have to attend Friday practice.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The single factual claim is correctly enumerated verbatim and is explicitly contradicted by R1, so factual_support=fail is correct. The cited source does not entail the claim, so citation_support=fail is correct. Required fact F1 says attendance is optional; the answer says it is mandatory, so completeness=fail is correct. The response is substantively answering the question, so actual_behavior=answer is correct; because the required fact is contradicted, response_behavior=fail is also correct. The answer is on-topic for Carina mentors and Friday practice, so relevance=pass is correct. No forbidden assertion was made.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

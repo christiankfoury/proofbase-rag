@@ -6,26 +6,35 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### In progress: Phase 71 bounded evaluator reliability (2026-09-29)
+### Bounded quality queue stopped at confirmation gate (2026-09-29)
 
-Implementation resumed under [quality completion](quality-completion-plan.md).
-See [Phase 71 gates and handoff](../phase-71/evaluator-reliability.md).
-The successor runner preserves frozen v12 semantics and historical ledgers,
-reconciles Phase 69/70 to 1,707 calls and conservative USD 2.14328077, records
-the superseded local USD 5 gate, and retains bounded calls and unknown-outcome
-stops. Four v11 defect categories are predeclared for diagnostic-first execution.
-Preparation committed/pushed in `c240cd1`. V12 diagnostic 4/4 passed, but full
-calibration finished 22/24 exact challenges and 3/3 probes: readiness failed.
-V12 results and the sole justified v13 repair were pushed in `36798a0`. V13 passed
-6/6 diagnostic cases, 24/24 full challenges and 3/3 probes; source inspection found
-zero unresolved semantic findings. Next gate is evaluator freeze and freshly
-authored separate 16-case confirmation. Phase 73 is not authorized to run yet.
-Source-confirmed [Phase 72 fixes](../phase-72/confirmed-runtime-fixes.md), complete
-and pushed in `8a0f734`,
-preserve follow-up conditions, restore retrieval after empty decomposition and
-correct numeric substring support. Development boundary probes improve from
-6/14 to 14/14; this is not an overall quality score. The unrelated request-log
-edit remains excluded. Isolated authoring/validation is authorized.
+Phase 71's failed-result deliverable is complete; evaluator readiness for Phase
+73 is not established. Follow the [active quality plan](quality-completion-plan.md)
+and [confirmation findings](../phase-71/confirmation-source-review.md). V12
+finished 22/24 exact development cases. The sole repair v13 passed 24/24 and 3/3
+reviewer probes, then the frozen, separately authored/validated confirmation
+finished **15/16 exact judgments**. A sealed-reference precedence defect in case
+08 survived agent validation. Original expectations and results remain unchanged;
+no adjusted pass, extra candidate or selective retry was allowed.
+
+Phase 72 is complete and pushed in `8a0f734`: preserve follow-up conditions,
+recover from empty decomposition and correct numeric substring support. Focused
+development probes improve from 6/14 to 14/14, not an overall quality score.
+[Phase 73 is blocked](../phase-73/measurement-status.md); no 60-case suite was
+authored or run, no new overall score exists, and historical/dashboard evidence
+remains unchanged. Additional confirmation or a different evaluation method needs
+a new scope decision. No later runtime phase is queued automatically.
+
+Preparation/reconciliation: `c240cd1`; v12 evidence/sole repair: `36798a0`;
+v13 development/code: `316e516`; evaluator freeze: `4fd1c68`; confirmation seal:
+`983da1e`. Final confirmation evidence, readiness decision and queue closeout are
+in the commit containing this entry. All are reviewed before commit; final push
+status is recorded in the user-facing completion report.
+
+This queue used 228 external calls, estimated USD 1.86362500; reconciled cumulative
+history is 1,935 calls and USD 4.00690577. All calls settled with no retries or
+unknown outcomes. The superseded USD 5 cap was removed in the successor runner;
+product abuse limits were preserved. Unrelated request-log edits remain excluded.
 
 ### Workflow maintenance complete (2026-09-28)
 

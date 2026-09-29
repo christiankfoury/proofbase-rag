@@ -73,3 +73,23 @@ entry point. It refuses an existing run folder; do not delete the folder or
 change the seal to repeat the experiment. A new live measurement needs newly
 frozen code/configuration/index and a newly authored suite. Current DB state is
 not expected to equal the pre-run fingerprint after upload fixtures execute.
+
+
+## Phase 71 bounded evaluator evidence
+
+These commands replay saved evaluator requests/responses, source spans, dimension
+reducers and costs without API calls or application services:
+
+```powershell
+python scripts/report_quality_completion.py --candidate v12 --stage calibration
+python scripts/report_quality_completion.py --candidate v13 --stage calibration
+python scripts/report_quality_confirmation_v13.py
+```
+
+V12 finished 22/24 exact development cases; the sole repair, v13, finished 24/24
+and 3/3 reviewer probes. Fresh isolated confirmation finished 15/16 exact cases.
+[Source inspection](../phase-71/confirmation-source-review.md) identifies a
+reference-validation defect; the sealed expectations are not corrected after
+execution. Reproduction verifies recorded outcomes, not semantic infallibility.
+The confirmation gate failed, so no Phase 73 runtime holdout or new overall score
+exists. Do not rerun live execution or tune against these exposed cases.
