@@ -58,3 +58,19 @@ and commit. Stop on custody, unknown outcome or quota errors. Per-stage costs ar
 in immutable manifests/ledgers; final cost and elapsed time pending. Phase 72
 source-confirmed development reproduction is also prepared, but not committed
 with evaluator evidence. Unrelated request logs remain excluded.
+
+## Selected development candidate
+
+V13 passed its diagnostic (6/6, 18 calls) and full calibration (24/24, 3/3, 75
+calls). [Source inspection](calibration-v13-source-review.md) found no unresolved
+semantic issue. The evaluator is selected for freeze and fresh 16-case separate
+confirmation, **not yet ready for Phase 73**. Both candidate attempts are consumed;
+confirmation cannot trigger another repair. A new versioned confirmation runner
+and offline reporter bind v13, the successor ledger, source review and frozen
+code. Historical confirmation remains unused. Cumulative estimated spend is
+USD 3.63019077, including USD 1.48691000 for this queue's 180 calls so far.
+
+Phase 72 source-confirmed fixes and regressions are committed/pushed as `8a0f734`.
+Next action: commit reviewed v13 evidence and confirmation code, freeze the
+evaluator, then isolated authoring and separate validation. No fresh runtime
+holdout may be authored before confirmation passes and the full runtime freezes.

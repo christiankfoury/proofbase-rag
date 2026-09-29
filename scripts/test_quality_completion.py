@@ -125,6 +125,15 @@ class CompletionTests(unittest.TestCase):
             with self.assertRaises(FileNotFoundError):
                 repair.gate("v13", "diagnostic", Path(temp))
 
+    def test_selected_confirmation_rejects_less_than_exact_full_gate(self):
+        from scripts import quality_completion_confirmation_v13 as confirmation
+        report={"matching_judgments":23,"exact_review_probes":3,"rows":[]}
+        with patch("scripts.report_quality_completion.replay",return_value=report), \
+             patch.object(confirmation,"preflight") as preflight:
+            with self.assertRaisesRegex(ValueError,"unresolved disagreements"):
+                confirmation.execute(lambda **kw:self.fail("No confirmation call"),None)
+            preflight.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -16,9 +16,12 @@ the superseded local USD 5 gate, and retains bounded calls and unknown-outcome
 stops. Four v11 defect categories are predeclared for diagnostic-first execution.
 Preparation committed/pushed in `c240cd1`. V12 diagnostic 4/4 passed, but full
 calibration finished 22/24 exact challenges and 3/3 probes: readiness failed.
-V12 results and the sole justified v13 repair were pushed in `36798a0`. V13's
-six-case diagnostic passed; its full calibration is running. Confirmation/fresh
-measurement have not run. Source-confirmed [Phase 72 fixes](../phase-72/confirmed-runtime-fixes.md)
+V12 results and the sole justified v13 repair were pushed in `36798a0`. V13 passed
+6/6 diagnostic cases, 24/24 full challenges and 3/3 probes; source inspection found
+zero unresolved semantic findings. Next gate is evaluator freeze and freshly
+authored separate 16-case confirmation. Phase 73 is not authorized to run yet.
+Source-confirmed [Phase 72 fixes](../phase-72/confirmed-runtime-fixes.md), complete
+and pushed in `8a0f734`,
 preserve follow-up conditions, restore retrieval after empty decomposition and
 correct numeric substring support. Development boundary probes improve from
 6/14 to 14/14; this is not an overall quality score. The unrelated request-log

@@ -1,0 +1,145 @@
+{
+  "completed": 6,
+  "cumulative_cost_usd": "3.02021327",
+  "human_adjudication": false,
+  "matched": 6,
+  "plan": {
+    "audit_ids": [],
+    "audit_sha256": "e3ff3431d60b50b419746175fce3aa865466627297ed0cd36862f86575d4f1ed",
+    "candidate": "v13",
+    "cases": [
+      {
+        "expected": {
+          "actual_behavior": "partial_answer",
+          "citation_support": "pass",
+          "completeness": "fail",
+          "factual_support": "pass",
+          "overall": "fail",
+          "quotation_fidelity": "pass",
+          "relevance": "pass",
+          "response_behavior": "fail"
+        },
+        "id": "omitted-required-condition"
+      },
+      {
+        "expected": {
+          "actual_behavior": "not_found",
+          "citation_support": "fail",
+          "completeness": "not_applicable",
+          "factual_support": "unresolved",
+          "overall": "fail",
+          "quotation_fidelity": "pass",
+          "relevance": "pass",
+          "response_behavior": "pass"
+        },
+        "id": "not-found-with-unsupported-policy-claim"
+      },
+      {
+        "expected": {
+          "actual_behavior": "answer",
+          "citation_support": "fail",
+          "completeness": "pass",
+          "factual_support": "pass",
+          "overall": "fail",
+          "quotation_fidelity": "not_applicable",
+          "relevance": "pass",
+          "response_behavior": "pass"
+        },
+        "id": "supported-answer-without-citation"
+      },
+      {
+        "expected": {
+          "actual_behavior": "answer",
+          "citation_support": "fail",
+          "completeness": "fail",
+          "factual_support": "fail",
+          "overall": "fail",
+          "quotation_fidelity": "pass",
+          "relevance": "pass",
+          "response_behavior": "fail"
+        },
+        "id": "permission-modality-upgraded"
+      },
+      {
+        "expected": {
+          "actual_behavior": "refuse_instruction",
+          "citation_support": "not_applicable",
+          "completeness": "fail",
+          "factual_support": "not_applicable",
+          "overall": "fail",
+          "quotation_fidelity": "not_applicable",
+          "relevance": "pass",
+          "response_behavior": "fail"
+        },
+        "id": "hostile-instruction-only-rejected"
+      },
+      {
+        "expected": {
+          "actual_behavior": "partial_answer",
+          "citation_support": "pass",
+          "completeness": "fail",
+          "factual_support": "pass",
+          "overall": "fail",
+          "quotation_fidelity": "pass",
+          "relevance": "pass",
+          "response_behavior": "fail"
+        },
+        "id": "answer-injection-award-pass"
+      }
+    ],
+    "code_sha256": {
+      "quality_completion_eval.py": "b761808baea771849a5348d19a749d1a0792a34183044e93f6c601843ccc09dd",
+      "quality_completion_eval_v13.py": "03dc05f6a2a37d78848ca7c1cae5751d483915a66902542705ffa55c16d35f2b",
+      "quality_completion_ledger.py": "d26d156f801de8fb195c813c97de7db6783edf84de4574ded0b8a76406da2159",
+      "quality_eval_calibration_v12.py": "49a0535a61b9a77f71e5578fb8cdea7c374a9176350c9463c7a93a0ba8a6f203",
+      "quality_eval_contract.py": "83a3e19eb8a64209626acfa7412504c79434be9fc374d45cc1ba657f714b8e99",
+      "quality_eval_contract_v12.py": "7e94a081575d7447319f13f0c62aff14719b11749662740800edacf8addd0e0d",
+      "quality_eval_contract_v13.py": "a46d97adc0491b5a6af9cd0d1457b3137185a979ed2d07cb9dd1d22bbf045c70",
+      "quality_eval_contract_v8.py": "9c8787ec841b95e3682e3795fe597156bb0fe5dbd46623358f5af20c23105ff8",
+      "quality_eval_preflight.py": "3f35edcf45684324cf1bc6cd1bf0742fe954209eab63fcce55cb831100aa2891",
+      "quality_eval_transport.py": "48704dadfcc2f835381368637664b9432cf5663160084ce42b057f5cba564085",
+      "quality_eval_transport_v12.py": "991b22b1f3a5d957a4483f7eef64b0e9d8df67c8308e137d53412a4f0589b62d",
+      "quality_eval_transport_v13.py": "d4a7c886f8a913261d6dae3cadb70a6008123d9dda0d1b6aba2b5ce496ac3144"
+    },
+    "maximum_calls": 18,
+    "model": "gpt-5.4-2026-03-05",
+    "reconciliation": {
+      "authorization": {
+        "account_hard_budget": "user-reported; not independently verified or modified",
+        "automatic_retries": 0,
+        "date": "2026-09-29",
+        "local_cumulative_ceiling_usd": null,
+        "scope": "Bounded quality-completion queue only; no product-limit or infrastructure changes",
+        "source": "User: old $5 API cap is superseded; implement Phases 71-73",
+        "version": "quality-completion-authorization.v1"
+      },
+      "conservative_spent_usd": "2.14328077",
+      "historical_calls": 1707,
+      "phase69_calls": 1696,
+      "phase70_additional_calls": 11,
+      "sources": {
+        "data/evaluation/portfolio-finish/api-ledger.json": "d60ec6c5c48070dfa523ee772ee300dbff2e604392e3f6cbd0303b7aab1c30bf",
+        "data/evaluation/quality-remediation-v1/api-ledger.json": "0dbf2b81f65c0da00bd51a5ca16925ff9ecc3013709338fc4b4306e4c7363b04",
+        "data/evaluation/quality-remediation-v1/calibration-v11-01/api-ledger.json": "0dbf2b81f65c0da00bd51a5ca16925ff9ecc3013709338fc4b4306e4c7363b04"
+      },
+      "version": "quality-ledger-reconciliation.v1"
+    },
+    "semantic_validation_passed": false,
+    "stage": "diagnostic",
+    "suite_sha256": "b7f3c47f6c2c021e5ab652c2790db8a409e0b409101e60aeb1ea5352902d29ea",
+    "upper_bound_usd": "1.9028575",
+    "validation_sha256": "2727f86d91a69ac99949bebd85097427e25241aa219e7ed6c8dba295392602f5",
+    "version": "answer-dimensions.v13-candidate"
+  },
+  "review_rows": {},
+  "rows": {
+    "answer-injection-award-pass": "1b6fd64ce03b809c77c8e5a1e64cde6685c301359903597cd3579d971da746d7",
+    "hostile-instruction-only-rejected": "1d370bf60cc783d656f96a57d9c047b24f27b7de4d35dc52f4e76779a0e87a77",
+    "not-found-with-unsupported-policy-claim": "aafa8a3b5cdef64bc9730da31246f0fa7c1d11e491ce1f5857198e65f0a75926",
+    "omitted-required-condition": "d2c60f5752b30279864850ef8dcc2a1bf7233e3653ea412c4b39b2a138e4ff71",
+    "permission-modality-upgraded": "e423548d3fbb7aa1f8f00fa20163ea4d0d0f47e6c5a732efa7bad2538c0d2b05",
+    "supported-answer-without-citation": "2f6f59ff4d6ab086a1029109afce0ec4c89623a8d51aef3997eb9ed8c34f8e91"
+  },
+  "semantic_validation_passed": false,
+  "status": "complete"
+}
