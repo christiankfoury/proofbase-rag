@@ -6,15 +6,28 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### In progress: authorized replacement confirmation (2026-09-29)
+### Stopped: authorized replacement confirmation gate failed (2026-09-29)
 
-The user approved one fresh 16-case confirmation with the unchanged v13 evaluator,
-clearer ordered reference rules and stronger validation. Follow the same
-[active plan](quality-completion-plan.md) and [replacement note](../phase-71/replacement-confirmation.md).
-Original failed results below remain immutable. Require 16/16 exact and zero
-unresolved semantic findings; if passed continue through Phase 73, otherwise stop
-without further retries. Phase 72 remains complete. Existing request-log edits
-remain unrelated and excluded.
+The approved extension is complete as a failed-result deliverable. Frozen v13's
+one fresh replacement finished **15/16 exact judgments**. Mechanical reference
+checks caught the prior precedence defect, but the new suite exposed an unresolved
+interpretation of "Yes" in response to "still allowed". Both reference and model
+reject that answer overall; factual/citation dimension labels disagree. See
+[replacement source review](../phase-71/confirmation-replacement-source-review.md)
+and the [active plan](quality-completion-plan.md). No relabeling or further retry.
+
+Controls/briefs: `83c81d9`; freeze: `eeffca4`; suite seal: `9281a3a`; result evidence,
+readiness decision and current status are in the commit containing this entry.
+Phase 72 remains complete. Phase 73 remains blocked before runtime freeze,
+60-case authoring or execution. No replacement overall score exists; no next
+phase or extra confirmation is queued without a new scope decision.
+
+Replacement: 48 settled calls, estimated USD 0.44650000. Queue including extension:
+276 calls, USD 2.31012500. Reconciled cumulative history: 1,983 calls and USD
+4.45340577. No retries/unknown outcomes. Four focused tests, compilation and
+unchanged historical/development checks passed before freeze; raw replay, source
+inspection and custody/byte checks verify this result. Unrelated request-log
+edits are preserved and excluded. No application call or infrastructure provision.
 
 ### Bounded quality queue stopped at confirmation gate (2026-09-29)
 

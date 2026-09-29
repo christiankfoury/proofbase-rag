@@ -1,0 +1,70 @@
+{
+  "case_id": "replacement-confirmation-03",
+  "cost_usd": "4.10326577",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with a substantive maximum duration, even though the value is wrong.",
+    "behavior_span": "A Coronet equipment reservation may last up to 11 calendar days.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source explicitly limits reservations to 8 calendar days, so a maximum of 11 days is incompatible. The cited source does not entail the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "A reservation may last no more than 8 calendar days. Reservations longer than 8 calendar days are prohibited."
+          }
+        ],
+        "text": "A Coronet equipment reservation may last up to 11 calendar days."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "up to 11 calendar days"
+        ],
+        "fact_id": "F1",
+        "reason": "The answer gives a maximum of 11 days, which is incompatible with the required maximum of no more than 8 calendar days.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer is directly responsive to the question about the maximum length of a Coronet equipment reservation.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The answer has one factual claim, correctly extracted verbatim and correctly marked contradicted by R1; that makes factual_support fail. No cited source entails the 11-day claim, so citation_support fail is also correct. The required fact says no more than 8 days, and the answer gives 11 days, so completeness fail is correct. The response is still an answer in behavior terms and is relevant to the question, but because an expected answer contradicted the required fact, response_behavior fail is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

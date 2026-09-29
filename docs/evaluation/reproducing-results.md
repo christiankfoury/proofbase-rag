@@ -93,3 +93,11 @@ reference-validation defect; the sealed expectations are not corrected after
 execution. Reproduction verifies recorded outcomes, not semantic infallibility.
 The confirmation gate failed, so no Phase 73 runtime holdout or new overall score
 exists. Do not rerun live execution or tune against these exposed cases.
+
+
+The subsequently authorized single replacement uses the same frozen evaluator and
+new reference-consistency checks. Replay it with
+`python scripts/report_quality_confirmation_replacement.py`. It also finished
+15/16, with a different [semantic interpretation disagreement](../phase-71/confirmation-replacement-source-review.md).
+Both confirmation suites and reference approvals remain unchanged. Phase 73 is
+still blocked; neither report establishes a new application quality score.

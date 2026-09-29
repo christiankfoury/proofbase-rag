@@ -1,16 +1,17 @@
 # Phase 73: fresh measurement blocked
 
-No fresh runtime holdout was authored or executed. The mandatory Phase 71
-confirmation gate ended at **15/16 exact judgments**, below 16/16. Source review
-identified a sealed-reference precedence defect that separate agent validation
-missed. The original labels and result remain immutable; no adjusted pass is
-published. See [confirmation source review](../phase-71/confirmation-source-review.md).
+No fresh runtime holdout was authored or executed. The original Phase 71
+confirmation ended at 15/16 because of a sealed-reference precedence defect.
+The user then approved one replacement with unchanged evaluator and stronger
+reference checks. That replacement also finished **15/16 exact judgments**:
+its temporal/contextual entailment disagreement remains unresolved. See the
+[replacement source review](../phase-71/confirmation-replacement-source-review.md).
+Both original records and replacement evidence remain immutable; no adjusted
+pass or new overall score is published.
 
-The approved two-candidate evaluator budget is exhausted. Under the active
-[quality plan](../roadmap/quality-completion-plan.md), this triggers the bounded
-fallback: publish findings, complete source-confirmed application fixes, and stop
-before fresh runtime measurement. Phase 72's three fixes and negative controls
-are [complete](../phase-72/confirmed-runtime-fixes.md), committed in `8a0f734`.
+The approved replacement explicitly required stopping on failure. It is now
+exhausted. Phase 72's three source-confirmed fixes and negative controls remain
+[complete](../phase-72/confirmed-runtime-fixes.md), committed in `8a0f734`.
 Their 6/14 to 14/14 development probes are not a generalization score.
 
 Application/evaluator/corpus/configuration/index freeze for Phase 73, isolated
