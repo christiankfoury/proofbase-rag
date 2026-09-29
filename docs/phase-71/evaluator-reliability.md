@@ -74,3 +74,22 @@ Phase 72 source-confirmed fixes and regressions are committed/pushed as `8a0f734
 Next action: commit reviewed v13 evidence and confirmation code, freeze the
 evaluator, then isolated authoring and separate validation. No fresh runtime
 holdout may be authored before confirmation passes and the full runtime freezes.
+
+## Confirmation custody
+
+Reviewed v13 code/development evidence was pushed in `316e516`. The freeze record
+was committed and pushed separately in `4fd1c68` before spawning the author. It
+binds that selected code revision, readiness/source-review hashes, exact model
+configuration and the unchanged 16/16 confirmation gate. The author receives a
+fresh agent context and only the committed authoring brief and freeze record.
+A second fresh-context agent validates source-derived labels before execution;
+the validation brief prohibits reading evaluator code, prompts or old results.
+These are procedural agent-isolation controls, not independent human review.
+
+The initial suite passed independent-context agent validation: 16/16 source-derived
+expectations accepted, no revisions or unresolved findings, two conversational
+cases and five multiple-source cases. Structural checks and the exact development
+readiness replay pass. The seal binds suite, validation, freeze and custody notes
+before execution; preserve their bytes in Git. Preflight allows at most 48 calls
+with a conservative USD 5.0757050 reservation, not an actual charge. Run once with
+no selective retry or expectation edits, then replay and inspect every result.

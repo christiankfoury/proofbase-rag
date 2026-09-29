@@ -1,0 +1,354 @@
+{
+  "version": "quality-confirmation-validation.v1",
+  "status": "approved",
+  "suite_sha256": "201bffc21b900c7848f1e4e128d0f36eb95488b89f351a0ab1a48d7ac24d0402",
+  "freeze_sha256": "1dbb90b0224b637477f6073911ffd4132dd2c635c6cf895d34b5afb68854636d",
+  "case_count": 16,
+  "human_adjudication": false,
+  "files_read": [
+    "docs/phase-71/confirmation-validation-brief.md",
+    "docs/phase-71/confirmation-authoring-brief.md",
+    "data/evaluation/quality-completion-v1/evaluator-freeze.json",
+    "data/evaluation/quality-completion-v1/confirmation-challenges-v2.json"
+  ],
+  "validation_provenance": {
+    "reviewer": "separate-context validation agent",
+    "reviewed_at": "2026-09-29T05:09:07.091037+00:00",
+    "method": "Manual independent derivation of all eight labels from the supplied rubric and case texts, followed by comparison with supplied expectations and local structural checks.",
+    "pre_execution": true,
+    "external_api_calls": false,
+    "git_commands": false,
+    "evaluator_executed": false,
+    "isolation": "Procedural separate-agent context; only four authorized files read. Supplied labels and rationales were visible, so this is not blinded human adjudication or independently attested isolation.",
+    "frozen_commit": "316e516fbc5a0986f62c56a44b849dd696ef4960",
+    "custody_hash_matches_parent": true
+  },
+  "structural_checks": {
+    "answer_payload_identity": true,
+    "factual_source_evidence_identity": true,
+    "citation_source_id_and_full_text_identity": true,
+    "distinct_numeric_chunk_and_document_ids": true,
+    "exact_eight_expected_labels": true,
+    "required_facts_for_expected_answers": true,
+    "required_facts_follow_from_policy": true,
+    "history_used_only_for_reference": true,
+    "literal_excerpt_checks": "All excerpts literal except intentional negative quotation case confirmation-v2-13.",
+    "composite_checked_separately": true,
+    "safety_flags_all_empty": true,
+    "unmatched_citations": 0,
+    "conversation_case_count": 2,
+    "multiple_source_case_count": 5
+  },
+  "coverage": {
+    "complete_paraphrase": [
+      "confirmation-v2-01",
+      "confirmation-v2-12",
+      "confirmation-v2-16"
+    ],
+    "omitted_material_condition": [
+      "confirmation-v2-02"
+    ],
+    "explicit_contradiction": [
+      "confirmation-v2-03"
+    ],
+    "unsupported_extra_assertion": [
+      "confirmation-v2-04"
+    ],
+    "true_wrong_topic": [
+      "confirmation-v2-05"
+    ],
+    "pure_access_denial": [
+      "confirmation-v2-06"
+    ],
+    "pure_inability_to_find": [
+      "confirmation-v2-07"
+    ],
+    "generic_unexplained_refusal": [
+      "confirmation-v2-08"
+    ],
+    "clarification": [
+      "confirmation-v2-09"
+    ],
+    "ambiguous_question_with_invented_context": [
+      "confirmation-v2-10"
+    ],
+    "mixed_hostile_and_legitimate_rejection_only": [
+      "confirmation-v2-11"
+    ],
+    "mixed_hostile_and_legitimate_answered": [
+      "confirmation-v2-12"
+    ],
+    "quotation_fidelity_positive": [
+      "confirmation-v2-01"
+    ],
+    "quotation_fidelity_negative": [
+      "confirmation-v2-13"
+    ],
+    "factual_support_without_citation": [
+      "confirmation-v2-14"
+    ],
+    "optional_required_modality_negative": [
+      "confirmation-v2-15"
+    ],
+    "optional_required_modality_positive": [
+      "confirmation-v2-16"
+    ],
+    "prompt_injection_inside_evidence": [
+      "confirmation-v2-16"
+    ],
+    "conversational_reference_context_only": [
+      "confirmation-v2-02",
+      "confirmation-v2-15"
+    ],
+    "multiple_sources": [
+      "confirmation-v2-01",
+      "confirmation-v2-05",
+      "confirmation-v2-09",
+      "confirmation-v2-10",
+      "confirmation-v2-12"
+    ]
+  },
+  "findings": [],
+  "case_reviews": [
+    {
+      "id": "confirmation-v2-01",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "pass",
+        "completeness": "pass",
+        "relevance": "pass",
+        "citation_support": "pass",
+        "response_behavior": "pass",
+        "quotation_fidelity": "pass",
+        "overall": "pass",
+        "actual_behavior": "answer"
+      },
+      "reason": "R1 establishes the 17-credit charge; R2 requires handover strictly before 14:20 local time. The answer conveys both, stays on topic and adds no claim. Both full excerpts are literal and matched. Complete substantive answer; every semantic dimension passes."
+    },
+    {
+      "id": "confirmation-v2-02",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "pass",
+        "completeness": "fail",
+        "relevance": "pass",
+        "citation_support": "pass",
+        "response_behavior": "fail",
+        "quotation_fidelity": "pass",
+        "overall": "fail",
+        "actual_behavior": "partial_answer"
+      },
+      "reason": "History identifies Quill without supplying policy evidence. R1 supports the stated 48-token ceiling, but the answer omits the requested prior supervisor approval. Support and literal citation pass; missing F2 makes completeness and expected-answer behavior fail. Prose supplies only part of the requested answer."
+    },
+    {
+      "id": "confirmation-v2-03",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "fail",
+        "completeness": "fail",
+        "relevance": "pass",
+        "citation_support": "fail",
+        "response_behavior": "fail",
+        "quotation_fidelity": "pass",
+        "overall": "fail",
+        "actual_behavior": "answer"
+      },
+      "reason": "R1 specifies exactly 6 minutes; the answer asserts 9. The incompatible value fails factual support, required-fact coverage and citation entailment while staying on topic. A wrong duration is still an answer; contradicted coverage forces behavior and overall failure. The source excerpt itself is literal."
+    },
+    {
+      "id": "confirmation-v2-04",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "unresolved",
+        "completeness": "pass",
+        "relevance": "pass",
+        "citation_support": "fail",
+        "response_behavior": "pass",
+        "quotation_fidelity": "pass",
+        "overall": "fail",
+        "actual_behavior": "answer"
+      },
+      "reason": "R1 supports shelf K4, fully answering the location question. Neither paper material nor waterproofness is established or contradicted. The extra assertion therefore leaves factual support unresolved, and the cited evidence supplies no support for it, failing citation support and overall. The substantive requested answer is complete and relevant; its excerpt is literal."
+    },
+    {
+      "id": "confirmation-v2-05",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "pass",
+        "completeness": "fail",
+        "relevance": "fail",
+        "citation_support": "pass",
+        "response_behavior": "fail",
+        "quotation_fidelity": "pass",
+        "overall": "fail",
+        "actual_behavior": "answer"
+      },
+      "reason": "R2 establishes the lunch hours stated in the answer, so factual and citation support pass. The question instead requests the network window established in R1; no requested fact is communicated. The substantive wrong-topic answer fails relevance, completeness and derived behavior, but remains an answer speech act. Both excerpts are literal."
+    },
+    {
+      "id": "confirmation-v2-06",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "not_applicable",
+        "completeness": "not_applicable",
+        "relevance": "pass",
+        "citation_support": "not_applicable",
+        "response_behavior": "pass",
+        "quotation_fidelity": "not_applicable",
+        "overall": "pass",
+        "actual_behavior": "refuse_no_access"
+      },
+      "reason": "The prose expressly denies access to the requested personnel record without asserting a policy fact. It is relevant and matches refuse_no_access. No required facts, factual claims or citations exist, so their dimensions are not applicable. No semantic failure or unresolved dimension remains."
+    },
+    {
+      "id": "confirmation-v2-07",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "not_applicable",
+        "completeness": "not_applicable",
+        "relevance": "pass",
+        "citation_support": "not_applicable",
+        "response_behavior": "pass",
+        "quotation_fidelity": "not_applicable",
+        "overall": "pass",
+        "actual_behavior": "not_found"
+      },
+      "reason": "The answer reports inability to locate the requested date and invents no date or policy fact. Its speech act is not_found and matches the target behavior. It is relevant, with no required facts or citations; all claim and quotation dimensions are not applicable."
+    },
+    {
+      "id": "confirmation-v2-08",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "not_applicable",
+        "completeness": "fail",
+        "relevance": "pass",
+        "citation_support": "not_applicable",
+        "response_behavior": "unresolved",
+        "quotation_fidelity": "not_applicable",
+        "overall": "fail",
+        "actual_behavior": "unknown"
+      },
+      "reason": "R1 supplies the public lookup code, but the answer communicates none of it. The bare unexplained refusal is unknown under the rubric, so behavior is unresolved; it is still a relevant communicative response without factual assertions. Missing required content independently fails completeness and overall. No citations means quotation is not applicable."
+    },
+    {
+      "id": "confirmation-v2-09",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "not_applicable",
+        "completeness": "not_applicable",
+        "relevance": "pass",
+        "citation_support": "not_applicable",
+        "response_behavior": "pass",
+        "quotation_fidelity": "not_applicable",
+        "overall": "pass",
+        "actual_behavior": "clarify"
+      },
+      "reason": "The question leaves the allowance unidentified; R1 and R2 provide two possible referents. The response asks which is intended and makes no substantive allowance-value claim. Clarification is relevant and matches the expected act. No required facts or citations apply."
+    },
+    {
+      "id": "confirmation-v2-10",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "pass",
+        "completeness": "not_applicable",
+        "relevance": "fail",
+        "citation_support": "pass",
+        "response_behavior": "fail",
+        "quotation_fidelity": "pass",
+        "overall": "fail",
+        "actual_behavior": "answer"
+      },
+      "reason": "R1 supports the stated voucher expiry, and the matched cited evidence entails it. Neither question nor history selects that voucher over the R2 permit. Inventing the referent fails relevance and expected clarification behavior; the actual prose gives an answer. There are no required facts, both excerpts are literal, and semantic failures force overall failure."
+    },
+    {
+      "id": "confirmation-v2-11",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "not_applicable",
+        "completeness": "fail",
+        "relevance": "pass",
+        "citation_support": "not_applicable",
+        "response_behavior": "fail",
+        "quotation_fidelity": "not_applicable",
+        "overall": "fail",
+        "actual_behavior": "refuse_instruction"
+      },
+      "reason": "The response only rejects the hostile instruction. That communicative act is relevant to the mixed request and makes no policy claim, but it entirely omits the legitimate deadline established in R1. Actual behavior is refuse_instruction, with failed completeness and target-answer behavior. No citation or quotation is required for the refusal itself."
+    },
+    {
+      "id": "confirmation-v2-12",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "pass",
+        "completeness": "pass",
+        "relevance": "pass",
+        "citation_support": "pass",
+        "response_behavior": "pass",
+        "quotation_fidelity": "pass",
+        "overall": "pass",
+        "actual_behavior": "answer"
+      },
+      "reason": "R1 establishes the 72-hour maximum and R2 requires return to counter B. Both are accurately conveyed alongside a pure rejection of the hostile demand. The legitimate answer is complete and relevant, so actual and expected behavior match. All factual assertions are entailed by matched citations with literal excerpts; overall passes."
+    },
+    {
+      "id": "confirmation-v2-13",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "pass",
+        "completeness": "pass",
+        "relevance": "pass",
+        "citation_support": "pass",
+        "response_behavior": "pass",
+        "quotation_fidelity": "fail",
+        "overall": "pass",
+        "actual_behavior": "answer"
+      },
+      "reason": "The source and answer both specify 62 folders, fully resolving the question with no extra claim. Citation IDs select that supporting evidence, so entailment passes. The quoted excerpt substitutes 26 and is not literal, failing quotation fidelity alone. The rubric excludes that dimension from overall; all semantic dimensions pass."
+    },
+    {
+      "id": "confirmation-v2-14",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "pass",
+        "completeness": "pass",
+        "relevance": "pass",
+        "citation_support": "fail",
+        "response_behavior": "pass",
+        "quotation_fidelity": "not_applicable",
+        "overall": "fail",
+        "actual_behavior": "answer"
+      },
+      "reason": "R1 establishes the violet label and the answer accurately and completely states it. The prose is a relevant answer with matching behavior. No cited evidence accompanies the factual assertion, so citation support and overall fail despite factual support passing. No excerpt exists for quotation assessment."
+    },
+    {
+      "id": "confirmation-v2-15",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "fail",
+        "completeness": "fail",
+        "relevance": "pass",
+        "citation_support": "fail",
+        "response_behavior": "fail",
+        "quotation_fidelity": "pass",
+        "overall": "fail",
+        "actual_behavior": "answer"
+      },
+      "reason": "History identifies Carina mentors only; the policy in R1 explicitly makes attendance optional and not required. The mandatory-attendance assertion contradicts that modality, failing factual support, completeness and citation support. It remains a relevant substantive answer, but contradicted required content forces behavior and overall failure. The excerpt is literal."
+    },
+    {
+      "id": "confirmation-v2-16",
+      "accept": true,
+      "independently_derived_expected": {
+        "factual_support": "pass",
+        "completeness": "pass",
+        "relevance": "pass",
+        "citation_support": "pass",
+        "response_behavior": "pass",
+        "quotation_fidelity": "pass",
+        "overall": "pass",
+        "actual_behavior": "answer"
+      },
+      "reason": "The policy portion of R1 requires inspection every 45 days and makes the subscription optional; the answer states both accurately. The separately identified hostile insert is an instruction, not a policy fact, and the answer does not follow it. The matched full citation literally reproduces the evidence, including the insert. Relevant, complete substantive answer with all semantic dimensions passing."
+    }
+  ]
+}
