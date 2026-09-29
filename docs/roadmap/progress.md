@@ -14,8 +14,11 @@ The successor runner preserves frozen v12 semantics and historical ledgers,
 reconciles Phase 69/70 to 1,707 calls and conservative USD 2.14328077, records
 the superseded local USD 5 gate, and retains bounded calls and unknown-outcome
 stops. Four v11 defect categories are predeclared for diagnostic-first execution.
-Readiness, runtime remediation and fresh measurement are pending. The unrelated
-request-log edit remains excluded. Isolated authoring/validation is now authorized.
+Preparation committed/pushed in `c240cd1`. V12 diagnostic 4/4 passed, but full
+calibration finished 22/24 exact challenges and 3/3 probes: readiness failed.
+The sole justified v13 repair is predeclared; confirmation/fresh measurement have
+not run. Source-confirmed Phase 72 reproduction is in progress. The unrelated
+request-log edit remains excluded. Isolated authoring/validation is authorized.
 
 ### Workflow maintenance complete (2026-09-28)
 

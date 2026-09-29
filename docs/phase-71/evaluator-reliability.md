@@ -39,6 +39,22 @@ historical report replay, source inspection and complete diff review. No fronten
 build required for evaluator-only work. Current initial check: 19 v12/confirmation/
 calibration-replay tests passed; no external calls yet.
 
-Compact handoff: goal/gates above; implementation in progress; next action is
-offline successor runner verification then the first bounded diagnostic. Stop
-on custody, unknown outcome or quota errors. Elapsed time and final cost pending.
+Preparation committed/pushed as `c240cd1`. Diagnostic 4/4 passed, then full v12
+calibration finished 22/24 exact and 3/3 exact probes. Readiness failed; see
+[source inspection](calibration-v12-source-review.md). The sole repair, v13,
+is predeclared with six diagnostic cases in the bound repair hypothesis. A
+versioned v12 confirmation path now uses the successor ledger and cannot load
+cases before readiness; it has not run. No confirmation/holdout has been authored.
+
+Verification: 8 successor tests pass including offline diagnostic replay and
+confirmation-readiness refusal; 8 unchanged v12 tests pass. Historical Phase
+65/66/68 reports replay and benchmark v1.1 validates unchanged. The first runtime
+probe process waited on unavailable audit DB access; it was interrupted. The
+offline harness now mocks audit writes and explicitly forbids AI clients; no
+application runtime change or API call resulted from that harness correction.
+
+Compact handoff: v12 failed; next action is the sole v13 diagnostic after review
+and commit. Stop on custody, unknown outcome or quota errors. Per-stage costs are
+in immutable manifests/ledgers; final cost and elapsed time pending. Phase 72
+source-confirmed development reproduction is also prepared, but not committed
+with evaluator evidence. Unrelated request logs remain excluded.

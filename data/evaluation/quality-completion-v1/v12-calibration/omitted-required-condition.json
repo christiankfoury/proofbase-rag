@@ -1,0 +1,81 @@
+{
+  "case_id": "omitted-required-condition",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "partial_answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It answers the cap but omits the requested shift condition.",
+    "behavior_span": "The reimbursement cap is 38 credits per trip.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Lark taxi reimbursement is capped at 38 credits per trip."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In context of the Lark taxi claim, the source entails that the reimbursement cap is 38 credits per trip.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Lark taxi reimbursement is capped at 38 credits per trip."
+          }
+        ],
+        "text": "The reimbursement cap is 38 credits per trip."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The reimbursement cap is 38 credits per trip."
+        ],
+        "fact_id": "F1",
+        "reason": "Answer states the full cap amount and per-trip condition.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [],
+        "fact_id": "F2",
+        "reason": "Answer omits the eligibility shift condition about a lab shift ending after 22:00.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is on the requested Lark taxi claim topic, though incomplete.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The answer makes one factual claim, exactly quoted: \"The reimbursement cap is 38 credits per trip.\" That claim is supported by both the factual and cited source. The required cap fact is covered, while the shift-condition fact is omitted, so completeness correctly fails. Because the response addresses only one of the two requested parts, actual_behavior is correctly partial_answer, which mismatches expected_behavior=answer and also has a missing required fact, so response_behavior correctly fails. The response is still on-topic, so relevance pass is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

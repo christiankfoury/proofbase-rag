@@ -1,0 +1,56 @@
+{
+  "case_id": "not-found-with-unsupported-policy-claim",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "not_found",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response explicitly says it could not find the requested information, without providing the total.",
+    "behavior_span": "I could not find the annual visitor total.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "The provided source only says visitor badges are returned to reception at the end of each visit; it neither supports nor contradicts nightly destruction of all visitor records.",
+        "source_spans": [],
+        "text": "Vale destroys all visitor records every night."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is directly about the requested Vale annual visitor total, even though it does not provide the value.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The only factual claim in the answer is the exact span \"Vale destroys all visitor records every night.\", which is correctly marked factual unknown and citation missing because the provided/cited source about returning badges neither entails nor explicitly contradicts record destruction. \"I could not find the annual visitor total.\" is an inability-to-find speech act, so omitting it from claims is correct. With one unknown factual claim, factual_support=unresolved is correct; with no cited support, citation_support=fail is correct. There are no required facts, so completeness is not_applicable. The prose behavior is correctly classified as not_found, matching expected_behavior, and the response remains relevant to the asked topic. No forbidden assertion was specified or asserted.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

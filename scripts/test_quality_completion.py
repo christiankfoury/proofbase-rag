@@ -89,6 +89,42 @@ class CompletionTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 runner.modules("v14")
 
+    def test_confirmation_cannot_load_cases_or_call_before_readiness(self):
+        from scripts import quality_completion_confirmation_v12 as confirmation
+        with patch.object(confirmation, "readiness", side_effect=ValueError("not ready")), \
+             patch.object(confirmation, "preflight") as preflight:
+            with self.assertRaisesRegex(ValueError, "not ready"):
+                confirmation.execute(lambda **kw:self.fail("No call"), None)
+            preflight.assert_not_called()
+
+    def test_diagnostic_replays_from_raw_responses(self):
+        from scripts.report_quality_completion import replay
+        if not (accounting.FOLDER/"v12-diagnostic/manifest.json").exists():
+            self.skipTest("Live diagnostic not yet recorded")
+        result = replay("v12", "diagnostic")
+        self.assertEqual(result["completed"], 4)
+        self.assertEqual(result["matching_judgments"], 4)
+        self.assertFalse(result["semantic_validation_passed"])
+
+    def test_repair_preserves_reducers_and_separates_context_from_gold(self):
+        from scripts import quality_eval_contract_v13 as contract
+        from scripts import quality_eval_transport_v13 as repair
+        from scripts import quality_completion_eval_v13 as repair_runner
+        from scripts.quality_eval_contract_v12 import dimensions
+        self.assertIs(contract.dimensions, dimensions)
+        self.assertEqual(repair_runner.plan("v13", "diagnostic")["maximum_calls"], 18)
+        item = fixtures()[0]
+        claims = json.loads(repair.initial_requests(item["inputs"])[0][1]["messages"][1]["content"])
+        self.assertNotIn("required_facts", claims)
+        self.assertNotIn("expected_behavior", claims)
+        self.assertEqual(claims["question"], item["inputs"]["question"])
+
+    def test_repair_cannot_run_without_bound_hypothesis(self):
+        from scripts import quality_completion_eval_v13 as repair
+        with tempfile.TemporaryDirectory() as temp:
+            with self.assertRaises(FileNotFoundError):
+                repair.gate("v13", "diagnostic", Path(temp))
+
 
 if __name__ == "__main__":
     unittest.main()

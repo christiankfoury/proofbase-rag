@@ -1,0 +1,84 @@
+{
+  "case_id": "permission-modality-upgraded",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with a complete substantive claim.",
+    "behavior_span": "Yes. A supervisor must grant a remote-work extension after reviewing the request.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "In context of the question, \"Yes.\" asserts that an Iris remote-work extension is guaranteed after review. The source explicitly says approval is discretionary and not guaranteed.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Approval is discretionary, not guaranteed."
+          }
+        ],
+        "text": "Yes."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer says granting is mandatory (\"must grant\"), but the source says a supervisor \"may grant\" it and that approval is discretionary, not guaranteed.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "An Iris supervisor may grant a remote-work extension after reviewing the request. Approval is discretionary, not guaranteed."
+          }
+        ],
+        "text": "A supervisor must grant a remote-work extension after reviewing the request."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Yes.",
+          "A supervisor must grant a remote-work extension after reviewing the request."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer says approval is mandatory and guaranteed after review, which is incompatible with the fact that a supervisor only may grant an extension and approval is discretionary, not guaranteed.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer is directly responsive to whether an Iris remote-work extension is guaranteed after review.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracts both factual claims in the answer, including the contextual claim \"Yes.\" Both are contradicted by R1/C1, which says approval is discretionary and not guaranteed, and that a supervisor may grant it rather than must. That makes factual_support=fail and citation_support=fail correct. The required fact is explicitly contradicted, so completeness=fail is correct. The reply is still a substantive direct answer, so actual_behavior=answer is correct, but response_behavior=fail is also correct because the required fact is contradicted. The response is on-topic, so relevance=pass is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

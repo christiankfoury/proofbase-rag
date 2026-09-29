@@ -1,0 +1,114 @@
+{
+  "completed": 4,
+  "cumulative_cost_usd": "2.24597327",
+  "human_adjudication": false,
+  "matched": 4,
+  "plan": {
+    "audit_ids": [],
+    "audit_sha256": "e3ff3431d60b50b419746175fce3aa865466627297ed0cd36862f86575d4f1ed",
+    "candidate": "v12",
+    "cases": [
+      {
+        "expected": {
+          "actual_behavior": "partial_answer",
+          "citation_support": "pass",
+          "completeness": "fail",
+          "factual_support": "pass",
+          "overall": "fail",
+          "quotation_fidelity": "pass",
+          "relevance": "pass",
+          "response_behavior": "fail"
+        },
+        "id": "omitted-required-condition"
+      },
+      {
+        "expected": {
+          "actual_behavior": "not_found",
+          "citation_support": "fail",
+          "completeness": "not_applicable",
+          "factual_support": "unresolved",
+          "overall": "fail",
+          "quotation_fidelity": "pass",
+          "relevance": "pass",
+          "response_behavior": "pass"
+        },
+        "id": "not-found-with-unsupported-policy-claim"
+      },
+      {
+        "expected": {
+          "actual_behavior": "answer",
+          "citation_support": "fail",
+          "completeness": "pass",
+          "factual_support": "pass",
+          "overall": "fail",
+          "quotation_fidelity": "not_applicable",
+          "relevance": "pass",
+          "response_behavior": "pass"
+        },
+        "id": "supported-answer-without-citation"
+      },
+      {
+        "expected": {
+          "actual_behavior": "answer",
+          "citation_support": "fail",
+          "completeness": "fail",
+          "factual_support": "fail",
+          "overall": "fail",
+          "quotation_fidelity": "pass",
+          "relevance": "pass",
+          "response_behavior": "fail"
+        },
+        "id": "permission-modality-upgraded"
+      }
+    ],
+    "code_sha256": {
+      "quality_completion_eval.py": "b761808baea771849a5348d19a749d1a0792a34183044e93f6c601843ccc09dd",
+      "quality_completion_ledger.py": "d26d156f801de8fb195c813c97de7db6783edf84de4574ded0b8a76406da2159",
+      "quality_eval_calibration_v12.py": "49a0535a61b9a77f71e5578fb8cdea7c374a9176350c9463c7a93a0ba8a6f203",
+      "quality_eval_contract.py": "83a3e19eb8a64209626acfa7412504c79434be9fc374d45cc1ba657f714b8e99",
+      "quality_eval_contract_v12.py": "7e94a081575d7447319f13f0c62aff14719b11749662740800edacf8addd0e0d",
+      "quality_eval_contract_v8.py": "9c8787ec841b95e3682e3795fe597156bb0fe5dbd46623358f5af20c23105ff8",
+      "quality_eval_preflight.py": "3f35edcf45684324cf1bc6cd1bf0742fe954209eab63fcce55cb831100aa2891",
+      "quality_eval_transport.py": "48704dadfcc2f835381368637664b9432cf5663160084ce42b057f5cba564085",
+      "quality_eval_transport_v12.py": "991b22b1f3a5d957a4483f7eef64b0e9d8df67c8308e137d53412a4f0589b62d"
+    },
+    "maximum_calls": 12,
+    "model": "gpt-5.4-2026-03-05",
+    "reconciliation": {
+      "authorization": {
+        "account_hard_budget": "user-reported; not independently verified or modified",
+        "automatic_retries": 0,
+        "date": "2026-09-29",
+        "local_cumulative_ceiling_usd": null,
+        "scope": "Bounded quality-completion queue only; no product-limit or infrastructure changes",
+        "source": "User: old $5 API cap is superseded; implement Phases 71-73",
+        "version": "quality-completion-authorization.v1"
+      },
+      "conservative_spent_usd": "2.14328077",
+      "historical_calls": 1707,
+      "phase69_calls": 1696,
+      "phase70_additional_calls": 11,
+      "sources": {
+        "data/evaluation/portfolio-finish/api-ledger.json": "d60ec6c5c48070dfa523ee772ee300dbff2e604392e3f6cbd0303b7aab1c30bf",
+        "data/evaluation/quality-remediation-v1/api-ledger.json": "0dbf2b81f65c0da00bd51a5ca16925ff9ecc3013709338fc4b4306e4c7363b04",
+        "data/evaluation/quality-remediation-v1/calibration-v11-01/api-ledger.json": "0dbf2b81f65c0da00bd51a5ca16925ff9ecc3013709338fc4b4306e4c7363b04"
+      },
+      "version": "quality-ledger-reconciliation.v1"
+    },
+    "semantic_validation_passed": false,
+    "stage": "diagnostic",
+    "suite_sha256": "b7f3c47f6c2c021e5ab652c2790db8a409e0b409101e60aeb1ea5352902d29ea",
+    "upper_bound_usd": "1.2411825",
+    "validation_sha256": "2727f86d91a69ac99949bebd85097427e25241aa219e7ed6c8dba295392602f5",
+    "version": "answer-dimensions.v12-candidate"
+  },
+  "review_rows": {},
+  "rows": {
+    "not-found-with-unsupported-policy-claim": "ec1b766157390fe2933e008b1fec4e9045ee27371d68ecccd439019cc3db7761",
+    "omitted-required-condition": "d94f56757eb5e80d30d1e7236db3ee7ac503de2dab276937f79706c06b89753e",
+    "permission-modality-upgraded": "6a46bef233bc3262ad8e3fe76828d5de57a12f1b246ae4f12322c3cd8b5ba855",
+    "supported-answer-without-citation": "03926b643b2088f44013a43b0c900e31836345ae457f8935f8f80b8773d54002"
+  },
+  "semantic_validation_passed": false,
+  "status": "complete"
+}

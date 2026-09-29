@@ -1,0 +1,66 @@
+{
+  "case_id": "ambiguous-question-assumed-context",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "A substantive answer is given, but it selects a specific topic/entity not identified by the question.",
+    "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source and cited source both entail the same booking requirement and timeframe for Morrow equipment; the answer is a generic second-person paraphrase of that rule.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "text": "You must book Morrow equipment at least 2 days ahead."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question does not specify what is being booked, and the answer invents the topic 'Morrow equipment' without support from the user or history.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The single factual claim is correctly enumerated verbatim and is fully supported by both R1 and cited source C1. There are no omitted factual claims and no required facts, so completeness is N/A. Because the question does not identify what is being booked, answering specifically about 'Morrow equipment' invents a topic, so relevance=fail is correct. The prose behavior is still an answer, not a clarification, so with expected_behavior=clarify the response_behavior=fail judgment is also correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
