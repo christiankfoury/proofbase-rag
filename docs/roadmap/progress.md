@@ -6,6 +6,17 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
+### In progress: Phase 71 bounded evaluator reliability (2026-09-29)
+
+Implementation resumed under [quality completion](quality-completion-plan.md).
+See [Phase 71 gates and handoff](../phase-71/evaluator-reliability.md).
+The successor runner preserves frozen v12 semantics and historical ledgers,
+reconciles Phase 69/70 to 1,707 calls and conservative USD 2.14328077, records
+the superseded local USD 5 gate, and retains bounded calls and unknown-outcome
+stops. Four v11 defect categories are predeclared for diagnostic-first execution.
+Readiness, runtime remediation and fresh measurement are pending. The unrelated
+request-log edit remains excluded. Isolated authoring/validation is now authorized.
+
 ### Workflow maintenance complete (2026-09-28)
 
 The user approved the streamlined operating policy: pre-commit semantic review,
