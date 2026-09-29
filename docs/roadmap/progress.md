@@ -1,10 +1,23 @@
 # Roadmap Progress Tracker
 
-This file is the durable source of truth for roadmap progress. At the start of each phase, read this file with `AGENTS.md`, `docs/roadmap/phase-plan.md`, `docs/roadmap/phases-improvement.md`, `docs/roadmap/post-phase-37-remediation-plan.md`, `docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md`, the latest `docs/phase-*` notes, and recent Git history.
+This file is the durable source of truth for roadmap progress. At each phase start, read AGENTS.md, this current-position section, the single active plan linked below and its relevant phase note. Consult historical roadmaps, history and artifacts only as needed. Use [execution policy](execution-policy.md) for check selection, evidence reuse and compact handoffs.
 
 Update this tracker before committing each phase. Keep entries factual: record what was implemented, what was verified, what was skipped, and which commit or commits contain the work.
 
 ## Current Position
+
+### Workflow maintenance complete (2026-09-28)
+
+The user approved the streamlined operating policy: pre-commit semantic review,
+post-commit content checks, scoped verification and evidence reuse, one active
+plan, coherent commits, and pushes with identified unrelated local changes.
+AGENTS.md and [execution policy](execution-policy.md) are updated; runtime logs
+have an ignored opt-in local location, with the legacy tracked file preserved.
+The quality plan defines the evaluator-failure fallback. Documentation/link,
+whitespace, ignore-rule and outgoing-commit checks verify this maintenance;
+no application/evaluator runs or runtime configuration changes are included.
+Commit reference: the commit containing this entry. Next implementation work
+remains Phase 71 under the active quality-completion plan below.
 
 ### Reopened: three-area quality queue (2026-09-28)
 

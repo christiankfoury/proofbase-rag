@@ -101,8 +101,9 @@ is publishable. Label model judgments and agent inspection accurately. The user
 agreed with agent findings and does not require a per-case review step; this does
 not authorize inventing human review or independent assessor validation.
 
-Use plan, implement, verify, commit, commit review, code review and push for each
-bounded phase. Update progress and phase notes before committing. Follow AGENTS.md
+Use the current [execution policy](execution-policy.md): plan, implement, verify,
+review the intended diff, commit, verify commit contents and push for each bounded
+phase. Update progress and phase notes before committing. Follow AGENTS.md
 for branch handling: main is the established workflow; in a newly created worktree,
 ask before switching, merging or committing on another branch. Do not silently
 override that rule. Preserve unrelated `data/observability/request-logs.jsonl` edits.

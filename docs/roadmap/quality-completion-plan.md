@@ -10,9 +10,11 @@ The user approved the bounded workflow below on 2026-09-28.
 
 Read AGENTS.md, the current position in [progress](progress.md), this plan,
 [Phase 70](../phase-70/portfolio-finish.md), and the relevant Phase 69 evidence.
-Consult the required historical roadmaps for context, not as queues to restart.
+Consult historical roadmaps only when relevant, not as mandatory rereads or queues.
 Check branch/status and preserve the existing request-log modification. Main is
-the established branch. Follow the required commit/review/push loop.
+the established branch. Follow [execution policy](execution-policy.md): review
+before committing, verify commit contents, then push. Unrelated unstaged request
+logs do not block a push; verify outgoing commits and preserve those local edits.
 
 The [older handoff](post-phase-68-quality-remediation-handoff.md) retains the
 detailed scoring and custody requirements. Historical results remain immutable:
@@ -45,7 +47,7 @@ replacement overall score. An 80% target is not a promised result.
   without declaring calibration complete. Do not tune on confirmation cases.
 - Bound this phase to one full candidate attempt and, if justified by a specific
   new failure hypothesis, one repair attempt. If reliability still fails, record
-  the blocker and request a method/scope decision; do not continue indefinitely
+  the blocker and use the fallback below; do not continue indefinitely
   through new version numbers or weaken expectations to obtain a passing score.
   An early-stopped candidate consumes its attempt; do not reset this limit by
   renaming versions or repeatedly running small diagnostics. Record the selected
@@ -53,6 +55,15 @@ replacement overall score. An 80% target is not a promised result.
   permits the full calibration but does not itself satisfy evaluator readiness.
 - Deliver docs/phase-71 notes, versioned artifacts, focused tests, ledger audit
   and a clear readiness decision. Failed results are retained and reported.
+
+### Failed-evaluator fallback
+
+If the bounded attempts fail, publish the reliability findings and mark evaluator
+readiness failed. Continue only source-confirmed Phase 72 fixes with meaningful
+development regressions; do not let failed grader labels determine expected
+behavior. Complete and report that bounded work. Phase 73 remains blocked and
+the new overall score unavailable. A different evaluation method or additional
+calibration attempts require a new scope decision; do not silently weaken gates.
 
 ## Phase 72: confirmed runtime failures
 
@@ -115,23 +126,13 @@ removed the runtime check. Preserve application/tenant abuse limits: this change
 applies to the development/evaluation runner, not product-wide spending controls.
 This authorization does not extend to cloud provisioning or unrelated work.
 
-## Efficient execution within the existing operating loop
+## Efficient execution
 
-- Read required context once per phase, then retrieve relevant sections/diffs.
-  Keep the tracker current instead of repeatedly loading all historical notes.
-- Use one bounded phase note with decisions, checks, costs and next action;
-  avoid copying raw outputs across several Markdown documents.
-- Run focused tests after edits; run shared regression/evidence checks at phase
-  gates. Re-run only when changes or unresolved failures invalidate evidence.
-  Build the web app when frontend/shared contracts or published UI data change,
-  not after every evaluator-only prompt adjustment.
-- Preserve commit inspection and semantic code review as distinct checks, done
-  in one review session. Commit coherent changes; freeze and evidence commits
-  stay separate where provenance requires them. Do not reduce custody checks.
-- Avoid broad refactoring of versioned evaluators just to remove duplication:
-  historical replay is more valuable than cosmetic consolidation in this scope.
-- Record elapsed time and command/API counts per phase to measure efficiency.
-  No percentage token-saving claim is established by this documentation review.
+Use the single [execution policy](execution-policy.md) for the verification
+matrix, evidence reuse, review order, completion criteria and compact handoff.
+Record elapsed time, repeated checks and external calls at work-unit boundaries.
+Avoid broad refactoring of frozen evaluator versions just to remove duplication;
+historical replay and separate freeze/seal/evidence commits remain mandatory.
 
 ## Planning estimate
 

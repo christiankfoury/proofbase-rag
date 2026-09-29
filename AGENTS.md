@@ -42,9 +42,9 @@ The agent should work in a strict loop:
 1. Plan.
 2. Implement.
 3. Verify.
-4. Commit to main with a detailed commit message.
-5. Review the commit.
-6. Perform a code review.
+4. Review the complete intended diff; fix findings and rerun affected checks.
+5. Commit to main with a detailed commit message.
+6. Verify commit contents match the reviewed change.
 7. Push main.
 8. Repeat.
 
@@ -57,7 +57,9 @@ Completing and pushing one phase is not a stopping point. After the post-push st
 
 When a phase finishes cleanly, do not send a final response that merely summarizes completion if the next phase is already known. Instead, record the completed phase in the tracker, then begin the next phase by reading the required roadmap and phase context.
 
-Track durable progress in `docs/roadmap/progress.md`. At the start of each phase, read that file together with `docs/roadmap/phase-plan.md`, `docs/roadmap/phases-improvement.md`, and the latest `docs/phase-*` notes to confirm the current phase, completed phases, verification status, commit references, and next step. Update the progress tracker during each phase before committing. If the tracker conflicts with repository evidence, inspect the repo history and phase docs, then repair the tracker as part of the phase.
+Track durable progress in `docs/roadmap/progress.md`. At each phase start, read its current-position section, the single active plan it links, and the relevant phase note. Read affected source and evidence on demand. Historical roadmaps below are references, not mandatory rereads or queues to restart. Reuse context already loaded unless it changed. If tracker and repository disagree, inspect relevant history and repair the tracker before committing.
+
+Use [execution policy](docs/roadmap/execution-policy.md) for the verification matrix, evidence reuse, completion criteria, compact handoff and runtime-file rules. This operating loop supersedes older phase-specific descriptions of post-commit code review. A request limited to documentation or workflow maintenance completes at that scope; it does not start the runtime queue automatically.
 
 ## Operating Autonomy
 
@@ -135,7 +137,7 @@ Keep the order unless a new correctness, permission, or secret-handling issue be
 
 OpenAI external calls are approved for this roadmap run. Use the explicit approval flags required by existing scripts, prefer dry-runs and local tests first, and record live OpenAI-backed checks and estimated costs in the relevant phase docs.
 
-For every Phase 41-46 implementation, use the full operating loop: plan, implement, verify, commit to `main` with a detailed multi-part message, review the commit, perform a code review of the last commit, push `main`, then continue to the next planned phase. Update `docs/roadmap/progress.md` and the relevant `docs/phase-{number}` notes before committing each phase.
+For phase implementation, use the current Operating Loop above, with semantic review before committing and a content check afterward. Update `docs/roadmap/progress.md` and the relevant phase notes before committing each phase.
 
 Do not stop after Phase 41, 42, 43, 44, or 45 just because the commit was pushed. Treat the push as the handoff point into the next phase. Send a final user-facing summary only when the active queue is complete, the user asks for status-only output, or a real blocker prevents continuing.
 
@@ -205,8 +207,8 @@ Documentation rules:
 Before changing code, read the relevant context:
 
 - `README.md`
-- the latest `docs/phase-*` files
-- roadmap docs in `docs/roadmap`
+- the relevant current phase note
+- the single active plan linked from the progress tracker
 - affected source files
 - generated evaluation outputs when algorithm behavior is involved
 
@@ -217,6 +219,7 @@ The plan must identify:
 - backend/data model impact
 - evaluation or verification method
 - docs that must be updated
+- explicit acceptance criteria, required artifacts/checks, non-goals and stopping conditions
 
 Keep this plan internal unless the user asks to see it. Ask the user questions only when a decision changes product behavior, data ownership, permissions, evaluation meaning, or AI cost in a way that cannot be resolved from repo context. Do not ask questions for details that can be discovered from the repo or reasonably decided from the roadmap.
 
@@ -236,6 +239,11 @@ Do not add fake metrics, fake evaluation wins, or placeholder claims that look c
 ### 3. Verify
 
 Run the smallest checks that prove the change works, then broaden when the change affects shared behavior.
+
+Select checks using the execution-policy matrix. The commands below are examples,
+not a mandatory all-tests checklist. Reuse passing evidence when relevant files,
+dependencies, configuration and environment are unchanged; commits alone do not
+invalidate it. Frozen exact-commit release gates retain their stricter requirements.
 
 Common checks:
 
@@ -264,9 +272,22 @@ python scripts/validate_benchmark.py
 
 OpenAI-backed commands require a configured `OPENAI_API_KEY`. If a check is skipped because it would call OpenAI or needs unavailable local services, state that explicitly in the final response and in relevant phase notes.
 
-### 4. Commit To Main
+### 4. Review The Intended Diff
+
+Perform one semantic self-review before committing. Inspect the complete intended
+diff, including new files. Prioritize bugs, regressions, security risks, missing
+tests and misleading claims. Check permission filtering before generation,
+authorized citations, evidence supporting metrics and understandable App/Admin UX.
+Fix findings before committing and rerun only checks invalidated by those fixes.
+Record remaining limitations. Do not push an unresolved blocking finding.
+
+### 5. Commit To Main
 
 Default project workflow: commit verified work to `main`.
+
+Group related edits into one coherent work unit, including its documentation.
+Do not create separate commits for each routine wording adjustment. Keep runtime
+freeze, suite seal and execution evidence commits separate when custody requires it.
 
 Before committing:
 
@@ -284,7 +305,7 @@ git commit -m "Add document library workspace" -m "Product: adds the department 
 
 If the current branch is not `main`, ask before switching, merging, or committing directly to another branch.
 
-### 5. Review The Commit
+### 6. Verify Commit Contents
 
 After committing, inspect the commit:
 
@@ -293,38 +314,29 @@ git show --stat --oneline HEAD
 git show --name-only HEAD
 ```
 
-For code changes, also inspect the relevant diff:
+Check whitespace and confirm the committed files match the reviewed diff:
 
 ```powershell
 git show --check HEAD
-git show HEAD -- <path>
 ```
 
-Confirm the commit contains only the planned scope.
-
-### 6. Code Review
-
-Perform a self-review in code-review mode:
-
-- lead with bugs, regressions, security risks, missing tests, or misleading metrics
-- check permission filtering before generation
-- check whether citations still point to accessible evidence
-- check whether benchmark outputs prove the claimed improvement
-- check whether App-side UX is understandable without reading internal docs
-- check whether Dev/Admin pages remain honest about limitations
-
-If review finds issues, fix them in a follow-up commit or clearly document the unresolved risk.
+Confirm the commit contains only the planned scope. Do not repeat the full semantic
+review or tests when the committed content is identical to the reviewed/tested
+content. If hooks, staging mistakes or subsequent edits changed it, inspect that
+delta and rerun affected checks; use a corrective commit when necessary.
 
 ### 7. Push Main
 
-After commit review and code review are complete, push `main` to its upstream remote unless the user has explicitly asked not to push or the review found an unresolved issue that should not leave the machine.
+After pre-commit review and commit-content verification, push `main` to its upstream remote unless the user has explicitly asked not to push or a blocking finding remains.
 
 Before pushing:
 
 - run `git status --short --branch`
-- confirm the working tree is clean
+- confirm the staging area is empty after committing
+- unrelated unstaged/untracked files may remain when identified and excluded; never stage, stash, reset or delete them just to permit a push
+- verify tests did not depend on uncommitted changes absent from the outgoing commits; related/inseparable changes must be resolved before pushing
 - confirm `main` is the current branch
-- confirm the local commit is the intended work
+- inspect the full outgoing commit range, not just HEAD, and confirm it contains only intended reviewed work; stop on unexpected commits or divergence, never force-push
 
 After pushing:
 
