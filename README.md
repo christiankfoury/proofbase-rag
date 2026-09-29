@@ -51,7 +51,7 @@ Recorded project review classified the eight Phase 49 automated failures as four
 
 ## Five-Minute Review Path
 
-**Portfolio release:** the bounded demo finish is complete. The [quality-completion queue](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). Evaluator v13 passed development calibration, but its authorized fresh replacement confirmation finished [15/16 exact judgments](docs/phase-71/confirmation-replacement-source-review.md), with an unresolved semantic interpretation disagreement. The required gate remains failed, so [fresh runtime measurement is blocked](docs/phase-73/measurement-status.md) and no new overall accuracy score is claimed. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
+**Portfolio release:** the bounded demo finish is complete. The [quality-completion queue](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). The latest authorized evaluator correction, v14, passed its 12-case diagnostic but failed [source inspection during calibration](docs/phase-71/v14-source-review.md): dimension-level agreement concealed an incorrect coverage judgment. The required gate remains failed, so [fresh runtime measurement is blocked](docs/phase-73/measurement-status.md) and no new overall accuracy score is claimed. Prior v13 confirmations remain recorded at 15/16. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
 
 
 1. **0:00–0:45:** Open `/demo`, select **Emma Employee**, and open Northstar Analytics.

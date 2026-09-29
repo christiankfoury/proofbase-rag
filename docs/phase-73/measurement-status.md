@@ -1,6 +1,13 @@
 # Phase 73: fresh measurement blocked
 
-No fresh runtime holdout was authored or executed. The original Phase 71
+No fresh runtime holdout was authored or executed. The latest authorized v14
+correction passed its 12-case diagnostic, but full-calibration source inspection
+found a semantic defect: an omitted meal-policy fact was mislabeled as contradicted
+by an answer about parking. The reduced dimensions can match while this underlying
+judgment is incorrect. See the [v14 source review](../phase-71/v14-source-review.md).
+The clean-source-inspection gate fails; no v14 confirmation is authorized to run.
+
+The original Phase 71
 confirmation ended at 15/16 because of a sealed-reference precedence defect.
 The user then approved one replacement with unchanged evaluator and stronger
 reference checks. That replacement also finished **15/16 exact judgments**:
@@ -9,8 +16,9 @@ its temporal/contextual entailment disagreement remains unresolved. See the
 Both original records and replacement evidence remain immutable; no adjusted
 pass or new overall score is published.
 
-The approved replacement explicitly required stopping on failure. It is now
-exhausted. Phase 72's three source-confirmed fixes and negative controls remain
+The approved replacement and subsequent single v14 correction both required
+stopping on a failed gate. Those attempts are exhausted. Phase 72's three
+source-confirmed fixes and negative controls remain
 [complete](../phase-72/confirmed-runtime-fixes.md), committed in `8a0f734`.
 Their 6/14 to 14/14 development probes are not a generalization score.
 

@@ -36,7 +36,7 @@ Preflight bounds: diagnostic 36 calls, full calibration 75 calls. Per-stage toke
 reservations and complete ledger settlement remain mandatory; the obsolete USD 5
 ceiling is not reintroduced. The conservative reservation bounds are USD 3.8817825
 for diagnostics and USD 8.0568700 for full calibration, not expected charges.
-Starting history: 1,983 calls, USD 4.45340577. No v14 external calls yet.
+Starting history before execution: 1,983 calls, USD 4.45340577.
 
 Verification before execution: `python -m unittest scripts.test_quality_v14
 scripts.test_quality_confirmation_replacement` passed all eight tests; scoped
@@ -48,6 +48,16 @@ Transport differs only in version/import, with the successor ledger supplied by
 the runner. No application behavior changed, so Phase 72 evidence is reused and
 web build/live RAG checks are unnecessary here. Work duration is not measured.
 
-Branch: main; unrelated tracked request-log edits excluded. Next after reviewed
-commit/push: `python scripts/quality_completion_eval_v14.py --stage diagnostic
---allow-external-ai`. No confirmation authoring before selected freeze.
+Preparation committed/pushed as `6cbef0e`. Diagnostic: 12/12 exact; full calibration:
+24/24 matching dimension judgments and 3/3 exact probes. Offline replay passes,
+but [source inspection](v14-source-review.md) identifies an incorrect coverage
+status hidden by the reduction to failed completeness. Readiness therefore fails.
+The one authorized correction is exhausted; no confirmation or runtime holdout
+was authored. No prompts, reducers, old labels or results were altered afterward.
+
+V14 used 111 calls, estimated USD 1.03149500; cumulative history is 2,094 calls,
+USD 5.48490077. All calls settled with no retries. The obsolete USD 5 ceiling did
+not interrupt the explicitly authorized work. The cost ledger remains complete.
+Branch: main; unrelated request-log edits excluded. Final source/evidence review
+and raw replay found no blocking issue with publishing this honest failed result.
+No further action is queued under this authorization; Phase 73 remains blocked.

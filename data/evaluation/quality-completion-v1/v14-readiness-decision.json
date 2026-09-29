@@ -1,0 +1,54 @@
+{
+  "automatic_retries": 0,
+  "calibration": {
+    "cases": 24,
+    "exact_review_probes": 3,
+    "matching_dimension_judgments": 24
+  },
+  "candidate": "v14",
+  "confirmation": "not authored or run; development source gate failed",
+  "cumulative_api_calls": 2094,
+  "cumulative_estimated_cost_usd": "5.48490077",
+  "diagnostic": {
+    "cases": 12,
+    "matched": 12
+  },
+  "evidence_sha256": {
+    "v14-authorization.json": "de838a784d06990c1fcc8d41d0d39538fc273ed055138e3a3e56022f26fe2368",
+    "v14-calibration-report.json": "c74acba74531e44cf9ebf5f2a58cf3bb8ac6d3b7cda73e7fd05ec31690720838",
+    "v14-calibration/api-ledger.json": "865a73585799e6b47041b2d0b54624ce6aa2af2bd8443b305ae8ec8c761a260f",
+    "v14-calibration/manifest.json": "8f771db86a0b1ab86690102faf39c71ad7bce4e83cb9ea152bf24c1a5e71621c",
+    "v14-diagnostic-report.json": "5a4a6208ce3dc11613ad507559c619cdc3741519d814b04f17f7a1cd021604f8",
+    "v14-diagnostic/manifest.json": "e8b698730a7050ae0c05eb75a09b7cf06824d9addfc0b0b07716ac42c8ff3ac0"
+  },
+  "findings": [
+    {
+      "case_id": "true-answer-wrong-topic",
+      "evidence_sha256": {
+        "data/evaluation/quality-completion-v1/v14-calibration/true-answer-wrong-topic.json": "751c23fff42ea8076ae962d8da36dc7d15cc0a7039d02de75c3ddd5f6826ccac",
+        "data/evaluation/quality-completion-v1/v14-calibration/true-answer-wrong-topic/coverage.json": "a54d450193f379614eb8e5267c65a0c9f7d60501369f2dd9d2cc58576819247b",
+        "data/evaluation/quality-completion-v1/v14-calibration/true-answer-wrong-topic/review.json": "28ee610c4449265e406b4ea9fd1091790797b39fb81c1ae5d3c1561b03551f3c"
+      },
+      "finding": "An answer about parking omits the requested meal allowance; it does not contradict it. The grader incorrectly labels required fact F1 contradicted. Both statuses reduce to fail, hiding this defect in the dimension tally.",
+      "id": "v14-coverage-different-topic-contradiction",
+      "observed_fact_status": "contradicted",
+      "saved_result_unchanged": true,
+      "severity": "blocking evaluator readiness",
+      "source_review_expected_fact_status": "missing"
+    }
+  ],
+  "further_candidates_authorized": false,
+  "historical_results_unchanged": true,
+  "human_adjudication": false,
+  "phase73": "blocked; no new runtime holdout or overall score",
+  "preparation_commit": "6cbef0ebdd67e2b8c7e8b152b61616fe1f84c182",
+  "reviewer_provenance": "primary agent source inspection",
+  "semantic_validation_passed": false,
+  "source_review_sha256": "29b67660365c12d4b62cec6559012dc980d3b396d6cac7bd5155b66cf6c18779",
+  "status": "failed",
+  "unknown_outcome": false,
+  "unresolved_semantic_findings": 1,
+  "v14_api_calls": 111,
+  "v14_estimated_cost_usd": "1.03149500",
+  "version": "v14-readiness-decision.v1"
+}

@@ -77,6 +77,16 @@ not expected to equal the pre-run fingerprint after upload fixtures execute.
 
 ## Phase 71 bounded evaluator evidence
 
+The latest single authorized v14 correction is replayed offline with
+`python scripts/report_quality_completion_v14.py --stage diagnostic` and
+`python scripts/report_quality_completion_v14.py --stage calibration`.
+Its diagnostic matched 12/12 and full calibration matched 24/24 dimensions plus
+3/3 reviewer probes, but [source inspection](../phase-71/v14-source-review.md)
+found an incorrect underlying coverage status that reduced to the expected failed
+dimension. Reproduction of dimensional agreement does not establish semantic
+readiness. The source-inspection gate failed; no v14 confirmation or new runtime
+holdout was authored. Historical v13 evidence below remains unchanged.
+
 These commands replay saved evaluator requests/responses, source spans, dimension
 reducers and costs without API calls or application services:
 

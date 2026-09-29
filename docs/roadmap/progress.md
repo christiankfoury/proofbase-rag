@@ -6,15 +6,23 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### In progress: one authorized v14 evaluator correction (2026-09-29)
+### Stopped: v14 source inspection found a semantic defect (2026-09-29)
 
-The user approved the clarified current-permission rule and one bounded correction.
-Follow the [active plan](quality-completion-plan.md) and [v14 note](../phase-71/v14-correction.md).
-Prepare six new development variants plus six known failure-category diagnostics,
-then require 24/24 full calibration, 3/3 probes, source inspection, freeze and one
-fresh isolated 16/16 confirmation. No historical labels/results are changed.
-Phase 72 remains complete; Phase 73 remains gated. Existing request-log edits are
-unrelated and preserved. Starting cumulative history: 1,983 calls, USD 4.45340577.
+The approved current-permission correction passed 12/12 diagnostic cases. During
+full calibration, source inspection found that the grader mislabeled an omitted
+meal-policy fact as contradicted by an answer about parking. Both reduce to fail,
+so dimension-level agreement does not expose this defect. See the
+[source review](../phase-71/v14-source-review.md), [execution note](../phase-71/v14-correction.md)
+and [active plan](quality-completion-plan.md). No further correction is authorized.
+The declared run is complete: 24/24 matching dimension judgments and 3/3 exact
+reviewer probes, but one blocking source-inspection finding. Do not freeze,
+author or run confirmation/Phase 73. Phase 72 remains complete. Historical evidence
+and unrelated request-log edits remain unchanged. Preparation: `6cbef0e`; final
+evidence/readiness/docs are in the commit containing this entry. V14: 111 calls,
+USD 1.03149500; cumulative: 2,094 calls, USD 5.48490077. All settled, zero retries.
+This approved extension is complete as a failed-result deliverable. No next phase
+can proceed without a new evaluator scope decision; spending approval is not the
+blocker.
 
 ### Stopped: authorized replacement confirmation gate failed (2026-09-29)
 
