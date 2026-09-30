@@ -268,3 +268,29 @@ Reuse the 19 unchanged focused tool checks and Phase 72 application regressions;
 no dependencies, corpus or application behavior changed since that evidence.
 No frontend build is needed before publication changes. Next: isolated fresh
 60-case authorship, independent source/role validation, overlap checks and seal.
+
+### Fresh suite and pre-execution seal
+
+The separate author and validator completed 60 cases across the nine predeclared
+categories. All 136 required facts have exact corpus quotations and authorized
+frozen source scope. Independent validation accepted every case with no unresolved
+finding; root inspected the complete case references, source corpus and validation
+reasons. Mechanical overlap against 877 historical unique questions found no hit
+at token Jaccard 0.8. This checks lexical reuse, not statistical independence.
+
+The suite has 38 expected answers and 22 expected non-answers. All five business
+roles and 19 corpus documents are represented, including five allowed/denied role
+pairs and two novel foreign-project upload fixtures. All cases use Northstar scope
+with no department restriction; no department-only coverage is claimed. Isolation
+is procedural between agents, not expert human review or technical sandboxing.
+The author and validator disclose supplied standing instructions and freeze metadata.
+No application output informed authorship or pre-execution validation.
+
+The separate seal binds raw suite, validation, overlap and freeze hashes before
+any application call. Author and validator notes are also bound. Unchanged focused
+tests are reused. Fresh `python scripts/phase73_eval_run.py --preflight` passed:
+custody, evaluator readiness, exact runtime/index, reservations and unused run
+verified without API calls. Complete intended-diff review found no open issue.
+Next is the one-shot standard run, then complete source inspection and offline
+replay, honest publication, frontend build/smoke and reviewed commit/push. No
+selective retry, exposed-case tuning, altered expectations or raised cost cap.

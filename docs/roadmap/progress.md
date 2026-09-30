@@ -6,7 +6,7 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: Phases 71/72 complete; Phase 73 runtime freeze next
+### Active: Phases 71/72 complete; Phase 73 fresh suite sealed
 
 V20 fresh confirmation passed 16/16 exact matches: all 48 standard calls replay,
 estimated USD 0.5213645, zero source-inspection findings or invalid outputs.
@@ -19,9 +19,10 @@ claimed. Phase 72 remains complete with the reviewed source-confirmed runtime fi
 The Phase 73 runtime is frozen at 8bd72ba1: 244 committed files plus corpus,
 configuration/index and local environment. The unused complete cost prefix has
 2,945 historical rows, preserving all rejected/cancelled/failed attempts. Current
-and committed inventory hashes agree. Next: isolated fresh 60-case authoring and
-independent validation, overlap checks, seal and one standard-request measurement.
-No runtime holdout or score exists yet. Shared additional accounting remains
+and committed inventory hashes agree. Isolated authorship and independent validation
+approved 60/60 cases and 136 required facts; historical lexical overlap has no hits.
+The suite is sealed before one standard-request measurement. No runtime score
+exists yet. Shared additional accounting remains
 USD 5.92715325 of USD 10, leaving USD 4.07284675. Per-call reservations enforce
 that ceiling; a partial result cannot qualify as a complete score. Local readiness
 is 200 with 32 documents and 247 chunks/embeddings. Continue through the
