@@ -24,9 +24,11 @@ the action already identified by the user. No v17 freeze/confirmation occurred.
 V18 [development](../phase-71/v18-context-correction.md) is complete: 29/29 diagnostic
 plus 4/4 probes; 24/24 full calibration plus 3/3 probes. [Source inspection](../phase-71/confirmation-v18-development-source-review.md)
 found zero unresolved semantic issues. Offline raw replay, focused tests and
-review passed. Next: commit evidence/tooling, freeze v18, then freshly isolated
-16-case authoring and independent validation, seal and execute once. No v18
-confirmation is authored yet. The 16/16 gate is unchanged.
+review passed. Development/tooling: `9073b53`; evaluator freeze: `2a96418`.
+Fresh separate-context authoring and independent validation now accept all 16
+references and intermediate fact statuses with zero findings. Custody and offline
+preflight pass; the sealed suite is ready for its single 48-call execution.
+The 16/16 gate and post-run source inspection remain unchanged.
 
 V18 used 166 settled calls, estimated USD 1.87802000; cumulative 2,594 calls,
 USD 10.76243327, with zero retries. Docker is running and the isolated Phase 73
