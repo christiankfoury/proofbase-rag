@@ -17,6 +17,9 @@ judgments even when reduced dimensions match. V14 remains failed and immutable.
 Phase 72 remains complete; Phase 73 waits for a validated evaluator. Baseline:
 main at `cf9866b`, 2,094 API calls, USD 5.48490077; unrelated request-log edits
 preserved. Continue through review, commit and push without routine permission.
+Policy: `0159c71`; v15 preparation: `7edf06e`. A local settlement-write failure is
+reconciled from a complete saved response; [recovery](../phase-71/v15-local-recovery.md)
+continues only unissued requests. Current accounting: 2,101 calls, USD 5.57397077.
 
 The stopped entries below record historical authorization boundaries; they do
 not override the newer standing completion authorization.

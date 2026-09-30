@@ -59,3 +59,9 @@ Complete new source, four fixtures, probe, declarations and intended diff review
 no blocking implementation findings. No v15 live calls yet. App/web checks reused
 or skipped because no application code changed. Next after preparation commit:
 `python scripts/quality_completion_eval_v15.py --stage diagnostic --allow-external-ai`.
+
+V15 preparation committed as `7edf06e`. The original diagnostic was interrupted
+by a local ledger-write error after two matching cases and a saved third claims
+response. [Audited local recovery](v15-local-recovery.md) proves the provider
+outcome and continues only unissued requests without changing evaluator semantics.
+The new local-write resilience is tested separately; no provider retries occur.
