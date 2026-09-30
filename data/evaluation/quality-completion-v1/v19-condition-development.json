@@ -1,0 +1,669 @@
+{
+  "cases": [
+    {
+      "evidence": [
+        {
+          "chunk_id": "prerequisite-direct-once-chunk",
+          "content": "Kite release notes may be published only after editorial review is complete.",
+          "document_id": "prerequisite-direct-once-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "prerequisite-direct-once",
+      "inputs": {
+        "answer": "You may publish a Kite release note once editorial review is complete.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Kite release notes may be published only after editorial review is complete."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Kite release notes may be published only after editorial review is complete."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What condition applies before I publish a Kite release note?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Kite release notes may be published only after editorial review is complete."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "You may publish a Kite release note once editorial review is complete.",
+        "citations": [
+          {
+            "chunk_id": "prerequisite-direct-once-chunk",
+            "citation_text": "Kite release notes may be published only after editorial review is complete.",
+            "document_id": "prerequisite-direct-once-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "prerequisite-before-paraphrase-chunk",
+          "content": "A kiln cycle may start only after ventilation is enabled and the door is latched.",
+          "document_id": "prerequisite-before-paraphrase-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered",
+        "F2": "covered"
+      },
+      "id": "prerequisite-before-paraphrase",
+      "inputs": {
+        "answer": "Before a kiln cycle starts, ventilation must be enabled and the door must be latched.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "A kiln cycle may start only after ventilation is enabled and the door is latched."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "A kiln cycle may start only after ventilation is enabled and the door is latched."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What must happen before I start a kiln cycle?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Ventilation must be enabled before starting a kiln cycle."
+          },
+          {
+            "fact_id": "F2",
+            "text": "The door must be latched before starting a kiln cycle."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Before a kiln cycle starts, ventilation must be enabled and the door must be latched.",
+        "citations": [
+          {
+            "chunk_id": "prerequisite-before-paraphrase-chunk",
+            "citation_text": "A kiln cycle may start only after ventilation is enabled and the door is latched.",
+            "document_id": "prerequisite-before-paraphrase-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "prerequisite-one-of-two-chunk",
+          "content": "Entry to a Fern test chamber is permitted only with a valid training record and an active reservation.",
+          "document_id": "prerequisite-one-of-two-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "partial_answer",
+        "citation_support": "pass",
+        "completeness": "fail",
+        "factual_support": "pass",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "missing"
+      },
+      "id": "prerequisite-one-of-two",
+      "inputs": {
+        "answer": "One prerequisite for entering a Fern test chamber is a valid training record.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Entry to a Fern test chamber is permitted only with a valid training record and an active reservation."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Entry to a Fern test chamber is permitted only with a valid training record and an active reservation."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What are the conditions for entering a Fern test chamber?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Entering a Fern test chamber requires a valid training record and an active reservation."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "One prerequisite for entering a Fern test chamber is a valid training record.",
+        "citations": [
+          {
+            "chunk_id": "prerequisite-one-of-two-chunk",
+            "citation_text": "Entry to a Fern test chamber is permitted only with a valid training record and an active reservation.",
+            "document_id": "prerequisite-one-of-two-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "prerequisite-explicit-bypass-chunk",
+          "content": "An Ember service may run only after its lock is verified.",
+          "document_id": "prerequisite-explicit-bypass-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "prerequisite-explicit-bypass",
+      "inputs": {
+        "answer": "Yes. An Ember service may run before its lock is verified.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "An Ember service may run only after its lock is verified."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "An Ember service may run only after its lock is verified."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "May an Ember service run before its lock is verified?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "An Ember service may run only after its lock is verified."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Yes. An Ember service may run before its lock is verified.",
+        "citations": [
+          {
+            "chunk_id": "prerequisite-explicit-bypass-chunk",
+            "citation_text": "An Ember service may run only after its lock is verified.",
+            "document_id": "prerequisite-explicit-bypass-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "prerequisite-optional-condition-chunk",
+          "content": "Releasing a Cedar parcel requires a signed receipt.",
+          "document_id": "prerequisite-optional-condition-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "prerequisite-optional-condition",
+      "inputs": {
+        "answer": "A signed receipt is optional when releasing a Cedar parcel.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Releasing a Cedar parcel requires a signed receipt."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Releasing a Cedar parcel requires a signed receipt."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Is a signed receipt required to release a Cedar parcel?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Releasing a Cedar parcel requires a signed receipt."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "A signed receipt is optional when releasing a Cedar parcel.",
+        "citations": [
+          {
+            "chunk_id": "prerequisite-optional-condition-chunk",
+            "citation_text": "Releasing a Cedar parcel requires a signed receipt.",
+            "document_id": "prerequisite-optional-condition-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "evidence-absence-actor-chunk",
+          "content": "A Moss register must be checked before filing. This notice does not identify who performs the check.",
+          "document_id": "evidence-absence-actor-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "pass",
+        "factual_support": "unresolved",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "evidence-absence-actor",
+      "inputs": {
+        "answer": "A Moss register must be checked before filing. The branch lead must perform that check.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "A Moss register must be checked before filing. This notice does not identify who performs the check."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "A Moss register must be checked before filing. This notice does not identify who performs the check."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What must happen to a Moss register before filing?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "A Moss register must be checked before filing."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "A Moss register must be checked before filing. The branch lead must perform that check.",
+        "citations": [
+          {
+            "chunk_id": "evidence-absence-actor-chunk",
+            "citation_text": "A Moss register must be checked before filing. This notice does not identify who performs the check.",
+            "document_id": "evidence-absence-actor-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "evidence-exclusion-actor-chunk",
+          "content": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited from checking it.",
+          "document_id": "evidence-exclusion-actor-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "evidence-exclusion-actor",
+      "inputs": {
+        "answer": "The branch lead must check a Pine routing slip.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited from checking it."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited from checking it."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Who checks a Pine routing slip?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "The branch lead must check a Pine routing slip.",
+        "citations": [
+          {
+            "chunk_id": "evidence-exclusion-actor-chunk",
+            "citation_text": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited from checking it.",
+            "document_id": "evidence-exclusion-actor-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "evidence-absence-passive-chunk",
+          "content": "A Reed manifest must be checked before it is filed. The excerpt does not name a checker.",
+          "document_id": "evidence-absence-passive-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "evidence-absence-passive",
+      "inputs": {
+        "answer": "A Reed manifest must be checked before it is filed.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "A Reed manifest must be checked before it is filed. The excerpt does not name a checker."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "A Reed manifest must be checked before it is filed. The excerpt does not name a checker."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What check is required for a Reed manifest?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "A Reed manifest must be checked before it is filed."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "A Reed manifest must be checked before it is filed.",
+        "citations": [
+          {
+            "chunk_id": "evidence-absence-passive-chunk",
+            "citation_text": "A Reed manifest must be checked before it is filed. The excerpt does not name a checker.",
+            "document_id": "evidence-absence-passive-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    }
+  ],
+  "human_adjudication": false,
+  "review_probes": [
+    {
+      "candidate": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Answers the requested policy.",
+        "behavior_span": "You may publish a Kite release note once editorial review is complete.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Kite release notes may be published only after editorial review is complete."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Policy paraphrase.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Kite release notes may be published only after editorial review is complete."
+              }
+            ],
+            "text": "You may publish a Kite release note once editorial review is complete."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [],
+            "fact_id": "F1",
+            "reason": "Does not repeat only after.",
+            "status": "missing"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "Asked topic.",
+          "status": "pass"
+        }
+      },
+      "expected_disputes": [
+        "completeness",
+        "response_behavior"
+      ],
+      "id": "review-prerequisite-false-missing",
+      "inputs": {
+        "answer": "You may publish a Kite release note once editorial review is complete.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Kite release notes may be published only after editorial review is complete."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Kite release notes may be published only after editorial review is complete."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What condition applies before I publish a Kite release note?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Kite release notes may be published only after editorial review is complete."
+          }
+        ]
+      },
+      "rationale": "Question-context prerequisite does not need literal only."
+    },
+    {
+      "candidate": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Answers the requested policy.",
+        "behavior_span": "A Moss register must be checked before filing. The branch lead must perform that check.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "A Moss register must be checked before filing. This notice does not identify who performs the check."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Policy paraphrase.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "A Moss register must be checked before filing. This notice does not identify who performs the check."
+              }
+            ],
+            "text": "A Moss register must be checked before filing."
+          },
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "Notice names no checker.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "This notice does not identify who performs the check."
+              }
+            ],
+            "text": "The branch lead must perform that check."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "A Moss register must be checked before filing. The branch lead must perform that check."
+            ],
+            "fact_id": "F1",
+            "reason": "Communicated.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "Asked topic.",
+          "status": "pass"
+        }
+      },
+      "expected_disputes": [
+        "factual_support"
+      ],
+      "id": "review-absence-false-contradiction",
+      "inputs": {
+        "answer": "A Moss register must be checked before filing. The branch lead must perform that check.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "A Moss register must be checked before filing. This notice does not identify who performs the check."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "A Moss register must be checked before filing. This notice does not identify who performs the check."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What must happen to a Moss register before filing?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "A Moss register must be checked before filing."
+          }
+        ]
+      },
+      "rationale": "No named actor is missing evidence, not a prohibition."
+    }
+  ],
+  "version": "condition-development.v1"
+}

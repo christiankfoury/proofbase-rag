@@ -22,6 +22,10 @@ and the existing PostgreSQL clone verified. Runtime freeze/measurement waits for
 a qualified evaluator. Continue a source-supported bounded correction under the
 standing authorization, with separate development controls and fresh confirmation
 only after revalidation/freeze. No routine approval needed; preserve unrelated logs.
+V19 local correction and separate controls are prepared: diagnostic 12 cases +
+3 reviewer probes (39 calls maximum, USD 1.25 hard stage limit), followed only on
+passing replay/source inspection by unchanged 24/24 + 3/3 full calibration. Four
+o-network tests, compilation and preflight pass. [Plan](../phase-71/v19-condition-development.md).
 
 ### Historical checkpoint: user-requested switch to standard requests (2026-09-30)
 
