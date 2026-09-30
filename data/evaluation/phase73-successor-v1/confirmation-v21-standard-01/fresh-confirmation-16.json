@@ -1,0 +1,94 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response substantively answers both parts of the question: the old rule and the current rule.",
+    "behavior_span": "Temporary staff could use the Fennel archive kiosk under the old rule, and they may use it under the current rule as well.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Former Fennel archive rule, valid through 30 June 2025 and now expired: temporary staff may use the archive kiosk."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "R1 states that under the former rule, temporary staff may use the archive kiosk, which supports the historical permission claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Former Fennel archive rule, valid through 30 June 2025 and now expired: temporary staff may use the archive kiosk."
+          }
+        ],
+        "text": "Temporary staff could use the Fennel archive kiosk under the old rule"
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "R2 explicitly says the current rule forbids temporary staff from using the archive kiosk, so this current-permission claim is contradicted. No citation positively entails it.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "Current Fennel archive rule, effective 1 July 2025: temporary staff must not use the archive kiosk."
+          }
+        ],
+        "text": "they may use it under the current rule as well."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Temporary staff could use the Fennel archive kiosk under the old rule"
+        ],
+        "fact_id": "F1",
+        "reason": "This exactly communicates that under the former Fennel rule, temporary staff could use the archive kiosk.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [
+          "they may use it under the current rule as well"
+        ],
+        "fact_id": "F2",
+        "reason": "This explicitly permits temporary staff to use the kiosk under the current rule, which is incompatible with the required fact that the current rule prohibits such use.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested entity and policy: whether temporary staff may use the Fennel archive kiosk under the old and current rules.",
+      "status": "pass"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly enumerates the two factual claims in the answer. The old-rule claim is supported by R1/C1, and the current-rule permission claim is contradicted by R2 and not positively entailed by any citation, so factual_support=fail and citation_support=fail are correct. Required fact F1 is covered and F2 is contradicted by the answer, so completeness=fail is correct. The response still substantively answers both parts of the question, so actual_behavior=answer is correct; because a required fact is contradicted, response_behavior=fail is also correct. The answer is on-topic for the Fennel archive kiosk old/current rules, so relevance=pass is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

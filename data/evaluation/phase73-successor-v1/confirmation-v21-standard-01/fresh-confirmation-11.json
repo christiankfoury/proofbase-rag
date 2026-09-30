@@ -1,0 +1,64 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": false,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive expiration time, so it is an answer rather than a clarification, even though it selects an unsupported topic.",
+    "behavior_span": "Your Tern equipment reservation expires after 72 hours.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Tern equipment reservations expire after 72 hours."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source states that Tern equipment reservations expire after 72 hours, which entails the answer's singular, user-directed paraphrase in response to the question about their reservation.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Tern equipment reservations expire after 72 hours."
+          }
+        ],
+        "text": "Your Tern equipment reservation expires after 72 hours."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks 'When does it expire?' without identifying what 'it' refers to, and there is no history to resolve the object. The answer invents a specific topic ('Tern equipment reservation'), so it is not responsive to the user's specified topic.",
+      "status": "fail"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The answer contains one factual claim: \"Your Tern equipment reservation expires after 72 hours.\" Candidate extracted that exact span, and R1/C1 entail it as a generic second-person paraphrase of the Tern reservation rule, so factual_support and citation_support pass. There are no required facts, so completeness is N/A. With no referent for \"it\" in the question/history, answering about a specific Tern reservation invents the topic, so relevance fail is correct. The prose is still a substantive answer, not a clarification, so actual_behavior=answer is correct and response_behavior fail is correct against expected_behavior=clarify. No forbidden assertions were requested or asserted.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

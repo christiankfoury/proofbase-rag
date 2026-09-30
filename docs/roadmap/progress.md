@@ -6,7 +6,7 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: Phase 73 successor authorized; evaluator development in progress
+### Active: Phase 73 successor evaluator qualified; fresh runtime freeze next
 
 The user explicitly accepted carrying the single unknown request at its full
 USD 0.146775 reservation and continuing with USD 3.30807991 remaining. The
@@ -21,19 +21,21 @@ diagnostic stopped at 4/5 exact on an ambiguous missing-exception reference:
 v21b stage tests explicit partial examples versus explicit denial, reusing four
 clean prior cases without reruns. That stage passed 5/5 and 3/3 probes with
 clean source inspection, 18 calls and USD 0.23565000. Full calibration then passed
-24/24 + 3/3 with clean source inspection, 75 calls and USD 0.58165200;
-USD 2.32316941 remains. Isolated fresh 16/16 confirmation is next, before a newly
-frozen 60-case measurement. Calibration evidence is committed as `13c022db`;
+24/24 + 3/3 with clean source inspection, 75 calls and USD 0.58165200.
+Calibration evidence is committed as `13c022db`;
 the separate confirmation freeze binds that revision before isolated authorship.
-Final fresh-confirmation references are independently approved (16/16), with two
-pre-execution construction issues corrected and all revisions preserved. The
-suite is sealed for one bounded attempt; no final evaluator readiness claim.
+Fresh confirmation, sealed as `244d0a44`, passed 16/16 with clean source inspection
+and offline replay: 48 settled calls, USD 0.44391700. Two pre-execution reference
+construction issues were corrected with all revisions preserved. V21 is qualified.
+Additional accounting is USD 8.12074759 of 10; USD 1.87925241 remains. Freeze the
+unchanged application with v21 before isolated new 60-case authoring/validation.
+No new application score or full-suite safety qualification is established.
 Phases 71/72 historical completion is unchanged.
 
 [Successor measurement preparation](../phase-73/v5-measurement-preparation.md)
 adds separate v5 accounting/runner/report tooling and neutral scope-aware contracts.
-Seventeen offline controls pass. No runtime freeze, fresh application suite or
-measurement call is permitted until the fresh evaluator confirmation qualifies.
+Seventeen offline controls pass. Its fresh evaluator prerequisite now passes;
+runtime freeze, fresh suite validation/seal and live preflight remain mandatory.
 
 ### Historical checkpoint: original Phase 73 interruption
 

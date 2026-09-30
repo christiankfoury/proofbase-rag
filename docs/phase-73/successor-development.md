@@ -132,3 +132,22 @@ source references. The separate seal binds the final suite, validation, both
 agents' notes, all initial/revision-1 evidence, freeze, authorization and spending
 prefix. Schema/fact reduction and exact reference agreement pass. The next step
 is one bounded standard confirmation after the seal commit and full preflight.
+
+## Fresh confirmation passed; successor evaluator qualified
+
+The separate seal was pushed as `244d0a44`. One standard attempt completed
+16/16 exact in 48 settled requests at USD 0.44391700, with zero retries or unknown
+new outcomes. [All-case source inspection](confirmation-v21-standard-source-review.md)
+and complete raw/request/reducer/cost replay pass. V21 readiness is approved;
+the original interrupted suite and all failed diagnostic/reference evidence remain
+unchanged. This qualifies an evaluator, not an application score.
+
+Cumulative accounting is 3,195 attempts and USD 18.97644836; additional accounting
+is USD 8.12074759 of 10, leaving USD 1.87925241. The new 60-case run must enforce
+that remaining envelope before every request; completion is not guaranteed by
+this balance and the ceiling must never be increased automatically.
+
+Next: commit inspected confirmation evidence, initialize the separately audited
+v5 history, freeze unchanged runtime/corpus/configuration/index with v21, then
+perform separate isolated 60-case authoring and validation. No old-suite resume,
+selective rescore, weakened evaluation gate or new spending authority is implied.

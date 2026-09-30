@@ -1,0 +1,86 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers who must perform the Vireo pressure inspection.",
+    "behavior_span": "Only the line operators must perform the Vireo pressure inspection; the quality team must not perform it.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source says the inspection is performed exclusively by the quality team and explicitly says line operators must not perform it, which conflicts with this claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Vireo pressure inspections must be performed exclusively by the quality team."
+          },
+          {
+            "id": "R1",
+            "span": "Line operators must not perform these inspections."
+          }
+        ],
+        "text": "Only the line operators must perform the Vireo pressure inspection"
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source states the inspection must be performed exclusively by the quality team, which is incompatible with saying the quality team must not perform it.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Vireo pressure inspections must be performed exclusively by the quality team."
+          }
+        ],
+        "text": "the quality team must not perform it."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Only the line operators must perform the Vireo pressure inspection;",
+          "the quality team must not perform it."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer gives the opposite assignment for the same inspection: it says line operators alone must perform it and the quality team must not, which cannot both be true with the required fact that the quality team alone must perform it and line operators must not.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested policy for the Vireo pressure inspection and identifies which team must perform it.",
+      "status": "pass"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted both factual claims from the answer and both are explicitly contradicted by R1/C1: the source says the quality team exclusively performs the inspection and line operators must not. That makes factual_support=fail and citation_support=fail. Required fact F1 is correctly marked contradicted by the two opposite answer spans, so completeness=fail. The response is still an answer in form and is relevant to the asked inspection, but because the required fact is contradicted, response_behavior=fail while relevance=pass. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

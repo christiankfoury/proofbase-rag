@@ -1,4 +1,4 @@
-# Phase 73: interrupted measurement, successor development authorized
+# Phase 73: original interruption preserved, successor evaluator qualified
 
 Phases 71 and 72 are complete. V20 passed 24/24 development cases, 3/3 reviewer
 probes and 16/16 fresh confirmation cases. Phase 73 subsequently froze the
@@ -16,6 +16,13 @@ unknown-call reservation. The user subsequently authorized a
 that reservation and unknown provider status. New unknown outcomes still stop
 work; the original exposed suite cannot be resumed. Evaluator development and
 fresh confirmation gates precede a new measurement.
+
+Successor v21 has now passed 24/24 full development cases, 3/3 reviewer probes and
+16/16 separately authored fresh confirmation cases with source inspection and
+offline replay. [Successor evidence](successor-development.md) records all costs
+and preserved failed/reference versions. USD 1.87925241 remains inside the same
+additional USD 10 envelope. A new runtime freeze and isolated 60-case suite are
+next; no successor application score or safety qualification exists yet.
 
 ## Historical preparation checkpoint
 
