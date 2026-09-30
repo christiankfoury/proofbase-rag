@@ -1,0 +1,93 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response substantively addresses both who must stamp the envelopes and whether the duty applies to all of them, even though the values are wrong.",
+    "behavior_span": "Only department requesters must stamp most sealed sample envelopes; stamping the remaining envelopes is optional. [C1]",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source says all sealed sample envelopes must be stamped, only the Archive team may do the stamping, and department requesters are prohibited from stamping.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "every sealed sample envelope must be stamped."
+          },
+          {
+            "id": "R1",
+            "span": "Only the Archive team may perform that stamping; department requesters are prohibited from doing so."
+          }
+        ],
+        "text": "Only department requesters must stamp most sealed sample envelopes"
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source explicitly requires stamping for every sealed sample envelope, so it is not optional for any remaining envelopes.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "every sealed sample envelope must be stamped."
+          }
+        ],
+        "text": "stamping the remaining envelopes is optional."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "must stamp most sealed sample envelopes; stamping the remaining envelopes is optional"
+        ],
+        "fact_id": "F1",
+        "reason": "The answer says only most envelopes must be stamped and the rest are optional, which is incompatible with a duty covering every sealed sample envelope.",
+        "status": "contradicted"
+      },
+      {
+        "answer_spans": [
+          "Only department requesters must stamp most sealed sample envelopes"
+        ],
+        "fact_id": "F2",
+        "reason": "The answer assigns the stamping duty exclusively to department requesters, which conflicts with the rule that only the Archive team may stamp them and that department requesters are prohibited.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is directly about who must stamp sealed sample envelopes and whether the duty covers all of them.",
+      "status": "pass"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly enumerates the answer’s two factual claims. Both are explicitly contradicted by R1/C1: the rule requires stamping every sealed sample envelope, only the Archive team may do it, and department requesters are prohibited. The required facts F1 and F2 are therefore correctly marked contradicted, so completeness=fail is correct. The response is still a substantive answer to both asked parts, so actual_behavior=answer is correct, but response_behavior=fail is also correct because the required facts are contradicted. The answer is on-topic, and there are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

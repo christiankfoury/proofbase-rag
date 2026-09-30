@@ -6,7 +6,24 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: user-requested switch to standard requests (2026-09-30)
+### Active: standard confirmation completed; evaluator correction required
+
+V18 standard confirmation is complete: **14/16**, 48 calls, estimated USD
+0.56463700. Full raw/request/cost replay and all-case source inspection found two
+blocking semantic issues: contextual prerequisite coverage (01) and reviewer
+confusion between missing actor information and explicit exclusion (05). The
+[inspection](../phase-71/confirmation-v18-standard-source-review.md) rejects
+readiness. V10 references and results remain immutable; no selective rerun.
+
+Additional accounting is USD 3.37313575 of the approved USD 10, including USD
+2.80849875 retained earlier reservations. No Batch work remains pending. Phase 72
+is complete; Phase 73 preparation is pushed as f3f4f06, with 16 focused local checks
+and the existing PostgreSQL clone verified. Runtime freeze/measurement waits for
+a qualified evaluator. Continue a source-supported bounded correction under the
+standing authorization, with separate development controls and fresh confirmation
+only after revalidation/freeze. No routine approval needed; preserve unrelated logs.
+
+### Historical checkpoint: user-requested switch to standard requests (2026-09-30)
 
 The user rejected Batch waiting. The [latency amendment](quality-completion-plan.md)
 now requires standard synchronous requests for remaining work, within the same

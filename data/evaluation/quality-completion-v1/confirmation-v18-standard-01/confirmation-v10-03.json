@@ -1,0 +1,95 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "partial_answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives some substantive information for the Mica-enclosure question, but it does not fully answer that policy and does not answer the Harbor-log question, instead discussing a different log.",
+    "behavior_span": "One prerequisite for opening a Mica enclosure is that electrical testing is in progress. The Beacon log is due at 16:00.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "opening a Mica enclosure is permitted only while electrical testing is in progress and after an isolation certificate has been signed."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "R1 entails that electrical testing being in progress is a necessary condition for opening a Mica enclosure, so it supports this stated prerequisite.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "opening a Mica enclosure is permitted only while electrical testing is in progress and after an isolation certificate has been signed."
+          }
+        ],
+        "text": "One prerequisite for opening a Mica enclosure is that electrical testing is in progress."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C2",
+            "span": "The Beacon log is due at 16:00."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "R2 explicitly states this deadline for the Beacon log.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "The Beacon log is due at 16:00."
+          }
+        ],
+        "text": "The Beacon log is due at 16:00."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer mentions electrical testing as a prerequisite, but it omits the additional required condition that an isolation certificate must already be signed, and it does not communicate the full 'only during ... and after ...' rule.",
+        "status": "missing"
+      },
+      {
+        "answer_spans": [],
+        "fact_id": "F2",
+        "reason": "The answer gives a due time for the Beacon log, not the Harbor log. A different log's time does not address when the Harbor log is due.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is on the user's topic for the Mica-enclosure part, though the log portion switches to a different log and is therefore incomplete/nonresponsive for that part.",
+      "status": "pass"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly enumerates the two factual claims as exact answer spans, and both are supported by the factual and cited sources: R1/C1 supports electrical testing as a prerequisite, and R2/C2 supports the Beacon-log deadline. Completeness is correctly failed: F1 is missing because the answer omits the isolation-certificate condition and full only-if framing; F2 is missing, not contradicted, because the answer switches to a different log (Beacon vs Harbor). actual_behavior=partial_answer is correct because the response gives some substantive information for one requested part but does not fully answer the Mica prerequisites and does not answer the Harbor-log question; therefore response_behavior=fail against expected_behavior=answer is correct. Relevance=pass is acceptable because the response is still responsive to part of the user's specified topic, even though the Beacon-log portion is nonresponsive for the Harbor subquestion. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

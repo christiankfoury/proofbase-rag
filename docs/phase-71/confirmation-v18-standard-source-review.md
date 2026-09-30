@@ -1,6 +1,6 @@
 # Standard v18 confirmation source review
 
-Status: reference inspection complete; model-output inspection PENDING.
+Status: complete source inspection; evaluator readiness REJECTED (14/16).
 
 The primary inspected all 16 supplied-answer cases against their synthetic sources,
 required facts, expected dimensions and fact statuses after authorship and freeze.
@@ -29,3 +29,37 @@ The independent validation and actual grader outputs remain separate gates.
 No evaluator readiness or 16/16 result is claimed by reference inspection.
 All model judgments, extracted claims, intermediate coverage statuses and reviewer
 findings must be inspected after the single sealed execution.
+
+
+## Model-output inspection
+
+All 16 extracted claim sets, fact statuses, behavior/relevance labels and reviewer
+reasons were inspected against the sources and immutable references. Cases 02-04
+and 06-16 agree exactly without invalid outputs or disputes. Case 15 correctly
+fails quotation fidelity separately from supported semantics; case 16 correctly
+fails absent citation support despite factual completeness. Pure refusals,
+clarification, wrong-topic facts, mixed injection and explicit contradiction
+controls retain the declared distinctions.
+
+Two findings block readiness:
+
+- 01: coverage falsely marks a prerequisite missing solely because the answer
+  omits the word "only" while directly answering the requested condition. The
+  reviewer correctly disputes completeness/behavior. The saved fact status and
+  unresolved final labels remain unchanged; reference inspection found no defect.
+- 05: claim extraction correctly marks the unsourced personal inspection duty
+  unknown, but the reviewer treats a statement about what the excerpt does not
+  assign as a policy prohibition. That absence does not exclude the actor. The
+  factual-support dispute blocks readiness even though the final unresolved
+  dimension happens to equal the reference. Historical continuity is also
+  correctly unsupported; both required policy facts are covered.
+
+No source/reference correction or selective rerun is justified. Retire v10 from
+future confirmation claims. One cause-driven successor will use separately
+composed prerequisite and absence-versus-exclusion development controls. No
+application quality score or Phase 73 readiness follows from this failed result.
+
+Offline full replay verifies all 48 request bodies, raw receipts, parsed/reduced
+judgments, source spans, hashes and cache-aware settlements: USD 0.56463700.
+Additional accounting is USD 3.37313575, including USD 2.80849875 retained
+reservations; these are estimates/conservative holds, not an invoice. Zero retries.
