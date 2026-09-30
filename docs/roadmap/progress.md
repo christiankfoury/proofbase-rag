@@ -6,26 +6,21 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: v19 full calibration failed; v20 bounded correction prepared
+### Active: v20 diagnostic passed; full calibration next
 
-V19 completed 22/24 cases and 3/3 reviewer probes: 75 standard calls, estimated
-USD 0.6644430. Exact raw/request/cost replay passes. Full
-[source inspection](../phase-71/v19-calibration-source-review.md) confirms two
-blocking evaluator defects: an invented actor taxonomy and guessed-topic relevance.
-Readiness is rejected. No reference changes, reruns, v19 freeze or fresh authoring.
-Additional accounting is USD 4.44828375 of the fixed USD 10, including held history
-USD 2.80849875. No Batch jobs remain pending. Continue a cause-driven correction
-with separate controls and the unchanged full calibration/confirmation gates.
-Phase 72 remains complete; Phase 73 preparation is pushed through a43b7f0,
-including runtime/report binding to the same qualified evaluator. Measurement
-still requires readiness. Preserve unrelated request logs and continue autonomously.
+V20 diagnostic passed 10/10 plus 3/3 reviewer probes: 33 standard calls, estimated
+USD 0.3249920. Exact replay and all-case source inspection pass with zero findings.
+[Diagnostic inspection](../phase-71/v20-development-source-review.md) permits full
+calibration only: unchanged 24 cases and 3 probes, maximum 75 calls, USD 1.75 hard
+stage cap. Preparation 2ff8cd1 and contingent confirmation/Phase 73 wiring ed6520f
+are pushed. Additional accounting is USD 4.77327575 of the fixed USD 10, including
+USD 2.80849875 retained history. No Batch job remains pending.
 
-The [v20 development plan](../phase-71/v20-actor-paraphrase-development.md)
-predeclares 10 cases and 3 probes, maximum 33 calls and USD 1.00 hard stage cap.
-Four offline checks pass; full 24/24 + 3/3 and fresh confirmation remain required.
-Preparation is pushed as 2ff8cd1; the one diagnostic is underway. Contingent
-confirmation and Phase 73 full-history wiring have 19 passing offline checks;
-[details](../phase-71/v20-confirmation-preparation.md). No fresh suite authored.
+No v20 freeze or fresh v11 authoring yet. Full calibration, clean source inspection,
+then separate freeze and isolated confirmation remain mandatory. V19's failed
+22/24 result and complete costs are immutable in 4d75500. Phase 72 remains complete;
+Phase 73 measurement still requires a qualified evaluator. Continue autonomously
+through the [active plan](quality-completion-plan.md); preserve unrelated logs.
 
 ### Historical checkpoint: v19 diagnostic passed
 

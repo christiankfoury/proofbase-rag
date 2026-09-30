@@ -1,0 +1,786 @@
+{
+  "calls": 33,
+  "cost_usd": "0.3249920",
+  "count": 10,
+  "human_adjudication": false,
+  "matched": 10,
+  "matching_probes": 3,
+  "probes": [
+    {
+      "error": null,
+      "id": "review-false-actor-distinction",
+      "matched": true,
+      "review": {
+        "citation_support": "dispute",
+        "completeness": "agree",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The single enumerated claim is an exact answer span, but its statuses are wrong: R1/C1 entails the whole sentence, and in this context 'Oriole workshop staff' matches 'Oriole workshop employees' with no source distinction. So factual_support should pass, not unresolved, and citation_support should pass, not fail. Completeness is correctly pass because the answer covers F1; behavior is correctly answer/pass; relevance is on the asked allowance for Oriole workshop employees; no forbidden assertion is present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "error": null,
+      "id": "review-explicit-actor-exclusion",
+      "matched": true,
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The answer’s only factual claim is exactly: \"The whole Juniper workforce, including vendors, may use the scan room.\" R1 explicitly contradicts that claim: workforce includes vendors, but only employees may use the scan room and vendors are prohibited. So the claim’s factual_status should be contradicted, making factual_support fail, not unresolved. The required fact is correctly marked contradicted, relevance is correctly pass, citation support is correctly fail because the cited source does not entail the claim, actual_behavior=answer is correct, response_behavior=fail is correct because the expected behavior was an answer but the required fact was contradicted, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "error": null,
+      "id": "review-false-topic-match",
+      "matched": true,
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim is correctly enumerated and is supported by both the factual and cited source: the answer’s 'You must renew Linden software subscriptions 8 days before expiry.' is an ordinary second-person paraphrase of the same renewal deadline. No required facts were specified, so completeness is correctly N/A. Actual_behavior='answer' is correct because the prose gives a substantive answer, and response_behavior='fail' is correct because expected_behavior was 'clarify'. However, relevance should not be pass: the question 'When must I renew?' does not identify what is being renewed, and no history resolves it, so choosing 'Linden software subscriptions' invents the topic and fails relevance.",
+        "relevance": "dispute",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Provides a substantive response that addresses the requested allowance, amount, scope, and condition.",
+        "behavior_span": "Oriole workshop staff may claim up to 27 credits per quarter for safety gloves after completing orientation.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Oriole workshop employees may claim a safety-glove allowance after completing orientation, up to 27 credits per quarter."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source entails the same allowance, amount, period, and condition. In this context, 'staff' matches the identified Oriole workshop employees, and 'for safety gloves' paraphrases the safety-glove allowance.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Oriole workshop employees may claim a safety-glove allowance after completing orientation, up to 27 credits per quarter."
+              }
+            ],
+            "text": "Oriole workshop staff may claim up to 27 credits per quarter for safety gloves after completing orientation."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Oriole workshop staff may claim up to 27 credits per quarter for safety gloves after completing orientation."
+            ],
+            "fact_id": "F1",
+            "reason": "Communicates the same policy for Oriole workshop employees/staff: eligibility after completing orientation and a maximum of 27 credits per quarter for safety gloves.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks about the safety-glove allowance for Oriole workshop employees, and the answer addresses that same Oriole workshop safety-glove policy.",
+          "status": "pass"
+        }
+      },
+      "id": "actor-context-equivalent",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate correctly treats the answer as one factual policy claim, using an exact answer span. That claim is supported by both the factual and cited source: 'staff' is an acceptable contextual paraphrase of the identified Oriole workshop employees, and the allowance amount, quarter limit, safety-glove scope, and orientation condition all match. The required fact is fully covered, the response behavior is correctly labeled as a substantive answer matching expected_behavior, the answer is on the requested Oriole workshop safety-glove policy, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Provides a substantive response that directly answers the asked policy question completely.",
+        "behavior_span": "Plover library employees must return desk keys by 18:00 on the day they are issued.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Plover library staff must return desk keys by 18:00 on the day of issue."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source entails the same return requirement, deadline, and object. In this context, 'employees' is an ordinary paraphrase of the identified workplace group 'staff,' and 'on the day they are issued' matches 'on the day of issue.'",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Plover library staff must return desk keys by 18:00 on the day of issue."
+              }
+            ],
+            "text": "Plover library employees must return desk keys by 18:00 on the day they are issued."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Plover library employees must return desk keys by 18:00 on the day they are issued."
+            ],
+            "fact_id": "F1",
+            "reason": "Communicates the same policy for the same entity, actor group, item, deadline, and condition; 'employees' is an ordinary paraphrase of 'staff' here, and 'the day they are issued' matches 'the day of issue'.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer addresses the requested Plover library desk-key return policy for staff.",
+          "status": "pass"
+        }
+      },
+      "id": "actor-reverse-equivalent",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim is correctly extracted as the full answer sentence and is supported by both the factual and cited source; in this question context, 'employees' is an acceptable paraphrase of the identified workplace group 'staff,' and the timing language is equivalent. The required fact is fully covered, the response is a complete substantive answer to the asked policy question, it is relevant to the named entity/policy, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "It gives a substantive answer to who may use the Juniper scan room.",
+        "behavior_span": "The whole Juniper workforce, including vendors, may use the scan room.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The source defines workforce as employees and vendors, but explicitly says only employees may use the scan room and vendors are prohibited, which conflicts with the claim that the whole workforce including vendors may use it.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "At Juniper, workforce means employees and vendors. Only employees may use the scan room. Vendors are prohibited from using it."
+              }
+            ],
+            "text": "The whole Juniper workforce, including vendors, may use the scan room."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The whole Juniper workforce, including vendors, may use the scan room."
+            ],
+            "fact_id": "F1",
+            "reason": "This says vendors may use the Juniper scan room, which conflicts with the rule that only employees may use it and vendors are prohibited.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer addresses the requested entity and policy: who may use the Juniper scan room.",
+          "status": "pass"
+        }
+      },
+      "id": "actor-explicit-taxonomy",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate correctly extracts the single factual claim as the full answer sentence. That claim is contradicted by R1, which says only employees may use the scan room and vendors are prohibited, so factual_support=fail is correct. The cited source does not entail the claim, so citation_status missing and citation_support=fail are correct. The required fact is explicitly contradicted by the answer, so completeness=fail is correct. The response is still a substantive answer to the asked question, so actual_behavior=answer is correct; because expected_behavior is answer but the required fact is contradicted, response_behavior=fail is also correct. The answer is on-topic for the Juniper scan room question, so relevance=pass is correct. No forbidden assertion is present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive direct answer to the user's question about which Acacia employees may borrow the field scanner.",
+        "behavior_span": "All Acacia employees, including Finance staff, may borrow the field scanner.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The answer says all Acacia employees, including Finance staff, may borrow the scanner, but the source restricts borrowing to laboratory employees and explicitly says Finance employees may not borrow it. The cited source does not entail the claim.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Only Acacia laboratory employees may borrow the field scanner. Employees in other departments, including Finance, may not borrow it."
+              }
+            ],
+            "text": "All Acacia employees, including Finance staff, may borrow the field scanner."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "All Acacia employees, including Finance staff, may borrow the field scanner."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer says all Acacia employees may borrow the scanner and explicitly includes Finance staff, which conflicts with the rule that only laboratory employees may borrow it and Finance may not.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer addresses the same entity and policy asked about: Acacia employees' eligibility to borrow the field scanner.",
+          "status": "pass"
+        }
+      },
+      "id": "actor-department-broadening",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate correctly extracts the single factual claim, marks it contradicted by R1, and marks cited support missing because the cited source does not entail it. The required fact is explicitly contradicted by the answer, so completeness=fail is correct. The response is still an answer in behavior and is relevant to the asked policy, but response_behavior correctly fails because expected_behavior was answer and the required fact was contradicted. No forbidden assertion was specified or present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "fail",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive renewal deadline, so it is an answer in form, even though it selects an unsupported specific subject.",
+        "behavior_span": "You must renew Linden software subscriptions 8 days before expiry.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Linden software subscriptions must be renewed 8 days before expiry."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source states the subscriptions must be renewed 8 days before expiry, and in the question context this supports the second-person paraphrase about when the user must renew.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Linden software subscriptions must be renewed 8 days before expiry."
+              }
+            ],
+            "text": "You must renew Linden software subscriptions 8 days before expiry."
+          }
+        ],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks generally 'When must I renew?' with no identified object or policy, but the answer invents the topic 'Linden software subscriptions.' A shared verb ('renew') does not make that specific policy responsive to the unspecified question.",
+          "status": "fail"
+        }
+      },
+      "id": "topic-unselected-true-rule",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim is correctly enumerated as the full answer sentence, and R1/C1 entail it as an ordinary second-person paraphrase of the renewal deadline for Linden software subscriptions. There are no omitted factual claims. Required_facts is empty, so completeness is N/A. The question 'When must I renew?' does not identify what is being renewed, so answering about Linden software subscriptions invents a topic and relevance correctly fails; expected behavior is therefore clarify, while the prose itself is still a substantive answer, so actual_behavior=answer and response_behavior=fail are both correct. No forbidden assertion is present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "It gives a substantive response directly answering when the permit must be renewed.",
+        "behavior_span": "You must renew your Linden tool permit 11 days before expiry.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Linden tool permits must be renewed 11 days before expiry."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source directly states the renewal deadline for Linden tool permits, and the second-person wording is a contextual paraphrase of the same action asked about by the user.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Linden tool permits must be renewed 11 days before expiry."
+              }
+            ],
+            "text": "You must renew your Linden tool permit 11 days before expiry."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "You must renew your Linden tool permit 11 days before expiry."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer states the same renewal deadline for the Linden tool permit.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks when to renew 'it,' and the history identifies 'it' as the Linden tool permit; the answer addresses that same permit and policy.",
+          "status": "pass"
+        }
+      },
+      "id": "topic-history-selects-rule",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim is correctly extracted verbatim from the answer and is supported by both the factual source and cited source; the second-person wording is a valid contextual paraphrase of the same renewal action asked about. The required fact is fully covered with the correct answer span. The answer’s actual_behavior is correctly labeled as answer and matches expected_behavior. Relevance is correctly passed because history resolves 'it' to the Linden tool permit. No forbidden assertion is present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive answer to the asked condition for publishing a Kite release note.",
+        "behavior_span": "You may publish a Kite release note once editorial review is complete.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Kite release notes may be published only after editorial review is complete."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source entails that publishing a Kite release note is permitted only after editorial review is complete. In the question context about when the user may perform that same action, the second-person paraphrase preserves the same condition.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Kite release notes may be published only after editorial review is complete."
+              }
+            ],
+            "text": "You may publish a Kite release note once editorial review is complete."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "You may publish a Kite release note once editorial review is complete."
+            ],
+            "fact_id": "F1",
+            "reason": "In the question context about what condition applies before publishing, this states publication is permitted after editorial review is complete, which communicates the required prerequisite for publishing Kite release notes.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer addresses the requested Kite release-note publishing condition for the same entity and action named in the question.",
+          "status": "pass"
+        }
+      },
+      "id": "prerequisite-direct-once",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim is correctly extracted verbatim from the answer and is supported by both the factual and cited source in the question context: answering when the user may do that same action preserves the prerequisite that publication is allowed only after editorial review is complete. The required fact is therefore covered, the response is a substantive answer to the asked Kite release-note condition, it is on-topic, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the user's question with a substantive claim about the Cedar parcel release policy.",
+        "behavior_span": "A signed receipt is optional when releasing a Cedar parcel.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The source states a signed receipt is required, which conflicts with saying it is optional.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Releasing a Cedar parcel requires a signed receipt."
+              }
+            ],
+            "text": "A signed receipt is optional when releasing a Cedar parcel."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "A signed receipt is optional when releasing a Cedar parcel."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly says the signed receipt is optional for releasing a Cedar parcel, which is incompatible with it being required.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer addresses the same entity and policy asked about: whether a signed receipt is required to release a Cedar parcel.",
+          "status": "pass"
+        }
+      },
+      "id": "prerequisite-optional-condition",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim was correctly extracted verbatim and is contradicted by both the factual and cited source, so factual_support=fail and citation_support=fail are correct. The required fact was correctly marked contradicted by the answer, so completeness=fail is correct. The response is still an answer in form and is on-topic for Cedar parcel receipt requirements, but because the expected behavior was answer and the required fact is contradicted, response_behavior=fail is also correct. No forbidden assertions are present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "It gives a substantive response that addresses the requested policy.",
+        "behavior_span": "A Moss register must be checked before filing. The branch lead must perform that check.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "A Moss register must be checked before filing."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source explicitly states this prerequisite.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "A Moss register must be checked before filing."
+              }
+            ],
+            "text": "A Moss register must be checked before filing."
+          },
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "The source says, \"This notice does not identify who performs the check,\" so the asserted responsible actor is not established.",
+            "source_spans": [],
+            "text": "The branch lead must perform that check."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "A Moss register must be checked before filing."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states the same prerequisite for the same item and action.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer addresses the asked policy for a Moss register before filing.",
+          "status": "pass"
+        }
+      },
+      "id": "evidence-absence-actor",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate correctly extracted both factual claims, including the added actor assignment. The prerequisite claim is supported by source/citation; the branch-lead duty is correctly marked factual unknown and citation missing because the source explicitly says it does not identify who performs the check. Required fact F1 is fully covered, actual_behavior=answer is correct, the answer is relevant to the asked Moss-register policy, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "It gives a direct substantive answer to who checks a Pine routing slip.",
+        "behavior_span": "The branch lead must check a Pine routing slip.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The source explicitly says only the dispatch supervisor may check a Pine routing slip and that branch leads are prohibited from checking it, which conflicts with assigning that duty to the branch lead.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited from checking it."
+              }
+            ],
+            "text": "The branch lead must check a Pine routing slip."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The branch lead must check a Pine routing slip."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer assigns checking a Pine routing slip to the branch lead, which is incompatible with the required rule that only the dispatch supervisor may check it and branch leads are prohibited.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer addresses the same Pine routing slip checker policy asked in the question.",
+          "status": "pass"
+        }
+      },
+      "id": "evidence-exclusion-actor",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim is correctly extracted verbatim and correctly marked contradicted: the source says only the dispatch supervisor may check a Pine routing slip and branch leads are prohibited, which is incompatible with 'The branch lead must check a Pine routing slip.' Because the cited source does not entail the claim, citation_status=missing is also correct, so factual_support=fail and citation_support=fail are correct. The required fact is correctly marked contradicted by the same answer span, so completeness=fail is correct. actual_behavior=answer is correct because it gives a substantive direct answer, and response_behavior=fail is correct because the expected behavior was answer but the required fact was contradicted. The answer is on-topic for the Pine routing slip checker policy, so relevance=pass is correct. No forbidden assertion was asserted, so forbidden_assertion=absent is correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "semantic_validation_passed": false,
+  "stage": "diagnostic",
+  "status": "complete"
+}

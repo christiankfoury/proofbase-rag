@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It gives a direct substantive answer to who checks a Pine routing slip.",
+    "behavior_span": "The branch lead must check a Pine routing slip.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source explicitly says only the dispatch supervisor may check a Pine routing slip and that branch leads are prohibited from checking it, which conflicts with assigning that duty to the branch lead.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited from checking it."
+          }
+        ],
+        "text": "The branch lead must check a Pine routing slip."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The branch lead must check a Pine routing slip."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer assigns checking a Pine routing slip to the branch lead, which is incompatible with the required rule that only the dispatch supervisor may check it and branch leads are prohibited.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the same Pine routing slip checker policy asked in the question.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The single factual claim is correctly extracted verbatim and correctly marked contradicted: the source says only the dispatch supervisor may check a Pine routing slip and branch leads are prohibited, which is incompatible with 'The branch lead must check a Pine routing slip.' Because the cited source does not entail the claim, citation_status=missing is also correct, so factual_support=fail and citation_support=fail are correct. The required fact is correctly marked contradicted by the same answer span, so completeness=fail is correct. actual_behavior=answer is correct because it gives a substantive direct answer, and response_behavior=fail is correct because the expected behavior was answer but the required fact was contradicted. The answer is on-topic for the Pine routing slip checker policy, so relevance=pass is correct. No forbidden assertion was asserted, so forbidden_assertion=absent is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
