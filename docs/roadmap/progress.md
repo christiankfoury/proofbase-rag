@@ -6,22 +6,25 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: v20 development passed; freeze and fresh confirmation next
+### Active: v20 frozen; fresh confirmation validated and sealed
 
-V20 full calibration passed 24/24 cases plus 3/3 probes: 75 standard calls,
-estimated USD 0.6325130. Full replay and all-case source inspection have zero
-findings. [Calibration inspection](../phase-71/v20-calibration-source-review.md)
-approves a separate evaluator freeze, then isolated fresh 16-case authoring and
-independent validation before a sealed one-shot confirmation. No v11 suite exists
-yet. Diagnostic evidence is pushed as a5f301c9 (10/10 + 3/3, USD 0.3249920).
+V20 full development passed 24/24 + 3/3 with zero source findings (4f391425),
+following the passing 10-case diagnostic. The separate freeze is pushed as
+6805b358. Isolated fresh v11 authorship and independent validation accepted all
+16 cases, 128 dimensions and 21 fact statuses with zero findings. The suite includes
+2 history and 4 multiple-source cases. Raw-byte hashes and reference consistency
+pass; the author's normalized-text hash is explicitly distinguished in its note.
 
-Additional accounting is USD 5.40578875 of the fixed USD 10, including held history
-USD 2.80849875. No pending provider outcome or Batch job. Pinned model, medium,
-4096 output cap and zero retries remain unchanged. Contingent confirmation and
-Phase 73 preparation ed6520f have 19 passing offline checks. Phase 72 is complete;
-Phase 73 runtime freeze and measurement still require fresh evaluator confirmation.
-Continue autonomously through the [active plan](quality-completion-plan.md),
-preserving failed evidence and unrelated request logs.
+The fresh suite is sealed. Standard preflight permits exactly one confirmation:
+maximum 48 calls, USD 1.50 hard stage cap, zero retries, same pinned model/medium/
+4096 output. Additional accounting before this stage is USD 5.40578875 of USD 10,
+including USD 2.80849875 retained history. All prior failed attempts remain intact.
+No confirmation score exists yet. Phase 72 is complete; Phase 73 runtime freeze,
+fresh 60-case authorship and measurement still require 16/16 exact confirmation,
+complete raw/cost replay and clean source inspection. Local health/readiness are
+200 with pgvector, 32 documents and 247 chunks; no AI calls were needed to check.
+Continue autonomously through the [active plan](quality-completion-plan.md);
+preserve unrelated request logs and report actual outcomes.
 
 ### Historical checkpoint: v19 diagnostic passed
 

@@ -1,0 +1,14 @@
+# V20 standard confirmation authoring note
+
+Created at 2026-09-30T19:22:14.099646+00:00 after evaluator source freeze `4f39142501f9c75344f850d60fb8b228a63b21a9`. The parent identified the committed freeze record as `6805b358`; this author did not inspect Git to independently verify that custody assertion. `authored_after_freeze` uses the source commit in the freeze record.
+
+Read inputs, and no other repository files:
+
+- `docs/phase-71/confirmation-v20-standard-authoring-brief.md`
+- `data/evaluation/quality-completion-v1/v20-standard-freeze.json`
+
+Created `data/evaluation/quality-completion-v1/confirmation-challenges-v11.json` with 16 fresh synthetic supplied-answer cases. Raw-byte custody SHA256 (CRLF file bytes): `3c331bfc727b8f73f95dda86fe5dad777bcffd524c6e41c5cb9569417ce1f4d9`. LF-normalized text SHA256: `494f97e2b897fc1906637ab454ef80ade185dcff61bc649645c94681bbeee730`. Both identify the unchanged suite content under the stated byte conventions; the suite was not rewritten. All cases have explicit fact-status mappings and eight expected labels. Two cases resolve references through conversation history only; four cases provide multiple evidence sources. No external API calls, Git commands, old suites, evaluator source, grader prompts, reports, or runtime failure artifacts were read or used. A local in-memory authoring script checked case count, unique numeric evidence IDs, schema-label keys, source/citation alignment, literal quotation labels, fact-status reduction, derived response behavior, and semantic overall reduction before writing.
+
+Coverage includes complete paraphrases and omitted prerequisites; same-policy contradiction versus different-policy omission; passive duties, unsupported added actors and exclusive actor prohibitions; same-action participant instructions and occupational synonyms; universal versus exempted duties; optional versus required modality; current permission versus unsupported explicit historical claims and expired policy; clarification versus guessed or historically selected wrong topics; access denial, search failure, unexplained refusal and ordered behavior overrides; mixed hostile and legitimate requests; injected evidence instructions; factual support without citation; and quotation fidelity separated from semantic overall quality.
+
+Isolation is procedural, not a technical read sandbox. Generic repository operating instructions and dispatch context were supplied in the conversation before this task; the author did not open AGENTS.md or other repository files. This is a separate agent context, but not expert human adjudication or independent external assessment, and it is not a runtime generalization holdout. Parent agents share the filesystem. Labels are author judgments awaiting separate isolated validation; no evaluator was executed. The initial artifact should be preserved if that validation requests a revision.
