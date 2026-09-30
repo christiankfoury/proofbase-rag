@@ -34,23 +34,36 @@ def live_policy(path=POLICY):
             or result['expected_responses'] != plan['count']):
         raise ValueError('Cancellation or partial usage remains unresolved')
     expected = {r['custom_id']: r['body'] for r in requests}
-    seen, amount = set(), Decimal(0)
+    seen, successful, failed, amount = set(), set(), set(), Decimal(0)
     for name, expected_hash in result['raw_files_sha256'].items():
         path = folder / name
         if name not in {'output.jsonl', 'error.jsonl'} or bindings.get(path.relative_to(ROOT).as_posix()) != expected_hash:
             raise ValueError('Partial raw output binding missing')
         for line in path.read_bytes().splitlines():
             row = json.loads(line); cid = row['custom_id']; response = row.get('response') or {}
-            if cid not in expected or cid in seen or row.get('error') or response.get('status_code') != 200:
-                raise ValueError('Partial output contains invalid or failed request')
+            if cid not in expected or cid in seen:
+                raise ValueError('Partial output contains invalid request identity')
             seen.add(cid)
+            if response.get('status_code') != 200:
+                # Observed terminal receipts contain HTTP 500 server errors without
+                # usage. Keep their full original reservation; do not infer zero cost.
+                body = response.get('body') or {}
+                if (row.get('error') or response.get('status_code') != 500
+                        or (body.get('error') or {}).get('type') != 'server_error'
+                        or body.get('usage') is not None):
+                    raise ValueError('Unrecognized partial failure receipt')
+                failed.add(cid)
+                continue
+            if row.get('error'):
+                raise ValueError('Successful response also reports error')
+            successful.add(cid)
             body = response['body']; limits = validate_body(expected[cid]); value = charge(body, 'batch')
             if (body['usage']['prompt_tokens'] > limits['input_bound']
                     or body['usage']['completion_tokens'] > limits['output_cap']):
                 raise ValueError('Partial usage exceeds reserved bound')
             amount += value
-    if (len(seen) != result['successful_responses'] or amount != Decimal(result['cache_aware_estimate_usd'])
-            or set(result['errors']) != (set(expected) - seen) | {'batch_cancelled'}):
+    if (len(successful) != result['successful_responses'] or amount != Decimal(result['cache_aware_estimate_usd'])
+            or set(result['errors']) != (set(expected) - successful) | {'batch_cancelled'}):
         raise ValueError('Partial output accounting differs')
     retained = prior.retained_entries()
     if set(old['entries']) != set(retained) | {state['journal_identity']}:

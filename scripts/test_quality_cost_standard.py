@@ -95,6 +95,22 @@ class StandardContinuation(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'evidence changed'):
             cost.live_policy(self.policy_path)
 
+    def test_terminal_server_error_retains_reservation_without_invented_usage(self):
+        path = self.folder / 'error.jsonl'
+        row = {'custom_id': 'two', 'error': None, 'response': {'status_code': 500,
+               'body': {'error': {'type': 'server_error', 'message': 'failed'}}}}
+        path.write_text(json.dumps(row) + '\n', encoding='utf-8')
+        self.result['raw_files_sha256']['error.jsonl'] = cost.digest(path)
+        self.refresh()
+        cost.live_policy(self.policy_path)
+        self.assertEqual(cost.retained_entries()['batch-test']['accounted_usd'], '1.40505625')
+        row['response']['body']['usage'] = {'unknown': True}
+        path.write_text(json.dumps(row) + '\n', encoding='utf-8')
+        self.result['raw_files_sha256']['error.jsonl'] = cost.digest(path)
+        self.refresh()
+        with self.assertRaisesRegex(ValueError, 'Unrecognized'):
+            cost.live_policy(self.policy_path)
+
 
 if __name__ == '__main__':
     unittest.main()

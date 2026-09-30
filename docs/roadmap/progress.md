@@ -13,19 +13,19 @@ now requires standard synchronous requests for remaining work, within the same
 USD 10 additional ceiling. Cached-input cost tracking, pinned model/evaluator,
 zero retries and strict evaluation gates remain unchanged. No further Batch wave.
 
-The existing Batch was checked and one cancellation request accepted. Provider
-response: cancelling, 23 completed / 0 failed / 32 total. Cancellation and raw
-response are preserved. Do not duplicate the cancellation or any completed model
-request. Current reservation remains held until terminal status and partial-output
-accounting are audited. [Transition note](../phase-71/standard-request-transition.md).
-A standard-request adapter and fresh confirmation runner are implemented locally;
-nine no-network tests pass, including 72 saved calibration requests and a full
-16-case/48-request confirmation replay. These are reused development fixtures,
-not fresh model results. Next: collect terminal cancellation by the same Batch ID,
-preserve all partial outputs, reconcile accounting, then freeze/validate/seal the
-standard successor before any new paid execution.
-Do not claim cancellation complete or readiness from partial results. No new
-model requests have been submitted during this transition. Preserve unrelated logs.
+The Batch is now terminal cancelled. All 32 receipts were collected: 23 successful
+responses (cache-aware estimate USD 0.11908150) and nine HTTP 500 server errors
+without usage. The full USD 1.40505625 reservation remains accounted, alongside
+the older USD 1.40344250 rejected-job reservation. This retains USD 2.80849875
+against the unchanged USD 10 cap; actual receipts are preserved separately.
+The incomplete v9 confirmation is historical and earns no readiness credit.
+
+Standard-request preparation is pushed as `e11dfe1`. Terminal reconciliation now
+passes raw-response, identity, usage, bounds and immutable-prefix checks. A new
+policy carries both full reservations without rewriting old journals. Ten offline
+tests cover transport replay and cancellation accounting; no new paid requests
+have been issued. Next: separate freeze, isolated v10 authorship and validation,
+seal, then one bounded standard confirmation. Preserve unrelated request logs.
 
 ### Historical checkpoint: accepted Batch was running (2026-09-30)
 

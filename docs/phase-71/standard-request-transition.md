@@ -76,3 +76,27 @@ policy activation, freeze, isolated authorship/validation and paid confirmation
 cannot occur until the provider exposes the terminal cancellation receipts.
 Next read-only action: `python scripts/quality_confirmation_batch2_v18.py collect
 --wave initial --allow-external-ai`. No new approval or billing change is needed.
+
+
+## Terminal reconciliation and activation
+
+The provider is now terminal cancelled. Its output and error files contain all
+32 request identities: 23 successful responses and nine HTTP 500 server_error
+responses with no usage. The successful-response cache-aware estimate is USD
+0.11908150. Cancellation took 25 minutes 8 seconds according to provider timestamps,
+longer than the documented window. No reviewer wave was sent.
+
+The successor policy binds the original plan, cancellation, terminal state, both
+raw files, extracted successful responses and predecessor journal. The accounting
+validator independently recomputes successful usage and recognizes only the
+observed server-error receipt shape, retaining the full reservation rather than
+inferring unreported usage is zero. Both historical reservations remain accounted
+at USD 2.80849875 total. The old attempt is incomplete and permanently historical.
+No model outputs were used to change evaluator semantics or new reference labels.
+
+Verification: four cancellation-accounting tests pass, including a new terminal
+server-error receipt and rejection of ambiguous usage. The other six transport
+checks remain applicable from e11dfe1; total ten tests. Live policy/raw accounting
+validation passes against actual terminal receipts. Complete intended diff review
+found no remaining blocker to freezing the unchanged standard evaluator. No paid
+confirmation, new quality score or Phase 73 readiness is claimed yet.
