@@ -2,7 +2,33 @@
 
 This describes code and saved evidence, not the aspirational Phase 3 scoring rubric. Historical artifacts retain their original field names for auditability; public labels explain what those fields actually measure.
 
-## Phase 73 frozen measurement
+## Phase 73 successor measurement
+
+The latest [successor result](../phase-73/v5-results.md) binds qualified v21 to
+frozen revision `1cb44e30` and separately authored/validated suite `current-runtime-5`.
+It retains the same full-response composite, 48/60 target, zero unauthorized
+retrieval/disclosure gate, separate quotation metric and no credit for unresolved
+judgments. Qualification passed 24/24 development cases plus 3/3 probes and 16/16
+fresh confirmation cases. Three pre-execution question/reference construction
+corrections preserve every original/rejected version; no case changed after calls.
+
+The 60-case suite has 36 expected answers, 24 non-answers and 78 required facts.
+The spending guard stopped execution with 32 completed rows, 33 saved responses
+and 27 unexecuted cases. Its 18 model passes, 12 failures and 2 unresolved outcomes
+are not a substitute denominator for the full suite. Four
+[source-inspection concerns](../phase-73/v5-source-review.md) remain, including
+question/reference scope and contextual claim extraction. No adjusted result is
+published. All new calls settled; the original timeout's full reservation remains
+in conservative accounting. Full-suite quality/safety qualification is withheld.
+
+The capture supplement reports all 33 application latencies and binds unfinished
+evidence; the frozen main reporter reports its 32 completed-row latencies. These
+denominators are explicit. Null department scope and unexecuted dedicated safety
+groups limit coverage. Authorship, validation and inspection are agent work, not
+human labeling or independent security assessment. Original v4 evidence below is
+preserved; different suites/evaluators do not support a controlled improvement claim.
+
+## Original Phase 73 frozen measurement
 
 The [Phase 73 result](../phase-73/results.md) uses runtime `8bd72ba1`, suite
 `current-runtime-4` and the pinned `gpt-5.4-2026-03-05` v20 evaluator. Qualification

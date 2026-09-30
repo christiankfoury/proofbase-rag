@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nRules:\n- Answer only from the retrieved context.\n- Cite every factual claim with document ID, document title, section heading, and chunk ID.\n- If evidence is missing, use response_type \"not_found\" and say: \"I could not find this in the available documents.\"\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted details.\n- If the question is ambiguous, use response_type \"clarify\" and ask one concise clarifying question.\n- If evidence is partial, use response_type \"partial_answer\", answer cautiously, and state what is missing.\n- If conversation memory is provided, use it only to understand the user's current question.\n- Do not treat conversation memory as source evidence; factual claims must be supported by retrieved context.\n- Do not invent policy details, numbers, dates, prices, legal advice, or customer commitments.\n- Keep answers concise but complete.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nBefore sending an AI-generated summary to a customer, is there a required review step?\n\nRetrieved context:\nDocument ID: IT-001\nTitle: Acceptable Use Policy\nSection: AI Tool Usage\nChunk ID: a82e38a6-d46e-426d-adee-dad1ec7ef79a\nRank: 1\nRetrieval Score: 0.5827\nContent:\nAI Tool Usage\n\nEmployees may use approved AI tools for drafting, summarization, and analysis when the data classification allows it. Confidential or restricted data must not be pasted into unapproved AI tools.\n\nGenerated AI output must be reviewed before being sent to customers, used for policy interpretation, or relied on for security decisions.\n\n---\n\nDocument ID: IT-003\nTitle: Data Classification and Handling Policy\nSection: AI and Automation\nChunk ID: 761e8f7a-e3e7-4c09-9728-dcec7780327e\nRank: 2\nRetrieval Score: 0.4598\nContent:\nAI and Automation\n\nApproved AI tools may process Public and Internal data. Confidential or Restricted data requires an approved tool and a documented business purpose.\n\n---\n\nDocument ID: LEGAL-001\nTitle: Contract, NDA, and Data Retention Policy\nSection: Contract Approval Process\nChunk ID: 56f368ca-8cf8-4eec-b828-67bb1302a583\nRank: 3\nRetrieval Score: 0.4341\nContent:\nContract Approval Process\n\n| Contract Type | Legal Review | Finance Review | Final Approver |\n| --- | --- | --- | --- |\n| Standard customer order form under USD 25,000 ARR | Optional unless redlines exist | Deal Desk | Sales Manager |\n| Customer contract with security addendum | Required | Deal Desk | Sales Director |\n| Vendor agreement under USD 10,000 | Required if data processing applies | Finance | Department Manager |\n| Vendor agreement USD 10,000 or above | Required | Finance | Department Leader |\n| Employment-related agreement | Required | HR Admin | People Leader |\n\nNo employee may sign a contract on behalf of Northstar unless they are listed in the signature authority register maintained by Legal Operations.\n\n---\n\nDocument ID: LEGAL-001\nTitle: Contract, NDA, and Data Retention Policy\nSection: NDA Rules\nChunk ID: 62cce0e9-c921-4e57-afe8-2d518cf60c29\nRank: 4\nRetrieval Score: 0.3948\nContent:\nNDA Rules\n\nNorthstar's standard mutual NDA may be sent to prospects, vendors, and partners by Sales Representatives or Managers after confirming the recipient's legal entity name. Non-standard NDAs, unilateral NDAs, and NDAs with unusual confidentiality periods require Legal review before signature.\n\nEmployees must not promise that Northstar will accept a customer's NDA without review. The approved talk track is: \"We can review your NDA or provide our standard mutual NDA through Legal Operations.\"\n\n---\n\nDocument ID: SALES-001\nTitle: Sales Playbook\nSection: Approved Talk Track\nChunk ID: 4f057818-24db-49a8-be3b-73811b3d858c\nRank: 5\nRetrieval Score: 0.3723\nContent:\nApproved Talk Track\n\nNorthstar helps operations leaders see where work slows down, which approvals are delayed, and which data quality issues affect business reporting. Sales Representatives should avoid promising product roadmap commitments.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.2
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"Yes, generated AI output must be reviewed before being sent to customers.\",\n  \"citations\": [\n    {\n      \"document_id\": \"IT-001\",\n      \"document_title\": \"Acceptable Use Policy\",\n      \"section_heading\": \"AI Tool Usage\",\n      \"chunk_id\": \"a82e38a6-d46e-426d-adee-dad1ec7ef79a\",\n      \"citation_text\": \"Generated AI output must be reviewed before being sent to customers\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Generated AI output must be reviewed before being sent to customers\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The Acceptable Use Policy explicitly states the review requirement for AI-generated output before customer delivery.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790807689,
+    "id": "chatcmpl-ETxAvm8L5aHdfSPEPYOQ8V2WsIwsK",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_d767d6c994",
+    "usage": {
+      "completion_tokens": 174,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1055,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 1229
+    }
+  },
+  "status": "received"
+}

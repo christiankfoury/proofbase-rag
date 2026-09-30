@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nRules:\n- Answer only from the retrieved context.\n- Cite every factual claim with document ID, document title, section heading, and chunk ID.\n- If evidence is missing, use response_type \"not_found\" and say: \"I could not find this in the available documents.\"\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted details.\n- If the question is ambiguous, use response_type \"clarify\" and ask one concise clarifying question.\n- If evidence is partial, use response_type \"partial_answer\", answer cautiously, and state what is missing.\n- If conversation memory is provided, use it only to understand the user's current question.\n- Do not treat conversation memory as source evidence; factual claims must be supported by retrieved context.\n- Do not invent policy details, numbers, dates, prices, legal advice, or customer commitments.\n- Keep answers concise but complete.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nI am replacing a broken monitor through Operations. Which reason categories does the replacement request ask me to distinguish?\n\nRetrieved context:\nDocument ID: OPS-001\nTitle: Vendor, Travel, and Equipment Operations Policy\nSection: Equipment Requests\nChunk ID: efa74b64-3c3e-4f86-bec3-63476871ca6b\nRank: 1\nRetrieval Score: 0.5271\nContent:\nEquipment Requests\n\nStandard equipment includes a laptop, charger, headset, keyboard, mouse, and monitor. New-hire equipment is initiated by HR Admin and fulfilled by IT Admin. Replacement equipment requires the employee to state whether the request is due to breakage, loss, upgrade, or accessibility need.\n\nEquipment above the standard bundle requires manager approval. Lost equipment that may contain company data must be reported to IT Admin immediately and should not wait for the next business day.\n\n---\n\nDocument ID: OPS-001\nTitle: Vendor, Travel, and Equipment Operations Policy\nSection: Exceptions\nChunk ID: a631c612-3ff0-415b-9908-3f84c7063453\nRank: 2\nRetrieval Score: 0.4695\nContent:\nExceptions\n\nOperations may approve exceptions for accessibility, business continuity, safety, or customer-critical travel. Repeated exceptions should be converted into a budget request, vendor onboarding request, or role-specific equipment standard.\n\n---\n\nDocument ID: OPS-001\nTitle: Vendor, Travel, and Equipment Operations Policy\nSection: Policy Scope\nChunk ID: 5feea154-dae9-493a-b80d-a17187b6ab2b\nRank: 3\nRetrieval Score: 0.4193\nContent:\nPolicy Scope\n\nThis policy covers vendor onboarding, business travel booking, equipment requests, shipping, and operations exceptions. It applies to employees, managers, HR Admins, and IT Admins who request operational support.\n\nFinance controls reimbursement and procurement thresholds. Legal controls contract review. IT controls device security. This Operations policy explains process ownership and routing.\n\n---\n\nDocument ID: OPS-001\nTitle: Vendor, Travel, and Equipment Operations Policy\nSection: Shipping and Return Rules\nChunk ID: 7f43621b-e723-47b9-b347-6c633696ca67\nRank: 4\nRetrieval Score: 0.3960\nContent:\nShipping and Return Rules\n\nEmployees leaving the company must return company equipment within 10 business days unless HR Admin approves an extension. Operations may provide a prepaid shipping label. Employees should not include personal items in return shipments.\n\nDamaged or missing equipment is reviewed by HR Admin and IT Admin before any payroll or final-pay action. This policy does not authorize payroll deductions by itself.\n\n---\n\nDocument ID: OPS-001\nTitle: Vendor, Travel, and Equipment Operations Policy\nSection: Vendor Onboarding\nChunk ID: c83e3811-1cf5-4479-899f-fd76bac98f5a\nRank: 5\nRetrieval Score: 0.3730\nContent:\nVendor Onboarding\n\nNew vendors require a vendor intake request before work begins. The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.\n\n| Vendor Risk | Example | Required Review |\n| --- | --- | --- |\n| Low | Office supplies, training materials | Operations |\n| Moderate | Contractor with project files | Operations and Legal |\n| High | Vendor processing company or customer data | Operations, Legal, IT Admin |\n| Financial | Vendor paid through invoice or purchase order | Operations and Finance |\n\nVendors may not receive company data, customer data, credentials, or building access until required reviews are complete.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.2
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"The replacement equipment request asks you to distinguish the reason as breakage, loss, upgrade, or accessibility need.\",\n  \"citations\": [\n    {\n      \"document_id\": \"OPS-001\",\n      \"document_title\": \"Vendor, Travel, and Equipment Operations Policy\",\n      \"section_heading\": \"Equipment Requests\",\n      \"chunk_id\": \"efa74b64-3c3e-4f86-bec3-63476871ca6b\",\n      \"citation_text\": \"Replacement equipment requires the employee to state whether the request is due to breakage, loss, upgrade, or accessibility need.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Replacement equipment requests require stating the reason as breakage, loss, upgrade, or accessibility need.\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The answer is directly supported by the Equipment Requests section of the policy.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790807494,
+    "id": "chatcmpl-ETx7mY70hxnm3mDdkQRFeIs40cOOu",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_d767d6c994",
+    "usage": {
+      "completion_tokens": 200,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1102,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 1302
+    }
+  },
+  "status": "received"
+}

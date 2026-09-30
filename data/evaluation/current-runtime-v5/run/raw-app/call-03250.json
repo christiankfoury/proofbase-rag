@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nRules:\n- Answer only from the retrieved context.\n- Cite every factual claim with document ID, document title, section heading, and chunk ID.\n- If evidence is missing, use response_type \"not_found\" and say: \"I could not find this in the available documents.\"\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted details.\n- If the question is ambiguous, use response_type \"clarify\" and ask one concise clarifying question.\n- If evidence is partial, use response_type \"partial_answer\", answer cautiously, and state what is missing.\n- If conversation memory is provided, use it only to understand the user's current question.\n- Do not treat conversation memory as source evidence; factual claims must be supported by retrieved context.\n- Do not invent policy details, numbers, dates, prices, legal advice, or customer commitments.\n- Keep answers concise but complete.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nFor a Growth-tier support case, what are the initial response, update cadence, and target resolution?\n\nRetrieved context:\nDocument ID: SUPPORT-001\nTitle: Support Escalation, SLA, and Refund Guide\nSection: SLA Targets\nChunk ID: 68cf7775-db00-4a55-a62d-e79fab42fe38\nRank: 1\nRetrieval Score: 0.7400\nContent:\nSLA Targets\n\n| Customer Tier | Initial Response | Status Update Cadence | Target Resolution |\n| --- | ---: | ---: | ---: |\n| Enterprise | 1 business hour | Every 4 business hours | 2 business days |\n| Growth | 4 business hours | Every business day | 5 business days |\n| Standard | 1 business day | Every 2 business days | 10 business days |\n\nThe SLA clock starts when the customer provides enough detail to identify the affected workspace, workflow, or integration. Requests with missing identifiers should receive a clarification response, not a resolution promise.\n\n---\n\nDocument ID: SUPPORT-001\nTitle: Support Escalation, SLA, and Refund Guide\nSection: Customer-Facing Language\nChunk ID: 823f0c3b-8e2d-4891-b884-38d6df233699\nRank: 2\nRetrieval Score: 0.5389\nContent:\nCustomer-Facing Language\n\nApproved wording for unresolved incidents: \"We are investigating the issue and will share the next update by the stated support cadence.\" Do not say that root cause is confirmed until Engineering or the incident commander has confirmed it.\n\n---\n\nDocument ID: SUPPORT-001\nTitle: Support Escalation, SLA, and Refund Guide\nSection: Handoff Rules\nChunk ID: 1ad4f318-cc24-42a0-b3df-c6d05f1971b6\nRank: 3\nRetrieval Score: 0.5388\nContent:\nHandoff Rules\n\nWhen Sales receives a support issue, the Sales Representative should create or link the support case and include customer impact, account tier, urgency, and any promised follow-up. Sales should not run a parallel support process in private notes.\n\nWhen Support identifies expansion, renewal risk, or contract dissatisfaction, Support should notify the account owner and Manager. The notification should distinguish product issue, adoption issue, billing issue, and contract issue.\n\n---\n\nDocument ID: SUPPORT-001\nTitle: Support Escalation, SLA, and Refund Guide\nSection: Escalation Triggers\nChunk ID: 13ef517d-4cac-4f92-8995-d92d532fdedb\nRank: 4\nRetrieval Score: 0.5092\nContent:\nEscalation Triggers\n\nEscalate to a Manager when a customer reports suspected data exposure, repeated billing failures, executive escalation, blocked payroll or finance close, missed Enterprise SLA, or a production incident that affects more than one customer.\n\nEscalate to Engineering through the incident channel when support can reproduce a product defect, a workaround is not available, or logs show repeated failures for the same customer workflow.\n\n---\n\nDocument ID: SUPPORT-001\nTitle: Support Escalation, SLA, and Refund Guide\nSection: Refund Guardrails\nChunk ID: 31d79ca0-cbec-4663-8046-378114214cca\nRank: 5\nRetrieval Score: 0.4309\nContent:\nRefund Guardrails\n\nSales Representatives may recommend a service credit up to USD 1,000 for an Enterprise customer when Northstar missed a documented SLA and the customer experienced measurable workflow disruption. The credit must be approved by a Manager before it is communicated.\n\nRefunds above USD 1,000, refunds tied to contract terms, and refunds requested as part of legal settlement discussions require Manager and Legal review. Support should not promise refunds, credits, free renewals, or roadmap commitments without approval.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.2
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"For a Growth-tier support case, the initial response time is 4 business hours, the status update cadence is every business day, and the target resolution time is 5 business days.\",\n  \"citations\": [\n    {\n      \"document_id\": \"SUPPORT-001\",\n      \"document_title\": \"Support Escalation, SLA, and Refund Guide\",\n      \"section_heading\": \"SLA Targets\",\n      \"chunk_id\": \"68cf7775-db00-4a55-a62d-e79fab42fe38\",\n      \"citation_text\": \"Growth | 4 business hours | Every business day | 5 business days\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Growth-tier initial response is 4 business hours\",\n    \"Growth-tier status update cadence is every business day\",\n    \"Growth-tier target resolution is 5 business days\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The information is directly from the SLA Targets table specifying Growth-tier support case metrics.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790807734,
+    "id": "chatcmpl-ETxBeit66d4pwf7liGVhgw23L90LR",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_d767d6c994",
+    "usage": {
+      "completion_tokens": 224,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1142,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 1366
+    }
+  },
+  "status": "received"
+}

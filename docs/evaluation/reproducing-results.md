@@ -1,6 +1,31 @@
 # Reproduce the published evidence
 
-## Phase 73 saved evidence
+## Latest Phase 73 successor evidence
+
+```powershell
+python scripts/report_phase73_v5.py --check
+python scripts/report_phase73_v5_capture.py --check
+python -m unittest scripts.test_phase73_v5_capture_report
+```
+
+These checks use saved files only, without API calls or database access. The frozen
+main reporter replays custody, qualification, all completed judgments, every new
+usage receipt and the complete cost prefix/shared-spend snapshot. The capture
+supplement binds all 315 run artifacts, supporting records and unfinished answers,
+checks saved question/project scope and reports all 33 response latencies and
+27 unexecuted cases. Its four focused controls cover incomplete denominators,
+tampering, wrong scope and refusal to publish a running snapshot.
+
+Read [results](../phase-73/v5-results.md), [cases](../phase-73/v5-case-review.md) and
+[inspection](../phase-73/v5-source-review.md). The source gate remains rejected;
+replay does not establish semantic infallibility or a full-suite score. The local
+budget guard prevented the final review request for case 33 before it was sent.
+No new unknown outcome exists. Do not rerun or resume `phase73_v5_run.py`, edit
+sealed expectations, clear the budget flag or reduce bounds to fit the balance.
+Any successor needs applicable qualification, a new freeze and freshly isolated
+cases within a separately adequate authorized allowance. Original evidence follows.
+
+## Original Phase 73 saved evidence
 
 With the repository Python dependencies installed, run:
 

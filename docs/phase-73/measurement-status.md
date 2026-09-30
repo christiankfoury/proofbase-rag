@@ -1,4 +1,20 @@
-# Phase 73: original interruption preserved, successor evaluator qualified
+# Phase 73: successor stopped at budget guard; evidence preserved
+
+The [successor v5 result](v5-results.md) has 32 completed evaluation rows,
+33 saved responses and 27 unexecuted cases. Its 18 model passes, 12 failures and
+2 unresolved outcomes are partial counts, with four source-inspection concerns.
+No full-suite score or safety qualification is established. All 279 new API calls
+settled; additional conservative accounting is USD 9.87823685 of 10. The remaining
+USD 0.12176315 did not cover the next review's USD 0.14052250 reservation, so the
+guard stopped before sending it. No retry, new unknown outcome or budget increase.
+
+[All cases](v5-case-review.md) and [source inspection](v5-source-review.md) retain
+the outcome. Original v4 evidence, including the unknown timeout and full retained
+reservation, remains immutable. Phases 71/72 remain complete; full Phase 73
+measurement remains blocked by budget and fresh-evidence requirements. Do not
+resume an exposed suite or automatically start another paid cycle.
+
+## Earlier successor preparation checkpoints
 
 Phases 71 and 72 are complete. V20 passed 24/24 development cases, 3/3 reviewer
 probes and 16/16 fresh confirmation cases. Phase 73 subsequently froze the

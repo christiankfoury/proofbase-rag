@@ -1,0 +1,272 @@
+{
+  "application_call_end": 3418,
+  "authorized_evidence": [],
+  "call_end": 3421,
+  "call_start": 3417,
+  "case_id": "fresh-026",
+  "category": "memory",
+  "completed_at": "2026-09-30T23:01:40.314651+00:00",
+  "dimensions": {
+    "citation_support": "not_applicable",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "not_applicable",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "pass",
+    "quotation_fidelity": "not_applicable",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "clarify",
+    "all_claims_assessed": true,
+    "behavior_reason": "The answer asks the user to specify which of two ambiguous items they mean before providing the deadline.",
+    "behavior_span": "Please clarify which submission deadline is requested: expense report or vacation request so I can search the right company guidance.",
+    "claims": [],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question's object is ambiguous between the expense report and the vacation request in the conversation history, and the answer directly asks for that needed clarification.",
+      "status": "pass"
+    }
+  },
+  "grader_inputs": {
+    "answer": "Please clarify which submission deadline is requested: expense report or vacation request so I can search the right company guidance.",
+    "cited_sources": [],
+    "expected_behavior": "clarify",
+    "factual_sources": [],
+    "forbidden_assertions": [
+      "The user has selected the expense report as the intended item.",
+      "The user has selected the six-business-day vacation request as the intended item."
+    ],
+    "history_not_evidence": [
+      {
+        "content": "I have two things to sort out: an expense report and a vacation request for six business days.",
+        "role": "user"
+      },
+      {
+        "content": "Which of those two items would you like to discuss first?",
+        "role": "assistant"
+      }
+    ],
+    "question": "What is the submission deadline for that?",
+    "required_facts": []
+  },
+  "grading_completed_at": "2026-09-30T23:02:04.346179+00:00",
+  "grading_error": null,
+  "http_status": 200,
+  "latency_ms": 4675.13,
+  "raw_response": {
+    "answer": "Please clarify which submission deadline is requested: expense report or vacation request so I can search the right company guidance.",
+    "answer_confidence": 0.65,
+    "assistant_message_id": "c44a5dc2-12d3-4dd5-8e46-2d4ece57c781",
+    "behavior": "ask_clarifying_question",
+    "chunking_strategy": "section_based",
+    "citation_confidence": 0.0,
+    "citations": [],
+    "clarification_reason": "semantic_clarification_required",
+    "defense_trace": {
+      "privacy_mode": "bounded_metadata_only",
+      "schema_version": "defense_trace.v1",
+      "stages": [
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": null,
+          "name": "deterministic_guard",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "not_selected",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "clarify",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.000647,
+          "latency_ms": 4278,
+          "memory_used_as_evidence": false,
+          "name": "semantic_request_assessment",
+          "reason_codes": [
+            "missing_decision_variables"
+          ],
+          "repair_count": null,
+          "route": "semantic_assessment",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "allow_authorized_only",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "permission_filter",
+          "reason_codes": [
+            "pre_generation_role_filter"
+          ],
+          "repair_count": null,
+          "route": "application_authorization",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "evidence_assessment",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "pre_retrieval_stop",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "generator",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "code_authored_response",
+          "status": "skipped",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "post_generation_validation",
+          "reason_codes": [],
+          "repair_count": 0,
+          "route": "no_generated_candidate",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "clarify",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "final_response",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "application_response_policy",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        }
+      ]
+    },
+    "estimated_cost_usd": null,
+    "evidence_assessment": null,
+    "final_confidence": 0.358,
+    "generation_latency_ms": null,
+    "input_cost_usd": null,
+    "memory": {
+      "is_followup": true,
+      "memory_used": true,
+      "original_question": "What is the submission deadline for that?",
+      "previous_topic": "I have two things to sort out: an expense report and a vacation request for six business days.",
+      "rewrite_strategy": "topic_prefix",
+      "rewritten_question": "What is the submission deadline for that? Context: I have two things to sort out: an expense report and a vacation request for six business days.."
+    },
+    "model": null,
+    "multi_doc_mode": "auto",
+    "multi_doc_used": false,
+    "output_cost_usd": null,
+    "permission_check": {
+      "retrieved_chunks_count": 0,
+      "unauthorized_chunks_reached_generation": false,
+      "user_role": "Employee"
+    },
+    "post_generation_validation": null,
+    "pricing_status": null,
+    "prompt_name": null,
+    "prompt_version": null,
+    "request_assessment": {
+      "ambiguity": "clarification_required",
+      "assessment_confidence": 0.9,
+      "decision_variables": [
+        "which submission deadline is requested: expense report or vacation request"
+      ],
+      "estimated_cost_usd": 0.000647,
+      "injection_risk": "none",
+      "input_cost_usd": 0.000497,
+      "input_tokens": 1242,
+      "intent": "question",
+      "latency_ms": 4278,
+      "missing_referents": [],
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.00015,
+      "output_tokens": 94,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "missing_decision_variables"
+      ],
+      "recommended_action": "clarify",
+      "referents": "resolved",
+      "response_reason": "semantic_clarification_required",
+      "route": "semantic_assessment",
+      "schema_version": "request_assessment.v1",
+      "status": "succeeded",
+      "topic": "expenses",
+      "topic_description": "submission deadline for expense report or vacation request"
+    },
+    "response_type": "clarify",
+    "retrieval_confidence": 0.0,
+    "retrieval_latency_ms": null,
+    "retrieval_mode": "vector_lexical_rerank",
+    "retrieved_chunks": [],
+    "scope": {
+      "department_id": null,
+      "project_id": "00000000-0000-0000-0000-000000000019"
+    },
+    "session_id": "0dee98f8-c4a0-4fe0-8b62-1edc61b915c4",
+    "supported_claims": [],
+    "temperature": null,
+    "total_latency_ms": 4633,
+    "unsupported_claims": [],
+    "user_message_id": "93538fb9-cd77-4642-9a74-0b6b7fbb0946",
+    "validation_notes": "Pre-retrieval clarification guard triggered: semantic_clarification_required."
+  },
+  "request": {
+    "department_id": null,
+    "project_id": "00000000-0000-0000-0000-000000000019",
+    "question": "What is the submission deadline for that?",
+    "rerank_candidate_limit": 20,
+    "retrieval_mode": "vector_lexical_rerank",
+    "session_id": "0dee98f8-c4a0-4fe0-8b62-1edc61b915c4",
+    "top_k": 5
+  },
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The answer is a pure clarifying question about which of two previously mentioned items the user means. Under the rubric, that yields no factual claims, so factual_support and citation_support are N/A and completeness is N/A because there are no required facts. The candidate’s actual_behavior=clarify matches the answer and the expected_behavior, relevance correctly passes because the response directly seeks needed disambiguation, and the answer does not assert that the user selected either item.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  },
+  "safety_flags": [],
+  "started_at": "2026-09-30T23:01:35.253529+00:00",
+  "status": "complete"
+}

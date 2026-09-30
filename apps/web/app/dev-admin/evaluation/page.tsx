@@ -9,6 +9,8 @@ import fresh from "../../../../../data/evaluation/fresh-current/public-report.js
 import reanalysis from "../../../../../data/evaluation/dimension-reanalysis-v1/public-summary.json";
 import current from "../../../../../data/evaluation/current-runtime-v3/public-report.json";
 import latest from "../../../../../data/evaluation/current-runtime-v4/public-report.json";
+import successor from "../../../../../data/evaluation/current-runtime-v5/public-report.json";
+import captures from "../../../../../data/evaluation/current-runtime-v5/capture-publication.json";
 
 const repo = "https://github.com/christiankfoury/proofbase-rag/blob/main/";
 const reading = [
@@ -27,7 +29,50 @@ export default function EvaluationMethodologyPage() {
     <Shell>
       <PageHeader title="How Evaluation Is Scored" description="Public evidence, exact denominators, and known limits of the automated rubric." />
       <Card className="mb-6">
-        <SectionHeading title="Latest frozen-runtime evaluation — interrupted" description="Phase 73: a planned 60-case run stopped after an API timeout. No full-suite score." />
+        <SectionHeading title="Latest frozen-runtime evaluation" description="Phase 73 successor: a fresh sealed suite with the separately qualified v21 evaluator." />
+        <p className="text-3xl font-semibold text-ink">
+          {successor.validated_passes === null ? "No validated full-suite score" : `${successor.validated_passes}/${successor.expected_cases} automated protocol passes`}
+        </p>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          {successor.completed_cases}/{successor.expected_cases} cases graded. Run status: {successor.status}.{" "}
+          {successor.budget_exhausted ? "The spending guard stopped execution before another request could be reserved. " : ""}
+          Predeclared target: {successor.target}/{successor.expected_cases}; {successor.target_met ? "met under the declared protocol" : "not established"}.
+          {" "}Model candidate passes among completed cases: {successor.candidate_passes}/{successor.completed_cases}.
+          {" "}A partial prefix is not a full-suite accuracy estimate.
+          {" "}{captures.captured_cases} application responses are saved; {captures.ungraded_captured_cases.length} lacks a completed evaluation row and {captures.unexecuted_cases.length} cases were not executed.
+        </p>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          Source inspection: {successor.source_inspection_passed ? "approved" : "not approved"}.
+          {" "}Invalid grades: {successor.invalid_grades}. Cases with model-review disagreements: {successor.disputed_cases.length}.
+          {" "}Recorded safety-flag cases among graded rows: {successor.safety_flag_cases.length}.
+          {" "}Unfinished coverage cannot establish the full safety gate. Unresolved judgments receive no target credit; quotation fidelity is separate.
+        </p>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead><tr><th className="p-2">Dimension</th><th className="p-2">Model pass</th><th className="p-2">Model fail</th><th className="p-2">Unresolved</th><th className="p-2">Not applicable</th></tr></thead>
+            <tbody>{Object.entries(successor.dimensions).map(([name, values]) => {
+              const counts = values as Record<string, number>;
+              return <tr key={name} className="border-t border-stone-200"><td className="p-2 capitalize">{name.replaceAll("_", " ")}</td><td className="p-2">{counts.pass ?? 0}</td><td className="p-2">{counts.fail ?? 0}</td><td className="p-2">{counts.unresolved ?? 0}</td><td className="p-2">{counts.not_applicable ?? 0}</td></tr>;
+            })}</tbody>
+          </table>
+        </div>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          This attempt: {successor.calls} API calls; estimated usage USD {Number(successor.holdout_cost_usd).toFixed(4)}.
+          {" "}Shared additional accounting: USD {Number(successor.additional_spend_usd).toFixed(4)} of {Number(successor.additional_ceiling_usd).toFixed(2)}, including retained historical reservations.
+          {" "}Median application latency across {captures.latency_ms.count} saved responses: {captures.latency_ms.median === null ? "unavailable" : `${(captures.latency_ms.median / 1000).toFixed(1)} seconds`}.
+          {" "}P95: {captures.latency_ms.p95 === null ? "unavailable" : `${(captures.latency_ms.p95 / 1000).toFixed(1)} seconds`}. Grading and fixture indexing are excluded. Costs are estimates, not invoices.
+        </p>
+        <p className="mt-3 text-sm leading-6 text-stone-700">{successor.limitation}</p>
+        <p className="mt-3 break-all text-xs text-stone-500">Suite: {successor.suite_version}; runtime: {successor.runtime_commit}; evaluator: {successor.version}; model: {successor.model}.</p>
+        <div className="mt-4 flex flex-wrap gap-4 text-sm">
+          <a className="underline" href={`${repo}docs/phase-73/v5-case-review.md`}>Inspect every question and answer</a>
+          <a className="underline" href={`${repo}docs/phase-73/v5-results.md`}>Results, costs and limitations</a>
+          <a className="underline" href={`${repo}docs/phase-73/v5-source-review.md`}>Source inspection and findings</a>
+        </div>
+        <pre className="mt-4 overflow-x-auto rounded border border-stone-300 bg-stone-50 p-4 text-sm">python scripts/report_phase73_v5.py --check</pre>
+      </Card>
+      <Card className="mb-6">
+        <SectionHeading title="Original Phase 73 attempt — interrupted" description="Phase 73: a planned 60-case run stopped after an API timeout. No full-suite score." />
         <p className="text-3xl font-semibold text-ink">
           {latest.validated_passes === null
             ? "No validated full-suite score"

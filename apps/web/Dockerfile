@@ -17,6 +17,8 @@ COPY data/evaluation/fresh-current/public-report.json /app/data/evaluation/fresh
 COPY data/evaluation/dimension-reanalysis-v1/public-summary.json /app/data/evaluation/dimension-reanalysis-v1/public-summary.json
 COPY data/evaluation/current-runtime-v3/public-report.json /app/data/evaluation/current-runtime-v3/public-report.json
 COPY data/evaluation/current-runtime-v4/public-report.json /app/data/evaluation/current-runtime-v4/public-report.json
+COPY data/evaluation/current-runtime-v5/public-report.json /app/data/evaluation/current-runtime-v5/public-report.json
+COPY data/evaluation/current-runtime-v5/capture-publication.json /app/data/evaluation/current-runtime-v5/capture-publication.json
 COPY data/evaluation/defense/phase55-defense-readiness.json /app/data/evaluation/defense/phase55-defense-readiness.json
 COPY data/evaluation/release-gates/phase63-release-decision.json /app/data/evaluation/release-gates/phase63-release-decision.json
 RUN npm run build

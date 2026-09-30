@@ -1,11 +1,18 @@
 # Evaluation evidence: start here
 
-The latest [Phase 73 attempt](../phase-73/results.md) is interrupted: 10/60 cases
-graded, 11 application responses saved, 49 unexecuted. Its 3 completed-prefix
-model passes are not a full-suite score; source inspection has unresolved concerns
-and dedicated safety groups were not reached. [Case inventory](../phase-73/case-review.md)
-and [source inspection](../phase-73/source-review.md) preserve the evidence.
-Offline check: `python scripts/report_phase73_interruption.py --check`.
+The latest [Phase 73 successor](../phase-73/v5-results.md) stopped at the spending
+guard: 32/60 evaluation rows complete, 33 responses saved, 27 unexecuted. The
+18 passes, 12 failures and 2 unresolved outcomes are partial-prefix model counts,
+not a full-suite score. Four inspection concerns and incomplete safety coverage
+remain. [Every case](../phase-73/v5-case-review.md) and
+[source inspection](../phase-73/v5-source-review.md) preserve all observations.
+Offline checks: `python scripts/report_phase73_v5.py --check` and
+`python scripts/report_phase73_v5_capture.py --check`. Shared additional
+accounting is USD 9.87823685 of 10; no extra budget was inferred.
+
+The [original Phase 73 timeout](../phase-73/results.md), its 10 completed rows,
+11 saved responses and retained unknown reservation remain unchanged.
+Verify that evidence with `python scripts/report_phase73_interruption.py --check`.
 
 Proofbase has a useful regression benchmark, but it does **not** establish 100% real-world answer or citation accuracy. The benchmark was authored and checked by the project author with AI assistance, and used repeatedly during development. Its automated scores use heuristics.
 

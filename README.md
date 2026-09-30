@@ -24,16 +24,24 @@
 
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.
 
-The latest [Phase 73 measurement](docs/phase-73/results.md), suite `current-runtime-4`
-on frozen runtime `8bd72ba1` with the qualified v20 evaluator, **stopped on an API
-timeout: 10/60 cases graded, 11 responses saved, 49 unexecuted**. The completed
-prefix has 3 model passes and 7 model failures, with additional source-inspection
-concerns. There is **no validated full-suite score or safety-gate pass**. The
-attempt accounts for USD 0.61799184 estimated settled usage plus USD 0.146775 held
-for the unknown request. [Inspect each case](docs/phase-73/case-review.md) and
-[review findings](docs/phase-73/source-review.md); reproduce without API calls using
-`python scripts/report_phase73_interruption.py --check`. No historical score is
-replaced and no controlled before/after gain is claimed.
+The latest [Phase 73 successor measurement](docs/phase-73/v5-results.md), suite
+`current-runtime-5` on frozen revision `1cb44e30` with the qualified v21 evaluator,
+**stopped at the approved spending guard: 32/60 evaluation rows complete,
+33 responses saved, 27 unexecuted**. Completed rows retain 18 model passes,
+12 failures and 2 unresolved outcomes. Source inspection records four concerns;
+there is **no validated full-suite score or safety-gate pass**. All 279 new calls
+settled at estimated USD 1.75748926. Shared additional accounting is USD
+9.87823685 of 10; the remaining USD 0.12176315 could not reserve the next request.
+[Inspect every case](docs/phase-73/v5-case-review.md) and
+[source findings](docs/phase-73/v5-source-review.md). Reproduce offline with
+`python scripts/report_phase73_v5.py --check` and
+`python scripts/report_phase73_v5_capture.py --check`.
+
+The [original Phase 73 timeout](docs/phase-73/results.md) remains unchanged:
+10 completed rows, 11 saved responses and the full USD 0.146775 unknown-call
+reservation retained. Its [source concerns](docs/phase-73/source-review.md) and
+offline `python scripts/report_phase73_interruption.py --check` remain available.
+No historical score is replaced or controlled before/after gain claimed.
 
 The [earlier frozen-runtime evaluation](docs/phase-65/results.md) uses a separate 60-case post-freeze suite and a stricter full-response rubric. It recorded **33/60 (55.0%) automated protocol passes**, below the predeclared 80% target. Eight cases had invalid grader outputs; human review is pending. This is not a human-verified accuracy rate or a before/after comparison with the historical numbers below. Verify it offline with `python scripts/report_fresh_eval.py --check`. The [separate saved-answer reanalysis](docs/phase-66/results.md) reports factual support, completeness, relevance, citation support, quotation formatting and response behavior independently. [Read each question, expected facts and actual answer](docs/phase-66/case-review.md); this changes the evaluator, not the application performance. Agent inspection found remaining grader errors; the new labels are diagnostic and are not approved for release gating.
 
@@ -62,7 +70,7 @@ Recorded project review classified the eight Phase 49 automated failures as four
 
 ## Five-Minute Review Path
 
-**Portfolio release:** the bounded demo finish is complete. The [quality-completion queue](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). Phase 71 qualified v20 on 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases with source inspection. [Phase 73 was interrupted](docs/phase-73/results.md) after ten completed grades; no full-suite quality or safety result exists. The [continuation audit](docs/phase-73/continuation-audit.md) reconciles spending and records the unresolved provider outcome and evaluation concerns. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
+**Portfolio release:** the bounded demo finish is complete. The [quality-completion queue](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). Successor v21 passed 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases with source inspection. Its [fresh Phase 73 run](docs/phase-73/v5-results.md) stopped at the spending guard after 32 completed evaluation rows; further full measurement remains blocked, with no full-suite quality or safety result. Original timeout evidence and its full reservation are preserved. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
 
 
 1. **0:00–0:45:** Open `/demo`, select **Emma Employee**, and open Northstar Analytics.

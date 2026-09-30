@@ -105,3 +105,15 @@ suite and validation artifacts, notes, preserved versions and tracker changes;
 the three construction findings are resolved before sealing. Existing 17 focused
 controls are reused because frozen tooling is unchanged. No frontend/runtime
 change is included in this seal work unit; no new app build is required.
+
+The reviewed seal is committed and pushed as `956b481d`. The single authorized
+`python scripts/phase73_v5_run.py --allow-external-ai` execution started at
+2026-09-30 22:28:58 UTC. Its immutable-input manifest and per-call receipts are
+under `data/evaluation/current-runtime-v5/run`; never restart this exposed suite.
+Primary-agent inspection is recorded in [v5-source-review.md](v5-source-review.md).
+
+The run ended at 23:07:40 UTC with a local budget stop before case 33's final
+review. [Final results](v5-results.md) preserve 32 completed rows, 33 captures,
+27 unexecuted cases and all 279 settled calls. All source inspections are complete,
+with the publication qualification gate rejected. No suite or frozen runtime
+change followed execution; no retry/resume or additional budget was inferred.

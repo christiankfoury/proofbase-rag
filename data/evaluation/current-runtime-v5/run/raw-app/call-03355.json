@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nThis question requires synthesis from multiple source documents. The retrieved context below is grouped by document — all documents shown are relevant to the question.\n\nResponse type rules:\n- Use response_type \"answer\" if the combined context across all documents supports the answer, even if no single document contains the complete answer.\n- Use response_type \"partial_answer\" only if required documents are genuinely missing from the context — not because evidence is split across documents.\n- Use response_type \"not_found\" only if none of the provided documents contain the needed information.\n- Use response_type \"refuse_no_access\" if the user lacks permission to access required documents.\n- Use response_type \"clarify\" if the question is ambiguous about approval stage, location, data type, or role.\n- Do not downgrade to \"partial_answer\" solely because evidence comes from two or more separate documents.\n\nCitation rules:\n- Cite at least one chunk per document that contributed facts to your answer.\n- Do not omit a document because its contribution is supplementary — if it added a fact, cite it.\n- Every citation must include document_id, document_title, section_heading, chunk_id, and citation_text.\n- citation_text must be a short exact or near-exact excerpt from the cited chunk.\n- Do not cite a chunk unless it directly supports a specific claim in the answer.\n\nSafety rules:\n- Answer only from the retrieved context.\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted content.\n- If conversation memory is provided, use it only to clarify the current question. Do not treat memory as source evidence.\n- Do not invent policy details, numbers, dates, prices, legal advice, customer commitments, or unstated exceptions.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nI am considering an approved domestic remote location. What approval is required before changing my regular work location, and what personal-device conditions permit limited work access?\n\nRetrieved context (grouped by document):\n=== Document: HR-003 — Remote and Hybrid Work Policy ===\n\n[Section: Cross-Border Work]\nChunk ID: 4d9b5b5a-6038-4f40-9321-f262d3aa7fd9\nScore: 0.8088\nContent:\nCross-Border Work\n\nNorthstar does not guarantee approval for work from any country. Temporary cross-border work requires People Operations review before travel. The company does not maintain a formal visa or immigration policy in the employee knowledge base.\n\nRequests to work outside Canada or the United States are considered ambiguous until People Operations reviews tax, employment, and security implications.\n\n[Section: Approval Requirements]\nChunk ID: 47b76ced-caf6-4234-b966-1a9cbde9e540\nScore: 0.7567\nContent:\nApproval Requirements\n\nEmployees must receive manager approval before changing their regular work location. A temporary change within the same country for fewer than 15 business days may be approved by the manager. Longer changes require People Operations review.\n\nManagers should consider team coverage, customer needs, time zone overlap, and data handling requirements before approving remote work.\n\n[Section: Work Model]\nChunk ID: 4ec63d09-594a-4640-b1f7-5db5f5b9b238\nScore: 0.7013\nContent:\nWork Model\n\nNorthstar supports hybrid work and approved remote work. Employees assigned to Toronto, Montreal, or New York offices are expected to attend office collaboration days when scheduled by their department.\n\nRemote employees may work from approved locations in Canada or the United States if their role, tax location, and security requirements support remote work.\n\n[Section: Not Covered]\nChunk ID: 73cda377-3fd2-4907-b799-92db1cc31555\nScore: 0.6417\nContent:\nNot Covered\n\nThis policy does not provide legal advice, immigration advice, or guaranteed approval for international remote work.\n\n[Section: Security Expectations]\nChunk ID: 47fe8690-3f57-4a00-99a4-17175db78840\nScore: 0.6303\nContent:\nSecurity Expectations\n\nRemote work must follow the Device and BYOD Security Policy and the Data Classification and Handling Policy. Confidential and restricted data may only be accessed on approved devices using company-approved tools.\n\n[Section: Office Expectations]\nChunk ID: a72be1bf-5c00-44f0-bc47-135dfa3e3760\nScore: 0.5544\nContent:\nOffice Expectations\n\nHybrid teams should define collaboration days at least one month in advance. Employees should attend required team planning, onboarding, incident review, and customer workshop sessions in person when asked by their manager.\n\n=== Document: IT-002 — Device and BYOD Security Policy ===\n\n[Section: Remote Work]\nChunk ID: f021f971-ac5a-407f-adc5-e8abec25fd9d\nScore: 0.6159\nContent:\nRemote Work\n\nRemote work must follow this policy and the Remote and Hybrid Work Policy. Employees working remotely are responsible for using secure networks, avoiding shared public computers, and protecting screens from unauthorized viewing.\n\n[Section: Personal Devices]\nChunk ID: 66a0bffd-898c-4c16-abf0-817b06af59d3\nScore: 0.7866\nContent:\nPersonal Devices\n\nPersonal devices may be used for limited work access only when enrolled in approved mobile device management or when access occurs through approved browser-based tools. Personal devices must use a passcode, supported operating system, and automatic lock.\n\nRestricted data must not be downloaded to personal devices. Confidential data should be accessed only through approved company systems.\n\n[Section: Company Devices]\nChunk ID: e63e8dbf-a320-4863-83cf-939dd76f89ca\nScore: 0.6306\nContent:\nCompany Devices\n\nEmployees who regularly access company systems should use a company-managed device. Company devices must have disk encryption, endpoint protection, automatic screen lock, and current operating system updates.\n\nEmployees may not disable security tools or remove device management controls from company devices.\n\n=== Document: HR-001 — Employee Handbook ===\n\n[Section: Related Policies]\nChunk ID: b6f7d058-c59b-40e2-bf9b-3a560a873391\nScore: 0.5882\nContent:\nRelated Policies\n\nFor time off, consult the PTO and Leave Policy. For remote work, consult the Remote and Hybrid Work Policy. For acceptable technology use, consult the Acceptable Use Policy.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"Before changing your regular work location to an approved domestic remote location, you must receive manager approval. If the change is temporary and within the same country for fewer than 15 business days, manager approval alone may suffice; longer changes require People Operations review. Regarding personal devices, limited work access is permitted only if the personal device is enrolled in approved mobile device management or if access occurs through approved browser-based tools. Additionally, personal devices must use a passcode, have a supported operating system, and automatic lock enabled. Restricted data must not be downloaded to personal devices, and confidential data should only be accessed through approved company systems.\",\n  \"citations\": [\n    {\n      \"document_id\": \"HR-003\",\n      \"document_title\": \"Remote and Hybrid Work Policy\",\n      \"section_heading\": \"Approval Requirements\",\n      \"chunk_id\": \"47b76ced-caf6-4234-b966-1a9cbde9e540\",\n      \"citation_text\": \"Employees must receive manager approval before changing their regular work location. A temporary change within the same country for fewer than 15 business days may be approved by the manager. Longer changes require People Operations review.\"\n    },\n    {\n      \"document_id\": \"IT-002\",\n      \"document_title\": \"Device and BYOD Security Policy\",\n      \"section_heading\": \"Personal Devices\",\n      \"chunk_id\": \"66a0bffd-898c-4c16-abf0-817b06af59d3\",\n      \"citation_text\": \"Personal devices may be used for limited work access only when enrolled in approved mobile device management or when access occurs through approved browser-based tools. Personal devices must use a passcode, supported operating system, and automatic lock.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Manager approval is required before changing regular work location.\",\n    \"Temporary changes under 15 business days within the same country may be approved by the manager.\",\n    \"Longer changes require People Operations review.\",\n    \"Personal devices can be used for limited work access only if enrolled in approved mobile device management or accessed through approved browser-based tools.\",\n    \"Personal devices must have passcode, supported OS, and automatic lock.\",\n    \"Restricted data must not be downloaded to personal devices.\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The answer is fully supported by the cited policy documents regarding approval requirements and personal device conditions for remote work.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790808739,
+    "id": "chatcmpl-ETxRrn62ypPI7Lnb86OJrs7tN5rEe",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_d5663c57e3",
+    "usage": {
+      "completion_tokens": 511,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1499,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 2010
+    }
+  },
+  "status": "received"
+}

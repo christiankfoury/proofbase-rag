@@ -6,7 +6,27 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: Phase 73 fresh successor suite approved; seal and execution next
+### Active: Phase 73 budget-stopped; partial evidence verified
+
+The [successor run](../phase-73/v5-results.md) stopped locally before case 33's
+final review reservation. It has 32 complete rows (18 model passes, 12 failures,
+2 unresolved), 33 saved responses and 27 unexecuted cases. Four
+[source-inspection concerns](../phase-73/v5-source-review.md) remain; no full-suite
+score or safety qualification exists. All 279 new calls settled at estimated
+USD 1.75748926. Additional accounting is USD 9.87823685 of 10, leaving
+USD 0.12176315, below the blocked review's USD 0.14052250 reservation. No call was
+issued for that review, no new unknown outcome exists and no retry/resume occurred.
+All original timeout evidence is unchanged. Further paid work needs a genuine
+budget decision and fresh-evidence/qualification gates; do not infer more funds.
+
+Offline replay and all 33 source inspections are complete. The new capture
+supplement verifies 315 run artifacts and partial denominators; four focused
+controls pass. Publication build, Admin/Employee browser smoke, frozen inventory,
+local links and semantic diff review pass. This execution-evidence work unit
+publishes the preserved partial result and stops at the actual budget boundary.
+Phases 71/72 remain complete; Phase 73's full measurement remains incomplete.
+
+### Successor preparation and qualification history
 
 The user explicitly accepted carrying the single unknown request at its full
 USD 0.146775 reservation and continuing with USD 3.30807991 remaining. The
@@ -41,8 +61,11 @@ runtime freeze is committed. The fresh 60-case/78-fact suite is approved by its
 separate validator after three pre-execution construction corrections, with every
 initial/rejected version preserved. All gold quote/scope checks pass; zero lexical
 overlap hits across 959 historical questions. Exact live preflight passes without
-API calls. A separate seal commit precedes the one-shot execution within
-USD 1.87925241 remaining.
+API calls. Separate seal commit `956b481d` is pushed. The one-shot synchronous
+execution started at 2026-09-30 22:28:58 UTC with USD 1.87925241 remaining.
+Its durable manifest is `data/evaluation/current-runtime-v5/run/manifest.json`;
+it stopped at 23:07:40 UTC. Do not resume or rerun it. Final costs, captured-case
+inspection and unfinished coverage are published in the successor results above.
 
 ### Historical checkpoint: original Phase 73 interruption
 
