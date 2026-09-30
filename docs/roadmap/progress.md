@@ -6,7 +6,21 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: Phases 71/72 complete; Phase 73 interrupted, full measurement blocked
+### Active: Phase 73 successor authorized; evaluator development in progress
+
+The user explicitly accepted carrying the single unknown request at its full
+USD 0.146775 reservation and continuing with USD 3.30807991 remaining. The
+[active-plan amendment](quality-completion-plan.md) authorizes that specific
+accounting transition only; original evidence and unknown flags stay unchanged,
+new unknown outcomes still stop work, and the shared USD 10 ceiling is unchanged.
+
+[Successor development](../phase-73/successor-development.md) prepares a separate
+journal, v21 task-framing clarification, eight diagnostic controls and three
+reviewer probes. Full 24/24 + 3/3 calibration and isolated fresh 16/16 confirmation
+remain required before a newly frozen 60-case measurement. No successor paid
+calls or readiness claim yet. Phases 71/72 historical completion is unchanged.
+
+### Historical checkpoint: original Phase 73 interruption
 
 Phase 71 qualified v20 with 24/24 development cases, 3/3 reviewer probes and
 16/16 fresh confirmation cases plus clean source inspection (8bd72ba1).

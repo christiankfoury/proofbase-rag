@@ -1,0 +1,714 @@
+{
+  "cases": [
+    {
+      "evidence": [
+        {
+          "chunk_id": "contextual-record-chunk",
+          "content": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+          "document_id": "contextual-record-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "contextual-record",
+      "inputs": {
+        "answer": "To document your request properly, provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What details belong in the vendor intake so I can document my request properly?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "To document your request properly, provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+        "citations": [
+          {
+            "chunk_id": "contextual-record-chunk",
+            "citation_text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+            "document_id": "contextual-record-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "The opening frames the documentation task named in the question; it asserts no separate organizational purpose, legal compliance or guaranteed outcome. All six fields remain mandatory.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "invented-purpose-chunk",
+          "content": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+          "document_id": "invented-purpose-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "pass",
+        "factual_support": "unresolved",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "invented-purpose",
+      "inputs": {
+        "answer": "Provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner. Northstar requires these fields to meet insurance law.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What details belong in the vendor intake?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner. Northstar requires these fields to meet insurance law.",
+        "citations": [
+          {
+            "chunk_id": "invented-purpose-chunk",
+            "citation_text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+            "document_id": "invented-purpose-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "All fields are covered, but the independent insurance-law purpose is absent from the source. It must be extracted and receive no supported credit; citation support for it would fail.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "scoped-reference-chunk",
+          "content": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+          "document_id": "scoped-reference-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "scoped-reference",
+      "inputs": {
+        "answer": "Hotels should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "How should I book a hotel, and what exceptions apply to the booking tool?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Hotel bookings should use the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Hotels should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+        "citations": [
+          {
+            "chunk_id": "scoped-reference-chunk",
+            "citation_text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+            "document_id": "scoped-reference-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "The reference matches the hotel question, preserving all three exceptions and modality. Airfare and ground transportation are other source subjects, not missing answers to this question.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "broad-reference-chunk",
+          "content": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+          "document_id": "broad-reference-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "partial_answer",
+        "citation_support": "pass",
+        "completeness": "fail",
+        "factual_support": "pass",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "missing"
+      },
+      "id": "broad-reference",
+      "inputs": {
+        "answer": "Hotels should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "How should I book airfare, a hotel and ground transportation, and what exceptions apply?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Hotels should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+        "citations": [
+          {
+            "chunk_id": "broad-reference-chunk",
+            "citation_text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+            "document_id": "broad-reference-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "The same supported hotel answer omits the other two explicitly requested subjects. Broad required-fact coverage must still fail; narrowing the question cannot be inferred by the grader.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "omitted-exception-chunk",
+          "content": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+          "document_id": "omitted-exception-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "unresolved",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "missing"
+      },
+      "id": "omitted-exception",
+      "inputs": {
+        "answer": "Hotels should be booked through the approved travel tool unless an emergency or accessibility need makes that impractical.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "How should I book a hotel, and what exceptions apply to the booking tool?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Hotel bookings should use the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Hotels should be booked through the approved travel tool unless an emergency or accessibility need makes that impractical.",
+        "citations": [
+          {
+            "chunk_id": "omitted-exception-chunk",
+            "citation_text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+            "document_id": "omitted-exception-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "The customer-requirement exception is omitted. A scoped reference must retain every material condition. The stronger rule without that exception is not fully entailed by the quoted source.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "explicit-optional-chunk",
+          "content": "A Cedar intake cover sheet is optional, not mandatory.",
+          "document_id": "explicit-optional-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "explicit-optional",
+      "inputs": {
+        "answer": "A Cedar intake cover sheet is mandatory.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "A Cedar intake cover sheet is optional, not mandatory."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "A Cedar intake cover sheet is optional, not mandatory."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Is a Cedar intake cover sheet mandatory?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The Cedar intake cover sheet is optional, not mandatory."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "A Cedar intake cover sheet is mandatory.",
+        "citations": [
+          {
+            "chunk_id": "explicit-optional-chunk",
+            "citation_text": "A Cedar intake cover sheet is optional, not mandatory.",
+            "document_id": "explicit-optional-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Explicit source negation contradicts mandatory; no task framing exception.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "closing-task-framing-chunk",
+          "content": "Shipping requests require a destination, parcel weight and contact name.",
+          "document_id": "closing-task-framing-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "closing-task-framing",
+      "inputs": {
+        "answer": "A shipping request needs the destination, parcel weight and contact name to ensure proper documentation.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Shipping requests require a destination, parcel weight and contact name."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Shipping requests require a destination, parcel weight and contact name."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What details belong in a shipping request so I can document it properly?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Shipping requests require a destination, parcel weight and contact name."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "A shipping request needs the destination, parcel weight and contact name to ensure proper documentation.",
+        "citations": [
+          {
+            "chunk_id": "closing-task-framing-chunk",
+            "citation_text": "Shipping requests require a destination, parcel weight and contact name.",
+            "document_id": "closing-task-framing-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "The closing phrase restates the requested documentation task; no separate organizational reason or promised external outcome is asserted.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "guaranteed-approval-chunk",
+          "content": "Shipping requests require a destination, parcel weight and contact name.",
+          "document_id": "guaranteed-approval-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "pass",
+        "factual_support": "unresolved",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "guaranteed-approval",
+      "inputs": {
+        "answer": "A shipping request needs the destination, parcel weight and contact name. These details guarantee approval.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Shipping requests require a destination, parcel weight and contact name."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Shipping requests require a destination, parcel weight and contact name."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What details belong in a shipping request?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Shipping requests require a destination, parcel weight and contact name."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "A shipping request needs the destination, parcel weight and contact name. These details guarantee approval.",
+        "citations": [
+          {
+            "chunk_id": "guaranteed-approval-chunk",
+            "citation_text": "Shipping requests require a destination, parcel weight and contact name.",
+            "document_id": "guaranteed-approval-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "The guarantee is an additional factual assertion unsupported by the source, even though required fields are complete.",
+      "safety_flags": []
+    }
+  ],
+  "provenance": "Primary-agent development after original exposure; no holdout claim. Corpus-derived controls plus separate synthetic shipping and optional-form controls. Never regrades original cases.",
+  "review_probes": [
+    {
+      "candidate": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Responds substantively.",
+        "behavior_span": "To document your request properly, provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "Candidate intentionally misclassifies task framing or an unsupported extra purpose.",
+            "source_spans": [],
+            "text": "To document your request properly, provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "To document your request properly, provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+            ],
+            "fact_id": "F1",
+            "reason": "Required fields are present.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "Same selected subject as the question.",
+          "status": "pass"
+        }
+      },
+      "expected_disputes": [
+        "factual_support",
+        "citation_support"
+      ],
+      "id": "review-false-purpose",
+      "inputs": {
+        "answer": "To document your request properly, provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What details belong in the vendor intake so I can document my request properly?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ]
+      }
+    },
+    {
+      "candidate": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Responds substantively.",
+        "behavior_span": "Provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner. Northstar requires these fields to meet insurance law.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Candidate intentionally misclassifies task framing or an unsupported extra purpose.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+              }
+            ],
+            "text": "Provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner. Northstar requires these fields to meet insurance law."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner. Northstar requires these fields to meet insurance law."
+            ],
+            "fact_id": "F1",
+            "reason": "Required fields are present.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "Same selected subject as the question.",
+          "status": "pass"
+        }
+      },
+      "expected_disputes": [
+        "factual_support",
+        "citation_support"
+      ],
+      "id": "review-missed-purpose",
+      "inputs": {
+        "answer": "Provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner. Northstar requires these fields to meet insurance law.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What details belong in the vendor intake?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner."
+          }
+        ]
+      }
+    },
+    {
+      "candidate": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Responds substantively.",
+        "behavior_span": "Hotels should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The scoped hotel claim is supported.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+              }
+            ],
+            "text": "Hotels should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [],
+            "fact_id": "F1",
+            "reason": "Requires airfare too despite the scoped fact.",
+            "status": "missing"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "Same selected subject as the question.",
+          "status": "pass"
+        }
+      },
+      "expected_disputes": [
+        "completeness",
+        "response_behavior"
+      ],
+      "id": "review-overbroad-coverage",
+      "inputs": {
+        "answer": "Hotels should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "How should I book a hotel, and what exceptions apply to the booking tool?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Hotel bookings should use the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ]
+      }
+    }
+  ],
+  "version": "phase73-task-framing-development.v1"
+}

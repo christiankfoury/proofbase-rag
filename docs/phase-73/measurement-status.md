@@ -1,4 +1,4 @@
-# Phase 73: interrupted measurement, continuation blocked
+# Phase 73: interrupted measurement, successor development authorized
 
 Phases 71 and 72 are complete. V20 passed 24/24 development cases, 3/3 reviewer
 probes and 16/16 fresh confirmation cases. Phase 73 subsequently froze the
@@ -10,8 +10,11 @@ The [results](results.md) and [source inspection](source-review.md) remain
 immutable. The [continuation audit](continuation-audit.md) reconciles the shared
 budget, distinguishes reference-scope defects from evaluator concerns and records
 six unexecuted development controls. USD 3.30807991 remains, retaining the full
-unknown-call reservation. Further paid execution is blocked by the approved
-unknown-outcome gate; the exposed suite cannot be resumed.
+unknown-call reservation. The user subsequently authorized a
+[specific successor accounting transition](successor-development.md), retaining
+that reservation and unknown provider status. New unknown outcomes still stop
+work; the original exposed suite cannot be resumed. Evaluator development and
+fresh confirmation gates precede a new measurement.
 
 ## Historical preparation checkpoint
 

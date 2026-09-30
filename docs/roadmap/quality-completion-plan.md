@@ -6,6 +6,19 @@ deferral for these three areas only. The portfolio release remains complete.
 Implementation is active. The original workflow was approved on 2026-09-28;
 the standing authorization below supersedes its per-candidate approval limits.
 
+## Specific timeout carry-forward authorization (2026-09-30)
+
+After clarification, the user answered "yes continue" to retaining the full
+USD 0.146775 reservation for the interrupted Phase 73 final review and proceeding
+with the remaining USD 3.30807991. Record this narrow exception in a successor
+accounting policy: original request/ledger/result stay unchanged, provider outcome
+remains unknown, and the full reservation remains charged against the same USD 10
+additional ceiling. This is accounting acceptance, not a provider usage receipt.
+Do not retry or resume the exposed suite, weaken evaluation, or infer extra funds.
+New unknown outcomes still stop dependent work. Continue standard synchronous
+execution under the existing standing authority and all qualification/custody gates.
+[Successor work note](../phase-73/successor-development.md).
+
 ## Latency amendment (2026-09-30)
 
 The user rejected the Batch waiting time: saving money remains valuable, but
