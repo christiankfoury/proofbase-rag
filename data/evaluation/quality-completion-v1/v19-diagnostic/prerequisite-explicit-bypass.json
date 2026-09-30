@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It gives a direct substantive response to the user's question.",
+    "behavior_span": "Yes. An Ember service may run before its lock is verified.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer permits running before verification, but the source says it may run only after verification. The cited source does not entail the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "An Ember service may run only after its lock is verified."
+          }
+        ],
+        "text": "Yes. An Ember service may run before its lock is verified."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Yes. An Ember service may run before its lock is verified."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly permits the service to run before lock verification, which is incompatible with the requirement that it may run only after its lock is verified.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response addresses the asked topic: whether an Ember service may run before its lock is verified.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The answer makes one factual claim: \"Yes. An Ember service may run before its lock is verified.\" That claim is explicitly contradicted by the source/citation saying it may run only after verification, so factual_support=fail is correct. The required fact is likewise contradicted, so completeness=fail is correct. The response is still a direct substantive answer to the question, so actual_behavior=answer and response_behavior=fail (because expected answer plus contradicted required fact) are both correct. It is on-topic, so relevance=pass is correct, and there are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

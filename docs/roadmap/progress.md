@@ -6,7 +6,22 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: standard confirmation completed; evaluator correction required
+### Active: v19 diagnostic passed; full calibration next
+
+V19 diagnostic passed 12/12 plus 3/3 reviewer probes. All 39 calls replay exactly;
+estimated cost USD 0.41070500, with zero source-inspection findings. Preparation
+f08d9fc, contingent confirmation a91988e and full-history Phase 73 wiring a4e303f
+are pushed. [Diagnostic inspection](../phase-71/v19-development-source-review.md)
+permits full calibration only: 24 cases plus 3 probes, maximum 75 standard calls,
+USD 1.75 hard stage cap. Preflight passes against the fixed USD 10 shared envelope.
+Additional accounting before calibration is USD 3.78384075 including held history.
+
+No v19 confirmation freeze or fresh v11 authoring yet; both follow complete
+calibration replay and clean source inspection. Phase 72 remains complete. Phase 73
+runtime freeze, fresh 60-case authorship and measurement still require qualifying
+evaluator confirmation. Continue autonomously; preserve unrelated request logs.
+
+### Historical checkpoint: standard confirmation completed; evaluator correction required
 
 V18 standard confirmation is complete: **14/16**, 48 calls, estimated USD
 0.56463700. Full raw/request/cost replay and all-case source inspection found two

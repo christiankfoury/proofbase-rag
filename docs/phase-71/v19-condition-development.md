@@ -98,3 +98,12 @@ suite is read. Request construction differs only in reviewed system instructions
 all other request fields and parsing/reduction match saved development evidence.
 These are fixture checks, not new confirmation results. Scoped compilation and
 full intended review pass. No v19 freeze, v11 authoring or paid confirmation exists.
+
+
+Diagnostic completed: 12/12 exact cases and 3/3 exact probes, 39 standard calls,
+USD 0.41070500 estimated. Full raw/cost replay and all-case source inspection found
+zero unresolved findings. The fixed diagnostic source-review artifact gates full
+calibration and must remain unchanged. Full preflight: maximum 75 calls, token-max
+sum USD 8.95686250, tighter stage dollar stop USD 1.75; shared prior accounting USD
+3.78384075. Any dollar stop yields an incomplete nonqualifying attempt. No full
+calibration or confirmation score is claimed by diagnostic readiness.

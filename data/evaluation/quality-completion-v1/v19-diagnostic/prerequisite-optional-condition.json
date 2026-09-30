@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with a substantive claim about whether a signed receipt is required.",
+    "behavior_span": "A signed receipt is optional when releasing a Cedar parcel.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source states a signed receipt is required, which conflicts with saying it is optional.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Releasing a Cedar parcel requires a signed receipt."
+          }
+        ],
+        "text": "A signed receipt is optional when releasing a Cedar parcel."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "A signed receipt is optional when releasing a Cedar parcel."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly says the signed receipt is optional, which is incompatible with the requirement that releasing a Cedar parcel requires a signed receipt.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer is directly on the asked topic: whether a signed receipt is required to release a Cedar parcel.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The single factual claim is correctly extracted verbatim and is contradicted by both the factual and cited source, so factual_support=fail and citation_support=fail are correct. The required fact is correctly marked contradicted by the answer’s ‘optional’ statement, so completeness=fail is correct. actual_behavior=answer is correct because the response directly answers the question substantively, and response_behavior=fail is correct because the expected behavior was an answer but the required fact was contradicted. The answer is on-topic, so relevance=pass is correct. There are no forbidden assertions, so forbidden_assertion=absent is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

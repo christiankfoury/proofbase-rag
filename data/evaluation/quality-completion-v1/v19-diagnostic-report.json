@@ -1,0 +1,966 @@
+{
+  "calls": 39,
+  "cost_usd": "0.4107050",
+  "count": 12,
+  "human_adjudication": false,
+  "matched": 12,
+  "matching_probes": 3,
+  "probes": [
+    {
+      "error": null,
+      "id": "review-prerequisite-false-missing",
+      "matched": true,
+      "review": {
+        "citation_support": "agree",
+        "completeness": "dispute",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single enumerated claim is a supported paraphrase of the source/citation: in this question context, 'You may publish a Kite release note once editorial review is complete.' communicates the same prerequisite as 'may be published only after editorial review is complete.' Candidate relevance, factual support, citation support, actual_behavior=answer, and forbidden_assertion=absent are correct. But required fact F1 is covered, not missing, so completeness should be pass. Because expected_behavior is answer and the required fact is covered, response_behavior should also be pass, not fail.",
+        "relevance": "agree",
+        "response_behavior": "dispute"
+      }
+    },
+    {
+      "error": null,
+      "id": "review-absence-false-contradiction",
+      "matched": true,
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The second claim, \"The branch lead must perform that check.\", is not contradicted by the source; \"This notice does not identify who performs the check\" is only a limit-of-evidence statement, so that claim's factual status should be unknown, making factual_support unresolved rather than fail. The citation judgment still correctly fails because no cited source entails the branch-lead duty. The required fact \"A Moss register must be checked before filing.\" is covered, the answer behavior is correctly labeled answer, the response is relevant, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "error": null,
+      "id": "context-participant-falsely-unsourced",
+      "matched": true,
+      "review": {
+        "citation_support": "dispute",
+        "completeness": "agree",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The answer’s only factual claim is exactly the submission deadline: \"You must submit a Junco entry form at least 8 hours before arrival.\" In this question context (asking when I submit that same form), the second-person phrasing is an ordinary paraphrase of the passive rule, not an unsupported new actor assignment. Source R1 and cited source C1 both entail the full claim, so the claim should be factual_status=supported and citation_status=supported. Therefore factual_support should be pass, not unresolved, and citation_support should be pass, not fail. Required fact F1 is covered, the response is a relevant substantive answer, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the asked condition for publishing a Kite release note.",
+        "behavior_span": "You may publish a Kite release note once editorial review is complete.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Kite release notes may be published only after editorial review is complete."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source entails that publication is permitted only after editorial review is complete; in response to the user's question about publishing, the second-person phrasing is a supported contextual paraphrase of the same condition.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Kite release notes may be published only after editorial review is complete."
+              }
+            ],
+            "text": "You may publish a Kite release note once editorial review is complete."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "You may publish a Kite release note once editorial review is complete."
+            ],
+            "fact_id": "F1",
+            "reason": "In the question context, this communicates the prerequisite that publication is permitted only after editorial review is complete.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer is directly about the condition for publishing a Kite release note, matching the user's topic.",
+          "status": "pass"
+        }
+      },
+      "id": "prerequisite-direct-once",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim is correctly extracted as an exact answer span and is supported by both the factual and cited source. In question context, 'You may publish ... once editorial review is complete' communicates the same prerequisite as 'may be published only after editorial review is complete,' so the required fact is correctly marked covered. The response behavior is correctly labeled answer, it is directly relevant to the user's question, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the question and covers all requested prerequisites.",
+        "behavior_span": "Before a kiln cycle starts, ventilation must be enabled and the door must be latched.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "A kiln cycle may start only after ventilation is enabled and the door is latched."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source entails the same prerequisite conditions for starting a kiln cycle: ventilation enabled and door latched before the cycle may start.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "A kiln cycle may start only after ventilation is enabled and the door is latched."
+              }
+            ],
+            "text": "Before a kiln cycle starts, ventilation must be enabled and the door must be latched."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Before a kiln cycle starts, ventilation must be enabled"
+            ],
+            "fact_id": "F1",
+            "reason": "The answer states the required prerequisite that ventilation be enabled before starting the kiln cycle.",
+            "status": "covered"
+          },
+          {
+            "answer_spans": [
+              "Before a kiln cycle starts, ventilation must be enabled and the door must be latched."
+            ],
+            "fact_id": "F2",
+            "reason": "The answer states the required prerequisite that the door be latched before starting the kiln cycle.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response is directly on the topic of prerequisites before starting a kiln cycle.",
+          "status": "pass"
+        }
+      },
+      "id": "prerequisite-before-paraphrase",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim is correctly extracted as an exact answer span and is fully entailed by R1/C1: starting a kiln cycle is permitted only after ventilation is enabled and the door is latched, which supports the stated before-start prerequisites. Both required facts are covered by exact answer spans. The response directly answers the user's question, is relevant, and contains no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "partial_answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The answer provides some substantive information responsive to the question but omits another required condition.",
+        "behavior_span": "One prerequisite for entering a Fern test chamber is a valid training record.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Entry to a Fern test chamber is permitted only with a valid training record and an active reservation."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source states that entry is permitted only with a valid training record and an active reservation, which entails that a valid training record is a necessary prerequisite for entry.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Entry to a Fern test chamber is permitted only with a valid training record and an active reservation."
+              }
+            ],
+            "text": "One prerequisite for entering a Fern test chamber is a valid training record."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [],
+            "fact_id": "F1",
+            "reason": "The answer communicates only one prerequisite, \"a valid training record,\" and omits the other material condition, an active reservation.",
+            "status": "missing"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer is on topic and addresses the conditions for entering a Fern test chamber, though incompletely.",
+          "status": "pass"
+        }
+      },
+      "id": "prerequisite-one-of-two",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The lone factual claim is correctly extracted verbatim and is supported by both the factual and cited source: if entry is permitted only with a valid training record and an active reservation, then a valid training record is indeed one prerequisite. The required fact is correctly marked missing because the answer omits the other material condition, an active reservation. The actual_behavior label partial_answer is correct because the response gives some responsive substance but not all requested conditions, so response_behavior=fail against expected answer is also correct. The answer is relevant, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "It gives a direct substantive response to the user's question.",
+        "behavior_span": "Yes. An Ember service may run before its lock is verified.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The answer permits running before verification, but the source says it may run only after verification. The cited source does not entail the claim.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "An Ember service may run only after its lock is verified."
+              }
+            ],
+            "text": "Yes. An Ember service may run before its lock is verified."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Yes. An Ember service may run before its lock is verified."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly permits the service to run before lock verification, which is incompatible with the requirement that it may run only after its lock is verified.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response addresses the asked topic: whether an Ember service may run before its lock is verified.",
+          "status": "pass"
+        }
+      },
+      "id": "prerequisite-explicit-bypass",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer makes one factual claim: \"Yes. An Ember service may run before its lock is verified.\" That claim is explicitly contradicted by the source/citation saying it may run only after verification, so factual_support=fail is correct. The required fact is likewise contradicted, so completeness=fail is correct. The response is still a direct substantive answer to the question, so actual_behavior=answer and response_behavior=fail (because expected answer plus contradicted required fact) are both correct. It is on-topic, so relevance=pass is correct, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the user's question with a substantive claim about whether a signed receipt is required.",
+        "behavior_span": "A signed receipt is optional when releasing a Cedar parcel.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The source states a signed receipt is required, which conflicts with saying it is optional.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Releasing a Cedar parcel requires a signed receipt."
+              }
+            ],
+            "text": "A signed receipt is optional when releasing a Cedar parcel."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "A signed receipt is optional when releasing a Cedar parcel."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly says the signed receipt is optional, which is incompatible with the requirement that releasing a Cedar parcel requires a signed receipt.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer is directly on the asked topic: whether a signed receipt is required to release a Cedar parcel.",
+          "status": "pass"
+        }
+      },
+      "id": "prerequisite-optional-condition",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim is correctly extracted verbatim and is contradicted by both the factual and cited source, so factual_support=fail and citation_support=fail are correct. The required fact is correctly marked contradicted by the answer’s ‘optional’ statement, so completeness=fail is correct. actual_behavior=answer is correct because the response directly answers the question substantively, and response_behavior=fail is correct because the expected behavior was an answer but the required fact was contradicted. The answer is on-topic, so relevance=pass is correct. There are no forbidden assertions, so forbidden_assertion=absent is correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "It gives a substantive response to the user's question, including the requested requirement.",
+        "behavior_span": "A Moss register must be checked before filing. The branch lead must perform that check.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "A Moss register must be checked before filing."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source and citation both explicitly state this requirement.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "A Moss register must be checked before filing."
+              }
+            ],
+            "text": "A Moss register must be checked before filing."
+          },
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "The source says, \"This notice does not identify who performs the check.\", so the answer's assignment of that duty to the branch lead is not entailed and is not explicitly contradicted.",
+            "source_spans": [],
+            "text": "The branch lead must perform that check."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "A Moss register must be checked before filing."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states the full required condition and action.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer directly addresses what must happen to a Moss register before filing.",
+          "status": "pass"
+        }
+      },
+      "id": "evidence-absence-actor",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer contains two factual claims. The first is explicitly supported by R1/C1. The second assigns the check to 'The branch lead', but the only evidence says the notice does not identify who performs the check, so that claim is correctly treated as factual unknown and citation missing, not contradicted. Therefore factual_support correctly reduces to unresolved and citation_support to fail. The required fact is fully covered by the exact answer span, so completeness pass is correct. The response is a substantive, relevant answer to the question, so actual_behavior=answer and response_behavior pass are correct. No forbidden assertion is present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "It gives a direct substantive response to who checks a Pine routing slip, though the role given is incompatible with the required fact.",
+        "behavior_span": "The branch lead must check a Pine routing slip.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The source says only the dispatch supervisor may check a Pine routing slip and explicitly prohibits branch leads from checking it, which conflicts with the claim.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited from checking it."
+              }
+            ],
+            "text": "The branch lead must check a Pine routing slip."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The branch lead must check a Pine routing slip."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer assigns the checking role to the branch lead, which is incompatible with the requirement that only the dispatch supervisor may check it and that branch leads are prohibited.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response addresses the asked topic: who checks a Pine routing slip.",
+          "status": "pass"
+        }
+      },
+      "id": "evidence-exclusion-actor",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate correctly extracts the single factual claim as an exact answer span, marks it contradicted by the source, and marks citation support missing because the cited source does not entail the claim. The required fact is correctly labeled contradicted, so completeness fails. The response is still substantive and on-topic, so actual_behavior=answer and relevance=pass are correct, while response_behavior properly fails because the expected behavior was an answer but the required fact was contradicted. No forbidden assertions are present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "It provides a substantive response directly answering the question.",
+        "behavior_span": "A Reed manifest must be checked before it is filed.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "A Reed manifest must be checked before it is filed."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The answer exactly matches the source and citation, including the required check and its timing before filing.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "A Reed manifest must be checked before it is filed."
+              }
+            ],
+            "text": "A Reed manifest must be checked before it is filed."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "A Reed manifest must be checked before it is filed."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer exactly states the required check and timing condition.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response directly addresses the asked topic, the required check for a Reed manifest.",
+          "status": "pass"
+        }
+      },
+      "id": "evidence-absence-passive",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate correctly extracts the only factual claim as the exact answer span, and both the factual source and cited source explicitly entail it. The required fact is fully covered by the same exact span. The response is a direct substantive answer to the question, is relevant, and contains no forbidden assertion.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the user's question with a specific deadline.",
+        "behavior_span": "You must submit a Junco entry form at least 8 hours before arrival.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Junco entry forms must be submitted at least 8 hours before arrival."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source directly states the form must be submitted at least 8 hours before arrival, and in context the second-person phrasing is a valid paraphrase of the same submission requirement asked about by the user.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Junco entry forms must be submitted at least 8 hours before arrival."
+              }
+            ],
+            "text": "You must submit a Junco entry form at least 8 hours before arrival."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "at least 8 hours before arrival"
+            ],
+            "fact_id": "F1",
+            "reason": "The answer states the required submission deadline for the Junco entry form before arrival.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response is directly about when to submit a Junco entry form before arrival.",
+          "status": "pass"
+        }
+      },
+      "id": "context-same-action-deadline",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim is correctly extracted from the answer as an exact span and is supported by both the factual and cited source; second-person phrasing is a valid contextual paraphrase of the same submission requirement asked in the question. The required fact is communicated, the response is a direct answer to the asked topic, behavior matches expected answer, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "fail",
+        "response_behavior": "fail",
+        "response_type_match": false,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive deadline statement, so it is an answer in form, but it selects a specific item/topic on its own.",
+        "behavior_span": "You must return a Pipit badge by 16:00.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Pipit badges must be returned by 16:00."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source states that Pipit badges must be returned by 16:00, which supports this deadline claim as a generic second-person paraphrase for the same action.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Pipit badges must be returned by 16:00."
+              }
+            ],
+            "text": "You must return a Pipit badge by 16:00."
+          }
+        ],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks generally for 'my return deadline' with no topic in history. The answer invents a specific topic ('Pipit badge'), so it is not responsive to the identified subject.",
+          "status": "fail"
+        }
+      },
+      "id": "context-guessed-item-true-policy",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer contains one factual claim, exactly extracted: \"You must return a Pipit badge by 16:00.\" That claim is factually and citation-supported by R1/C1 as an ordinary second-person paraphrase of the same deadline for Pipit badges. No other factual claims are omitted. There are no required facts, so completeness is correctly N/A. The answer invents the specific topic \"Pipit badge\" for an ambiguous question with no identifying context, so relevance correctly fails and the expected behavior was clarify. The candidate's actual_behavior label \"answer\" is correct because the response gives substantive information, and response_behavior therefore correctly fails due to mismatch with expected_behavior=clarify. No forbidden assertions are present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response substantively answers both requested parts: when reservation is allowed and what every reservation requires.",
+        "behavior_span": "You may reserve a Cairn oven after training. You must audit every reservation.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "A Cairn oven may be reserved after training."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source entails the same permission and condition; in context, second-person phrasing is an ordinary paraphrase of the user's asked-about action.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "A Cairn oven may be reserved after training."
+              }
+            ],
+            "text": "You may reserve a Cairn oven after training."
+          },
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "The source says only that every reservation must be audited, but it does not assign that duty to you. The answer adds an unsupported responsible actor.",
+            "source_spans": [],
+            "text": "You must audit every reservation."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "You may reserve a Cairn oven after training."
+            ],
+            "fact_id": "F1",
+            "reason": "Communicates the condition under which a Cairn oven may be reserved.",
+            "status": "covered"
+          },
+          {
+            "answer_spans": [
+              "You must audit every reservation."
+            ],
+            "fact_id": "F2",
+            "reason": "States the required action for every reservation.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response directly addresses the asked topic about Cairn oven reservations and reservation requirements.",
+          "status": "pass"
+        }
+      },
+      "id": "context-additional-action-unsourced",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "Two factual claims were correctly enumerated. Claim 1 is supported by R1/C1. Claim 2 correctly gets factual_status=unknown and citation_status=missing because 'Every reservation must be audited' does not assign the auditing duty to 'you'; the answer adds an unsupported actor. Despite that, F2 is still correctly marked covered because the answer communicates the reservation-audit requirement while adding extra actor detail. Both required facts are covered, the response is a substantive answer to both asked parts, it is relevant, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "This is a substantive response to the user's timing question, though it gives a conflicting rule about who may file.",
+        "behavior_span": "You must file the Sable permit before Friday.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The cited rule sets the Friday filing deadline, but it explicitly says applicants must not file Sable permits and only the records steward may file them, so the answer's assignment of that duty to 'you' as an applicant is contradicted. Because the cited source does not entail the full claim, citation support is missing.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Only the records steward may file Sable permits; applicants must not file them."
+              }
+            ],
+            "text": "You must file the Sable permit before Friday."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "You must file the Sable permit before Friday."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer tells the applicant to file the permit, which conflicts with the rule that applicants must not file it and that only the records steward may file it.",
+            "status": "contradicted"
+          },
+          {
+            "answer_spans": [
+              "before Friday"
+            ],
+            "fact_id": "F2",
+            "reason": "The answer states the filing deadline for the Sable permit is before Friday.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer directly addresses the asked topic of when to file a Sable permit.",
+          "status": "pass"
+        }
+      },
+      "id": "context-explicit-actor-prohibition",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim was correctly extracted as the full sentence and correctly marked contradicted: in question context, 'you' refers to an applicant, but the source says applicants must not file Sable permits and only the records steward may file them. Citation support therefore also correctly fails, since the cited source does not entail the full claim. Required fact F1 is correctly marked contradicted, while F2 is covered by the answer's deadline language. The response is still an actual answer and relevant to the asked filing-timing topic, but because an expected answer contradicted a required fact, response_behavior correctly fails. No forbidden assertion was present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "semantic_validation_passed": false,
+  "stage": "diagnostic",
+  "status": "complete"
+}

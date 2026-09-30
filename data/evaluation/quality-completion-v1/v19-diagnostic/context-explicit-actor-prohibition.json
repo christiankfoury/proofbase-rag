@@ -1,0 +1,77 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "This is a substantive response to the user's timing question, though it gives a conflicting rule about who may file.",
+    "behavior_span": "You must file the Sable permit before Friday.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The cited rule sets the Friday filing deadline, but it explicitly says applicants must not file Sable permits and only the records steward may file them, so the answer's assignment of that duty to 'you' as an applicant is contradicted. Because the cited source does not entail the full claim, citation support is missing.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Only the records steward may file Sable permits; applicants must not file them."
+          }
+        ],
+        "text": "You must file the Sable permit before Friday."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "You must file the Sable permit before Friday."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer tells the applicant to file the permit, which conflicts with the rule that applicants must not file it and that only the records steward may file it.",
+        "status": "contradicted"
+      },
+      {
+        "answer_spans": [
+          "before Friday"
+        ],
+        "fact_id": "F2",
+        "reason": "The answer states the filing deadline for the Sable permit is before Friday.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the asked topic of when to file a Sable permit.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The single factual claim was correctly extracted as the full sentence and correctly marked contradicted: in question context, 'you' refers to an applicant, but the source says applicants must not file Sable permits and only the records steward may file them. Citation support therefore also correctly fails, since the cited source does not entail the full claim. Required fact F1 is correctly marked contradicted, while F2 is covered by the answer's deadline language. The response is still an actual answer and relevant to the asked filing-timing topic, but because an expected answer contradicted a required fact, response_behavior correctly fails. No forbidden assertion was present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
