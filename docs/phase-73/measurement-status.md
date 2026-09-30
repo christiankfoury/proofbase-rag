@@ -1,36 +1,22 @@
-# Phase 73: fresh measurement blocked
+# Phase 73: evaluator readiness pending
 
-No fresh runtime holdout was authored or executed. The latest authorized v14
-correction passed its 12-case diagnostic, but full-calibration source inspection
-found a semantic defect: an omitted meal-policy fact was mislabeled as contradicted
-by an answer about parking. The reduced dimensions can match while this underlying
-judgment is incorrect. See the [v14 source review](../phase-71/v14-source-review.md).
-The clean-source-inspection gate fails; no v14 confirmation is authorized to run.
+V15 passed development (17/17 diagnostic + 1/1 probe; 24/24 calibration + 3/3
+probes) and source inspection, but its newly isolated confirmation finished
+15/16. [Inspection](../phase-71/confirmation-v15-source-review.md) found that a
+reference and initial grade assigned a passive policy duty to an unsupported
+actor. The reviewer correctly disputed support. No adjusted score or retry.
 
-The original Phase 71
-confirmation ended at 15/16 because of a sealed-reference precedence defect.
-The user then approved one replacement with unchanged evaluator and stronger
-reference checks. That replacement also finished **15/16 exact judgments**:
-its temporal/contextual entailment disagreement remains unresolved. See the
-[replacement source review](../phase-71/confirmation-replacement-source-review.md).
-Both original records and replacement evidence remain immutable; no adjusted
-pass or new overall score is published.
+The user's [standing authorization](../roadmap/quality-completion-plan.md)
+authorizes cause-driven remediation without further routine approval. V16 adds
+separate development variants for responsibility and passive requirements.
+Phase 72 remains complete. Historical results and failed gates remain immutable.
 
-The approved replacement and subsequent single v14 correction both required
-stopping on a failed gate. Those attempts are exhausted. Phase 72's three
-source-confirmed fixes and negative controls remain
-[complete](../phase-72/confirmed-runtime-fixes.md), committed in `8a0f734`.
-Their 6/14 to 14/14 development probes are not a generalization score.
+The isolated local PostgreSQL clone is prepared; successor measurement tooling,
+accounting tests and neutral contracts are contingent drafts.
+No Phase 73 runtime/evaluator/corpus/configuration/index freeze, 60-case authorship,
+seal or live application measurement has occurred. No new overall quality score
+exists. Existing dashboard scores are historical and unchanged.
 
-Application/evaluator/corpus/configuration/index freeze for Phase 73, isolated
-60-case authoring and validation, full-run preflight and execution are all **not
-performed**. There is no new latency, application API-cost or permission-safety
-measurement. The 48/60 target is unmeasured. Historical Phase 65's automated 33/60
-and Phase 68's unavailable validated overall score remain unchanged, as do the
-existing dashboard artifacts. No frontend change or build was needed.
-
-This stop is an evaluation-validity gate, not a spending approval block. The old
-USD 5 API ceiling was superseded and the successor runner preserves accounting,
-bounded calls, unknown-outcome stops and zero automatic retries. No infrastructure
-was provisioned. Additional confirmation attempts or a different evaluation
-method require a new scope decision; they are not queued automatically.
+After evaluator validation, freeze before freshly isolated authoring/validation,
+then execute once and publish the actual outcome, including a valid target miss.
+Zero permission leakage and honest unresolved judgments remain mandatory.

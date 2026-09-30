@@ -21,9 +21,14 @@ Policy: `0159c71`; v15 preparation: `7edf06e`. A local settlement-write failure 
 reconciled from a complete saved response; [recovery](../phase-71/v15-local-recovery.md)
 continues only unissued requests. V15 development is source-inspected and approved: 17/17 diagnostic + 1/1 probe,
 24/24 calibration + 3/3 probes; 2,221 cumulative calls, USD 6.72190827.
-Next: freeze evaluator and neutral briefs, then freshly isolated 16-case confirmation.
-Docker is available and the isolated Phase 73 database clone is prepared; its
-runner is a contingent draft, with no holdout authored or application calls.
+V15 development: `26d7976`; freeze: `81d1da1`; fresh suite seal: `50cf71a`.
+Confirmation is complete at 15/16; [source inspection](../phase-71/confirmation-v15-source-review.md)
+found unsupported actor assignment in the reference and initial grade, correctly
+disputed by the reviewer. No relabeling/retry. Cumulative 2,269 calls, USD 7.18314077.
+Continue with separately authored v16 agency development controls under standing
+authorization, then unchanged calibration/freeze/fresh-confirmation gates.
+Docker is available; isolated Phase 73 database and runner drafts are prepared,
+but no runtime holdout has been authored or run. Phase 72 remains complete.
 
 The stopped entries below record historical authorization boundaries; they do
 not override the newer standing completion authorization.

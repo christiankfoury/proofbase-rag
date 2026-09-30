@@ -1,0 +1,107 @@
+{
+  "case_id": "confirmation-v15-01",
+  "cost_usd": "6.76908327",
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "pass",
+    "disputed_dimensions": [
+      "factual_support",
+      "citation_support"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "unresolved",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "Provides substantive responses to both whether the reservation is still allowed and whether the log is mandatory.",
+    "behavior_span": "Yes. Under the current Juniper rule, trained technicians may reserve the optics bench for up to 45 minutes; they must enter each reservation in the bench log.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Current Juniper rule: trained technicians are permitted to reserve the optics bench for a maximum of 45 minutes."
+          },
+          {
+            "id": "C2",
+            "span": "Current Juniper logging rule: each optics-bench reservation must be recorded in the bench log."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "R1 supports the 45-minute reservation permission for trained technicians, and R2 supports that each reservation must be recorded in the bench log.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Current Juniper rule: trained technicians are permitted to reserve the optics bench for a maximum of 45 minutes."
+          },
+          {
+            "id": "R2",
+            "span": "Current Juniper logging rule: each optics-bench reservation must be recorded in the bench log."
+          }
+        ],
+        "text": "Under the current Juniper rule, trained technicians may reserve the optics bench for up to 45 minutes; they must enter each reservation in the bench log."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Under the current Juniper rule, trained technicians may reserve the optics bench for up to 45 minutes"
+        ],
+        "fact_id": "F1",
+        "reason": "States the same rule, subject, scope, and 45-minute maximum.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [
+          "they must enter each reservation in the bench log"
+        ],
+        "fact_id": "F2",
+        "reason": "Expressly says each reservation must be entered in the bench log.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses reserving the optics bench under Juniper and the log requirement, matching the user's topic.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {
+    "citation_support": {
+      "actual": "unresolved",
+      "expected": "pass"
+    },
+    "factual_support": {
+      "actual": "unresolved",
+      "expected": "pass"
+    },
+    "overall": {
+      "actual": "unresolved",
+      "expected": "pass"
+    }
+  },
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "agree",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s single claim is too strong to be fully supported: the answer says trained technicians \"must enter each reservation in the bench log,\" but R2/C2 only say each reservation must be recorded in the bench log, not that the technicians themselves must do the entering. So that claim should not be marked factual_status supported or citation_status supported, making factual_support and citation_support incorrect. Completeness is correct because the answer does cover F1 and F2, relevance is correct, behavior is correctly classified as answer with response_behavior pass, and there are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

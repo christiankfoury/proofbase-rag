@@ -1,0 +1,73 @@
+{
+  "case_id": "confirmation-v15-05",
+  "cost_usd": "6.88490827",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It provides a substantive statement, but it addresses none of the requested information about Pebble shuttle reimbursement.",
+    "behavior_span": "The Harbor bicycle cage opens at 06:30.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C2",
+            "span": "Harbor bicycle facilities: the bicycle cage opens at 06:30."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The claim is directly entailed by R2 and by cited source C2, though it does not answer the user's question about shuttle reimbursement.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "Harbor bicycle facilities: the bicycle cage opens at 06:30."
+          }
+        ],
+        "text": "The Harbor bicycle cage opens at 06:30."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer discusses the Harbor bicycle cage opening time and gives no information about Pebble shuttle ride reimbursement or a 14-credit ceiling.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is about a bicycle cage opening time, not the reimbursement ceiling for a Pebble shuttle ride.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted the sole factual claim as the exact answer span, and it is supported by factual source R2 and cited source C2, so factual_support=pass and citation_support=pass are correct. Required fact F1 about the Pebble shuttle reimbursement ceiling is not answered at all, so marking it missing and completeness=fail is correct. The response is wholly off-topic relative to the question, so relevance=fail is correct. The answer is still a substantive response, so actual_behavior=answer is correct; because expected_behavior is answer but the required fact is missing, response_behavior=fail is also correct. There are no forbidden assertions, so absent is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

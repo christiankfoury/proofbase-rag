@@ -77,7 +77,7 @@ not expected to equal the pre-run fingerprint after upload fixtures execute.
 
 ## Phase 71 bounded evaluator evidence
 
-The latest single authorized v14 correction is replayed offline with
+The historical v14 correction is replayed offline with
 `python scripts/report_quality_completion_v14.py --stage diagnostic` and
 `python scripts/report_quality_completion_v14.py --stage calibration`.
 Its diagnostic matched 12/12 and full calibration matched 24/24 dimensions plus
@@ -111,3 +111,16 @@ new reference-consistency checks. Replay it with
 15/16, with a different [semantic interpretation disagreement](../phase-71/confirmation-replacement-source-review.md).
 Both confirmation suites and reference approvals remain unchanged. Phase 73 is
 still blocked; neither report establishes a new application quality score.
+
+
+## Standing-autonomy v15 evidence
+
+Replay v15 development with `python scripts/report_quality_v15_recovery.py --stage diagnostic`
+and `--stage calibration`: 17/17 + 1/1 and 24/24 + 3/3, with separate passing
+source inspection. The recovery retains and reconciles the original local-write
+interruption without replaying a provider call. Replay its fresh confirmation
+with `python scripts/report_quality_confirmation_v15.py`: 15/16, failed readiness.
+[Source review](../phase-71/confirmation-v15-source-review.md) explains the actor
+assignment defect. Frozen references and judgments are not changed. The new
+standing workflow permits cause-driven v16 remediation; it does not convert this
+failure into a pass or authorize reuse of the exposed suite for a fresh claim.

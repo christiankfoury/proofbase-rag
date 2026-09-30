@@ -1,0 +1,87 @@
+{
+  "case_id": "confirmation-v15-02",
+  "cost_usd": "6.80042577",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "partial_answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive information for one requested part but omits the other requested details.",
+    "behavior_span": "Wren repairs need a workshop supervisor signature.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "The current Wren process requires a workshop supervisor signature for repairs."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The claim is entailed by the source and cited source statement that the current Wren process requires a workshop supervisor signature for repairs.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "The current Wren process requires a workshop supervisor signature for repairs."
+          }
+        ],
+        "text": "Wren repairs need a workshop supervisor signature."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Wren repairs need a workshop supervisor signature."
+        ],
+        "fact_id": "F1",
+        "reason": "This states the required approval for Wren repairs.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [],
+        "fact_id": "F2",
+        "reason": "The answer does not mention photographing the damaged component before ordering parts.",
+        "status": "missing"
+      },
+      {
+        "answer_spans": [],
+        "fact_id": "F3",
+        "reason": "The answer does not mention Finch loan receipt retention or the 18-month period.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the asked topic of the Wren repair process, though incompletely.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The answer makes one factual claim: \"Wren repairs need a workshop supervisor signature.\" That claim is correctly extracted and is supported by R1/C1, so factual_support and citation_support are correctly graded pass. Required fact F1 is covered, while F2 (photograph before ordering parts) and F3 (Finch receipts retained 18 months) are correctly marked missing, so completeness=fail is correct. The answer provides some substantive requested information but not all, so actual_behavior=partial_answer is correct and response_behavior=fail is correct because expected_behavior was answer. The response is on-topic, so relevance=pass is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
