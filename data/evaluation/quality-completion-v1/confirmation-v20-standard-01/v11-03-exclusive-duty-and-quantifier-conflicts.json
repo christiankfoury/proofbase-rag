@@ -1,0 +1,110 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response substantively addresses all three requested parts: certificate signers, which dispatches need a seal check, and whether orange labels are compulsory.",
+    "behavior_span": "Only Operations clerks may sign Cobalt inspection certificates. A seal check is required for selected Cobalt dispatches, and all other dispatches are exempt. Orange labels are compulsory.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source says only Quality inspectors may sign these certificates and explicitly forbids Operations clerks from signing them.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "only Quality inspectors may sign inspection certificates; Operations clerks are forbidden to sign them."
+          }
+        ],
+        "text": "Only Operations clerks may sign Cobalt inspection certificates."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source states that every Cobalt dispatch requires a seal check with no exceptions, contradicting the claim that only selected dispatches require it and others are exempt.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Every Cobalt dispatch requires a seal check, without exceptions."
+          }
+        ],
+        "text": "A seal check is required for selected Cobalt dispatches, and all other dispatches are exempt."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source says orange labels are optional, which conflicts with calling them compulsory.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Orange labels are optional."
+          }
+        ],
+        "text": "Orange labels are compulsory."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Only Operations clerks may sign Cobalt inspection certificates."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer gives a different exclusive signer role for the same Cobalt inspection certificates, which conflicts with 'Only Quality inspectors' and with 'Operations clerks may not.'",
+        "status": "contradicted"
+      },
+      {
+        "answer_spans": [
+          "A seal check is required for selected Cobalt dispatches, and all other dispatches are exempt."
+        ],
+        "fact_id": "F2",
+        "reason": "The answer limits seal checks to only some Cobalt dispatches and explicitly exempts others, conflicting with the requirement that every Cobalt dispatch requires a seal check without exceptions.",
+        "status": "contradicted"
+      },
+      {
+        "answer_spans": [
+          "Orange labels are compulsory."
+        ],
+        "fact_id": "F3",
+        "reason": "This is incompatible with the required fact that orange labels are optional.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the same requested Cobalt policies: who may sign inspection certificates, seal-check applicability for Cobalt dispatches, and orange-label requirement.",
+      "status": "pass"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly enumerates all three factual claims in the answer, and each is explicitly contradicted by R1/C1: Operations clerks signing, only selected dispatches needing seal checks with others exempt, and orange labels being compulsory. Thus factual_support=fail and citation_support=fail are correct. The answer addresses all three requested Cobalt policy points but gives incompatible values for F1-F3, so the required facts are correctly marked contradicted and completeness=fail is correct. actual_behavior='answer' is correct because the response substantively answers all requested parts, and response_behavior=fail is also correct because expected behavior was an answer but the required facts are contradicted. The answer is on-topic for the requested Cobalt policies, so relevance=pass is correct. There are no forbidden assertions and none were made, so forbidden_assertion=absent is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

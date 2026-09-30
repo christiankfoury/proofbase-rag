@@ -1,0 +1,118 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "partial_answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The answer gives substantive information on two requested parts but omits one required pre-handover condition.",
+    "behavior_span": "Before handover, the sample temperature must be no higher than 8 C. Handover records must be audited monthly. You are responsible for performing that monthly audit.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Juniper sample handover requires both a sample temperature of 8 C or below and a signed release slip."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source entails the temperature limit before handover.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Juniper sample handover requires both a sample temperature of 8 C or below and a signed release slip."
+          }
+        ],
+        "text": "Before handover, the sample temperature must be no higher than 8 C."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Handover records must be audited monthly."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source states this requirement exactly.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Handover records must be audited monthly."
+          }
+        ],
+        "text": "Handover records must be audited monthly."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "The answer assigns responsibility to 'you', but the source does not identify any responsible person or team, so that actor assignment is unsupported rather than contradicted.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "This excerpt does not identify the person or team responsible for auditing."
+          }
+        ],
+        "text": "You are responsible for performing that monthly audit."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Before handover, the sample temperature must be no higher than 8 C."
+        ],
+        "fact_id": "F1",
+        "reason": "This states the sample must be at 8 C or below before handover.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [],
+        "fact_id": "F2",
+        "reason": "The answer does not mention the required signed release slip before handover.",
+        "status": "missing"
+      },
+      {
+        "answer_spans": [
+          "Handover records must be audited monthly."
+        ],
+        "fact_id": "F3",
+        "reason": "This exactly states the monthly audit requirement for handover records.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested Juniper sample handover conditions and handover-record auditing topic, though incompletely.",
+      "status": "pass"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "All factual claims were enumerated, including the added actor assignment. The first two claims are supported by R1/C1; the third ('You are responsible...') is correctly graded factual unknown and citation missing because the source expressly says it does not identify the responsible person or team. That makes factual_support unresolved and citation_support fail. Required-fact coverage is correctly assessed as F1 covered, F2 missing, F3 covered, so completeness=fail. The answer gives substantive information for part of the request but omits one requested condition, so actual_behavior=partial_answer is correct; against expected_behavior=answer, response_behavior=fail is correct. The answer stays on the Juniper handover/audit topic, so relevance=pass. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

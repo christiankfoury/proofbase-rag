@@ -1,0 +1,76 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive answers to both parts of the user's policy question, even though the values conflict with the required facts.",
+    "behavior_span": "Yes. Project coordinators may currently export datasets without approval, and the privacy scan is optional.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer asserts that under the current policy coordinators may export without approval and that the privacy scan is optional. The current policy source says approval is required before export and a privacy scan is mandatory with no bypass. The only citation is an expired archived policy, so it does not entail the current-policy claim.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "a project coordinator may export a dataset only after written Data Steward approval. Every exported dataset must pass a privacy scan before export; no bypass is permitted."
+          }
+        ],
+        "text": "Yes. Project coordinators may currently export datasets without approval, and the privacy scan is optional."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Project coordinators may currently export datasets without approval"
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly permits export without approval, which is incompatible with requiring written Data Steward approval before export.",
+        "status": "contradicted"
+      },
+      {
+        "answer_spans": [
+          "the privacy scan is optional."
+        ],
+        "fact_id": "F2",
+        "reason": "Calling the privacy scan optional conflicts with the requirement that every exported dataset must pass a privacy scan before export and cannot bypass it.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested Raven export policy topic: coordinator export approval and whether the privacy scan may be bypassed.",
+      "status": "pass"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly enumerates the answer’s substantive policy claim as the exact full answer span and correctly marks it contradicted by the current policy in R2. The cited source is only the expired archived policy in R1/C1, so citation support correctly fails. Both required facts are explicitly contradicted by the answer, so completeness fail is correct. The response is still an answer in form, but response_behavior correctly fails because expected_behavior was answer and the required facts were contradicted. The answer is on the asked Raven export-policy topic, so relevance pass is correct. No forbidden assertions were made.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

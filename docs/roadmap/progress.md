@@ -6,25 +6,25 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: v20 frozen; fresh confirmation validated and sealed
+### Active: Phases 71/72 complete; Phase 73 runtime freeze next
 
-V20 full development passed 24/24 + 3/3 with zero source findings (4f391425),
-following the passing 10-case diagnostic. The separate freeze is pushed as
-6805b358. Isolated fresh v11 authorship and independent validation accepted all
-16 cases, 128 dimensions and 21 fact statuses with zero findings. The suite includes
-2 history and 4 multiple-source cases. Raw-byte hashes and reference consistency
-pass; the author's normalized-text hash is explicitly distinguished in its note.
+V20 fresh confirmation passed 16/16 exact matches: all 48 standard calls replay,
+estimated USD 0.5213645, zero source-inspection findings or invalid outputs.
+[Qualification](../phase-71/confirmation-v20-standard-source-review.md) follows
+10/10 + 3/3 diagnostic, unchanged 24/24 + 3/3 calibration (4f391425), separate
+freeze (6805b358) and isolated validated fresh suite seal (dbb02ee7). Phase 71 is
+complete under its automated gates; no human or external independent review is
+claimed. Phase 72 remains complete with the reviewed source-confirmed runtime fixes.
 
-The fresh suite is sealed. Standard preflight permits exactly one confirmation:
-maximum 48 calls, USD 1.50 hard stage cap, zero retries, same pinned model/medium/
-4096 output. Additional accounting before this stage is USD 5.40578875 of USD 10,
-including USD 2.80849875 retained history. All prior failed attempts remain intact.
-No confirmation score exists yet. Phase 72 is complete; Phase 73 runtime freeze,
-fresh 60-case authorship and measurement still require 16/16 exact confirmation,
-complete raw/cost replay and clean source inspection. Local health/readiness are
-200 with pgvector, 32 documents and 247 chunks; no AI calls were needed to check.
-Continue autonomously through the [active plan](quality-completion-plan.md);
-preserve unrelated request logs and report actual outcomes.
+Next: freeze runtime/evaluator/corpus/config/index/environment and the complete
+cost prefix before isolated 60-case authorship and validation; seal and execute
+once, then publish actual results including a miss. Phase 73 has no fresh suite,
+freeze or score yet. Additional accounting is USD 5.92715325 of the fixed USD 10,
+including USD 2.80849875 retained history; remaining headroom USD 4.07284675.
+All provider outcomes settled. Use standard requests, zero retries and strict
+pre-call reservations. Local health/readiness are 200, pgvector enabled with
+32 documents and 247 chunks. Continue through the [active plan](quality-completion-plan.md)
+and [Phase 73 protocol](../phase-73/preflight.md), preserving unrelated request logs.
 
 ### Historical checkpoint: v19 diagnostic passed
 

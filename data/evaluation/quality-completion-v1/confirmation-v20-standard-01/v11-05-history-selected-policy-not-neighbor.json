@@ -1,0 +1,71 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "This is a substantive response to the renewal-frequency question, but it answers for the wrong topic/entity rather than the requested Cedar employee access pass.",
+    "behavior_span": "A Maple vehicle permit must be renewed every 30 days.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "A Maple vehicle permit must be renewed every 30 days."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The answer makes one factual policy assertion, and both the factual source R2 and cited source C1 exactly entail it.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "A Maple vehicle permit must be renewed every 30 days."
+          }
+        ],
+        "text": "A Maple vehicle permit must be renewed every 30 days."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer gives a renewal interval for a different entity/policy—\"Maple vehicle permit\"—instead of the Cedar employee access pass, so the requested 9-month renewal rule is not communicated.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question/history identifies the topic as the Cedar employee access pass, not a vehicle permit. The answer instead discusses a Maple vehicle permit, so it is not responsive to the requested entity/policy.",
+      "status": "fail"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly separates truth from responsiveness. The answer makes one factual claim—\"A Maple vehicle permit must be renewed every 30 days.\"—and that claim is exactly supported by factual source R2 and cited source C1, so factual_support=pass and citation_support=pass are correct. The required fact about the Cedar employee access pass being renewed every 9 months is not communicated; because the answer is about a different entity/policy, F1 is correctly marked missing (not contradicted), so completeness=fail is correct. The response is still a substantive answer in form, so actual_behavior=answer is correct; but because expected_behavior is answer and the required fact is missing, response_behavior=fail is also correct. Relevance=fail is correct because the question/history specifies Cedar employee access pass, while the answer switches to a Maple vehicle permit. No forbidden assertion is present, so the forbidden_assertion judgment is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
