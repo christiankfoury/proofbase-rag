@@ -1,0 +1,70 @@
+{
+  "case_id": "paraphrase-frequency-weakened",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive answer to the asked inspection-frequency question.",
+    "behavior_span": "Nightjar gates need inspection before most shifts, but not every shift.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer says inspection is required before most shifts but not every shift, while the source states inspection is required before each shift without exception.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Every Nightjar gate must be inspected before each shift, without exception."
+          }
+        ],
+        "text": "Nightjar gates need inspection before most shifts, but not every shift."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "before most shifts, but not every shift."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer states Nightjar gates are inspected before most shifts and explicitly says not every shift, which is incompatible with a requirement to inspect every Nightjar gate before each shift.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses how often Nightjar gates must be inspected.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted the single factual claim as the full answer sentence. That claim is contradicted by R1/C1, which says inspection is required before each shift without exception, so factual_support=fail is correct and citation_support=fail is also correct because the cited source does not entail the claim. The required fact is explicitly contradicted by the answer’s 'before most shifts, but not every shift,' so completeness=fail is correct. The response is still a substantive answer to the question, so actual_behavior=answer is correct; because the required fact is contradicted, response_behavior=fail is also correct. The answer is on-topic, so relevance=pass is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

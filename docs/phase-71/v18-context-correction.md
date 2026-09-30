@@ -40,3 +40,9 @@ fresh isolated authoring/validation; never reuse an exposed confirmation. All
 required gates and the 48/60 runtime target remain unchanged. Application code and
 its Phase 72 passing checks remain unchanged and are reused. Unrelated logs stay
 excluded. No cloud resources, account-budget changes or new credentials.
+
+Execution complete: 29/29 diagnostic + 4/4 probes, 24/24 full + 3/3 probes.
+[Source inspection](confirmation-v18-development-source-review.md) approves
+evaluator freeze only; fresh confirmation is still pending. V18 used 166 settled
+calls, USD 1.87802000; cumulative 2,594 calls, USD 10.76243327. Raw replay passed.
+No candidate/reference changes or provider retries occurred during execution.

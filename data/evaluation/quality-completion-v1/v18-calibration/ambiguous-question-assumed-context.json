@@ -1,0 +1,66 @@
+{
+  "case_id": "ambiguous-question-assumed-context",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive booking lead-time answer rather than asking for clarification.",
+    "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source states the same booking deadline for Morrow equipment, and using 'You must book' is a valid second-person paraphrase for the user's asked-about action.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "text": "You must book Morrow equipment at least 2 days ahead."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question does not identify any subject, but the answer chooses a specific topic/entity ('Morrow equipment') not provided by the question or history.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The single factual claim is correctly extracted verbatim and is supported by both the factual and cited source: the passive rule about Morrow equipment being booked at least 2 days ahead validly supports the second-person paraphrase for the asked action. There are no required facts, so completeness is correctly N/A. The answer substantively answers with a specific topic, so actual_behavior='answer' is correct; because expected_behavior was 'clarify', response_behavior='fail' is also correct. Relevance='fail' is correct because the question does not identify what must be booked, and the answer invents the specific subject 'Morrow equipment'. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "case_id": "agency-exclusive-conflict",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive answer to the user's question about who may authorize a Lumen export.",
+    "behavior_span": "Operators may authorize Lumen exports.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source explicitly states that only the compliance custodian may authorize a Lumen export and that operators are not permitted to authorize exports, which conflicts with the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Only the compliance custodian may authorize a Lumen export. Operators are not permitted to authorize exports."
+          }
+        ],
+        "text": "Operators may authorize Lumen exports."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Operators may authorize Lumen exports."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer says operators are permitted to authorize Lumen exports, which is incompatible with the required fact that only the compliance custodian may authorize them.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer is directly about who is permitted to authorize a Lumen export, matching the user's question.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The single factual claim is correctly extracted and is explicitly contradicted by R1, so factual_support=fail is correct. The cited source does not support the claim, so citation_support=fail is correct. The required fact is correctly marked contradicted, so completeness=fail is correct. The reply is a substantive but wrong answer, making actual_behavior=answer and response_behavior=fail correct. It is on-topic, and there are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

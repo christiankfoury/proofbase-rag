@@ -6,7 +6,7 @@ from pathlib import Path
 
 from scripts.current_eval_protocol import validate_suite, committed_inventory, COUNTS, USERS, PROJECT
 from scripts.current_eval_protocol import FROZEN as PREVIOUS_FILES
-from scripts.quality_confirmation_v17 import CODE
+from scripts.quality_confirmation_v18 import CODE
 from scripts.quality_completion_ledger import digest, FOLDER as QUALITY
 from scripts.phase73_eval_budget import FOLDER, bounds
 
@@ -26,16 +26,16 @@ def file_inventory():
 
 
 def evaluator_ready():
-    from scripts.report_quality_confirmation_v17 import replay
+    from scripts.report_quality_confirmation_v18 import replay
     report = replay()
-    path = QUALITY/'confirmation-v17-readiness.json'
+    path = QUALITY/'confirmation-v18-readiness.json'
     gate = json.loads(path.read_bytes())
-    review = ROOT/'docs/phase-71/confirmation-v17-source-review.md'
+    review = ROOT/'docs/phase-71/confirmation-v18-source-review.md'
     if (report['matched'] != 16 or report['count'] != 16
         or any(r['grader_errors'] or r['disputed_dimensions'] for r in report['rows'])
         or gate.get('status') != 'approved' or gate.get('unresolved_semantic_findings') != 0
         or gate.get('source_review_sha256') != digest(review)
-        or gate.get('report_sha256') != digest(QUALITY/'confirmation-v17-report.json')
+        or gate.get('report_sha256') != digest(QUALITY/'confirmation-v18-report.json')
         or gate.get('human_adjudication') is not False):
         raise ValueError('Evaluator confirmation is not ready')
     return digest(path)

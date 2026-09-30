@@ -1,0 +1,70 @@
+{
+  "case_id": "paraphrase-subset-exemption",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive answer to the question about which Reed vials require screening.",
+    "behavior_span": "Only some Reed vials require screening; other Reed vials are exempt.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer says not all Reed vials require screening and that some are exempt, but the source explicitly states that all Reed vials require screening with no exemptions.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "All Reed vials require screening, with no exemptions."
+          }
+        ],
+        "text": "Only some Reed vials require screening; other Reed vials are exempt."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Only some Reed vials require screening; other Reed vials are exempt."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer says screening applies to only a subset of Reed vials and that others are exempt, which is incompatible with every Reed vial requiring screening.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer is directly about Reed vials and whether they require screening.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate extracted the answer’s single factual sentence verbatim and correctly marked it contradicted by the source/citation, since the source says all Reed vials require screening with no exemptions. The required fact 'Every Reed vial requires screening' is correctly labeled contradicted by the answer. The response is still an 'answer' in behavior terms because it substantively addresses the question, but response_behavior correctly reduces to fail because expected_behavior was answer and the required fact was contradicted. The answer is relevant to the asked topic, and there are no forbidden assertions to flag.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

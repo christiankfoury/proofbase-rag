@@ -1,0 +1,73 @@
+{
+  "case_id": "true-answer-wrong-topic",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It provides a substantive statement, but on the wrong topic and addressing none of the requested information about meal allowance for overnight fieldwork.",
+    "behavior_span": "Cedar reimburses parking up to 14 credits per day.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Cedar reimburses parking up to 14 credits per day."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The claim is directly entailed by factual source R2 and by cited source C1.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "Cedar reimburses parking up to 14 credits per day."
+          }
+        ],
+        "text": "Cedar reimburses parking up to 14 credits per day."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer discusses parking reimbursement, not the meal allowance for overnight fieldwork, so it does not communicate the requested policy.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is not responsive to the user's topic: meal allowance for overnight fieldwork. It instead gives a parking reimbursement amount.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted the only factual claim as the exact answer sentence, and it is supported by factual source R2 and cited source C1, so factual_support=pass and citation_support=pass are correct. The required fact about meal reimbursement for overnight fieldwork is not communicated; because the answer gives a different reimbursement category (parking), F1 is correctly marked missing rather than contradicted, so completeness=fail is correct. The prose is a substantive statement, so actual_behavior=answer is correct, but because an expected answer omitted the required fact, response_behavior=fail is also correct. The answer is off-topic relative to the asked meal allowance, so relevance=fail is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "case_id": "temporal-condition-preserved",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a direct substantive answer to the user's question.",
+    "behavior_span": "Yes, staff may work remotely on Mondays without approval.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source says Monday remote work requires prior written manager approval and explicitly prohibits remote work without that approval, which conflicts with the answer.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Staff may work remotely on Mondays only with prior written manager approval."
+          },
+          {
+            "id": "R1",
+            "span": "Remote work without that approval is prohibited."
+          }
+        ],
+        "text": "Yes, staff may work remotely on Mondays without approval."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Yes, staff may work remotely on Mondays without approval."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer says Monday remote work is allowed without approval, which is incompatible with the policy that prior written manager approval is required and otherwise remote work is prohibited.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response directly addresses whether staff may work remotely on Mondays without approval.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted the single factual claim verbatim and marked it contradicted by R1, so factual_support=fail is right. The cited source does not entail the claim and instead conflicts with it, so citation_status=missing and citation_support=fail are right. Required fact F1 is explicitly contradicted by the answer, so completeness=fail is right. The response is still a substantive direct answer, so actual_behavior=answer is correct; because expected_behavior is answer but the required fact is contradicted, response_behavior=fail is also correct. The answer is on-topic, so relevance=pass is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

@@ -14,7 +14,7 @@ from unittest.mock import patch
 
 from scripts.quality_completion_durable import write_json_atomic
 from scripts.quality_completion_ledger import Ledger as QualityLedger, digest, FOLDER as QUALITY
-from scripts.quality_eval_transport_v17 import exclusive_lock, MODEL, reserve
+from scripts.quality_eval_transport_v18 import exclusive_lock, MODEL, reserve
 
 ROOT = Path(__file__).resolve().parents[1]
 FOLDER = ROOT / 'data/evaluation/current-runtime-v4'

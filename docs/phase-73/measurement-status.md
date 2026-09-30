@@ -12,8 +12,9 @@ the actor control but stopped after a second case exposed a coverage paraphrase
 error. [V17](../phase-71/v17-paraphrase-correction.md) addresses that on new positive
 and negative development variants while preserving every prior diagnostic.
 V17 then passed diagnostic but failed full calibration 23/24 on an overstrict
-contextual-actor judgment. [V18](../phase-71/v18-context-correction.md) is the next
-source-supported correction. Phase 72 remains complete; failed results are immutable.
+contextual-actor judgment. [V18](../phase-71/v18-context-correction.md) passed 29/29 diagnostic + 4/4 probes
+and 24/24 full calibration + 3/3 probes, with clean source inspection. A fresh
+post-freeze 16-case confirmation is the next gate. Phase 72 remains complete; failed results are immutable.
 
 The isolated local PostgreSQL clone is prepared; successor measurement tooling,
 accounting tests and neutral contracts are prepared and reviewed.

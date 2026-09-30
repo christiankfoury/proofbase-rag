@@ -4,6 +4,8 @@ import argparse
 import hashlib
 import json
 import os
+import platform
+from importlib.metadata import distributions
 from pathlib import Path
 import sys
 ROOT = Path(__file__).resolve().parents[1]
@@ -47,12 +49,17 @@ def fingerprint(settings):
             or k in {"default_demo_tenant_id", "default_demo_user_id", "database_runtime_role", "openai_chat_model", "openai_embedding_model", "auth_mode", "app_environment", "rate_limit_backend",
                      "file_parser_mode", "file_scanner_mode"}}
     tables = {}
+    runtime = {"python_version": platform.python_version(),
+               "packages": dict(sorted((d.metadata["Name"].lower().replace("_", "-"), d.version)
+                                       for d in distributions() if d.metadata.get("Name")))}
     with psycopg.connect(settings.database_url) as conn:
+        runtime["postgres_version"] = conn.info.server_version
+        runtime["postgres_extensions"] = dict(conn.execute("select extname, extversion from pg_extension order by extname").fetchall())
         for table in ("documents", "document_versions", "chunks", "chunk_embeddings", "demo_users", "projects", "project_departments", "project_memberships", "prompt_versions"):
             # Preserve row content, including embeddings/ACLs, without publishing credentials or user data.
             rows = conn.execute(f"select row_to_json(t)::text from {table} t order by row_to_json(t)::text").fetchall()
             tables[table] = {"count": len(rows), "sha256": hashlib.sha256("\n".join(r[0] for r in rows).encode()).hexdigest()}
-    return {"settings": safe, "tables": tables, "database": DBNAME,
+    return {"settings": safe, "tables": tables, "database": DBNAME, "runtime": runtime,
             "call_output_cap": 2048, "sdk_retries": 0, "temperature_note": "runtime configuration; grader GPT-5.4 medium reasoning; provider output is not deterministic"}
 
 

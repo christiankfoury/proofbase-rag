@@ -1,9 +1,9 @@
 # Phase 73 preparation and declared measurement protocol
 
-Status: contingent preparation. Tooling currently binds v17, which failed full
-calibration and cannot be used. Advance bindings to a qualified successor and
-reverify before runtime freeze or isolated holdout authorship. No fresh application
-score exists yet.
+Status: contingent preparation. Tooling now binds candidate v18. It cannot be
+used until full calibration, source inspection and fresh confirmation all pass.
+Reverify custody before runtime freeze or isolated holdout authorship. No fresh
+application score exists yet.
 Phase 72's reviewed runtime fixes and relevant passing regression evidence remain
 unchanged; this work versions the measurement tooling and local environment.
 
@@ -22,7 +22,9 @@ Runtime logs, uploads and quarantine use the ignored `local-runs/current-phase73
 directory. Telemetry is off. Test-process tenant admission is USD 10; application
 defaults are unchanged. SDK retries are explicitly zero in settings and intercepted
 clients. The pre-run fingerprint binds configuration, model settings, corpus/index
-row hashes, roles, projects, departments, memberships and prompts.
+row hashes, roles, projects, departments, memberships and prompts. It also binds
+the installed Python/package versions and PostgreSQL server/extensions, so a
+dependency-file hash alone cannot conceal an environment change.
 
 Freeze all runtime/evaluator source and dependencies, prompts, corpus, configuration,
 index, passing evaluator evidence, authorization and complete ledger prefix before
@@ -80,7 +82,7 @@ Report remaining limitations and any incomplete denominator explicitly.
 
 Preparation review: the full new runner, ledger, custody/replay code and neutral
 contracts were inspected before commit. `python -m unittest
-scripts.test_quality_confirmation_v17 scripts.test_phase73_eval` passed all 12
+scripts.test_quality_confirmation_v18 scripts.test_phase73_eval` passed all 12
 focused tests; scoped Python compilation passed. Confirmation tooling preserves
 16/16, all intermediate fact statuses, separate validation and one-shot custody.
 No freeze, authoring, confirmation or runtime measurement is implied by this

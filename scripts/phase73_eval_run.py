@@ -1,4 +1,4 @@
-"""One application capture per sealed case, with separately recorded v17 grading."""
+"""One application capture per sealed case, with separately recorded v18 grading."""
 import argparse
 import json
 from pathlib import Path
@@ -9,8 +9,8 @@ from scripts.phase73_eval_protocol import FOLDER, verify_custody, digest
 from scripts.phase73_eval_environment import configure, fingerprint
 from scripts.phase73_eval_budget import Ledger, BudgetStop
 from scripts.phase73_eval_capture import measure_case
-from scripts.quality_eval_contract_v17 import dimensions, VERSION
-from scripts.quality_eval_transport_v17 import grade_case
+from scripts.quality_eval_contract_v18 import dimensions, VERSION
+from scripts.quality_eval_transport_v18 import grade_case
 from scripts.reanalyze_saved_answers import build_inputs
 from scripts.run_fresh_eval import now
 from scripts.quality_completion_durable import write_json_atomic

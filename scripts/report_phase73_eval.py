@@ -11,8 +11,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from scripts.phase73_eval_protocol import FOLDER,verify_custody,digest
 from scripts.phase73_eval_budget import Ledger,PRICES,request_hash
-from scripts.quality_eval_contract_v17 import VERSION,dimensions
-from scripts import quality_eval_transport_v17 as transport
+from scripts.quality_eval_contract_v18 import VERSION,dimensions
+from scripts import quality_eval_transport_v18 as transport
 from scripts.report_quality_calibration_v12 import replay_raw
 from scripts.reanalyze_saved_answers import build_inputs,DIMS
 from scripts.quality_completion_durable import write_json_atomic

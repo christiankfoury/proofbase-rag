@@ -1,0 +1,73 @@
+{
+  "case_id": "coverage-other-entity",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It gives a substantive answer, but for a different entity than the one asked about.",
+    "behavior_span": "The Onyx visitor badge deposit is 5 credits.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C2",
+            "span": "The Onyx visitor badge deposit is 5 credits."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "This exact claim is directly entailed by factual source R2 and cited source C2, though it does not answer the asked question about Mica.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "The Onyx visitor badge deposit is 5 credits."
+          }
+        ],
+        "text": "The Onyx visitor badge deposit is 5 credits."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer gives a deposit for Onyx, not for Mica. Because it changes the entity, it does not communicate the Mica deposit amount or contradict the Mica fact.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks about the Mica visitor badge deposit, but the answer discusses Onyx instead, which is a different topic/entity not identified by the question or history.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The only factual claim was correctly extracted verbatim and is supported by factual source R2 and cited source C2, so factual_support and citation_support correctly pass. The required fact about Mica was correctly marked missing, not contradicted, because the answer gives a different entity's deposit; thus completeness correctly fails. The answer is substantive prose, so actual_behavior='answer' is correct, but because the required fact is missing, response_behavior correctly fails despite matching the expected behavior form. Relevance correctly fails because the question asked about Mica and the answer invents Onyx instead. No forbidden assertions are present, so 'absent' is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

@@ -21,18 +21,22 @@ V16 fixed that issue but failed a paraphrase diagnostic. V17 diagnostic passed
 confirmed that the actor rule rejects ordinary second-person instructions for
 the action already identified by the user. No v17 freeze/confirmation occurred.
 
-Continue with [v18 task-context correction](../phase-71/v18-context-correction.md):
-four new positive/negative controls plus all previous diagnostics, unchanged full
-24/24 + 3/3 and fresh 16/16 confirmation gates. Six focused tests and source review
-pass; its live diagnostic is the next action. V17 used 153 settled calls, estimated
-USD 1.62926000; cumulative 2,428 calls, USD 8.88441327. No provider retries.
+V18 [development](../phase-71/v18-context-correction.md) is complete: 29/29 diagnostic
+plus 4/4 probes; 24/24 full calibration plus 3/3 probes. [Source inspection](../phase-71/confirmation-v18-development-source-review.md)
+found zero unresolved semantic issues. Offline raw replay, focused tests and
+review passed. Next: commit evidence/tooling, freeze v18, then freshly isolated
+16-case authoring and independent validation, seal and execute once. No v18
+confirmation is authored yet. The 16/16 gate is unchanged.
 
-Docker is running and the isolated Phase 73 database is ready. [Runner preparation](../phase-73/preflight.md)
-was reviewed/tested and pushed in `c7e1225`; its evaluator bindings must advance to
-a qualified successor before freeze or use. No 60-case holdout is authored, frozen,
-sealed or executed. No new application quality score exists. Policy: `0159c71`;
-v17 preparation: `41a077f`; v17 results/v18 preparation are in the unit containing
-this entry. Follow the operating loop without routine permission.
+V18 used 166 settled calls, estimated USD 1.87802000; cumulative 2,594 calls,
+USD 10.76243327, with zero retries. Docker is running and the isolated Phase 73
+PostgreSQL clone is ready. [Runner preparation](../phase-73/preflight.md) now binds
+v18 and includes installed dependency/database versions in its pre-freeze
+fingerprint. Twelve focused runner/custody tests and local fingerprint verification
+pass. No runtime freeze, 60-case authoring or live application measurement yet.
+No new application quality score exists. Policy: `0159c71`; v17 results/v18
+preparation: `a2c6636`; this unit contains v18 development results and confirmation
+tooling. Preserve unrelated request logs and continue without routine approval.
 
 The stopped entries below record historical authorization boundaries; they do
 not override the newer standing completion authorization.
