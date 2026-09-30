@@ -14,7 +14,9 @@ and negative development variants while preserving every prior diagnostic.
 Phase 72 remains complete. Historical results and failed gates remain immutable.
 
 The isolated local PostgreSQL clone is prepared; successor measurement tooling,
-accounting tests and neutral contracts are contingent drafts.
+accounting tests and neutral contracts are prepared and reviewed.
+[Preflight](preflight.md) records the call/token bounds, no-retry accounting and
+publication gates. These tools cannot start before evaluator confirmation passes.
 No Phase 73 runtime/evaluator/corpus/configuration/index freeze, 60-case authorship,
 seal or live application measurement has occurred. No new overall quality score
 exists. Existing dashboard scores are historical and unchanged.

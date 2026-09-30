@@ -30,6 +30,10 @@ V16 preparation/result unit: `a65fd7d`. Its diagnostic stopped after 2/21 cases
 paraphrase. Six calls added; cumulative 2,275 calls, USD 7.25515327. Continue with
 [v17 semantic coverage correction](../phase-71/v17-paraphrase-correction.md),
 retaining all prior diagnostic controls and unchanged full/confirmation gates.
+V17 diagnostic passed 25/25 plus 3/3 probes with clean primary source inspection;
+78 calls added USD 0.87927750 (2,353 cumulative calls, USD 8.13443077). The single
+full calibration is running. Confirmation and Phase 73 [tooling](../phase-73/preflight.md)
+are prepared and tested; readiness gates prevent premature use.
 Docker is available; isolated Phase 73 database and runner drafts are prepared,
 but no runtime holdout has been authored or run. Phase 72 remains complete.
 
