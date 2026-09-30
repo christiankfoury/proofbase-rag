@@ -24,9 +24,20 @@
 
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.
 
+The latest [Phase 73 measurement](docs/phase-73/results.md), suite `current-runtime-4`
+on frozen runtime `8bd72ba1` with the qualified v20 evaluator, **stopped on an API
+timeout: 10/60 cases graded, 11 responses saved, 49 unexecuted**. The completed
+prefix has 3 model passes and 7 model failures, with additional source-inspection
+concerns. There is **no validated full-suite score or safety-gate pass**. The
+attempt accounts for USD 0.61799184 estimated settled usage plus USD 0.146775 held
+for the unknown request. [Inspect each case](docs/phase-73/case-review.md) and
+[review findings](docs/phase-73/source-review.md); reproduce without API calls using
+`python scripts/report_phase73_interruption.py --check`. No historical score is
+replaced and no controlled before/after gain is claimed.
+
 The [earlier frozen-runtime evaluation](docs/phase-65/results.md) uses a separate 60-case post-freeze suite and a stricter full-response rubric. It recorded **33/60 (55.0%) automated protocol passes**, below the predeclared 80% target. Eight cases had invalid grader outputs; human review is pending. This is not a human-verified accuracy rate or a before/after comparison with the historical numbers below. Verify it offline with `python scripts/report_fresh_eval.py --check`. The [separate saved-answer reanalysis](docs/phase-66/results.md) reports factual support, completeness, relevance, citation support, quotation formatting and response behavior independently. [Read each question, expected facts and actual answer](docs/phase-66/case-review.md); this changes the evaluator, not the application performance. Agent inspection found remaining grader errors; the new labels are diagnostic and are not approved for release gating.
 
-The [latest runtime measurement](docs/phase-68/results.md) follows corrections to memory context and multi-query evidence coverage. It uses a newly authored post-freeze 60-case suite and pinned GPT-4.1 dimension grader, with [per-case answers, sources and citations](docs/phase-68/case-review.md). The six dimensions, unresolved judgments and safety flags are reported separately; no controlled before/after gain or human-verified accuracy is claimed. Verify saved evidence with `python scripts/report_current_eval.py --check`.
+The [Phase 68 runtime measurement](docs/phase-68/results.md) follows corrections to memory context and multi-query evidence coverage. It uses a newly authored post-freeze 60-case suite and pinned GPT-4.1 dimension grader, with [per-case answers, sources and citations](docs/phase-68/case-review.md). The six dimensions, unresolved judgments and safety flags are reported separately; no controlled before/after gain or human-verified accuracy is claimed. Verify saved evidence with `python scripts/report_current_eval.py --check`.
 
 | Evidence | Historical result | Interpretation |
 | --- | ---: | --- |
@@ -202,7 +213,7 @@ See the [Algorithm Guide](docs/algorithm/README.md) for the detailed flow, trade
 
 The main benchmark contains 130 synthetic enterprise questions, authored and checked by the project author with AI assistance. It is used for development and regression, and influenced system tuning. Separately authored sealed holdouts improve separation from in-phase tuning; they do not establish external human independence. See the [dataset card](docs/evaluation/dataset-card.md) and [implemented scoring methodology](docs/evaluation/methodology.md).
 
-The latest complete executed sealed-holdout measurement is the historical Phase 49 holdout v3. Later runtime changes have not been measured with a new executed sealed holdout:
+The historical Phase 49 holdout v3 has the following provenance. It is preserved separately from the later measurements in the Evidence Snapshot:
 
 - Frozen RAG runtime: `7bbb8b4`.
 - Hardened evaluator: `3d3706e`.
@@ -562,4 +573,4 @@ The Phase 48/49 product-quality backlog also remains preserved for a separately 
 
 ## Project Summary
 
-**Proofbase** is a full-stack enterprise RAG reference implementation that combines a usable project-scoped knowledge assistant with the engineering evidence behind it: pre-generation permission filtering, grounded citations, memory boundaries, evaluation dashboards, durable holdout execution, observability, Dockerized local deployment, and an optional Azure deployment path. Its latest sealed evaluation scored `22/30` with zero hard safety violations—and reports the remaining quality gaps without inflating the result.
+**Proofbase** is a full-stack enterprise RAG reference implementation that combines a usable project-scoped knowledge assistant with the engineering evidence behind it: pre-generation permission filtering, grounded citations, memory boundaries, evaluation dashboards, durable holdout execution, observability, Dockerized local deployment, and an optional Azure deployment path. Its evaluation reports preserve application failures, grader limitations and bounded safety observations; the Evidence Snapshot identifies each run and its actual scope.

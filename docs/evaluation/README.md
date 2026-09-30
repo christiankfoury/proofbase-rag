@@ -1,5 +1,12 @@
 # Evaluation evidence: start here
 
+The latest [Phase 73 attempt](../phase-73/results.md) is interrupted: 10/60 cases
+graded, 11 application responses saved, 49 unexecuted. Its 3 completed-prefix
+model passes are not a full-suite score; source inspection has unresolved concerns
+and dedicated safety groups were not reached. [Case inventory](../phase-73/case-review.md)
+and [source inspection](../phase-73/source-review.md) preserve the evidence.
+Offline check: `python scripts/report_phase73_interruption.py --check`.
+
 Proofbase has a useful regression benchmark, but it does **not** establish 100% real-world answer or citation accuracy. The benchmark was authored and checked by the project author with AI assistance, and used repeatedly during development. Its automated scores use heuristics.
 
 The separately authored Phase 49 holdout recorded **22/30 automated passes (73.3%)**, with eight failures available for inspection. This is a historical result against runtime `7bbb8b4`, not a measurement of today's runtime. The [fresh frozen-runtime experiment](../phase-65/results.md) reports its execution status separately with a stronger rubric and pending named-human review. Its percentage must not be presented as a before/after improvement over Phase 49.

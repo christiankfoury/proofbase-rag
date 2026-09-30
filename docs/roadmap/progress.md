@@ -6,28 +6,37 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: Phases 71/72 complete; Phase 73 fresh suite sealed
+### Active: Phases 71/72 complete; Phase 73 interrupted, full measurement blocked
 
-V20 fresh confirmation passed 16/16 exact matches: all 48 standard calls replay,
-estimated USD 0.5213645, zero source-inspection findings or invalid outputs.
-[Qualification](../phase-71/confirmation-v20-standard-source-review.md) follows
-10/10 + 3/3 diagnostic, unchanged 24/24 + 3/3 calibration (4f391425), separate
-freeze (6805b358) and isolated validated fresh suite seal (dbb02ee7). Phase 71 is
-complete under its automated gates; no human or external independent review is
-claimed. Phase 72 remains complete with the reviewed source-confirmed runtime fixes.
+Phase 71 qualified v20 with 24/24 development cases, 3/3 reviewer probes and
+16/16 fresh confirmation cases plus clean source inspection (8bd72ba1).
+Phase 72's reviewed source-confirmed application fixes remain complete.
 
-The Phase 73 runtime is frozen at 8bd72ba1: 244 committed files plus corpus,
-configuration/index and local environment. The unused complete cost prefix has
-2,945 historical rows, preserving all rejected/cancelled/failed attempts. Current
-and committed inventory hashes agree. Isolated authorship and independent validation
-approved 60/60 cases and 136 required facts; historical lexical overlap has no hits.
-The suite is sealed before one standard-request measurement. No runtime score
-exists yet. Shared additional accounting remains
-USD 5.92715325 of USD 10, leaving USD 4.07284675. Per-call reservations enforce
-that ceiling; a partial result cannot qualify as a complete score. Local readiness
-is 200 with 32 documents and 247 chunks/embeddings. Continue through the
-[active plan](quality-completion-plan.md) and [Phase 73 protocol](../phase-73/preflight.md),
-preserving unrelated request logs.
+Phase 73 froze 244 files, corpus/index/configuration at 8bd72ba1 (freeze commit
+9dc1e867), then separately authored and validated a fresh 60-case suite with 136
+required facts. The suite seal is b964f70a; exact preflight passed. The one-shot
+standard run stopped at case 11's final review with APITimeoutError after a
+transport read timeout: 10 graded, 11 captured, 49 unexecuted. No retry or resume.
+The original model results are 3 passes and 7 failures among the ten completed
+rows; no full-suite score or 48/60 target/safety qualification is established.
+Primary source inspection also records unresolved concerns; references/results
+remain unchanged. See [interruption results](../phase-73/results.md) and
+[source inspection](../phase-73/source-review.md).
+
+All 94 new call attempts are preserved: 93 settled at estimated USD 0.61799184
+plus one full USD 0.146775 unknown-outcome reservation. Additional conservative
+accounting is USD 6.69192009 of the unchanged USD 10 ceiling; USD 3.30807991 remains,
+with earlier retained reservations still included. No new cost authority is inferred.
+The frozen runner/full report still reject the unsettled ledger; a separate offline
+interruption reporter preserves it and publishes only partial evidence.
+
+Interruption publication is reviewed: five offline controls, raw/cost report
+replay, Python compilation, local links, final web build and browser access/metric
+checks pass. README/methodology/Dev-Admin show the same partial result. Full
+measurement remains blocked by the [active plan](quality-completion-plan.md)
+unknown-outcome stop and one-shot custody rules. A successor requires a documented
+outcome/accounting resolution and newly frozen, isolated evidence; do not clear the
+flag, retry this suite or silently start another paid run. Preserve unrelated logs.
 
 ### Historical checkpoint: v19 diagnostic passed
 

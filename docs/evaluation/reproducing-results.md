@@ -1,5 +1,34 @@
 # Reproduce the published evidence
 
+## Phase 73 saved evidence
+
+With the repository Python dependencies installed, run:
+
+```powershell
+python scripts/report_phase73_interruption.py --check
+```
+
+This performs no API or database calls. It checks the committed frozen source,
+suite seal, authorized source references, exact grader request/response replay,
+dimension reduction, complete historical ledger prefix, every new usage charge,
+the retained unknown-call reservation, shared additional-spending snapshot and
+published interrupted report. It verifies
+preservation and computation, not semantic infallibility. Read the
+[results](../phase-73/results.md) and [source inspection](../phase-73/source-review.md)
+alongside the machine report. Human adjudication remains false.
+
+The frozen `report_phase73_eval.py` full-run path still rejects the unsettled
+ledger. The separate interruption reporter does not bypass that execution gate,
+release the reservation, retry a call or qualify the partial result. Focused
+controls are `python -m unittest scripts.test_phase73_interruption`.
+
+The one-shot execution command is `python scripts/phase73_eval_run.py --allow-external-ai`.
+It refuses an existing run. Do not delete artifacts, edit sealed expectations or
+resume this exposed suite. A future measurement requires a separately authorized
+work unit, a new freeze, newly isolated cases and preflight. This attempt did not
+reach either upload fixture. Historical sections below describe earlier stages;
+their then-pending Phase 73 status is not the current tracker.
+
 ## Offline: no account, database, or API calls
 
 From a normal repository checkout with Python 3.12, run:

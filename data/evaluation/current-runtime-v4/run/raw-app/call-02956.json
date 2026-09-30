@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nRules:\n- Answer only from the retrieved context.\n- Cite every factual claim with document ID, document title, section heading, and chunk ID.\n- If evidence is missing, use response_type \"not_found\" and say: \"I could not find this in the available documents.\"\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted details.\n- If the question is ambiguous, use response_type \"clarify\" and ask one concise clarifying question.\n- If evidence is partial, use response_type \"partial_answer\", answer cautiously, and state what is missing.\n- If conversation memory is provided, use it only to understand the user's current question.\n- Do not treat conversation memory as source evidence; factual claims must be supported by retrieved context.\n- Do not invent policy details, numbers, dates, prices, legal advice, or customer commitments.\n- Keep answers concise but complete.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nFor a six-business-day vacation, how far ahead should I file my request?\n\nRetrieved context:\nDocument ID: HR-002\nTitle: PTO and Leave Policy\nSection: Vacation Approval Workflow\nChunk ID: 483a6ce6-f231-4b14-9190-948b5d6cd35b\nRank: 1\nRetrieval Score: 0.6896\nContent:\nVacation Approval Workflow\n\nVacation requests of 1 to 5 business days should be submitted at least 10 business days in advance. Requests longer than 5 business days should be submitted at least 20 business days in advance.\n\nManagers approve vacation based on business coverage, project deadlines, and fairness across the team. Managers should not deny vacation without explaining the business reason.\n\n---\n\nDocument ID: OPS-001\nTitle: Vendor, Travel, and Equipment Operations Policy\nSection: Travel Booking\nChunk ID: 6b97676d-c44e-480a-8d38-54df3d81974c\nRank: 2\nRetrieval Score: 0.4737\nContent:\nTravel Booking\n\nEmployees should book business travel at least 14 days before departure when practical. Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.\n\nManagers approve travel before booking when the trip is not already listed in the department plan. Travel booked after manager denial is not reimbursable unless the denial is reversed in writing.\n\n---\n\nDocument ID: HR-002\nTitle: PTO and Leave Policy\nSection: Vacation Entitlement\nChunk ID: 79e28ac2-ea1b-45ff-9a0d-d5ca18b2b19e\nRank: 3\nRetrieval Score: 0.4392\nContent:\nVacation Entitlement\n\nFull-time employees receive 20 paid vacation days per calendar year. Vacation is accrued monthly and may be used after the employee's first 30 days of employment. Part-time employees receive prorated vacation based on scheduled weekly hours.\n\nEmployees may carry over up to 5 unused vacation days into the next calendar year. Carried-over days must be used by March 31 or they expire unless local law requires a different outcome.\n\n---\n\nDocument ID: FIN-001\nTitle: Expense, Procurement, and Reimbursement Policy\nSection: Reimbursement Timing\nChunk ID: 08133959-8b36-4832-8e3a-9c76796459f3\nRank: 4\nRetrieval Score: 0.4166\nContent:\nReimbursement Timing\n\nApproved expense reports are reimbursed in the next regular payroll cycle when submitted at least five business days before payroll close. Reports submitted after the cutoff move to the following payroll cycle.\n\nFinance may hold reimbursement if the report lacks required receipts, approval, business purpose, or attendee information. The hold is administrative and does not imply misconduct.\n\n---\n\nDocument ID: HR-002\nTitle: PTO and Leave Policy\nSection: Parental Leave Summary\nChunk ID: a3d2beee-aea8-4d4f-bbf7-07017884bf45\nRank: 5\nRetrieval Score: 0.4087\nContent:\nParental Leave Summary\n\nEligible full-time employees may receive up to 12 weeks of company-supported parental leave after 6 months of service. Local statutory benefits may apply separately. Employees should contact People Operations at least 60 days before the expected leave date when possible.\n\nThis document provides a company policy summary and does not provide legal advice.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.2
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"For a six-business-day vacation, you should submit your vacation request at least 20 business days in advance.\",\n  \"citations\": [\n    {\n      \"document_id\": \"HR-002\",\n      \"document_title\": \"PTO and Leave Policy\",\n      \"section_heading\": \"Vacation Approval Workflow\",\n      \"chunk_id\": \"483a6ce6-f231-4b14-9190-948b5d6cd35b\",\n      \"citation_text\": \"Requests longer than 5 business days should be submitted at least 20 business days in advance.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Vacation requests longer than 5 business days should be submitted at least 20 business days in advance.\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The policy clearly states the advance notice required for vacation requests longer than 5 business days, which applies to a six-business-day vacation.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790798605,
+    "id": "chatcmpl-ETuoPnQ7AW07xAbt42813JXau5F7G",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_f58ab5bba3",
+    "usage": {
+      "completion_tokens": 207,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1071,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 1278
+    }
+  },
+  "status": "received"
+}

@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nRules:\n- Answer only from the retrieved context.\n- Cite every factual claim with document ID, document title, section heading, and chunk ID.\n- If evidence is missing, use response_type \"not_found\" and say: \"I could not find this in the available documents.\"\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted details.\n- If the question is ambiguous, use response_type \"clarify\" and ask one concise clarifying question.\n- If evidence is partial, use response_type \"partial_answer\", answer cautiously, and state what is missing.\n- If conversation memory is provided, use it only to understand the user's current question.\n- Do not treat conversation memory as source evidence; factual claims must be supported by retrieved context.\n- Do not invent policy details, numbers, dates, prices, legal advice, or customer commitments.\n- Keep answers concise but complete.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nI'm leaving the company. What is the equipment-return deadline, who can extend it, and does a missing laptop automatically authorize a payroll deduction?\n\nRetrieved context:\nDocument ID: OPS-001\nTitle: Vendor, Travel, and Equipment Operations Policy\nSection: Shipping and Return Rules\nChunk ID: 7f43621b-e723-47b9-b347-6c633696ca67\nRank: 1\nRetrieval Score: 0.7511\nContent:\nShipping and Return Rules\n\nEmployees leaving the company must return company equipment within 10 business days unless HR Admin approves an extension. Operations may provide a prepaid shipping label. Employees should not include personal items in return shipments.\n\nDamaged or missing equipment is reviewed by HR Admin and IT Admin before any payroll or final-pay action. This policy does not authorize payroll deductions by itself.\n\n---\n\nDocument ID: OPS-001\nTitle: Vendor, Travel, and Equipment Operations Policy\nSection: Equipment Requests\nChunk ID: efa74b64-3c3e-4f86-bec3-63476871ca6b\nRank: 2\nRetrieval Score: 0.6186\nContent:\nEquipment Requests\n\nStandard equipment includes a laptop, charger, headset, keyboard, mouse, and monitor. New-hire equipment is initiated by HR Admin and fulfilled by IT Admin. Replacement equipment requires the employee to state whether the request is due to breakage, loss, upgrade, or accessibility need.\n\nEquipment above the standard bundle requires manager approval. Lost equipment that may contain company data must be reported to IT Admin immediately and should not wait for the next business day.\n\n---\n\nDocument ID: IT-002\nTitle: Device and BYOD Security Policy\nSection: Lost or Stolen Devices\nChunk ID: b452b9a3-8eb8-4961-a175-0fbf78809fb2\nRank: 3\nRetrieval Score: 0.4577\nContent:\nLost or Stolen Devices\n\nEmployees must report lost or stolen devices to IT Support within 2 hours of discovery. The report should include the device type, last known location, whether customer data may have been accessed, and whether the device was company-managed or personal.\n\n---\n\nDocument ID: IT-002\nTitle: Device and BYOD Security Policy\nSection: Company Devices\nChunk ID: e63e8dbf-a320-4863-83cf-939dd76f89ca\nRank: 4\nRetrieval Score: 0.4393\nContent:\nCompany Devices\n\nEmployees who regularly access company systems should use a company-managed device. Company devices must have disk encryption, endpoint protection, automatic screen lock, and current operating system updates.\n\nEmployees may not disable security tools or remove device management controls from company devices.\n\n---\n\nDocument ID: HR-001\nTitle: Employee Handbook\nSection: Related Policies\nChunk ID: b6f7d058-c59b-40e2-bf9b-3a560a873391\nRank: 5\nRetrieval Score: 0.4107\nContent:\nRelated Policies\n\nFor time off, consult the PTO and Leave Policy. For remote work, consult the Remote and Hybrid Work Policy. For acceptable technology use, consult the Acceptable Use Policy.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.2
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"Employees leaving the company must return company equipment within 10 business days unless HR Admin approves an extension. Damaged or missing equipment is reviewed by HR Admin and IT Admin before any payroll or final-pay action, and this policy does not authorize payroll deductions automatically for missing laptops.\",\n  \"citations\": [\n    {\n      \"document_id\": \"OPS-001\",\n      \"document_title\": \"Vendor, Travel, and Equipment Operations Policy\",\n      \"section_heading\": \"Shipping and Return Rules\",\n      \"chunk_id\": \"7f43621b-e723-47b9-b347-6c633696ca67\",\n      \"citation_text\": \"Employees leaving the company must return company equipment within 10 business days unless HR Admin approves an extension. Damaged or missing equipment is reviewed by HR Admin and IT Admin before any payroll or final-pay action. This policy does not authorize payroll deductions by itself.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Equipment-return deadline is 10 business days\",\n    \"HR Admin can approve extensions\",\n    \"Missing laptop does not automatically authorize payroll deduction\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The policy clearly states the deadline and extension authority, and that payroll deductions are not automatic for missing equipment.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790798947,
+    "id": "chatcmpl-ETutvEYQKd048x8XxLzIJ2bypwlRt",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_f58ab5bba3",
+    "usage": {
+      "completion_tokens": 274,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1002,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 1276
+    }
+  },
+  "status": "received"
+}

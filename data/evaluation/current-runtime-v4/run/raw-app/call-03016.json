@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nThis question requires synthesis from multiple source documents. The retrieved context below is grouped by document — all documents shown are relevant to the question.\n\nResponse type rules:\n- Use response_type \"answer\" if the combined context across all documents supports the answer, even if no single document contains the complete answer.\n- Use response_type \"partial_answer\" only if required documents are genuinely missing from the context — not because evidence is split across documents.\n- Use response_type \"not_found\" only if none of the provided documents contain the needed information.\n- Use response_type \"refuse_no_access\" if the user lacks permission to access required documents.\n- Use response_type \"clarify\" if the question is ambiguous about approval stage, location, data type, or role.\n- Do not downgrade to \"partial_answer\" solely because evidence comes from two or more separate documents.\n\nCitation rules:\n- Cite at least one chunk per document that contributed facts to your answer.\n- Do not omit a document because its contribution is supplementary — if it added a fact, cite it.\n- Every citation must include document_id, document_title, section_heading, chunk_id, and citation_text.\n- citation_text must be a short exact or near-exact excerpt from the cited chunk.\n- Do not cite a chunk unless it directly supports a specific claim in the answer.\n\nSafety rules:\n- Answer only from the retrieved context.\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted content.\n- If conversation memory is provided, use it only to clarify the current question. Do not treat memory as source evidence.\n- Do not invent policy details, numbers, dates, prices, legal advice, customer commitments, or unstated exceptions.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nI'd like to work from another Canadian city for 12 business days using my personal laptop. Who may approve the location change, and what personal-device access and download limits still apply?\n\nRetrieved context (grouped by document):\n=== Document: HR-002 — PTO and Leave Policy ===\n\n[Section: Vacation Entitlement]\nChunk ID: 79e28ac2-ea1b-45ff-9a0d-d5ca18b2b19e\nScore: 0.7292\nContent:\nVacation Entitlement\n\nFull-time employees receive 20 paid vacation days per calendar year. Vacation is accrued monthly and may be used after the employee's first 30 days of employment. Part-time employees receive prorated vacation based on scheduled weekly hours.\n\nEmployees may carry over up to 5 unused vacation days into the next calendar year. Carried-over days must be used by March 31 or they expire unless local law requires a different outcome.\n\n[Section: Vacation Approval Workflow]\nChunk ID: 483a6ce6-f231-4b14-9190-948b5d6cd35b\nScore: 0.6059\nContent:\nVacation Approval Workflow\n\nVacation requests of 1 to 5 business days should be submitted at least 10 business days in advance. Requests longer than 5 business days should be submitted at least 20 business days in advance.\n\nManagers approve vacation based on business coverage, project deadlines, and fairness across the team. Managers should not deny vacation without explaining the business reason.\n\n[Section: Parental Leave Summary]\nChunk ID: a3d2beee-aea8-4d4f-bbf7-07017884bf45\nScore: 0.5585\nContent:\nParental Leave Summary\n\nEligible full-time employees may receive up to 12 weeks of company-supported parental leave after 6 months of service. Local statutory benefits may apply separately. Employees should contact People Operations at least 60 days before the expected leave date when possible.\n\nThis document provides a company policy summary and does not provide legal advice.\n\n[Section: Missing Policy Areas]\nChunk ID: 50227ee4-84db-49ca-b46e-df7b730ecc0e\nScore: 0.5491\nContent:\nMissing Policy Areas\n\nNorthstar does not publish a sabbatical policy in the employee knowledge base. Employees asking about sabbaticals should contact People Operations.\n\n[Section: Sick Leave]\nChunk ID: 4d0ae131-80d4-4c78-b6cf-7523be37c236\nScore: 0.5317\nContent:\nSick Leave\n\nEmployees receive 8 paid sick days per calendar year. Sick time may be used for personal illness, medical appointments, or short-term caregiving needs. Employees should notify their manager as soon as practical when taking sick leave.\n\nMedical details should not be shared in team channels. People Operations may request documentation only when required by policy or law.\n\n=== Document: IT-002 — Device and BYOD Security Policy ===\n\n[Section: Personal Devices]\nChunk ID: 66a0bffd-898c-4c16-abf0-817b06af59d3\nScore: 0.7866\nContent:\nPersonal Devices\n\nPersonal devices may be used for limited work access only when enrolled in approved mobile device management or when access occurs through approved browser-based tools. Personal devices must use a passcode, supported operating system, and automatic lock.\n\nRestricted data must not be downloaded to personal devices. Confidential data should be accessed only through approved company systems.\n\n[Section: Company Devices]\nChunk ID: e63e8dbf-a320-4863-83cf-939dd76f89ca\nScore: 0.7457\nContent:\nCompany Devices\n\nEmployees who regularly access company systems should use a company-managed device. Company devices must have disk encryption, endpoint protection, automatic screen lock, and current operating system updates.\n\nEmployees may not disable security tools or remove device management controls from company devices.\n\n[Section: Lost or Stolen Devices]\nChunk ID: b452b9a3-8eb8-4961-a175-0fbf78809fb2\nScore: 0.4968\nContent:\nLost or Stolen Devices\n\nEmployees must report lost or stolen devices to IT Support within 2 hours of discovery. The report should include the device type, last known location, whether customer data may have been accessed, and whether the device was company-managed or personal.\n\n=== Document: HR-003 — Remote and Hybrid Work Policy ===\n\n[Section: Security Expectations]\nChunk ID: 47fe8690-3f57-4a00-99a4-17175db78840\nScore: 0.6782\nContent:\nSecurity Expectations\n\nRemote work must follow the Device and BYOD Security Policy and the Data Classification and Handling Policy. Confidential and restricted data may only be accessed on approved devices using company-approved tools.\n\n=== Document: IT-001 — Acceptable Use Policy ===\n\n[Section: Related Policies]\nChunk ID: 7a7d5ae9-d0ec-448e-972f-f4303132fd00\nScore: 0.6617\nContent:\nRelated Policies\n\nDevice requirements are defined in the Device and BYOD Security Policy. Data handling requirements are defined in the Data Classification and Handling Policy.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"The approval for working from another Canadian city for 12 business days would typically fall under the vacation approval workflow, where managers approve time off based on business coverage and project deadlines. Since this is a location change for work rather than vacation, you should seek approval from your manager or the relevant authority managing remote work arrangements. Regarding personal-device access and download limits, personal devices can be used for limited work access only when enrolled in approved mobile device management or when access occurs through approved browser-based tools. Personal devices must have a passcode, supported operating system, and automatic lock. Importantly, restricted data must not be downloaded to personal devices, and confidential data should only be accessed through approved company systems.\",\n  \"citations\": [\n    {\n      \"document_id\": \"HR-002\",\n      \"document_title\": \"HR-002 — PTO and Leave Policy\",\n      \"section_heading\": \"Vacation Approval Workflow\",\n      \"chunk_id\": \"483a6ce6-f231-4b14-9190-948b5d6cd35b\",\n      \"citation_text\": \"Managers approve vacation based on business coverage, project deadlines, and fairness across the team.\"\n    },\n    {\n      \"document_id\": \"IT-002\",\n      \"document_title\": \"IT-002 — Device and BYOD Security Policy\",\n      \"section_heading\": \"Personal Devices\",\n      \"chunk_id\": \"66a0bffd-898c-4c16-abf0-817b06af59d3\",\n      \"citation_text\": \"Personal devices may be used for limited work access only when enrolled in approved mobile device management or when access occurs through approved browser-based tools. Personal devices must use a passcode, supported operating system, and automatic lock. Restricted data must not be downloaded to personal devices. Confidential data should be accessed only through approved company systems.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Managers approve vacation based on business coverage and project deadlines.\",\n    \"Personal devices may be used for limited work access only when enrolled in approved mobile device management or through approved browser-based tools.\",\n    \"Personal devices must have a passcode, supported OS, and automatic lock.\",\n    \"Restricted data must not be downloaded to personal devices.\",\n    \"Confidential data should be accessed only through approved company systems.\"\n  ],\n  \"unsupported_claims\": [\n    \"Specific approval authority for location change distinct from vacation approval.\"\n  ],\n  \"validation_notes\": \"The documents do not explicitly state who approves location changes for remote work, but managers approve vacation and time off, so they are the likely approvers. The device and BYOD policy clearly states personal device usage and data download restrictions.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790799181,
+    "id": "chatcmpl-ETuxhHYNephqGalF8k8Zfxw1kJLMY",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_d5663c57e3",
+    "usage": {
+      "completion_tokens": 559,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1603,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 2162
+    }
+  },
+  "status": "received"
+}

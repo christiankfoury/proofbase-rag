@@ -8,6 +8,7 @@ import fresh from "../../../../../data/evaluation/fresh-current/public-report.js
 
 import reanalysis from "../../../../../data/evaluation/dimension-reanalysis-v1/public-summary.json";
 import current from "../../../../../data/evaluation/current-runtime-v3/public-report.json";
+import latest from "../../../../../data/evaluation/current-runtime-v4/public-report.json";
 
 const repo = "https://github.com/christiankfoury/proofbase-rag/blob/main/";
 const reading = [
@@ -26,7 +27,60 @@ export default function EvaluationMethodologyPage() {
     <Shell>
       <PageHeader title="How Evaluation Is Scored" description="Public evidence, exact denominators, and known limits of the automated rubric." />
       <Card className="mb-6">
-        <SectionHeading title="Latest frozen-runtime evaluation" description="New questions authored after the runtime freeze. Each quality dimension is reported separately." />
+        <SectionHeading title="Latest frozen-runtime evaluation — interrupted" description="Phase 73: a planned 60-case run stopped after an API timeout. No full-suite score." />
+        <p className="text-3xl font-semibold text-ink">
+          {latest.validated_passes === null
+            ? "No validated full-suite score"
+            : `${latest.validated_passes}/${latest.expected_cases} automated protocol passes`}
+        </p>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          {latest.completed_cases}/{latest.expected_cases} cases completed. Run status: {latest.status}.{" "}
+          {latest.captured_cases} application responses saved; {latest.ungraded_captured_cases} remains ungraded and {latest.unexecuted_cases} cases were not executed.
+          Predeclared target: {latest.target}/{latest.expected_cases} — not established by this incomplete run.
+          Unresolved judgments receive no target credit; quotation fidelity is reported separately.
+        </p>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          Model candidate passes among completed cases: {latest.candidate_passes}/{latest.completed_cases}. Source inspection: {latest.source_inspection_passed ? "passed" : "not approved"}.
+          Invalid grades: {latest.invalid_grades}. Cases with model-review disagreements: {latest.disputed_cases.length}.
+          Cases with recorded safety flags: {latest.safety_flag_cases.length}. The dedicated safety groups were not executed.
+        </p>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead><tr><th className="p-2">Dimension</th><th className="p-2">Model pass</th><th className="p-2">Model fail</th><th className="p-2">Unresolved</th><th className="p-2">Not applicable</th></tr></thead>
+            <tbody>{Object.entries(latest.dimensions).map(([name, values]) => {
+              const counts = values as Record<string, number>;
+              return (
+                <tr key={name} className="border-t border-stone-200">
+                  <td className="p-2 capitalize">{name.replaceAll("_", " ")}</td>
+                  <td className="p-2">{counts.pass ?? 0}</td><td className="p-2">{counts.fail ?? 0}</td>
+                  <td className="p-2">{counts.unresolved ?? 0}</td><td className="p-2">{counts.not_applicable ?? 0}</td>
+                </tr>
+              );
+            })}</tbody>
+          </table>
+        </div>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          This run attempted {latest.calls} API calls, including application and grading calls: {latest.settled_calls} settled and {latest.unknown_calls} with an unknown outcome.
+          Settled usage estimate: USD {Number(latest.settled_usage_cost_usd).toFixed(4)}; retained unknown-call reservation: USD {Number(latest.unknown_reserved_usd).toFixed(4)}.
+          Median application latency: {latest.latency_ms.median === null ? "unavailable" : `${(latest.latency_ms.median / 1000).toFixed(1)} seconds`}.
+          P95: {latest.latency_ms.p95 === null ? "unavailable" : `${(latest.latency_ms.p95 / 1000).toFixed(1)} seconds`}.
+          Latency covers all {latest.latency_ms.count} saved application responses and excludes grading and fixture indexing. Costs are not invoices.
+        </p>
+        <p className="mt-3 text-sm leading-6 text-stone-700">{latest.limitation}</p>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          The evaluator qualified on 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases with source inspection.
+          That bounded qualification does not establish infallibility. Role and project tests do not establish department-only or production security coverage.
+        </p>
+        <p className="mt-3 break-all text-xs text-stone-500">Suite: {latest.suite_version}; runtime: {latest.runtime_commit}; evaluator: {latest.version}; model: {latest.model}.</p>
+        <div className="mt-4 flex flex-wrap gap-4 text-sm">
+          <a className="underline" href={`${repo}docs/phase-73/case-review.md`}>Inspect every question and answer</a>
+          <a className="underline" href={`${repo}docs/phase-73/results.md`}>Results, costs and limitations</a>
+          <a className="underline" href={`${repo}docs/phase-73/source-review.md`}>Source inspection and findings</a>
+        </div>
+        <pre className="mt-4 overflow-x-auto rounded border border-stone-300 bg-stone-50 p-4 text-sm">python scripts/report_phase73_interruption.py --check</pre>
+      </Card>
+      <Card className="mb-6">
+        <SectionHeading title="Previous frozen-runtime evaluation" description="Phase 68 historical evidence. Its separate dimensions are preserved with the original audit limitations." />
         <p className="text-sm leading-6 text-stone-700">
           {current.completed_cases}/{current.expected_cases} cases completed. Run status: {current.status}.
           Runtime {current.runtime_commit.slice(0, 7)}; evaluator {current.version}.

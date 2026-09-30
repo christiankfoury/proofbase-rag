@@ -294,3 +294,22 @@ verified without API calls. Complete intended-diff review found no open issue.
 Next is the one-shot standard run, then complete source inspection and offline
 replay, honest publication, frontend build/smoke and reviewed commit/push. No
 selective retry, exposed-case tuning, altered expectations or raised cost cap.
+
+### Execution interruption and publication handoff
+
+The seal was pushed as b964f70a. The one standard-request run started at
+20:02:11 UTC and stopped at 20:17:12 UTC on 2026-09-30. Case 11's final reviewer
+request timed out with no receipt; ten graded rows and eleven application responses
+are preserved. No retry, resumed run, API-side billing diagnosis or full-suite
+score is inferred. The complete ledger adds 94 attempts (93 settled, one unknown)
+to the immutable 2,945-row prefix. The unknown flag and full USD 0.146775 reservation
+remain. This attempt accounts for USD 0.76476684, of which USD 0.61799184 is settled
+usage estimate. Shared additional accounting is USD 6.69192009 of USD 10.
+
+The separate offline interruption reporter verifies the saved attempt without
+changing the frozen runner/report or clearing the unknown outcome. All 108 saved
+run artifacts are bound in a post-interruption seal. Primary inspection covers all
+11 captured responses, preserves original grades and records unresolved concerns;
+the publication gate is rejected. The remaining 49 cases and dedicated safety
+groups are explicitly unexecuted. See [results](results.md) for the continuation
+boundary. No application/evaluator correction was made against exposed cases.

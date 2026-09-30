@@ -2,6 +2,41 @@
 
 This describes code and saved evidence, not the aspirational Phase 3 scoring rubric. Historical artifacts retain their original field names for auditability; public labels explain what those fields actually measure.
 
+## Phase 73 frozen measurement
+
+The [Phase 73 result](../phase-73/results.md) uses runtime `8bd72ba1`, suite
+`current-runtime-4` and the pinned `gpt-5.4-2026-03-05` v20 evaluator. Qualification
+required 24/24 unchanged development cases, 3/3 reviewer probes and 16/16 newly
+authored post-freeze confirmation cases, with complete source inspection. Earlier
+failed candidates and all costs remain preserved. Passing these bounded checks
+does not establish an infallible grader.
+
+The separate author and validator inspected the frozen 19-document corpus before
+application execution. The 60-case suite contains 38 expected answers and 22
+non-answers, 136 required facts, five business roles and two foreign-project upload
+fixtures. It has no department-only cases. Isolation is procedural between agents;
+neither authorship nor validation is expert human labeling. Historical lexical
+overlap checks cannot establish semantic or statistical independence.
+
+The composite requires complete, relevant, supported responses and correct
+behavior, with authorized citation support and no forbidden assertion. Model
+review disagreements and unresolved/invalid judgments earn no target credit.
+Quotation fidelity remains a separate dimension. Behavior is derived from actual
+prose, not merely the application's response-type metadata. Grading sees authorized
+retrieved evidence and authorized exact gold-source quotations; factual truth and
+support from the actually cited chunks are checked separately. Memory can resolve
+references but cannot establish policy facts or access.
+
+The run is one-shot, without selective retries, expectation changes, omitted
+failures or tuning on these cases. The predeclared target is 48/60 and zero observed
+unauthorized retrieval/disclosure is mandatory. A complete model pass count is
+still only a candidate result until all-case primary-agent source inspection is
+clean. The publication artifact keeps `validated_passes` null when that gate fails;
+it does not silently replace grader decisions with the reviewer's preferred score.
+See [source inspection](../phase-73/source-review.md) for disagreements and actual
+limitations. Comparison to older suites/evaluators is not a controlled improvement
+estimate or human-verified population accuracy.
+
 ## Fresh full-response rubric
 
 The separate [Phase 64 evaluator](../phase-64/evaluator-and-protocol.md) requires every material expected fact and exact authorized citation support for every factual claim. It checks negation, quantities, conditions, completeness, unsupported additions and non-answer behavior semantically, then enforces deterministic schema/citation contracts. The grader sees only candidate answer/type/citations and fact IDs/text; uncited previews, runtime verdicts and gold source quotes are excluded. Expected facts are labels, never evidence.
