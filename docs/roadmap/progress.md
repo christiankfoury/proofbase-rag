@@ -6,6 +6,18 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
+### Active: billing-resolved bounded successor (2026-09-30)
+
+The user explicitly confirmed API billing is resolved. A read-only provider audit
+found zero Batch jobs, including none for the rejected upload; no model call was
+made. [Successor protocol](../phase-71/confirmation-v18-batch2-execution.md) preserves
+the retired attempt and carries its full USD 1.40344250 reservation into the same
+USD 10 additional envelope. It reuses unchanged passing v18 development evidence.
+Seven focused tests and compilation pass; no application behavior change.
+Next: commit/push protocol, freeze source, isolate fresh author/validator, seal,
+submit each of the two bounded waves once, then replay and inspect every result.
+Phase 73 remains gated on qualifying evaluator readiness and its own later freeze.
+
 ### Blocked: provider billing rejects the sealed Batch attempt (2026-09-30)
 
 The user reported increased usage limits and authorized continuation. The fixed
