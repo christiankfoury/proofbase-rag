@@ -6,7 +6,7 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: Phase 73 successor evaluator qualified; fresh runtime freeze next
+### Active: Phase 73 successor runtime frozen; isolated fresh suite next
 
 The user explicitly accepted carrying the single unknown request at its full
 USD 0.146775 reservation and continuing with USD 3.30807991 remaining. The
@@ -27,8 +27,10 @@ the separate confirmation freeze binds that revision before isolated authorship.
 Fresh confirmation, sealed as `244d0a44`, passed 16/16 with clean source inspection
 and offline replay: 48 settled calls, USD 0.44391700. Two pre-execution reference
 construction issues were corrected with all revisions preserved. V21 is qualified.
-Additional accounting is USD 8.12074759 of 10; USD 1.87925241 remains. Freeze the
-unchanged application with v21 before isolated new 60-case authoring/validation.
+Additional accounting is USD 8.12074759 of 10; USD 1.87925241 remains. The new
+freeze binds qualification revision `1cb44e30`, 258 source/corpus/protocol files,
+unchanged local configuration/index and the complete 3,195-call cost prefix.
+Commit this freeze before isolated new 60-case authoring/validation.
 No new application score or full-suite safety qualification is established.
 Phases 71/72 historical completion is unchanged.
 

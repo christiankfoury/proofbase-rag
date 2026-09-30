@@ -42,3 +42,23 @@ development receipts and the unchanged original prefix; its qualification metada
 is a local test double, not confirmation evidence. Existing app/build evidence is reused because application
 behavior and dependencies are unchanged. Full live preflight and source inspection
 remain required after confirmation, runtime freeze and fresh suite validation.
+
+## Runtime freeze
+
+V21 confirmation and inspection qualified in `1cb44e30`. The successor accounting
+prefix now reconstructs 3,195 attempts and USD 18.97644836, preserving all 3,039
+original rows verbatim and appending 156 successor evaluator calls exactly once.
+The original timeout remains unknown with its full USD 0.146775 retained. No new
+request was issued while initializing the ledger.
+
+The new freeze binds revision `1cb44e30`, 258 tracked source/corpus/protocol files,
+qualified v21 evidence, complete history and the local configuration/index. Fresh
+fingerprinting matches the original isolated database exactly: no runtime, corpus,
+scope or index changes. The additional remaining envelope is USD 1.87925241.
+The whole-run token ceiling remains an upper bound, not spending authority; every
+request must reserve within the remaining shared USD 10 envelope or stop locally.
+
+Verification: full original-interruption and successor-confirmation replays pass
+during prefix initialization; the new prefix and unused ledger match; frozen files
+equal committed inventory. Local database fingerprinting is read-only. Next:
+commit the freeze, then separate isolated authoring/validation of the new suite.
