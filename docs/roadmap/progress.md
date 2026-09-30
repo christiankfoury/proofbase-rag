@@ -19,8 +19,12 @@ reuses unchanged v18 development evidence and requires a new source freeze,
 separate fresh 16-case author/validator, seal, 32 initial + 16 review calls, and
 16/16 exact labels/fact statuses with clean source inspection. The new protocol
 replays all requests/results/cost settlements and cannot declare readiness alone.
-Preparation tests pass; no new suite or call yet. Next: commit/push preparation,
-freeze, isolate authorship/validation and execute the declared two waves once.
+Preparation `79f2b92` and separate freeze `f4083c4` are pushed. Fresh isolated
+authoring and independent validation accepted 16/16 cases and all fact statuses,
+zero findings. The suite is sealed and the initial 32-request plan is prepared.
+Whole confirmation upper bound USD 2.79892250; first-wave reservation USD 1.40344250,
+within the shared USD 10 ceiling. Next: one submission of each declared wave,
+raw replay and full source inspection. No calls have yet been made on this suite.
 
 The [cost audit](../phase-71/spending-reduction.md) is USD 9.79014527 with cached
 input pricing plus the separate old USD 0.09326750 reservation; historical ledger

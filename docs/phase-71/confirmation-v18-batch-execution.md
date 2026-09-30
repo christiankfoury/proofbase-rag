@@ -30,3 +30,19 @@ cases; failed readiness, changed freeze and independent-reference disagreement
 block before any fresh content or calls. Focused rerun follows the final custody
 review. Scoped compilation passed. Source review closes sealed-input equality
 and exact reservation binding; new grading code changes no evaluator semantics.
+
+
+## Fresh suite seal (2026-09-30)
+
+Preparation source `79f2b92` and freeze `f4083c4` were pushed before isolated
+authorship. A new author produced 16 cases, 128 dimension labels, 18 fact statuses,
+2 history cases and 7 multiple-source cases. A separate validator independently
+derived all labels/statuses and accepted 16/16 with zero findings. This is agent
+validation, not human adjudication. Root has inspected metadata and mechanical
+reference/custody checks only; no fresh case content was used for implementation.
+
+The seal binds suite, validation, freeze, policy, standing authorization and both
+custody notes. Offline preflight passes. The prepared first wave has 32 requests
+and USD 1.40344250 conservative reservation; both waves' upper bound is
+USD 2.79892250. No provider call yet. Full source inspection follows execution;
+16/16 exact references and zero unresolved findings remain mandatory.
