@@ -80,3 +80,21 @@ stopping before later cases/probes, validate new references/probes and prove tha
 a stage cap blocks before a provider call. This fixture replay is not live v19
 quality evidence. Scoped compilation and diagnostic preflight pass. Complete
 intended-diff review found no unresolved implementation or reference issue.
+
+
+## Contingent confirmation preparation
+
+The separate v19 confirmation adapter requires exact passing diagnostic/full
+reports and source-review gates before loading a fresh suite. It binds the full
+calibration spending snapshot, unchanged policy, new freeze, neutral author/validator
+briefs and a future v11 seal. Maximum 16 cases/48 standard requests; a USD 1.50 hard
+stage limit sits inside the shared remaining cap. Each request reserves its full
+bound before transmission; exhausting the stage stops the one-shot attempt and
+cannot produce readiness. No model, output cap or scoring relaxation is involved.
+
+Two additional no-network tests pass: a full 16-case/48-request saved-output replay
+through the v19 request adapter, and failed-development rejection before any fresh
+suite is read. Request construction differs only in reviewed system instructions;
+all other request fields and parsing/reduction match saved development evidence.
+These are fixture checks, not new confirmation results. Scoped compilation and
+full intended review pass. No v19 freeze, v11 authoring or paid confirmation exists.
