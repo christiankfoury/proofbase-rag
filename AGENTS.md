@@ -160,6 +160,20 @@ Before any Azure resource, paid service, Marketplace purchase, premium licence, 
 
 Keep the Phase 47-49 sealed holdouts immutable. A future generalization claim requires a newly authored and sealed holdout after the new runtime is frozen.
 
+## Phases 71-73 Standing Completion Authorization
+
+The user explicitly authorized autonomous completion of Phases 71-73 on 2026-09-29,
+including successive source-supported evaluator corrections and necessary
+validation without asking approval for each attempt. Follow the latest standing
+section of `docs/roadmap/quality-completion-plan.md`; it supersedes historical
+one/two-candidate approval limits. Preserve failed evidence, per-stage cost/call
+bounds, disabled provider retries, unchanged quality gates and isolated fresh
+holdouts after freeze. Commit/push reviewed main changes and continue until the
+queue is complete or a genuine blocker prevents meaningful progress. A failed
+candidate is evidence for diagnosis, not itself a request for renewed permission.
+Cloud/billing-account changes, destructive unrelated work and changes to scoring
+meaning remain outside this scope. Preserve all unrelated local edits.
+
 ## Algorithm Explanation And Audit Mode
 
 When the user starts a new chat to understand whether the algorithm makes sense, treat it as a documentation and reasoning pass before changing behavior.

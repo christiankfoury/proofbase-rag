@@ -6,6 +6,21 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
+### Active: standing autonomous completion of Phases 71-73 (2026-09-29)
+
+The user authorized necessary repairs and validation without approval for each
+attempt. The [active plan](quality-completion-plan.md) supersedes older candidate
+limits; its quality, custody and cost-accounting gates remain unchanged. Follow
+[autonomous remediation](../phase-71/autonomous-remediation.md). Start by repairing
+coverage's omission-versus-contradiction distinction and auditing intermediate
+judgments even when reduced dimensions match. V14 remains failed and immutable.
+Phase 72 remains complete; Phase 73 waits for a validated evaluator. Baseline:
+main at `cf9866b`, 2,094 API calls, USD 5.48490077; unrelated request-log edits
+preserved. Continue through review, commit and push without routine permission.
+
+The stopped entries below record historical authorization boundaries; they do
+not override the newer standing completion authorization.
+
 ### Stopped: v14 source inspection found a semantic defect (2026-09-29)
 
 The approved current-permission correction passed 12/12 diagnostic cases. During

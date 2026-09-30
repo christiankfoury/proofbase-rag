@@ -3,10 +3,54 @@
 Prepared 2026-09-28 following the user's request to resume answer quality,
 evaluator reliability, and fresh measurement. This supersedes the Phase 70
 deferral for these three areas only. The portfolio release remains complete.
-This handoff preparation is documentation-only; implementation has not resumed.
-The user approved the bounded workflow below on 2026-09-28.
+Implementation is active. The original workflow was approved on 2026-09-28;
+the standing authorization below supersedes its per-candidate approval limits.
 
-## Approved bounded evaluator correction (2026-09-29)
+## Standing autonomous completion authorization (2026-09-29)
+
+The user requested that the agent update this workflow to stop asking for approval
+at each repair and complete Phases 71-73. This is standing authorization for
+necessary evaluator remediation, development validation, versioned runners,
+isolated confirmation authoring/validation, confirmed application fixes, and the
+fresh Phase 73 measurement/publication. Commit and push reviewed work to main,
+preserve unrelated edits, and continue through the queue without routine approval.
+
+This supersedes the original two-candidate limit, the one-v14-correction limit,
+and historical instructions requiring a new scope decision after each failed
+candidate/confirmation. Those results and authorization records stay immutable.
+A failed candidate remains failed; publish its evidence and continue with a
+source-supported general failure hypothesis and new development controls.
+Do not rerun identical candidates hoping for different scores or tune to specific
+holdout answers. If confirmation exposes a general defect, retire that suite from
+future claims, remediate on separately composed development variants, revalidate,
+freeze again, and use a newly isolated/sealed suite. Never relabel or selectively
+retry an exposed suite. No unbounded blind retry loop: each cycle must address a
+confirmed cause, record its expected improvement and show meaningful progress.
+
+Quality gates are unchanged: 24/24 development judgments, 3/3 reviewer probes,
+valid contracts and zero unresolved semantic findings, followed by a frozen fresh
+16/16 confirmation with clean source inspection. Phase 73 still requires a full
+runtime/evaluator/prompts/corpus/config/index freeze before isolated 60-case
+construction, one complete run, zero observed unauthorized retrieval/disclosure,
+and honest publication even if the 48/60 target is missed. Do not change evaluation
+meaning or expectations to manufacture readiness. Separate isolated authoring and
+validation agents remain authorized; they receive neutral specs, not old results.
+
+API use with the existing configured credential is authorized for this queue;
+the old USD 5/10 local approval ceilings remain superseded. Predeclare call/token
+bounds and conservative cost reservation for each stage, preserve full cumulative
+accounting including auxiliary calls, and disable automatic provider retries.
+No new approval is needed solely because a candidate failed or a stage completed.
+Stop dependent work for unknown API outcomes, quota exhaustion, compromised
+custody, unsafe permission/data handling, unavailable indispensable services or
+a genuine impasse with no defensible next step. Investigate and repair locally
+where authorized; ask only for an actual missing user decision or external action.
+Cloud provisioning, new billable infrastructure, account-budget changes, secrets
+exposure and unrelated destructive work remain outside this authorization.
+
+The current work note is [autonomous remediation](../phase-71/autonomous-remediation.md).
+
+## Historical bounded evaluator correction (2026-09-29)
 
 After the replacement confirmation failed on temporal/contextual interpretation,
 the user approved one evaluator correction and the following rule: current policy
@@ -21,9 +65,9 @@ checks and clean source inspection. Freeze before one newly isolated 16-case
 confirmation with the same exact gate. Continue to Phase 73 only if all gates pass;
 otherwise retain results and stop with no extra correction or selective retry.
 [Execution note](../phase-71/v14-correction.md). Prior stopped attempts below remain
-historical; this explicit scope extension is the current authorization.
+historical; the standing authorization above governs subsequent work.
 
-## Approved replacement confirmation (2026-09-29)
+## Historical replacement confirmation (2026-09-29)
 
 After the original v13 confirmation finished 15/16 because an incorrect sealed
 reference label survived separate agent validation, the user explicitly approved
@@ -75,25 +119,22 @@ replacement overall score. An 80% target is not a promised result.
   development cases before spending another full 75-call attempt. If the same
   defects recur, stop that candidate early; retain the partial diagnostic result
   without declaring calibration complete. Do not tune on confirmation cases.
-- Bound this phase to one full candidate attempt and, if justified by a specific
-  new failure hypothesis, one repair attempt. If reliability still fails, record
-  the blocker and use the fallback below; do not continue indefinitely
-  through new version numbers or weaken expectations to obtain a passing score.
-  An early-stopped candidate consumes its attempt; do not reset this limit by
-  renaming versions or repeatedly running small diagnostics. Record the selected
-  diagnostic cases and expected judgments before calls. Passing the diagnostic
-  permits the full calibration but does not itself satisfy evaluator readiness.
+- Use the standing authorization above for successive cause-driven repairs.
+  Each candidate has one predeclared diagnostic and one full calibration; preserve
+  an early stop as a failed attempt. Record selected cases and expectations before
+  calls. A passing diagnostic permits full calibration, not evaluator readiness.
+  A failed gate never authorizes repeating an unchanged stage or weakening it.
 - Deliver docs/phase-71 notes, versioned artifacts, focused tests, ledger audit
   and a clear readiness decision. Failed results are retained and reported.
 
 ### Failed-evaluator fallback
 
-If the bounded attempts fail, publish the reliability findings and mark evaluator
-readiness failed. Continue only source-confirmed Phase 72 fixes with meaningful
-development regressions; do not let failed grader labels determine expected
-behavior. Complete and report that bounded work. Phase 73 remains blocked and
-the new overall score unavailable. A different evaluation method or additional
-calibration attempts require a new scope decision; do not silently weaken gates.
+For each failed attempt, publish reliability findings and mark that candidate's
+readiness failed. Continue cause-driven evaluator remediation under the standing
+authorization and source-confirmed Phase 72 fixes with meaningful regressions.
+Do not let failed grader labels define application correctness. Phase 73 remains
+gated until evaluator readiness is established. Preserve scoring meaning and
+historical evidence; a genuine change in evaluation meaning remains a user decision.
 
 ## Phase 72: confirmed runtime failures
 
@@ -121,8 +162,7 @@ calibration attempts require a new scope decision; do not silently weaken gates.
 - Require Phases 71/72 gates and whole-run cost/call-count preflight. Freeze runtime,
   evaluator, prompts, corpus, configuration and index before authoring cases.
 - Plan separate context-isolated authoring and validation for the new 60-case
-  suite. Obtain applicable delegation authorization before spawning agents;
-  this documentation update does not itself grant that authorization.
+  suite. The user has authorized separate isolated authoring and validation agents.
   Provide frozen corpus/specification, not old questions, failures or answers.
   Preserve custody, source checks, hashes and validation before execution.
 - Predeclare the composite from the older handoff: complete relevant supported

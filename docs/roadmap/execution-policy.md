@@ -104,5 +104,10 @@ boundaries so bookkeeping does not become another source of repeated work.
 Use cheap development cases for iteration. Full calibration/confirmation is a
 declared gate; fresh holdouts are authored only after the runtime freeze and run
 once. No selective reruns, exposed-case tuning or expectation changes for score.
-For the current quality queue, follow its two-candidate limit and explicit
-failed-evaluator fallback; do not create an endless sequence of grader versions.
+For Phases 71-73, the active quality-completion plan's 2026-09-29 standing
+authorization supersedes earlier candidate-count approval limits. Continue
+cause-driven remediation without routine approval, with one bounded execution
+per declared stage, preserved failed evidence and fresh post-freeze confirmation.
+Do not repeat unchanged candidates, weaken scoring, tune on exposed holdouts or
+continue without a defensible failure hypothesis. Escalate actual safety, custody,
+unknown-cost or external-state blockers, not ordinary validation failures.
