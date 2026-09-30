@@ -6,7 +6,7 @@ from pathlib import Path
 
 from scripts.current_eval_protocol import validate_suite, committed_inventory, COUNTS, USERS, PROJECT
 from scripts.current_eval_protocol import FROZEN as PREVIOUS_FILES
-from scripts.quality_confirmation_batch2_v18 import CODE
+from scripts.quality_confirmation_standard_v18 import CODE
 from scripts.quality_completion_ledger import digest, FOLDER as QUALITY
 from scripts.phase73_eval_budget import FOLDER, bounds
 
@@ -18,7 +18,7 @@ FROZEN = sorted(set(PREVIOUS_FILES + ['scripts/'+n for n in CODE] + [
     'scripts/test_phase73_eval.py', 'scripts/phase73_eval_history.py', 'scripts/test_phase73_eval_history.py',
     'scripts/quality_cost_control.py', 'scripts/quality_batch_transport.py',
     'scripts/quality_batch_grading.py', 'scripts/test_quality_cost_control.py',
-    'data/evaluation/quality-cost-control-v1/policy-v2.json',
+    'data/evaluation/quality-cost-control-v1/policy-standard.json',
     'scripts/check_phase73_overlap.py', 'docs/phase-73/authoring-contract.md',
     'docs/phase-73/validation-contract.md']))
 
@@ -29,7 +29,7 @@ def file_inventory():
 
 
 def evaluator_ready():
-    from scripts.quality_confirmation_batch2_v18 import readiness
+    from scripts.quality_confirmation_standard_v18 import readiness
     return readiness()
 
 

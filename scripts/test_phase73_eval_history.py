@@ -1,4 +1,4 @@
-"""No-network audit of the interrupted-history to Batch accounting handoff."""
+"""No-network audit of the interrupted-history to standard accounting handoff."""
 from copy import deepcopy
 from decimal import Decimal
 from pathlib import Path
@@ -22,24 +22,24 @@ class Prefix(unittest.TestCase):
         resolution = self.root / self.policy['prior_outcome_resolution']['path']
         write(resolution, {'fixture': True})
         self.policy_path = self.root / 'policy.json'; write(self.policy_path, self.policy)
-        self.c = SimpleNamespace(OUT=self.root / 'batch', REPORT=self.root / 'report.json',
+        self.c = SimpleNamespace(OUT=self.root / 'standard', REPORT=self.root / 'report.json',
             GATE=self.root / 'gate.json', REVIEW=self.root / 'review.md', readiness=Mock(), batch=Mock())
         self.c.REVIEW.write_text('Synthetic review fixture')
         write(self.c.OUT / 'additional-spend.json', {'fixture': True})
-        total = Decimal(0)
-        def verify(folder):
-            count = 32 if folder.name == 'initial' else 16
-            return {}, {'status': 'complete'}, [{'custom_id': str(i), 'body': {'fixture': i}} for i in range(count)]
-        self.c.batch.verify.side_effect = verify
-        for wave in ['initial', 'review']:
-            folder = self.c.OUT / wave
-            for request in verify(folder)[2]:
-                response = {'model': MODEL, 'usage': {'prompt_tokens': 100, 'completion_tokens': 5,
-                    'prompt_tokens_details': {'cached_tokens': 80}}}
-                amount = history.charge(response, 'batch'); total += amount
-                write(folder / 'responses' / (request['custom_id'] + '.json'),
-                      {'request': request['body'], 'response': response, 'cache_aware_cost_usd': str(amount)})
-        write(self.c.REPORT, {'matched': 16, 'calls': 48, 'cost_usd': str(total), 'retained_reservation_usd': '1.40344250', 'additional_accounted_usd': str(total + Decimal('1.40344250'))})
+        for name in self.policy['cancellation_evidence_sha256']:
+            source = history.ROOT / name; target = self.root / name
+            target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(source.read_bytes())
+        total = Decimal(0); rows = []
+        for i in range(48):
+            response = {'model': MODEL, 'usage': {'prompt_tokens': 100, 'completion_tokens': 5,
+                        'prompt_tokens_details': {'cached_tokens': 80}}}
+            amount = history.charge(response); total += amount
+            path = self.c.OUT / 'requests' / (str(i) + '.json')
+            write(path, {'request': {'fixture': i}, 'response': response})
+            rows.append({'identity': 'standard-' + str(i), 'path': path.name, 'status': 'completed',
+                         'charged_usd': str(amount), 'raw_sha256': digest(path)})
+        write(self.c.OUT / 'requests/calls.json', {'policy_sha256': digest(self.policy_path), 'calls': rows})
+        write(self.c.REPORT, {'matched': 16, 'calls': 48, 'cost_usd': str(total), 'retained_reservation_usd': '2.80849875', 'additional_accounted_usd': str(total + Decimal('2.80849875'))})
         write(self.c.GATE, {'status': 'approved', 'unresolved_semantic_findings': 0,
             'human_adjudication': False, 'report_sha256': digest(self.c.REPORT),
             'source_review_sha256': digest(self.c.REVIEW)})
@@ -48,16 +48,16 @@ class Prefix(unittest.TestCase):
         p = patch.object(history, 'live_policy', return_value=(self.policy, Decimal(10)))
         p.start(); self.addCleanup(p.stop)
 
-    def test_preserves_original_rows_reservation_and_all_batch_costs(self):
+    def test_preserves_original_rows_and_all_partial_and_standard_costs(self):
         original = read(self.baseline)
         prefix = history.build_prefix()
         self.c.readiness.assert_called_once()
         self.assertEqual(prefix['calls'][:len(original['calls'])], original['calls'])
-        self.assertEqual(len(prefix['calls']), len(original['calls']) + 48)
-        self.assertEqual(prefix['resolved_rejection_indices'], [2594])
-        self.assertEqual(Decimal(prefix['prior_spend_usd']), Decimal('12.25914327') + Decimal(prefix['batch_cost_usd']))
+        self.assertEqual(len(prefix['calls']), len(original['calls']) + 32 + 48)
+        self.assertEqual(prefix['resolved_rejection_indices'], [2594] + list(range(2618,2627)))
+        self.assertEqual(Decimal(prefix['prior_spend_usd']), Decimal('13.66419952') + Decimal(prefix['standard_cost_usd']))
         path = self.root / 'prior.json'; write(path, prefix)
-        self.assertEqual(history.PriorLedger(path).resolved_rejections, {2594})
+        self.assertEqual(history.PriorLedger(path).resolved_rejections, {2594, *range(2618,2627)})
         self.assertEqual(read(self.baseline), original)
 
     def test_unqualified_evaluator_blocks_before_history_access(self):
@@ -71,13 +71,13 @@ class Prefix(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Historical rejection'):
             history.build_prefix()
 
-    def test_changed_prefix_and_batch_response_are_rejected(self):
+    def test_changed_prefix_and_standard_response_are_rejected(self):
         prefix = history.build_prefix(); path = self.root / 'prior.json'; write(path, prefix)
         corrupt = deepcopy(prefix); corrupt['calls'][-1]['charged_usd'] = '0'; write(path, corrupt)
         with self.assertRaisesRegex(ValueError, 'prefix changed'):
             history.PriorLedger(path)
         write(path, prefix)
-        raw_path = self.c.OUT / 'initial/responses/0.json'
+        raw_path = self.c.OUT / 'requests/0.json'
         raw = read(raw_path); raw['response']['usage']['completion_tokens'] += 1; write(raw_path, raw)
         with self.assertRaisesRegex(ValueError, 'row changed'):
             history.PriorLedger(path)

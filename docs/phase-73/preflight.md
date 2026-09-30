@@ -173,3 +173,20 @@ check found exactly 19 Markdown sources, all with complete scope metadata.
 This is evaluation preparation; it changes no application answer behavior and
 makes no quality claim. The fingerprint will be freshly captured for the later
 runtime freeze after evaluator readiness. Full diff review found no open issue.
+
+
+### Standard-request continuation
+
+The Phase 73 readiness, budget and publication paths now bind the standard v18
+confirmation and its successor cost policy. The cumulative prefix preserves all
+2,595 original rows, 32 cancelled-Batch receipts, and exactly 48 future qualifying
+standard calls. The nine HTTP 500 receipts remain failed with unknown usage price;
+their costs are covered by the full retained Batch reservation. Successful partial
+usage is shown separately and is not added twice to that reservation. Neither
+old journal is rewritten or given readiness credit.
+
+Sixteen focused accounting, custody and gold-scope tests pass with no external
+calls. Scoped compilation and full intended-diff review pass. Actual Phase 73
+ledger initialization remains gated on complete standard confirmation, raw replay
+and clean source inspection; no runtime freeze or 60-case measurement exists yet.
+This is preparation with synthetic accounting fixtures, not new quality evidence.

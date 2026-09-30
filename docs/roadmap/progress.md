@@ -26,6 +26,10 @@ policy carries both full reservations without rewriting old journals. Ten offlin
 tests cover transport replay and cancellation accounting; no new paid requests
 have been issued. Next: separate freeze, isolated v10 authorship and validation,
 seal, then one bounded standard confirmation. Preserve unrelated request logs.
+The standard evaluator freeze is pushed as `d85a2bc`; isolated authoring is underway.
+Phase 73 successor accounting now includes every cancelled receipt and the future
+48 standard calls, retaining all prior reservations without double-counting.
+Sixteen focused local checks pass; runtime measurement still requires readiness.
 
 ### Historical checkpoint: accepted Batch was running (2026-09-30)
 
