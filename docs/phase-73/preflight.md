@@ -190,3 +190,20 @@ calls. Scoped compilation and full intended-diff review pass. Actual Phase 73
 ledger initialization remains gated on complete standard confirmation, raw replay
 and clean source inspection; no runtime freeze or 60-case measurement exists yet.
 This is preparation with synthetic accounting fixtures, not new quality evidence.
+
+
+### Contingent v19 accounting chain
+
+Phase 73 now requires the v19 confirmation adapter. Its conservative history will
+include all original rows, all 32 cancelled receipts, the failed v18 standard
+confirmation and both v19 development stages before the qualifying v19 confirmation.
+Exactly 210 standard calls (48 + 39 + 75 + 48) are expected only after all gates
+pass. Existing failed/partial evidence remains visible. Actual standard usage is
+summed once; successful cancelled usage remains included within its retained
+reservation, and failed cancelled receipts have no invented usage price.
+
+Sixteen focused local tests pass, including complete-history preservation and
+changed-row rejection. Scoped compilation and full intended-diff review pass.
+This is contingent preparation: no evaluator readiness, Phase 73 initialization,
+runtime freeze or runtime holdout follows from fixture tests. Current live v19
+diagnostic evidence is separate and is not modified by this accounting change.

@@ -4,12 +4,18 @@ from decimal import Decimal
 import json
 from pathlib import Path
 
-from scripts import quality_confirmation_standard_v18 as confirmation
+from scripts import quality_confirmation_standard_v19 as confirmation
 from scripts.quality_cost_control import ROOT, read, digest, charge
 from scripts.quality_cost_standard import POLICY, live_policy, retained_entries
 from scripts.quality_completion_ledger import Ledger as LegacyLedger
 
-VERSION = 'phase73-accounting-prefix.v3'
+VERSION = 'phase73-accounting-prefix.v4'
+
+
+def standard_stages():
+    dev = confirmation.previous.development
+    return [(dev.prior.OUT, 48), (dev.output('diagnostic'), 39),
+            (dev.output('calibration'), 75), (confirmation.OUT, 48)]
 
 
 def build_prefix(*, qualify=True):
@@ -59,26 +65,32 @@ def build_prefix(*, qualify=True):
                           'usage_price_known': success, 'batch_custom_id': row['custom_id'],
                           'raw_path': path.relative_to(ROOT).as_posix(), 'raw_sha256': digest(path)})
     total = Decimal(0)
-    folder = confirmation.OUT / 'requests'
-    history = read(folder / 'calls.json')
-    if len(history['calls']) != 48 or history['policy_sha256'] != digest(POLICY):
-        raise ValueError('Incomplete standard accounting prefix')
-    paths.update(p for p in confirmation.OUT.rglob('*') if p.is_file())
-    for row in history['calls']:
-        path = (folder / row['path']).resolve()
-        if not path.is_relative_to(folder.resolve()) or row['status'] != 'completed':
-            raise ValueError('Invalid standard accounting row')
-        raw = read(path); cost = charge(raw['response'])
-        if digest(path) != row['raw_sha256'] or cost != Decimal(row['charged_usd']):
-            raise ValueError('Standard accounting row changed')
-        total += cost
-        calls.append({'call_index': len(calls), 'status': 'completed', 'operation': 'grader_standard',
-                      'model': raw['response']['model'], 'charged_usd': str(cost),
-                      'raw_path': path.relative_to(ROOT).as_posix(), 'raw_sha256': digest(path),
-                      'standard_identity': row['identity']})
+    latest_cost = Decimal(0); identities = set()
+    for stage, count in standard_stages():
+        folder = stage / 'requests'
+        history = read(folder / 'calls.json')
+        if len(history['calls']) != count or history['policy_sha256'] != digest(POLICY):
+            raise ValueError('Incomplete standard accounting prefix')
+        paths.update(p for p in stage.rglob('*') if p.is_file())
+        for row in history['calls']:
+            path = (folder / row['path']).resolve()
+            if (not path.is_relative_to(folder.resolve()) or row['status'] != 'completed'
+                    or row['identity'] in identities):
+                raise ValueError('Invalid standard accounting row')
+            identities.add(row['identity'])
+            raw = read(path); cost = charge(raw['response'])
+            if digest(path) != row['raw_sha256'] or cost != Decimal(row['charged_usd']):
+                raise ValueError('Standard accounting row changed')
+            total += cost
+            if stage == confirmation.OUT:
+                latest_cost += cost
+            calls.append({'call_index': len(calls), 'status': 'completed', 'operation': 'grader_standard',
+                          'model': raw['response']['model'], 'charged_usd': str(cost),
+                          'raw_path': path.relative_to(ROOT).as_posix(), 'raw_sha256': digest(path),
+                          'standard_identity': row['identity']})
     retained = sum((Decimal(r['accounted_usd']) for r in retained_entries().values()), Decimal(0))
-    if (total != Decimal(report['cost_usd'])
-            or retained != Decimal(report['retained_reservation_usd'])
+    if (latest_cost != Decimal(report['cost_usd'])
+            or total - latest_cost + retained != Decimal(report['prior_accounted_usd'])
             or total + retained != Decimal(report['additional_accounted_usd'])):
         raise ValueError('Standard accounting total changed')
     return {'version': VERSION, 'calls': calls, 'resolved_rejection_indices': unresolved,

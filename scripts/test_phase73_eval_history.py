@@ -29,17 +29,22 @@ class Prefix(unittest.TestCase):
         for name in self.policy['cancellation_evidence_sha256']:
             source = history.ROOT / name; target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(source.read_bytes())
-        total = Decimal(0); rows = []
-        for i in range(48):
-            response = {'model': MODEL, 'usage': {'prompt_tokens': 100, 'completion_tokens': 5,
-                        'prompt_tokens_details': {'cached_tokens': 80}}}
-            amount = history.charge(response); total += amount
-            path = self.c.OUT / 'requests' / (str(i) + '.json')
-            write(path, {'request': {'fixture': i}, 'response': response})
-            rows.append({'identity': 'standard-' + str(i), 'path': path.name, 'status': 'completed',
-                         'charged_usd': str(amount), 'raw_sha256': digest(path)})
-        write(self.c.OUT / 'requests/calls.json', {'policy_sha256': digest(self.policy_path), 'calls': rows})
-        write(self.c.REPORT, {'matched': 16, 'calls': 48, 'cost_usd': str(total), 'retained_reservation_usd': '2.80849875', 'additional_accounted_usd': str(total + Decimal('2.80849875'))})
+        total = Decimal(0); latest = Decimal(0)
+        self.stages = [(self.root/'v18',48),(self.root/'diagnostic',39),(self.root/'calibration',75),(self.c.OUT,48)]
+        for stage,count in self.stages:
+            rows = []
+            for i in range(count):
+                response = {'model': MODEL, 'usage': {'prompt_tokens': 100, 'completion_tokens': 5,
+                            'prompt_tokens_details': {'cached_tokens': 80}}}
+                amount = history.charge(response); total += amount
+                if stage == self.c.OUT: latest += amount
+                path = stage / 'requests' / (str(i) + '.json')
+                write(path, {'request': {'fixture': i}, 'response': response})
+                rows.append({'identity': stage.name + '-' + str(i), 'path': path.name, 'status': 'completed',
+                             'charged_usd': str(amount), 'raw_sha256': digest(path)})
+            write(stage / 'requests/calls.json', {'policy_sha256': digest(self.policy_path), 'calls': rows})
+        write(self.c.REPORT, {'matched': 16, 'calls': 48, 'cost_usd': str(latest), 'prior_accounted_usd': str(total-latest+Decimal('2.80849875')), 'additional_accounted_usd': str(total + Decimal('2.80849875'))})
+        p = patch.object(history,'standard_stages',return_value=self.stages);p.start();self.addCleanup(p.stop)
         write(self.c.GATE, {'status': 'approved', 'unresolved_semantic_findings': 0,
             'human_adjudication': False, 'report_sha256': digest(self.c.REPORT),
             'source_review_sha256': digest(self.c.REVIEW)})
@@ -53,7 +58,7 @@ class Prefix(unittest.TestCase):
         prefix = history.build_prefix()
         self.c.readiness.assert_called_once()
         self.assertEqual(prefix['calls'][:len(original['calls'])], original['calls'])
-        self.assertEqual(len(prefix['calls']), len(original['calls']) + 32 + 48)
+        self.assertEqual(len(prefix['calls']), len(original['calls']) + 32 + 210)
         self.assertEqual(prefix['resolved_rejection_indices'], [2594] + list(range(2618,2627)))
         self.assertEqual(Decimal(prefix['prior_spend_usd']), Decimal('13.66419952') + Decimal(prefix['standard_cost_usd']))
         path = self.root / 'prior.json'; write(path, prefix)
