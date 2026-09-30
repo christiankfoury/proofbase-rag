@@ -100,3 +100,7 @@ checks remain applicable from e11dfe1; total ten tests. Live policy/raw accounti
 validation passes against actual terminal receipts. Complete intended diff review
 found no remaining blocker to freezing the unchanged standard evaluator. No paid
 confirmation, new quality score or Phase 73 readiness is claimed yet.
+
+Standard evaluator freeze binds 60 code/test files at preparation commit e335105,
+the unchanged passing v18 development gate, standard policy and both neutral
+briefs. It precedes all v10 authorship. No paid request was issued to freeze.
