@@ -136,6 +136,17 @@ class Accounting(unittest.TestCase):
 
 
 class Custody(unittest.TestCase):
+    def test_runtime_and_report_use_the_qualified_evaluator(self):
+        from scripts import phase73_eval_protocol as protocol
+        from scripts import phase73_eval_run as run
+        from scripts import report_phase73_eval as report
+        from scripts import quality_confirmation_standard_v19 as confirmation
+        self.assertEqual(run.VERSION, confirmation.previous.VERSION)
+        self.assertEqual(report.VERSION, confirmation.previous.VERSION)
+        self.assertIs(run.grade_case, protocol.evaluator_transport.grade_case)
+        self.assertIs(report.transport, protocol.evaluator_transport)
+        self.assertIs(run.dimensions, protocol.evaluator_contract.dimensions)
+
     def test_gold_scope_rejects_wrong_project_department_and_role(self):
         from scripts.phase73_eval_protocol import validate_gold_scope
         case={'case_id':'fresh-001','user_role':'Employee','project_id':'northstar','department_id':'people',

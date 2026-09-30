@@ -1,6 +1,6 @@
 # Phase 73 preparation and declared measurement protocol
 
-Status: contingent preparation. Tooling now binds candidate v18. It cannot be
+Status: contingent preparation. Tooling now binds candidate v19. It cannot be
 used until full calibration, source inspection and fresh confirmation all pass.
 Reverify custody before runtime freeze or isolated holdout authorship. No fresh
 application score exists yet.
@@ -207,3 +207,16 @@ changed-row rejection. Scoped compilation and full intended-diff review pass.
 This is contingent preparation: no evaluator readiness, Phase 73 initialization,
 runtime freeze or runtime holdout follows from fixture tests. Current live v19
 diagnostic evidence is separate and is not modified by this accounting change.
+
+
+### Live-grader binding review fix
+
+Review found that the newer readiness adapter had been selected while the runtime
+run/report modules still imported v18 grading. Before any runtime freeze or paid
+application measurement, the protocol now exports the selected evaluator contract
+and transport, and both execution and replay use those exports. The budget uses
+the same version's re-exported unchanged reservation primitives. A regression
+asserts the runtime version and function binding match the qualification adapter
+and that replay uses the identical transport. All three focused custody tests and
+scoped compilation pass. This fixes prospective evaluator wiring, not a measured
+application defect or published result. No frozen runtime evidence exists yet.

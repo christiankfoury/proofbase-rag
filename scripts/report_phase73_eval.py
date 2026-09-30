@@ -9,10 +9,9 @@ import statistics
 import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from scripts.phase73_eval_protocol import FOLDER,verify_custody,digest
+from scripts.phase73_eval_protocol import FOLDER,verify_custody,digest,evaluator_contract,evaluator_transport as transport
 from scripts.phase73_eval_budget import Ledger,request_hash,response_charge
-from scripts.quality_eval_contract_v18 import VERSION,dimensions
-from scripts import quality_eval_transport_v18 as transport
+VERSION,dimensions = evaluator_contract.VERSION,evaluator_contract.dimensions
 from scripts.report_quality_calibration_v12 import replay_raw
 from scripts.reanalyze_saved_answers import build_inputs,DIMS
 from scripts.quality_completion_durable import write_json_atomic

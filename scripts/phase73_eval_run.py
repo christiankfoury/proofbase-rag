@@ -1,16 +1,16 @@
-"""One application capture per sealed case, with separately recorded v18 grading."""
+"""One application capture per sealed case, with the qualified frozen grader."""
 import argparse
 import json
 from pathlib import Path
 import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from scripts.phase73_eval_protocol import FOLDER, verify_custody, digest
+from scripts.phase73_eval_protocol import FOLDER, verify_custody, digest, evaluator_contract, evaluator_transport
 from scripts.phase73_eval_environment import configure, fingerprint
 from scripts.phase73_eval_budget import Ledger, BudgetStop
 from scripts.phase73_eval_capture import measure_case
-from scripts.quality_eval_contract_v18 import dimensions, VERSION
-from scripts.quality_eval_transport_v18 import grade_case
+dimensions, VERSION = evaluator_contract.dimensions, evaluator_contract.VERSION
+grade_case = evaluator_transport.grade_case
 from scripts.reanalyze_saved_answers import build_inputs
 from scripts.run_fresh_eval import now
 from scripts.quality_completion_durable import write_json_atomic

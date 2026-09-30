@@ -7,6 +7,8 @@ from pathlib import Path
 from scripts.current_eval_protocol import validate_suite, committed_inventory, COUNTS, USERS, PROJECT
 from scripts.current_eval_protocol import FROZEN as PREVIOUS_FILES
 from scripts.quality_confirmation_standard_v19 import CODE
+from scripts import quality_eval_contract_v19 as evaluator_contract
+from scripts import quality_eval_transport_v19 as evaluator_transport
 from scripts.quality_completion_ledger import digest, FOLDER as QUALITY
 from scripts.phase73_eval_budget import FOLDER, bounds
 
