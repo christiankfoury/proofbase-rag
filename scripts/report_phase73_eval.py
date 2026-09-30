@@ -16,8 +16,8 @@ from scripts import quality_eval_transport_v18 as transport
 from scripts.report_quality_calibration_v12 import replay_raw
 from scripts.reanalyze_saved_answers import build_inputs,DIMS
 from scripts.quality_completion_durable import write_json_atomic
-from scripts.quality_cost_control import POLICY
-from scripts.quality_confirmation_batch_v18 import OUT as CONFIRMATION
+from scripts.quality_cost_continuation import POLICY
+from scripts.quality_confirmation_batch2_v18 import OUT as CONFIRMATION
 
 
 def read(path):

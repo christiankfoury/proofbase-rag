@@ -3,8 +3,9 @@ from copy import deepcopy
 from decimal import Decimal
 from pathlib import Path
 
-from scripts import quality_confirmation_batch_v18 as confirmation
-from scripts.quality_cost_control import ROOT, POLICY, read, digest, charge, live_policy
+from scripts import quality_confirmation_batch2_v18 as confirmation
+from scripts.quality_cost_control import ROOT, read, digest, charge
+from scripts.quality_cost_continuation import POLICY, live_policy, retained_entries
 from scripts.quality_completion_ledger import Ledger as LegacyLedger
 
 VERSION = 'phase73-accounting-prefix.v2'
@@ -56,10 +57,14 @@ def build_prefix(*, qualify=True):
                           'model': raw['response']['model'], 'charged_usd': str(cost),
                           'raw_path': path.relative_to(ROOT).as_posix(), 'raw_sha256': digest(path),
                           'batch_custom_id': request['custom_id']})
-    if total != Decimal(report['cost_usd']):
+    retained = sum((Decimal(r['accounted_usd']) for r in retained_entries().values()), Decimal(0))
+    if (total != Decimal(report['cost_usd'])
+            or retained != Decimal(report['retained_reservation_usd'])
+            or total + retained != Decimal(report['additional_accounted_usd'])):
         raise ValueError('Batch accounting total changed')
     return {'version': VERSION, 'calls': calls, 'resolved_rejection_indices': unresolved,
-            'prior_spend_usd': str(floor + total), 'retained_reservation_usd': policy['prior_unresolved_reservation_usd'],
+            'prior_spend_usd': str(floor + retained + total),
+            'prior_batch_retained_reservation_usd': str(retained), 'retained_reservation_usd': policy['prior_unresolved_reservation_usd'],
             'batch_cost_usd': str(total), 'invoice_verified': False,
             'sources_sha256': {p.relative_to(ROOT).as_posix(): digest(p) for p in sorted(paths)}}
 

@@ -39,7 +39,7 @@ class Prefix(unittest.TestCase):
                 amount = history.charge(response, 'batch'); total += amount
                 write(folder / 'responses' / (request['custom_id'] + '.json'),
                       {'request': request['body'], 'response': response, 'cache_aware_cost_usd': str(amount)})
-        write(self.c.REPORT, {'matched': 16, 'calls': 48, 'cost_usd': str(total)})
+        write(self.c.REPORT, {'matched': 16, 'calls': 48, 'cost_usd': str(total), 'retained_reservation_usd': '1.40344250', 'additional_accounted_usd': str(total + Decimal('1.40344250'))})
         write(self.c.GATE, {'status': 'approved', 'unresolved_semantic_findings': 0,
             'human_adjudication': False, 'report_sha256': digest(self.c.REPORT),
             'source_review_sha256': digest(self.c.REVIEW)})
@@ -55,7 +55,7 @@ class Prefix(unittest.TestCase):
         self.assertEqual(prefix['calls'][:len(original['calls'])], original['calls'])
         self.assertEqual(len(prefix['calls']), len(original['calls']) + 48)
         self.assertEqual(prefix['resolved_rejection_indices'], [2594])
-        self.assertEqual(Decimal(prefix['prior_spend_usd']), Decimal('10.85570077') + Decimal(prefix['batch_cost_usd']))
+        self.assertEqual(Decimal(prefix['prior_spend_usd']), Decimal('12.25914327') + Decimal(prefix['batch_cost_usd']))
         path = self.root / 'prior.json'; write(path, prefix)
         self.assertEqual(history.PriorLedger(path).resolved_rejections, {2594})
         self.assertEqual(read(self.baseline), original)

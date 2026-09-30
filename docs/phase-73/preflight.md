@@ -137,3 +137,22 @@ for these local changes. Full intended diff review found no remaining blocking
 implementation issue; live acceptance remains pending external billing and
 qualifying evaluator confirmation. The provider rejection and preparation are
 committed separately to preserve evidence custody. Unrelated logs stay excluded.
+
+
+### Successor accounting wiring
+
+Phase 73 now binds the billing-resolved Batch successor and its new policy/journal.
+Its cumulative conservative prefix includes the retained USD 1.40344250 rejected
+Batch reservation without inventing model calls or modifying either old ledger.
+A successful fresh confirmation still must contribute exactly 48 recorded model
+requests; its report independently binds both actual estimate and retained amount.
+The same USD 10 additional ceiling includes both amounts and all runtime calls.
+
+Review also closed a stop-propagation gap: if shared headroom refuses a request,
+the runtime ledger durably marks budget exhaustion before the provider is called.
+Application error handling cannot turn this accounting stop into an ordinary
+measured abstention. The affected provider-not-called regression passes.
+
+Verification: 15 focused accounting/custody tests passed for the successor wiring;
+the cap-stop regression was rerun after the small propagation fix and passed.
+Compilation and intended-diff review passed. No runtime freeze or measurement yet.

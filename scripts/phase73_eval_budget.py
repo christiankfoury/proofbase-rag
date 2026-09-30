@@ -16,8 +16,8 @@ from scripts.quality_completion_durable import write_json_atomic
 from scripts.quality_completion_ledger import digest, FOLDER as QUALITY
 from scripts.phase73_eval_history import PriorLedger, build_prefix
 from scripts.quality_eval_transport_v18 import exclusive_lock, MODEL, reserve
-from scripts.quality_cost_control import POLICY, read as read_cost, charge as grader_charge
-from scripts.quality_batch_transport import SpendJournal
+from scripts.quality_cost_control import read as read_cost, charge as grader_charge
+from scripts.quality_cost_continuation import POLICY, SpendJournal
 
 ROOT = Path(__file__).resolve().parents[1]
 FOLDER = ROOT / 'data/evaluation/current-runtime-v4'
@@ -172,7 +172,12 @@ class Ledger:
                 raise BudgetStop('Unsafe or already attempted raw path')
             identity = 'sync-' + hashlib.sha256(str(path).encode()).hexdigest()
             # Shared with Batch jobs: reserve before writing a started row or calling OpenAI.
-            self.additional_spend.reserve(identity, limits['reserved_usd'], request_hash(body))
+            try:
+                self.additional_spend.reserve(identity, limits['reserved_usd'], request_hash(body))
+            except ValueError as exc:
+                # Application services may catch provider errors and abstain. Persist
+                # this local stop so capture cannot mistake it for a measured answer.
+                self.stop_bound(str(exc))
             entry = {'request': deepcopy(body), 'status': 'started', 'response': None}
             row = {'call_index': len(self.data['calls']), 'case_id': self.case_id,
                    'operation': operation, 'model': model, 'status': 'started',

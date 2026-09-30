@@ -54,10 +54,11 @@ class Accounting(unittest.TestCase):
     def test_additional_budget_blocks_application_before_provider_call(self):
         self.additional_spend.reserve.side_effect=ValueError('Additional spending ceiling would be exceeded')
         provider=Mock()
-        with self.assertRaisesRegex(ValueError,'ceiling'):
+        with self.assertRaisesRegex(budget.BudgetStop,'ceiling'):
             self.ledger.call(provider,self.body,self.folder/'blocked.json','chat')
         provider.assert_not_called()
         self.assertFalse((self.folder/'blocked.json').exists())
+        self.assertTrue(self.ledger.data['budget_exhausted'])
 
     def test_cached_application_tokens_reduce_estimate_and_replay(self):
         data={'model':'gpt-4.1-mini-2025-04-14','usage':{'prompt_tokens':100,'completion_tokens':2,
