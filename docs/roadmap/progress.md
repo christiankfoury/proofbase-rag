@@ -6,23 +6,26 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Cost reduction prepared; provider limit still blocks live work (2026-09-30 UTC)
+### Active: discounted v18 confirmation continuation (2026-09-30)
 
-User selected **USD 10 additional** for the remaining queue. [Cost-control work](../phase-71/spending-reduction.md)
-adds a shared pre-request ceiling, cached-input settlement/reporting and a two-wave
-Batch transport using unchanged v18 requests/reducers. All 24 saved calibration
-cases replay identically through mocked Batch delivery; 24 focused tests pass.
-No live API calls, provider-limit change or new quality score. Cached-input audit
-reduces the derived cumulative estimate to USD 9.79014527, with the prior USD
-0.09326750 reservation separate; immutable historical ledgers remain unchanged.
-The prior rejection is classified in a separate audit; original evidence remains.
+The user reported increasing provider usage limits and authorized continuation.
+The USD 10 additional ceiling remains fixed; provider readiness is user-reported
+until the first authorized Batch submission succeeds. Cost-control commit:
+`ce5fcaa`. The prior interrupted attempt stays immutable and its conservative
+reservation remains separate. No extra paid probe or repeated calibration.
 
-New protocol freeze/fresh isolated confirmation and Phase 73 remain pending behind
-the external provider limit. Batch request preparation is local; submission needs
-complete custody and a reviewed plan record under standing authorization. Do not
-resume the interrupted one-shot attempt or rerun unchanged development merely for
-a transport change. The new shared ceiling is additional to the recorded baseline
-and never increases automatically. Preserve unrelated request-log edits.
+[Batch confirmation protocol](../phase-71/confirmation-v18-batch-execution.md)
+reuses unchanged v18 development evidence and requires a new source freeze,
+separate fresh 16-case author/validator, seal, 32 initial + 16 review calls, and
+16/16 exact labels/fact statuses with clean source inspection. The new protocol
+replays all requests/results/cost settlements and cannot declare readiness alone.
+Preparation tests pass; no new suite or call yet. Next: commit/push preparation,
+freeze, isolate authorship/validation and execute the declared two waves once.
+
+The [cost audit](../phase-71/spending-reduction.md) is USD 9.79014527 with cached
+input pricing plus the separate old USD 0.09326750 reservation; historical ledger
+estimates remain unchanged. Phase 72 is complete. Phase 73 awaits qualifying
+confirmation and its own runtime freeze/holdout. Preserve unrelated request logs.
 
 ### Active: standing autonomous completion of Phases 71-73 (2026-09-29)
 

@@ -16,7 +16,9 @@ additional-spend policy/journal, cached-input accounting, zero retries and Batch
 for suitable fixed evaluator stages. Keep application safety gates sequential.
 Do not change the evaluator/model or weaken acceptance gates to save money.
 [Implementation and continuation procedure](../phase-71/spending-reduction.md).
-The provider project limit remains unresolved; account changes are not authorized.
+The user reported increasing provider usage limits on 2026-09-30 and authorized
+continuation. This does not increase the USD 10 additional ceiling or authorize
+the agent to change account settings. Use the new Batch confirmation protocol.
 
 ## Standing autonomous completion authorization (2026-09-29)
 
