@@ -6,6 +6,24 @@ deferral for these three areas only. The portfolio release remains complete.
 Implementation is active. The original workflow was approved on 2026-09-28;
 the standing authorization below supersedes its per-candidate approval limits.
 
+## Latency amendment (2026-09-30)
+
+The user rejected the Batch waiting time: saving money remains valuable, but
+waiting up to a day per stage is unacceptable. Use standard synchronous requests
+for remaining evaluator and application work. This supersedes the Batch preference
+below, without changing the USD 10 additional ceiling, pinned evaluator/model,
+scoring meaning, reference/custody gates, cached-input accounting or zero retries.
+Do not select a cheaper/weaker evaluator or buy priority capacity automatically.
+
+Cancel the outstanding Batch once, preserve all completed/partial outputs and
+actual usage, and retain its reservation until its terminal outcome is audited.
+Do not submit replacements while cancellation is pending. No completed request
+may be duplicated. A cancelled/incomplete sealed attempt remains historical; any
+replacement confirmation must follow the existing fresh post-freeze authoring,
+independent validation and seal rules. Reuse passing development evidence when
+semantics are unchanged. Normal requests still take processing time; promise no
+unverified completion time. No further routine approval is required.
+
 ## Spending reduction amendment (2026-09-30 UTC)
 
 The user approved cost reduction and selected **USD 10 additional** for all

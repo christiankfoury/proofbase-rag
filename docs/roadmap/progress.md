@@ -6,7 +6,28 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: accepted Batch is running at the provider (2026-09-30)
+### Active: user-requested switch to standard requests (2026-09-30)
+
+The user rejected Batch waiting. The [latency amendment](quality-completion-plan.md)
+now requires standard synchronous requests for remaining work, within the same
+USD 10 additional ceiling. Cached-input cost tracking, pinned model/evaluator,
+zero retries and strict evaluation gates remain unchanged. No further Batch wave.
+
+The existing Batch was checked and one cancellation request accepted. Provider
+response: cancelling, 23 completed / 0 failed / 32 total. Cancellation and raw
+response are preserved. Do not duplicate the cancellation or any completed model
+request. Current reservation remains held until terminal status and partial-output
+accounting are audited. [Transition note](../phase-71/standard-request-transition.md).
+A standard-request adapter and fresh confirmation runner are implemented locally;
+nine no-network tests pass, including 72 saved calibration requests and a full
+16-case/48-request confirmation replay. These are reused development fixtures,
+not fresh model results. Next: collect terminal cancellation by the same Batch ID,
+preserve all partial outputs, reconcile accounting, then freeze/validate/seal the
+standard successor before any new paid execution.
+Do not claim cancellation complete or readiness from partial results. No new
+model requests have been submitted during this transition. Preserve unrelated logs.
+
+### Historical checkpoint: accepted Batch was running (2026-09-30)
 
 The user confirmed API billing is resolved. Preparation `73a7144`, freeze
 `11740a5`, fresh independent validation/seal `8a3cbb3` are pushed. All 16 cases,
@@ -28,11 +49,11 @@ Focused tests and compilation pass; local clone remains available with 32 docume
 freeze, 60-case suite or new quality measurement exists yet. The primary's full
 reference inspection is recorded but model-output source inspection is pending.
 
-Next: collect the SAME existing initial Batch (no resubmission), then prepare and
+At that checkpoint, the next step was to collect the SAME existing initial Batch, then prepare and
 submit its one 16-request reviewer wave after valid complete results. Replay all
 outputs and costs; inspect all source semantics; only then declare readiness and
 start Phase 73 freeze/authoring. Wait for provider completion without busy polling.
-No new user approval is needed. Preserve unrelated request-log edits. Older billing
+The latency amendment above supersedes this reviewer-wave plan. Preserve unrelated request-log edits. Older billing
 block entries below are historical and do not override this accepted submission.
 
 ### Blocked: provider billing rejects the sealed Batch attempt (2026-09-30)

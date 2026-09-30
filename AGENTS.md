@@ -57,7 +57,7 @@ Completing and pushing one phase is not a stopping point. After the post-push st
 
 When a phase finishes cleanly, do not send a final response that merely summarizes completion if the next phase is already known. Instead, record the completed phase in the tracker, then begin the next phase by reading the required roadmap and phase context.
 
-For the active Phases 71-73 queue, the user selected USD 10 additional API spending on 2026-09-30 UTC. Follow the current cost-control amendment in the active plan; operate autonomously within that shared ceiling and never increase it automatically.
+For the active Phases 71-73 queue, the user selected USD 10 additional API spending on 2026-09-30 UTC. Follow the current cost-control amendment in the active plan; operate autonomously within that shared ceiling and never increase it automatically. The user subsequently rejected Batch waiting; use standard synchronous requests for remaining work, retaining cache-aware accounting and all evaluation gates.
 
 Track durable progress in `docs/roadmap/progress.md`. At each phase start, read its current-position section, the single active plan it links, and the relevant phase note. Read affected source and evidence on demand. Historical roadmaps below are references, not mandatory rereads or queues to restart. Reuse context already loaded unless it changed. If tracker and repository disagree, inspect relevant history and repair the tracker before committing.
 
