@@ -112,3 +112,23 @@ The separate `v21-standard-freeze.json` binds calibration revision `13c022db`,
 exact evaluator/runner dependencies and both neutral briefs. It declares the
 same 16-case/48-call/USD 1.00 attempt, 180-second timeout and zero retries.
 Authoring starts only after this freeze record is committed.
+
+## Fresh confirmation reference review
+
+The freeze was committed/pushed as `29fec517`. Separate context-isolated author
+and validator agents used only the frozen neutral briefs and new artifacts.
+Initial validation rejected an unsupported actor assignment (CV21-001). That
+case was revised before execution, preserving the original suite and rejection.
+Primary pre-seal inspection then questioned an exact expiry date added to a
+question about former/current permission; the validator confirmed an overbroad
+required fact (CV21-002). Revision 1 and its rejected validation are also preserved.
+These are pre-execution reference-construction findings, not grader results.
+No confirmation call has run and no evaluator or frozen rubric was changed.
+
+Revision 2 passed final independent validation: 16 accepted, zero unresolved
+findings. CV21-001 and CV21-002 are resolved; only their two cases changed across
+the preserved pre-execution revisions. Primary inspection agrees with the final
+source references. The separate seal binds the final suite, validation, both
+agents' notes, all initial/revision-1 evidence, freeze, authorization and spending
+prefix. Schema/fact reduction and exact reference agreement pass. The next step
+is one bounded standard confirmation after the seal commit and full preflight.

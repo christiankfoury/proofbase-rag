@@ -25,7 +25,9 @@ clean source inspection, 18 calls and USD 0.23565000. Full calibration then pass
 USD 2.32316941 remains. Isolated fresh 16/16 confirmation is next, before a newly
 frozen 60-case measurement. Calibration evidence is committed as `13c022db`;
 the separate confirmation freeze binds that revision before isolated authorship.
-No final evaluator readiness claim.
+Final fresh-confirmation references are independently approved (16/16), with two
+pre-execution construction issues corrected and all revisions preserved. The
+suite is sealed for one bounded attempt; no final evaluator readiness claim.
 Phases 71/72 historical completion is unchanged.
 
 [Successor measurement preparation](../phase-73/v5-measurement-preparation.md)
