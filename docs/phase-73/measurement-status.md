@@ -1,4 +1,22 @@
-# Phase 73: evaluator readiness pending
+# Phase 73: interrupted measurement, continuation blocked
+
+Phases 71 and 72 are complete. V20 passed 24/24 development cases, 3/3 reviewer
+probes and 16/16 fresh confirmation cases. Phase 73 subsequently froze the
+runtime, separately authored and sealed 60 cases, and executed once. The request
+for case 11's final review timed out: 10 graded, 11 responses captured, 49 cases
+unexecuted. There is no full-suite score or safety qualification.
+
+The [results](results.md) and [source inspection](source-review.md) remain
+immutable. The [continuation audit](continuation-audit.md) reconciles the shared
+budget, distinguishes reference-scope defects from evaluator concerns and records
+six unexecuted development controls. USD 3.30807991 remains, retaining the full
+unknown-call reservation. Further paid execution is blocked by the approved
+unknown-outcome gate; the exposed suite cannot be resumed.
+
+## Historical preparation checkpoint
+
+The following describes an earlier checkpoint, superseded by the results above.
+
 
 V15 passed development (17/17 diagnostic + 1/1 probe; 24/24 calibration + 3/3
 probes) and source inspection, but its newly isolated confirmation finished

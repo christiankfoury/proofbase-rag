@@ -1,0 +1,74 @@
+{
+  "kind": "source_reviewed_development_controls",
+  "executed": false,
+  "human_adjudication": false,
+  "provenance": "Primary-agent authored from OPS-001 after exposure; development only, never a fresh holdout. Expectations are source-inspection proposals; no model execution or evaluator qualification.",
+  "cases": [
+    {
+      "id": "contextual-record",
+      "question": "What details belong in the vendor intake so I can document my request properly?",
+      "answer": "To document your request properly, provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+      "source_path": "data/synthetic-documents/operations/OPS-001-vendor-travel-and-equipment-policy.md",
+      "source_quote": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+      "required_fact": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+      "expected_factual_support": "pass",
+      "expected_completeness": "pass",
+      "reason": "The opening frames the documentation task named in the question; it asserts no separate organizational purpose, legal compliance or guaranteed outcome. All six fields remain mandatory."
+    },
+    {
+      "id": "invented-purpose",
+      "question": "What details belong in the vendor intake?",
+      "answer": "Provide the vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner. Northstar requires these fields to meet insurance law.",
+      "source_path": "data/synthetic-documents/operations/OPS-001-vendor-travel-and-equipment-policy.md",
+      "source_quote": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+      "required_fact": "The requester must provide vendor legal name, business purpose, expected start date, estimated annual spend, data access level, and contract owner.",
+      "expected_factual_support": "unresolved",
+      "expected_completeness": "pass",
+      "reason": "All fields are covered, but the independent insurance-law purpose is absent from the source. It must be extracted and receive no supported credit; citation support for it would fail."
+    },
+    {
+      "id": "scoped-reference",
+      "question": "How should I book a hotel, and what exceptions apply to the booking tool?",
+      "answer": "Hotels should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+      "source_path": "data/synthetic-documents/operations/OPS-001-vendor-travel-and-equipment-policy.md",
+      "source_quote": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+      "required_fact": "Hotel bookings should use the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+      "expected_factual_support": "pass",
+      "expected_completeness": "pass",
+      "reason": "The reference matches the hotel question, preserving all three exceptions and modality. Airfare and ground transportation are other source subjects, not missing answers to this question."
+    },
+    {
+      "id": "broad-reference",
+      "question": "How should I book airfare, a hotel and ground transportation, and what exceptions apply?",
+      "answer": "Hotels should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+      "source_path": "data/synthetic-documents/operations/OPS-001-vendor-travel-and-equipment-policy.md",
+      "source_quote": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+      "required_fact": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+      "expected_factual_support": "pass",
+      "expected_completeness": "fail",
+      "reason": "The same supported hotel answer omits the other two explicitly requested subjects. Broad required-fact coverage must still fail; narrowing the question cannot be inferred by the grader."
+    },
+    {
+      "id": "omitted-exception",
+      "question": "How should I book a hotel, and what exceptions apply to the booking tool?",
+      "answer": "Hotels should be booked through the approved travel tool unless an emergency or accessibility need makes that impractical.",
+      "source_path": "data/synthetic-documents/operations/OPS-001-vendor-travel-and-equipment-policy.md",
+      "source_quote": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+      "required_fact": "Hotel bookings should use the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical.",
+      "expected_factual_support": "unresolved",
+      "expected_completeness": "fail",
+      "reason": "The customer-requirement exception is omitted. A scoped reference must retain every material condition. The stronger rule without that exception is not fully entailed by the quoted source."
+    },
+    {
+      "id": "modality-strengthening",
+      "question": "How far in advance should business travel be booked?",
+      "answer": "Employees must book business travel at least 14 days before departure in all circumstances.",
+      "source_path": "data/synthetic-documents/operations/OPS-001-vendor-travel-and-equipment-policy.md",
+      "source_quote": "Employees should book business travel at least 14 days before departure when practical.",
+      "required_fact": "Employees should book business travel at least 14 days before departure when practical.",
+      "expected_factual_support": "unresolved",
+      "expected_completeness": "fail",
+      "reason": "The answer strengthens should to must and removes when practical. No mandatory universal deadline is established; that incompatible strengthening cannot receive complete/supported credit."
+    }
+  ]
+}

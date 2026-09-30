@@ -38,6 +38,24 @@ unknown-outcome stop and one-shot custody rules. A successor requires a document
 outcome/accounting resolution and newly frozen, isolated evidence; do not clear the
 flag, retry this suite or silently start another paid run. Preserve unrelated logs.
 
+### Continuation audit after interruption publication
+
+Continuation from `f3faad60` reconciles all 414 shared-spend entries against the
+saved snapshot and replays the full original evidence. There is no missing
+charge or releasable reservation. The timed-out request has no saved response,
+completion ID or enabled storage; no supported API recovery route was found.
+The provider outcome remains unknown, so paid work remains stopped under the
+existing gate. No new API call or policy exception was made.
+
+[Continuation investigation](../phase-73/continuation-audit.md) identifies SR-007
+and SR-011 as question/reference scope problems, preserves the separate modality
+and quotation concerns, and keeps SR-006's claim boundary unresolved pending
+separate development validation. Six source-checked, unexecuted development
+controls are prepared; no evaluator or sealed label was changed. A successor
+requires provider outcome evidence or an explicit unknown-outcome policy decision,
+then all applicable qualification/freeze/fresh-suite gates within USD 3.30807991.
+The README and measurement-status entry now reflect v20 and the interrupted run.
+
 ### Historical checkpoint: v19 diagnostic passed
 
 V19 diagnostic passed 12/12 plus 3/3 probes, 39 calls and USD 0.41070500.

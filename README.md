@@ -62,7 +62,7 @@ Recorded project review classified the eight Phase 49 automated failures as four
 
 ## Five-Minute Review Path
 
-**Portfolio release:** the bounded demo finish is complete. The [quality-completion queue](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). Evaluator V18 passed **24/24** full development calibration cases and all three reviewer probes, after a 29-case diagnostic. [Source inspection](docs/phase-71/confirmation-v18-development-source-review.md) found no unresolved semantic defect. A fresh post-freeze 16-case confirmation remains required; earlier failed results are preserved. [Fresh runtime measurement is pending](docs/phase-73/measurement-status.md), and no new overall accuracy score is claimed. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
+**Portfolio release:** the bounded demo finish is complete. The [quality-completion queue](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). Phase 71 qualified v20 on 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases with source inspection. [Phase 73 was interrupted](docs/phase-73/results.md) after ten completed grades; no full-suite quality or safety result exists. The [continuation audit](docs/phase-73/continuation-audit.md) reconciles spending and records the unresolved provider outcome and evaluation concerns. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
 
 
 1. **0:00–0:45:** Open `/demo`, select **Emma Employee**, and open Northstar Analytics.
