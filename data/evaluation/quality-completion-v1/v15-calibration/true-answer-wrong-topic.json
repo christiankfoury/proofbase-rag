@@ -1,0 +1,73 @@
+{
+  "case_id": "true-answer-wrong-topic",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It gives a substantive statement, but it addresses a different policy topic than the question asked.",
+    "behavior_span": "Cedar reimburses parking up to 14 credits per day.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Cedar reimburses parking up to 14 credits per day."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The answer makes one factual claim, and it is directly entailed by factual source R2 and cited source C1.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "Cedar reimburses parking up to 14 credits per day."
+          }
+        ],
+        "text": "Cedar reimburses parking up to 14 credits per day."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer discusses parking reimbursement, not meals during overnight fieldwork or the 32 credits per day limit.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is about parking reimbursement rather than the Cedar meal allowance for overnight fieldwork.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracts the only factual claim in the answer and marks it supported by R2 and C1. The required fact about meals during overnight fieldwork is correctly marked missing, since the answer gives a different policy (parking), not a contradictory value for the same requested fact. The response is therefore a substantive but wrong-topic answer: actual_behavior=answer is correct, response_behavior=fail is correct because expected_behavior was answer and the required fact is missing. Relevance=fail is also correct, and there are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

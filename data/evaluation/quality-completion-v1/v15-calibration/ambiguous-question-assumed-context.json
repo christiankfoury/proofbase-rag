@@ -1,0 +1,66 @@
+{
+  "case_id": "ambiguous-question-assumed-context",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive lead-time statement rather than asking for clarification or refusing, even though it selects an unsupported specific topic.",
+    "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source directly states the same booking requirement for Morrow equipment, and the cited source contains the same statement.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "text": "You must book Morrow equipment at least 2 days ahead."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question does not identify what is being booked, and the answer invents a specific subject ('Morrow equipment') not grounded in the question or history.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracts the answer’s single factual claim as an exact span, and that claim is fully supported by both the factual and cited source text. There are no omitted factual claims, required_facts is empty so completeness is N/A, and there are no forbidden assertions. The answer is a substantive response, so actual_behavior='answer' is correct, but because expected_behavior was 'clarify' for the ambiguous question, response_behavior=fail is also correct. Relevance=fail is correct because the answer invents the specific topic 'Morrow equipment' even though the question does not identify what is being booked.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

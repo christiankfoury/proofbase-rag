@@ -1,0 +1,70 @@
+{
+  "case_id": "temporal-condition-preserved",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It gives a direct substantive answer to the user's question.",
+    "behavior_span": "Yes, staff may work remotely on Mondays without approval.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source explicitly says Monday remote work requires prior written manager approval and prohibits remote work without that approval, which conflicts with the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Staff may work remotely on Mondays only with prior written manager approval. Remote work without that approval is prohibited."
+          }
+        ],
+        "text": "Yes, staff may work remotely on Mondays without approval."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Yes, staff may work remotely on Mondays without approval."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer says remote work on Mondays is allowed without approval, which is incompatible with the required rule that prior written manager approval is required and otherwise remote work is prohibited.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses whether staff may work remotely on Mondays without approval.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracts the single factual claim as the full answer span. That claim is contradicted by R1, and the cited source does not support it, so factual_support=fail and citation_support=fail are correct. The required fact is explicitly contradicted by the answer, so completeness=fail is correct. actual_behavior='answer' is correct because the response directly answers the question, but response_behavior=fail is also correct because the answer gives the wrong policy value relative to the required fact. The response is on-topic, so relevance=pass is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

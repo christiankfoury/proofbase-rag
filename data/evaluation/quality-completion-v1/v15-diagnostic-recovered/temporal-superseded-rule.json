@@ -1,0 +1,70 @@
+{
+  "case_id": "temporal-superseded-rule",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with a substantive yes/no statement.",
+    "behavior_span": "Yes, cameras are still allowed in the Quartz room.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer asserts current permission in the Quartz room. The only current policy source explicitly says cameras are prohibited there, and the cited source does not entail the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Current replacement policy: Cameras are prohibited in the Quartz room."
+          }
+        ],
+        "text": "Yes, cameras are still allowed in the Quartz room."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Yes, cameras are still allowed in the Quartz room."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly says cameras are allowed in the Quartz room, which is incompatible with the required fact that cameras are prohibited there under the current policy.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer is directly about whether cameras are allowed in the Quartz room.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracts the single factual claim as the exact answer sentence and marks it contradicted by the current-policy source span stating cameras are prohibited. The cited source does not entail the claim, so citation status missing and citation_support fail are correct. The required fact about current prohibition is explicitly contradicted by the answer, so completeness fail is correct. actual_behavior=answer is correct because the reply directly answers the question, and response_behavior=fail is also correct because expected_behavior is answer but the required fact is contradicted. The answer is on-topic, and there are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

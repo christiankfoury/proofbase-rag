@@ -1,0 +1,73 @@
+{
+  "case_id": "coverage-other-entity",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It provides a substantive response in declarative form, but to the wrong entity/topic rather than the requested Mica badge deposit.",
+    "behavior_span": "The Onyx visitor badge deposit is 5 credits.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C2",
+            "span": "The Onyx visitor badge deposit is 5 credits."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The answer asserts the Onyx visitor badge deposit amount, which is directly entailed by factual source R2 and cited source C2.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "The Onyx visitor badge deposit is 5 credits."
+          }
+        ],
+        "text": "The Onyx visitor badge deposit is 5 credits."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer gives a deposit for Onyx, not for Mica. Because it refers to a different entity, it does not cover or contradict the required fact about Mica's visitor badge deposit.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks about Mica, but the answer discusses Onyx instead, so it is not responsive to the specified topic.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracts the only factual claim as the exact answer span and marks it supported by R2/C2. It also correctly marks the required Mica fact as missing, not contradicted, because the answer is about a different entity (Onyx). The actual_behavior label 'answer' is correct for a substantive but wrong-topic response, and response_behavior properly fails because expected behavior was an answer to the requested fact and the required fact is missing. Relevance correctly fails due to answering about Onyx instead of Mica. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

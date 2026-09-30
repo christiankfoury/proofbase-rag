@@ -19,7 +19,11 @@ main at `cf9866b`, 2,094 API calls, USD 5.48490077; unrelated request-log edits
 preserved. Continue through review, commit and push without routine permission.
 Policy: `0159c71`; v15 preparation: `7edf06e`. A local settlement-write failure is
 reconciled from a complete saved response; [recovery](../phase-71/v15-local-recovery.md)
-continues only unissued requests. Current accounting: 2,101 calls, USD 5.57397077.
+continues only unissued requests. V15 development is source-inspected and approved: 17/17 diagnostic + 1/1 probe,
+24/24 calibration + 3/3 probes; 2,221 cumulative calls, USD 6.72190827.
+Next: freeze evaluator and neutral briefs, then freshly isolated 16-case confirmation.
+Docker is available and the isolated Phase 73 database clone is prepared; its
+runner is a contingent draft, with no holdout authored or application calls.
 
 The stopped entries below record historical authorization boundaries; they do
 not override the newer standing completion authorization.

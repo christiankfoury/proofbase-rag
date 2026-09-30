@@ -65,3 +65,9 @@ by a local ledger-write error after two matching cases and a saved third claims
 response. [Audited local recovery](v15-local-recovery.md) proves the provider
 outcome and continues only unissued requests without changing evaluator semantics.
 The new local-write resilience is tested separately; no provider retries occur.
+
+## V15 development result and confirmation preparation
+
+V15 passes both development gates and [source inspection](confirmation-v15-development-source-review.md). Diagnostic: 17/17 and 1/1 targeted probe; calibration: 24/24 and 3/3 original probes. V15 totals 127 calls, USD 1.23700750; cumulative 2,221 calls, USD 6.72190827. The audited local recovery is complete with zero provider retries.
+
+Prepared a one-shot 16-case confirmation successor using the unchanged v15 grader and durable ledger. Fresh references must include intermediate required-fact statuses; mechanical checks reject incomplete/inconsistent maps, and a separate validator derives them independently. Freeze binds source closure, standing authorization, readiness and neutral briefs before authorship; seal binds suite/validation before execution. Four confirmation custody tests plus eight development/recovery tests passed (12 total), as did scoped compilation. Complete intended source, briefs and evidence reviewed before commit. No confirmation or Phase 73 calls yet.

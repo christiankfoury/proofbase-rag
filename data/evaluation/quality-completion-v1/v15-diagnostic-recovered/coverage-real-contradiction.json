@@ -1,0 +1,70 @@
+{
+  "case_id": "coverage-real-contradiction",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It directly answers the user's question with a substantive deposit amount, though the value conflicts with the required fact.",
+    "behavior_span": "The Nacre visitor badge deposit is 9 credits.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source explicitly states the deposit is 16 credits, which conflicts with 9 credits. The cited source does not entail the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "The Nacre visitor badge deposit is 16 credits."
+          }
+        ],
+        "text": "The Nacre visitor badge deposit is 9 credits."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The Nacre visitor badge deposit is 9 credits."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer gives a different deposit amount for the same Nacre visitor badge policy: 9 credits instead of 16 credits.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response addresses the asked topic: the Nacre visitor badge deposit.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracts the single factual claim and marks it contradicted by R1, so factual_support=fail is correct. The cited source does not entail the claim, so citation_support=fail is also correct. The required fact is explicitly contradicted by the answer’s 9-credit amount, making completeness=fail correct. The response is still a substantive direct answer to the question, so actual_behavior=answer is correct; because the expected behavior is answer but the required fact is contradicted, response_behavior=fail is correct. The answer is on-topic, so relevance=pass is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
