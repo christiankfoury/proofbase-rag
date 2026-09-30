@@ -28,6 +28,11 @@ the separate confirmation freeze binds that revision before isolated authorship.
 No final evaluator readiness claim.
 Phases 71/72 historical completion is unchanged.
 
+[Successor measurement preparation](../phase-73/v5-measurement-preparation.md)
+adds separate v5 accounting/runner/report tooling and neutral scope-aware contracts.
+Seventeen offline controls pass. No runtime freeze, fresh application suite or
+measurement call is permitted until the fresh evaluator confirmation qualifies.
+
 ### Historical checkpoint: original Phase 73 interruption
 
 Phase 71 qualified v20 with 24/24 development cases, 3/3 reviewer probes and
