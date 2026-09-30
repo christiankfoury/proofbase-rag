@@ -26,10 +26,13 @@ policy carries both full reservations without rewriting old journals. Ten offlin
 tests cover transport replay and cancellation accounting; no new paid requests
 have been issued. Next: separate freeze, isolated v10 authorship and validation,
 seal, then one bounded standard confirmation. Preserve unrelated request logs.
-The standard evaluator freeze is pushed as `d85a2bc`; isolated authoring is underway.
+The standard evaluator freeze is pushed as `d85a2bc`; isolated authorship and independent validation approved all 16 v10 references.
 Phase 73 successor accounting now includes every cancelled receipt and the future
 48 standard calls, retaining all prior reservations without double-counting.
 Sixteen focused local checks pass; runtime measurement still requires readiness.
+V10 is sealed with 128 dimensions and 18 fact statuses, zero reference findings.
+Standard preflight passes: maximum 48 requests, USD 5.59118750 bound plus
+USD 2.80849875 retained, below the USD 10 ceiling. Paid execution follows once.
 
 ### Historical checkpoint: accepted Batch was running (2026-09-30)
 
