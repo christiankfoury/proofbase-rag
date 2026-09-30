@@ -6,21 +6,22 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: v20 diagnostic passed; full calibration next
+### Active: v20 development passed; freeze and fresh confirmation next
 
-V20 diagnostic passed 10/10 plus 3/3 reviewer probes: 33 standard calls, estimated
-USD 0.3249920. Exact replay and all-case source inspection pass with zero findings.
-[Diagnostic inspection](../phase-71/v20-development-source-review.md) permits full
-calibration only: unchanged 24 cases and 3 probes, maximum 75 calls, USD 1.75 hard
-stage cap. Preparation 2ff8cd1 and contingent confirmation/Phase 73 wiring ed6520f
-are pushed. Additional accounting is USD 4.77327575 of the fixed USD 10, including
-USD 2.80849875 retained history. No Batch job remains pending.
+V20 full calibration passed 24/24 cases plus 3/3 probes: 75 standard calls,
+estimated USD 0.6325130. Full replay and all-case source inspection have zero
+findings. [Calibration inspection](../phase-71/v20-calibration-source-review.md)
+approves a separate evaluator freeze, then isolated fresh 16-case authoring and
+independent validation before a sealed one-shot confirmation. No v11 suite exists
+yet. Diagnostic evidence is pushed as a5f301c9 (10/10 + 3/3, USD 0.3249920).
 
-No v20 freeze or fresh v11 authoring yet. Full calibration, clean source inspection,
-then separate freeze and isolated confirmation remain mandatory. V19's failed
-22/24 result and complete costs are immutable in 4d75500. Phase 72 remains complete;
-Phase 73 measurement still requires a qualified evaluator. Continue autonomously
-through the [active plan](quality-completion-plan.md); preserve unrelated logs.
+Additional accounting is USD 5.40578875 of the fixed USD 10, including held history
+USD 2.80849875. No pending provider outcome or Batch job. Pinned model, medium,
+4096 output cap and zero retries remain unchanged. Contingent confirmation and
+Phase 73 preparation ed6520f have 19 passing offline checks. Phase 72 is complete;
+Phase 73 runtime freeze and measurement still require fresh evaluator confirmation.
+Continue autonomously through the [active plan](quality-completion-plan.md),
+preserving failed evidence and unrelated request logs.
 
 ### Historical checkpoint: v19 diagnostic passed
 

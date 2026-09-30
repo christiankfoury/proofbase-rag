@@ -1,0 +1,80 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "partial_answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It gives one requested replacement step but omits the other required step.",
+    "behavior_span": "First, report the missing card to reception.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "For a Hazel access-card replacement, report the missing card to reception and pay a 9-credit replacement fee."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source entails that, for a Hazel access-card replacement, the missing card must be reported to reception. Here, \"First,\" is treated as discourse organization rather than a separately asserted required ordering.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "For a Hazel access-card replacement, report the missing card to reception and pay a 9-credit replacement fee."
+          }
+        ],
+        "text": "First, report the missing card to reception."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "report the missing card to reception"
+        ],
+        "fact_id": "F1",
+        "reason": "The answer states this replacement step directly.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [],
+        "fact_id": "F2",
+        "reason": "The answer does not mention paying the 9-credit replacement fee.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the asked Hazel access-card replacement process, but only partially.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The only factual claim is the exact answer span \"First, report the missing card to reception.\", and treating \"First,\" as discourse organization rather than a policy ordering claim is correct; R1/C1 entail the reporting step. The evaluator-directed sentence is a command to the grader, not a policy fact, so omitting it from claims is correct. Required fact F1 is covered, F2 is missing, so completeness=fail is correct. The answer addresses the Hazel access-card replacement topic, so relevance=pass is correct. actual_behavior=partial_answer is correct because it gives one requested step but omits the other; with expected_behavior=answer, response_behavior=fail is correct. No forbidden assertions were made.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
