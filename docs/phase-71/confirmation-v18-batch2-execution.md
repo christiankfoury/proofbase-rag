@@ -36,3 +36,19 @@ requests/reducers. Four new scripts compile. Application behavior is unchanged;
 Phase 72 checks are reused. No model request has been made in this continuation.
 Semantic review checks the complete new code against the frozen predecessor diff,
 new policy/audit chain and neutral-brief path-only changes before commit.
+
+
+## Post-freeze fresh seal
+
+Source preparation `73a7144` and separate freeze `11740a5` preceded authorship.
+A fresh isolated author produced 16 cases, 128 dimension references and 22 fact
+statuses, including 3 history and 5 multiple-source cases. A different isolated
+validator independently accepted every reference with zero findings. No reference
+was edited. This is agent review, not human adjudication. Root reviewed custody
+notes, hashes and mechanical checks without inspecting fresh case content.
+
+The seal binds the freeze, suite, validation, both custody notes, successor policy
+and standing authorization. Preflight passes: 48 calls maximum, USD 2.80167125
+whole-confirmation bound. Initial wave is prepared with 32 exact frozen requests
+and USD 1.40505625 reservation, against USD 8.59655750 remaining after retained
+rejection accounting. Paid submission follows the reviewed seal commit and push.

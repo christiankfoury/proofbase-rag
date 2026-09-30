@@ -14,10 +14,12 @@ made. [Successor protocol](../phase-71/confirmation-v18-batch2-execution.md) pre
 the retired attempt and carries its full USD 1.40344250 reservation into the same
 USD 10 additional envelope. It reuses unchanged passing v18 development evidence.
 Seven focused protocol tests pass. Preparation `73a7144` and separate freeze
-`11740a5` are pushed; fresh isolated authoring is in progress. Phase 73 successor
+`11740a5` are pushed. Fresh isolated authorship and independent validation
+accepted all 16 cases, 128 dimensions and 22 fact statuses with zero findings. Phase 73 successor
 accounting wiring passed 15 local tests, plus a focused cap-stop propagation check.
-Next: independent fresh validation, seal,
-submit each of the two bounded waves once, then replay and inspect every result.
+The suite is sealed; 32 initial requests are prepared. Whole-confirmation bound
+USD 2.80167125 fits the remaining USD 8.59655750. Next: push seal, submit each
+wave once, then replay and inspect every result. No new model call yet.
 Phase 73 remains gated on qualifying evaluator readiness and its own later freeze.
 
 ### Blocked: provider billing rejects the sealed Batch attempt (2026-09-30)
