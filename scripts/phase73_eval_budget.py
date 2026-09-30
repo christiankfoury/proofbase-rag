@@ -13,7 +13,8 @@ import threading
 from unittest.mock import patch
 
 from scripts.quality_completion_durable import write_json_atomic
-from scripts.quality_completion_ledger import Ledger as QualityLedger, digest, FOLDER as QUALITY
+from scripts.quality_completion_ledger import digest, FOLDER as QUALITY
+from scripts.phase73_eval_history import PriorLedger, build_prefix
 from scripts.quality_eval_transport_v18 import exclusive_lock, MODEL, reserve
 from scripts.quality_cost_control import POLICY, read as read_cost, charge as grader_charge
 from scripts.quality_batch_transport import SpendJournal
@@ -82,14 +83,13 @@ class Ledger:
 
     @classmethod
     def initialize(cls):
-        previous = QualityLedger(QUALITY/'api-ledger.json')
-        if previous.data['stage'] is not None:
-            raise BudgetStop('Prior stage is still active')
+        prefix = build_prefix()
         FOLDER.mkdir(parents=True, exist_ok=True)
         if (FOLDER/'prior-ledger.json').exists() or (FOLDER/'api-ledger.json').exists():
             raise BudgetStop('Historical prefix already initialized')
         prior = FOLDER/'prior-ledger.json'
-        prior.write_bytes((QUALITY/'api-ledger.json').read_bytes())
+        write_json_atomic(prior, prefix)
+        previous = PriorLedger(prior)
         write_json_atomic(FOLDER/'api-ledger.json', {
             'prior_sha256': digest(prior), 'prior_spend_usd': str(previous.spent),
             'prior_calls': len(previous.data['calls']), 'authorization_sha256': digest(QUALITY/'autonomous-authorization.json'),
@@ -101,7 +101,7 @@ class Ledger:
         self.data = json.loads(self.path.read_bytes())
         base = self.path.parent.parent if self.path.parent.name == 'run' else self.path.parent
         prior_path = base/'prior-ledger.json'
-        prior = QualityLedger(prior_path)
+        prior = PriorLedger(prior_path)
         if (self.data['prior_sha256'] != digest(prior_path)
             or self.data['prior_spend_usd'] != str(prior.spent)
             or self.data['prior_calls'] != len(prior.data['calls'])
@@ -113,7 +113,8 @@ class Ledger:
             charge = Decimal(str(row['charged_usd']))
             if row['call_index'] != i or not charge.is_finite() or charge < 0:
                 raise BudgetStop('Invalid call history')
-        if self.data['unknown_outcome'] or any(r['status'] != 'completed' for r in self.data['calls']):
+        if self.data['unknown_outcome'] or any(r['status'] != 'completed' and i not in prior.resolved_rejections
+                                              for i, r in enumerate(self.data['calls'])):
             raise BudgetStop('Unsettled provider outcome; do not retry')
         if self.data['budget_exhausted']:
             raise BudgetStop('Predeclared call/token allowance exhausted')

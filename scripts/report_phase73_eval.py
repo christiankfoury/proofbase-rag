@@ -16,6 +16,8 @@ from scripts import quality_eval_transport_v18 as transport
 from scripts.report_quality_calibration_v12 import replay_raw
 from scripts.reanalyze_saved_answers import build_inputs,DIMS
 from scripts.quality_completion_durable import write_json_atomic
+from scripts.quality_cost_control import POLICY
+from scripts.quality_confirmation_batch_v18 import OUT as CONFIRMATION
 
 
 def read(path):
@@ -44,11 +46,33 @@ def audit_calls(ledger):
     return calls
 
 
+def audit_additional_spend(calls):
+    baseline = read(CONFIRMATION/'additional-spend.json')
+    snapshot = read(FOLDER/'run/additional-spend.json')
+    if snapshot['policy_sha256'] != digest(POLICY) or baseline['policy_sha256'] != snapshot['policy_sha256']:
+        raise ValueError('Additional cost policy changed')
+    expected = dict(baseline['entries'])
+    for row in calls:
+        identity = row['additional_spend_identity']
+        if identity in expected:
+            raise ValueError('Duplicate additional spending identity')
+        expected[identity] = {'status': 'settled', 'reserved_usd': row['reserved_usd'],
+            'accounted_usd': row['charged_usd'], 'evidence_sha256': row['request_sha256'],
+            'result_sha256': row['raw_sha256']}
+    if snapshot['entries'] != expected:
+        raise ValueError('Additional spending snapshot differs from complete call history')
+    total = sum((Decimal(r['accounted_usd']) for r in expected.values()), Decimal(0))
+    if total > Decimal(read(POLICY)['additional_ceiling_usd']):
+        raise ValueError('Additional spending ceiling exceeded')
+    return total
+
+
 def replay():
     freeze,suite = verify_custody(require_current=False)
     ledger = Ledger(FOLDER/'run/api-ledger.json')
     # Snapshot carries the identical prefix provenance stored at the folder root.
     calls = audit_calls(ledger)
+    additional_spend = audit_additional_spend(calls)
     manifest = read(FOLDER/'run/manifest.json')
     if (manifest['freeze'] != freeze['commit'] or manifest['suite_sha256'] != digest(FOLDER/'holdout.json')
         or manifest['cumulative_cost_usd'] != str(ledger.spent)
@@ -110,6 +134,8 @@ def replay():
             'safety_flag_cases':safety,'calls':len(calls),'operation_counts':dict(Counter(r['operation'] for r in calls)),
             'cumulative_calls':len(ledger.data['calls']),'cumulative_cost_usd':str(ledger.spent),
             'holdout_cost_usd':str(ledger.spent-Decimal(manifest['initial_cost_usd'])),
+            'additional_spend_usd':str(additional_spend),
+            'additional_ceiling_usd':read(POLICY)['additional_ceiling_usd'],
             'latency_ms':{'count':len(latency),'median':statistics.median(latency) if latency else None,
                           'p95':latency[math.ceil(.95*len(latency))-1] if latency else None,
                           'scope':'application query only; fixture indexing and grader excluded'},

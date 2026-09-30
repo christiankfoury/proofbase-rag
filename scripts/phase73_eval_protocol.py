@@ -6,7 +6,7 @@ from pathlib import Path
 
 from scripts.current_eval_protocol import validate_suite, committed_inventory, COUNTS, USERS, PROJECT
 from scripts.current_eval_protocol import FROZEN as PREVIOUS_FILES
-from scripts.quality_confirmation_v18 import CODE
+from scripts.quality_confirmation_batch_v18 import CODE
 from scripts.quality_completion_ledger import digest, FOLDER as QUALITY
 from scripts.phase73_eval_budget import FOLDER, bounds
 
@@ -15,7 +15,7 @@ FROZEN = sorted(set(PREVIOUS_FILES + ['scripts/'+n for n in CODE] + [
     'scripts/phase73_eval_protocol.py', 'scripts/phase73_eval_budget.py',
     'scripts/phase73_eval_environment.py', 'scripts/phase73_eval_capture.py',
     'scripts/phase73_eval_run.py', 'scripts/report_phase73_eval.py',
-    'scripts/test_phase73_eval.py',
+    'scripts/test_phase73_eval.py', 'scripts/phase73_eval_history.py', 'scripts/test_phase73_eval_history.py',
     'scripts/quality_cost_control.py', 'scripts/quality_batch_transport.py',
     'scripts/quality_batch_grading.py', 'scripts/test_quality_cost_control.py',
     'data/evaluation/quality-cost-control-v1/policy.json',
@@ -29,19 +29,8 @@ def file_inventory():
 
 
 def evaluator_ready():
-    from scripts.report_quality_confirmation_v18 import replay
-    report = replay()
-    path = QUALITY/'confirmation-v18-readiness.json'
-    gate = json.loads(path.read_bytes())
-    review = ROOT/'docs/phase-71/confirmation-v18-source-review.md'
-    if (report['matched'] != 16 or report['count'] != 16
-        or any(r['grader_errors'] or r['disputed_dimensions'] for r in report['rows'])
-        or gate.get('status') != 'approved' or gate.get('unresolved_semantic_findings') != 0
-        or gate.get('source_review_sha256') != digest(review)
-        or gate.get('report_sha256') != digest(QUALITY/'confirmation-v18-report.json')
-        or gate.get('human_adjudication') is not False):
-        raise ValueError('Evaluator confirmation is not ready')
-    return digest(path)
+    from scripts.quality_confirmation_batch_v18 import readiness
+    return readiness()
 
 
 def verify_custody(*, require_current=True):
@@ -88,4 +77,9 @@ def verify_custody(*, require_current=True):
         errors.append('exact_case_ids')
     if errors:
         raise ValueError(str(errors))
+    # Exercise the real gold-input validation before the first application call.
+    # This catches invalid roles/quotes that would otherwise stop mid-measurement.
+    from scripts.reanalyze_saved_answers import build_inputs
+    for case in cases:
+        build_inputs(case, {'raw_response': {}, 'authorized_evidence': []})
     return freeze,suite

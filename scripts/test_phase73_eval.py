@@ -151,5 +151,30 @@ class Custody(unittest.TestCase):
                     protocol.verify_custody()
 
 
+class AdditionalReplay(unittest.TestCase):
+    def test_shared_journal_binds_every_new_call_and_prior_batch(self):
+        from scripts import report_phase73_eval as report
+        with tempfile.TemporaryDirectory() as temp:
+            folder=Path(temp); confirmation=folder/'confirmation'
+            policy_hash=digest(report.POLICY)
+            prior={'status':'settled','reserved_usd':'1','accounted_usd':'.1',
+                   'evidence_sha256':'plan','result_sha256':'result'}
+            write_json_atomic(confirmation/'additional-spend.json',{'policy_sha256':policy_hash,'entries':{'batch':prior}})
+            row={'additional_spend_identity':'sync-1','reserved_usd':'.5','charged_usd':'.2',
+                 'request_sha256':'request','raw_sha256':'raw'}
+            snapshot={'policy_sha256':policy_hash,'entries':{'batch':prior,'sync-1':{
+                'status':'settled','reserved_usd':'.5','accounted_usd':'.2',
+                'evidence_sha256':'request','result_sha256':'raw'}}}
+            write_json_atomic(folder/'run/additional-spend.json',snapshot)
+            with patch.object(report,'FOLDER',folder),patch.object(report,'CONFIRMATION',confirmation):
+                self.assertEqual(report.audit_additional_spend([row]),budget.Decimal('.3'))
+                with self.assertRaisesRegex(ValueError,'Duplicate'):
+                    report.audit_additional_spend([row,row])
+                snapshot['entries']['sync-1']['accounted_usd']='0'
+                write_json_atomic(folder/'run/additional-spend.json',snapshot)
+                with self.assertRaisesRegex(ValueError,'snapshot differs'):
+                    report.audit_additional_spend([row])
+
+
 if __name__=='__main__':
     unittest.main()

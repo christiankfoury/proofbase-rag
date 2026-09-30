@@ -6,30 +6,36 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: discounted v18 confirmation continuation (2026-09-30)
+### Blocked: provider billing rejects the sealed Batch attempt (2026-09-30)
 
-The user reported increasing provider usage limits and authorized continuation.
-The USD 10 additional ceiling remains fixed; provider readiness is user-reported
-until the first authorized Batch submission succeeds. Cost-control commit:
-`ce5fcaa`. The prior interrupted attempt stays immutable and its conservative
-reservation remains separate. No extra paid probe or repeated calibration.
+The user reported increased usage limits and authorized continuation. The fixed
+USD 10 additional ceiling remains in force. Preparation `79f2b92`, freeze
+`f4083c4`, fresh suite/seal `2562c71` and JSONL byte preservation `3ae8d46` are pushed.
+Isolated author and validator accepted all 16 cases and fact statuses with zero
+findings. Offline custody/preflight passed; first wave reserved USD 1.40344250.
 
-[Batch confirmation protocol](../phase-71/confirmation-v18-batch-execution.md)
-reuses unchanged v18 development evidence and requires a new source freeze,
-separate fresh 16-case author/validator, seal, 32 initial + 16 review calls, and
-16/16 exact labels/fact statuses with clean source inspection. The new protocol
-replays all requests/results/cost settlements and cannot declare readiness alone.
-Preparation `79f2b92` and separate freeze `f4083c4` are pushed. Fresh isolated
-authoring and independent validation accepted 16/16 cases and all fact statuses,
-zero findings. The suite is sealed and the initial 32-request plan is prepared.
-Whole confirmation upper bound USD 2.79892250; first-wave reservation USD 1.40344250,
-within the shared USD 10 ceiling. Next: one submission of each declared wave,
-raw replay and full source inspection. No calls have yet been made on this suite.
+The one authorized submission uploaded the prepared file, then Batch creation
+returned HTTP 400 `billing_hard_limit_reached` ("Billing hard limit has been
+reached"). No Batch ID, model completion or usage was returned. No retry occurred.
+[Interruption evidence](../phase-71/confirmation-v18-batch-execution.md) preserves
+upload, frozen plan/state, observed error and shared spending journal. The full
+USD 1.40344250 reservation remains held; it is not a confirmed charge. This
+attempt is retired. Do not resubmit it or modify frozen evidence. The API billing
+limit must be resolved externally, followed by a separate reservation/custody
+audit and a freshly frozen successor protocol before any paid continuation.
 
-The [cost audit](../phase-71/spending-reduction.md) is USD 9.79014527 with cached
-input pricing plus the separate old USD 0.09326750 reservation; historical ledger
-estimates remain unchanged. Phase 72 is complete. Phase 73 awaits qualifying
-confirmation and its own runtime freeze/holdout. Preserve unrelated request logs.
+Phase 72 is complete (`8a0f734`). Local Phase 73 preparation now supports an
+audited unchanged historical prefix plus qualifying Batch costs, complete shared
+spending replay, the Batch readiness gate and gold-input checks before calls.
+Fifteen focused tests and scoped compilation pass. No runtime freeze, 60-case
+suite, live application measurement or new quality score exists. These gates
+remain mandatory; the billing failure is not evaluator validation evidence.
+
+The [historical cost audit](../phase-71/spending-reduction.md) estimates USD
+9.79014527 completed usage plus the separate old USD 0.09326750 reservation.
+No new completed model usage is recorded. Account billing is not independently
+inspected or modified. Preserve unrelated request-log edits. Next action requires
+an external billing-state change, not another routine implementation approval.
 
 ### Active: standing autonomous completion of Phases 71-73 (2026-09-29)
 

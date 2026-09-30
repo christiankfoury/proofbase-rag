@@ -81,6 +81,7 @@ def main():
         raise
     finally:
         manifest.update(finished_at=now(),cumulative_cost_usd=str(ledger.spent))
+        write_json_atomic(run/'additional-spend.json',ledger.additional_spend.load())
         write_json_atomic(run/'api-ledger.json',ledger.data)
         write_json_atomic(run/'manifest.json',manifest)
 

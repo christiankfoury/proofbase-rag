@@ -104,3 +104,36 @@ fingerprints. `/health` returned 200; all five declared business roles have the
 expected Northstar membership. No query, external API call or database write was
 used by this verification. Scoped compilation passed; the SQL uses fixed catalog
 queries and binds the configured runtime role as a parameter.
+
+
+## Local accounting handoff preparation (2026-09-30)
+
+The Phase 73 gate now points at the sealed Batch confirmation's complete replay
+and source-review readiness. That confirmation was rejected by provider billing,
+so no ledger initialization, runtime freeze or fresh runtime authorship occurred.
+No readiness or measurement result is inferred from local tests.
+
+The new historical-prefix reader preserves every original row and its conservative
+floor, including the separately audited original quota rejection and its retained
+reservation. Only that exact rejected row can be recognized as resolved by the
+existing immutable audit; any other unknown remains blocked. A qualifying future
+Batch confirmation must contribute all 48 requests, raw hashes and cache-aware
+charges, with unchanged historical bytes. Initialization requires readiness first.
+This code does not clear the latest Batch reservation or permit its reuse.
+
+Each runtime run saves the shared additional-spend journal. Offline publication
+must reproduce its prior Batch entries and every new request reservation and
+settlement, reject missing/extra/duplicate entries, and enforce the unchanged
+USD 10 additional ceiling. Gold-input construction validates every sealed case's
+role access and source quotes before the first application call. Frozen source
+inventory includes the accounting helper and tests.
+
+Verification: `python -m unittest scripts.test_phase73_eval_history
+scripts.test_phase73_eval` passed 15 tests, including four new interrupted-prefix
+checks and shared-journal replay/tamper checks. Scoped `py_compile` passed for all
+seven affected scripts. Existing application checks are reused because runtime
+behavior, dependencies and corpus are unchanged. No DB or paid call was needed
+for these local changes. Full intended diff review found no remaining blocking
+implementation issue; live acceptance remains pending external billing and
+qualifying evaluator confirmation. The provider rejection and preparation are
+committed separately to preserve evidence custody. Unrelated logs stay excluded.
