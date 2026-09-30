@@ -140,7 +140,7 @@ class Custody(unittest.TestCase):
         from scripts import phase73_eval_protocol as protocol
         from scripts import phase73_eval_run as run
         from scripts import report_phase73_eval as report
-        from scripts import quality_confirmation_standard_v19 as confirmation
+        from scripts import quality_confirmation_standard_v20 as confirmation
         self.assertEqual(run.VERSION, confirmation.previous.VERSION)
         self.assertEqual(report.VERSION, confirmation.previous.VERSION)
         self.assertIs(run.grade_case, protocol.evaluator_transport.grade_case)

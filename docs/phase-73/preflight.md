@@ -1,6 +1,6 @@
 # Phase 73 preparation and declared measurement protocol
 
-Status: contingent preparation. Tooling now binds candidate v19. It cannot be
+Status: contingent preparation. Tooling now binds candidate v20. It cannot be
 used until full calibration, source inspection and fresh confirmation all pass.
 Reverify custody before runtime freeze or isolated holdout authorship. No fresh
 application score exists yet.
@@ -220,3 +220,24 @@ asserts the runtime version and function binding match the qualification adapter
 and that replay uses the identical transport. All three focused custody tests and
 scoped compilation pass. This fixes prospective evaluator wiring, not a measured
 application defect or published result. No frozen runtime evidence exists yet.
+
+
+### Contingent v20 qualification and complete history
+
+V19 full calibration failed, so v19 cannot qualify the runtime measurement.
+The unfrozen Phase 73 path now uses the v20 readiness adapter, contract and transport
+consistently. The future prefix includes all original rows, 32 cancelled receipts,
+48 failed v18 standard calls, 39 v19 diagnostic calls, 75 v19 calibration calls,
+33 v20 diagnostic calls, 75 v20 calibration calls and 48 qualifying v20 confirmation
+calls: 318 standard calls only if every remaining stage completes and qualifies.
+A partial or failed stage cannot initialize measurement. Historical actual costs
+and retained reservations remain separate and are summed without duplication.
+
+Nineteen offline tests pass across the contingent confirmation runner, history,
+budget, custody and report paths. This includes full saved-response replay, stop
+before loading fresh content when development is unready, shared-budget prevention
+before provider invocation, evaluator binding and changed-prefix rejection.
+Compilation and complete intended-diff review pass. No runtime freeze, holdout
+authoring, application measurement or evaluator readiness is claimed by these tests.
+The active diagnostic is separate; this preparation does not modify its code or
+inputs. No new paid call was needed for this work unit.

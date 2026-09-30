@@ -23,6 +23,9 @@ still requires readiness. Preserve unrelated request logs and continue autonomou
 The [v20 development plan](../phase-71/v20-actor-paraphrase-development.md)
 predeclares 10 cases and 3 probes, maximum 33 calls and USD 1.00 hard stage cap.
 Four offline checks pass; full 24/24 + 3/3 and fresh confirmation remain required.
+Preparation is pushed as 2ff8cd1; the one diagnostic is underway. Contingent
+confirmation and Phase 73 full-history wiring have 19 passing offline checks;
+[details](../phase-71/v20-confirmation-preparation.md). No fresh suite authored.
 
 ### Historical checkpoint: v19 diagnostic passed
 

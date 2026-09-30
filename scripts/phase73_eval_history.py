@@ -4,17 +4,18 @@ from decimal import Decimal
 import json
 from pathlib import Path
 
-from scripts import quality_confirmation_standard_v19 as confirmation
+from scripts import quality_confirmation_standard_v20 as confirmation
 from scripts.quality_cost_control import ROOT, read, digest, charge
 from scripts.quality_cost_standard import POLICY, live_policy, retained_entries
 from scripts.quality_completion_ledger import Ledger as LegacyLedger
 
-VERSION = 'phase73-accounting-prefix.v4'
+VERSION = 'phase73-accounting-prefix.v5'
 
 
 def standard_stages():
     dev = confirmation.previous.development
-    return [(dev.prior.OUT, 48), (dev.output('diagnostic'), 39),
+    return [(dev.prior.prior.OUT, 48), (dev.prior.output('diagnostic'), 39),
+            (dev.prior.output('calibration'), 75), (dev.output('diagnostic'), 33),
             (dev.output('calibration'), 75), (confirmation.OUT, 48)]
 
 

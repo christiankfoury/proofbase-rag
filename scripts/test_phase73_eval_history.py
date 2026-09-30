@@ -30,7 +30,7 @@ class Prefix(unittest.TestCase):
             source = history.ROOT / name; target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(source.read_bytes())
         total = Decimal(0); latest = Decimal(0)
-        self.stages = [(self.root/'v18',48),(self.root/'diagnostic',39),(self.root/'calibration',75),(self.c.OUT,48)]
+        self.stages = [(self.root/'v18',48),(self.root/'v19-diagnostic',39),(self.root/'v19-calibration',75),(self.root/'v20-diagnostic',33),(self.root/'v20-calibration',75),(self.c.OUT,48)]
         for stage,count in self.stages:
             rows = []
             for i in range(count):
@@ -58,7 +58,7 @@ class Prefix(unittest.TestCase):
         prefix = history.build_prefix()
         self.c.readiness.assert_called_once()
         self.assertEqual(prefix['calls'][:len(original['calls'])], original['calls'])
-        self.assertEqual(len(prefix['calls']), len(original['calls']) + 32 + 210)
+        self.assertEqual(len(prefix['calls']), len(original['calls']) + 32 + 318)
         self.assertEqual(prefix['resolved_rejection_indices'], [2594] + list(range(2618,2627)))
         self.assertEqual(Decimal(prefix['prior_spend_usd']), Decimal('13.66419952') + Decimal(prefix['standard_cost_usd']))
         path = self.root / 'prior.json'; write(path, prefix)

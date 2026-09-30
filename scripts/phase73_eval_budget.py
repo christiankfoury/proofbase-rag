@@ -15,7 +15,7 @@ from unittest.mock import patch
 from scripts.quality_completion_durable import write_json_atomic
 from scripts.quality_completion_ledger import digest, FOLDER as QUALITY
 from scripts.phase73_eval_history import PriorLedger, build_prefix
-from scripts.quality_eval_transport_v19 import exclusive_lock, MODEL, reserve
+from scripts.quality_eval_transport_v20 import exclusive_lock, MODEL, reserve
 from scripts.quality_cost_control import read as read_cost, charge as grader_charge
 from scripts.quality_cost_standard import POLICY, SpendJournal
 
