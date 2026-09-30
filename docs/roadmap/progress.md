@@ -6,7 +6,7 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: v19 full calibration failed; bounded correction next
+### Active: v19 full calibration failed; v20 bounded correction prepared
 
 V19 completed 22/24 cases and 3/3 reviewer probes: 75 standard calls, estimated
 USD 0.6644430. Exact raw/request/cost replay passes. Full
@@ -19,6 +19,10 @@ with separate controls and the unchanged full calibration/confirmation gates.
 Phase 72 remains complete; Phase 73 preparation is pushed through a43b7f0,
 including runtime/report binding to the same qualified evaluator. Measurement
 still requires readiness. Preserve unrelated request logs and continue autonomously.
+
+The [v20 development plan](../phase-71/v20-actor-paraphrase-development.md)
+predeclares 10 cases and 3 probes, maximum 33 calls and USD 1.00 hard stage cap.
+Four offline checks pass; full 24/24 + 3/3 and fresh confirmation remain required.
 
 ### Historical checkpoint: v19 diagnostic passed
 

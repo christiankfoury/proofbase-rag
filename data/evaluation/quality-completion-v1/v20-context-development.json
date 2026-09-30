@@ -1,0 +1,812 @@
+{
+  "cases": [
+    {
+      "evidence": [
+        {
+          "chunk_id": "actor-context-equivalent-chunk",
+          "content": "Oriole workshop employees may claim a safety-glove allowance after completing orientation, up to 27 credits per quarter.",
+          "document_id": "actor-context-equivalent-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "actor-context-equivalent",
+      "inputs": {
+        "answer": "Oriole workshop staff may claim up to 27 credits per quarter for safety gloves after completing orientation.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Oriole workshop employees may claim a safety-glove allowance after completing orientation, up to 27 credits per quarter."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Oriole workshop employees may claim a safety-glove allowance after completing orientation, up to 27 credits per quarter."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What safety-glove allowance applies to Oriole workshop employees?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Oriole workshop employees may claim a safety-glove allowance after completing orientation, up to 27 credits per quarter."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Oriole workshop staff may claim up to 27 credits per quarter for safety gloves after completing orientation.",
+        "citations": [
+          {
+            "chunk_id": "actor-context-equivalent-chunk",
+            "citation_text": "Oriole workshop employees may claim a safety-glove allowance after completing orientation, up to 27 credits per quarter.",
+            "document_id": "actor-context-equivalent-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control; actor meaning and user-selected topic are judged independently of policy truth.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "actor-reverse-equivalent-chunk",
+          "content": "Plover library staff must return desk keys by 18:00 on the day of issue.",
+          "document_id": "actor-reverse-equivalent-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "actor-reverse-equivalent",
+      "inputs": {
+        "answer": "Plover library employees must return desk keys by 18:00 on the day they are issued.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Plover library staff must return desk keys by 18:00 on the day of issue."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Plover library staff must return desk keys by 18:00 on the day of issue."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "When must Plover library staff return desk keys?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Plover library staff must return desk keys by 18:00 on the day of issue."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Plover library employees must return desk keys by 18:00 on the day they are issued.",
+        "citations": [
+          {
+            "chunk_id": "actor-reverse-equivalent-chunk",
+            "citation_text": "Plover library staff must return desk keys by 18:00 on the day of issue.",
+            "document_id": "actor-reverse-equivalent-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control; actor meaning and user-selected topic are judged independently of policy truth.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "actor-explicit-taxonomy-chunk",
+          "content": "At Juniper, workforce means employees and vendors. Only employees may use the scan room. Vendors are prohibited from using it.",
+          "document_id": "actor-explicit-taxonomy-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "actor-explicit-taxonomy",
+      "inputs": {
+        "answer": "The whole Juniper workforce, including vendors, may use the scan room.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "At Juniper, workforce means employees and vendors. Only employees may use the scan room. Vendors are prohibited from using it."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "At Juniper, workforce means employees and vendors. Only employees may use the scan room. Vendors are prohibited from using it."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Who may use the Juniper scan room?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Only Juniper employees may use the scan room; vendors are prohibited."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "The whole Juniper workforce, including vendors, may use the scan room.",
+        "citations": [
+          {
+            "chunk_id": "actor-explicit-taxonomy-chunk",
+            "citation_text": "At Juniper, workforce means employees and vendors. Only employees may use the scan room. Vendors are prohibited from using it.",
+            "document_id": "actor-explicit-taxonomy-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control; actor meaning and user-selected topic are judged independently of policy truth.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "actor-department-broadening-chunk",
+          "content": "Only Acacia laboratory employees may borrow the field scanner. Employees in other departments, including Finance, may not borrow it.",
+          "document_id": "actor-department-broadening-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "actor-department-broadening",
+      "inputs": {
+        "answer": "All Acacia employees, including Finance staff, may borrow the field scanner.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Only Acacia laboratory employees may borrow the field scanner. Employees in other departments, including Finance, may not borrow it."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Only Acacia laboratory employees may borrow the field scanner. Employees in other departments, including Finance, may not borrow it."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Which Acacia employees may borrow the field scanner?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Only Acacia laboratory employees may borrow the field scanner. Employees in other departments, including Finance, may not borrow it."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "All Acacia employees, including Finance staff, may borrow the field scanner.",
+        "citations": [
+          {
+            "chunk_id": "actor-department-broadening-chunk",
+            "citation_text": "Only Acacia laboratory employees may borrow the field scanner. Employees in other departments, including Finance, may not borrow it.",
+            "document_id": "actor-department-broadening-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control; actor meaning and user-selected topic are judged independently of policy truth.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "topic-unselected-true-rule-chunk",
+          "content": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry.",
+          "document_id": "topic-unselected-true-rule-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "not_applicable",
+        "factual_support": "pass",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "fail",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {},
+      "id": "topic-unselected-true-rule",
+      "inputs": {
+        "answer": "You must renew Linden software subscriptions 8 days before expiry.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry."
+          }
+        ],
+        "expected_behavior": "clarify",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "When must I renew?",
+        "required_facts": []
+      },
+      "payload": {
+        "answer": "You must renew Linden software subscriptions 8 days before expiry.",
+        "citations": [
+          {
+            "chunk_id": "topic-unselected-true-rule-chunk",
+            "citation_text": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry.",
+            "document_id": "topic-unselected-true-rule-doc"
+          }
+        ],
+        "response_type": "clarify"
+      },
+      "rationale": "Separately composed development control; actor meaning and user-selected topic are judged independently of policy truth.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "topic-history-selects-rule-chunk",
+          "content": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry.",
+          "document_id": "topic-history-selects-rule-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "topic-history-selects-rule",
+      "inputs": {
+        "answer": "You must renew your Linden tool permit 11 days before expiry.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [
+          {
+            "content": "I am asking about my Linden tool permit.",
+            "role": "user"
+          }
+        ],
+        "question": "When must I renew it?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Linden tool permits must be renewed 11 days before expiry."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "You must renew your Linden tool permit 11 days before expiry.",
+        "citations": [
+          {
+            "chunk_id": "topic-history-selects-rule-chunk",
+            "citation_text": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry.",
+            "document_id": "topic-history-selects-rule-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control; actor meaning and user-selected topic are judged independently of policy truth.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "prerequisite-direct-once-chunk",
+          "content": "Kite release notes may be published only after editorial review is complete.",
+          "document_id": "prerequisite-direct-once-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "prerequisite-direct-once",
+      "inputs": {
+        "answer": "You may publish a Kite release note once editorial review is complete.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Kite release notes may be published only after editorial review is complete."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Kite release notes may be published only after editorial review is complete."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What condition applies before I publish a Kite release note?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Kite release notes may be published only after editorial review is complete."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "You may publish a Kite release note once editorial review is complete.",
+        "citations": [
+          {
+            "chunk_id": "prerequisite-direct-once-chunk",
+            "citation_text": "Kite release notes may be published only after editorial review is complete.",
+            "document_id": "prerequisite-direct-once-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "prerequisite-optional-condition-chunk",
+          "content": "Releasing a Cedar parcel requires a signed receipt.",
+          "document_id": "prerequisite-optional-condition-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "prerequisite-optional-condition",
+      "inputs": {
+        "answer": "A signed receipt is optional when releasing a Cedar parcel.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Releasing a Cedar parcel requires a signed receipt."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Releasing a Cedar parcel requires a signed receipt."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Is a signed receipt required to release a Cedar parcel?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Releasing a Cedar parcel requires a signed receipt."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "A signed receipt is optional when releasing a Cedar parcel.",
+        "citations": [
+          {
+            "chunk_id": "prerequisite-optional-condition-chunk",
+            "citation_text": "Releasing a Cedar parcel requires a signed receipt.",
+            "document_id": "prerequisite-optional-condition-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "evidence-absence-actor-chunk",
+          "content": "A Moss register must be checked before filing. This notice does not identify who performs the check.",
+          "document_id": "evidence-absence-actor-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "pass",
+        "factual_support": "unresolved",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "evidence-absence-actor",
+      "inputs": {
+        "answer": "A Moss register must be checked before filing. The branch lead must perform that check.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "A Moss register must be checked before filing. This notice does not identify who performs the check."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "A Moss register must be checked before filing. This notice does not identify who performs the check."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What must happen to a Moss register before filing?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "A Moss register must be checked before filing."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "A Moss register must be checked before filing. The branch lead must perform that check.",
+        "citations": [
+          {
+            "chunk_id": "evidence-absence-actor-chunk",
+            "citation_text": "A Moss register must be checked before filing. This notice does not identify who performs the check.",
+            "document_id": "evidence-absence-actor-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "evidence-exclusion-actor-chunk",
+          "content": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited from checking it.",
+          "document_id": "evidence-exclusion-actor-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "evidence-exclusion-actor",
+      "inputs": {
+        "answer": "The branch lead must check a Pine routing slip.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited from checking it."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited from checking it."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Who checks a Pine routing slip?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "The branch lead must check a Pine routing slip.",
+        "citations": [
+          {
+            "chunk_id": "evidence-exclusion-actor-chunk",
+            "citation_text": "Only the dispatch supervisor may check a Pine routing slip; branch leads are prohibited from checking it.",
+            "document_id": "evidence-exclusion-actor-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Separately composed development control for prerequisite meaning or evidence absence; no historical confirmation text.",
+      "safety_flags": []
+    }
+  ],
+  "human_adjudication": false,
+  "review_probes": [
+    {
+      "candidate": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Substantive answer.",
+        "behavior_span": "Oriole workshop staff may claim up to 27 credits per quarter for safety gloves after completing orientation.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "Staff could be a different class despite no source distinction.",
+            "source_spans": [],
+            "text": "Oriole workshop staff may claim up to 27 credits per quarter for safety gloves after completing orientation."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Oriole workshop staff may claim up to 27 credits per quarter for safety gloves after completing orientation."
+            ],
+            "fact_id": "F1",
+            "reason": "Same meaning.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "On topic.",
+          "status": "pass"
+        }
+      },
+      "expected_disputes": [
+        "factual_support",
+        "citation_support"
+      ],
+      "id": "review-false-actor-distinction",
+      "inputs": {
+        "answer": "Oriole workshop staff may claim up to 27 credits per quarter for safety gloves after completing orientation.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Oriole workshop employees may claim a safety-glove allowance after completing orientation, up to 27 credits per quarter."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Oriole workshop employees may claim a safety-glove allowance after completing orientation, up to 27 credits per quarter."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What safety-glove allowance applies to Oriole workshop employees?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Oriole workshop employees may claim a safety-glove allowance after completing orientation, up to 27 credits per quarter."
+          }
+        ]
+      }
+    },
+    {
+      "candidate": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Substantive answer.",
+        "behavior_span": "The whole Juniper workforce, including vendors, may use the scan room.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "The actor is unmentioned.",
+            "source_spans": [],
+            "text": "The whole Juniper workforce, including vendors, may use the scan room."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The whole Juniper workforce, including vendors, may use the scan room."
+            ],
+            "fact_id": "F1",
+            "reason": "Vendors are explicitly prohibited.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "On topic.",
+          "status": "pass"
+        }
+      },
+      "expected_disputes": [
+        "factual_support"
+      ],
+      "id": "review-explicit-actor-exclusion",
+      "inputs": {
+        "answer": "The whole Juniper workforce, including vendors, may use the scan room.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "At Juniper, workforce means employees and vendors. Only employees may use the scan room. Vendors are prohibited from using it."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "At Juniper, workforce means employees and vendors. Only employees may use the scan room. Vendors are prohibited from using it."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Who may use the Juniper scan room?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Only Juniper employees may use the scan room; vendors are prohibited."
+          }
+        ]
+      }
+    },
+    {
+      "candidate": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Substantive answer.",
+        "behavior_span": "You must renew Linden software subscriptions 8 days before expiry.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Source entails the policy assertion.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry."
+              }
+            ],
+            "text": "You must renew Linden software subscriptions 8 days before expiry."
+          }
+        ],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "On topic.",
+          "status": "pass"
+        }
+      },
+      "expected_disputes": [
+        "relevance"
+      ],
+      "id": "review-false-topic-match",
+      "inputs": {
+        "answer": "You must renew Linden software subscriptions 8 days before expiry.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry."
+          }
+        ],
+        "expected_behavior": "clarify",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Linden software subscriptions must be renewed 8 days before expiry. Linden tool permits must be renewed 11 days before expiry."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "When must I renew?",
+        "required_facts": []
+      }
+    }
+  ],
+  "version": "v20-context-development.v1"
+}
