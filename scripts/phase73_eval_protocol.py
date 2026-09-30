@@ -33,6 +33,19 @@ def evaluator_ready():
     return readiness()
 
 
+def validate_gold_scope(suite, environment):
+    from apps.api.app.permissions.access_control import role_can_access
+    tenant = environment['settings']['default_demo_tenant_id']
+    for case in suite['cases']:
+        for fact in case['required_facts']:
+            matches = [row for row in environment['gold_source_scope']
+                       if row['source_path'] == fact['source_path'].replace('\\', '/')
+                       and row['tenant_id'] == tenant and row['project_id'] == case['project_id']]
+            if (len(matches) != 1 or not role_can_access(matches[0]['access_roles'], case['user_role'])
+                    or case.get('department_id') and matches[0]['department_id'] != case['department_id']):
+                raise ValueError('Gold source is outside frozen authorized scope: ' + case['case_id'])
+
+
 def verify_custody(*, require_current=True):
     freeze = json.loads((FOLDER/'freeze.json').read_bytes())
     if freeze['files'] != (file_inventory() if require_current else committed_inventory(freeze)):
@@ -82,4 +95,5 @@ def verify_custody(*, require_current=True):
     from scripts.reanalyze_saved_answers import build_inputs
     for case in cases:
         build_inputs(case, {'raw_response': {}, 'authorized_evidence': []})
+    validate_gold_scope(suite, freeze['environment'])
     return freeze,suite

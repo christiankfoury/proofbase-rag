@@ -156,3 +156,20 @@ measured abstention. The affected provider-not-called regression passes.
 Verification: 15 focused accounting/custody tests passed for the successor wiring;
 the cap-stop regression was rerun after the small propagation fix and passed.
 Compilation and intended-diff review passed. No runtime freeze or measurement yet.
+
+
+### Pre-freeze gold-source scope check
+
+Code review found that the shared gold-input builder checks corpus quotes and
+frontmatter roles, but not the case's project/department against the indexed
+source. The Phase 73 fingerprint now binds active Markdown source paths and their
+actual tenant/project/department/roles. Custody validates every required fact
+against exactly one authorized frozen source before any application call.
+A corpus-correct fact outside the case's scope cannot become evaluation evidence.
+
+The focused custody tests pass, including wrong tenant/project/department/role
+and duplicate-source negative controls. Compilation passed. A read-only local
+check found exactly 19 Markdown sources, all with complete scope metadata.
+This is evaluation preparation; it changes no application answer behavior and
+makes no quality claim. The fingerprint will be freshly captured for the later
+runtime freeze after evaluator readiness. Full diff review found no open issue.

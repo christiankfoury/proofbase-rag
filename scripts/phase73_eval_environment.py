@@ -54,6 +54,9 @@ def fingerprint(settings):
                "packages": dict(sorted((d.metadata["Name"].lower().replace("_", "-"), d.version)
                                        for d in distributions() if d.metadata.get("Name")))}
     with psycopg.connect(settings.database_url) as conn:
+        scope = [{'source_path': row[0].replace('\\', '/'), 'tenant_id': row[1],
+                  'project_id': row[2], 'department_id': row[3], 'access_roles': row[4]}
+                 for row in conn.execute("select source_path,tenant_id::text,project_id::text,department_id::text,access_roles from documents where archived_at is null and source_type='markdown' order by source_path,id").fetchall()]
         runtime["postgres_version"] = conn.info.server_version
         runtime["postgres_extensions"] = dict(conn.execute("select extname, extversion from pg_extension order by extname").fetchall())
         for table in ("documents", "document_versions", "chunks", "chunk_embeddings", "demo_users", "tenants", "tenant_memberships", "projects", "project_departments", "project_memberships", "prompt_versions"):
@@ -72,6 +75,7 @@ def fingerprint(settings):
             rows = conn.execute(query, parameters).fetchall()
             security[name] = {"count": len(rows), "sha256": hashlib.sha256(json.dumps(rows, sort_keys=True, default=str).encode()).hexdigest()}
     return {"settings": safe, "tables": tables, "database": DBNAME, "runtime": runtime,
+            "gold_source_scope": scope,
             "database_security": security,
             "call_output_cap": 2048, "sdk_retries": 0, "temperature_note": "runtime configuration; grader GPT-5.4 medium reasoning; provider output is not deterministic"}
 

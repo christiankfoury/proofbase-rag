@@ -136,6 +136,21 @@ class Accounting(unittest.TestCase):
 
 
 class Custody(unittest.TestCase):
+    def test_gold_scope_rejects_wrong_project_department_and_role(self):
+        from scripts.phase73_eval_protocol import validate_gold_scope
+        case={'case_id':'fresh-001','user_role':'Employee','project_id':'northstar','department_id':'people',
+              'required_facts':[{'source_path':'data/synthetic-documents/policy.md'}]}
+        row={'source_path':'data/synthetic-documents/policy.md','tenant_id':'tenant','project_id':'northstar',
+             'department_id':'people','access_roles':['Employee']}
+        environment={'settings':{'default_demo_tenant_id':'tenant'},'gold_source_scope':[row]}
+        validate_gold_scope({'cases':[case]},environment)
+        for field,value in [('project_id','other'),('department_id','other'),('tenant_id','other'),('access_roles',['HR Admin'])]:
+            changed={**row,field:value}
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError,'outside frozen authorized scope'):
+                validate_gold_scope({'cases':[case]},{**environment,'gold_source_scope':[changed]})
+        with self.assertRaisesRegex(ValueError,'outside frozen authorized scope'):
+            validate_gold_scope({'cases':[case]},{**environment,'gold_source_scope':[row,row]})
+
     def test_changed_runtime_or_failed_evaluator_blocks_before_suite_load(self):
         from scripts import phase73_eval_protocol as protocol
         with tempfile.TemporaryDirectory() as temp:
