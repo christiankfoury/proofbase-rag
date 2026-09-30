@@ -6,6 +6,18 @@ deferral for these three areas only. The portfolio release remains complete.
 Implementation is active. The original workflow was approved on 2026-09-28;
 the standing authorization below supersedes its per-candidate approval limits.
 
+## Spending reduction amendment (2026-09-30 UTC)
+
+The user approved cost reduction and selected **USD 10 additional** for all
+remaining Phases 71-73 API calls. This supersedes the open-ended dollar allowance
+below from this point forward; it does not restore the old cumulative USD 5/10
+caps or revoke autonomous execution within the new allowance. Use the shared
+additional-spend policy/journal, cached-input accounting, zero retries and Batch
+for suitable fixed evaluator stages. Keep application safety gates sequential.
+Do not change the evaluator/model or weaken acceptance gates to save money.
+[Implementation and continuation procedure](../phase-71/spending-reduction.md).
+The provider project limit remains unresolved; account changes are not authorized.
+
 ## Standing autonomous completion authorization (2026-09-29)
 
 The user requested that the agent update this workflow to stop asking for approval

@@ -10,7 +10,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from scripts.phase73_eval_protocol import FOLDER,verify_custody,digest
-from scripts.phase73_eval_budget import Ledger,PRICES,request_hash
+from scripts.phase73_eval_budget import Ledger,request_hash,response_charge
 from scripts.quality_eval_contract_v18 import VERSION,dimensions
 from scripts import quality_eval_transport_v18 as transport
 from scripts.report_quality_calibration_v12 import replay_raw
@@ -37,8 +37,7 @@ def audit_calls(ledger):
             raise ValueError('Raw request/response binding failed')
         usage = raw['response']['usage']
         it,ot = usage['prompt_tokens'],usage.get('completion_tokens',0)
-        ri,ro = map(Decimal,PRICES[row['model']])
-        if ((it*ri+ot*ro)/1_000_000 != Decimal(row['charged_usd'])
+        if (response_charge(raw['response'], row['model']) != Decimal(row['charged_usd'])
             or (it,ot) != (row['input_tokens'],row['output_tokens'])
             or it > row['input_bound'] or ot > row['output_cap']):
             raise ValueError('Token settlement mismatch')

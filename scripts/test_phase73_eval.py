@@ -20,6 +20,10 @@ def response(model='gpt-4.1-mini-2025-04-14',embedding=False):
 
 class Accounting(unittest.TestCase):
     def setUp(self):
+        self.additional_spend = Mock()
+        self.spend_patch = patch.object(budget, 'SpendJournal', return_value=self.additional_spend)
+        self.spend_patch.start()
+        self.addCleanup(self.spend_patch.stop)
         self.temp=tempfile.TemporaryDirectory()
         self.folder=Path(self.temp.name)
         frozen_prior=QUALITY/'v15-calibration/api-ledger.json'
@@ -44,6 +48,26 @@ class Accounting(unittest.TestCase):
         self.assertEqual(self.ledger.spent-self.prior.spent,budget.Decimal('0.00000740'))
         write_json_atomic(self.folder/'run/api-ledger.json',self.ledger.data)
         self.assertEqual(budget.Ledger(self.folder/'run/api-ledger.json').spent,self.ledger.spent)
+        self.assertEqual(self.additional_spend.reserve.call_count,2)
+        self.assertEqual(self.additional_spend.finish.call_count,2)
+
+    def test_additional_budget_blocks_application_before_provider_call(self):
+        self.additional_spend.reserve.side_effect=ValueError('Additional spending ceiling would be exceeded')
+        provider=Mock()
+        with self.assertRaisesRegex(ValueError,'ceiling'):
+            self.ledger.call(provider,self.body,self.folder/'blocked.json','chat')
+        provider.assert_not_called()
+        self.assertFalse((self.folder/'blocked.json').exists())
+
+    def test_cached_application_tokens_reduce_estimate_and_replay(self):
+        data={'model':'gpt-4.1-mini-2025-04-14','usage':{'prompt_tokens':100,'completion_tokens':2,
+              'prompt_tokens_details':{'cached_tokens':80}}}
+        result=SimpleNamespace(model=data['model'],usage=SimpleNamespace(**data['usage']),model_dump=lambda **kw:data)
+        self.ledger.call(lambda **kw:result,self.body,self.folder/'cached.json','chat')
+        self.assertEqual(self.ledger.spent-self.prior.spent,budget.Decimal('.0000192'))
+        from scripts import report_phase73_eval as report
+        with patch.object(report,'FOLDER',self.folder):
+            self.assertEqual(len(report.audit_calls(self.ledger)),1)
 
     def test_unknown_provider_outcome_is_reserved_and_blocks_next_call(self):
         provider=Mock(side_effect=TimeoutError())

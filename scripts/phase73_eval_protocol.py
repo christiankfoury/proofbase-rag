@@ -16,6 +16,9 @@ FROZEN = sorted(set(PREVIOUS_FILES + ['scripts/'+n for n in CODE] + [
     'scripts/phase73_eval_environment.py', 'scripts/phase73_eval_capture.py',
     'scripts/phase73_eval_run.py', 'scripts/report_phase73_eval.py',
     'scripts/test_phase73_eval.py',
+    'scripts/quality_cost_control.py', 'scripts/quality_batch_transport.py',
+    'scripts/quality_batch_grading.py', 'scripts/test_quality_cost_control.py',
+    'data/evaluation/quality-cost-control-v1/policy.json',
     'scripts/check_phase73_overlap.py', 'docs/phase-73/authoring-contract.md',
     'docs/phase-73/validation-contract.md']))
 

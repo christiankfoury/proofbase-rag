@@ -55,16 +55,21 @@ unchanged GPT-5.4 snapshot, medium reasoning, 4,096 output tokens and at most
 checked before issuance. The deliberately conservative whole-run reservation is
 **USD 240.4139520**, assuming every permitted request uses its maximum at the most
 expensive applicable rate. This is neither expected spend nor a purchased budget.
-The removed local USD 5 cap is not reintroduced. Account budget remains
-user-reported and unmodified. All historical calls and their conservative cost
+The removed cumulative USD 5 cap is not reintroduced. The newer user-selected
+**USD 10 additional** shared envelope overrides this theoretical bound and
+reserves each call before issuance; it includes all remaining Phase 71/73 calls.
+Account budget remains user-reported and unmodified. All historical calls and their conservative cost
 floor are retained; application, embedding and grader charges remain distinguishable.
 
 Pricing checked in official documentation on 2026-09-29: [GPT-4.1 mini](https://developers.openai.com/api/docs/models/gpt-4.1-mini)
 USD 0.40 input / 1.60 output per million; [text-embedding-3-small](https://developers.openai.com/api/docs/models/text-embedding-3-small)
 USD 0.02 input per million. The validated evaluator uses [GPT-5.4](https://developers.openai.com/api/docs/models/gpt-5.4)
 USD 2.50 input / 15.00 output per million at the bounded context size. Reasoning
-output is included; no cached-input discount is assumed. Estimates are token-cost
-accounting, not an invoice reconciliation.
+output is included; reservations assume uncached input. New settlement and replay
+use returned cached-token counts (GPT-4.1 mini USD 0.10 and GPT-5.4 USD 0.25 per
+million). Estimates are token-cost accounting, not an invoice reconciliation.
+[Cost reduction](../phase-71/spending-reduction.md) preserves sequential runtime
+safety stops; Batch is prepared for suitable evaluator stages.
 
 ## Verification and publication gates
 

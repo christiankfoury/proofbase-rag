@@ -1,7 +1,7 @@
 """Bounded, durable mixed-model accounting for one Phase 73 measurement.
 
-The historical conservative floor is immutable. No local dollar approval cap,
-no provider retry, and no second application attempt after an uncertain outcome.
+The historical conservative floor is immutable. The user-selected additional
+ceiling covers every new call; no retry after an uncertain outcome.
 """
 from contextlib import contextmanager
 from copy import deepcopy
@@ -15,6 +15,8 @@ from unittest.mock import patch
 from scripts.quality_completion_durable import write_json_atomic
 from scripts.quality_completion_ledger import Ledger as QualityLedger, digest, FOLDER as QUALITY
 from scripts.quality_eval_transport_v18 import exclusive_lock, MODEL, reserve
+from scripts.quality_cost_control import POLICY, read as read_cost, charge as grader_charge
+from scripts.quality_batch_transport import SpendJournal
 
 ROOT = Path(__file__).resolve().parents[1]
 FOLDER = ROOT / 'data/evaluation/current-runtime-v4'
@@ -27,6 +29,23 @@ APP_CALLS_PER_CASE = 32
 GRADER_CALLS_PER_CASE = 3
 GRADER_INPUT_CAP = 272000
 GRADER_OUTPUT_CAP = 4096
+CACHED_INPUT_RATES = {'gpt-4.1-mini': '0.10', 'gpt-4.1-mini-2025-04-14': '0.10'}
+
+
+def response_charge(response, model):
+    if model == MODEL:
+        return grader_charge(response)
+    expected = {'gpt-4.1-mini': 'gpt-4.1-mini-2025-04-14'}.get(model, model)
+    if response.get('model', model) != expected:
+        raise BudgetStop('Provider returned an unpriced model')
+    usage = response['usage']
+    it, ot = usage['prompt_tokens'], usage.get('completion_tokens', 0)
+    cached = (usage.get('prompt_tokens_details') or {}).get('cached_tokens', 0)
+    if any(type(v) is not int for v in (it, ot, cached)) or not 0 <= cached <= it or ot < 0:
+        raise BudgetStop('Invalid cached usage')
+    ri, ro = map(Decimal, PRICES[model])
+    rc = Decimal(CACHED_INPUT_RATES.get(model, str(ri)))
+    return ((it - cached) * ri + cached * rc + ot * ro) / 1_000_000
 
 
 class BudgetStop(RuntimeError):
@@ -43,7 +62,10 @@ def bounds():
             'grader_input_cap': GRADER_INPUT_CAP, 'grader_output_cap': GRADER_OUTPUT_CAP,
             'upper_bound_usd': str(60 * (APP_CALLS_PER_CASE * app + GRADER_CALLS_PER_CASE * grader)),
             'prices_per_million': {model:list(rates) for model,rates in PRICES.items()}, 'provider_retries': 0,
-            'local_cumulative_ceiling_usd': None}
+            'local_cumulative_ceiling_usd': None,
+            'additional_ceiling_usd': read_cost(POLICY)['additional_ceiling_usd'],
+            'cost_policy_sha256': digest(POLICY),
+            'cached_input_rates_per_million': CACHED_INPUT_RATES}
 
 
 def request_hash(body):
@@ -55,6 +77,7 @@ class Ledger:
         self.path = Path(path)
         self.lock = threading.RLock()
         self.case_id = None
+        self.additional_spend = SpendJournal()
         self.reload()
 
     @classmethod
@@ -146,13 +169,17 @@ class Ledger:
             path = Path(raw_path).resolve()
             if not path.is_relative_to(self.path.parent.resolve()) or path.exists():
                 raise BudgetStop('Unsafe or already attempted raw path')
+            identity = 'sync-' + hashlib.sha256(str(path).encode()).hexdigest()
+            # Shared with Batch jobs: reserve before writing a started row or calling OpenAI.
+            self.additional_spend.reserve(identity, limits['reserved_usd'], request_hash(body))
             entry = {'request': deepcopy(body), 'status': 'started', 'response': None}
             row = {'call_index': len(self.data['calls']), 'case_id': self.case_id,
                    'operation': operation, 'model': model, 'status': 'started',
                    'raw_path': path.relative_to(self.path.parent.resolve()).as_posix(),
                    'request_sha256': request_hash(body), 'reserved_usd': str(limits['reserved_usd']),
                    'charged_usd': str(limits['reserved_usd']), 'input_bound': limits['input_bound'],
-                   'output_cap': limits['output_cap'], 'input_tokens': None, 'output_tokens': None}
+                   'output_cap': limits['output_cap'], 'input_tokens': None, 'output_tokens': None,
+                   'additional_spend_identity': identity}
             write_json_atomic(path, entry)
             self.data['calls'].append(row)
             write_json_atomic(self.path, self.data)
@@ -164,14 +191,14 @@ class Ledger:
                 it, ot = usage.prompt_tokens, getattr(usage, 'completion_tokens', 0)
                 response_model = getattr(response, 'model', model)
                 expected = {'gpt-4.1-mini': 'gpt-4.1-mini-2025-04-14'}.get(model, model)
-                ri, ro = map(Decimal, PRICES[model])
-                charge = (it * ri + ot * ro) / 1_000_000
+                charge = response_charge(entry['response'], model)
                 if (type(it) is not int or type(ot) is not int or it < 0 or ot < 0
                     or response_model != expected or it > limits['input_bound'] or ot > limits['output_cap'] or charge > limits['reserved_usd']):
                     raise BudgetStop('Provider model or usage outside declaration')
                 row.update(status='completed', charged_usd=str(charge), input_tokens=it,
                            output_tokens=ot, response_model=response_model, raw_sha256=digest(path))
                 write_json_atomic(self.path, self.data)
+                self.additional_spend.finish(identity, charge, digest(path))
                 return response
             except BaseException as exc:
                 row['status'] = 'unknown'
@@ -180,6 +207,7 @@ class Ledger:
                 entry['exception_type'] = type(exc).__name__
                 write_json_atomic(path, entry)
                 write_json_atomic(self.path, self.data)
+                self.additional_spend.finish(identity, Decimal(0), digest(path), uncertain=True)
                 raise
 
     @contextmanager

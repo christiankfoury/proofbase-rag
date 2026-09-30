@@ -6,6 +6,24 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
+### Cost reduction prepared; provider limit still blocks live work (2026-09-30 UTC)
+
+User selected **USD 10 additional** for the remaining queue. [Cost-control work](../phase-71/spending-reduction.md)
+adds a shared pre-request ceiling, cached-input settlement/reporting and a two-wave
+Batch transport using unchanged v18 requests/reducers. All 24 saved calibration
+cases replay identically through mocked Batch delivery; 24 focused tests pass.
+No live API calls, provider-limit change or new quality score. Cached-input audit
+reduces the derived cumulative estimate to USD 9.79014527, with the prior USD
+0.09326750 reservation separate; immutable historical ledgers remain unchanged.
+The prior rejection is classified in a separate audit; original evidence remains.
+
+New protocol freeze/fresh isolated confirmation and Phase 73 remain pending behind
+the external provider limit. Batch request preparation is local; submission needs
+complete custody and a reviewed plan record under standing authorization. Do not
+resume the interrupted one-shot attempt or rerun unchanged development merely for
+a transport change. The new shared ceiling is additional to the recorded baseline
+and never increases automatically. Preserve unrelated request-log edits.
+
 ### Active: standing autonomous completion of Phases 71-73 (2026-09-29)
 
 Standing authorization in the [active plan](quality-completion-plan.md) permits
