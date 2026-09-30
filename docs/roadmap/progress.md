@@ -20,9 +20,10 @@ diagnostic stopped at 4/5 exact on an ambiguous missing-exception reference:
 15 settled calls, USD 0.16760850. Original failed evidence is preserved. A new
 v21b stage tests explicit partial examples versus explicit denial, reusing four
 clean prior cases without reruns. That stage passed 5/5 and 3/3 probes with
-clean source inspection, 18 calls and USD 0.23565000; USD 2.90482141 remains.
-Full 24/24 + 3/3 calibration is next, followed by isolated fresh 16/16 confirmation
-before a newly frozen 60-case measurement. No final evaluator readiness claim.
+clean source inspection, 18 calls and USD 0.23565000. Full calibration then passed
+24/24 + 3/3 with clean source inspection, 75 calls and USD 0.58165200;
+USD 2.32316941 remains. Isolated fresh 16/16 confirmation is next, before a newly
+frozen 60-case measurement. No final evaluator readiness claim.
 Phases 71/72 historical completion is unchanged.
 
 ### Historical checkpoint: original Phase 73 interruption

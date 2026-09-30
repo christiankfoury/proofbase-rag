@@ -91,3 +91,19 @@ proved the exact committed file and its five-case/18-call/USD 0.40 limits; revie
 then accepted the same command. The rejected launch made no provider request.
 Full calibration is next, still 24 cases + three probes, 75 requests maximum,
 USD 1.30 cap, standard synchronous transport and zero retries. No runtime score.
+
+## Full calibration passed
+
+The unchanged 24-case suite passed 24/24 plus 3/3 reviewer probes in 75 settled
+calls at USD 0.58165200. [All-case source inspection](v21-calibration-source-review.md)
+and complete raw/request/reducer/cost replay pass with zero unresolved inspection
+findings. Cumulative accounting is 3,147 attempts and USD 18.53253136; additional
+spend is USD 7.67683059 of 10, leaving USD 2.32316941. The retained unknown charge
+and all historical evidence remain unchanged. No new timeout or retry occurred.
+
+Next: commit this inspected evidence, record and commit a separate v21 confirmation
+freeze, then use isolated author and validator agents before sealing and executing
+one new 16-case/48-call confirmation with its USD 1.00 stage cap. A successful
+confirmation is still required for a successor application measurement. Reuse
+unchanged focused tests and application/build evidence; these data/docs changes
+require report replay, source inspection, hash checks and full intended-diff review.
