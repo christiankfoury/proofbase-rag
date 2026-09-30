@@ -49,17 +49,30 @@ def fingerprint(settings):
             or k in {"default_demo_tenant_id", "default_demo_user_id", "database_runtime_role", "openai_chat_model", "openai_embedding_model", "auth_mode", "app_environment", "rate_limit_backend",
                      "file_parser_mode", "file_scanner_mode"}}
     tables = {}
+    security = {}
     runtime = {"python_version": platform.python_version(),
                "packages": dict(sorted((d.metadata["Name"].lower().replace("_", "-"), d.version)
                                        for d in distributions() if d.metadata.get("Name")))}
     with psycopg.connect(settings.database_url) as conn:
         runtime["postgres_version"] = conn.info.server_version
         runtime["postgres_extensions"] = dict(conn.execute("select extname, extversion from pg_extension order by extname").fetchall())
-        for table in ("documents", "document_versions", "chunks", "chunk_embeddings", "demo_users", "projects", "project_departments", "project_memberships", "prompt_versions"):
+        for table in ("documents", "document_versions", "chunks", "chunk_embeddings", "demo_users", "tenants", "tenant_memberships", "projects", "project_departments", "project_memberships", "prompt_versions"):
             # Preserve row content, including embeddings/ACLs, without publishing credentials or user data.
             rows = conn.execute(f"select row_to_json(t)::text from {table} t order by row_to_json(t)::text").fetchall()
             tables[table] = {"count": len(rows), "sha256": hashlib.sha256("\n".join(r[0] for r in rows).encode()).hexdigest()}
+        # Bind mutable database authorization metadata without publishing identities or secrets.
+        checks = [
+            ("policies", "select schemaname,tablename,policyname,permissive,roles,cmd,qual,with_check from pg_policies where schemaname='public' order by tablename,policyname", ()),
+            ("rls_tables", "select c.relname,c.relrowsecurity,c.relforcerowsecurity,pg_get_userbyid(c.relowner) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind in ('r','p') order by c.relname", ()),
+            ("runtime_role", "select rolname,rolsuper,rolinherit,rolcreaterole,rolcreatedb,rolcanlogin,rolreplication,rolbypassrls from pg_roles where rolname=%s", (settings.database_runtime_role,)),
+            ("table_grants", "select grantee,table_name,privilege_type,is_grantable from information_schema.role_table_grants where table_schema='public' order by grantee,table_name,privilege_type,is_grantable", ()),
+            ("functions", "select p.proname,pg_get_functiondef(p.oid) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.prokind='f' order by p.proname,pg_get_functiondef(p.oid)", ()),
+        ]
+        for name, query, parameters in checks:
+            rows = conn.execute(query, parameters).fetchall()
+            security[name] = {"count": len(rows), "sha256": hashlib.sha256(json.dumps(rows, sort_keys=True, default=str).encode()).hexdigest()}
     return {"settings": safe, "tables": tables, "database": DBNAME, "runtime": runtime,
+            "database_security": security,
             "call_output_cap": 2048, "sdk_retries": 0, "temperature_note": "runtime configuration; grader GPT-5.4 medium reasoning; provider output is not deterministic"}
 
 

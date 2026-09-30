@@ -24,7 +24,10 @@ defaults are unchanged. SDK retries are explicitly zero in settings and intercep
 clients. The pre-run fingerprint binds configuration, model settings, corpus/index
 row hashes, roles, projects, departments, memberships and prompts. It also binds
 the installed Python/package versions and PostgreSQL server/extensions, so a
-dependency-file hash alone cannot conceal an environment change.
+dependency-file hash alone cannot conceal an environment change. Tenant records
+and memberships are included. RLS policies/table flags, runtime-role attributes,
+table grants and public function definitions are hashed to detect authorization
+metadata drift without publishing credentials or identities.
 
 Freeze all runtime/evaluator source and dependencies, prompts, corpus, configuration,
 index, passing evaluator evidence, authorization and complete ledger prefix before
@@ -87,3 +90,12 @@ focused tests; scoped Python compilation passed. Confirmation tooling preserves
 16/16, all intermediate fact statuses, separate validation and one-shot custody.
 No freeze, authoring, confirmation or runtime measurement is implied by this
 preparation commit. Application checks are reused from unchanged Phase 72 code.
+
+Additional pre-freeze review closed the tenant/authorization-metadata gap in the
+older fingerprint. Read-only local verification found one tenant, seven tenant
+memberships, 22 RLS policies, 26 table flags, one runtime role, 286 table grants
+and 126 public functions. Two reads and a post-health read produced identical
+fingerprints. `/health` returned 200; all five declared business roles have the
+expected Northstar membership. No query, external API call or database write was
+used by this verification. Scoped compilation passed; the SQL uses fixed catalog
+queries and binds the configured runtime role as a parameter.

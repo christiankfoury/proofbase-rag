@@ -25,20 +25,30 @@ V18 [development](../phase-71/v18-context-correction.md) is complete: 29/29 diag
 plus 4/4 probes; 24/24 full calibration plus 3/3 probes. [Source inspection](../phase-71/confirmation-v18-development-source-review.md)
 found zero unresolved semantic issues. Offline raw replay, focused tests and
 review passed. Development/tooling: `9073b53`; evaluator freeze: `2a96418`.
-Fresh separate-context authoring and independent validation now accept all 16
-references and intermediate fact statuses with zero findings. Custody and offline
-preflight pass; the sealed suite is ready for its single 48-call execution.
-The 16/16 gate and post-run source inspection remain unchanged.
+Fresh separate-context authoring and independent validation accepted all 16
+references and intermediate fact statuses with zero findings. Seal: `57a183d`.
+The sole execution was **blocked by the provider project spending limit** on its
+first call: HTTP 429 `project_spend_limit_exceeded`. Zero cases completed, no
+retries and no confirmation score. [Interruption evidence](../phase-71/confirmation-v18-execution.md)
+preserves the original raw exception, manifest, ledger and frozen code snapshots.
 
-V18 used 166 settled calls, estimated USD 1.87802000; cumulative 2,594 calls,
-USD 10.76243327, with zero retries. Docker is running and the isolated Phase 73
-PostgreSQL clone is ready. [Runner preparation](../phase-73/preflight.md) now binds
-v18 and includes installed dependency/database versions in its pre-freeze
-fingerprint. Twelve focused runner/custody tests and local fingerprint verification
-pass. No runtime freeze, 60-case authoring or live application measurement yet.
-No new application quality score exists. Policy: `0159c71`; v17 results/v18
-preparation: `a2c6636`; this unit contains v18 development results and confirmation
-tooling. Preserve unrelated request logs and continue without routine approval.
+V18 development used 166 settled calls, estimated USD 1.87802000. Cumulative
+completed-call estimate remains 2,594 calls, USD 10.76243327. The additional rejected
+attempt retains an unresolved USD 0.09326750 reservation: 2,595 attempts and ledger
+total USD 10.85570077 including reservation, not confirmed provider charges.
+No account limit was changed. Account owner must resolve the external project
+limit; then audit reservation/custody before any bounded successor execution.
+Do not rerun or overwrite the interrupted one-shot attempt.
+
+Docker is running; the isolated Phase 73 PostgreSQL clone and local checks are
+ready. [Runner preparation](../phase-73/preflight.md) binds v18, installed versions,
+tenant memberships and database authorization metadata. Twelve focused tests,
+scoped compilation and local fingerprint/health/role checks pass. No runtime
+freeze, 60-case authorship or live application measurement; no new quality score.
+Phase 72 remains complete. Standing authorization `0159c71` remains active; this
+is an external service blocker, not a request for another routine approval.
+Preserve unrelated request logs. No useful dependent live work can proceed until
+the provider limit and retained reservation are resolved.
 
 The stopped entries below record historical authorization boundaries; they do
 not override the newer standing completion authorization.

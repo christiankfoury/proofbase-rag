@@ -14,7 +14,13 @@ and negative development variants while preserving every prior diagnostic.
 V17 then passed diagnostic but failed full calibration 23/24 on an overstrict
 contextual-actor judgment. [V18](../phase-71/v18-context-correction.md) passed 29/29 diagnostic + 4/4 probes
 and 24/24 full calibration + 3/3 probes, with clean source inspection. A fresh
-post-freeze 16-case confirmation is the next gate. Phase 72 remains complete; failed results are immutable.
+post-freeze 16-case confirmation was independently validated and sealed, but its
+first call was rejected by the provider project spending limit (HTTP 429,
+`project_spend_limit_exceeded`). Zero cases completed and no retry occurred.
+[Preserved interruption](../phase-71/confirmation-v18-execution.md) includes the
+retained unknown reservation; account-limit resolution and a custody/accounting
+audit are required before any successor execution. Phase 72 remains complete;
+failed and interrupted evidence is immutable.
 
 The isolated local PostgreSQL clone is prepared; successor measurement tooling,
 accounting tests and neutral contracts are prepared and reviewed.
