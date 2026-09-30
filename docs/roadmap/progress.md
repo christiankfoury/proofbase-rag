@@ -25,8 +25,11 @@ V15 development: `26d7976`; freeze: `81d1da1`; fresh suite seal: `50cf71a`.
 Confirmation is complete at 15/16; [source inspection](../phase-71/confirmation-v15-source-review.md)
 found unsupported actor assignment in the reference and initial grade, correctly
 disputed by the reviewer. No relabeling/retry. Cumulative 2,269 calls, USD 7.18314077.
-Continue with separately authored v16 agency development controls under standing
-authorization, then unchanged calibration/freeze/fresh-confirmation gates.
+V16 preparation/result unit: `a65fd7d`. Its diagnostic stopped after 2/21 cases
+(1 matching): actor entailment passed, but coverage rejected a valid generic plural
+paraphrase. Six calls added; cumulative 2,275 calls, USD 7.25515327. Continue with
+[v17 semantic coverage correction](../phase-71/v17-paraphrase-correction.md),
+retaining all prior diagnostic controls and unchanged full/confirmation gates.
 Docker is available; isolated Phase 73 database and runner drafts are prepared,
 but no runtime holdout has been authored or run. Phase 72 remains complete.
 

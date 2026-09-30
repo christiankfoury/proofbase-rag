@@ -1,0 +1,350 @@
+{
+  "cases": [
+    {
+      "evidence": [
+        {
+          "chunk_id": "paraphrase-generic-role-chunk",
+          "content": "Every Zircon freight pallet must be checked by the loading inspector.",
+          "document_id": "paraphrase-generic-role-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "id": "paraphrase-generic-role",
+      "inputs": {
+        "answer": "Loading inspectors must check Zircon freight pallets.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Every Zircon freight pallet must be checked by the loading inspector."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Every Zircon freight pallet must be checked by the loading inspector."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Who must check each Zircon freight pallet?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The loading inspector must check each Zircon freight pallet."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Loading inspectors must check Zircon freight pallets.",
+        "citations": [
+          {
+            "chunk_id": "paraphrase-generic-role-chunk",
+            "citation_text": "Every Zircon freight pallet must be checked by the loading inspector.",
+            "document_id": "paraphrase-generic-role-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Semantic policy scope and equivalent grammar, with explicit quantifier weakening as a negative control.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "paraphrase-condition-preserved-chunk",
+          "content": "Every Vesper manifest must bear a registrar signature before release.",
+          "document_id": "paraphrase-condition-preserved-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "id": "paraphrase-condition-preserved",
+      "inputs": {
+        "answer": "Vesper manifests require a registrar signature before release.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Every Vesper manifest must bear a registrar signature before release."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Every Vesper manifest must bear a registrar signature before release."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What must Vesper manifests have before release?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Each Vesper manifest must bear a registrar signature before release."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Vesper manifests require a registrar signature before release.",
+        "citations": [
+          {
+            "chunk_id": "paraphrase-condition-preserved-chunk",
+            "citation_text": "Every Vesper manifest must bear a registrar signature before release.",
+            "document_id": "paraphrase-condition-preserved-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Semantic policy scope and equivalent grammar, with explicit quantifier weakening as a negative control.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "paraphrase-subset-exemption-chunk",
+          "content": "All Reed vials require screening, with no exemptions.",
+          "document_id": "paraphrase-subset-exemption-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "id": "paraphrase-subset-exemption",
+      "inputs": {
+        "answer": "Only some Reed vials require screening; other Reed vials are exempt.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "All Reed vials require screening, with no exemptions."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "All Reed vials require screening, with no exemptions."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Which Reed vials require screening?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Every Reed vial requires screening."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Only some Reed vials require screening; other Reed vials are exempt.",
+        "citations": [
+          {
+            "chunk_id": "paraphrase-subset-exemption-chunk",
+            "citation_text": "All Reed vials require screening, with no exemptions.",
+            "document_id": "paraphrase-subset-exemption-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Semantic policy scope and equivalent grammar, with explicit quantifier weakening as a negative control.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "paraphrase-frequency-weakened-chunk",
+          "content": "Every Nightjar gate must be inspected before each shift, without exception.",
+          "document_id": "paraphrase-frequency-weakened-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "id": "paraphrase-frequency-weakened",
+      "inputs": {
+        "answer": "Nightjar gates need inspection before most shifts, but not every shift.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Every Nightjar gate must be inspected before each shift, without exception."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Every Nightjar gate must be inspected before each shift, without exception."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "How often must Nightjar gates be inspected?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Every Nightjar gate must be inspected before each shift."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Nightjar gates need inspection before most shifts, but not every shift.",
+        "citations": [
+          {
+            "chunk_id": "paraphrase-frequency-weakened-chunk",
+            "citation_text": "Every Nightjar gate must be inspected before each shift, without exception.",
+            "document_id": "paraphrase-frequency-weakened-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Semantic policy scope and equivalent grammar, with explicit quantifier weakening as a negative control.",
+      "safety_flags": []
+    }
+  ],
+  "fact_status_expectations": {
+    "paraphrase-condition-preserved": {
+      "F1": "covered"
+    },
+    "paraphrase-frequency-weakened": {
+      "F1": "contradicted"
+    },
+    "paraphrase-generic-role": {
+      "F1": "covered"
+    },
+    "paraphrase-subset-exemption": {
+      "F1": "contradicted"
+    }
+  },
+  "provenance": "New development variants for a source-confirmed coverage paraphrase defect; no historical answer or reference changed.",
+  "review_probes": [
+    {
+      "candidate": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Answers the responsible role.",
+        "behavior_span": "Loading inspectors must check Zircon freight pallets.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Every Zircon freight pallet must be checked by the loading inspector."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Same role and required action.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Every Zircon freight pallet must be checked by the loading inspector."
+              }
+            ],
+            "text": "Loading inspectors must check Zircon freight pallets."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [],
+            "fact_id": "F1",
+            "reason": "The answer lacks the literal word each.",
+            "status": "missing"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The same policy is addressed.",
+          "status": "pass"
+        }
+      },
+      "evidence": [
+        {
+          "chunk_id": "paraphrase-generic-role-chunk",
+          "content": "Every Zircon freight pallet must be checked by the loading inspector.",
+          "document_id": "paraphrase-generic-role-doc"
+        }
+      ],
+      "expected_disputes": [
+        "completeness",
+        "response_behavior"
+      ],
+      "id": "generic-duty-wrongly-missing-each",
+      "inputs": {
+        "answer": "Loading inspectors must check Zircon freight pallets.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Every Zircon freight pallet must be checked by the loading inspector."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Every Zircon freight pallet must be checked by the loading inspector."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Who must check each Zircon freight pallet?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The loading inspector must check each Zircon freight pallet."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Loading inspectors must check Zircon freight pallets.",
+        "citations": [
+          {
+            "chunk_id": "paraphrase-generic-role-chunk",
+            "citation_text": "Every Zircon freight pallet must be checked by the loading inspector.",
+            "document_id": "paraphrase-generic-role-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Generic plural mandatory wording communicates the same per-item role duty. Missing based solely on absent each is incorrect; fail response behavior derived from it is also incorrect.",
+      "safety_flags": []
+    }
+  ],
+  "version": "paraphrase-development.v1"
+}

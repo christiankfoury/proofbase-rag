@@ -35,3 +35,8 @@ had occurred. Nine focused development/custody tests and scoped compilation pass
 V15 raw replay remains 15/16 with the correct failed-readiness record. No v16 live
 calls yet. App regression evidence from Phase 72 is reused because runtime is
 unchanged. Phase 73 implementation remains contingent.
+
+Result: diagnostic early stop, 1/2 matching; six settled calls, USD 0.07201250.
+[Source inspection](v16-source-review.md) confirms a generic-plural coverage
+defect. No full calibration or confirmation. Continue with versioned v17 under
+standing authorization; preserve this failed attempt.

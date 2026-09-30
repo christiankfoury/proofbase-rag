@@ -7,8 +7,10 @@ reference and initial grade assigned a passive policy duty to an unsupported
 actor. The reviewer correctly disputed support. No adjusted score or retry.
 
 The user's [standing authorization](../roadmap/quality-completion-plan.md)
-authorizes cause-driven remediation without further routine approval. V16 adds
-separate development variants for responsibility and passive requirements.
+authorizes cause-driven remediation without further routine approval. V16 fixed
+the actor control but stopped after a second case exposed a coverage paraphrase
+error. [V17](../phase-71/v17-paraphrase-correction.md) addresses that on new positive
+and negative development variants while preserving every prior diagnostic.
 Phase 72 remains complete. Historical results and failed gates remain immutable.
 
 The isolated local PostgreSQL clone is prepared; successor measurement tooling,
