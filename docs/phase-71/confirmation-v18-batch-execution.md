@@ -46,3 +46,27 @@ custody notes. Offline preflight passes. The prepared first wave has 32 requests
 and USD 1.40344250 conservative reservation; both waves' upper bound is
 USD 2.79892250. No provider call yet. Full source inspection follows execution;
 16/16 exact references and zero unresolved findings remain mandatory.
+
+
+## Sole submission: provider billing rejection
+
+Seal `2562c71` and byte-preservation `3ae8d46` were verified and pushed before
+submission. The exact prepared request file uploaded successfully. Batch creation
+then returned HTTP 400 `billing_hard_limit_reached`, message "Billing hard limit
+has been reached". The caller used zero SDK retries. No Batch ID, completed model
+request or usage was returned; no score exists. The user-reported usage-limit
+increase therefore did not make this request eligible under provider billing.
+
+The frozen transport marked its state and shared journal unknown on the SDK
+exception. The full USD 1.40344250 reservation remains held within the USD 10
+additional ceiling; this is conservative accounting, not a confirmed charge.
+`confirmation-v18-batch-interruption.json` binds the upload, plan, state, seal,
+policy and journal and explicitly identifies the error-body evidence as the
+primary agent's observation of command output. No frozen artifact was rewritten
+or relabeled. The old USD 0.09326750 reservation is separate and retained.
+
+This one-shot attempt is retired. Do not resubmit, poll without a Batch ID, reuse
+its cases for another confirmation, or claim readiness. External billing must be
+resolved, then a separate outcome/custody audit must precede a newly frozen,
+freshly authored bounded successor. No calibration rerun is justified by this
+provider rejection. The already passing development evidence remains unchanged.
