@@ -52,3 +52,26 @@ and standing authorization. Preflight passes: 48 calls maximum, USD 2.80167125
 whole-confirmation bound. Initial wave is prepared with 32 exact frozen requests
 and USD 1.40505625 reservation, against USD 8.59655750 remaining after retained
 rejection accounting. Paid submission follows the reviewed seal commit and push.
+
+
+## Accepted first wave; provider execution pending
+
+Seal `8a3cbb3` was verified and pushed before submission. The provider accepted
+Batch `batch_6abd3c417ca881908a2150cf19a655c5`; no SDK retry or duplicate submission.
+The saved status advanced from validating to in_progress. At the checkpoint,
+32 requests were declared, zero completed and zero failed. This verifies billing
+eligibility for this submission, not future account capacity or model accuracy.
+
+The successor journal holds USD 2.80849875: USD 1.40344250 retained from the retired
+rejection plus USD 1.40505625 reserved for this pending wave. No completed usage
+has yet been settled. The full shared cap remains USD 10. Review wave has not
+been prepared or submitted. Root inspected all sealed source/reference content
+after submission and found no reference defect; the separate source-review note
+explicitly remains pending all model outputs and cannot grant readiness.
+
+Next command: `python scripts/quality_confirmation_batch2_v18.py collect --wave
+initial --allow-external-ai`. Retrieve this same Batch only; never resubmit.
+Once complete and valid, prepare the 16-request review wave, review/bind its plan,
+submit once, collect and replay. Inspect every claim/fact/span/review before
+writing readiness. Phase 73 freeze/authoring remains forbidden until that passes.
+Provider completion is the current dependency; no routine approval is missing.

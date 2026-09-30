@@ -6,21 +6,34 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: billing-resolved bounded successor (2026-09-30)
+### Active: accepted Batch is running at the provider (2026-09-30)
 
-The user explicitly confirmed API billing is resolved. A read-only provider audit
-found zero Batch jobs, including none for the rejected upload; no model call was
-made. [Successor protocol](../phase-71/confirmation-v18-batch2-execution.md) preserves
-the retired attempt and carries its full USD 1.40344250 reservation into the same
-USD 10 additional envelope. It reuses unchanged passing v18 development evidence.
-Seven focused protocol tests pass. Preparation `73a7144` and separate freeze
-`11740a5` are pushed. Fresh isolated authorship and independent validation
-accepted all 16 cases, 128 dimensions and 22 fact statuses with zero findings. Phase 73 successor
-accounting wiring passed 15 local tests, plus a focused cap-stop propagation check.
-The suite is sealed; 32 initial requests are prepared. Whole-confirmation bound
-USD 2.80167125 fits the remaining USD 8.59655750. Next: push seal, submit each
-wave once, then replay and inspect every result. No new model call yet.
-Phase 73 remains gated on qualifying evaluator readiness and its own later freeze.
+The user confirmed API billing is resolved. Preparation `73a7144`, freeze
+`11740a5`, fresh independent validation/seal `8a3cbb3` are pushed. All 16 cases,
+128 dimensions and 22 fact-status references were independently accepted with
+zero findings. [Execution note](../phase-71/confirmation-v18-batch2-execution.md)
+records the one accepted 32-request initial wave and its immutable Batch ID.
+Latest provider status is in_progress, zero completed/failed at checkpoint.
+No retries, evaluator result, or model cost settlement yet. Review wave not sent.
+
+The USD 10 shared additional ceiling is unchanged. Current held accounting is
+USD 2.80849875, comprising the retained USD 1.40344250 rejected-job reservation
+and the pending USD 1.40505625 first-wave reservation. Both historical attempts
+and journals remain unchanged. No reservation was released or invoice inferred.
+
+Phase 72 remains complete. Phase 73 successor accounting/budget-stop wiring is
+pushed as `feb143c`; pre-freeze gold-source scope checks are committed as `9646b3d`.
+Focused tests and compilation pass; local clone remains available with 32 documents,
+247 chunks/embeddings and all 19 synthetic Markdown scope records. No runtime
+freeze, 60-case suite or new quality measurement exists yet. The primary's full
+reference inspection is recorded but model-output source inspection is pending.
+
+Next: collect the SAME existing initial Batch (no resubmission), then prepare and
+submit its one 16-request reviewer wave after valid complete results. Replay all
+outputs and costs; inspect all source semantics; only then declare readiness and
+start Phase 73 freeze/authoring. Wait for provider completion without busy polling.
+No new user approval is needed. Preserve unrelated request-log edits. Older billing
+block entries below are historical and do not override this accepted submission.
 
 ### Blocked: provider billing rejects the sealed Batch attempt (2026-09-30)
 
