@@ -1,0 +1,388 @@
+{
+  "author": "primary agent",
+  "cases": [
+    {
+      "evidence": [
+        {
+          "chunk_id": 760011,
+          "content": "Atlas reimburses lunch up to 18 credits.",
+          "document_id": 770011
+        },
+        {
+          "chunk_id": 760012,
+          "content": "Atlas reimburses baggage fees up to 7 credits.",
+          "document_id": 770012
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "fail",
+        "factual_support": "pass",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "fail",
+        "response_behavior": "fail"
+      },
+      "id": "coverage-other-policy",
+      "inputs": {
+        "answer": "Atlas reimburses baggage fees up to 7 credits.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Atlas reimburses lunch up to 18 credits."
+          },
+          {
+            "citation_id": "C2",
+            "source_id": "R2",
+            "text": "Atlas reimburses baggage fees up to 7 credits."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Atlas reimburses lunch up to 18 credits."
+          },
+          {
+            "source_id": "R2",
+            "text": "Atlas reimburses baggage fees up to 7 credits."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What is the Atlas lunch allowance?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Atlas reimburses lunch up to 18 credits."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "Atlas reimburses baggage fees up to 7 credits.",
+        "citations": [
+          {
+            "chunk_id": 760011,
+            "citation_text": "Atlas reimburses lunch up to 18 credits.",
+            "document_id": 770011
+          },
+          {
+            "chunk_id": 760012,
+            "citation_text": "Atlas reimburses baggage fees up to 7 credits.",
+            "document_id": 770012
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Source-aligned intermediate fact statuses: ['missing']",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 760021,
+          "content": "The Mica visitor badge deposit is 12 credits.",
+          "document_id": 770021
+        },
+        {
+          "chunk_id": 760022,
+          "content": "The Onyx visitor badge deposit is 5 credits.",
+          "document_id": 770022
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "fail",
+        "factual_support": "pass",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "fail",
+        "response_behavior": "fail"
+      },
+      "id": "coverage-other-entity",
+      "inputs": {
+        "answer": "The Onyx visitor badge deposit is 5 credits.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "The Mica visitor badge deposit is 12 credits."
+          },
+          {
+            "citation_id": "C2",
+            "source_id": "R2",
+            "text": "The Onyx visitor badge deposit is 5 credits."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "The Mica visitor badge deposit is 12 credits."
+          },
+          {
+            "source_id": "R2",
+            "text": "The Onyx visitor badge deposit is 5 credits."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What is the Mica visitor badge deposit?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The Mica visitor badge deposit is 12 credits."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "The Onyx visitor badge deposit is 5 credits.",
+        "citations": [
+          {
+            "chunk_id": 760021,
+            "citation_text": "The Mica visitor badge deposit is 12 credits.",
+            "document_id": 770021
+          },
+          {
+            "chunk_id": 760022,
+            "citation_text": "The Onyx visitor badge deposit is 5 credits.",
+            "document_id": 770022
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Source-aligned intermediate fact statuses: ['missing']",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 760031,
+          "content": "The Nacre visitor badge deposit is 16 credits.",
+          "document_id": 770031
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "id": "coverage-real-contradiction",
+      "inputs": {
+        "answer": "The Nacre visitor badge deposit is 9 credits.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "The Nacre visitor badge deposit is 16 credits."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "The Nacre visitor badge deposit is 16 credits."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What is the Nacre visitor badge deposit?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The Nacre visitor badge deposit is 16 credits."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "The Nacre visitor badge deposit is 9 credits.",
+        "citations": [
+          {
+            "chunk_id": 760031,
+            "citation_text": "The Nacre visitor badge deposit is 16 credits.",
+            "document_id": 770031
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Source-aligned intermediate fact statuses: ['contradicted']",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 760041,
+          "content": "The Umber kit may be borrowed for up to four nights. Prior written curator approval is required.",
+          "document_id": 770041
+        }
+      ],
+      "expected": {
+        "actual_behavior": "partial_answer",
+        "citation_support": "pass",
+        "completeness": "fail",
+        "factual_support": "pass",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "id": "coverage-condition-omission",
+      "inputs": {
+        "answer": "The Umber kit may be borrowed for up to four nights.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "The Umber kit may be borrowed for up to four nights. Prior written curator approval is required."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "The Umber kit may be borrowed for up to four nights. Prior written curator approval is required."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "Give the Umber kit loan limit and required approval.",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The Umber kit may be borrowed for up to four nights."
+          },
+          {
+            "fact_id": "F2",
+            "text": "Prior written curator approval is required."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "The Umber kit may be borrowed for up to four nights.",
+        "citations": [
+          {
+            "chunk_id": 760041,
+            "citation_text": "The Umber kit may be borrowed for up to four nights. Prior written curator approval is required.",
+            "document_id": 770041
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Source-aligned intermediate fact statuses: ['covered', 'missing']",
+      "safety_flags": []
+    }
+  ],
+  "fact_status_expectations": {
+    "coverage-condition-omission": {
+      "F1": "covered",
+      "F2": "missing"
+    },
+    "coverage-other-entity": {
+      "F1": "missing"
+    },
+    "coverage-other-policy": {
+      "F1": "missing"
+    },
+    "coverage-real-contradiction": {
+      "F1": "contradicted"
+    },
+    "true-answer-wrong-topic": {
+      "F1": "missing"
+    }
+  },
+  "human_adjudication": false,
+  "review_probes": [
+    {
+      "candidate": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Substantive wrong-topic answer.",
+        "behavior_span": "Atlas reimburses baggage fees up to 7 credits.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C2",
+                "span": "Atlas reimburses baggage fees up to 7 credits."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Source R2 and citation C2 state this baggage policy.",
+            "source_spans": [
+              {
+                "id": "R2",
+                "span": "Atlas reimburses baggage fees up to 7 credits."
+              }
+            ],
+            "text": "Atlas reimburses baggage fees up to 7 credits."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Atlas reimburses baggage fees up to 7 credits."
+            ],
+            "fact_id": "F1",
+            "reason": "The baggage amount differs from the required lunch amount.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "Asked lunch; answered baggage.",
+          "status": "fail"
+        }
+      },
+      "expected_disputes": [
+        "completeness"
+      ],
+      "id": "wrong-topic-contradiction-hidden-by-fail",
+      "inputs": {
+        "answer": "Atlas reimburses baggage fees up to 7 credits.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Atlas reimburses lunch up to 18 credits."
+          },
+          {
+            "citation_id": "C2",
+            "source_id": "R2",
+            "text": "Atlas reimburses baggage fees up to 7 credits."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Atlas reimburses lunch up to 18 credits."
+          },
+          {
+            "source_id": "R2",
+            "text": "Atlas reimburses baggage fees up to 7 credits."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What is the Atlas lunch allowance?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Atlas reimburses lunch up to 18 credits."
+          }
+        ]
+      },
+      "rationale": "Both missing and contradicted reduce to fail, but the wrong intermediate status must be caught."
+    }
+  ],
+  "version": "coverage-development.v1"
+}

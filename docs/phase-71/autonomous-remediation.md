@@ -33,3 +33,29 @@ build or external calls for this policy unit. Initial cumulative history:
 2,094 calls, estimated USD 5.48490077. Elapsed work time not measured.
 Next: review/commit/push authorization changes, then implement versioned v15
 coverage/reviewer correction and focused controls. Continue through declared gates.
+
+## V15 preparation
+
+Standing policy committed/pushed as `0159c71`. V15 changes coverage and reviewer
+prompts only; schemas, reducers, claim extraction, transport/model parameters,
+pricing and application behavior are unchanged. The diagnostic contains the six
+previous failure-category controls, the source-confirmed wrong-topic case, six
+temporal controls and four newly authored coverage variants. The latter separate
+other-policy/other-entity omissions from a real contradiction and a missing
+condition. Explicit fact-status assertions catch the prior hidden error without
+changing historical expectations. One new reviewer probe requires a dispute for
+an incorrect intermediate status even when the reduced failure label matches.
+
+Predeclared bounds: diagnostic 17 cases + one probe, at most 52 calls and reserved
+USD 5.7201800; full calibration remains 24 cases + three original probes, at most
+75 calls and reserved USD 8.2330450. Reservations are conservative bounds, not
+expected charges. Every stage executes once, freezes its source/input hashes,
+and stops/blocks promotion on disagreement, invalidity or a failed extra probe.
+
+Verification: `python -m unittest scripts.test_quality_v15 scripts.test_quality_v14
+scripts.test_quality_confirmation_replacement` passed 13 tests; scoped compilation
+passed. Historical v14 raw replay remains 24/24 + 3/3 with failed semantic readiness.
+Complete new source, four fixtures, probe, declarations and intended diff reviewed;
+no blocking implementation findings. No v15 live calls yet. App/web checks reused
+or skipped because no application code changed. Next after preparation commit:
+`python scripts/quality_completion_eval_v15.py --stage diagnostic --allow-external-ai`.
