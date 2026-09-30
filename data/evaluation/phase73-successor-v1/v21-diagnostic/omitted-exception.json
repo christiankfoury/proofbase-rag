@@ -1,0 +1,81 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive guidance on how to book a hotel and identifies exceptions to using the booking tool, even though one required exception is omitted.",
+    "behavior_span": "Hotels should be booked through the approved travel tool unless an emergency or accessibility need makes that impractical.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source entails that hotel bookings should use the approved travel tool and that emergency or accessibility need are valid exceptions. The answer does not explicitly state these are the only exceptions.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "text": "Hotels should be booked through the approved travel tool unless an emergency or accessibility need makes that impractical."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer states the approved travel tool rule and includes emergency and accessibility exceptions, but it omits the material exception for a customer requirement.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the requested hotel-booking policy and exceptions for the booking tool.",
+      "status": "pass"
+    }
+  },
+  "matched": false,
+  "mismatches": {
+    "citation_support": {
+      "actual": "pass",
+      "expected": "fail"
+    },
+    "factual_support": {
+      "actual": "pass",
+      "expected": "unresolved"
+    }
+  },
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted the single factual claim as the full answer sentence and correctly judged it supported by both source and citation: the source entails the stated hotel-tool rule with emergency and accessibility exceptions, even though it also lists an additional customer-requirement exception. The required fact F1 is therefore correctly marked missing, not contradicted, because the answer omits that material exception. That makes completeness fail. The response is still an actual answer and is relevant to the asked hotel-booking policy, but response_behavior correctly fails because an expected answer omitted a required fact. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

@@ -47,3 +47,29 @@ auditor remains reproducible because its historical journal is unchanged.
 Status: prepared for the single bounded diagnostic; no successor API call or
 qualified result yet. Preparation is reviewed before execution. App/web checks
 are reused from unchanged runtime; no live application call is needed here.
+
+
+## First diagnostic and reference repair
+
+Preparation was pushed as `0ed2457c`. The one-shot v21 diagnostic stopped at case
+five: 4/5 exact, no probes reached, 15 settled calls, USD 0.16760850. Full replay
+and [source inspection](v21-diagnostic-source-review.md) preserve its failed
+status. The missing-exception control had an ambiguous factual-support reference:
+it could be incomplete enumeration rather than a false exhaustive rule. No
+original expectation or evaluator prompt changed after execution.
+
+A separately declared v21b development stage replaces that control with explicit
+partial-examples and explicit-exclusion cases. It executes those plus the three
+originally unexecuted controls and three probes: five cases + three probes,
+18 calls maximum, USD 0.40 hard cap. Four clean original cases are reused without
+API calls; the failed fifth earns no credit. This cause-driven reference repair
+is not an identical candidate rerun hoping for different labels. Unchanged
+full 24/24 + 3/3 calibration follows only after all five new cases, three probes
+and the four reused cases have clean inspection. Remaining budget is
+USD 3.14047141 before the replacement stage.
+
+Six focused replacement-runner/confirmation tests pass using local saved-response
+test doubles, including failure gating before fresh content. Prepared confirmation
+remains blocked until full calibration passes. Its one future 16-case/48-call
+attempt has a USD 1.00 stage cap, the same pinned model and zero retries. Neutral
+briefs add explicit question/reference scope checks without exposing old cases.

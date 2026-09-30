@@ -15,10 +15,14 @@ accounting transition only; original evidence and unknown flags stay unchanged,
 new unknown outcomes still stop work, and the shared USD 10 ceiling is unchanged.
 
 [Successor development](../phase-73/successor-development.md) prepares a separate
-journal, v21 task-framing clarification, eight diagnostic controls and three
-reviewer probes. Full 24/24 + 3/3 calibration and isolated fresh 16/16 confirmation
-remain required before a newly frozen 60-case measurement. No successor paid
-calls or readiness claim yet. Phases 71/72 historical completion is unchanged.
+journal and v21 task-framing clarification (preparation `0ed2457c`). The first
+diagnostic stopped at 4/5 exact on an ambiguous missing-exception reference:
+15 settled calls, USD 0.16760850. Original failed evidence is preserved. A new
+v21b stage tests explicit partial examples versus explicit denial, reusing four
+clean prior cases without reruns. USD 3.14047141 remains before that stage.
+Full 24/24 + 3/3 calibration and isolated fresh 16/16 confirmation remain required
+before a newly frozen 60-case measurement. No readiness claim. Phases 71/72
+historical completion is unchanged.
 
 ### Historical checkpoint: original Phase 73 interruption
 

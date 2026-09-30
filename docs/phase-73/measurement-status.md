@@ -9,7 +9,8 @@ unexecuted. There is no full-suite score or safety qualification.
 The [results](results.md) and [source inspection](source-review.md) remain
 immutable. The [continuation audit](continuation-audit.md) reconciles the shared
 budget, distinguishes reference-scope defects from evaluator concerns and records
-six unexecuted development controls. USD 3.30807991 remains, retaining the full
+six initially unexecuted development controls. The successor transition began
+with USD 3.30807991 remaining, retaining the full
 unknown-call reservation. The user subsequently authorized a
 [specific successor accounting transition](successor-development.md), retaining
 that reservation and unknown provider status. New unknown outcomes still stop
