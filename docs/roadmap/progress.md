@@ -16,15 +16,17 @@ freeze (6805b358) and isolated validated fresh suite seal (dbb02ee7). Phase 71 i
 complete under its automated gates; no human or external independent review is
 claimed. Phase 72 remains complete with the reviewed source-confirmed runtime fixes.
 
-Next: freeze runtime/evaluator/corpus/config/index/environment and the complete
-cost prefix before isolated 60-case authorship and validation; seal and execute
-once, then publish actual results including a miss. Phase 73 has no fresh suite,
-freeze or score yet. Additional accounting is USD 5.92715325 of the fixed USD 10,
-including USD 2.80849875 retained history; remaining headroom USD 4.07284675.
-All provider outcomes settled. Use standard requests, zero retries and strict
-pre-call reservations. Local health/readiness are 200, pgvector enabled with
-32 documents and 247 chunks. Continue through the [active plan](quality-completion-plan.md)
-and [Phase 73 protocol](../phase-73/preflight.md), preserving unrelated request logs.
+The Phase 73 runtime is frozen at 8bd72ba1: 244 committed files plus corpus,
+configuration/index and local environment. The unused complete cost prefix has
+2,945 historical rows, preserving all rejected/cancelled/failed attempts. Current
+and committed inventory hashes agree. Next: isolated fresh 60-case authoring and
+independent validation, overlap checks, seal and one standard-request measurement.
+No runtime holdout or score exists yet. Shared additional accounting remains
+USD 5.92715325 of USD 10, leaving USD 4.07284675. Per-call reservations enforce
+that ceiling; a partial result cannot qualify as a complete score. Local readiness
+is 200 with 32 documents and 247 chunks/embeddings. Continue through the
+[active plan](quality-completion-plan.md) and [Phase 73 protocol](../phase-73/preflight.md),
+preserving unrelated request logs.
 
 ### Historical checkpoint: v19 diagnostic passed
 

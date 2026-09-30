@@ -1,9 +1,10 @@
 # Phase 73 preparation and declared measurement protocol
 
-Status: contingent preparation. Tooling now binds candidate v20. It cannot be
-used until full calibration, source inspection and fresh confirmation all pass.
-Reverify custody before runtime freeze or isolated holdout authorship. No fresh
-application score exists yet.
+Status: qualified v20 and runtime freeze prepared. Development and fresh
+confirmation passed with full replay and zero source-inspection findings. The
+runtime source is frozen at 8bd72ba1 with 244 files and the local environment;
+isolated holdout authoring follows the separate freeze commit. No fresh application
+score exists yet.
 Phase 72's reviewed runtime fixes and relevant passing regression evidence remain
 unchanged; this work versions the measurement tooling and local environment.
 
@@ -69,7 +70,7 @@ output is included; reservations assume uncached input. New settlement and repla
 use returned cached-token counts (GPT-4.1 mini USD 0.10 and GPT-5.4 USD 0.25 per
 million). Estimates are token-cost accounting, not an invoice reconciliation.
 [Cost reduction](../phase-71/spending-reduction.md) preserves sequential runtime
-safety stops; Batch is prepared for suitable evaluator stages.
+safety stops; the user-selected standard-request path avoids Batch waiting.
 
 ## Verification and publication gates
 
@@ -241,3 +242,29 @@ Compilation and complete intended-diff review pass. No runtime freeze, holdout
 authoring, application measurement or evaluator readiness is claimed by these tests.
 The active diagnostic is separate; this preparation does not modify its code or
 inputs. No new paid call was needed for this work unit.
+
+
+### Qualified evaluator and runtime freeze
+
+V20 qualification is pushed as 8bd72ba1: 24/24 + 3/3 full calibration and fresh
+16/16 confirmation, all raw/cost replay and source inspection clean. The final
+confirmation cost USD 0.5213645; full shared additional accounting USD 5.92715325,
+leaving USD 4.07284675 under the unchanged USD 10 ceiling. No new cost authority
+is inferred. Per-call reservations may stop the one runtime run if it exhausts
+that headroom; a partial run cannot be reported as a complete score.
+
+The complete immutable accounting prefix contains 2,945 historical rows: all
+2,595 original attempts, 32 cancelled Batch receipts and 318 standard evaluator
+calls. Prior conservative cumulative accounting is USD 16.78285402, with held
+reservations retained and cancelled successful usage not double-counted. The
+successor ledger is initialized and unused; no Phase 73 paid request exists.
+
+The runtime freeze binds 244 committed files at 8bd72ba1, exact installed package
+and PostgreSQL metadata, corpus/index, roles/scopes, qualified evaluator evidence,
+Phase 72 development evidence and full prefix provenance. Current and committed
+file inventories agree. The existing proofbase_eval_phase73 database has 32
+documents and 247 chunks/embeddings. Read-only /health and /ready are both 200.
+Reuse the 19 unchanged focused tool checks and Phase 72 application regressions;
+no dependencies, corpus or application behavior changed since that evidence.
+No frontend build is needed before publication changes. Next: isolated fresh
+60-case authorship, independent source/role validation, overlap checks and seal.
