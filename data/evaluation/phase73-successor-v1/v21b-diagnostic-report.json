@@ -1,0 +1,465 @@
+{
+  "additional_accounted_usd": "7.09517859",
+  "additional_remaining_usd": "2.90482141",
+  "calls": 18,
+  "cost_usd": "0.2356500",
+  "count": 5,
+  "cumulative_calls": 3072,
+  "cumulative_conservative_usd": "17.95087936",
+  "human_adjudication": false,
+  "matched": 5,
+  "matching_probes": 3,
+  "probes": [
+    {
+      "error": null,
+      "id": "review-false-purpose",
+      "matched": true,
+      "review": {
+        "citation_support": "dispute",
+        "completeness": "agree",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The answer’s single factual claim is the full sentence, and in this question context 'To document your request properly' is task framing, not a separate unsupported purpose claim. R1 entails the full fields list, so the claim’s factual_status should be supported, not unknown; therefore factual_support should be pass, not unresolved. C1 also entails that same full claim, so citation_status should be supported, not missing; therefore citation_support should be pass, not fail. The required fact is fully communicated, the response is a substantive answer to the asked vendor-intake details, it is relevant to the selected topic, and no forbidden assertion is present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "error": null,
+      "id": "review-missed-purpose",
+      "matched": true,
+      "review": {
+        "citation_support": "dispute",
+        "completeness": "agree",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate incorrectly treats the whole answer as supported. The first sentence is supported by R1/C1, but the added claim \"Northstar requires these fields to meet insurance law.\" is a separate factual/purpose assertion with no support in the factual or cited sources. So factual_support should not be pass, and citation_support should not be pass. Completeness is correctly pass because the answer does communicate all required intake fields. Relevance, response_behavior, and forbidden_assertion are correctly judged.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "error": null,
+      "id": "review-overbroad-coverage",
+      "matched": true,
+      "review": {
+        "citation_support": "agree",
+        "completeness": "dispute",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer has one factual claim, exactly about hotel bookings using the approved travel tool with the listed exceptions. That claim is supported by R1 and by cited source C1, so factual_support and citation_support pass. Relevance also passes, and there is no forbidden assertion. But required fact F1 is actually covered by the answer; the candidate's fact status 'missing' is incorrect because F1 is only about hotel bookings, not airfare/ground transport. Therefore completeness should pass, not fail. Since actual_behavior='answer' is correct and the required fact is covered, response_behavior should also pass, not fail.",
+        "relevance": "agree",
+        "response_behavior": "dispute"
+      }
+    }
+  ],
+  "reused_diagnostic_cases": 4,
+  "rows": [
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The answer substantively addresses both requested parts: how to book a hotel and what exceptions apply to the booking tool, even though one required exception detail is omitted.",
+        "behavior_span": "Use the approved travel tool for hotel bookings when no policy exception applies. Two examples of exceptions are emergencies and accessibility needs.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source says hotel bookings should be made through the approved travel tool unless specified exceptions apply.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+              }
+            ],
+            "text": "Use the approved travel tool for hotel bookings when no policy exception applies."
+          },
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "unless an emergency, accessibility need, or customer requirement makes that impractical."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source explicitly lists emergency and accessibility need as exceptions, so they are valid examples.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "unless an emergency, accessibility need, or customer requirement makes that impractical."
+              }
+            ],
+            "text": "Two examples of exceptions are emergencies and accessibility needs."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [],
+            "fact_id": "F1",
+            "reason": "The answer gives the approved tool rule and mentions emergencies and accessibility needs, but it omits the customer-requirement exception and does not communicate the full 'unless ... makes that impractical' condition for all listed exceptions.",
+            "status": "missing"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response addresses the asked hotel-booking policy and exceptions to the booking tool for that same topic.",
+          "status": "pass"
+        }
+      },
+      "id": "explicit-examples",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The two answer claims are correctly enumerated and both are supported by R1/C1: hotel bookings should use the approved tool absent an applicable exception, and emergency/accessibility are valid exception examples. Completeness is correctly failed because F1 requires the full exception set and condition, but the answer gives only two examples and omits the customer-requirement exception. The response is still an actual answer in form because it addresses both asked parts, but response_behavior is correctly failed since expected_behavior=answer and a required fact is missing. The answer is on-topic for hotel booking/tool exceptions, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "It gives a substantive response covering both how to book hotels and what exceptions apply, even though one exception is wrong.",
+        "behavior_span": "Hotels should use the approved travel tool except for emergencies or accessibility needs. Customer requirements are not an exception.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The source includes an additional exception for customer requirement, so this narrower exception list is incompatible with the policy as stated.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+              }
+            ],
+            "text": "Hotels should use the approved travel tool except for emergencies or accessibility needs."
+          },
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The cited/source text explicitly says customer requirement is an exception when it makes use of the approved travel tool impractical.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+              }
+            ],
+            "text": "Customer requirements are not an exception."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Hotels should use the approved travel tool except for emergencies or accessibility needs.",
+              "Customer requirements are not an exception."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer gives the approved tool rule and two exceptions, but it explicitly denies customer requirements as an exception, which is incompatible with the required policy that customer requirements can also make use of the tool impractical.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer addresses the requested hotel-booking policy and the exceptions to the booking tool.",
+          "status": "pass"
+        }
+      },
+      "id": "explicit-exclusion",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is consistent with the answer and source. The answer makes two factual claims: the first sentence gives an incomplete/exclusive exception list for hotel booking tool use, which is incompatible with the source because customer requirement is also an exception; the second sentence explicitly contradicts the source by denying that exception. So factual_support=fail and citation_support=fail are correct. The required fact is correctly marked contradicted, so completeness=fail is correct. The response is still substantive and on-topic, so actual_behavior=answer and relevance=pass are correct; because expected_behavior is answer but the required fact is contradicted, response_behavior=fail is also correct. No forbidden assertion is present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a direct substantive answer to the user's question about whether the Cedar intake cover sheet is mandatory.",
+        "behavior_span": "A Cedar intake cover sheet is mandatory.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The source explicitly says the cover sheet is optional and not mandatory, which conflicts with the claim. The cited source does not support the claim.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "A Cedar intake cover sheet is optional, not mandatory."
+              }
+            ],
+            "text": "A Cedar intake cover sheet is mandatory."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "A Cedar intake cover sheet is mandatory."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly says the Cedar intake cover sheet is mandatory, which is incompatible with the required fact that it is optional, not mandatory.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer addresses the same entity and policy asked about: whether the Cedar intake cover sheet is mandatory.",
+          "status": "pass"
+        }
+      },
+      "id": "explicit-optional",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The single factual claim was correctly extracted verbatim and correctly labeled contradicted by R1, so factual_support=fail is correct. The cited source does not entail the claim, so citation_status=missing and citation_support=fail are correct. The required fact says the cover sheet is optional, not mandatory; the answer states the opposite, so required fact F1 is correctly marked contradicted and completeness=fail is correct. The response is a direct substantive answer to the asked question, so actual_behavior=answer and relevance=pass are correct; because expected_behavior is answer but the required fact is contradicted, response_behavior=fail is also correct. There are no forbidden assertions, so forbidden_assertion=absent is correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the question by listing the needed shipping request details.",
+        "behavior_span": "A shipping request needs the destination, parcel weight and contact name to ensure proper documentation.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Shipping requests require a destination, parcel weight and contact name."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source entails the required fields. In the context of the question asking what belongs in the request so the user can document it properly, the trailing phrase frames the same recordkeeping task rather than adding a separate organizational-purpose claim.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Shipping requests require a destination, parcel weight and contact name."
+              }
+            ],
+            "text": "A shipping request needs the destination, parcel weight and contact name to ensure proper documentation."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "A shipping request needs the destination, parcel weight and contact name"
+            ],
+            "fact_id": "F1",
+            "reason": "This states the required items for a shipping request: destination, parcel weight, and contact name.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer addresses the requested shipping request documentation details, matching the question's topic.",
+          "status": "pass"
+        }
+      },
+      "id": "closing-task-framing",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate correctly treats the full sentence as one factual claim, and that exact answer span is supported by both the factual and cited source. In this question context, “to ensure proper documentation” is task-framing for the requested recordkeeping, not an added unsupported purpose claim. The required fact is covered, the response behavior is correctly labeled as answer, it is relevant to the shipping-request details asked for, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the question with the requested shipping-request details.",
+        "behavior_span": "A shipping request needs the destination, parcel weight and contact name. These details guarantee approval.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Shipping requests require a destination, parcel weight and contact name."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source and citation both entail the required fields for a shipping request.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Shipping requests require a destination, parcel weight and contact name."
+              }
+            ],
+            "text": "A shipping request needs the destination, parcel weight and contact name."
+          },
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "No provided source states that including these details guarantees approval.",
+            "source_spans": [],
+            "text": "These details guarantee approval."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "A shipping request needs the destination, parcel weight and contact name."
+            ],
+            "fact_id": "F1",
+            "reason": "This states that a shipping request requires all three listed details: destination, parcel weight, and contact name.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The answer addresses the requested policy/topic: what details belong in a shipping request.",
+          "status": "pass"
+        }
+      },
+      "id": "guaranteed-approval",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate extracted both factual claims, including the extra policy/outcome claim 'These details guarantee approval.' Claim 1 is supported by R1/C1; claim 2 is not entailed by any source, so factual_status=unknown and citation_status=missing are correct. That makes factual_support=unresolved and citation_support=fail. The required fact is fully covered by the first sentence, so completeness=pass. The response is a substantive answer to the asked topic, so actual_behavior=answer, response_behavior=pass, and relevance=pass are correct. No forbidden assertion was specified or asserted.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "semantic_validation_passed": false,
+  "stage": "diagnostic",
+  "status": "complete"
+}

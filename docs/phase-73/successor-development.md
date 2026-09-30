@@ -73,3 +73,21 @@ test doubles, including failure gating before fresh content. Prepared confirmati
 remains blocked until full calibration passes. Its one future 16-case/48-call
 attempt has a USD 1.00 stage cap, the same pinned model and zero retries. Neutral
 briefs add explicit question/reference scope checks without exposing old cases.
+
+
+## Replacement diagnostic passed
+
+The separately declared stage passed 5/5 and 3/3 reviewer probes in 18 calls at
+USD 0.23565000. [All-case source inspection](v21b-diagnostic-source-review.md) is
+clean; four original inspected passes are reused without new calls. The original
+4/5 stage remains failed. Full raw/request/reducer/cost replay passes, with the
+historical 3,039-call prefix and all retained reservations unchanged. New cumulative
+history is 3,072 attempts and USD 17.95087936 conservative accounting; additional
+spend is USD 7.09517859 of 10, leaving USD 2.90482141.
+
+Automatic approval review initially rejected the replacement launch because it
+mistook the named v21b runner for the earlier 27-call runner. Read-only checks
+proved the exact committed file and its five-case/18-call/USD 0.40 limits; review
+then accepted the same command. The rejected launch made no provider request.
+Full calibration is next, still 24 cases + three probes, 75 requests maximum,
+USD 1.30 cap, standard synchronous transport and zero retries. No runtime score.

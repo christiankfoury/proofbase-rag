@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the question with the requested shipping-request details.",
+    "behavior_span": "A shipping request needs the destination, parcel weight and contact name. These details guarantee approval.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Shipping requests require a destination, parcel weight and contact name."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source and citation both entail the required fields for a shipping request.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Shipping requests require a destination, parcel weight and contact name."
+          }
+        ],
+        "text": "A shipping request needs the destination, parcel weight and contact name."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "No provided source states that including these details guarantees approval.",
+        "source_spans": [],
+        "text": "These details guarantee approval."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "A shipping request needs the destination, parcel weight and contact name."
+        ],
+        "fact_id": "F1",
+        "reason": "This states that a shipping request requires all three listed details: destination, parcel weight, and contact name.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested policy/topic: what details belong in a shipping request.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate extracted both factual claims, including the extra policy/outcome claim 'These details guarantee approval.' Claim 1 is supported by R1/C1; claim 2 is not entailed by any source, so factual_status=unknown and citation_status=missing are correct. That makes factual_support=unresolved and citation_support=fail. The required fact is fully covered by the first sentence, so completeness=pass. The response is a substantive answer to the asked topic, so actual_behavior=answer, response_behavior=pass, and relevance=pass are correct. No forbidden assertion was specified or asserted.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

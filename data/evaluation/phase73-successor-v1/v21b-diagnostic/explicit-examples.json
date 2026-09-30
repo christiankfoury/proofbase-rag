@@ -1,0 +1,90 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The answer substantively addresses both requested parts: how to book a hotel and what exceptions apply to the booking tool, even though one required exception detail is omitted.",
+    "behavior_span": "Use the approved travel tool for hotel bookings when no policy exception applies. Two examples of exceptions are emergencies and accessibility needs.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source says hotel bookings should be made through the approved travel tool unless specified exceptions apply.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "text": "Use the approved travel tool for hotel bookings when no policy exception applies."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source explicitly lists emergency and accessibility need as exceptions, so they are valid examples.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "text": "Two examples of exceptions are emergencies and accessibility needs."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer gives the approved tool rule and mentions emergencies and accessibility needs, but it omits the customer-requirement exception and does not communicate the full 'unless ... makes that impractical' condition for all listed exceptions.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response addresses the asked hotel-booking policy and exceptions to the booking tool for that same topic.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The two answer claims are correctly enumerated and both are supported by R1/C1: hotel bookings should use the approved tool absent an applicable exception, and emergency/accessibility are valid exception examples. Completeness is correctly failed because F1 requires the full exception set and condition, but the answer gives only two examples and omits the customer-requirement exception. The response is still an actual answer in form because it addresses both asked parts, but response_behavior is correctly failed since expected_behavior=answer and a required fact is missing. The answer is on-topic for hotel booking/tool exceptions, and there are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

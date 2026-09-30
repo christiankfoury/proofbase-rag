@@ -1,0 +1,83 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It gives a substantive response covering both how to book hotels and what exceptions apply, even though one exception is wrong.",
+    "behavior_span": "Hotels should use the approved travel tool except for emergencies or accessibility needs. Customer requirements are not an exception.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source includes an additional exception for customer requirement, so this narrower exception list is incompatible with the policy as stated.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "text": "Hotels should use the approved travel tool except for emergencies or accessibility needs."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The cited/source text explicitly says customer requirement is an exception when it makes use of the approved travel tool impractical.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Airfare, hotel, and ground transportation should be booked through the approved travel tool unless an emergency, accessibility need, or customer requirement makes that impractical."
+          }
+        ],
+        "text": "Customer requirements are not an exception."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Hotels should use the approved travel tool except for emergencies or accessibility needs.",
+          "Customer requirements are not an exception."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer gives the approved tool rule and two exceptions, but it explicitly denies customer requirements as an exception, which is incompatible with the required policy that customer requirements can also make use of the tool impractical.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested hotel-booking policy and the exceptions to the booking tool.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s grading is consistent with the answer and source. The answer makes two factual claims: the first sentence gives an incomplete/exclusive exception list for hotel booking tool use, which is incompatible with the source because customer requirement is also an exception; the second sentence explicitly contradicts the source by denying that exception. So factual_support=fail and citation_support=fail are correct. The required fact is correctly marked contradicted, so completeness=fail is correct. The response is still substantive and on-topic, so actual_behavior=answer and relevance=pass are correct; because expected_behavior is answer but the required fact is contradicted, response_behavior=fail is also correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

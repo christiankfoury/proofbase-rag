@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a direct substantive answer to the user's question about whether the Cedar intake cover sheet is mandatory.",
+    "behavior_span": "A Cedar intake cover sheet is mandatory.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source explicitly says the cover sheet is optional and not mandatory, which conflicts with the claim. The cited source does not support the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "A Cedar intake cover sheet is optional, not mandatory."
+          }
+        ],
+        "text": "A Cedar intake cover sheet is mandatory."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "A Cedar intake cover sheet is mandatory."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly says the Cedar intake cover sheet is mandatory, which is incompatible with the required fact that it is optional, not mandatory.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the same entity and policy asked about: whether the Cedar intake cover sheet is mandatory.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The single factual claim was correctly extracted verbatim and correctly labeled contradicted by R1, so factual_support=fail is correct. The cited source does not entail the claim, so citation_status=missing and citation_support=fail are correct. The required fact says the cover sheet is optional, not mandatory; the answer states the opposite, so required fact F1 is correctly marked contradicted and completeness=fail is correct. The response is a direct substantive answer to the asked question, so actual_behavior=answer and relevance=pass are correct; because expected_behavior is answer but the required fact is contradicted, response_behavior=fail is also correct. There are no forbidden assertions, so forbidden_assertion=absent is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
