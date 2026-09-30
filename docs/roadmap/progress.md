@@ -6,7 +6,7 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: Phase 73 successor runtime frozen; isolated fresh suite next
+### Active: Phase 73 fresh successor suite approved; seal and execution next
 
 The user explicitly accepted carrying the single unknown request at its full
 USD 0.146775 reservation and continuing with USD 3.30807991 remaining. The
@@ -30,14 +30,19 @@ construction issues were corrected with all revisions preserved. V21 is qualifie
 Additional accounting is USD 8.12074759 of 10; USD 1.87925241 remains. The new
 freeze binds qualification revision `1cb44e30`, 258 source/corpus/protocol files,
 unchanged local configuration/index and the complete 3,195-call cost prefix.
-Commit this freeze before isolated new 60-case authoring/validation.
+Freeze commit `f4ad2dd8` is pushed before isolated new 60-case authoring/validation.
 No new application score or full-suite safety qualification is established.
 Phases 71/72 historical completion is unchanged.
 
 [Successor measurement preparation](../phase-73/v5-measurement-preparation.md)
 adds separate v5 accounting/runner/report tooling and neutral scope-aware contracts.
 Seventeen offline controls pass. Its fresh evaluator prerequisite now passes;
-runtime freeze, fresh suite validation/seal and live preflight remain mandatory.
+runtime freeze is committed. The fresh 60-case/78-fact suite is approved by its
+separate validator after three pre-execution construction corrections, with every
+initial/rejected version preserved. All gold quote/scope checks pass; zero lexical
+overlap hits across 959 historical questions. Exact live preflight passes without
+API calls. A separate seal commit precedes the one-shot execution within
+USD 1.87925241 remaining.
 
 ### Historical checkpoint: original Phase 73 interruption
 

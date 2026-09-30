@@ -60,5 +60,48 @@ request must reserve within the remaining shared USD 10 envelope or stop locally
 
 Verification: full original-interruption and successor-confirmation replays pass
 during prefix initialization; the new prefix and unused ledger match; frozen files
-equal committed inventory. Local database fingerprinting is read-only. Next:
-commit the freeze, then separate isolated authoring/validation of the new suite.
+equal committed inventory. Local database fingerprinting is read-only. Freeze
+commit `f4ad2dd8` was verified and pushed before separate isolated authoring and
+validation of the new suite began.
+
+## Fresh suite and seal
+
+The separate author and validator used only the neutral contracts, supplied
+freeze, frozen corpus and their own new artifacts/validation feedback. The suite
+has 60 cases, 78 required facts, 36 expected answers and 24 non-answers. All nine
+category counts match the contract. All five business roles are represented;
+department scope is null throughout, so department-only isolation is not covered.
+
+The initial independent validation rejected fresh-026: its question was an
+answerable comparison rather than an ambiguous memory reference. Primary-agent
+inspection separately found unrequested effective-date facts in fresh-055 and
+fresh-058; the validator confirmed both reference-scope findings. Root's prompt
+for those two checks is disclosed, not presented as independent discovery.
+Only these three questions/constructions were revised before any application
+call. All required facts, expected behaviors, category/difficulty assignments,
+roles/scopes and the other 57 cases stayed unchanged. The original suite, both
+rejected validation versions, original overlap and all earlier notes are retained
+byte-for-byte and bound by the new seal.
+
+Final isolated validation approves 60/60 with zero unresolved findings. Raw suite
+SHA-256 is `20365d175afe198e226e80bb1e096eb2685e8ea91e4dd7f9f1a8497a750416ad`.
+Mechanical schema, exact gold quotes and authorized source scope pass for every
+case. Historical overlap finds zero hits across 959 distinct historical questions
+at token Jaccard 0.8; this cannot establish semantic independence. Root reviewed
+all question/reference pairs and the complete revision delta. Authorship and
+validation are agent work, not human labels or independent security assessment.
+
+The original interruption report also reproduces unchanged with
+`python scripts/report_phase73_interruption.py --check`. No paid application
+measurement has run during authorship or validation. Commit this seal separately
+before the one-shot standard execution; no selective retry, resumed case or
+post-execution reference correction is permitted.
+
+Exact live preflight passed with `python scripts/phase73_v5_run.py --preflight`:
+frozen files and qualified evaluator, local configuration/index, suite/validation
+seal, complete cost prefix, declared token/call bounds and unused run/ledger all
+match. It performed no external AI call. The semantic review covered all new
+suite and validation artifacts, notes, preserved versions and tracker changes;
+the three construction findings are resolved before sealing. Existing 17 focused
+controls are reused because frozen tooling is unchanged. No frontend/runtime
+change is included in this seal work unit; no new app build is required.
