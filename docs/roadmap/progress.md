@@ -23,7 +23,9 @@ clean prior cases without reruns. That stage passed 5/5 and 3/3 probes with
 clean source inspection, 18 calls and USD 0.23565000. Full calibration then passed
 24/24 + 3/3 with clean source inspection, 75 calls and USD 0.58165200;
 USD 2.32316941 remains. Isolated fresh 16/16 confirmation is next, before a newly
-frozen 60-case measurement. No final evaluator readiness claim.
+frozen 60-case measurement. Calibration evidence is committed as `13c022db`;
+the separate confirmation freeze binds that revision before isolated authorship.
+No final evaluator readiness claim.
 Phases 71/72 historical completion is unchanged.
 
 ### Historical checkpoint: original Phase 73 interruption

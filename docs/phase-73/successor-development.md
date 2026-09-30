@@ -107,3 +107,8 @@ one new 16-case/48-call confirmation with its USD 1.00 stage cap. A successful
 confirmation is still required for a successor application measurement. Reuse
 unchanged focused tests and application/build evidence; these data/docs changes
 require report replay, source inspection, hash checks and full intended-diff review.
+
+The separate `v21-standard-freeze.json` binds calibration revision `13c022db`,
+exact evaluator/runner dependencies and both neutral briefs. It declares the
+same 16-case/48-call/USD 1.00 attempt, 180-second timeout and zero retries.
+Authoring starts only after this freeze record is committed.
