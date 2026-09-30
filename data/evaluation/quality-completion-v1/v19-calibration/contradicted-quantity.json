@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It gives a substantive direct answer to the user's question.",
+    "behavior_span": "Book your seat at least 12 hours before departure.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer states a 12-hour minimum, but the source says Brindle shuttle seats must be booked at least 24 hours before departure.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Brindle shuttle seats must be booked at least 24 hours before departure."
+          }
+        ],
+        "text": "Book your seat at least 12 hours before departure."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "at least 12 hours before departure."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer gives a different minimum booking deadline for the same seat-booking policy: 12 hours instead of 24 hours before departure.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the Brindle shuttle seat booking deadline asked about in the question.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The single factual claim was correctly extracted verbatim and is explicitly contradicted by R1/C1, which require booking at least 24 hours before departure, not 12. The required fact F1 is therefore correctly marked contradicted. The answer is still a substantive direct answer to the question, so actual_behavior=answer is correct, but response_behavior correctly fails because the required fact is contradicted. The answer is on-topic, and there are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

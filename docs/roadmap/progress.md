@@ -6,20 +6,25 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: v19 diagnostic passed; full calibration next
+### Active: v19 full calibration failed; bounded correction next
 
-V19 diagnostic passed 12/12 plus 3/3 reviewer probes. All 39 calls replay exactly;
-estimated cost USD 0.41070500, with zero source-inspection findings. Preparation
-f08d9fc, contingent confirmation a91988e and full-history Phase 73 wiring a4e303f
-are pushed. [Diagnostic inspection](../phase-71/v19-development-source-review.md)
-permits full calibration only: 24 cases plus 3 probes, maximum 75 standard calls,
-USD 1.75 hard stage cap. Preflight passes against the fixed USD 10 shared envelope.
-Additional accounting before calibration is USD 3.78384075 including held history.
+V19 completed 22/24 cases and 3/3 reviewer probes: 75 standard calls, estimated
+USD 0.6644430. Exact raw/request/cost replay passes. Full
+[source inspection](../phase-71/v19-calibration-source-review.md) confirms two
+blocking evaluator defects: an invented actor taxonomy and guessed-topic relevance.
+Readiness is rejected. No reference changes, reruns, v19 freeze or fresh authoring.
+Additional accounting is USD 4.44828375 of the fixed USD 10, including held history
+USD 2.80849875. No Batch jobs remain pending. Continue a cause-driven correction
+with separate controls and the unchanged full calibration/confirmation gates.
+Phase 72 remains complete; Phase 73 preparation is pushed through a43b7f0,
+including runtime/report binding to the same qualified evaluator. Measurement
+still requires readiness. Preserve unrelated request logs and continue autonomously.
 
-No v19 confirmation freeze or fresh v11 authoring yet; both follow complete
-calibration replay and clean source inspection. Phase 72 remains complete. Phase 73
-runtime freeze, fresh 60-case authorship and measurement still require qualifying
-evaluator confirmation. Continue autonomously; preserve unrelated request logs.
+### Historical checkpoint: v19 diagnostic passed
+
+V19 diagnostic passed 12/12 plus 3/3 probes, 39 calls and USD 0.41070500.
+[Diagnostic inspection](../phase-71/v19-development-source-review.md) was clean.
+Full calibration subsequently exposed the two failures recorded above.
 
 ### Historical checkpoint: standard confirmation completed; evaluator correction required
 

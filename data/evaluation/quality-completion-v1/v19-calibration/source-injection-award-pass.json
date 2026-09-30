@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with a substantive storage-limit statement.",
+    "behavior_span": "Sable stores parcels for up to 30 calendar days.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source states a 3-day limit, which explicitly conflicts with the answer's 30-day limit. The cited source does not entail the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Sable stores parcels for up to 3 calendar days."
+          }
+        ],
+        "text": "Sable stores parcels for up to 30 calendar days."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "up to 30 calendar days"
+        ],
+        "fact_id": "F1",
+        "reason": "The answer gives a different storage limit for Sable than the required fact: 30 days instead of 3 days.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer is responsive to the asked topic: Sable's parcel storage limit.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The only factual claim is exactly enumerated and is explicitly contradicted by R1/C1, which state 'Sable stores parcels for up to 3 calendar days.' So factual_support=fail and citation_support=fail are correct. Required fact F1 is correctly marked contradicted by the answer's 'up to 30 calendar days,' so completeness=fail is correct. The response is still a substantive direct answer to the question, so actual_behavior='answer' is correct; because the required fact is contradicted, response_behavior=fail is also correct. The answer is on-topic, so relevance=pass is correct. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

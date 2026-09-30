@@ -1,0 +1,106 @@
+{
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "pass",
+    "disputed_dimensions": [
+      "factual_support",
+      "citation_support"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "unresolved",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response substantively answers both who can claim the taxi and the applicable limit.",
+    "behavior_span": "Lark laboratory staff may claim a taxi home only when their lab shift ends after 22:00, up to 38 credits per trip.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "The source supports this rule for \"Lark laboratory employees,\" but it does not establish that the broader answer term \"staff\" is the same set.",
+        "source_spans": [],
+        "text": "Lark laboratory staff may claim a taxi home only when their lab shift ends after 22:00"
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "The maximum reimbursement is 38 credits per trip."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source and citation both directly state the 38-credit per-trip maximum.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "The maximum reimbursement is 38 credits per trip."
+          }
+        ],
+        "text": "up to 38 credits per trip."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Lark laboratory staff may claim a taxi home only when their lab shift ends after 22:00"
+        ],
+        "fact_id": "F1",
+        "reason": "This communicates the eligible group, the taxi-home benefit, and the condition that it applies only for lab shifts ending after 22:00.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [
+          "up to 38 credits per trip"
+        ],
+        "fact_id": "F2",
+        "reason": "This states the maximum reimbursement limit per trip.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response directly addresses the user's question about Lark lab taxi eligibility and limit.",
+      "status": "pass"
+    }
+  },
+  "matched": false,
+  "mismatches": {
+    "citation_support": {
+      "actual": "unresolved",
+      "expected": "pass"
+    },
+    "factual_support": {
+      "actual": "unresolved",
+      "expected": "pass"
+    },
+    "overall": {
+      "actual": "unresolved",
+      "expected": "pass"
+    }
+  },
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "agree",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "The answer’s two factual assertions are fully enumerated, and both required facts are covered. But the first claim should be supported by R1/C1: in context, \"Lark laboratory staff\" is an ordinary paraphrase of \"Lark laboratory employees,\" and \"claim a taxi home\" matches the asked benefit described in the source as reimbursement. So marking that claim factual_status=unknown and citation_status=missing is incorrect. Because that intermediate claim status is wrong, the reduced factual_support should not be unresolved and citation_support should not be fail. The behavior, relevance, completeness, and forbidden-assertion judgments are otherwise correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
