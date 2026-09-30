@@ -1,0 +1,73 @@
+{
+  "case_id": "coverage-other-policy",
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It gives a substantive response, but it addresses a different policy rather than the requested lunch allowance.",
+    "behavior_span": "Atlas reimburses baggage fees up to 7 credits.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C2",
+            "span": "Atlas reimburses baggage fees up to 7 credits."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The answer makes one factual claim, and it is directly entailed by factual source R2 and cited source C2.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "Atlas reimburses baggage fees up to 7 credits."
+          }
+        ],
+        "text": "Atlas reimburses baggage fees up to 7 credits."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer discusses Atlas baggage-fee reimbursement, not the lunch allowance amount or that lunch is reimbursed up to 18 credits.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is not responsive to the user's question about Atlas lunch allowance; it switches to baggage fees.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate is internally correct on all audited dimensions. The answer contains one factual claim, verbatim: 'Atlas reimburses baggage fees up to 7 credits.', and that claim is supported by factual source R2 and cited source C2, so factual_support=pass and citation_support=pass are correct. The required fact 'Atlas reimburses lunch up to 18 credits.' is not communicated; because the answer gives a different policy (baggage fees), marking F1 as missing is correct, so completeness=fail is correct. The prose is still a substantive response, so actual_behavior='answer' is correct; but because expected_behavior is answer and the required fact is missing, response_behavior=fail is also correct. Relevance=fail is correct because the response switches from the asked lunch allowance to baggage fees. There are no forbidden assertions, so forbidden_assertion=absent is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

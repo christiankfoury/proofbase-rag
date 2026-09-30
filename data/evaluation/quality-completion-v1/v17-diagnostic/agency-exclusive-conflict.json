@@ -1,0 +1,70 @@
+{
+  "case_id": "agency-exclusive-conflict",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a direct substantive answer to who is permitted to authorize a Lumen export.",
+    "behavior_span": "Operators may authorize Lumen exports.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source explicitly states the opposite: operators are not permitted to authorize exports; only the compliance custodian may authorize a Lumen export.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Operators are not permitted to authorize exports."
+          }
+        ],
+        "text": "Operators may authorize Lumen exports."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Operators may authorize Lumen exports."
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says authorization is restricted to only the compliance custodian. The answer instead states that operators may authorize Lumen exports, which is incompatible with that exclusivity for the same authorization policy.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the asked topic of who may authorize a Lumen export, even though the stated role conflicts with the required fact.",
+      "status": "pass"
+    }
+  },
+  "grading_error": null,
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted the single factual claim verbatim and marked it contradicted by R1 ('Operators are not permitted to authorize exports.'). Because that claim is contradicted, factual_support=fail is correct. The cited source does not entail the claim and instead opposes it, so citation_status=missing and citation_support=fail are correct. The required fact 'Only the compliance custodian may authorize a Lumen export.' is explicitly incompatible with the answer's claim about operators, so marking F1 contradicted and completeness=fail is correct. The response is still a substantive direct answer to the question, so actual_behavior=answer and relevance=pass are correct; but because the required fact is contradicted, response_behavior=fail is also correct. No forbidden assertion was made, so forbidden_assertion=absent is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

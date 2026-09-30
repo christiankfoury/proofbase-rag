@@ -11,7 +11,9 @@ authorizes cause-driven remediation without further routine approval. V16 fixed
 the actor control but stopped after a second case exposed a coverage paraphrase
 error. [V17](../phase-71/v17-paraphrase-correction.md) addresses that on new positive
 and negative development variants while preserving every prior diagnostic.
-Phase 72 remains complete. Historical results and failed gates remain immutable.
+V17 then passed diagnostic but failed full calibration 23/24 on an overstrict
+contextual-actor judgment. [V18](../phase-71/v18-context-correction.md) is the next
+source-supported correction. Phase 72 remains complete; failed results are immutable.
 
 The isolated local PostgreSQL clone is prepared; successor measurement tooling,
 accounting tests and neutral contracts are prepared and reviewed.

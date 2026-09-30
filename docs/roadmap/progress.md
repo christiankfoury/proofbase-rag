@@ -8,34 +8,31 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ### Active: standing autonomous completion of Phases 71-73 (2026-09-29)
 
-The user authorized necessary repairs and validation without approval for each
-attempt. The [active plan](quality-completion-plan.md) supersedes older candidate
-limits; its quality, custody and cost-accounting gates remain unchanged. Follow
-[autonomous remediation](../phase-71/autonomous-remediation.md). Start by repairing
-coverage's omission-versus-contradiction distinction and auditing intermediate
-judgments even when reduced dimensions match. V14 remains failed and immutable.
-Phase 72 remains complete; Phase 73 waits for a validated evaluator. Baseline:
-main at `cf9866b`, 2,094 API calls, USD 5.48490077; unrelated request-log edits
-preserved. Continue through review, commit and push without routine permission.
-Policy: `0159c71`; v15 preparation: `7edf06e`. A local settlement-write failure is
-reconciled from a complete saved response; [recovery](../phase-71/v15-local-recovery.md)
-continues only unissued requests. V15 development is source-inspected and approved: 17/17 diagnostic + 1/1 probe,
-24/24 calibration + 3/3 probes; 2,221 cumulative calls, USD 6.72190827.
-V15 development: `26d7976`; freeze: `81d1da1`; fresh suite seal: `50cf71a`.
-Confirmation is complete at 15/16; [source inspection](../phase-71/confirmation-v15-source-review.md)
-found unsupported actor assignment in the reference and initial grade, correctly
-disputed by the reviewer. No relabeling/retry. Cumulative 2,269 calls, USD 7.18314077.
-V16 preparation/result unit: `a65fd7d`. Its diagnostic stopped after 2/21 cases
-(1 matching): actor entailment passed, but coverage rejected a valid generic plural
-paraphrase. Six calls added; cumulative 2,275 calls, USD 7.25515327. Continue with
-[v17 semantic coverage correction](../phase-71/v17-paraphrase-correction.md),
-retaining all prior diagnostic controls and unchanged full/confirmation gates.
-V17 diagnostic passed 25/25 plus 3/3 probes with clean primary source inspection;
-78 calls added USD 0.87927750 (2,353 cumulative calls, USD 8.13443077). The single
-full calibration is running. Confirmation and Phase 73 [tooling](../phase-73/preflight.md)
-are prepared and tested; readiness gates prevent premature use.
-Docker is available; isolated Phase 73 database and runner drafts are prepared,
-but no runtime holdout has been authored or run. Phase 72 remains complete.
+Standing authorization in the [active plan](quality-completion-plan.md) permits
+cause-driven repairs and validation without approval at each candidate. Scoring,
+fresh-holdout custody and cumulative accounting gates remain unchanged. Preserve
+all failed evidence and unrelated request-log edits; commit/review/push and continue.
+
+Phase 72 runtime fixes are complete (`8a0f734`), with passing before/after and
+shared safety regressions. Phase 71 evaluator readiness remains pending. V15 passed
+development but failed its fresh confirmation 15/16 on unsupported actor assignment.
+V16 fixed that issue but failed a paraphrase diagnostic. V17 diagnostic passed
+25/25 plus 3/3 probes; full calibration finished 23/24 plus 3/3. [Source inspection](../phase-71/v17-source-review.md)
+confirmed that the actor rule rejects ordinary second-person instructions for
+the action already identified by the user. No v17 freeze/confirmation occurred.
+
+Continue with [v18 task-context correction](../phase-71/v18-context-correction.md):
+four new positive/negative controls plus all previous diagnostics, unchanged full
+24/24 + 3/3 and fresh 16/16 confirmation gates. Six focused tests and source review
+pass; its live diagnostic is the next action. V17 used 153 settled calls, estimated
+USD 1.62926000; cumulative 2,428 calls, USD 8.88441327. No provider retries.
+
+Docker is running and the isolated Phase 73 database is ready. [Runner preparation](../phase-73/preflight.md)
+was reviewed/tested and pushed in `c7e1225`; its evaluator bindings must advance to
+a qualified successor before freeze or use. No 60-case holdout is authored, frozen,
+sealed or executed. No new application quality score exists. Policy: `0159c71`;
+v17 preparation: `41a077f`; v17 results/v18 preparation are in the unit containing
+this entry. Follow the operating loop without routine permission.
 
 The stopped entries below record historical authorization boundaries; they do
 not override the newer standing completion authorization.

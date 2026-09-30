@@ -30,7 +30,15 @@ positive/negative distinctions, one-shot paths, unchanged reducer behavior and
 full cost provenance. Six focused no-network tests and scoped compilation pass;
 the ledger test rejects 79 calls and refuses 78 for any stage except the named
 diagnostic. Frozen v16 raw replay verifies the early stop. App checks are reused
-from Phase 72 because the runtime remains unchanged. No v17 live calls yet.
+from Phase 72 because the runtime remains unchanged.
 
 Current conservative history: 2,275 calls, USD 7.25515327. Phase 73 remains
 contingent; its isolated local database and unexecuted tooling are prepared.
+
+Diagnostic execution: 25/25 exact cases and 3/3 reviewer probes. Primary-agent
+source inspection of all claims, required-fact statuses, spans and reviews found
+no unresolved semantic issue. Raw replay passed. Exactly 78 settled calls added
+USD 0.87927750; cumulative 2,353 calls and USD 8.13443077. The predeclared single
+full calibration finished 23/24 plus 3/3 probes. [Source inspection](v17-source-review.md)
+confirmed a contextual-actor regression; no v17 freeze or confirmation is permitted.
+Continue with [v18](v18-context-correction.md).

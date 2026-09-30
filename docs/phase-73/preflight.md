@@ -1,7 +1,9 @@
 # Phase 73 preparation and declared measurement protocol
 
-Status: contingent preparation. Evaluator v17 confirmation must pass before runtime
-freeze and isolated holdout authorship. No fresh application score exists yet.
+Status: contingent preparation. Tooling currently binds v17, which failed full
+calibration and cannot be used. Advance bindings to a qualified successor and
+reverify before runtime freeze or isolated holdout authorship. No fresh application
+score exists yet.
 Phase 72's reviewed runtime fixes and relevant passing regression evidence remain
 unchanged; this work versions the measurement tooling and local environment.
 

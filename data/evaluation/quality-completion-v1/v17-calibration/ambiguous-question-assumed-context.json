@@ -1,0 +1,65 @@
+{
+  "case_id": "ambiguous-question-assumed-context",
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive booking deadline, so it answers the question in form.",
+    "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "The source says \"Morrow equipment must be booked at least 2 days ahead.\" That supports the requirement and timing, but it does not specify that \"you\" are the responsible actor. Because the answer assigns that duty to \"you,\" the full claim is not entailed.",
+        "source_spans": [],
+        "text": "You must book Morrow equipment at least 2 days ahead."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question does not identify any entity or item to book, but the answer invents the specific topic 'Morrow equipment' without support from the question or history.",
+      "status": "fail"
+    }
+  },
+  "grading_error": null,
+  "matched": false,
+  "mismatches": {
+    "citation_support": {
+      "actual": "fail",
+      "expected": "pass"
+    },
+    "factual_support": {
+      "actual": "unresolved",
+      "expected": "pass"
+    }
+  },
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The single factual claim was correctly extracted as the full sentence. Its status is correctly not supported/unknown because the source only states a passive requirement for Morrow equipment and does not entail the added actor assignment 'You must book...'. The cited source likewise does not fully entail the claim, so citation support correctly fails. There are no required facts, so completeness is N/A. The answer invents the topic 'Morrow equipment' for an otherwise ambiguous question, so relevance correctly fails. The prose is still a substantive answer rather than a clarification, so actual_behavior='answer' is correct and response_behavior correctly fails against expected 'clarify'. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

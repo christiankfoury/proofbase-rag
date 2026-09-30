@@ -1,0 +1,326 @@
+{
+  "cases": [
+    {
+      "evidence": [
+        {
+          "chunk_id": "context-same-action-deadline-chunk-1",
+          "content": "Junco entry forms must be submitted at least 8 hours before arrival.",
+          "document_id": "context-same-action-deadline-doc-1"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "id": "context-same-action-deadline",
+      "inputs": {
+        "answer": "You must submit a Junco entry form at least 8 hours before arrival.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Junco entry forms must be submitted at least 8 hours before arrival."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Junco entry forms must be submitted at least 8 hours before arrival."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "How far before arrival must I submit a Junco entry form?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Junco entry forms must be submitted at least 8 hours before arrival."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "You must submit a Junco entry form at least 8 hours before arrival.",
+        "citations": [
+          {
+            "chunk_id": "context-same-action-deadline-chunk-1",
+            "citation_text": "Junco entry forms must be submitted at least 8 hours before arrival.",
+            "document_id": "context-same-action-deadline-doc-1"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Second person addresses the explicit submitting participant; it preserves the same action and deadline without inventing a separate duty.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "context-guessed-item-true-policy-chunk-1",
+          "content": "Pipit badges must be returned by 16:00. Dovetail keys must be returned by the next morning.",
+          "document_id": "context-guessed-item-true-policy-doc-1"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "not_applicable",
+        "factual_support": "pass",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "fail",
+        "response_behavior": "fail"
+      },
+      "id": "context-guessed-item-true-policy",
+      "inputs": {
+        "answer": "You must return a Pipit badge by 16:00.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Pipit badges must be returned by 16:00. Dovetail keys must be returned by the next morning."
+          }
+        ],
+        "expected_behavior": "clarify",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Pipit badges must be returned by 16:00. Dovetail keys must be returned by the next morning."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What is my return deadline?",
+        "required_facts": []
+      },
+      "payload": {
+        "answer": "You must return a Pipit badge by 16:00.",
+        "citations": [
+          {
+            "chunk_id": "context-guessed-item-true-policy-chunk-1",
+            "citation_text": "Pipit badges must be returned by 16:00. Dovetail keys must be returned by the next morning.",
+            "document_id": "context-guessed-item-true-policy-doc-1"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "The user is returning something, so second person preserves the return constraint. Choosing Pipit without context fails relevance and clarification, independently of policy truth.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "context-additional-action-unsourced-chunk-1",
+          "content": "A Cairn oven may be reserved after training. Every reservation must be audited.",
+          "document_id": "context-additional-action-unsourced-doc-1"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "pass",
+        "factual_support": "unresolved",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "id": "context-additional-action-unsourced",
+      "inputs": {
+        "answer": "You may reserve a Cairn oven after training. You must audit every reservation.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "A Cairn oven may be reserved after training. Every reservation must be audited."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "A Cairn oven may be reserved after training. Every reservation must be audited."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "When may I reserve a Cairn oven, and what is required for every reservation?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "A Cairn oven may be reserved after training."
+          },
+          {
+            "fact_id": "F2",
+            "text": "Every reservation must be audited."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "You may reserve a Cairn oven after training. You must audit every reservation.",
+        "citations": [
+          {
+            "chunk_id": "context-additional-action-unsourced-chunk-1",
+            "citation_text": "A Cairn oven may be reserved after training. Every reservation must be audited.",
+            "document_id": "context-additional-action-unsourced-doc-1"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Requester is reserving, but that does not make the requester the auditor. Both passive requirements are communicated; the extra audit actor remains unsupported.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "context-explicit-actor-prohibition-chunk-1",
+          "content": "Only the records steward may file Sable permits; applicants must not file them. Sable permits must be filed before Friday.",
+          "document_id": "context-explicit-actor-prohibition-doc-1"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "id": "context-explicit-actor-prohibition",
+      "inputs": {
+        "answer": "You must file the Sable permit before Friday.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Only the records steward may file Sable permits; applicants must not file them. Sable permits must be filed before Friday."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Only the records steward may file Sable permits; applicants must not file them. Sable permits must be filed before Friday."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "By when must I, as an applicant, file my Sable permit?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Applicants must not file Sable permits; only the records steward may file them."
+          },
+          {
+            "fact_id": "F2",
+            "text": "Sable permits must be filed before Friday."
+          }
+        ]
+      },
+      "payload": {
+        "answer": "You must file the Sable permit before Friday.",
+        "citations": [
+          {
+            "chunk_id": "context-explicit-actor-prohibition-chunk-1",
+            "citation_text": "Only the records steward may file Sable permits; applicants must not file them. Sable permits must be filed before Friday.",
+            "document_id": "context-explicit-actor-prohibition-doc-1"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "The first-person premise cannot override the explicit prohibition on applicants filing. The filing deadline itself is covered.",
+      "safety_flags": []
+    }
+  ],
+  "fact_status_expectations": {
+    "context-additional-action-unsourced": {
+      "F1": "covered",
+      "F2": "covered"
+    },
+    "context-explicit-actor-prohibition": {
+      "F1": "contradicted",
+      "F2": "covered"
+    },
+    "context-guessed-item-true-policy": {},
+    "context-same-action-deadline": {
+      "F1": "covered"
+    }
+  },
+  "human_adjudication": false,
+  "review_probes": [
+    {
+      "candidate": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "Answers the submission deadline.",
+        "behavior_span": "You must submit a Junco entry form at least 8 hours before arrival.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "Passive source does not say you.",
+            "source_spans": [],
+            "text": "You must submit a Junco entry form at least 8 hours before arrival."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "You must submit a Junco entry form at least 8 hours before arrival."
+            ],
+            "fact_id": "F1",
+            "reason": "Same action and deadline.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "Asked submission deadline.",
+          "status": "pass"
+        }
+      },
+      "expected_disputes": [
+        "factual_support",
+        "citation_support"
+      ],
+      "id": "context-participant-falsely-unsourced",
+      "inputs": {
+        "answer": "You must submit a Junco entry form at least 8 hours before arrival.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Junco entry forms must be submitted at least 8 hours before arrival."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Junco entry forms must be submitted at least 8 hours before arrival."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "How far before arrival must I submit a Junco entry form?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Junco entry forms must be submitted at least 8 hours before arrival."
+          }
+        ]
+      },
+      "rationale": "Task-context second person preserves the submitting participant, not an added responsibility or permission."
+    }
+  ],
+  "version": "context-development.v1"
+}
