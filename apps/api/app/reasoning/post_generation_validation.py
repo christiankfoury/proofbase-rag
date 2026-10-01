@@ -108,7 +108,7 @@ class PostGenerationValidation(BaseModel):
 
 
 _NUMBER = r"\d+(?:,\d{3})*(?:\.\d+)?"
-_SIGN = r"[+\-−]?"
+_SIGN = r"(?:[+\-−]\s*)?"
 _CURRENCY = r"(?:USD|CAD|EUR|GBP|AUD|NZD|JPY|CHF|CNY|INR|[$€£])"
 # More specific alternatives consume the entire literal before bare numbers.
 # One scan prevents dates, durations and grouped amounts from producing fragments.
@@ -286,9 +286,10 @@ def mark_citation_prune_repair(result: PostGenerationValidation) -> PostGenerati
 
 
 def extract_exact_literals(text: str) -> list[str]:
-    # Numbered-list labels are structure, not policy quantities. Retain numbers
-    # everywhere else, including single-digit claims and all claims after #20.
-    text = re.sub(r"(?m)^\s*\d+[.)]\s+", "", text)
+    # Answers and source chunks are Markdown: list markers are structure, not
+    # policy quantities/signs. Inline signs and signs inside list items remain.
+    # Retain single-digit claims and all claims after #20.
+    text = re.sub(r"(?m)^[ \t]*(?:\d+[.)]|[-+*])[ \t]+", "", text)
     return list(dict.fromkeys(
         match.group(0).strip()
         for pattern in EXACT_PATTERNS for match in pattern.finditer(text)
@@ -310,6 +311,7 @@ def _normalize_exact(text: str) -> str:
     # whitespace runs, and spacing after a currency symbol.
     text = re.sub(r"(?<=\d),(?=\d)", "", text.casefold()).replace("−", "-")
     text = re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"([+\-])\s+", r"\1", text)
     text = re.sub(r"\s+%", "%", text)
     return re.sub(r"([$€£])\s+", r"\1", text)
 

@@ -6,7 +6,7 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: application reliability R1–R3 complete; R4 next
+### Active: application reliability R1–R4 offline milestone complete
 
 Implementation was explicitly requested on 2026-10-01. The
 [implementation note](../phase-73/application-reliability.md) records the offline
@@ -23,7 +23,17 @@ R2 is committed/pushed as `d203b4c2`. R3 fixes noncontiguous/fabricated displaye
 excerpts and uncited claims surviving partial downgrade. Seven new coverage
 methods and affected shared suites pass. General semantic omissions, scenario
 application and mixed-request safe-part coverage remain unverified/open.
-Review/commit/push of R3 precedes R4 consolidated evidence and assessments.
+R3 is committed/pushed as `9bfa2d70`. Final review also reproduces and fixes full
+request conditions being lost from focused search inputs and whitespace-separated
+minus signs being dropped, with no additional
+retrieval calls and unchanged scope filters. R4 consolidates 30 passing methods
+(including shared wrappers, exact historical replay and one explicit known-limit
+control), receipt-derived cost/time analysis and an evaluator decision record.
+The proposed next live stage is 12 new diagnostic questions, estimated USD
+0.04–0.12 with a USD 1 hard allocation and 124-call cap, subject to a later user
+decision and complete preflight. No live stage is authorized or launched here.
+Do not restart the paid evaluator loop: semantics, scenario handling and live
+ranking remain unresolved; no overall success-rate improvement is claimed.
 The unrelated tracked request log is preserved. API headroom remains USD 3.79479490.
 
 ### Preserved planning handoff

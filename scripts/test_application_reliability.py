@@ -11,6 +11,10 @@ os.environ["OBSERVABILITY_LOG_PATH"] = "data/observability/local-runs/reliabilit
 sys.dont_write_bytecode = True
 
 import hashlib
+from collections import Counter, defaultdict
+from datetime import datetime
+from decimal import Decimal
+from importlib.metadata import version
 import json
 from pathlib import Path
 import subprocess
@@ -59,6 +63,15 @@ class OfflineCase(unittest.TestCase):
 
 
 class NumericTests(OfflineCase):
+    def test_spaced_sign_is_preserved(self):
+        for positive, negative in (("$34", "- $34"), ("34", "- 34"), ("USD 34", "- USD 34")):
+            with self.subTest(negative=negative):
+                self.assertFalse(exact_literal_supported(positive, "Adjustment: " + negative))
+        self.assertTrue(exact_literal_supported("-$34", "Adjustment: - $34"))
+        self.assertTrue(exact_literal_supported("USD -34", "Adjustment: USD - 34"))
+        self.assertTrue(exact_literal_supported("$34", "Limits:\n- $34 per request\n- 22 days for review"))
+        self.assertFalse(exact_literal_supported("$34", "Limits:\n- -$34 adjustment"))
+
     def test_grouped_money_has_no_fragment(self):
         self.assertEqual(extract_exact_literals("The cap is $2,730.50."), ["$2,730.50"])
         self.assertEqual(self.validate("The cap is $2,730.50.", "The cap is $2730.50.").action, "accept")
@@ -234,6 +247,27 @@ class RoutingTests(OfflineCase):
 
 
 class CoverageTests(OfflineCase):
+    def test_every_focused_search_retains_all_request_conditions_and_scope(self):
+        from apps.api.app.reasoning import query_decomposer as query
+        from apps.api.app.reasoning.source_planner import SourcePlanItem
+        from apps.api.app.retrieval.config import RetrievalConfig
+        question = "Which form applies to urgent archive requests and who reviews them when the supervisor is away?"
+        config = RetrievalConfig(project_id="workspace-a", department_id="team-a", excluded_document_prefixes=("PRIVATE-",))
+        plans = [SourcePlanItem("form", "archive request form", ("DOC-001",)),
+                 SourcePlanItem("review", "archive request reviewer", ("DOC-002",))]
+        for plan in (plans, []):
+            with self.subTest(planned=bool(plan)), patch.object(query, "plan_multi_document_sources", return_value=plan), \
+                 patch.object(query, "decompose_question", return_value=["archive request form", "archive request reviewer"]), \
+                 patch.object(query, "retrieve_chunks", return_value=[chunk()]) as retrieve:
+                query.retrieve_multi_doc(question, "Employee", config)
+            self.assertEqual(retrieve.call_count, 2)
+            for call in retrieve.call_args_list:
+                text, role, passed_config = call.args
+                self.assertIn(question, text)
+                self.assertEqual(role, "Employee")
+                self.assertEqual((passed_config.project_id, passed_config.department_id, passed_config.excluded_document_prefixes),
+                                 ("workspace-a", "team-a", ("PRIVATE-",)))
+
     def test_displayed_quote_is_contiguous_authorized_text(self):
         from apps.api.app.citations.citation_formatter import citation_payload
         source = chunk(content="Requests may use the blue form.\n\nUrgent cases need a director.\n\nReviews occur on Tuesday.")
@@ -353,7 +387,95 @@ class RecordedResult(unittest.TextTestResult):
             self.rows.append({"test": subtest.id(), "status": "failed", "detail": self._exc_info_to_string(err, test)})
 
 
+class HistoryTests(OfflineCase):
+    def test_v6_frozen_report_and_capture_replay(self):
+        from scripts.report_phase73_v6 import replay
+        from scripts.report_phase73_v6_capture import snapshot, FOLDER
+        self.assertEqual(replay(), json.loads((FOLDER / "public-report.json").read_bytes()))
+        self.assertEqual(snapshot(FOLDER), json.loads((FOLDER / "capture-publication.json").read_bytes()))
+
+    def test_scenario_retelling_is_a_recorded_unresolved_limit(self):
+        # Diagnostic control for the retained conservative boundary, NOT a fix
+        # or a claim that legitimate scenario application ought to be refused.
+        result = validate_candidate_answer("My purchase is USD 143; who approves it?",
+            candidate=candidate("Your USD 143 purchase is below USD 820 and needs supervisor approval."),
+            authorized_chunks=[chunk(content="Purchases below USD 820 need supervisor approval.")],
+            client=FakeClient(semantic_payload()), emit_telemetry=False)
+        self.assertEqual(result.action, "repair")
+        self.assertEqual(result.unsupported_exact_literals, ["USD 143"])
+
+
+def saved_history_assessment():
+    """Read-only arithmetic over saved v6 receipts; no relabeling or new grading."""
+    from scripts.phase73_v6_budget import response_charge
+    folder = ROOT / "data/evaluation/current-runtime-v6"
+    read = lambda path: json.loads(path.read_bytes())
+    ledger = read(folder / "run/api-ledger.json")
+    calls = ledger["calls"][ledger["prior_calls"]:]
+    groups = defaultdict(lambda: {"calls":0,"input_tokens":0,"cached_input_tokens":0,"output_tokens":0,"cost_usd":Decimal(0)})
+    seen_hashes = Counter()
+    for call in calls:
+        path = folder / call["raw_path"]
+        raw = read(path)
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == call["raw_sha256"]
+        assert response_charge(raw["response"], call["model"]) == Decimal(call["charged_usd"])
+        request = raw["request"]
+        stage = request.get("response_format", {}).get("json_schema", {}).get("name")
+        if not stage:
+            messages = request.get("messages", [])
+            if call["operation"] == "embedding":
+                stage = "embedding"
+            elif messages and "search query decomposer" in messages[0]["content"]:
+                stage = "query_decomposition"
+            else:
+                stage = "repair_generation" if any("Bounded validation repair (one attempt only)" in m["content"] for m in messages) else "initial_generation"
+        group = groups[stage]
+        group["calls"] += 1
+        group["input_tokens"] += call["input_tokens"]
+        group["output_tokens"] += call["output_tokens"]
+        group["cached_input_tokens"] += (raw["response"].get("usage", {}).get("prompt_tokens_details") or {}).get("cached_tokens", 0)
+        group["cost_usd"] += Decimal(call["charged_usd"])
+        seen_hashes[(call["case_id"], call["request_sha256"])] += 1
+    rows = [read(path) for path in sorted((folder / "run").glob("fresh-*.json"))]
+    manifest = read(folder / "run/manifest.json")
+    dt = datetime.fromisoformat
+    elapsed = (dt(manifest["finished_at"]) - dt(manifest["started_at"])).total_seconds()
+    app_seconds = sum(row["latency_ms"] for row in rows) / 1000
+    grading_seconds = sum((dt(row["grading_completed_at"]) - dt(row["completed_at"])).total_seconds() for row in rows)
+    stage_ms = defaultdict(lambda: {"total_ms":0,"measured_rows":0,"unmeasured_rows":0})
+    for row in rows:
+        for stage in row["raw_response"]["defense_trace"]["stages"]:
+            timing = stage_ms[stage["name"]]
+            if stage.get("latency_ms") is None:
+                timing["unmeasured_rows"] += 1
+            else:
+                timing["measured_rows"] += 1
+                timing["total_ms"] += stage["latency_ms"]
+    return {
+        "kind":"saved v6 cost/time assessment; no new score", "calls":len(calls),
+        "cost_usd":str(sum((Decimal(c["charged_usd"]) for c in calls), Decimal(0))),
+        "by_stage":{k:{**v,"cost_usd":str(v["cost_usd"])} for k,v in sorted(groups.items())},
+        "elapsed_seconds":elapsed,"application_http_seconds":app_seconds,
+        "grading_plus_grade_persistence_seconds":grading_seconds,
+        "other_seconds":elapsed-app_seconds-grading_seconds,
+        "application_trace_timing":{k:{"seconds":v["total_ms"]/1000 if v["measured_rows"] else None,
+            "measured_rows":v["measured_rows"],"unmeasured_rows":v["unmeasured_rows"]} for k,v in stage_ms.items()},
+        "retrieval_seconds":sum(row["raw_response"].get("retrieval_latency_ms") or 0 for row in rows)/1000,
+        "timing_limitations":"Other includes fixture indexing, capture/persistence, preflight and inter-case orchestration. Individual embedding and grader-call durations unavailable; trace stages may omit repair generation. Do not sum them as complete HTTP latency.",
+        "cases_with_one_repair":sum((r["raw_response"].get("post_generation_validation") or {}).get("repair_count")==1 for r in rows),
+        "repeated_identical_request_within_case":sum(n-1 for n in seen_hashes.values() if n>1),
+        "generation_prompt_counts":dict(Counter(str(r["raw_response"].get("prompt_version")) for r in rows)),
+        "ledger_sha256":hashlib.sha256((folder/"run/api-ledger.json").read_bytes()).hexdigest(),
+        "manifest_sha256":hashlib.sha256((folder/"run/manifest.json").read_bytes()).hexdigest(),
+    }
+
+
 if __name__ == "__main__":
+    if "--assess-history" in sys.argv:
+        index = sys.argv.index("--assess-history")
+        path = Path(sys.argv[index+1])
+        path.write_text(json.dumps(saved_history_assessment(), indent=2) + "\n", encoding="utf-8")
+        sys.exit(0)
     record = None
     if "--record" in sys.argv:
         index = sys.argv.index("--record")
@@ -362,8 +484,11 @@ if __name__ == "__main__":
     started = time.time()
     program = unittest.main(exit=False, testRunner=unittest.TextTestRunner(verbosity=2, resultclass=RecordedResult))
     if record:
-        paths = [Path(__file__), *sorted((ROOT / "apps/api/app").rglob("*.py")), *sorted((ROOT / "apps/api/app/prompts/versions").glob("*.md"))]
+        paths = [*sorted((ROOT / "scripts").glob("*.py")), *sorted((ROOT / "apps/api/app").rglob("*.py")),
+                 *sorted((ROOT / "apps/api/app/prompts/versions").glob("*.md")), ROOT / "apps/api/app/costing/model_pricing.json"]
         report = {"kind":"offline development; not a quality score", "revision":subprocess.check_output(["git","rev-parse","HEAD"], text=True).strip(),
+                  "python":sys.version, "dependencies":{name:version(name) for name in ("openai","pydantic","fastapi","httpx","psycopg")},
+                  "test_config":{"OPENAI_API_KEY":"offline-test-key","OBSERVABILITY_LOG_PATH":os.environ["OBSERVABILITY_LOG_PATH"],"network":"HTTP provider transports and outbound connection creation blocked"},
                   "started_unix":started, "elapsed_seconds":round(time.time()-started, 3), "tests_run":program.result.testsRun,
                   "successful":program.result.wasSuccessful(), "results":program.result.rows,
                   "source_sha256":{p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}}

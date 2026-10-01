@@ -104,7 +104,14 @@ def retrieve_multi_doc(
     per_query_results: list[tuple[SourcePlanItem | None, list[RetrievedChunk]]] = []
     for index, subquery in enumerate(subqueries):
         plan_item = source_plan[index] if source_plan else None
-        chunks = retrieve_chunks(subquery, user_role, subquery_config)
+        # Focused searches supplement the request, rather than replacing its
+        # conditions or additional parts. This is query context only; every
+        # search still uses the same role/project/department/exclusion filters.
+        search_question = (
+            subquery if subquery == question
+            else f"{subquery}\nFull user request: {question}"
+        )
+        chunks = retrieve_chunks(search_question, user_role, subquery_config)
         per_query_results.append((plan_item, chunks))
         for chunk in chunks:
             if chunk.chunk_id not in seen:
