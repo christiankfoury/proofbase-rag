@@ -107,13 +107,21 @@ class PostGenerationValidation(BaseModel):
     normalization_reason: ValidationReasonCode | None = None
 
 
-EXACT_PATTERNS = [
-    re.compile(r"(?:[$€£]\s?\d[\d,]*(?:\.\d+)?)", re.IGNORECASE),
-    re.compile(r"\b\d+(?:\.\d+)?\s?%", re.IGNORECASE),
-    re.compile(r"\b\d{4}-\d{2}-\d{2}\b", re.IGNORECASE),
-    re.compile(r"\b\d+(?:\.\d+)?\s+(?:business\s+)?(?:minutes?|hours?|days?|weeks?|months?|years?)\b", re.IGNORECASE),
-    re.compile(r"\b\d{2,}(?:\.\d+)?\b", re.IGNORECASE),
-]
+_NUMBER = r"\d+(?:,\d{3})*(?:\.\d+)?"
+_SIGN = r"[+\-−]?"
+_CURRENCY = r"(?:USD|CAD|EUR|GBP|AUD|NZD|JPY|CHF|CNY|INR|[$€£])"
+# More specific alternatives consume the entire literal before bare numbers.
+# One scan prevents dates, durations and grouped amounts from producing fragments.
+EXACT_PATTERNS = [re.compile(
+    r"(?<![\w.,+\-−])(?:"
+    r"\d{4}-\d{2}-\d{2}"
+    rf"|{_SIGN}{_CURRENCY}\s*{_SIGN}{_NUMBER}"
+    rf"|{_SIGN}{_NUMBER}\s+{_CURRENCY}"
+    rf"|{_SIGN}{_NUMBER}\s*%"
+    rf"|{_SIGN}{_NUMBER}\s+(?:business\s+)?(?:minutes?|hours?|days?|weeks?|months?|years?)"
+    rf"|{_SIGN}{_NUMBER}"
+    r")(?!\w|[.,]\d)", re.IGNORECASE,
+)]
 
 
 def validate_candidate_answer(
@@ -190,7 +198,8 @@ def validate_candidate_answer(
         )
     exact_literals = extract_exact_literals(literal_text)
     evidence_text = "\n".join(chunk.content for chunk in authorized_chunks)
-    unsupported_exact = [literal for literal in exact_literals if not exact_literal_supported(literal, evidence_text)]
+    supported_literals = {_normalize_exact(value) for value in extract_exact_literals(evidence_text)}
+    unsupported_exact = [literal for literal in exact_literals if _normalize_exact(literal) not in supported_literals]
     if unsupported_exact:
         result = _result(
             action="downgrade" if repair_count >= 1 else "repair",
@@ -277,13 +286,13 @@ def mark_citation_prune_repair(result: PostGenerationValidation) -> PostGenerati
 
 
 def extract_exact_literals(text: str) -> list[str]:
-    literals: list[str] = []
-    for pattern in EXACT_PATTERNS:
-        for match in pattern.finditer(text):
-            literal = match.group(0).strip()
-            if literal and literal not in literals:
-                literals.append(literal)
-    return literals[:20]
+    # Numbered-list labels are structure, not policy quantities. Retain numbers
+    # everywhere else, including single-digit claims and all claims after #20.
+    text = re.sub(r"(?m)^\s*\d+[.)]\s+", "", text)
+    return list(dict.fromkeys(
+        match.group(0).strip()
+        for pattern in EXACT_PATTERNS for match in pattern.finditer(text)
+    ))
 
 
 def exact_literal_supported(literal: str, evidence: str) -> bool:
@@ -292,18 +301,16 @@ def exact_literal_supported(literal: str, evidence: str) -> bool:
     normalized = _normalize_exact(literal)
     if not normalized:
         return False
-    return bool(re.search(
-        r"(?<![\d.])" + re.escape(normalized) + r"(?!\d|\.\d)",
-        _normalize_exact(evidence),
-    ))
+    return normalized in {_normalize_exact(value) for value in extract_exact_literals(evidence)}
 
 
 def _normalize_exact(text: str) -> str:
     # Preserve word/sentence boundaries: removing spaces makes '. 20' look like
     # a decimal and joins separate quantities. Only normalize numeric grouping,
     # whitespace runs, and spacing after a currency symbol.
-    text = re.sub(r"(?<=\d),(?=\d)", "", text.casefold())
+    text = re.sub(r"(?<=\d),(?=\d)", "", text.casefold()).replace("−", "-")
     text = re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"\s+%", "%", text)
     return re.sub(r"([$€£])\s+", r"\1", text)
 
 

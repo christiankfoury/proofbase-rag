@@ -6,7 +6,19 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: application-reliability plan prepared; implementation not started
+### Active: application reliability R1 complete; R2 next
+
+Implementation was explicitly requested on 2026-10-01. The
+[implementation note](../phase-73/application-reliability.md) records the offline
+R1 numeric reproduction/fix and predeclared controls. Six of ten new numeric
+test methods failed before the change; all ten pass afterward, as do the shared
+Phase 54 and quality-runtime wrappers. Whole numeric tokens retain signs/currency;
+grouped-value fragments and silent truncation after 20 literals are removed.
+No external API calls, historical expectation changes or new quality claim.
+Review/commit/push of R1 precedes R2 routing, R3 coverage/citations and R4 evidence.
+The unrelated tracked request log is preserved. API headroom remains USD 3.79479490.
+
+### Preserved planning handoff
 
 The user requested a plan-only handoff on 2026-10-01 to make the next engineering
 cycle more efficient. The single active plan is now
