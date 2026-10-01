@@ -6,6 +6,25 @@ deferral for these three areas only. The portfolio release remains complete.
 Implementation is active. The original workflow was approved on 2026-09-28;
 the standing authorization below supersedes its per-candidate approval limits.
 
+## CAD continuation allowance (2026-10-01)
+
+After the USD 10 shared envelope stopped v5, the user said: "okay we have $14.32
+cad now, lets continue the implementation". Treat CAD 14.32 as the maximum
+available new allowance, with a conservative **USD 9.00 hard cap** for all new
+calls. A budgeting factor of CAD 1.59 per USD reserves CAD 14.31; this is a safety
+buffer, not a claimed billing conversion. Recent Bank of Canada indicative rates
+were around CAD 1.42 per USD. No account setting is changed or balance verified.
+Do not add the old USD 0.12176315 remainder again.
+
+The separate `phase73-successor-v2` journal retains the complete prior USD
+9.87823685 additional-accounting prefix and sets its combined ceiling to USD
+18.87823685. Historical cumulative accounting starts at USD 20.73393762 and 3,474
+attempts. Original timeout flags/reservations and the v5 budget stop stay intact.
+Existing credential reuse, standard synchronous requests, zero provider retries,
+per-stage limits, evaluator/model and all quality/custody gates remain in force.
+No automatic budget increase, exposed-suite resume or scoring relaxation.
+[Current development note](../phase-73/v22-development.md).
+
 ## Specific timeout carry-forward authorization (2026-09-30)
 
 After clarification, the user answered "yes continue" to retaining the full

@@ -6,7 +6,19 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: Phase 73 budget-stopped; partial evidence verified
+### Active: Phase 73 CAD-bounded evaluator continuation
+
+On 2026-10-01 the user reported CAD 14.32 available and authorized continued
+implementation. The [active-plan amendment](quality-completion-plan.md) enforces
+USD 9 new spending with a currency buffer; the prior remaining balance is not
+added again. [V22 preparation](../phase-73/v22-development.md) adds a separate
+immutable-prefix journal, role-context/title-attribution clarification and eight
+new development controls. Seven offline tests and compilation pass; no new API
+calls yet. Next: commit reviewed preparation, execute the bounded diagnostic,
+then full calibration and isolated fresh qualification under unchanged gates.
+Phases 71/72 remain historically complete; Phase 73 has no full result yet.
+
+### Preserved checkpoint: Phase 73 v5 budget stop
 
 The [successor run](../phase-73/v5-results.md) stopped locally before case 33's
 final review reservation. It has 32 complete rows (18 model passes, 12 failures,
