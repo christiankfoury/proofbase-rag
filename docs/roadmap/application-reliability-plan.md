@@ -74,6 +74,14 @@ implementation begins: hypothesis, evidence, owning layer, reproduction, expecte
 result, negative controls, before/after artifact, disposition and commit. One row
 per cause. Do not create a separate report for every wording or test adjustment.
 
+For each investigated failure, record the earliest demonstrably incorrect stage
+and classify it as application, evaluator, mixed, reference defect or not yet
+established. Compare the question and authorized policy with retrieved evidence,
+the saved generated candidate, validation/repair decisions and final answer;
+then inspect grading separately. Missing saved information stays unknown. A
+reference defect needs independent source justification and a separate record,
+never an edit to the historical sealed case. This attribution precedes a fix.
+
 ## R1: numeric extraction and validation
 
 Start in
@@ -189,6 +197,18 @@ local test database only for checks that truly need authorization/retrieval
 integration. Start services only when needed, keep logs in ignored local-run paths,
 and stop only temporary processes owned by this work.
 
+Before editing, define a small coverage matrix for each reproduced cause: valid
+input, a nearby invalid input, and a relevant interaction (for example, numeric
+formatting plus a false premise; multiple questions plus missing authorized
+evidence; memory context plus a scope restriction). Vary policy wording and
+structure as well as values. Include meaning-preserving changes that should keep
+the result and meaning-changing controls that should change it, such as swapping
+an approver, currency, negation or must/should modality. Do not substitute keyword
+overlap or expected-document presence for these behavioral assertions. Keep the
+matrix proportionate to the cause, not a Cartesian explosion of every variant.
+These are development regressions, including their interaction cases, and never
+become an unseen holdout merely because they were newly written.
+
 Useful existing checks, selected according to the changed path:
 
 ```powershell
@@ -216,6 +236,54 @@ before/after outcomes; negative/security controls; unresolved hypotheses; live
 checks still needed; time, API calls (expected zero), reused checks and commits.
 Retain the published v6 diagnostic score and failed gate. Local progress may be
 reported without claiming the 21 failures/11 unresolved have all become passes.
+
+R4 also includes the two bounded, read-only assessments below. Record their
+findings in the same implementation note; no new evaluator or reporting framework
+is needed. They prevent the offline milestone from simply postponing the old loop.
+
+### Cost and time assessment before proposing live work
+
+Use saved v6 receipts, stage traces and timestamps to explain the 453 calls
+(204 application chat, 75 embedding, 174 grader) and 95-minute-43.8-second elapsed
+run. Separate application latency from evaluator latency and orchestration time;
+report unavailable timing fields as unavailable. Derive costs from usage receipts,
+including auxiliary calls, instead of estimating from answer-generation cost alone.
+Inspect repeated work and bounded repairs; do not assume repeated calls are
+duplicates, or reuse responses across different scopes or inputs.
+
+For the later small live proposal, state baseline versus proposed questions,
+calls per stage, input/output reservations, expected cost and wall-time range,
+hard call/dollar caps, and exactly which uncertainty the stage resolves. Include
+all guards and auxiliary calls. Explain any increase in expected calls or latency.
+Seek savings by narrowing the development question and reusing valid offline
+evidence first; do not remove safety checks, weaken grading, increase retries,
+change the pinned model or introduce untested concurrency to meet a speed target.
+No promised percentage saving is required; the proposal must make its tradeoff
+reviewable before any paid execution.
+
+### Evaluator approach reassessment before another candidate
+
+Review the existing source findings and saved qualification/fresh-run evidence
+to explain how qualification passed while new semantic errors remained. Separate
+false rejections, missed defects, judge/reviewer disagreements, reference ambiguity
+and output-contract failures. Agreement between two model passes is not itself
+proof of correctness. Do not require a complete reread of every historical version;
+follow a relevant predecessor only when it explains a recurring failure.
+
+The assessment must produce a short decision record: which problems can use
+deterministic integrity checks; which need clearer application of the existing
+rubric; which require semantic judgment; and which remain unsuitable for an
+automated quality claim. Explain why the next approach would address a general
+cause rather than add another exception for an exposed example. Consider whether
+continued automated grading is justified at all before proposing another version.
+Any alternative model, scoring meaning or adjudication process is a proposal only,
+subject to the existing decision and funding boundaries; it is not silently adopted.
+
+Required output is a reasoned recommendation with counterexamples and remaining
+uncertainty, not a new evaluator implementation. If the approach is not defensible,
+leave the overall quality gate unsatisfied and continue reporting verified local
+application improvements. Existing qualification and fresh-suite gates below stay
+mandatory for any future claim; passing them is necessary, not proof of infallibility.
 
 ## Efficiency and stopping rules for the implementation chat
 

@@ -22,6 +22,13 @@ are deferred. The first milestone uses USD 0 external API spending; the approved
 USD 3.79479490 remainder and all later quality/custody gates remain unchanged.
 Offline implementation can proceed without resolving full-measurement funding.
 
+Verification against the user's four inefficiency concerns adds explicit
+failure-attribution rules, development interaction/contrast coverage, and two
+bounded R4 assessments: saved cost/time breakdown and evaluator-approach
+reassessment. Deferring paid runs alone is not considered a solution to their
+cost or reliability. These assessments remain offline and do not start a new
+grader candidate or change any evaluation standard.
+
 This handoff changes documentation/workflow only. No runtime code, grading,
 external API call or implementation has begun. Local links and the intended diff
 are checked before committing; no application tests/build are needed for this
