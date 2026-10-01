@@ -1,0 +1,680 @@
+{
+  "application_call_end": 4059,
+  "authorized_evidence": [
+    {
+      "access_roles": [
+        "Manager",
+        "IT/Admin"
+      ],
+      "chunk_id": "074357ce-532a-43e8-8e76-8bc49ed2923e",
+      "content": "Change Freeze\n\nNorthstar observes deployment freezes during payroll close, quarter-end financial reporting, and announced customer migration windows. The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar.",
+      "department_id": "00000000-0000-0000-0000-000000002009",
+      "document_id": "ENG-001",
+      "document_title": "Deployment, On-Call, and API Standards Handbook",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Manager",
+        "IT/Admin"
+      ],
+      "chunk_id": "2c2a7311-edec-468a-a9bf-54ef7fc4a28d",
+      "content": "Release Windows\n\nStandard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.\n\nFriday deployments are limited to severity-one fixes, security patches approved by IT Admin, or customer-impacting incidents where waiting would increase risk. Weekend deployments require the incident commander to approve the change before execution.",
+      "department_id": "00000000-0000-0000-0000-000000002009",
+      "document_id": "ENG-001",
+      "document_title": "Deployment, On-Call, and API Standards Handbook",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Manager",
+        "IT/Admin"
+      ],
+      "chunk_id": "d0cab3f6-9771-40cf-9a66-78a470bb69f7",
+      "content": "Deployment Approval\n\n| Change Type | Required Review | Required Approver |\n| --- | --- | --- |\n| Documentation-only release | Peer review | Team lead |\n| Low-risk application change | Peer review and automated tests | Team lead |\n| Database migration | Peer review, rollback plan, staging proof | Engineering Manager |\n| Security-sensitive change | Peer review, IT Admin review | Engineering Manager |\n| Emergency hotfix | Incident commander review | Engineering Manager on call |\n\nAll production changes must include a rollback plan. A rollback plan that says \"revert if needed\" is not sufficient; it must name the specific revert, migration rollback, feature flag, or mitigation.",
+      "department_id": "00000000-0000-0000-0000-000000002009",
+      "document_id": "ENG-001",
+      "document_title": "Deployment, On-Call, and API Standards Handbook",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Sales Representative",
+        "Manager",
+        "HR Admin",
+        "IT/Admin"
+      ],
+      "chunk_id": "401ca1bc-ceee-40a1-b151-532bcae431d6",
+      "content": "Current Version\n\nVersion 1.2 is effective March 1, 2026. It supersedes the November 2025 contract intake checklist. If a deal note, sales deck, or vendor email conflicts with this policy, Legal Operations must resolve the conflict before signature.",
+      "department_id": "00000000-0000-0000-0000-000000002008",
+      "document_id": "LEGAL-001",
+      "document_title": "Contract, NDA, and Data Retention Policy",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    },
+    {
+      "access_roles": [
+        "Manager",
+        "IT/Admin"
+      ],
+      "chunk_id": "014701f0-175b-4b6b-b62e-a98c0ac91a33",
+      "content": "Do Not Reveal\n\nDo not disclose internal incident timelines, unreleased architecture details, operational bypass steps, or security review exceptions to unauthorized users. Authorized users may receive operational summaries that are necessary for their role.",
+      "department_id": "00000000-0000-0000-0000-000000002009",
+      "document_id": "ENG-001",
+      "document_title": "Deployment, On-Call, and API Standards Handbook",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "tenant_id": "00000000-0000-0000-0000-000000002801"
+    }
+  ],
+  "call_end": 4062,
+  "call_start": 4054,
+  "case_id": "fresh-057",
+  "category": "conflicting_policies",
+  "completed_at": "2026-10-01T21:16:28.462555+00:00",
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "pass",
+    "disputed_dimensions": [
+      "factual_support",
+      "citation_support"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "unresolved",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers which guidance the engineering team should follow and explains the precedence between the current calendar and older release notes.",
+    "behavior_span": "The engineering team should follow the current change calendar, as it is the source of truth. Deployment freezes during quarter-end are observed according to the change calendar, and older release notes do not override the current freeze calendar.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In the context of the question asking which source the engineering team should follow, R1/C1 state that the change calendar is the source of truth and that older release notes do not override it, which supports following the current change calendar.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar."
+          }
+        ],
+        "text": "The engineering team should follow the current change calendar, as it is the source of truth."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "R1/C1 say Northstar observes deployment freezes during \"quarter-end financial reporting\" and that the change calendar is the source of truth, but they do not directly entail the broader wording \"during quarter-end\" without the financial-reporting qualifier.",
+        "source_spans": [],
+        "text": "Deployment freezes during quarter-end are observed according to the change calendar"
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Older release notes or team chat messages do not override the current freeze calendar."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "R1 and cited source C1 state this directly.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Older release notes or team chat messages do not override the current freeze calendar."
+          }
+        ],
+        "text": "older release notes do not override the current freeze calendar."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The engineering team should follow the current change calendar, as it is the source of truth.",
+          "older release notes do not override the current freeze calendar."
+        ],
+        "fact_id": "fact-01",
+        "reason": "These spans communicate both required parts: follow the current change calendar freeze, and older release notes do not override it.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested policy conflict for the engineering team's quarter-end deployment timing, specifically comparing the current change calendar with the older release note.",
+      "status": "pass"
+    }
+  },
+  "grader_inputs": {
+    "answer": "The engineering team should follow the current change calendar, as it is the source of truth. Deployment freezes during quarter-end are observed according to the change calendar, and older release notes do not override the current freeze calendar.",
+    "cited_sources": [
+      {
+        "citation_id": "C1",
+        "source_id": "R1",
+        "text": "Change Freeze\n\nNorthstar observes deployment freezes during payroll close, quarter-end financial reporting, and announced customer migration windows. The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar."
+      }
+    ],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "R1",
+        "text": "Change Freeze\n\nNorthstar observes deployment freezes during payroll close, quarter-end financial reporting, and announced customer migration windows. The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar."
+      },
+      {
+        "source_id": "R2",
+        "text": "Release Windows\n\nStandard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.\n\nFriday deployments are limited to severity-one fixes, security patches approved by IT Admin, or customer-impacting incidents where waiting would increase risk. Weekend deployments require the incident commander to approve the change before execution."
+      },
+      {
+        "source_id": "R3",
+        "text": "Deployment Approval\n\n| Change Type | Required Review | Required Approver |\n| --- | --- | --- |\n| Documentation-only release | Peer review | Team lead |\n| Low-risk application change | Peer review and automated tests | Team lead |\n| Database migration | Peer review, rollback plan, staging proof | Engineering Manager |\n| Security-sensitive change | Peer review, IT Admin review | Engineering Manager |\n| Emergency hotfix | Incident commander review | Engineering Manager on call |\n\nAll production changes must include a rollback plan. A rollback plan that says \"revert if needed\" is not sufficient; it must name the specific revert, migration rollback, feature flag, or mitigation."
+      },
+      {
+        "source_id": "R4",
+        "text": "Current Version\n\nVersion 1.2 is effective March 1, 2026. It supersedes the November 2025 contract intake checklist. If a deal note, sales deck, or vendor email conflicts with this policy, Legal Operations must resolve the conflict before signature."
+      },
+      {
+        "source_id": "R5",
+        "text": "Do Not Reveal\n\nDo not disclose internal incident timelines, unreleased architecture details, operational bypass steps, or security review exceptions to unauthorized users. Authorized users may receive operational summaries that are necessary for their role."
+      },
+      {
+        "source_id": "G1",
+        "text": "The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar."
+      }
+    ],
+    "forbidden_assertions": [
+      "An older release note overrides the current quarter-end freeze."
+    ],
+    "history_not_evidence": [],
+    "question": "A release note from last month says deployment is allowed during quarter-end, but the current change calendar shows a freeze. Which should our engineering team follow?",
+    "required_facts": [
+      {
+        "fact_id": "fact-01",
+        "text": "Follow the current change calendar freeze; older release notes do not override it."
+      }
+    ],
+    "source_metadata": [
+      {
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "source_id": "R1"
+      },
+      {
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "source_id": "R2"
+      },
+      {
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "source_id": "R3"
+      },
+      {
+        "document_id": "LEGAL-001",
+        "document_title": "Contract, NDA, and Data Retention Policy",
+        "source_id": "R4"
+      },
+      {
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "source_id": "R5"
+      }
+    ]
+  },
+  "grading_completed_at": "2026-10-01T21:17:40.081804+00:00",
+  "grading_error": null,
+  "http_status": 200,
+  "latency_ms": 34809.93,
+  "raw_response": {
+    "answer": "The engineering team should follow the current change calendar, as it is the source of truth. Deployment freezes during quarter-end are observed according to the change calendar, and older release notes do not override the current freeze calendar.",
+    "answer_confidence": 0.877,
+    "assistant_message_id": null,
+    "behavior": "answer",
+    "chunking_strategy": "section_based",
+    "citation_confidence": 0.877,
+    "citations": [
+      {
+        "chunk_id": "074357ce-532a-43e8-8e76-8bc49ed2923e",
+        "citation_text": "The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar.",
+        "citation_type": "model",
+        "confidence": 0.877,
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "section_heading": "Change Freeze",
+        "source": "Source: ENG-001 Deployment, On-Call, and API Standards Handbook, Section: Change Freeze"
+      }
+    ],
+    "clarification_reason": null,
+    "defense_trace": {
+      "privacy_mode": "bounded_metadata_only",
+      "schema_version": "defense_trace.v1",
+      "stages": [
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": null,
+          "name": "deterministic_guard",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "not_selected",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.000647,
+          "latency_ms": 6927,
+          "memory_used_as_evidence": false,
+          "name": "semantic_request_assessment",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "repair_count": null,
+          "route": "semantic_assessment",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "allow_authorized_only",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "permission_filter",
+          "reason_codes": [
+            "pre_generation_role_filter"
+          ],
+          "repair_count": null,
+          "route": "application_authorization",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "answer",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": 0.001071,
+          "latency_ms": 6285,
+          "memory_used_as_evidence": false,
+          "name": "evidence_assessment",
+          "reason_codes": [
+            "authorized_evidence_sufficient"
+          ],
+          "repair_count": null,
+          "route": "hybrid_semantic",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "generated",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": 0.000832,
+          "latency_ms": 6840,
+          "memory_used_as_evidence": false,
+          "name": "generator",
+          "reason_codes": [
+            "authorized_chunks_only"
+          ],
+          "repair_count": null,
+          "route": "authorized_evidence_only",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "accept",
+          "authorized_chunk_count": 5,
+          "estimated_cost_usd": 0.001038,
+          "latency_ms": 8859,
+          "memory_used_as_evidence": false,
+          "name": "post_generation_validation",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "answer",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "final_response",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "application_response_policy",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        }
+      ]
+    },
+    "estimated_cost_usd": 0.000832,
+    "evidence_assessment": {
+      "answerability": "sufficient",
+      "assessment_confidence": 1.0,
+      "conflicts": [],
+      "estimated_cost_usd": 0.001071,
+      "input_cost_usd": 0.000889,
+      "input_tokens": 2222,
+      "latency_ms": 6285,
+      "missing_information": [],
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.000182,
+      "output_tokens": 114,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "authorized_evidence_sufficient"
+      ],
+      "recommended_action": "answer",
+      "required_facts": [
+        {
+          "description": "Whether the change calendar or older release notes take precedence regarding deployment freezes during quarter-end",
+          "fact_id": "fact1",
+          "support": "supported",
+          "supporting_chunk_ids": [
+            "074357ce-532a-43e8-8e76-8bc49ed2923e"
+          ]
+        }
+      ],
+      "required_source_coverage": [],
+      "route": "hybrid_semantic",
+      "schema_version": "evidence_assessment.v1",
+      "status": "succeeded",
+      "supporting_chunk_ids": [
+        "074357ce-532a-43e8-8e76-8bc49ed2923e"
+      ]
+    },
+    "final_confidence": 0.835,
+    "generation_latency_ms": 6840,
+    "input_cost_usd": 0.00043,
+    "memory": {
+      "is_followup": false,
+      "memory_used": false,
+      "original_question": "A release note from last month says deployment is allowed during quarter-end, but the current change calendar shows a freeze. Which should our engineering team follow?",
+      "previous_topic": null,
+      "rewrite_strategy": "none",
+      "rewritten_question": "A release note from last month says deployment is allowed during quarter-end, but the current change calendar shows a freeze. Which should our engineering team follow?"
+    },
+    "model": "gpt-4.1-mini",
+    "multi_doc_mode": "auto",
+    "multi_doc_used": false,
+    "output_cost_usd": 0.000402,
+    "permission_check": {
+      "retrieved_chunks_count": 5,
+      "unauthorized_chunks_reached_generation": false,
+      "user_role": "Manager"
+    },
+    "post_generation_validation": {
+      "action": "accept",
+      "citation_checks": [
+        {
+          "citation_chunk_id": "074357ce-532a-43e8-8e76-8bc49ed2923e",
+          "supported_claim_ids": [
+            "c1",
+            "c2",
+            "c3"
+          ],
+          "supports_claims": true
+        }
+      ],
+      "claims": [
+        {
+          "claim_id": "c1",
+          "claim_text": "The engineering team should follow the current change calendar, as it is the source of truth.",
+          "claim_type": "semantic",
+          "evidence_chunk_ids": [
+            "074357ce-532a-43e8-8e76-8bc49ed2923e"
+          ],
+          "support_status": "supported"
+        },
+        {
+          "claim_id": "c2",
+          "claim_text": "Deployment freezes during quarter-end are observed according to the change calendar.",
+          "claim_type": "semantic",
+          "evidence_chunk_ids": [
+            "074357ce-532a-43e8-8e76-8bc49ed2923e"
+          ],
+          "support_status": "supported"
+        },
+        {
+          "claim_id": "c3",
+          "claim_text": "Older release notes do not override the current freeze calendar.",
+          "claim_type": "semantic",
+          "evidence_chunk_ids": [
+            "074357ce-532a-43e8-8e76-8bc49ed2923e"
+          ],
+          "support_status": "supported"
+        }
+      ],
+      "estimated_cost_usd": 0.001038,
+      "exact_literals": [],
+      "input_cost_usd": 0.000614,
+      "input_tokens": 1535,
+      "latency_ms": 8859,
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.000424,
+      "output_tokens": 265,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "all_claims_supported"
+      ],
+      "repair_count": 0,
+      "route": "hybrid_semantic",
+      "schema_version": "post_generation_validation.v1",
+      "source_instruction_followed": false,
+      "status": "succeeded",
+      "unsupported_exact_literals": []
+    },
+    "pricing_status": "estimated",
+    "prompt_name": "answer_generation",
+    "prompt_version": "v1",
+    "request_assessment": {
+      "ambiguity": "none",
+      "assessment_confidence": 0.95,
+      "decision_variables": [
+        "which policy is currently authoritative",
+        "any exceptions or overrides in place"
+      ],
+      "estimated_cost_usd": 0.000647,
+      "injection_risk": "none",
+      "input_cost_usd": 0.000498,
+      "input_tokens": 1246,
+      "intent": "question",
+      "latency_ms": 6927,
+      "missing_referents": [],
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.000149,
+      "output_tokens": 93,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "no_risk"
+      ],
+      "recommended_action": "continue",
+      "referents": "resolved",
+      "response_reason": null,
+      "route": "semantic_assessment",
+      "schema_version": "request_assessment.v1",
+      "status": "succeeded",
+      "topic": "deployment",
+      "topic_description": "Clarification on conflicting deployment policies during quarter-end period"
+    },
+    "response_type": "answer",
+    "retrieval_confidence": 0.757,
+    "retrieval_latency_ms": 5795,
+    "retrieval_mode": "vector_lexical_rerank",
+    "retrieved_chunks": [
+      {
+        "access_roles": [
+          "Manager",
+          "IT/Admin"
+        ],
+        "chunk_id": "074357ce-532a-43e8-8e76-8bc49ed2923e",
+        "content_preview": "Change Freeze\n\nNorthstar observes deployment freezes during payroll close, quarter-end financial reporting, and announced customer migration windows. The change calendar is the source of truth. Older release notes or team chat messages do not override the current freeze calendar.",
+        "department_id": "00000000-0000-0000-0000-000000002009",
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "hybrid_score": 0.7484602629951213,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 1,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.7484602629951213,
+        "section_heading": "Change Freeze",
+        "sensitivity": "restricted",
+        "vector_score": 0.6742497366793317
+      },
+      {
+        "access_roles": [
+          "Manager",
+          "IT/Admin"
+        ],
+        "chunk_id": "2c2a7311-edec-468a-a9bf-54ef7fc4a28d",
+        "content_preview": "Release Windows\n\nStandard production deployments occur Tuesday through Thursday between 10:00 and 15:00 Eastern Time. Deployments outside that window require approval from the Engineering Manager on call and a written reason in the change record.\n\nFriday deployments are limited to severity-one fixes, security patches approved by IT Admin, or customer-impacting incidents where waiting would increase risk. Weekend deployments require the incident commander to approve the change before execution.",
+        "department_id": "00000000-0000-0000-0000-000000002009",
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "hybrid_score": 0.6350726941552608,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 2,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.6350726941552608,
+        "section_heading": "Release Windows",
+        "sensitivity": "restricted",
+        "vector_score": 0.5840200625763134
+      },
+      {
+        "access_roles": [
+          "Manager",
+          "IT/Admin"
+        ],
+        "chunk_id": "d0cab3f6-9771-40cf-9a66-78a470bb69f7",
+        "content_preview": "Deployment Approval\n\n| Change Type | Required Review | Required Approver |\n| --- | --- | --- |\n| Documentation-only release | Peer review | Team lead |\n| Low-risk application change | Peer review and automated tests | Team lead |\n| Database migration | Peer review, rollback plan, staging proof | Engineering Manager |\n| Security-sensitive change | Peer review, IT Admin review | Engineering Manager |\n| Emergency hotfix | Incident commander review | Engineering Manager on call |\n\nAll production cha",
+        "department_id": "00000000-0000-0000-0000-000000002009",
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "hybrid_score": 0.5534456015224267,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 3,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.5534456015224267,
+        "section_heading": "Deployment Approval",
+        "sensitivity": "restricted",
+        "vector_score": 0.4960771804697951
+      },
+      {
+        "access_roles": [
+          "Sales Representative",
+          "Manager",
+          "HR Admin",
+          "IT/Admin"
+        ],
+        "chunk_id": "401ca1bc-ceee-40a1-b151-532bcae431d6",
+        "content_preview": "Current Version\n\nVersion 1.2 is effective March 1, 2026. It supersedes the November 2025 contract intake checklist. If a deal note, sales deck, or vendor email conflicts with this policy, Legal Operations must resolve the conflict before signature.",
+        "department_id": "00000000-0000-0000-0000-000000002008",
+        "document_id": "LEGAL-001",
+        "document_title": "Contract, NDA, and Data Retention Policy",
+        "hybrid_score": 0.43258652919825435,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 4,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.43258652919825435,
+        "section_heading": "Current Version",
+        "sensitivity": "restricted",
+        "vector_score": 0.4199549502508859
+      },
+      {
+        "access_roles": [
+          "Manager",
+          "IT/Admin"
+        ],
+        "chunk_id": "014701f0-175b-4b6b-b62e-a98c0ac91a33",
+        "content_preview": "Do Not Reveal\n\nDo not disclose internal incident timelines, unreleased architecture details, operational bypass steps, or security review exceptions to unauthorized users. Authorized users may receive operational summaries that are necessary for their role.",
+        "department_id": "00000000-0000-0000-0000-000000002009",
+        "document_id": "ENG-001",
+        "document_title": "Deployment, On-Call, and API Standards Handbook",
+        "hybrid_score": 0.4300592873655188,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 5,
+        "restricted": true,
+        "retrieval_source": "vector_lexical_rerank",
+        "score": 0.4300592873655188,
+        "section_heading": "Do Not Reveal",
+        "sensitivity": "restricted",
+        "vector_score": 0.3937434978918346
+      }
+    ],
+    "scope": {
+      "department_id": null,
+      "project_id": "00000000-0000-0000-0000-000000000019"
+    },
+    "session_id": null,
+    "supported_claims": [
+      "The change calendar is the source of truth for deployment freezes.",
+      "Older release notes do not override the current freeze calendar.",
+      "Deployment freezes are observed during quarter-end financial reporting.",
+      "ENG-001: Change Freeze"
+    ],
+    "temperature": 0.2,
+    "total_latency_ms": 34780,
+    "unsupported_claims": [],
+    "user_message_id": null,
+    "validation_notes": "Strong citation support."
+  },
+  "request": {
+    "department_id": null,
+    "project_id": "00000000-0000-0000-0000-000000000019",
+    "question": "A release note from last month says deployment is allowed during quarter-end, but the current change calendar shows a freeze. Which should our engineering team follow?",
+    "rerank_candidate_limit": 20,
+    "retrieval_mode": "vector_lexical_rerank",
+    "session_id": null,
+    "top_k": 5
+  },
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "agree",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "Claim 2 is not correctly graded as unknown/missing. In this question context, R1 entails the answer’s quarter-end-freeze statement: \"Northstar observes deployment freezes during ... quarter-end financial reporting\" and \"The change calendar is the source of truth,\" with \"Older release notes ... do not override the current freeze calendar.\" C1 contains the same cited text, so claim 2 also has cited support. Because that claim should be supported rather than unknown/missing, the candidate’s reduced judgments factual_support=unresolved and citation_support=fail are incorrect. The required fact is fully covered, the answer is a substantive answer to the asked conflict, it is relevant to the current change-calendar vs old release-note question, and it does not assert the forbidden override claim.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  },
+  "safety_flags": [],
+  "started_at": "2026-10-01T21:15:53.305870+00:00",
+  "status": "complete"
+}

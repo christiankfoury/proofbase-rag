@@ -1,6 +1,16 @@
 # Evaluation evidence: start here
 
-The latest [Phase 73 successor](../phase-73/v5-results.md) stopped at the spending
+The latest [Phase 73 v6 run](../phase-73/v6-results.md) completed all 60 cases
+once: 28 recorded model passes, 21 failures and 11 unresolved. Seven
+[source-inspection findings](../phase-73/v6-source-review.md) reject the publication
+gate, so there is no validated full-suite score and the 48/60 target was not met.
+Zero unauthorized retrieval/disclosure was observed across the executed role and
+project cases; this is bounded synthetic evidence, not production assurance.
+[Inspect all cases](../phase-73/v6-case-review.md). Offline checks:
+`python scripts/report_phase73_v6.py --check` and
+`python scripts/report_phase73_v6_capture.py --check`.
+
+The previous [Phase 73 successor](../phase-73/v5-results.md) stopped at the spending
 guard: 32/60 evaluation rows complete, 33 responses saved, 27 unexecuted. The
 18 passes, 12 failures and 2 unresolved outcomes are partial-prefix model counts,
 not a full-suite score. Four inspection concerns and incomplete safety coverage

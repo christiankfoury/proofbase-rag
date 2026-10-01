@@ -1,6 +1,25 @@
 # Reproduce the published evidence
 
-## Latest Phase 73 successor evidence
+## Latest Phase 73 v6 evidence
+
+```powershell
+python scripts/report_phase73_v6.py --check
+python scripts/report_phase73_v6_capture.py --check
+python -m unittest scripts.test_phase73_v6_capture_report
+```
+
+These saved-file checks need no API calls or database. They verify freeze/seal,
+qualification, raw receipts, complete historical accounting, all 60 reduced rows,
+request scope and artifact hashes. They do not turn model judgments into validated
+accuracy: the [source gate](../phase-73/v6-source-review.md) remains rejected.
+[Results](../phase-73/v6-results.md) and [all cases](../phase-73/v6-case-review.md)
+retain 28 model passes, 21 failures and 11 unresolved, without corrected labels.
+Do not rerun/resume the exposed suite or selectively retry grades. A successor
+requires applicable qualification, another freeze, newly isolated cases and
+adequate authorized headroom; USD 3.79479490 remains below the USD 4.50 launch floor.
+Original attempts remain independently reproducible below.
+
+## Previous Phase 73 successor evidence
 
 ```powershell
 python scripts/report_phase73_v5.py --check

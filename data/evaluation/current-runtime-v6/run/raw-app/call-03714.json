@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nRules:\n- Answer only from the retrieved context.\n- Cite every factual claim with document ID, document title, section heading, and chunk ID.\n- If evidence is missing, use response_type \"not_found\" and say: \"I could not find this in the available documents.\"\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted details.\n- If the question is ambiguous, use response_type \"clarify\" and ask one concise clarifying question.\n- If evidence is partial, use response_type \"partial_answer\", answer cautiously, and state what is missing.\n- If conversation memory is provided, use it only to understand the user's current question.\n- Do not treat conversation memory as source evidence; factual claims must be supported by retrieved context.\n- Do not invent policy details, numbers, dates, prices, legal advice, or customer commitments.\n- Keep answers concise but complete.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nI am leaving Northstar. How long do I have to return company equipment, who can extend that window, and may I download Restricted files to my personal laptop while waiting?\n\nEvidence sufficiency control: only a supported subset is available. Answer only that supported subset, state generically what remains unsupported, and return response_type `partial_answer`.\n\nRetrieved context:\nDocument ID: OPS-001\nTitle: Vendor, Travel, and Equipment Operations Policy\nSection: Shipping and Return Rules\nChunk ID: 7f43621b-e723-47b9-b347-6c633696ca67\nRank: 1\nRetrieval Score: 0.5825\nContent:\nShipping and Return Rules\n\nEmployees leaving the company must return company equipment within 10 business days unless HR Admin approves an extension. Operations may provide a prepaid shipping label. Employees should not include personal items in return shipments.\n\nDamaged or missing equipment is reviewed by HR Admin and IT Admin before any payroll or final-pay action. This policy does not authorize payroll deductions by itself.\n\n---\n\nDocument ID: IT-001\nTitle: Acceptable Use Policy\nSection: Approved Use\nChunk ID: 27583c5a-ba2e-4d83-b7b6-a933c0360595\nRank: 2\nRetrieval Score: 0.5480\nContent:\nApproved Use\n\nNorthstar systems must be used for company business, approved learning, customer support, and authorized operational work. Employees may use company devices for limited personal use if it does not interfere with work, create security risk, or violate policy.\n\n---\n\nDocument ID: OPS-001\nTitle: Vendor, Travel, and Equipment Operations Policy\nSection: Equipment Requests\nChunk ID: efa74b64-3c3e-4f86-bec3-63476871ca6b\nRank: 3\nRetrieval Score: 0.4967\nContent:\nEquipment Requests\n\nStandard equipment includes a laptop, charger, headset, keyboard, mouse, and monitor. New-hire equipment is initiated by HR Admin and fulfilled by IT Admin. Replacement equipment requires the employee to state whether the request is due to breakage, loss, upgrade, or accessibility need.\n\nEquipment above the standard bundle requires manager approval. Lost equipment that may contain company data must be reported to IT Admin immediately and should not wait for the next business day.\n\n---\n\nDocument ID: HR-003\nTitle: Remote and Hybrid Work Policy\nSection: Cross-Border Work\nChunk ID: 4d9b5b5a-6038-4f40-9321-f262d3aa7fd9\nRank: 4\nRetrieval Score: 0.4623\nContent:\nCross-Border Work\n\nNorthstar does not guarantee approval for work from any country. Temporary cross-border work requires People Operations review before travel. The company does not maintain a formal visa or immigration policy in the employee knowledge base.\n\nRequests to work outside Canada or the United States are considered ambiguous until People Operations reviews tax, employment, and security implications.\n\n---\n\nDocument ID: HR-002\nTitle: PTO and Leave Policy\nSection: Company Holidays\nChunk ID: 60987163-7e5b-44c3-a480-6d51e9bd8038\nRank: 5\nRetrieval Score: 0.4550\nContent:\nCompany Holidays\n\nNorthstar observes 11 company holidays each year. Holiday calendars may vary by employee location. Employees should follow the holiday calendar assigned to their work location in the HR system.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.2
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"partial_answer\",\n  \"answer\": \"Employees leaving Northstar must return company equipment within 10 business days unless HR Admin approves an extension. The policy does not mention who can extend the window besides HR Admin. There is no information provided about downloading Restricted files to a personal laptop while waiting.\",\n  \"citations\": [\n    {\n      \"document_id\": \"OPS-001\",\n      \"document_title\": \"Vendor, Travel, and Equipment Operations Policy\",\n      \"section_heading\": \"Shipping and Return Rules\",\n      \"chunk_id\": \"7f43621b-e723-47b9-b347-6c633696ca67\",\n      \"citation_text\": \"Employees leaving the company must return company equipment within 10 business days unless HR Admin approves an extension.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Employees must return company equipment within 10 business days when leaving.\",\n    \"HR Admin can approve an extension for equipment return.\"\n  ],\n  \"unsupported_claims\": [\n    \"Who else besides HR Admin can extend the equipment return window.\",\n    \"Whether employees may download Restricted files to personal laptops while waiting.\"\n  ],\n  \"validation_notes\": \"The available documents provide clear guidance on the equipment return timeline and extension authority limited to HR Admin. There is no information on downloading Restricted files to personal devices.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790885007,
+    "id": "chatcmpl-EUHHzogGi2pnRazY4MdNXl8e5ehqW",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_24e0f3b040",
+    "usage": {
+      "completion_tokens": 277,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1059,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 1336
+    }
+  },
+  "status": "received"
+}

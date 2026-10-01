@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nThis question requires synthesis from multiple source documents. The retrieved context below is grouped by document — all documents shown are relevant to the question.\n\nResponse type rules:\n- Use response_type \"answer\" if the combined context across all documents supports the answer, even if no single document contains the complete answer.\n- Use response_type \"partial_answer\" only if required documents are genuinely missing from the context — not because evidence is split across documents.\n- Use response_type \"not_found\" only if none of the provided documents contain the needed information.\n- Use response_type \"refuse_no_access\" if the user lacks permission to access required documents.\n- Use response_type \"clarify\" if the question is ambiguous about approval stage, location, data type, or role.\n- Do not downgrade to \"partial_answer\" solely because evidence comes from two or more separate documents.\n\nCitation rules:\n- Cite at least one chunk per document that contributed facts to your answer.\n- Do not omit a document because its contribution is supplementary — if it added a fact, cite it.\n- Every citation must include document_id, document_title, section_heading, chunk_id, and citation_text.\n- citation_text must be a short exact or near-exact excerpt from the cited chunk.\n- Do not cite a chunk unless it directly supports a specific claim in the answer.\n\nSafety rules:\n- Answer only from the retrieved context.\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted content.\n- If conversation memory is provided, use it only to clarify the current question. Do not treat memory as source evidence.\n- Do not invent policy details, numbers, dates, prices, legal advice, customer commitments, or unstated exceptions.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nBefore a new hire accesses customer data, what training should be completed, and which security protections must be present on their company device?\n\nRetrieved context (grouped by document):\n=== Document: HR-001 — Employee Handbook ===\n\n[Section: Onboarding Basics]\nChunk ID: 3c0ff18d-c2c6-4655-b39f-b0594d3ea77d\nScore: 0.7345\nContent:\nOnboarding Basics\n\nNew employees complete onboarding during their first 10 business days. Required onboarding includes security training, benefits enrollment, department orientation, and access review. Managers are responsible for assigning a buddy and scheduling the first 30-day check-in.\n\nEmployees should complete mandatory security awareness training before accessing customer data or production systems.\n\n=== Document: IT-002 — Device and BYOD Security Policy ===\n\n[Section: Personal Devices]\nChunk ID: 66a0bffd-898c-4c16-abf0-817b06af59d3\nScore: 0.7866\nContent:\nPersonal Devices\n\nPersonal devices may be used for limited work access only when enrolled in approved mobile device management or when access occurs through approved browser-based tools. Personal devices must use a passcode, supported operating system, and automatic lock.\n\nRestricted data must not be downloaded to personal devices. Confidential data should be accessed only through approved company systems.\n\n[Section: Company Devices]\nChunk ID: e63e8dbf-a320-4863-83cf-939dd76f89ca\nScore: 0.7457\nContent:\nCompany Devices\n\nEmployees who regularly access company systems should use a company-managed device. Company devices must have disk encryption, endpoint protection, automatic screen lock, and current operating system updates.\n\nEmployees may not disable security tools or remove device management controls from company devices.\n\n[Section: Local Storage]\nChunk ID: 0d9d7c45-66f4-4fba-8b47-f9e8922840c6\nScore: 0.7427\nContent:\nLocal Storage\n\nCustomer data, restricted data, and regulated data should not be stored locally unless there is a documented business need and approved protection. Files should be stored in company-approved cloud storage with access controls.\n\n=== Document: IT-003 — Data Classification and Handling Policy ===\n\n[Section: Storage Rules]\nChunk ID: a3b6b2f3-1997-4c5d-a9de-2c0f6db5b950\nScore: 0.8736\nContent:\nStorage Rules\n\nInternal, Confidential, and Restricted data must be stored in approved company systems. Restricted data must not be downloaded to personal devices. Confidential data should not be stored in local folders unless there is a documented business need.\n\n[Section: Sharing Rules]\nChunk ID: 641b43bd-0e3e-47fd-87e5-20318fd50820\nScore: 0.6813\nContent:\nSharing Rules\n\nEmployees may share data only with people who have a business need and appropriate access. Confidential and Restricted data must not be shared in public channels or with unapproved external recipients.\n\nSales materials may be shared externally only when marked as customer-approved or public-facing.\n\n[Section: Classification Levels]\nChunk ID: 71a7e7e6-af8a-4b5d-b77b-852b30df7f5a\nScore: 0.5739\nContent:\nClassification Levels\n\nNorthstar uses four data classification levels: Public, Internal, Confidential, and Restricted.\n\nPublic data is approved for external sharing. Internal data is intended for Northstar employees. Confidential data includes customer business information, financial forecasts, non-public sales materials, and employee operational data. Restricted data includes secrets, credentials, regulated customer data, privileged security records, and sensitive HR case material.\n\n=== Document: HR-003 — Remote and Hybrid Work Policy ===\n\n[Section: Security Expectations]\nChunk ID: 47fe8690-3f57-4a00-99a4-17175db78840\nScore: 0.6782\nContent:\nSecurity Expectations\n\nRemote work must follow the Device and BYOD Security Policy and the Data Classification and Handling Policy. Confidential and restricted data may only be accessed on approved devices using company-approved tools.\n\n=== Document: IT-001 — Acceptable Use Policy ===\n\n[Section: Related Policies]\nChunk ID: 7a7d5ae9-d0ec-448e-972f-f4303132fd00\nScore: 0.6617\nContent:\nRelated Policies\n\nDevice requirements are defined in the Device and BYOD Security Policy. Data handling requirements are defined in the Data Classification and Handling Policy.\n\n[Section: Approved Software]\nChunk ID: e6e54af9-8787-4c13-b6fc-818ca5577795\nScore: 0.5881\nContent:\nApproved Software\n\nEmployees should use company-approved software for messaging, file storage, source control, project tracking, and customer collaboration. Unapproved software that stores company data must not be used without IT review.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"Before a new hire accesses customer data, they must complete mandatory security awareness training as part of their onboarding within the first 10 business days. Regarding their company device, it must be company-managed and have disk encryption, endpoint protection, automatic screen lock, and current operating system updates. Employees are prohibited from disabling security tools or removing device management controls on these devices. Additionally, customer data should be accessed only through approved company systems and not stored locally unless there is a documented business need with approved protection.\",\n  \"citations\": [\n    {\n      \"document_id\": \"HR-001\",\n      \"document_title\": \"Employee Handbook\",\n      \"section_heading\": \"Onboarding Basics\",\n      \"chunk_id\": \"3c0ff18d-c2c6-4655-b39f-b0594d3ea77d\",\n      \"citation_text\": \"Employees should complete mandatory security awareness training before accessing customer data or production systems.\"\n    },\n    {\n      \"document_id\": \"IT-002\",\n      \"document_title\": \"Device and BYOD Security Policy\",\n      \"section_heading\": \"Company Devices\",\n      \"chunk_id\": \"e63e8dbf-a320-4863-83cf-939dd76f89ca\",\n      \"citation_text\": \"Company devices must have disk encryption, endpoint protection, automatic screen lock, and current operating system updates.\"\n    },\n    {\n      \"document_id\": \"IT-002\",\n      \"document_title\": \"Device and BYOD Security Policy\",\n      \"section_heading\": \"Company Devices\",\n      \"chunk_id\": \"e63e8dbf-a320-4863-83cf-939dd76f89ca\",\n      \"citation_text\": \"Employees may not disable security tools or remove device management controls from company devices.\"\n    },\n    {\n      \"document_id\": \"IT-002\",\n      \"document_title\": \"Device and BYOD Security Policy\",\n      \"section_heading\": \"Local Storage\",\n      \"chunk_id\": \"0d9d7c45-66f4-4fba-8b47-f9e8922840c6\",\n      \"citation_text\": \"Customer data, restricted data, and regulated data should not be stored locally unless there is a documented business need and approved protection.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Mandatory security awareness training must be completed before accessing customer data.\",\n    \"Company devices must have disk encryption, endpoint protection, automatic screen lock, and current OS updates.\",\n    \"Employees may not disable security tools or remove device management controls.\",\n    \"Customer data should be accessed only through approved company systems and not stored locally without approval.\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The answer is fully supported by the provided documents covering onboarding training requirements and device security policies.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790884880,
+    "id": "chatcmpl-EUHFwZOcajgmD35np6GoEIhnyYg3N",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_d5663c57e3",
+    "usage": {
+      "completion_tokens": 591,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1548,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 2139
+    }
+  },
+  "status": "received"
+}

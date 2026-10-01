@@ -92,3 +92,20 @@ Exact no-call preflight passes with the sealed suite, qualified evaluator, froze
 configuration/index, complete call/token reservations and unused run. Prior
 focused tests remain applicable because their inputs are unchanged. The unrelated
 request-log hash remains f37906539da34d369b0259b014fc061bb2d15b42e31605800d55b724335c176e.
+
+Historical execution checkpoint: seal commit `a5cec125` is pushed. The one-shot synchronous run started at
+2026-10-01T19:45:41 UTC. At 15 completed cases, run usage is USD 1.12825260;
+source inspection is current through case 15. Invalid length-limited grades and
+semantic inspection concerns remain explicit and receive no replacement score.
+The runner continues all sealed cases under its original safety/accounting stops.
+Final report, capture inventory, publication review and UI verification remain
+pending the finished attempt. No runtime, reference or evaluator tuning occurred.
+
+The run subsequently completed all 60 cases at 2026-10-01T21:21:25 UTC. See the
+[complete results](v6-results.md), [case inventory](v6-case-review.md) and
+[source inspection](v6-source-review.md). Recorded outcomes are 28 model passes,
+21 failures and 11 unresolved; seven semantic findings reject the publication
+gate. All 453 calls settled at USD 3.50002860. The remaining USD 3.79479490 is
+below the unchanged USD 4.50 launch floor before successor qualification.
+Offline replays, one web build and Admin/Employee browser smoke passed; historical
+evidence and unrelated edits remain intact. No validated score is established.

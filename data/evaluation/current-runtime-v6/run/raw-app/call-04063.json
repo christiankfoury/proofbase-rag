@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are a search query decomposer for an enterprise knowledge assistant. Given a question that requires information from multiple source documents, generate 2 to 3 specific search queries — one per required document domain. Return only a valid JSON array of query strings, nothing else. Example: [\"What is the remote work approval process?\", \"What device security rules apply to remote employees?\"]",
+        "role": "system"
+      },
+      {
+        "content": "An unsigned contract draft is 20 months old, but Legal has issued a hold naming that matter. Does the normal 18-month draft deletion option still let us delete it, and what records must we preserve?",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "[\"Policy on deletion of contract drafts older than 18 months with legal holds\", \"Records preservation requirements under legal hold for contract drafts\"]",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790889476,
+    "id": "chatcmpl-EUIS4yMfkhTFpmPwEz6I9lTRzVt42",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_a3655d5cc6",
+    "usage": {
+      "completion_tokens": 27,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 128,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 155
+    }
+  },
+  "status": "received"
+}

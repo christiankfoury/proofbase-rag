@@ -6,6 +6,17 @@ deferral for these three areas only. The portfolio release remains complete.
 Implementation is active. The original workflow was approved on 2026-09-28;
 the standing authorization below supersedes its per-candidate approval limits.
 
+## Latest execution boundary (2026-10-01)
+
+The [v6 full run](../phase-73/v6-results.md) completed 60/60 cases with 28 recorded
+model passes, 21 failures and 11 unresolved. Seven source-inspection findings
+reject its publication gate; no validated score is claimed. Remaining approved
+new spending is USD 3.79479490, below the existing USD 4.50 full-measurement launch
+floor before successor qualification. Preserve that remainder and failed evidence;
+do not infer a larger API allowance from the coding-agent usage reset. Further
+paid cycles need adequate authorized funding plus all existing qualification,
+freeze and fresh-suite gates. Publication and offline diagnosis need no new funds.
+
 ## CAD continuation allowance (2026-10-01)
 
 After the USD 10 shared envelope stopped v5, the user said: "okay we have $14.32

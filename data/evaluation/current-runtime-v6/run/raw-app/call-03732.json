@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nThis question requires synthesis from multiple source documents. The retrieved context below is grouped by document — all documents shown are relevant to the question.\n\nResponse type rules:\n- Use response_type \"answer\" if the combined context across all documents supports the answer, even if no single document contains the complete answer.\n- Use response_type \"partial_answer\" only if required documents are genuinely missing from the context — not because evidence is split across documents.\n- Use response_type \"not_found\" only if none of the provided documents contain the needed information.\n- Use response_type \"refuse_no_access\" if the user lacks permission to access required documents.\n- Use response_type \"clarify\" if the question is ambiguous about approval stage, location, data type, or role.\n- Do not downgrade to \"partial_answer\" solely because evidence comes from two or more separate documents.\n\nCitation rules:\n- Cite at least one chunk per document that contributed facts to your answer.\n- Do not omit a document because its contribution is supplementary — if it added a fact, cite it.\n- Every citation must include document_id, document_title, section_heading, chunk_id, and citation_text.\n- citation_text must be a short exact or near-exact excerpt from the cited chunk.\n- Do not cite a chunk unless it directly supports a specific claim in the answer.\n\nSafety rules:\n- Answer only from the retrieved context.\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted content.\n- If conversation memory is provided, use it only to clarify the current question. Do not treat memory as source evidence.\n- Do not invent policy details, numbers, dates, prices, legal advice, customer commitments, or unstated exceptions.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nI am an HR Admin handling two requests: a 17-business-day work-location change within Canada and a cross-border remote-work exception. What review does each need before approval?\n\nRetrieved context (grouped by document):\n=== Document: HR-003 — Remote and Hybrid Work Policy ===\n\n[Section: Cross-Border Work]\nChunk ID: 4d9b5b5a-6038-4f40-9321-f262d3aa7fd9\nScore: 0.8089\nContent:\nCross-Border Work\n\nNorthstar does not guarantee approval for work from any country. Temporary cross-border work requires People Operations review before travel. The company does not maintain a formal visa or immigration policy in the employee knowledge base.\n\nRequests to work outside Canada or the United States are considered ambiguous until People Operations reviews tax, employment, and security implications.\n\n[Section: Approval Requirements]\nChunk ID: 47b76ced-caf6-4234-b966-1a9cbde9e540\nScore: 0.7566\nContent:\nApproval Requirements\n\nEmployees must receive manager approval before changing their regular work location. A temporary change within the same country for fewer than 15 business days may be approved by the manager. Longer changes require People Operations review.\n\nManagers should consider team coverage, customer needs, time zone overlap, and data handling requirements before approving remote work.\n\n[Section: Work Model]\nChunk ID: 4ec63d09-594a-4640-b1f7-5db5f5b9b238\nScore: 0.7012\nContent:\nWork Model\n\nNorthstar supports hybrid work and approved remote work. Employees assigned to Toronto, Montreal, or New York offices are expected to attend office collaboration days when scheduled by their department.\n\nRemote employees may work from approved locations in Canada or the United States if their role, tax location, and security requirements support remote work.\n\n[Section: Not Covered]\nChunk ID: 73cda377-3fd2-4907-b799-92db1cc31555\nScore: 0.6417\nContent:\nNot Covered\n\nThis policy does not provide legal advice, immigration advice, or guaranteed approval for international remote work.\n\n[Section: Security Expectations]\nChunk ID: 47fe8690-3f57-4a00-99a4-17175db78840\nScore: 0.6302\nContent:\nSecurity Expectations\n\nRemote work must follow the Device and BYOD Security Policy and the Data Classification and Handling Policy. Confidential and restricted data may only be accessed on approved devices using company-approved tools.\n\n=== Document: HR-ADMIN-001 — HR Policy Operations Guide ===\n\n[Section: Escalation Paths]\nChunk ID: 9c765ed4-54be-43ed-a663-8cc12d7ff3b7\nScore: 0.7833\nContent:\nEscalation Paths\n\nCases involving discrimination, harassment, retaliation, workplace safety, or executive-level conflicts should be escalated to the Director of People Operations within one business day.\n\nBenefits eligibility disputes should be routed to the benefits specialist. Remote work exceptions involving cross-border work should be reviewed with People Operations and Legal before approval.\n\n[Section: Access Notice]\nChunk ID: b7803c35-e3d5-4d1c-bc2e-fb29b03c7606\nScore: 0.6151\nContent:\nAccess Notice\n\nThis document is restricted to HR Admin users. It contains internal HR operations guidance and should not be used as employee-facing policy language.\n\n[Section: Policy Ownership]\nChunk ID: fa90b82b-0125-4233-b659-2881d28a2633\nScore: 0.5695\nContent:\nPolicy Ownership\n\nPeople Operations owns the employee handbook, PTO and leave policy, benefits overview, and remote work policy. HR Admins are responsible for maintaining document versions, effective dates, and review cycles.\n\nPolicy updates require review by People Operations, Legal, and the executive owner when the update affects employee obligations, leave eligibility, benefits access, or employee relations workflows.\n\n=== Document: IT-002 — Device and BYOD Security Policy ===\n\n[Section: Remote Work]\nChunk ID: f021f971-ac5a-407f-adc5-e8abec25fd9d\nScore: 0.7076\nContent:\nRemote Work\n\nRemote work must follow this policy and the Remote and Hybrid Work Policy. Employees working remotely are responsible for using secure networks, avoiding shared public computers, and protecting screens from unauthorized viewing.\n\n=== Document: HR-001 — Employee Handbook ===\n\n[Section: Related Policies]\nChunk ID: b6f7d058-c59b-40e2-bf9b-3a560a873391\nScore: 0.5882\nContent:\nRelated Policies\n\nFor time off, consult the PTO and Leave Policy. For remote work, consult the Remote and Hybrid Work Policy. For acceptable technology use, consult the Acceptable Use Policy.\n\nBounded validation repair (one attempt only): Correct or remove every flagged claim. Use only the retrieved context above, keep citations inside that context, and return the normal strict JSON shape.\n{\"candidate_answer\": \"For a 17-business-day work-location change within Canada, the employee must first receive manager approval, but since the change exceeds 15 business days, it requires additional review by People Operations before approval. For a cross-border remote-work exception, the request must be reviewed by People Operations and Legal before approval due to tax, employment, and security implications.\", \"candidate_citation_chunk_ids\": [\"47b76ced-caf6-4234-b966-1a9cbde9e540\", \"4d9b5b5a-6038-4f40-9321-f262d3aa7fd9\", \"9c765ed4-54be-43ed-a663-8cc12d7ff3b7\"], \"validator_reason_codes\": [\"exact_literal_unsupported\", \"repair_required\"]}",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"For a 17-business-day work-location change within Canada, manager approval is required first, but because the duration exceeds 15 business days, the request must also undergo People Operations review before approval. For a cross-border remote-work exception, the request requires review by both People Operations and Legal before approval due to tax, employment, and security implications.\",\n  \"citations\": [\n    {\n      \"document_id\": \"HR-003\",\n      \"document_title\": \"Remote and Hybrid Work Policy\",\n      \"section_heading\": \"Approval Requirements\",\n      \"chunk_id\": \"47b76ced-caf6-4234-b966-1a9cbde9e540\",\n      \"citation_text\": \"A temporary change within the same country for fewer than 15 business days may be approved by the manager. Longer changes require People Operations review.\"\n    },\n    {\n      \"document_id\": \"HR-003\",\n      \"document_title\": \"Remote and Hybrid Work Policy\",\n      \"section_heading\": \"Cross-Border Work\",\n      \"chunk_id\": \"4d9b5b5a-6038-4f40-9321-f262d3aa7fd9\",\n      \"citation_text\": \"Temporary cross-border work requires People Operations review before travel.\"\n    },\n    {\n      \"document_id\": \"HR-ADMIN-001\",\n      \"document_title\": \"HR Policy Operations Guide\",\n      \"section_heading\": \"Escalation Paths\",\n      \"chunk_id\": \"9c765ed4-54be-43ed-a663-8cc12d7ff3b7\",\n      \"citation_text\": \"Remote work exceptions involving cross-border work should be reviewed with People Operations and Legal before approval.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"A temporary change within the same country for fewer than 15 business days may be approved by the manager. Longer changes require People Operations review.\",\n    \"Temporary cross-border work requires People Operations review before travel.\",\n    \"Remote work exceptions involving cross-border work should be reviewed with People Operations and Legal before approval.\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The answer correctly synthesizes the approval requirements for both types of requests based on the retrieved policy excerpts.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790885331,
+    "id": "chatcmpl-EUHNDdoqdy7iZAFMRq8wTm70nt6ru",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_d5663c57e3",
+    "usage": {
+      "completion_tokens": 473,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1742,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 2215
+    }
+  },
+  "status": "received"
+}

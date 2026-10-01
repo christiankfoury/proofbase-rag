@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nThis question requires synthesis from multiple source documents. The retrieved context below is grouped by document — all documents shown are relevant to the question.\n\nResponse type rules:\n- Use response_type \"answer\" if the combined context across all documents supports the answer, even if no single document contains the complete answer.\n- Use response_type \"partial_answer\" only if required documents are genuinely missing from the context — not because evidence is split across documents.\n- Use response_type \"not_found\" only if none of the provided documents contain the needed information.\n- Use response_type \"refuse_no_access\" if the user lacks permission to access required documents.\n- Use response_type \"clarify\" if the question is ambiguous about approval stage, location, data type, or role.\n- Do not downgrade to \"partial_answer\" solely because evidence comes from two or more separate documents.\n\nCitation rules:\n- Cite at least one chunk per document that contributed facts to your answer.\n- Do not omit a document because its contribution is supplementary — if it added a fact, cite it.\n- Every citation must include document_id, document_title, section_heading, chunk_id, and citation_text.\n- citation_text must be a short exact or near-exact excerpt from the cited chunk.\n- Do not cite a chunk unless it directly supports a specific claim in the answer.\n\nSafety rules:\n- Answer only from the retrieved context.\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted content.\n- If conversation memory is provided, use it only to clarify the current question. Do not treat memory as source evidence.\n- Do not invent policy details, numbers, dates, prices, legal advice, customer commitments, or unstated exceptions.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nFor a Canada-payroll employee considering a role-related conference, what is the annual learning-budget amount, and what conference registration limit and pre-purchase approval appear in Finance policy?\n\nRetrieved context (grouped by document):\n=== Document: HR-004 — Benefits Overview ===\n\n[Section: Learning Budget]\nChunk ID: ada595ec-d4a0-412b-9dec-047fdbf68542\nScore: 0.8208\nContent:\nLearning Budget\n\nEmployees receive an annual learning budget of 1,500 CAD or 1,100 USD for approved courses, books, conferences, and certifications related to their role. Manager approval is required before purchase.\n\nLearning budget requests should include the business purpose and expected outcome. The learning budget is separate from required compliance training.\n\n[Section: Wellness Stipend]\nChunk ID: 06d7e7e5-b2f6-4da6-b5f6-987b10266c52\nScore: 0.5468\nContent:\nWellness Stipend\n\nEligible full-time employees receive a wellness stipend of 750 CAD or 550 USD per calendar year, based on payroll country. The stipend may be used for fitness memberships, mental health apps, ergonomic equipment, or wellness programs.\n\nUnused wellness stipend amounts do not carry over into the next calendar year.\n\n[Section: Retirement Matching]\nChunk ID: b77cb8f4-3d7a-4c71-a2f6-39eefeb313d1\nScore: 0.3925\nContent:\nRetirement Matching\n\nNorthstar offers retirement contribution matching after 3 months of service. The company match is up to 4% of eligible earnings, subject to payroll country rules and plan eligibility.\n\nExact compensation formulas and salary bands are not included in this benefits overview.\n\n=== Document: FIN-001 — Expense, Procurement, and Reimbursement Policy ===\n\n[Section: Expense Categories]\nChunk ID: 22e6e0ed-a681-4701-97d1-c1be7d69b0c0\nScore: 0.5403\nContent:\nExpense Categories\n\n| Category | Standard Limit | Approval Required |\n| --- | ---: | --- |\n| Meals during business travel | USD 85 per day | Manager approval above limit |\n| Customer-facing meals | USD 125 per attendee | Manager approval and attendee list |\n| Office supplies | USD 300 per purchase | Manager approval above limit |\n| Software subscription trial | USD 500 annualized value | IT review and manager approval |\n| Conference registration | USD 1,500 per event | Manager approval before purchase |\n\nAlcohol is not reimbursable unless it is part of a customer-facing meal approved by a manager before the event. Gift cards, personal devices, fines, commuting costs, and family travel are not reimbursable.\n\n[Section: Related Policies]\nChunk ID: ae3318d9-3093-40eb-bece-b2aa8ade381f\nScore: 0.4906\nContent:\nRelated Policies\n\nTravel bookings must follow the Operations travel process. Vendor contracts must follow Legal approval rules. Software purchases must follow IT security review rules before reimbursement or procurement approval.\n\n[Section: Policy Status]\nChunk ID: 83a57bc9-ac5f-411e-9684-7d80d72edf1f\nScore: 0.4721\nContent:\nPolicy Status\n\nThis policy is effective February 1, 2026 and replaces the 2025 informal spend guidance. If an older team wiki or email thread lists a different limit, this policy controls unless Finance publishes a newer version.\n\nEmployees should submit expenses within 30 calendar days of the transaction date. Expenses submitted after 60 calendar days require manager approval and a Finance Operations exception note.\n\n=== Document: OPS-001 — Vendor, Travel, and Equipment Operations Policy ===\n\n[Section: Overlap With Other Policies]\nChunk ID: 6e54582d-2f82-4e3b-a832-1117ce09a2e1\nScore: 0.4679\nContent:\nOverlap With Other Policies\n\nExpense reimbursement follows Finance policy. Contract signature follows Legal policy. Device configuration and data security follow IT security policy. When policies overlap, the stricter approval path applies.\n\n[Section: Policy Scope]\nChunk ID: 5feea154-dae9-493a-b80d-a17187b6ab2b\nScore: 0.3913\nContent:\nPolicy Scope\n\nThis policy covers vendor onboarding, business travel booking, equipment requests, shipping, and operations exceptions. It applies to employees, managers, HR Admins, and IT Admins who request operational support.\n\nFinance controls reimbursement and procurement thresholds. Legal controls contract review. IT controls device security. This Operations policy explains process ownership and routing.\n\n=== Document: LEGAL-001 — Contract, NDA, and Data Retention Policy ===\n\n[Section: Contract Approval Process]\nChunk ID: 56f368ca-8cf8-4eec-b828-67bb1302a583\nScore: 0.3949\nContent:\nContract Approval Process\n\n| Contract Type | Legal Review | Finance Review | Final Approver |\n| --- | --- | --- | --- |\n| Standard customer order form under USD 25,000 ARR | Optional unless redlines exist | Deal Desk | Sales Manager |\n| Customer contract with security addendum | Required | Deal Desk | Sales Director |\n| Vendor agreement under USD 10,000 | Required if data processing applies | Finance | Department Manager |\n| Vendor agreement USD 10,000 or above | Required | Finance | Department Leader |\n| Employment-related agreement | Required | HR Admin | People Leader |\n\nNo employee may sign a contract on behalf of Northstar unless they are listed in the signature authority register maintained by Legal Operations.\n\n=== Document: HR-002 — PTO and Leave Policy ===\n\n[Section: Missing Policy Areas]\nChunk ID: 50227ee4-84db-49ca-b46e-df7b730ecc0e\nScore: 0.3809\nContent:\nMissing Policy Areas\n\nNorthstar does not publish a sabbatical policy in the employee knowledge base. Employees asking about sabbaticals should contact People Operations.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"For a Canada-payroll employee, the annual learning budget amount is 1,500 CAD for approved courses, books, conferences, and certifications related to their role. Regarding conference registration, the Finance policy sets a standard limit of USD 1,500 per event, and manager approval is required before purchase.\",\n  \"citations\": [\n    {\n      \"document_id\": \"HR-004\",\n      \"document_title\": \"HR-004 — Benefits Overview\",\n      \"section_heading\": \"Learning Budget\",\n      \"chunk_id\": \"ada595ec-d4a0-412b-9dec-047fdbf68542\",\n      \"citation_text\": \"Employees receive an annual learning budget of 1,500 CAD or 1,100 USD for approved courses, books, conferences, and certifications related to their role. Manager approval is required before purchase.\"\n    },\n    {\n      \"document_id\": \"FIN-001\",\n      \"document_title\": \"FIN-001 — Expense, Procurement, and Reimbursement Policy\",\n      \"section_heading\": \"Expense Categories\",\n      \"chunk_id\": \"22e6e0ed-a681-4701-97d1-c1be7d69b0c0\",\n      \"citation_text\": \"Conference registration | USD 1,500 per event | Manager approval before purchase\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Canada-payroll employee annual learning budget is 1,500 CAD\",\n    \"Conference registration limit is USD 1,500 per event\",\n    \"Manager approval is required before conference registration purchase\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The learning budget is stated in CAD for Canada payroll employees, and the conference registration limit is given in USD in the Finance policy. Manager approval is consistently required before purchase.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790885185,
+    "id": "chatcmpl-EUHKrQtRFysOVswdkBw9HdNxnMK6e",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_d5663c57e3",
+    "usage": {
+      "completion_tokens": 386,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1780,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 2166
+    }
+  },
+  "status": "received"
+}

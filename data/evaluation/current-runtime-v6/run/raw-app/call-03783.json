@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nThis question requires synthesis from multiple source documents. The retrieved context below is grouped by document — all documents shown are relevant to the question.\n\nResponse type rules:\n- Use response_type \"answer\" if the combined context across all documents supports the answer, even if no single document contains the complete answer.\n- Use response_type \"partial_answer\" only if required documents are genuinely missing from the context — not because evidence is split across documents.\n- Use response_type \"not_found\" only if none of the provided documents contain the needed information.\n- Use response_type \"refuse_no_access\" if the user lacks permission to access required documents.\n- Use response_type \"clarify\" if the question is ambiguous about approval stage, location, data type, or role.\n- Do not downgrade to \"partial_answer\" solely because evidence comes from two or more separate documents.\n\nCitation rules:\n- Cite at least one chunk per document that contributed facts to your answer.\n- Do not omit a document because its contribution is supplementary — if it added a fact, cite it.\n- Every citation must include document_id, document_title, section_heading, chunk_id, and citation_text.\n- citation_text must be a short exact or near-exact excerpt from the cited chunk.\n- Do not cite a chunk unless it directly supports a specific claim in the answer.\n\nSafety rules:\n- Answer only from the retrieved context.\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted content.\n- If conversation memory is provided, use it only to clarify the current question. Do not treat memory as source evidence.\n- Do not invent policy details, numbers, dates, prices, legal advice, customer commitments, or unstated exceptions.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nA prospect thinks Northstar will replace both their BI dashboards and their system of record. How should I explain the approved relationship with BI and the system-of-record limitation?\n\nRetrieved context (grouped by document):\n=== Document: SALES-003 — Competitive Battlecard ===\n\n[Section: Positioning Against Generic BI Tools]\nChunk ID: 802e3b03-c3a7-49cb-a1d4-bfc3cd9bd8ed\nScore: 0.8046\nContent:\nPositioning Against Generic BI Tools\n\nWhen compared with generic BI tools, position Northstar as workflow-aware analytics. Generic BI tools can report metrics, but Northstar connects metrics to approvals, queues, owners, and operational follow-up.\n\nApproved response: \"Northstar complements BI by helping operations teams act on workflow issues, not just view dashboards.\"\n\n[Section: Positioning Against Workflow Tools]\nChunk ID: e4ccd836-49df-48c8-b260-8e8a706a4228\nScore: 0.6877\nContent:\nPositioning Against Workflow Tools\n\nWhen compared with workflow-only tools, position Northstar as analytics plus process visibility. Workflow tools coordinate tasks, while Northstar tracks patterns, bottlenecks, and KPI impact across workflows.\n\n=== Document: SALES-002 — Product Positioning and FAQ ===\n\n[Section: Product Limitations]\nChunk ID: 19356584-26af-4941-b6fe-9e95dea899e0\nScore: 0.8160\nContent:\nProduct Limitations\n\nNorthstar is not a replacement for a system of record, identity provider, ERP, or clinical decision system. Sales Representatives should not promise unsupported integrations, exact roadmap delivery dates, or customer-specific contract commitments.\n\n[Section: Integrations]\nChunk ID: 8d4e31c2-d911-433c-892c-fb68cb73f2db\nScore: 0.6442\nContent:\nIntegrations\n\nNorthstar supports common data warehouse, ticketing, and workflow integrations through approved connectors and APIs. Sales Representatives should confirm exact integration support with Solutions Engineering.\n\n[Section: Core Value Proposition]\nChunk ID: e638403c-0301-4b94-b636-04e2fdd6c813\nScore: 0.6029\nContent:\nCore Value Proposition\n\nNorthstar Analytics gives operations teams one place to monitor workflows, approvals, data quality issues, and executive KPIs. The strongest message is operational visibility with measurable process improvement.\n\n[Section: Industry Use Cases]\nChunk ID: 071114dc-f57a-4db5-b12a-f22114a65a0c\nScore: 0.5594\nContent:\nIndustry Use Cases\n\nFinance operations teams use Northstar to track approval delays and reconciliation exceptions. Healthcare operations teams use it to monitor non-clinical workflow bottlenecks. Logistics teams use it to track exception queues and service-level risks. Professional services teams use it to monitor delivery workflows and client reporting readiness.\n\n=== Document: IT-001 — Acceptable Use Policy ===\n\n[Section: Approved Use]\nChunk ID: 27583c5a-ba2e-4d83-b7b6-a933c0360595\nScore: 0.6962\nContent:\nApproved Use\n\nNorthstar systems must be used for company business, approved learning, customer support, and authorized operational work. Employees may use company devices for limited personal use if it does not interfere with work, create security risk, or violate policy.\n\n=== Document: SALES-001 — Sales Playbook ===\n\n[Section: Approved Talk Track]\nChunk ID: 4f057818-24db-49a8-be3b-73811b3d858c\nScore: 0.5902\nContent:\nApproved Talk Track\n\nNorthstar helps operations leaders see where work slows down, which approvals are delayed, and which data quality issues affect business reporting. Sales Representatives should avoid promising product roadmap commitments.\n\n=== Document: HR-001 — Employee Handbook ===\n\n[Section: Company Overview]\nChunk ID: 9cc339b6-8f98-422e-b2bf-e01f705ea379\nScore: 0.5828\nContent:\nCompany Overview\n\nNorthstar Analytics builds analytics and workflow automation software for operations teams in finance, healthcare operations, logistics, and professional services. Employees are expected to protect customer trust, communicate clearly, and make decisions that improve operational reliability.\n\nNorthstar has offices in Toronto, Montreal, and New York. The company supports hybrid work and approved remote work across Canada and the United States.\n\n=== Document: IT-003 — Data Classification and Handling Policy ===\n\n[Section: Classification Levels]\nChunk ID: 71a7e7e6-af8a-4b5d-b77b-852b30df7f5a\nScore: 0.5797\nContent:\nClassification Levels\n\nNorthstar uses four data classification levels: Public, Internal, Confidential, and Restricted.\n\nPublic data is approved for external sharing. Internal data is intended for Northstar employees. Confidential data includes customer business information, financial forecasts, non-public sales materials, and employee operational data. Restricted data includes secrets, credentials, regulated customer data, privileged security records, and sensitive HR case material.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"You should explain that Northstar is designed to complement existing BI dashboards rather than replace them. Northstar provides workflow-aware analytics that connect metrics to operational actions such as approvals, queues, and follow-ups, whereas generic BI tools primarily focus on reporting metrics. Therefore, Northstar helps operations teams act on workflow issues rather than just viewing dashboards. Additionally, Northstar is not a replacement for a system of record. It does not serve as an identity provider, ERP, or clinical decision system, and sales representatives should not promise unsupported integrations or system-of-record functionality. This means Northstar adds operational visibility and process improvement on top of existing systems but does not replace the core system of record.\",\n  \"citations\": [\n    {\n      \"document_id\": \"SALES-003\",\n      \"document_title\": \"Competitive Battlecard\",\n      \"section_heading\": \"Positioning Against Generic BI Tools\",\n      \"chunk_id\": \"802e3b03-c3a7-49cb-a1d4-bfc3cd9bd8ed\",\n      \"citation_text\": \"Northstar complements BI by helping operations teams act on workflow issues, not just view dashboards.\"\n    },\n    {\n      \"document_id\": \"SALES-002\",\n      \"document_title\": \"Product Positioning and FAQ\",\n      \"section_heading\": \"Product Limitations\",\n      \"chunk_id\": \"19356584-26af-4941-b6fe-9e95dea899e0\",\n      \"citation_text\": \"Northstar is not a replacement for a system of record, identity provider, ERP, or clinical decision system.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Northstar complements BI dashboards by providing workflow-aware analytics.\",\n    \"Northstar is not a replacement for a system of record.\",\n    \"Sales representatives should not promise unsupported integrations or system-of-record functionality.\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The answer is fully supported by the provided documents, which clarify Northstar's complementary role to BI and its limitation regarding system-of-record replacement.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790886169,
+    "id": "chatcmpl-EUHajdZn5a3ZabqJi9IRGCc42sn5l",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_d5663c57e3",
+    "usage": {
+      "completion_tokens": 436,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1582,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 2018
+    }
+  },
+  "status": "received"
+}

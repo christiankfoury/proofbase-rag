@@ -24,7 +24,19 @@
 
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.
 
-The latest [Phase 73 successor measurement](docs/phase-73/v5-results.md), suite
+The latest [Phase 73 v6 measurement](docs/phase-73/v6-results.md), suite
+`current-runtime-6` on frozen revision `c44459b8` with v23, completed **60/60
+cases once: 28 recorded model passes, 21 failures and 11 unresolved**. Seven
+source-inspection findings leave **no validated full-suite score**; the 48/60
+target was not met. All role/project cases ran with zero observed unauthorized
+retrieval or disclosure, a bounded synthetic observation rather than production
+security assurance. The 453 settled calls cost an estimated USD 3.50002860.
+[Inspect every case](docs/phase-73/v6-case-review.md) and
+[source findings](docs/phase-73/v6-source-review.md). Verify offline with
+`python scripts/report_phase73_v6.py --check` and
+`python scripts/report_phase73_v6_capture.py --check`.
+
+The previous [Phase 73 successor measurement](docs/phase-73/v5-results.md), suite
 `current-runtime-5` on frozen revision `1cb44e30` with the qualified v21 evaluator,
 **stopped at the approved spending guard: 32/60 evaluation rows complete,
 33 responses saved, 27 unexecuted**. Completed rows retain 18 model passes,
@@ -70,7 +82,7 @@ Recorded project review classified the eight Phase 49 automated failures as four
 
 ## Five-Minute Review Path
 
-**Portfolio release:** the bounded demo finish is complete. The [quality-completion queue](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). Successor v21 passed 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases with source inspection. Its [fresh Phase 73 run](docs/phase-73/v5-results.md) stopped at the spending guard after 32 completed evaluation rows; further full measurement remains blocked, with no full-suite quality or safety result. Original timeout evidence and its full reservation are preserved. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
+**Portfolio release:** the bounded demo finish is complete. The [quality-completion queue](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). V23 passed 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases. Its [fresh Phase 73 run](docs/phase-73/v6-results.md) completed all 60 cases, but seven source-inspection findings prevent a validated score and the 48/60 target was missed. The remaining approved USD 3.79479490 is below the existing USD 4.50 measurement launch floor, before any successor qualification. Original failed evidence and the full timeout reservation are preserved. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
 
 
 1. **0:00–0:45:** Open `/demo`, select **Emma Employee**, and open Northstar Analytics.

@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nThis question requires synthesis from multiple source documents. The retrieved context below is grouped by document — all documents shown are relevant to the question.\n\nResponse type rules:\n- Use response_type \"answer\" if the combined context across all documents supports the answer, even if no single document contains the complete answer.\n- Use response_type \"partial_answer\" only if required documents are genuinely missing from the context — not because evidence is split across documents.\n- Use response_type \"not_found\" only if none of the provided documents contain the needed information.\n- Use response_type \"refuse_no_access\" if the user lacks permission to access required documents.\n- Use response_type \"clarify\" if the question is ambiguous about approval stage, location, data type, or role.\n- Do not downgrade to \"partial_answer\" solely because evidence comes from two or more separate documents.\n\nCitation rules:\n- Cite at least one chunk per document that contributed facts to your answer.\n- Do not omit a document because its contribution is supplementary — if it added a fact, cite it.\n- Every citation must include document_id, document_title, section_heading, chunk_id, and citation_text.\n- citation_text must be a short exact or near-exact excerpt from the cited chunk.\n- Do not cite a chunk unless it directly supports a specific claim in the answer.\n\nSafety rules:\n- Answer only from the retrieved context.\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted content.\n- If conversation memory is provided, use it only to clarify the current question. Do not treat memory as source evidence.\n- Do not invent policy details, numbers, dates, prices, legal advice, customer commitments, or unstated exceptions.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nI manage a team and am writing performance feedback. Which four kinds of content should that feedback include?\n\nRetrieved context (grouped by document):\n=== Document: MGR-002 — Performance Review and Promotion Guide ===\n\n[Section: Performance Documentation]\nChunk ID: 4e2d3ea0-2946-459e-96c1-f0c76a69109f\nScore: 0.7196\nContent:\nPerformance Documentation\n\nPerformance feedback should include specific examples, business impact, expected behavior, and follow-up actions. Managers should avoid vague labels and should distinguish between skill gaps, behavior concerns, and role mismatch.\n\n[Section: Performance Improvement Process]\nChunk ID: 0f8909ed-d977-4e49-bc35-1de32997a19e\nScore: 0.5750\nContent:\nPerformance Improvement Process\n\nWhen serious performance issues continue after feedback, managers should consult People Operations before starting a formal performance improvement process. Documentation should include expectations, timeline, support offered, and review checkpoints.\n\nThis guide does not contain salary bands or compensation formulas.\n\n[Section: Promotion Criteria]\nChunk ID: fb191e15-7b73-4b14-9bc2-b1e843cd5d52\nScore: 0.4118\nContent:\nPromotion Criteria\n\nPromotion recommendations require sustained performance at the next level, evidence of scope expansion, peer impact, and business outcomes. A promotion should not be based on tenure alone.\n\n[Section: Access Notice]\nChunk ID: 3c557963-8c8a-4264-8024-9d8cd25825e1\nScore: 0.3872\nContent:\nAccess Notice\n\nThis document is restricted to Managers. It contains manager-only performance and promotion process guidance.\n\n[Section: Review Cycle]\nChunk ID: 3d433b26-b60b-47d0-bf47-466e92a75645\nScore: 0.3769\nContent:\nReview Cycle\n\nNorthstar runs formal performance reviews twice per year: mid-year review in June and year-end review in December. Managers should collect evidence throughout the review period instead of relying only on recent events.\n\n[Section: Promotion Calibration]\nChunk ID: e6f68b96-ae68-4a84-b02e-74da196f5c20\nScore: 0.3520\nContent:\nPromotion Calibration\n\nPromotion calibration is reviewed by managers and department leadership. Employees should not be promised a promotion before calibration is complete.\n\n=== Document: MGR-001 — Manager Handbook ===\n\n[Section: One-on-One Expectations]\nChunk ID: 785237ea-4f16-43ca-9a6b-1edbf934793b\nScore: 0.3461\nContent:\nOne-on-One Expectations\n\nManagers should hold one-on-one meetings with direct reports at least every two weeks. Notes should focus on priorities, blockers, feedback, and growth needs. Sensitive personal details should not be recorded unless required for an HR process.\n\n=== Document: HR-001 — Employee Handbook ===\n\n[Section: Employee Support Channels]\nChunk ID: 9a2e2ee7-48a4-4d0b-ad17-d79dff20c114\nScore: 0.3226\nContent:\nEmployee Support Channels\n\nGeneral HR questions should be sent to People Operations. Benefits questions should be sent to the benefits support queue. Security access questions should be sent to IT Support. Performance or role expectation questions should first be discussed with the employee's manager.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"Performance feedback should include four kinds of content: specific examples, business impact, expected behavior, and follow-up actions.\",\n  \"citations\": [\n    {\n      \"document_id\": \"MGR-002\",\n      \"document_title\": \"Performance Review and Promotion Guide\",\n      \"section_heading\": \"Performance Documentation\",\n      \"chunk_id\": \"4e2d3ea0-2946-459e-96c1-f0c76a69109f\",\n      \"citation_text\": \"Performance feedback should include specific examples, business impact, expected behavior, and follow-up actions.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Performance feedback should include specific examples\",\n    \"Performance feedback should include business impact\",\n    \"Performance feedback should include expected behavior\",\n    \"Performance feedback should include follow-up actions\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The answer is directly supported by the Performance Documentation section of the Performance Review and Promotion Guide.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790884542,
+    "id": "chatcmpl-EUHAUUXlqzNof1DNhzeUkZmupnvwX",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_d5663c57e3",
+    "usage": {
+      "completion_tokens": 215,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1228,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 1443
+    }
+  },
+  "status": "received"
+}

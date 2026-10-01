@@ -6,7 +6,33 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: Phase 73 CAD-bounded evaluator continuation
+### Active: Phase 73 full evidence published; validated quality blocked
+
+The [v6 run](../phase-73/v6-results.md) completed 60/60 cases once on 2026-10-01,
+after freeze `0e67dc47`, isolated 60-case/102-fact validation and seal `a5cec125`.
+Its recorded outcomes are 28 model passes, 21 failures and 11 unresolved. Seven
+[source-inspection findings](../phase-73/v6-source-review.md) reject publication
+approval; no validated score exists and the 48/60 target was not met. All dedicated
+role/project cases ran with zero observed unauthorized retrieval or disclosure.
+That bounded observation does not establish production or department-only safety.
+
+All 453 new calls settled, costing USD 3.50002860. The new USD 9 allowance has
+spent USD 5.20520510 including qualification, leaving **USD 3.79479490**. This is
+below the existing USD 4.50 measurement launch floor even before another
+qualification cycle. No account balance is inferred, no cap is increased and no
+additional paid cycle is launched. The user's coding-agent usage reset does not
+change this API budget. Original timeout evidence and its full USD 0.146775
+reservation remain intact; no new unknown call outcome occurred.
+
+Next defensible work requires separately composed development controls for the
+recorded evaluator/runtime causes, unchanged quality gates, another freeze and
+fresh isolated measurement with adequate authorized funding. Do not retry or tune
+on this exposed suite. Phases 71/72 remain historically complete; Phase 73 execution
+and failed-gate publication are complete, but its validated-quality gate remains
+unsatisfied. Publication checks and commit are recorded in the results note.
+The single active plan remains [quality completion](quality-completion-plan.md).
+
+### Preserved checkpoint: CAD-bounded evaluator qualification and v6 seal
 
 On 2026-10-01 the user reported CAD 14.32 available and authorized continued
 implementation. The [active-plan amendment](quality-completion-plan.md) enforces
@@ -47,7 +73,7 @@ are complete: 60/60 cases and 102/102 reference facts accepted, zero findings;
 lexical overlap has no hits across 1,044 historical questions. The separate suite
 seal precedes execution. Next: exact no-call preflight, commit/push the seal,
 one-shot synchronous measurement, source inspection and publication.
-Phases 71/72 remain historically complete; Phase 73 has no full result yet.
+At that pre-execution checkpoint, Phases 71/72 were historically complete and Phase 73 had no full result yet.
 
 ### Preserved checkpoint: Phase 73 v5 budget stop
 

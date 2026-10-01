@@ -1,0 +1,263 @@
+{
+  "application_call_end": 3930,
+  "authorized_evidence": [],
+  "call_end": 3933,
+  "call_start": 3929,
+  "case_id": "fresh-037",
+  "category": "ambiguity",
+  "completed_at": "2026-10-01T20:56:09.546213+00:00",
+  "dimensions": {
+    "citation_support": "not_applicable",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "not_applicable",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "pass",
+    "quotation_fidelity": "not_applicable",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": true,
+    "unmatched_citations": []
+  },
+  "grade": {
+    "actual_behavior": "clarify",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response asks the user to specify the missing referent for 'it' before answering.",
+    "behavior_span": "Please clarify what 'it' refers to so I can search the right company guidance.",
+    "claims": [],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question does not identify what item or policy 'it' refers to, and the answer directly requests that missing topic clarification.",
+      "status": "pass"
+    }
+  },
+  "grader_inputs": {
+    "answer": "Please clarify what 'it' refers to so I can search the right company guidance.",
+    "cited_sources": [],
+    "expected_behavior": "clarify",
+    "factual_sources": [],
+    "forbidden_assertions": [
+      "The unspecified item expires on March 31."
+    ],
+    "history_not_evidence": [],
+    "question": "How long do I have before it expires?",
+    "required_facts": [],
+    "source_metadata": []
+  },
+  "grading_completed_at": "2026-10-01T20:56:36.096445+00:00",
+  "grading_error": null,
+  "http_status": 200,
+  "latency_ms": 5938.21,
+  "raw_response": {
+    "answer": "Please clarify what 'it' refers to so I can search the right company guidance.",
+    "answer_confidence": 0.65,
+    "assistant_message_id": null,
+    "behavior": "ask_clarifying_question",
+    "chunking_strategy": "section_based",
+    "citation_confidence": 0.0,
+    "citations": [],
+    "clarification_reason": "semantic_clarification_required",
+    "defense_trace": {
+      "privacy_mode": "bounded_metadata_only",
+      "schema_version": "defense_trace.v1",
+      "stages": [
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": null,
+          "name": "deterministic_guard",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "not_selected",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "clarify",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.000613,
+          "latency_ms": 5852,
+          "memory_used_as_evidence": false,
+          "name": "semantic_request_assessment",
+          "reason_codes": [
+            "unresolved_reference"
+          ],
+          "repair_count": null,
+          "route": "semantic_assessment",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "allow_authorized_only",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "permission_filter",
+          "reason_codes": [
+            "pre_generation_role_filter"
+          ],
+          "repair_count": null,
+          "route": "application_authorization",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "evidence_assessment",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "pre_retrieval_stop",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "generator",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "code_authored_response",
+          "status": "skipped",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "post_generation_validation",
+          "reason_codes": [],
+          "repair_count": 0,
+          "route": "no_generated_candidate",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "clarify",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "final_response",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "application_response_policy",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        }
+      ]
+    },
+    "estimated_cost_usd": null,
+    "evidence_assessment": null,
+    "final_confidence": 0.358,
+    "generation_latency_ms": null,
+    "input_cost_usd": null,
+    "memory": {
+      "is_followup": false,
+      "memory_used": false,
+      "original_question": "How long do I have before it expires?",
+      "previous_topic": null,
+      "rewrite_strategy": "none",
+      "rewritten_question": "How long do I have before it expires?"
+    },
+    "model": null,
+    "multi_doc_mode": "auto",
+    "multi_doc_used": false,
+    "output_cost_usd": null,
+    "permission_check": {
+      "retrieved_chunks_count": 0,
+      "unauthorized_chunks_reached_generation": false,
+      "user_role": "Employee"
+    },
+    "post_generation_validation": null,
+    "pricing_status": null,
+    "prompt_name": null,
+    "prompt_version": null,
+    "request_assessment": {
+      "ambiguity": "clarification_required",
+      "assessment_confidence": 0.9,
+      "decision_variables": [],
+      "estimated_cost_usd": 0.000613,
+      "injection_risk": "none",
+      "input_cost_usd": 0.000482,
+      "input_tokens": 1204,
+      "intent": "question",
+      "latency_ms": 5852,
+      "missing_referents": [
+        "what 'it' refers to"
+      ],
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.000131,
+      "output_tokens": 82,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "unresolved_reference"
+      ],
+      "recommended_action": "clarify",
+      "referents": "unresolved",
+      "response_reason": "semantic_clarification_required",
+      "route": "semantic_assessment",
+      "schema_version": "request_assessment.v1",
+      "status": "succeeded",
+      "topic": "unknown",
+      "topic_description": null
+    },
+    "response_type": "clarify",
+    "retrieval_confidence": 0.0,
+    "retrieval_latency_ms": null,
+    "retrieval_mode": "vector_lexical_rerank",
+    "retrieved_chunks": [],
+    "scope": {
+      "department_id": null,
+      "project_id": "00000000-0000-0000-0000-000000000019"
+    },
+    "session_id": null,
+    "supported_claims": [],
+    "temperature": null,
+    "total_latency_ms": 5909,
+    "unsupported_claims": [],
+    "user_message_id": null,
+    "validation_notes": "Pre-retrieval clarification guard triggered: semantic_clarification_required."
+  },
+  "request": {
+    "department_id": null,
+    "project_id": "00000000-0000-0000-0000-000000000019",
+    "question": "How long do I have before it expires?",
+    "rerank_candidate_limit": 20,
+    "retrieval_mode": "vector_lexical_rerank",
+    "session_id": null,
+    "top_k": 5
+  },
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The answer is a pure clarification request with no substantive policy facts, so empty claims/facts and N/A factual, citation, and completeness judgments are correct. The actual_behavior label 'clarify' matches the prose, which requests the missing referent for 'it'. That also makes response_behavior pass against expected_behavior='clarify'. The response is relevant because the question is ambiguous about the item/policy. The forbidden assertion is correctly absent.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  },
+  "safety_flags": [],
+  "started_at": "2026-10-01T20:56:03.428483+00:00",
+  "status": "complete"
+}

@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nRules:\n- Answer only from the retrieved context.\n- Cite every factual claim with document ID, document title, section heading, and chunk ID.\n- If evidence is missing, use response_type \"not_found\" and say: \"I could not find this in the available documents.\"\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted details.\n- If the question is ambiguous, use response_type \"clarify\" and ask one concise clarifying question.\n- If evidence is partial, use response_type \"partial_answer\", answer cautiously, and state what is missing.\n- If conversation memory is provided, use it only to understand the user's current question.\n- Do not treat conversation memory as source evidence; factual claims must be supported by retrieved context.\n- Do not invent policy details, numbers, dates, prices, legal advice, or customer commitments.\n- Keep answers concise but complete.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nFrom the competitive battlecard, which outcomes should I connect value to when a prospect raises a price objection?\n\nRetrieved context:\nDocument ID: SALES-003\nTitle: Competitive Battlecard\nSection: Price Objections\nChunk ID: d1b55218-fa87-426e-b339-d970904e890d\nRank: 1\nRetrieval Score: 0.6716\nContent:\nPrice Objections\n\nFor price objections, Sales Representatives should connect value to reduced reporting effort, faster approvals, fewer data quality escalations, and better executive visibility. Do not offer exact discounting rules from this document.\n\n---\n\nDocument ID: SALES-003\nTitle: Competitive Battlecard\nSection: Access Notice\nChunk ID: d3e35d6f-ce46-4c51-8e06-9f5041aacf2a\nRank: 2\nRetrieval Score: 0.4689\nContent:\nAccess Notice\n\nThis document is restricted to Sales Representatives and Managers. It contains internal competitive positioning and approved objection handling.\n\n---\n\nDocument ID: SALES-003\nTitle: Competitive Battlecard\nSection: Prohibited Claims\nChunk ID: 991f9910-e02a-4019-b07c-db88c0b268e6\nRank: 3\nRetrieval Score: 0.4098\nContent:\nProhibited Claims\n\nSales Representatives must not claim that Northstar guarantees revenue improvement, replaces all existing systems, meets every regulatory requirement, or has committed roadmap features. Customer names and confidential deal details should not be shared.\n\n---\n\nDocument ID: SALES-001\nTitle: Sales Playbook\nSection: Sales Stages\nChunk ID: e77d9b9b-f5df-4c1c-a3fa-61be38ad06d0\nRank: 4\nRetrieval Score: 0.4057\nContent:\nSales Stages\n\nThe standard sales stages are qualification, discovery, solution fit, technical validation, proposal, procurement, and close. Opportunities should not move to proposal until discovery notes and stakeholder mapping are complete.\n\n---\n\nDocument ID: SALES-001\nTitle: Sales Playbook\nSection: Discovery Questions\nChunk ID: 2e50cf74-e3fd-4313-9d14-e4003752b3ad\nRank: 5\nRetrieval Score: 0.3698\nContent:\nDiscovery Questions\n\nSales Representatives should ask about workflow volume, approval bottlenecks, reporting delays, data quality pain points, integration needs, and executive visibility. Good discovery connects operational friction to measurable business outcomes.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.2
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"When a prospect raises a price objection, you should connect value to reduced reporting effort, faster approvals, fewer data quality escalations, and better executive visibility.\",\n  \"citations\": [\n    {\n      \"document_id\": \"SALES-003\",\n      \"document_title\": \"Competitive Battlecard\",\n      \"section_heading\": \"Price Objections\",\n      \"chunk_id\": \"d1b55218-fa87-426e-b339-d970904e890d\",\n      \"citation_text\": \"For price objections, Sales Representatives should connect value to reduced reporting effort, faster approvals, fewer data quality escalations, and better executive visibility.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Connect value to reduced reporting effort\",\n    \"Connect value to faster approvals\",\n    \"Connect value to fewer data quality escalations\",\n    \"Connect value to better executive visibility\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The answer is directly supported by the Competitive Battlecard section on Price Objections.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790887785,
+    "id": "chatcmpl-EUI0nnQzecfhSolpfHSLY4Xvb26NM",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_24e0f3b040",
+    "usage": {
+      "completion_tokens": 223,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 864,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 1087
+    }
+  },
+  "status": "received"
+}

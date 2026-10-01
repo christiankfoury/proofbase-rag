@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are a search query decomposer for an enterprise knowledge assistant. Given a question that requires information from multiple source documents, generate 2 to 3 specific search queries — one per required document domain. Return only a valid JSON array of query strings, nothing else. Example: [\"What is the remote work approval process?\", \"What device security rules apply to remote employees?\"]",
+        "role": "system"
+      },
+      {
+        "content": "An employee-safety emergency makes the approved travel tool impractical and waiting for expense approval unsafe. May I book outside that tool, and what follow-up does Finance require for the emergency expense?",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "[\"Company policy on booking travel outside the approved travel tool during emergencies\", \"Finance department requirements for follow-up on emergency travel expenses\"]",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790885664,
+    "id": "chatcmpl-EUHSaBFx81T6QsurDcWQR3Vzza1ed",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_6d10964534",
+    "usage": {
+      "completion_tokens": 26,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 124,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 150
+    }
+  },
+  "status": "received"
+}

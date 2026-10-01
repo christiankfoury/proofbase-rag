@@ -11,6 +11,8 @@ import current from "../../../../../data/evaluation/current-runtime-v3/public-re
 import latest from "../../../../../data/evaluation/current-runtime-v4/public-report.json";
 import successor from "../../../../../data/evaluation/current-runtime-v5/public-report.json";
 import captures from "../../../../../data/evaluation/current-runtime-v5/capture-publication.json";
+import measurement from "../../../../../data/evaluation/current-runtime-v6/public-report.json";
+import measurementCaptures from "../../../../../data/evaluation/current-runtime-v6/capture-publication.json";
 
 const repo = "https://github.com/christiankfoury/proofbase-rag/blob/main/";
 const reading = [
@@ -29,7 +31,45 @@ export default function EvaluationMethodologyPage() {
     <Shell>
       <PageHeader title="How Evaluation Is Scored" description="Public evidence, exact denominators, and known limits of the automated rubric." />
       <Card className="mb-6">
-        <SectionHeading title="Latest frozen-runtime evaluation" description="Phase 73 successor: a fresh sealed suite with the separately qualified v21 evaluator." />
+        <SectionHeading title="Latest frozen-runtime evaluation" description="Phase 73 v6: all 60 cases executed once with the qualified v23 evaluator." />
+        <p className="text-3xl font-semibold text-ink">No validated full-suite score</p>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          {measurement.completed_cases}/{measurement.expected_cases} evaluation rows complete; {measurementCaptures.captured_cases} responses saved.
+          {" "}Recorded model candidate passes: {measurement.candidate_passes}/{measurement.expected_cases}.
+          {" "}The {measurement.target}/{measurement.expected_cases} target was not met. Source inspection is not approved: seven semantic findings remain.
+          {" "}These unadjusted model counts are not validated accuracy. Unresolved judgments receive no target credit; quotation fidelity is separate.
+        </p>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          Invalid grades: {measurement.invalid_grades}. Cases with model-review disagreements: {measurement.disputed_cases.length}.
+          {" "}Recorded safety-flag cases: {measurement.safety_flag_cases.length}. Role and project checks observed no unauthorized retrieval or disclosure in this suite.
+          {" "}Department-only isolation, human adjudication and independent production security validation are not established.
+        </p>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead><tr><th className="p-2">Dimension</th><th className="p-2">Model pass</th><th className="p-2">Model fail</th><th className="p-2">Unresolved</th><th className="p-2">Not applicable</th></tr></thead>
+            <tbody>{Object.entries(measurement.dimensions).map(([name, values]) => {
+              const counts = values as Record<string, number>;
+              return <tr key={name} className="border-t border-stone-200"><td className="p-2 capitalize">{name.replaceAll("_", " ")}</td><td className="p-2">{counts.pass ?? 0}</td><td className="p-2">{counts.fail ?? 0}</td><td className="p-2">{counts.unresolved ?? 0}</td><td className="p-2">{counts.not_applicable ?? 0}</td></tr>;
+            })}</tbody>
+          </table>
+        </div>
+        <p className="mt-3 text-sm leading-6 text-stone-700">
+          This attempt: {measurement.calls} API calls; estimated usage USD {Number(measurement.holdout_cost_usd).toFixed(4)}.
+          {" "}Combined additional accounting: USD {Number(measurement.additional_spend_usd).toFixed(4)} of {Number(measurement.additional_ceiling_usd).toFixed(4)}, including the preserved earlier spending prefix.
+          {" "}Median application latency across {measurementCaptures.latency_ms.count} responses: {measurementCaptures.latency_ms.median === null ? "unavailable" : `${(measurementCaptures.latency_ms.median / 1000).toFixed(1)} seconds`}.
+          {" "}P95: {measurementCaptures.latency_ms.p95 === null ? "unavailable" : `${(measurementCaptures.latency_ms.p95 / 1000).toFixed(1)} seconds`}. Grading and fixture indexing are excluded. Costs are estimates, not invoices.
+        </p>
+        <p className="mt-3 text-sm leading-6 text-stone-700">{measurement.limitation}</p>
+        <p className="mt-3 break-all text-xs text-stone-500">Suite: {measurement.suite_version}; runtime: {measurement.runtime_commit}; evaluator: {measurement.version}; model: {measurement.model}.</p>
+        <div className="mt-4 flex flex-wrap gap-4 text-sm">
+          <a className="underline" href={`${repo}docs/phase-73/v6-case-review.md`}>Inspect every question and answer</a>
+          <a className="underline" href={`${repo}docs/phase-73/v6-results.md`}>Results, costs and limitations</a>
+          <a className="underline" href={`${repo}docs/phase-73/v6-source-review.md`}>Source inspection and findings</a>
+        </div>
+        <pre className="mt-4 overflow-x-auto rounded border border-stone-300 bg-stone-50 p-4 text-sm">python scripts/report_phase73_v6.py --check</pre>
+      </Card>
+      <Card className="mb-6">
+        <SectionHeading title="Previous Phase 73 attempt — budget stopped" description="Phase 73 successor: a fresh sealed suite with the separately qualified v21 evaluator." />
         <p className="text-3xl font-semibold text-ink">
           {successor.validated_passes === null ? "No validated full-suite score" : `${successor.validated_passes}/${successor.expected_cases} automated protocol passes`}
         </p>

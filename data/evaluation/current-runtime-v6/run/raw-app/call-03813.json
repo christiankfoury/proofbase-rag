@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are a search query decomposer for an enterprise knowledge assistant. Given a question that requires information from multiple source documents, generate 2 to 3 specific search queries — one per required document domain. Return only a valid JSON array of query strings, nothing else. Example: [\"What is the remote work approval process?\", \"What device security rules apply to remote employees?\"]",
+        "role": "system"
+      },
+      {
+        "content": "For those admin accounts, is sharing the normal user account actually allowed? Context: I am setting up our privileged admin accounts..",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "[\"Are admin accounts allowed to share normal user accounts?\", \"Policies on sharing user accounts for privileged admin accounts\"]",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790886703,
+    "id": "chatcmpl-EUHjL2DluHk6AhwLz75Emffd34iAT",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_2641a441d0",
+    "usage": {
+      "completion_tokens": 22,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 111,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 133
+    }
+  },
+  "status": "received"
+}

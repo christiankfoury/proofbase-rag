@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are a search query decomposer for an enterprise knowledge assistant. Given a question that requires information from multiple source documents, generate 2 to 3 specific search queries — one per required document domain. Return only a valid JSON array of query strings, nothing else. Example: [\"What is the remote work approval process?\", \"What device security rules apply to remote employees?\"]",
+        "role": "system"
+      },
+      {
+        "content": "For a Canada-payroll employee considering a role-related conference, what is the annual learning-budget amount, and what conference registration limit and pre-purchase approval appear in Finance policy?",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "[\"Canada payroll employee annual learning budget amount\", \"Finance policy conference registration limit and pre-purchase approval\"]",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790885161,
+    "id": "chatcmpl-EUHKT1nnr0Si6mswuhyJP0YaOni29",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_45a4255dce",
+    "usage": {
+      "completion_tokens": 21,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 121,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 142
+    }
+  },
+  "status": "received"
+}

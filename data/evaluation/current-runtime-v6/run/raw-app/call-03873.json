@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nRules:\n- Answer only from the retrieved context.\n- Cite every factual claim with document ID, document title, section heading, and chunk ID.\n- If evidence is missing, use response_type \"not_found\" and say: \"I could not find this in the available documents.\"\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted details.\n- If the question is ambiguous, use response_type \"clarify\" and ask one concise clarifying question.\n- If evidence is partial, use response_type \"partial_answer\", answer cautiously, and state what is missing.\n- If conversation memory is provided, use it only to understand the user's current question.\n- Do not treat conversation memory as source evidence; factual claims must be supported by retrieved context.\n- Do not invent policy details, numbers, dates, prices, legal advice, or customer commitments.\n- Keep answers concise but complete.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Question:\nIn the privileged-access guide, what must a reviewer confirm during the access review?\n\nRetrieved context:\nDocument ID: IT-ADMIN-001\nTitle: Privileged Access and Incident Response Guide\nSection: Privileged Access Review\nChunk ID: 5344f6f1-e18b-418a-ad06-4967852c96bc\nRank: 1\nRetrieval Score: 0.8214\nContent:\nPrivileged Access Review\n\nPrivileged access must be reviewed monthly for production systems and quarterly for business applications. Reviewers must confirm business need, manager approval, and least-privilege alignment.\n\nPrivileged access exceptions require an owner, expiration date, and documented business justification.\n\n---\n\nDocument ID: IT-ADMIN-001\nTitle: Privileged Access and Incident Response Guide\nSection: Access Notice\nChunk ID: ec4731b2-c82c-49b4-aae9-880b4c8dfc48\nRank: 2\nRetrieval Score: 0.6068\nContent:\nAccess Notice\n\nThis document is restricted to IT/Admin users. It contains operational security guidance and must not be summarized for unauthorized roles.\n\n---\n\nDocument ID: IT-ADMIN-001\nTitle: Privileged Access and Incident Response Guide\nSection: Admin Account Handling\nChunk ID: e25336e1-02eb-462f-927c-29c2dbbb7686\nRank: 3\nRetrieval Score: 0.4904\nContent:\nAdmin Account Handling\n\nAdmin accounts must be separate from normal user accounts. Admin access should use MFA, approved device posture, and session logging where supported.\n\nThis document does not contain passwords, tokens, secrets, or system credentials.\n\n---\n\nDocument ID: ENG-001\nTitle: Deployment, On-Call, and API Standards Handbook\nSection: Access Notice\nChunk ID: 4ec32519-957f-4f17-bb0f-7ef6f82fc918\nRank: 4\nRetrieval Score: 0.4852\nContent:\nAccess Notice\n\nThis handbook is restricted to Managers and IT Admins in the demo role model. It describes internal engineering operations and should not be exposed to employees who are not authorized for engineering operational guidance.\n\n---\n\nDocument ID: LEGAL-001\nTitle: Contract, NDA, and Data Retention Policy\nSection: Access Notice\nChunk ID: f10db009-dee2-4cab-9081-6fc64591228d\nRank: 5\nRetrieval Score: 0.4767\nContent:\nAccess Notice\n\nThis document is restricted to Sales Representatives, Managers, HR Admins, and IT Admins. It contains internal legal operating guidance and should not be shown to general employees or external parties.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.2
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"During the privileged access review, a reviewer must confirm the business need for the access, manager approval, and that the access aligns with the principle of least privilege.\",\n  \"citations\": [\n    {\n      \"document_id\": \"IT-ADMIN-001\",\n      \"document_title\": \"Privileged Access and Incident Response Guide\",\n      \"section_heading\": \"Privileged Access Review\",\n      \"chunk_id\": \"5344f6f1-e18b-418a-ad06-4967852c96bc\",\n      \"citation_text\": \"Reviewers must confirm business need, manager approval, and least-privilege alignment.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Reviewer must confirm business need\",\n    \"Reviewer must confirm manager approval\",\n    \"Reviewer must confirm least-privilege alignment\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The answer is fully supported by the retrieved context from the Privileged Access Review section.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790887507,
+    "id": "chatcmpl-EUHwJ3ADRDqcnZEaRC9FhDi89Hoec",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_24e0f3b040",
+    "usage": {
+      "completion_tokens": 213,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 902,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 1115
+    }
+  },
+  "status": "received"
+}

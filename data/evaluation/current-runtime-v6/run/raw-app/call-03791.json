@@ -1,0 +1,57 @@
+{
+  "request": {
+    "max_completion_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are Proofbase, a secure internal company knowledge assistant.\n\nThis question requires synthesis from multiple source documents. The retrieved context below is grouped by document — all documents shown are relevant to the question.\n\nResponse type rules:\n- Use response_type \"answer\" if the combined context across all documents supports the answer, even if no single document contains the complete answer.\n- Use response_type \"partial_answer\" only if required documents are genuinely missing from the context — not because evidence is split across documents.\n- Use response_type \"not_found\" only if none of the provided documents contain the needed information.\n- Use response_type \"refuse_no_access\" if the user lacks permission to access required documents.\n- Use response_type \"clarify\" if the question is ambiguous about approval stage, location, data type, or role.\n- Do not downgrade to \"partial_answer\" solely because evidence comes from two or more separate documents.\n\nCitation rules:\n- Cite at least one chunk per document that contributed facts to your answer.\n- Do not omit a document because its contribution is supplementary — if it added a fact, cite it.\n- Every citation must include document_id, document_title, section_heading, chunk_id, and citation_text.\n- citation_text must be a short exact or near-exact excerpt from the cited chunk.\n- Do not cite a chunk unless it directly supports a specific claim in the answer.\n\nSafety rules:\n- Answer only from the retrieved context.\n- If the user lacks access, use response_type \"refuse_no_access\" and do not reveal restricted content.\n- If conversation memory is provided, use it only to clarify the current question. Do not treat memory as source evidence.\n- Do not invent policy details, numbers, dates, prices, legal advice, customer commitments, or unstated exceptions.\n\nReturn only valid JSON with this shape:\n{\n  \"response_type\": \"answer | not_found | refuse_no_access | clarify | partial_answer\",\n  \"answer\": \"string\",\n  \"citations\": [\n    {\n      \"document_id\": \"string\",\n      \"document_title\": \"string\",\n      \"section_heading\": \"string\",\n      \"chunk_id\": \"string\",\n      \"citation_text\": \"short supporting excerpt from the cited chunk\"\n    }\n  ],\n  \"supported_claims\": [\"string\"],\n  \"unsupported_claims\": [\"string\"],\n  \"validation_notes\": \"string\"\n}",
+        "role": "system"
+      },
+      {
+        "content": "Original user question:\nFor that unused vacation balance, how much can actually roll into next year, and when does the carried balance expire?\n\nStandalone retrieval question:\nFor that unused vacation balance, how much can actually roll into next year, and when does the carried balance expire? Context: I am reviewing unused vacation before year-end..\n\nConversation memory for query clarification only:\nPrevious topic: I am reviewing unused vacation before year-end.\n\nRetrieved context (grouped by document):\n=== Document: HR-002 — PTO and Leave Policy ===\n\n[Section: Vacation Entitlement]\nChunk ID: 79e28ac2-ea1b-45ff-9a0d-d5ca18b2b19e\nScore: 0.6093\nContent:\nVacation Entitlement\n\nFull-time employees receive 20 paid vacation days per calendar year. Vacation is accrued monthly and may be used after the employee's first 30 days of employment. Part-time employees receive prorated vacation based on scheduled weekly hours.\n\nEmployees may carry over up to 5 unused vacation days into the next calendar year. Carried-over days must be used by March 31 or they expire unless local law requires a different outcome.\n\n[Section: Vacation Approval Workflow]\nChunk ID: 483a6ce6-f231-4b14-9190-948b5d6cd35b\nScore: 0.5039\nContent:\nVacation Approval Workflow\n\nVacation requests of 1 to 5 business days should be submitted at least 10 business days in advance. Requests longer than 5 business days should be submitted at least 20 business days in advance.\n\nManagers approve vacation based on business coverage, project deadlines, and fairness across the team. Managers should not deny vacation without explaining the business reason.\n\n[Section: Missing Policy Areas]\nChunk ID: 50227ee4-84db-49ca-b46e-df7b730ecc0e\nScore: 0.4802\nContent:\nMissing Policy Areas\n\nNorthstar does not publish a sabbatical policy in the employee knowledge base. Employees asking about sabbaticals should contact People Operations.\n\n=== Document: FIN-001 — Expense, Procurement, and Reimbursement Policy ===\n\n[Section: Policy Status]\nChunk ID: 83a57bc9-ac5f-411e-9684-7d80d72edf1f\nScore: 0.4729\nContent:\nPolicy Status\n\nThis policy is effective February 1, 2026 and replaces the 2025 informal spend guidance. If an older team wiki or email thread lists a different limit, this policy controls unless Finance publishes a newer version.\n\nEmployees should submit expenses within 30 calendar days of the transaction date. Expenses submitted after 60 calendar days require manager approval and a Finance Operations exception note.\n\n[Section: Expense Categories]\nChunk ID: 22e6e0ed-a681-4701-97d1-c1be7d69b0c0\nScore: 0.3799\nContent:\nExpense Categories\n\n| Category | Standard Limit | Approval Required |\n| --- | ---: | --- |\n| Meals during business travel | USD 85 per day | Manager approval above limit |\n| Customer-facing meals | USD 125 per attendee | Manager approval and attendee list |\n| Office supplies | USD 300 per purchase | Manager approval above limit |\n| Software subscription trial | USD 500 annualized value | IT review and manager approval |\n| Conference registration | USD 1,500 per event | Manager approval before purchase |\n\nAlcohol is not reimbursable unless it is part of a customer-facing meal approved by a manager before the event. Gift cards, personal devices, fines, commuting costs, and family travel are not reimbursable.\n\n[Section: Exceptions]\nChunk ID: 2f70e93f-c560-4b48-8a79-caa4306033ef\nScore: 0.3733\nContent:\nExceptions\n\nEmergency expenses are allowed when waiting for approval would create a customer, employee safety, or business-continuity risk. The employee must document the emergency and obtain manager approval within three business days.\n\nRecurring exceptions must be converted into a purchase order or department budget request. Finance does not approve repeated one-off exceptions for predictable monthly costs.\n\n=== Document: OPS-001 — Vendor, Travel, and Equipment Operations Policy ===\n\n[Section: Shipping and Return Rules]\nChunk ID: 7f43621b-e723-47b9-b347-6c633696ca67\nScore: 0.4257\nContent:\nShipping and Return Rules\n\nEmployees leaving the company must return company equipment within 10 business days unless HR Admin approves an extension. Operations may provide a prepaid shipping label. Employees should not include personal items in return shipments.\n\nDamaged or missing equipment is reviewed by HR Admin and IT Admin before any payroll or final-pay action. This policy does not authorize payroll deductions by itself.\n\n[Section: Exceptions]\nChunk ID: a631c612-3ff0-415b-9908-3f84c7063453\nScore: 0.3967\nContent:\nExceptions\n\nOperations may approve exceptions for accessibility, business continuity, safety, or customer-critical travel. Repeated exceptions should be converted into a budget request, vendor onboarding request, or role-specific equipment standard.\n\n[Section: Policy Scope]\nChunk ID: 5feea154-dae9-493a-b80d-a17187b6ab2b\nScore: 0.3789\nContent:\nPolicy Scope\n\nThis policy covers vendor onboarding, business travel booking, equipment requests, shipping, and operations exceptions. It applies to employees, managers, HR Admins, and IT Admins who request operational support.\n\nFinance controls reimbursement and procurement thresholds. Legal controls contract review. IT controls device security. This Operations policy explains process ownership and routing.\n\n=== Document: HR-001 — Employee Handbook ===\n\n[Section: Related Policies]\nChunk ID: b6f7d058-c59b-40e2-bf9b-3a560a873391\nScore: 0.3826\nContent:\nRelated Policies\n\nFor time off, consult the PTO and Leave Policy. For remote work, consult the Remote and Hybrid Work Policy. For acceptable technology use, consult the Acceptable Use Policy.",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-4.1-mini",
+    "temperature": 0.0
+  },
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "audio": null,
+          "content": "{\n  \"response_type\": \"answer\",\n  \"answer\": \"Employees may carry over up to 5 unused vacation days into the next calendar year. The carried-over vacation days must be used by March 31 of the following year or they expire, unless local law requires a different outcome.\",\n  \"citations\": [\n    {\n      \"document_id\": \"HR-002\",\n      \"document_title\": \"PTO and Leave Policy\",\n      \"section_heading\": \"Vacation Entitlement\",\n      \"chunk_id\": \"79e28ac2-ea1b-45ff-9a0d-d5ca18b2b19e\",\n      \"citation_text\": \"Employees may carry over up to 5 unused vacation days into the next calendar year. Carried-over days must be used by March 31 or they expire unless local law requires a different outcome.\"\n    }\n  ],\n  \"supported_claims\": [\n    \"Up to 5 unused vacation days can roll into next year\",\n    \"Carried-over vacation days expire on March 31 unless local law states otherwise\"\n  ],\n  \"unsupported_claims\": [],\n  \"validation_notes\": \"The PTO and Leave Policy clearly states the carryover limit and expiration date for unused vacation days.\"\n}",
+          "function_call": null,
+          "refusal": null,
+          "role": "assistant",
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1790886311,
+    "id": "chatcmpl-EUHd1MPDSpmxZvJB9iHKZNJDexmOv",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_d5663c57e3",
+    "usage": {
+      "completion_tokens": 256,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens": 1784,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 2040
+    }
+  },
+  "status": "received"
+}

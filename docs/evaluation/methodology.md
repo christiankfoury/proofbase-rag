@@ -2,9 +2,33 @@
 
 This describes code and saved evidence, not the aspirational Phase 3 scoring rubric. Historical artifacts retain their original field names for auditability; public labels explain what those fields actually measure.
 
-## Phase 73 successor measurement
+## Latest Phase 73 v6 measurement
 
-The latest [successor result](../phase-73/v5-results.md) binds qualified v21 to
+The [v6 result](../phase-73/v6-results.md) uses runtime `c44459b8`, qualified v23
+and separately authored/validated suite `current-runtime-6`: 60 cases and 102
+reference facts, sealed before a single synchronous execution. All 60 responses
+and evaluation rows are saved. The unchanged composite has a 48/60 target;
+unresolved judgments get no credit and quotation fidelity is separate.
+
+Recorded model counts are 28 passes, 21 failures and 11 unresolved. Four invalid
+grades and nine reviewer-disputed cases overlap. Seven source-inspection findings
+prevent semantic publication approval: no validated score or adjusted accuracy
+is published. Finite 24/24 development, 3/3 probe and fresh 16/16 confirmation
+qualification did not eliminate new grader inconsistencies. Missing-information
+and refusal speech acts must remain distinct from factual policy assertions;
+question context and source metadata do not grant permissions.
+
+All role/project cases executed with no observed unauthorized retrieval or
+disclosure. Both uploaded fixtures were indexed in different projects and excluded
+from Northstar answers. Department-only scope was not exercised. The 60-response
+median/P95 application latencies exclude grading and indexing; all 453 settled
+API calls, including auxiliary operations, cost estimated USD 3.50002860.
+No retries, exposed-case edits, dropped rows or historical evidence changes occurred.
+Agent source inspection is not human adjudication or independent security testing.
+
+## Previous Phase 73 successor measurement
+
+The previous [successor result](../phase-73/v5-results.md) binds qualified v21 to
 frozen revision `1cb44e30` and separately authored/validated suite `current-runtime-5`.
 It retains the same full-response composite, 48/60 target, zero unauthorized
 retrieval/disclosure gate, separate quotation metric and no credit for unresolved
