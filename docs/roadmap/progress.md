@@ -27,6 +27,9 @@ The [v6 preparation](../phase-73/v6-measurement-preparation.md), committed/pushe
 as `f13c9e8f`, adds authorized title capture, full historical accounting and
 USD 4.50 minimum launch headroom; 21 offline controls pass. V22's failure remains
 preserved; neither preparation nor calibration is an application score.
+Calibration evidence is committed/pushed as `d50c523a`. The separate v23 freeze
+binds that revision before isolated confirmation authorship; no fresh case exists
+at freeze creation. Confirmation remains capped at 48 synchronous calls/USD 1.20.
 Phases 71/72 remain historically complete; Phase 73 has no full result yet.
 
 ### Preserved checkpoint: Phase 73 v5 budget stop
