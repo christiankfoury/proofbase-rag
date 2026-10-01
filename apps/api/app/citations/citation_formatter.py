@@ -7,12 +7,18 @@ def citation_payload(
     citation_text: str | None = None,
     confidence: float | None = None,
 ) -> dict:
+    # The UI renders citation_text as an excerpt. A model paraphrase or a join
+    # across source passages must never be presented as a contiguous quotation.
+    # Replacing the display excerpt does not establish support for answer claims.
+    if not citation_text or citation_text not in chunk.content:
+        citation_text = chunk.content[:240]
+        citation_type = "fallback"
     payload = {
         "document_id": chunk.document_id,
         "document_title": chunk.document_title,
         "section_heading": chunk.section_heading,
         "chunk_id": chunk.chunk_id,
-        "citation_text": citation_text or chunk.content[:240],
+        "citation_text": citation_text,
         "source": f"Source: {chunk.document_id} {chunk.document_title}, Section: {chunk.section_heading}",
         "citation_type": citation_type,
     }

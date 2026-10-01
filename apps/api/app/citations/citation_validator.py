@@ -96,16 +96,14 @@ def validate_citations(answer: str, citations: list[dict], chunks: list[Retrieve
         if not chunk:
             unsupported_claims.append(f"Citation does not match retrieved chunk: {citation.get('chunk_id')}")
             continue
-        citation_text = citation.get("citation_text") or citation.get("source") or ""
-        confidence = _confidence_from_overlap(answer, citation_text, chunk)
-        validated.append(
-            citation_payload(
-                chunk,
-                citation_type=citation.get("citation_type", "model"),
-                citation_text=citation_text,
-                confidence=confidence,
-            )
+        payload = citation_payload(
+            chunk,
+            citation_type=citation.get("citation_type", "model"),
+            citation_text=citation.get("citation_text") or citation.get("source") or "",
         )
+        citation_text = payload["citation_text"]
+        confidence = _confidence_from_overlap(answer, citation_text, chunk)
+        validated.append({**payload, "confidence": confidence})
         if confidence >= 0.7:
             supported_claims.append(f"{chunk.document_id}: {chunk.section_heading}")
         elif confidence < 0.5:

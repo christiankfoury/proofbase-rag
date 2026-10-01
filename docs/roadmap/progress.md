@@ -6,7 +6,7 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: application reliability R1–R2 complete; R3 next
+### Active: application reliability R1–R3 complete; R4 next
 
 Implementation was explicitly requested on 2026-10-01. The
 [implementation note](../phase-73/application-reliability.md) records the offline
@@ -19,7 +19,11 @@ R1 is committed/pushed as `afd9fcd7`. R2 reproduces and fixes late keyword
 reclarification and mistaken normalization of unresolved choices. Five new routing
 methods and Phase 52/53/54/quality-runtime checks pass offline; see the implementation
 note for the preserved Windows self-pipe harness failure and correction.
-Review/commit/push of R2 precedes R3 coverage/citations and R4 evidence.
+R2 is committed/pushed as `d203b4c2`. R3 fixes noncontiguous/fabricated displayed
+excerpts and uncited claims surviving partial downgrade. Seven new coverage
+methods and affected shared suites pass. General semantic omissions, scenario
+application and mixed-request safe-part coverage remain unverified/open.
+Review/commit/push of R3 precedes R4 consolidated evidence and assessments.
 The unrelated tracked request log is preserved. API headroom remains USD 3.79479490.
 
 ### Preserved planning handoff

@@ -2267,15 +2267,33 @@ def _validation_safe_downgrade(
     authorized_chunks: list | None = None,
 ) -> dict:
     downgraded = dict(answer)
+    allowed_ids = {chunk.chunk_id for chunk in (authorized_chunks or [])}
+    candidate_ids = {
+        citation.get("chunk_id") for citation in (answer.get("citations") or [])
+    } & allowed_ids
+    checks = [
+        check for check in (validation.citation_checks if validation else [])
+        if check.supports_claims and check.citation_chunk_id in candidate_ids
+    ]
+    retained_claims = [
+        claim for claim in (validation.claims if validation else [])
+        if claim.support_status == "supported" and any(
+            claim.claim_id in check.supported_claim_ids
+            and check.citation_chunk_id in claim.evidence_chunk_ids
+            for check in checks
+        )
+    ]
     supported_claims = [
-        claim.claim_text
-        for claim in (validation.claims if validation else [])
-        if claim.support_status == "supported"
+        claim.claim_text for claim in retained_claims
     ]
     supported_citation_ids = {
         check.citation_chunk_id
-        for check in (validation.citation_checks if validation else [])
-        if check.supports_claims
+        for check in checks
+        if any(
+            claim.claim_id in check.supported_claim_ids
+            and check.citation_chunk_id in claim.evidence_chunk_ids
+            for claim in retained_claims
+        )
     }
     if supported_claims and validation and not validation.source_instruction_followed:
         citations = [
@@ -2291,7 +2309,10 @@ def _validation_safe_downgrade(
         )
         downgraded.update(
             {
-                "answer": "Based on limited supporting evidence, " + " ".join(dict.fromkeys(supported_claims)),
+                "answer": (
+                    "Based on limited supporting evidence, " + " ".join(dict.fromkeys(supported_claims))
+                    + " I could not validate the remaining parts of the requested answer."
+                ),
                 "response_type": "partial_answer",
                 "behavior": "answer",
                 "citations": citations,
