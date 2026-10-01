@@ -1,0 +1,115 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "partial_answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The answer substantively addresses the Finch question, but only partially covers the departure conditions and omits a requested material requirement.",
+    "behavior_span": "Outbound crates need a blue route code. Entering the scale reading is one necessary step before departure.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "outbound crates require a blue route code."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "R1 entails the Finch requirement that outbound crates have a blue route code, and C1 provides the same support.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "outbound crates require a blue route code."
+          }
+        ],
+        "text": "Outbound crates need a blue route code."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "They may leave only after the scale reading has been entered and the latch inspection is complete."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "R1 entails that having the scale reading entered is a necessary precondition to leaving, though not the only one; C1 supports the same claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "They may leave only after the scale reading has been entered and the latch inspection is complete."
+          }
+        ],
+        "text": "Entering the scale reading is one necessary step before departure."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C2",
+            "span": "Wren applies to trolley movements, not outbound crates. A spotter must attend trolley movements."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "R2 supports both that Wren governs trolley movements rather than outbound crates and that trolley movements require a spotter; C2 entails the same.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "Wren applies to trolley movements, not outbound crates. A spotter must attend trolley movements."
+          }
+        ],
+        "text": "Under the separate Wren trolley rule, a spotter must attend trolley movements."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Outbound crates need a blue route code."
+        ],
+        "fact_id": "F1",
+        "reason": "This directly states the Finch outbound-crate code requirement.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [],
+        "fact_id": "F2",
+        "reason": "The answer gives only one prerequisite ('scale reading') and omits the material additional condition that the latch inspection must be complete before crates can leave.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested Finch outbound-crate policy, though it also adds an extra Wren trolley rule not asked for.",
+      "status": "pass"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "All factual answer claims were enumerated with exact spans, and each is supported by the matching factual and cited source text. The required Finch code fact is covered, while the departure-condition fact is correctly marked missing because the answer omits the latch-inspection condition. Given that omission, actual_behavior=partial_answer is correct and response_behavior=fail against expected answer is correct. The answer remains relevant because it does address the requested Finch policy, despite adding an extra Wren rule. No forbidden assertion was specified or asserted.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

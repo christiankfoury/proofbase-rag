@@ -1,0 +1,72 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": false,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive quantity answer, but it selects its own topic instead of clarifying the unspecified object.",
+    "behavior_span": "You are asking about visitor maps. The visitor map allowance is two per visit.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "This is a guessed topic identification about the user's question, and no authorized source text or citation provides evidence about what the user is asking about.",
+        "source_spans": [],
+        "text": "You are asking about visitor maps."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Visitors may take no more than two visitor maps per visit."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source and citation both entail that visitors may take at most two visitor maps per visit, which supports this allowance statement.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Visitors may take no more than two visitor maps per visit."
+          }
+        ],
+        "text": "The visitor map allowance is two per visit."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks only 'How many can I take?' and does not identify what item or policy is at issue. The answer invents the topic 'visitor maps,' so it is not responsive to the user's specified topic.",
+      "status": "fail"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s claim extraction and statuses are consistent with the rubric. It correctly treats \"You are asking about visitor maps.\" as a factual guessed-topic claim with factual_status unknown and citation_status missing, and \"The visitor map allowance is two per visit.\" as supported by R1/C1. With one unknown factual claim and no contradicted claims, factual_support=unresolved is correct; with a missing citation for that guessed-topic claim, citation_support=fail is correct. There are no required_facts, so completeness=not_applicable is correct. The answer gives a substantive response rather than asking for clarification, so actual_behavior=answer is correct; because expected_behavior is clarify, response_behavior=fail is correct. Relevance=fail is also correct because the question does not identify the object and the answer invents the topic of visitor maps. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

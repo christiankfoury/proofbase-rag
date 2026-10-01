@@ -144,3 +144,11 @@ references and custody hashes. The final suite and every initial/reconsideration
 artifact are sealed before execution. Offline preflight passes with no API calls;
 48 calls/USD 1.20 remains the declared stage limit. The theoretical token maximum
 is higher than the stage cap, so the guard can stop execution before all requests.
+
+The final suite was sealed/pushed as `832af2be`. Its one-shot confirmation passes
+16/16 with [clean source inspection](confirmation-v23-standard-source-review.md)
+and exact offline replay. All 48 calls settled at USD 0.6168585, with no retries
+or new unknowns. V23 is qualified under the unchanged gates. New allowance
+spending totals USD 1.70517650 across 159 calls; USD 7.29482350 remains. Cumulative
+history: 3,633 attempts and USD 22.43911412. Next: commit qualification, then a
+separate v6 runtime/environment/accounting freeze before isolated 60-case authorship.

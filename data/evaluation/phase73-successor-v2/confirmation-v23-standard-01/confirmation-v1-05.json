@@ -1,0 +1,71 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It gives a substantive duration answer, but for the wrong policy/entity rather than the Granite Camera Scheme asked about in context.",
+    "behavior_span": "The Harbor Bicycle Scheme allows a bicycle loan for 72 hours.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C2",
+            "span": "Harbor Bicycle Scheme: bicycle loans may last up to 72 hours."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "This claim is entailed by R2/C2: the Harbor Bicycle Scheme permits bicycle loans with a maximum duration of 72 hours. Although the question context was about the Granite Camera Scheme, that affects relevance, not the truth of this asserted policy claim.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "Harbor Bicycle Scheme: bicycle loans may last up to 72 hours."
+          }
+        ],
+        "text": "The Harbor Bicycle Scheme allows a bicycle loan for 72 hours."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer gives a duration for the Harbor Bicycle Scheme's bicycle loan, not the Granite Camera Scheme's camera loan, so it omits the requested 18-hour Granite Camera Scheme limit.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question, resolved by the history, is about the Granite Camera Scheme loan limit. The answer instead addresses the Harbor Bicycle Scheme bicycle loan policy, a different entity and object.",
+      "status": "fail"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracts the only factual claim verbatim and marks it supported by R2/C2. It also correctly marks required fact F1 as missing rather than contradicted, because the answer switches to a different scheme/object, so completeness=fail. Relevance=fail is correct because the history fixes the topic as Granite Camera Scheme, while the answer addresses Harbor Bicycle Scheme. actual_behavior=answer is correct for a substantive but wrong-topic response, and response_behavior=fail is correctly derived because the expected behavior was answer but the required fact is missing. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

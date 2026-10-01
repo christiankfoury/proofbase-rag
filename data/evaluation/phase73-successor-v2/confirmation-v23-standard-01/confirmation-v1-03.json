@@ -1,0 +1,90 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive answers to both who seals the pouches and whether sealing is mandatory, even though those answers conflict with the required facts.",
+    "behavior_span": "Dune pouch sealing is optional. Couriers alone are responsible for sealing them; records clerks must not do it.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer says sealing is optional, but source R1 explicitly states that every archive pouch must be sealed, so the claim is contradicted. The cited source does not entail the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "every archive pouch must be sealed"
+          }
+        ],
+        "text": "Dune pouch sealing is optional."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "This reverses the actor restrictions in R1: the source says only records clerks may seal the pouches and couriers are prohibited from sealing them. That contradicts both the claim that couriers alone should seal them and that records clerks must not do it. The cited source does not entail the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Only records clerks may seal these pouches; couriers are prohibited from sealing them."
+          }
+        ],
+        "text": "Couriers alone are responsible for sealing them; records clerks must not do it."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Couriers alone are responsible for sealing them;",
+          "records clerks must not do it."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer assigns sealing exclusively to couriers and explicitly says records clerks must not seal, which is incompatible with only records clerks being allowed to seal Dune archive pouches.",
+        "status": "contradicted"
+      },
+      {
+        "answer_spans": [
+          "Dune pouch sealing is optional."
+        ],
+        "fact_id": "F2",
+        "reason": "Saying sealing is optional conflicts with the requirement that every Dune archive pouch must be sealed.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the same subject identified in the question: sealing rules for Dune archive pouches, including who seals them and whether sealing is mandatory.",
+      "status": "pass"
+    }
+  },
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted both factual answer sentences as verbatim claims and assessed them. Both claims are contradicted by R1/C1: the source says every Dune archive pouch must be sealed, only records clerks may seal them, and couriers are prohibited from sealing them. The required facts are therefore both explicitly contradicted by the answer spans identified. The response is still an actual substantive answer to both asked parts, so actual_behavior=answer is correct, but response_behavior=fail is also correct because the expected behavior was an answer and the required facts were contradicted. The answer is relevant to the asked Dune pouch-sealing policy, and there are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

@@ -33,7 +33,12 @@ at freeze creation. Confirmation remains capped at 48 synchronous calls/USD 1.20
 The new 16-case suite is independently approved after one pre-execution ambiguity
 correction; the initial suite, withdrawn approval and reconsideration are preserved.
 Final reference/custody checks and no-call preflight pass. Separate sealing now
-precedes the one-shot confirmation; evaluator qualification is still pending.
+precedes the one-shot confirmation, committed/pushed as `832af2be`. Confirmation
+now passes 16/16 with clean source inspection and exact offline replay: 48 calls,
+USD 0.6168585. V23 is qualified. Across the new allowance, 159 calls cost
+USD 1.70517650; USD 7.29482350 remains. Cumulative history is 3,633 attempts and
+USD 22.43911412. Next: commit qualification, then separate v6 runtime/environment
+freeze before isolated 60-case authoring and validation. No application score yet.
 Phases 71/72 remain historically complete; Phase 73 has no full result yet.
 
 ### Preserved checkpoint: Phase 73 v5 budget stop
