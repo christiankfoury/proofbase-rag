@@ -38,7 +38,10 @@ now passes 16/16 with clean source inspection and exact offline replay: 48 calls
 USD 0.6168585. V23 is qualified. Across the new allowance, 159 calls cost
 USD 1.70517650; USD 7.29482350 remains. Cumulative history is 3,633 attempts and
 USD 22.43911412. Next: commit qualification, then separate v6 runtime/environment
-freeze before isolated 60-case authoring and validation. No application score yet.
+freeze before isolated 60-case authoring and validation. Qualification is
+committed/pushed as `c44459b8`. The separate v6 freeze binds that revision,
+287 files, the unchanged local environment and the verified 3,633-call prefix;
+it precedes all new runtime holdout authorship. No application score yet.
 Phases 71/72 remain historically complete; Phase 73 has no full result yet.
 
 ### Preserved checkpoint: Phase 73 v5 budget stop

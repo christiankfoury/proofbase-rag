@@ -53,3 +53,13 @@ replacing data. The read-only fingerprint exactly matches v5's preserved
 environment (32 documents, 247 chunks). A real authorized HR-001 chunk also passes
 the new database-title capture check. No AI calls or database writes occurred in
 these checks. Exact frozen preflight remains required before execution.
+
+V23 qualification is committed/pushed as `c44459b8`: unchanged full calibration
+24/24 plus 3/3 probes and fresh confirmation 16/16, each with clean source
+inspection. The separate v6 freeze binds that revision, all 287 source/corpus/
+protocol files, the unchanged local database/config/index and complete 3,633-call
+prefix at USD 22.43911412. Original unknown status and full reservation remain
+retained; the new active ledger has no new unknown or budget-stop flag. USD
+7.29482350 remains, exceeding the USD 4.50 launch threshold. Committed source
+inventory and working inventory agree. Freeze is created before any new 60-case
+authorship; the separate freeze commit precedes isolated author and validator.
