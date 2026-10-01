@@ -30,6 +30,10 @@ preserved; neither preparation nor calibration is an application score.
 Calibration evidence is committed/pushed as `d50c523a`. The separate v23 freeze
 binds that revision before isolated confirmation authorship; no fresh case exists
 at freeze creation. Confirmation remains capped at 48 synchronous calls/USD 1.20.
+The new 16-case suite is independently approved after one pre-execution ambiguity
+correction; the initial suite, withdrawn approval and reconsideration are preserved.
+Final reference/custody checks and no-call preflight pass. Separate sealing now
+precedes the one-shot confirmation; evaluator qualification is still pending.
 Phases 71/72 remain historically complete; Phase 73 has no full result yet.
 
 ### Preserved checkpoint: Phase 73 v5 budget stop

@@ -126,3 +126,21 @@ USD 21.82225562. No retries or new unknown outcomes. Next: commit the clean
 calibration, freeze v23, then isolated fresh 16-case confirmation (48 calls,
 USD 1.20 stage cap). The separate [v6 preparation](v6-measurement-preparation.md)
 is committed/pushed as `f13c9e8f`; it makes no qualification or application claim.
+
+Calibration commit `d50c523a` was frozen in separate commit `6d876785` before
+isolated confirmation authorship. The fresh 16-case suite contains 17 required
+facts, two history cases and four multiple-source cases. Initial validation
+approved all cases, but primary pre-seal review identified a mixed interpretation
+of case 02's sufficient-permission wording versus its missing-condition label.
+The independent validator withdrew that case's approval (`V23-VAL-002`). Original
+suite, approval and notes plus the separate reconsideration are retained. The
+author revised only that case to state one necessary step without sufficient
+permission; final independent revalidation precedes sealing and paid execution.
+No evaluator output or application result informed the correction.
+
+Final independent revalidation accepts all 16 cases with zero unresolved findings
+and explicitly resolves V23-VAL-002. Root verified the sole case delta, all mapped
+references and custody hashes. The final suite and every initial/reconsideration
+artifact are sealed before execution. Offline preflight passes with no API calls;
+48 calls/USD 1.20 remains the declared stage limit. The theoretical token maximum
+is higher than the stage cap, so the guard can stop execution before all requests.

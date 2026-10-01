@@ -46,3 +46,10 @@ this tooling commit until its accounting settles. The unrelated tracked request
 log remains excluded. Next: finish qualification, freeze, isolated author/validator,
 seal, execute once, inspect and publish. Stop on actual accounting, custody,
 permission, service or budget blockers; never label preparation as measurement.
+
+Local readiness check after `6d876785`: Docker Desktop and the existing PostgreSQL
+and Redis containers were stopped; restarting them restored connectivity without
+replacing data. The read-only fingerprint exactly matches v5's preserved
+environment (32 documents, 247 chunks). A real authorized HR-001 chunk also passes
+the new database-title capture check. No AI calls or database writes occurred in
+these checks. Exact frozen preflight remains required before execution.
