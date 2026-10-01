@@ -19,8 +19,14 @@ text-only witness fields. The failure and source inspection are preserved.
 V23 clarifies output placement with unchanged strict validation and references.
 V23 then passed 8/8 diagnostic cases and 3/3 probes with clean source inspection
 and offline replay, using 27 calls/USD 0.31000450. USD 8.58027950 remains after
-36 total new calls. Next: unchanged full calibration, then isolated fresh
-qualification under the same gates. V22's failure remains preserved.
+36 total new calls at that checkpoint. Full v23 calibration now passes 24/24 and
+3/3 probes with clean source inspection and exact offline replay: 75 calls,
+USD 0.6685975. New allowance spending totals USD 1.08831800 across 111 calls,
+leaving USD 7.91168200. Next: freeze v23 before isolated fresh 16-case confirmation.
+The [v6 preparation](../phase-73/v6-measurement-preparation.md), committed/pushed
+as `f13c9e8f`, adds authorized title capture, full historical accounting and
+USD 4.50 minimum launch headroom; 21 offline controls pass. V22's failure remains
+preserved; neither preparation nor calibration is an application score.
 Phases 71/72 remain historically complete; Phase 73 has no full result yet.
 
 ### Preserved checkpoint: Phase 73 v5 budget stop

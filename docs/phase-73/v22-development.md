@@ -117,3 +117,12 @@ It used 27 settled calls and USD 0.31000450. Across this new allowance, 36 calls
 cost USD 0.41972050, leaving USD 8.58027950. Cumulative history is 3,510 attempts
 and USD 21.15365812. Next: unchanged 24-case/three-probe calibration, capped at
 75 calls and USD 1.50; qualification is still pending.
+
+Full v23 calibration now passes 24/24 and 3/3 probes with clean
+[source inspection](v23-calibration-source-review.md) and offline replay. All 75
+calls settled at USD 0.6685975. New allowance spending is USD 1.08831800 across
+111 calls; USD 7.91168200 remains. Cumulative history: 3,585 attempts and
+USD 21.82225562. No retries or new unknown outcomes. Next: commit the clean
+calibration, freeze v23, then isolated fresh 16-case confirmation (48 calls,
+USD 1.20 stage cap). The separate [v6 preparation](v6-measurement-preparation.md)
+is committed/pushed as `f13c9e8f`; it makes no qualification or application claim.
