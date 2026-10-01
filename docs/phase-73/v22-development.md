@@ -75,8 +75,38 @@ provider retries, separate unused folder and unchanged accounting prefix.
 These tests reuse historical responses only as transport/reducer fixtures; they
 are not a live v22 qualification result. No paid call has been made in this cycle.
 
-Review the complete intended diff before committing the preparation. Next action:
-`python scripts/quality_development_v22.py execute --stage diagnostic --allow-external-ai`.
-Preserve the result, inspect every claim/fact/reviewer decision and run offline
-replay before any qualification gate is approved. Frontend build is deferred until
-its published data changes; application tests are reused because runtime is unchanged.
+Preparation was reviewed, committed and pushed as `214645dd`. Frontend build is
+deferred until its published data changes; application tests are reused because
+runtime is unchanged.
+
+## Preserved diagnostic and v23 clarification
+
+V22 stopped at its third case: 2/3 exact, nine settled calls, USD 0.109716.
+[Source inspection](v22-diagnostic-source-review.md) confirms that correct title
+attribution was accompanied by invalid metadata IDs/title text in exact-witness
+fields. The strict validator rejected them correctly; the model reviewer did not
+identify the contract error. Five cases and all probes remain unexecuted.
+New allowance remaining: USD 8.890284; cumulative total USD 20.84365362,
+3,483 attempts. No unknown outcome or retry.
+
+V23 clarifies that attribution metadata is explained in the claim reason, while
+source/citation witnesses may contain only their respective text IDs and literal
+text substrings. It inherits the same strict parser, metadata binding, schema,
+scoring reducers and model configuration. The same eight development references
+and three probes are copied unchanged into a new one-shot stage; these are
+development controls, never fresh holdout claims. Bounds remain 27 calls/USD 1.00
+for diagnostics, then 75 calls/USD 1.50 for the unchanged full calibration.
+
+Separate v23 confirmation tooling and neutral author/validator briefs are prepared
+but no fresh cases are authored before qualification and freeze. Its 16-case
+stage cap is USD 1.20/48 calls. The validator must explicitly record the
+question/reference-scope check for every case, and title metadata must exactly
+match the authoritative evidence mapping. No former holdout content is provided.
+
+V23 preparation verification: eleven offline controls pass (seven development/
+accounting controls, saved 16-case confirmation replay, failed-development gate,
+scope-review requirement and forged title mapping); compilation and diagnostic
+preflight pass. All prior v22 requests, judgments and costs replay exactly. The
+new stage's theoretical token sum is USD 3.4958925; its hard cap remains USD 1.00.
+Semantic review found no blocking preparation issue. Next: the one-shot v23
+diagnostic, followed by source inspection; qualification is not yet established.

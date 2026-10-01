@@ -13,9 +13,12 @@ implementation. The [active-plan amendment](quality-completion-plan.md) enforces
 USD 9 new spending with a currency buffer; the prior remaining balance is not
 added again. [V22 preparation](../phase-73/v22-development.md) adds a separate
 immutable-prefix journal, role-context/title-attribution clarification and eight
-new development controls. Seven offline tests and compilation pass; no new API
-calls yet. Next: commit reviewed preparation, execute the bounded diagnostic,
-then full calibration and isolated fresh qualification under unchanged gates.
+new development controls, committed/pushed as `214645dd`. V22 stopped at 2/3
+exact after nine settled calls costing USD 0.109716: metadata was placed into
+text-only witness fields. The failure and source inspection are preserved.
+V23 clarifies output placement with unchanged strict validation and references.
+USD 8.890284 remains. Next: verify/commit successor preparation, execute its
+bounded diagnostic, then full calibration and isolated fresh qualification.
 Phases 71/72 remain historically complete; Phase 73 has no full result yet.
 
 ### Preserved checkpoint: Phase 73 v5 budget stop
