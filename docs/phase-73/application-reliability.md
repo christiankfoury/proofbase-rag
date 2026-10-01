@@ -18,8 +18,10 @@ Mocked semantic decisions establish plumbing only, never live entailment quality
 
 | Cause / owning layer | Valid / negative / interaction coverage | Evidence and disposition |
 | --- | --- | --- |
-| Overlapping numeric spans, dropped sign/currency and 20-literal truncation / post-generation validator | Grouped money, codes, decimals, dates, durations, repetitions and sentence boundaries; changed amount/unit/currency/sign; false approver/negation plus semantic handoff, timeout, missing/unauthorized citations and one-repair caller | V6 source review 056 locates fragments after retrieval; new fixtures use unrelated values. Baseline/after recorded under `data/evaluation/application-reliability-v1`. R1 in progress. |
+| Overlapping numeric spans, dropped sign/currency and 20-literal truncation / post-generation validator | Grouped money, codes, decimals, dates, durations, repetitions and sentence boundaries; changed amount/unit/currency/sign; false approver/negation plus semantic handoff, timeout, missing/unauthorized citations and one-repair caller | V6 source review 056 locates fragments after retrieval; new fixtures use unrelated values. Baseline/after recorded under `data/evaluation/application-reliability-v1`. Fixed in `afd9fcd7`. |
 | Scenario quantity treated as a policy literal / post-generation validator | Question-only value versus changed policy threshold and hostile override | V6 002/012/016/055 are diagnostic pointers, not acceptance fixtures. No numeric whitelist planned; interpretation remains semantic and requires live validation if not safely reproducible offline. |
+| Late ambiguity keyword overrides sufficient evidence / generation routing | Answer and partial-answer in both generation paths; no-evidence, unauthorized chunks, unresolved intent and conflict controls | Newly composed software-policy fixture fails in four route combinations before the fix. Application defect; not attributed to a specific v6 row. |
+| Repeated interrogative mistaken for a named subject / request normalization | New schedule/version choices versus historical named incident lookup; hostile role instruction remains blocked | V6 041 raw call `03945` requests clarification for `which calendar`; runtime normalization erases it before retrieval. New independent choice fixtures reproduce the general cause. |
 
 Historical model failures are not an oracle. Attribution compares the question,
 authorized source, saved candidate if present, validation and final response;
@@ -65,3 +67,35 @@ attempted external access. Compilation uses Python's in-memory `compile`.
 No schema/benchmark/UI changes: benchmark validation, web build and live checks
 are skipped by scope and the USD 0 instruction. Semantic diff review found no
 remaining blocking issue. R1 implementation is complete; R2 follows the push.
+
+## R2 result
+
+R1 commit `afd9fcd7` was verified and pushed before R2. R2 baseline has five
+methods: three pass, two fail (five failed assertions including route variants).
+All five pass afterward; `r2-before.json` / `r2-after.json` preserve evidence.
+Both changes are application routing corrections. Request normalization now keeps
+an unresolved choice or missing decision variables instead of calling the echoed
+question a named subject. Existing specific information-search normalizations
+still pass. Generation's late ambiguity keyword fallback now respects the earlier
+authorized-evidence answer/partial decision, like its existing missing-topic gate.
+This can enable the normal generation and validation calls for requests previously
+stopped incorrectly; it adds no retry or new processing stage.
+
+New controls exercise both generation paths with sufficient evidence, absent
+evidence and role-disallowed chunks; conflicts produce clarification, and mixed
+hostile requests remain blocked before retrieval. The historical Phase 52 ASGI
+tests also exercise `/query` and `/query/stream`. Retrieval, tenant, project and
+department filtering code is unchanged. Unknown empty retrieval is still not
+treated as access denial. Paraphrased restricted intents not recognized by trusted
+role rules remain a refusal-wording limitation; no forbidden-document lookup was
+added. This does not establish production or department-only security coverage.
+
+Verification: `python -B scripts/test_application_reliability.py SharedTests
+RoutingTests --record data/evaluation/application-reliability-v1/r2-shared-final.json`
+passes all nine methods, including Phase 52/53/54 and quality-runtime suites.
+The initial `r2-shared.json` failure was the harness blocking Windows asyncio's
+local self-pipe, not a provider call or product failure. The final harness blocks
+real HTTP transports and outbound `create_connection` while permitting the ASGI
+transport and local self-pipe. Failed harness evidence is retained. Compilation,
+complete intended diff review and whitespace checks pass. R2 is complete pending
+its commit/push; R3 follows immediately. No API usage or historical rerun.

@@ -491,6 +491,14 @@ def _enforce_semantic_contract(
         return _normalized_continue(decision), "clear_information_request"
 
     missing_phrases = [" ".join(value.lower().split()) for value in decision.missing_referents]
+    # An unresolved choice ("which schedule", "what version") is not a named
+    # subject merely because the assessor repeats the question's words. Retain
+    # its clarification before either broad search-normalization fallback.
+    if decision.referents == "unresolved" and (
+        decision.decision_variables
+        or any(re.match(r"^(?:which|what|whose)\b", phrase) for phrase in missing_phrases)
+    ):
+        return decision, None
     searchable_subject = any(
         phrase
         and phrase in normalized

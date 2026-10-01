@@ -312,7 +312,7 @@ def _policy_response(
         adversarial_response = _adversarial_source_response(normalized, chunks)
         if adversarial_response:
             return adversarial_response
-    if any(pattern in normalized for pattern in AMBIGUOUS_PATTERNS):
+    if not evidence_supports_answer and any(pattern in normalized for pattern in AMBIGUOUS_PATTERNS):
         response_type = RESPONSE_CLARIFY
         citations = [fallback_citation(chunk) for chunk in chunks[:2]]
         validation = validate_citations("Clarifying question requested.", citations, chunks)
