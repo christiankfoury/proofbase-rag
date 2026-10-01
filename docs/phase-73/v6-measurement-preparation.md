@@ -63,3 +63,32 @@ retained; the new active ledger has no new unknown or budget-stop flag. USD
 7.29482350 remains, exceeding the USD 4.50 launch threshold. Committed source
 inventory and working inventory agree. Freeze is created before any new 60-case
 authorship; the separate freeze commit precedes isolated author and validator.
+
+Freeze commit `0e67dc47` is pushed. Isolated authorship is underway. A separate
+read-only publication wrapper reuses the preserved capture-inventory checks for
+v6: four controls pass for partial denominators, ungraded-response tampering,
+wrong scope and refusing to inventory a running attempt; compilation passes.
+It neither grades nor authorizes execution and does not alter frozen measurement
+code. The full frozen reporter remains mandatory for costs, qualification and
+judgment replay. Publication outputs are pending actual finished evidence.
+
+The isolated author produced 60 cases and 102 required facts: 38 answer, seven
+access-refusal, nine not-found and six clarification expectations. All required
+category counts, exact corpus quotes, role/project scope and real gold-input
+checks pass. Root's lexical overlap check reports zero hits across 1,044 historical
+questions at token Jaccard 0.8; it does not prove semantic independence. Root
+reviewed all case construction and the sole authored suite; independent semantic
+validation is still pending. No application request has been executed.
+
+Independent validation is complete: all 60 cases and 102 facts accepted, with
+zero unresolved findings. The separate seal binds the original unedited suite,
+validation, overlap report, freeze and both provenance notes. Agent usage was
+interrupted after validation artifacts were written; the same isolated validator
+resumed after the user reset usage and confirmed completion. No API call occurred
+during that interruption. The read-only publication wrapper and its four controls
+were reviewed with the sealing work; no blocking finding remains.
+
+Exact no-call preflight passes with the sealed suite, qualified evaluator, frozen
+configuration/index, complete call/token reservations and unused run. Prior
+focused tests remain applicable because their inputs are unchanged. The unrelated
+request-log hash remains f37906539da34d369b0259b014fc061bb2d15b42e31605800d55b724335c176e.

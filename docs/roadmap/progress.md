@@ -42,6 +42,11 @@ freeze before isolated 60-case authoring and validation. Qualification is
 committed/pushed as `c44459b8`. The separate v6 freeze binds that revision,
 287 files, the unchanged local environment and the verified 3,633-call prefix;
 it precedes all new runtime holdout authorship. No application score yet.
+Freeze commit `0e67dc47` is pushed. Fresh v6 authorship and isolated validation
+are complete: 60/60 cases and 102/102 reference facts accepted, zero findings;
+lexical overlap has no hits across 1,044 historical questions. The separate suite
+seal precedes execution. Next: exact no-call preflight, commit/push the seal,
+one-shot synchronous measurement, source inspection and publication.
 Phases 71/72 remain historically complete; Phase 73 has no full result yet.
 
 ### Preserved checkpoint: Phase 73 v5 budget stop
