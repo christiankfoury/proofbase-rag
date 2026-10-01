@@ -1,0 +1,13 @@
+{
+  "error": null,
+  "matched": true,
+  "review": {
+    "citation_support": "agree",
+    "completeness": "dispute",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The only factual claim in the answer is \"The reimbursement cap is 38 credits per trip.\", and it is supported by R1/C1 in the Lark taxi context, so factual_support and citation_support pass. Relevance also passes because the answer addresses the requested Lark taxi claim policy, though only partially. Completeness is wrong: F2 (eligibility requires a lab shift ending after 22:00) is omitted, so it should be missing with empty answer_spans, not covered; completeness therefore fails, not passes. Response_behavior is also wrong: the answer gives one requested part and omits the other, so actual_behavior should be partial_answer, not answer, and with expected_behavior=answer plus a missing required fact, response_behavior must fail. No forbidden assertions are present.",
+    "relevance": "agree",
+    "response_behavior": "dispute"
+  }
+}

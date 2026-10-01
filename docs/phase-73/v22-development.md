@@ -110,3 +110,10 @@ preflight pass. All prior v22 requests, judgments and costs replay exactly. The
 new stage's theoretical token sum is USD 3.4958925; its hard cap remains USD 1.00.
 Semantic review found no blocking preparation issue. Next: the one-shot v23
 diagnostic, followed by source inspection; qualification is not yet established.
+
+V23 diagnostic passed 8/8 plus 3/3 probes with clean
+[source inspection](v23-diagnostic-source-review.md) and exact offline replay.
+It used 27 settled calls and USD 0.31000450. Across this new allowance, 36 calls
+cost USD 0.41972050, leaving USD 8.58027950. Cumulative history is 3,510 attempts
+and USD 21.15365812. Next: unchanged 24-case/three-probe calibration, capped at
+75 calls and USD 1.50; qualification is still pending.

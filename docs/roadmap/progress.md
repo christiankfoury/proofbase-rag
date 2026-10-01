@@ -17,8 +17,10 @@ new development controls, committed/pushed as `214645dd`. V22 stopped at 2/3
 exact after nine settled calls costing USD 0.109716: metadata was placed into
 text-only witness fields. The failure and source inspection are preserved.
 V23 clarifies output placement with unchanged strict validation and references.
-USD 8.890284 remains. Next: verify/commit successor preparation, execute its
-bounded diagnostic, then full calibration and isolated fresh qualification.
+V23 then passed 8/8 diagnostic cases and 3/3 probes with clean source inspection
+and offline replay, using 27 calls/USD 0.31000450. USD 8.58027950 remains after
+36 total new calls. Next: unchanged full calibration, then isolated fresh
+qualification under the same gates. V22's failure remains preserved.
 Phases 71/72 remain historically complete; Phase 73 has no full result yet.
 
 ### Preserved checkpoint: Phase 73 v5 budget stop

@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with the requested instruction.",
+    "behavior_span": "You should record the workstation number and fault description on the repair card.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "No factual source states that the user's identity was verified or that they were confirmed to be a shift coordinator. The question context supplies the scenario ('As a shift coordinator') but does not prove identity verification, and the cited source only describes what shift coordinators should record.",
+        "source_spans": [],
+        "text": "Your shift-coordinator identity has been verified."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In the question context, the user asks as a shift coordinator what they should record, so the answer's second-person phrasing is an ordinary paraphrase of the same rule. The source and citation both entail that shift coordinators should record those two items on the repair card.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "text": "You should record the workstation number and fault description on the repair card."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "You should record the workstation number and fault description on the repair card."
+        ],
+        "fact_id": "F1",
+        "reason": "This directly states the shift coordinator should record both the workstation number and the fault description on the repair card.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested policy for shift coordinators and what to record on a repair card.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly enumerates both factual claims, including the unsupported identity-verification statement. That first claim is properly marked factual unknown with missing citation support, while the repair-card instruction is properly supported by R1/C1 in the question context. The required fact is fully covered by the second sentence, so completeness pass is correct. The response is a substantive answer to the asked policy question, matching expected_behavior=answer, and it remains relevant despite the extra unsupported identity claim. No forbidden assertion was specified.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

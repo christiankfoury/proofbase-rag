@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "It gives a substantive response to the user's approval question, even though the policy stated is wrong.",
+    "behavior_span": "As an equipment operator, you may approve equipment disposal.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer asserts that an equipment operator may approve equipment disposal. Source R1 instead states an exclusive restriction: only safety supervisors may approve equipment disposal, which conflicts with granting that approval authority to an equipment operator in this scenario. The cited source C1 contains the same exclusive restriction, so it does not entail the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Only safety supervisors may approve equipment disposal."
+          }
+        ],
+        "text": "As an equipment operator, you may approve equipment disposal."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "As an equipment operator, you may approve equipment disposal."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer says the equipment operator may approve disposal, which is incompatible with approval being limited only to safety supervisors.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the same topic identified by the question: who may approve equipment disposal for the equipment-operator context.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracts the single factual claim as the full answer span and correctly marks it contradicted by R1/C1's exclusive rule, \"Only safety supervisors may approve equipment disposal.\" That also makes factual_support=fail and citation_support=fail correct. The required fact is correctly marked contradicted, not missing, because the answer gives an incompatible approval rule for the same policy question, so completeness=fail is correct. actual_behavior=answer is correct because the response substantively answers the question, and response_behavior=fail is also correct because expected behavior was answer but the required fact was contradicted. The answer is relevant to the asked topic, and there are no forbidden assertions to mark present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
