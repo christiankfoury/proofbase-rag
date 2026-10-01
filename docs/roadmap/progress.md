@@ -6,7 +6,28 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: Phase 73 full evidence published; validated quality blocked
+### Active: application-reliability plan prepared; implementation not started
+
+The user requested a plan-only handoff on 2026-10-01 to make the next engineering
+cycle more efficient. The single active plan is now
+[application reliability](application-reliability-plan.md). Its new-chat starter
+authorizes the offline implementation sequence when the user invokes it: R1
+numeric extraction/validation, R2 unnecessary abstention/routing, R3 incomplete
+answers/unsupported additions, then R4 consolidated local regression evidence.
+
+Use source-confirmed root causes and newly composed positive/negative controls,
+not failed grader labels as an oracle. Preserve historical suites and expectations.
+Paid evaluator iterations, the live 130-question benchmark and fresh full holdouts
+are deferred. The first milestone uses USD 0 external API spending; the approved
+USD 3.79479490 remainder and all later quality/custody gates remain unchanged.
+Offline implementation can proceed without resolving full-measurement funding.
+
+This handoff changes documentation/workflow only. No runtime code, grading,
+external API call or implementation has begun. Local links and the intended diff
+are checked before committing; no application tests/build are needed for this
+planning-only change. Preserve the unrelated tracked request-log edit.
+
+### Preserved checkpoint: Phase 73 full evidence published; validated quality blocked
 
 The [v6 run](../phase-73/v6-results.md) completed 60/60 cases once on 2026-10-01,
 after freeze `0e67dc47`, isolated 60-case/102-fact validation and seal `a5cec125`.
@@ -30,7 +51,8 @@ fresh isolated measurement with adequate authorized funding. Do not retry or tun
 on this exposed suite. Phases 71/72 remain historically complete; Phase 73 execution
 and failed-gate publication are complete, but its validated-quality gate remains
 unsatisfied. Publication checks and commit are recorded in the results note.
-The single active plan remains [quality completion](quality-completion-plan.md).
+That execution followed [quality completion](quality-completion-plan.md); the
+application-first plan above now controls the next implementation sequence.
 
 ### Preserved checkpoint: CAD-bounded evaluator qualification and v6 seal
 

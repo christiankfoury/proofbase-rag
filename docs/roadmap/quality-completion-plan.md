@@ -3,8 +3,19 @@
 Prepared 2026-09-28 following the user's request to resume answer quality,
 evaluator reliability, and fresh measurement. This supersedes the Phase 70
 deferral for these three areas only. The portfolio release remains complete.
-Implementation is active. The original workflow was approved on 2026-09-28;
-the standing authorization below supersedes its per-candidate approval limits.
+The original workflow was approved on 2026-09-28; the standing authorization below
+supersedes its historical per-candidate approval limits.
+
+## Current sequence: application-first offline work (2026-10-01)
+
+Following the full v6 publication, the user requested a plan-only handoff for
+focused root-cause fixes and more efficient verification. The single active plan
+is now [application reliability](application-reliability-plan.md). No implementation
+starts in the planning turn. When requested in the next chat, complete its offline
+R1-R4 sequence before proposing live validation. This supersedes automatic paid
+evaluator continuation for that milestone, not the qualification, custody, safety
+or scoring gates below. Preserve the remaining USD 3.79479490; paid stages stay
+deferred. Local application improvements do not require a new overall score.
 
 ## Latest execution boundary (2026-10-01)
 

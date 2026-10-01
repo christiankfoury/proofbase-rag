@@ -61,6 +61,14 @@ For the active Phases 71-73 queue, follow the latest cost-control amendment in t
 
 Track durable progress in `docs/roadmap/progress.md`. At each phase start, read its current-position section, the single active plan it links, and the relevant phase note. Read affected source and evidence on demand. Historical roadmaps below are references, not mandatory rereads or queues to restart. Reuse context already loaded unless it changed. If tracker and repository disagree, inspect relevant history and repair the tracker before committing.
 
+After the Phase 73 v6 publication, the active sequence is
+[application reliability](docs/roadmap/application-reliability-plan.md): local
+root-cause reproduction, focused application fixes and offline regression evidence.
+The 2026-10-01 planning request is plan-only; implementation starts in a new chat
+when requested. That implementation sequence defers the automatic paid evaluator
+loop and full live suites. Preserve the existing quality gates and API remainder;
+do not infer authority for paid stages from the instruction to implement offline.
+
 Use [execution policy](docs/roadmap/execution-policy.md) for the verification matrix, evidence reuse, completion criteria, compact handoff and runtime-file rules. This operating loop supersedes older phase-specific descriptions of post-commit code review. A request limited to documentation or workflow maintenance completes at that scope; it does not start the runtime queue automatically.
 
 ## Operating Autonomy
