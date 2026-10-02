@@ -152,7 +152,7 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("EVIDENCE_ASSESSMENT_MODEL", "evidence_assessment_model"),
     )
     evidence_assessment_prompt_version: str = Field(
-        default="v2",
+        default="v3",
         validation_alias=AliasChoices(
             "EVIDENCE_ASSESSMENT_PROMPT_VERSION",
             "evidence_assessment_prompt_version",
@@ -175,7 +175,7 @@ class Settings(BaseSettings):
         ),
     )
     post_generation_validation_prompt_version: str = Field(
-        default="v2",
+        default="v3",
         validation_alias=AliasChoices(
             "POST_GENERATION_VALIDATION_PROMPT_VERSION",
             "post_generation_validation_prompt_version",

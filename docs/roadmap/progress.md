@@ -6,7 +6,20 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: bounded live reliability diagnostic captured; offline remediation next
+### Active: second offline reliability remediation verified; six-question diagnostic authorized
+
+The 2026-10-02 follow-up authorizes the fixes and then six new live diagnostic
+questions with a USD 0.50 hard ceiling from the existing USD 3.76906404 remainder.
+[Remediation note](../phase-73/reliability-remediation-v2.md) records reproduced
+false-premise routing, scenario-number validation, rewritten validator claims,
+excerpt selection and substring planning, plus improved full-payload estimation.
+Twenty-five new offline tests and the 30-method shared compatibility suite pass.
+Historical evidence and grading standards are preserved. The offline work is
+reviewed and committed/pushed before the live stage. No overall success-rate
+claim, evaluator qualification or full evaluation is authorized by this stage.
+The active plan remains [application reliability](application-reliability-plan.md).
+
+### Prior milestone: bounded live reliability diagnostic captured
 
 The user authorized a 12-question diagnostic on 2026-10-02, with at most USD 1
 from the existing remainder. [Results and every-case source inspection](../phase-73/application-reliability-live.md)

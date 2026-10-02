@@ -98,6 +98,7 @@ def validate_citations(answer: str, citations: list[dict], chunks: list[Retrieve
             continue
         payload = citation_payload(
             chunk,
+            answer=answer,
             citation_type=citation.get("citation_type", "model"),
             citation_text=citation.get("citation_text") or citation.get("source") or "",
         )

@@ -128,7 +128,7 @@ def test_schema_is_strict_bounded_and_prompt_is_active() -> None:
     assert semantic_schema["additionalProperties"] is False
     assert "recommended_action" not in semantic_schema["properties"]
     assert "required_source_coverage" not in semantic_schema["properties"]
-    assert get_prompt("evidence_assessment").version == "v2"
+    assert get_prompt("evidence_assessment").version == "v3"
 
 
 def test_empty_authorized_evidence_stops_deterministically() -> None:
@@ -280,8 +280,8 @@ def test_inconsistent_fact_status_and_invalid_schema_fail_safe() -> None:
         client=FakeClient(FakeCompletions(json.dumps(inconsistent_payload))),
         emit_telemetry=False,
     )
-    assert inconsistent.reason_codes == ["authorized_evidence_sufficient"]
-    assert inconsistent.recommended_action == "answer"
+    assert inconsistent.reason_codes == ["required_fact_missing"]
+    assert inconsistent.recommended_action == "not_found"
     assert inconsistent.normalization_reason == "assessment_contract_invalid"
 
     missing_summary_ids = json.loads(_decision())

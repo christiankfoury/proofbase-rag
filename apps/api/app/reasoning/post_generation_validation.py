@@ -52,7 +52,7 @@ class ClaimValidation(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     claim_id: str = Field(min_length=1, max_length=32)
-    claim_text: str = Field(min_length=1, max_length=320)
+    claim_text: str = Field(min_length=1, max_length=6000)
     claim_type: ClaimType
     support_status: SupportStatus
     evidence_chunk_ids: list[str] = Field(max_length=8)
@@ -79,6 +79,18 @@ class SemanticValidationDecision(BaseModel):
         description="Evidence chunks containing the followed instruction; empty whenever source_instruction_followed is false.",
     )
     unresolved_conflict: bool
+
+
+class NumericContext(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    literal: str = Field(min_length=1, max_length=80)
+    claim_id: str = Field(min_length=1, max_length=32)
+    origin: Literal["user_scenario", "policy", "unsupported"]
+    request_quote: str = Field(max_length=1000)
+
+
+class SemanticValidationV3(SemanticValidationDecision):
+    numeric_context: list[NumericContext] = Field(max_length=64)
 
 
 class PostGenerationValidation(BaseModel):
@@ -190,16 +202,16 @@ def validate_candidate_answer(
     # Source identifiers are citation metadata, not numeric policy claims. Strip
     # only an exact authorized ID in a Source annotation; retain surrounding
     # claims and unknown IDs for the normal literal checks.
-    literal_text = answer
-    for document_id in sorted({c.document_id for c in authorized_chunks}, key=len, reverse=True):
-        literal_text = re.sub(
-            r"(\bSource:\s*)" + re.escape(document_id) + r"(?![\w-])",
-            r"\1", literal_text, flags=re.IGNORECASE,
-        )
+    literal_text = _without_source_ids(answer, authorized_chunks)
     exact_literals = extract_exact_literals(literal_text)
     evidence_text = "\n".join(chunk.content for chunk in authorized_chunks)
     supported_literals = {_normalize_exact(value) for value in extract_exact_literals(evidence_text)}
     unsupported_exact = [literal for literal in exact_literals if _normalize_exact(literal) not in supported_literals]
+    # Request quantities are context only. The v3 semantic contract must still
+    # prove their scenario role, rule application and authorized claim citation.
+    if not code_authored and get_settings().post_generation_validation_prompt_version == "v3":
+        request_literals = {_normalize_exact(value) for value in extract_exact_literals(question)}
+        unsupported_exact = [value for value in unsupported_exact if _normalize_exact(value) not in request_literals]
     if unsupported_exact:
         result = _result(
             action="downgrade" if repair_count >= 1 else "repair",
@@ -330,6 +342,7 @@ def _semantic_validate(
     settings = get_settings()
     prompt = get_prompt("post_generation_validation", settings.post_generation_validation_prompt_version)
     model = settings.post_generation_validation_model or prompt.model or settings.openai_chat_model
+    decision_model = SemanticValidationV3 if prompt.version == "v3" else SemanticValidationDecision
     try:
         if not settings.openai_api_key and client is None:
             raise RuntimeError("post-generation validation service unavailable")
@@ -350,14 +363,16 @@ def _semantic_validate(
                 "json_schema": {
                     "name": "post_generation_validation_v1",
                     "strict": True,
-                    "schema": SemanticValidationDecision.model_json_schema(),
+                    "schema": decision_model.model_json_schema(),
                 },
             },
         )
         message = response.choices[0].message
         if getattr(message, "refusal", None):
             raise RuntimeError("post-generation validation refused")
-        decision = SemanticValidationDecision.model_validate_json(message.content or "")
+        decision = decision_model.model_validate_json(message.content or "")
+        if prompt.version == "v3":
+            _validate_candidate_units(decision, question, candidate, authorized_chunks)
         decision = _normalize_source_instruction_decision(
             decision,
             candidate=candidate,
@@ -627,7 +642,54 @@ def _semantic_input(question: str, candidate: dict, authorized_chunks: list[Retr
             for chunk in authorized_chunks[:12]
         ],
     }
+    if get_settings().post_generation_validation_prompt_version == "v3":
+        payload["candidate_units"] = candidate_units(str(candidate.get("answer") or ""))
     return json.dumps(payload, ensure_ascii=True)
+
+
+def candidate_units(answer: str) -> list[dict[str, str]]:
+    # Delimit, but never paraphrase away a condition or qualifier. Decimal points
+    # are retained. Source annotations and headings remain visible to validation.
+    parts = [part.strip() for part in re.split(r"(?<=[.!?])\s+(?=[A-Z])|\n+", answer) if part.strip()]
+    return [{"claim_id": f"claim-{i}", "claim_text": part} for i, part in enumerate(parts, 1)]
+
+
+def _without_source_ids(text, authorized_chunks):
+    for document_id in sorted({c.document_id for c in authorized_chunks}, key=len, reverse=True):
+        text = re.sub(r"(\bSource:\s*)" + re.escape(document_id) + r"(?![\w-])", r"\1", text, flags=re.I)
+    return text
+
+
+def _validate_candidate_units(decision, question, candidate, authorized_chunks) -> None:
+    units = candidate_units(str(candidate.get("answer") or ""))
+    expected = {item["claim_id"]: item["claim_text"] for item in units}
+    observed = {item.claim_id: item.claim_text for item in decision.claims}
+    if len(observed) != len(decision.claims) or observed != expected:
+        raise ValidationContractError("candidate units omitted or rewritten")
+    cited_ids = {item.get("chunk_id") for item in candidate.get("citations") or []}
+    allowed_ids = {item.chunk_id for item in authorized_chunks}
+    source_literals = {_normalize_exact(v) for item in authorized_chunks for v in extract_exact_literals(item.content)}
+    request_literals = {_normalize_exact(v) for v in extract_exact_literals(question)}
+    for claim in decision.claims:
+        if claim.support_status == "supported" and not any(
+                check.citation_chunk_id in set(claim.evidence_chunk_ids) & cited_ids & allowed_ids
+                and check.supports_claims and claim.claim_id in check.supported_claim_ids
+                for check in decision.citation_checks):
+            raise ValidationContractError("supported candidate unit lacks a supporting citation")
+        for literal in extract_exact_literals(_without_source_ids(claim.claim_text, authorized_chunks)):
+            value = _normalize_exact(literal)
+            # Exact authorized Source annotations are metadata, as in the guard.
+            if value in source_literals:
+                continue
+            matches = [p for p in decision.numeric_context if p.claim_id == claim.claim_id and _normalize_exact(p.literal) == value]
+            grounded = bool(set(claim.evidence_chunk_ids) & cited_ids & allowed_ids)
+            checked = any(c.citation_chunk_id in set(claim.evidence_chunk_ids) & cited_ids & allowed_ids
+                          and c.supports_claims and claim.claim_id in c.supported_claim_ids for c in decision.citation_checks)
+            if (value not in request_literals or len(matches) != 1 or matches[0].origin != "user_scenario"
+                    or not matches[0].request_quote or matches[0].request_quote not in question
+                    or not exact_literal_supported(literal, matches[0].request_quote)
+                    or claim.support_status != "supported" or not grounded or not checked):
+                raise ValidationContractError("numeric scenario provenance or grounding missing")
 
 
 def _result(

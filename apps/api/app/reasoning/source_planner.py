@@ -1,6 +1,17 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import re
+
+
+def matches_query_term(question: str, term: str) -> bool:
+    """Match complete terms, including ordinary final-word plurals."""
+    pattern = re.escape(term.casefold()).replace(r"\ ", r"[\s-]+")
+    if term == "remote":
+        pattern += "(?:ly)?"
+    elif len(term.split()[-1]) > 2 and not term.endswith("s"):
+        pattern += "s?"
+    return re.search(r"(?<!\w)" + pattern + r"(?!\w)", question.casefold()) is not None
 
 
 @dataclass(frozen=True)
@@ -11,7 +22,7 @@ class SourcePlanItem:
 
 
 def plan_multi_document_sources(question: str) -> list[SourcePlanItem]:
-    normalized = question.lower()
+    has = lambda term: matches_query_term(question, term)
     plan: list[SourcePlanItem] = []
 
     def add(label: str, query: str, *document_ids: str) -> None:
@@ -19,79 +30,79 @@ def plan_multi_document_sources(question: str) -> list[SourcePlanItem]:
             return
         plan.append(SourcePlanItem(label=label, query=query, target_document_ids=tuple(document_ids)))
 
-    if any(term in normalized for term in ["proposal", "sales-stage", "sales stage", "deal moves"]):
+    if any(has(term) for term in ["proposal", "sales-stage", "sales stage", "deal moves"]):
         add("sales_stage", "sales stages proposal discovery notes stakeholder mapping", "SALES-001")
-    if "implementation" in normalized and any(term in normalized for term in ["deal", "proposal", "customer", "timeline", "constraints"]):
+    if has("implementation") and any(has(term) for term in ["deal", "proposal", "customer", "timeline", "constraints"]):
         add("sales_implementation", "standard implementation timeline deployment constraints customer handoff", "SALES-002")
-    if any(term in normalized for term in ["position northstar", "bi tool", "bi tools", "competitor"]):
+    if any(has(term) for term in ["position northstar", "bi tool", "bi tools", "competitor"]):
         add("product_positioning", "Northstar product positioning against generic BI tools", "SALES-002")
-    if any(term in normalized for term in ["prohibited claim", "prohibited claims", "avoid prohibited", "banned claim"]):
+    if any(has(term) for term in ["prohibited claim", "prohibited claims", "avoid prohibited", "banned claim"]):
         add("prohibited_claims", "prohibited sales claims restricted competitive claims", "SALES-003")
-    if any(term in normalized for term in ["price objection", "price objections", "objection handling"]):
+    if any(has(term) for term in ["price objection", "price objections", "objection handling"]):
         add("competitive_objection_handling", "price objections objection handling competitive battlecard", "SALES-003")
-    if "discovery" in normalized or ("sales representative" in normalized and "objection" in normalized):
+    if has("discovery") or (has("sales representative") and has("objection")):
         add("sales_discovery", "sales discovery questions workflow volume approval bottlenecks data quality", "SALES-001")
-    if any(term in normalized for term in ["technical validation", "technical review", "solution validation"]):
+    if any(has(term) for term in ["technical validation", "technical review", "solution validation"]):
         add("sales_technical_validation", "sales technical validation implementation constraints security requirements", "SALES-002")
-    if any(term in normalized for term in ["roadmap", "contract commitment", "customer commitment", "promise functionality", "legal approval"]):
+    if any(has(term) for term in ["roadmap", "contract commitment", "customer commitment", "promise functionality", "legal approval"]):
         add("legal_customer_commitments", "customer contract commitments roadmap functionality Legal approval escalation", "LEGAL-001")
 
-    if "benefits" in normalized and any(term in normalized for term in ["help", "support", "contact"]):
+    if has("benefits") and any(has(term) for term in ["help", "support", "contact"]):
         add("people_ops_support", "People Operations benefits support contact help", "HR-001")
-    if any(term in normalized for term in ["pto question", "vacation question", "hr question", "who should i contact", "who do i contact"]):
+    if any(has(term) for term in ["pto question", "vacation question", "hr question", "who should i contact", "who do i contact"]):
         add("employee_support_channel", "general HR questions People Operations employee support channels contact", "HR-001")
-    if any(term in normalized for term in ["new hire", "new-hire", "onboarding", "first week"]):
+    if any(has(term) for term in ["new hire", "new-hire", "onboarding", "first week"]):
         add("employee_onboarding", "new employee onboarding first week People Operations equipment orientation", "HR-001")
-    if any(term in normalized for term in ["team planning", "manager planning", "quarterly planning", "goal setting"]):
+    if any(has(term) for term in ["team planning", "manager planning", "quarterly planning", "goal setting"]):
         add("manager_planning", "manager planning expectations goals decisions risk escalation", "MGR-001")
-    if any(term in normalized for term in ["promotion", "performance review", "calibration", "career review"]):
+    if any(has(term) for term in ["promotion", "performance review", "calibration", "career review"]):
         add("performance_and_promotion", "performance review promotion calibration documentation process", "MGR-002")
-    if any(term in normalized for term in ["vacation", "pto", "time off", "leave balance"]):
+    if any(has(term) for term in ["vacation", "pto", "time off", "leave balance"]):
         add("vacation_and_leave", "vacation entitlement carryover requests leave policy", "HR-002")
-        if any(term in normalized for term in ["entitlement", "how many", "basic vacation", "vacation days"]):
+        if any(has(term) for term in ["entitlement", "how many", "basic vacation", "vacation days"]):
             add("vacation_entitlement", "full-time employees 20 paid vacation days per calendar year vacation entitlement", "HR-002")
-    if any(term in normalized for term in ["learning budget", "tuition", "course", "learning and development"]):
+    if any(has(term) for term in ["learning budget", "tuition", "course", "learning and development"]):
         add("learning_budget", "learning budget tuition course reimbursement policy", "HR-004")
-    if any(term in normalized for term in ["remote", "hybrid", "cross-border", "another country", "outside canada", "outside the us"]):
+    if any(has(term) for term in ["remote", "hybrid", "cross-border", "another country", "outside canada", "outside the us"]):
         add("remote_work", "remote hybrid cross-border work policy approval", "HR-003")
-        if any(term in normalized for term in ["security", "network", "computer", "screen", "device", "data"]):
+        if any(has(term) for term in ["security", "network", "computer", "screen", "device", "data"]):
             add("remote_device_security", "remote device secure networks public computers screen protection BYOD", "IT-002")
-        if any(term in normalized for term in ["data", "customer", "confidential", "restricted", "storage"]):
+        if any(has(term) for term in ["data", "customer", "confidential", "restricted", "storage"]):
             add("remote_data_handling", "remote work data classification storage restricted customer data", "IT-003")
-    if any(term in normalized for term in ["device", "byod", "personal laptop", "laptop", "mdm", "safeguard", "safeguards"]):
+    if any(has(term) for term in ["device", "byod", "personal laptop", "laptop", "mdm", "safeguard", "safeguards"]):
         add("device_security", "device BYOD security personal laptop MDM requirements", "IT-002")
-    if any(term in normalized for term in ["performance concern", "performance concerns", "performance issue", "ongoing performance"]):
+    if any(has(term) for term in ["performance concern", "performance concerns", "performance issue", "ongoing performance"]):
         add("manager_responsibilities", "manager responsibilities clear expectations support growth escalate risks", "MGR-001")
         add("performance_process", "performance feedback specific examples business impact expected behavior people operations formal improvement process", "MGR-002")
 
-    if any(term in normalized for term in ["ai tool", "ai assistant", "llm", "copilot", "ai to summarize"]):
+    if any(has(term) for term in ["ai tool", "ai assistant", "llm", "copilot", "ai to summarize"]):
         add("acceptable_ai_use", "acceptable use AI tools internal data customer data", "IT-001")
-    if any(term in normalized for term in ["data classification", "customer data", "confidential", "restricted data", "data exposure"]):
+    if any(has(term) for term in ["data classification", "customer data", "confidential", "restricted data", "data exposure"]):
         add("data_classification", "storage rules customer restricted data approved company systems", "IT-003")
-    if any(term in normalized for term in ["privileged access", "admin account", "elevated access", "production access"]):
+    if any(has(term) for term in ["privileged access", "admin account", "elevated access", "production access"]):
         add("privileged_access", "privileged access admin account production access review", "IT-ADMIN-001")
-    if any(term in normalized for term in ["account sharing", "shared credentials", "password sharing", "mfa"]):
+    if any(has(term) for term in ["account sharing", "shared credentials", "password sharing", "mfa"]):
         add("credential_sharing", "account sharing shared credentials MFA password policy", "IT-001")
 
-    if any(term in normalized for term in ["support escalation", "customer reports", "enterprise customer", "suspected data exposure"]):
+    if any(has(term) for term in ["support escalation", "customer reports", "enterprise customer", "suspected data exposure"]):
         add("support_escalation", "support escalation enterprise customer suspected data exposure SLA", "SUPPORT-001")
-    if any(term in normalized for term in ["engineering response", "incident response", "response target", "deploy", "deployment"]):
+    if any(has(term) for term in ["engineering response", "incident response", "response target", "deploy", "deployment"]):
         add("engineering_response", "SEV-1 data exposure risk 15 minutes on-call severity levels engineering response target", "ENG-001")
-    if any(term in normalized for term in ["api", "authorization", "customer data"]):
+    if any(has(term) for term in ["api", "authorization", "customer data"]):
         add("api_standards", "API standards authorization customer data review principles", "ENG-001")
 
-    if any(term in normalized for term in ["software purchase", "software or vendor", "approval path", "procurement"]):
+    if any(has(term) for term in ["software purchase", "software or vendor", "approval path", "procurement"]):
         add("finance_procurement", "software subscription trial USD 500 annualized IT review manager approval expense categories", "FIN-001")
-    if any(term in normalized for term in ["vendor", "vendor purchase", "vendor start", "onboarding"]):
+    if any(has(term) for term in ["vendor", "vendor purchase", "vendor start", "onboarding"]):
         add("vendor_operations", "overlap with other policies stricter approval path vendor operations legal IT admin review", "OPS-001")
-    if "vendor" in normalized and any(term in normalized for term in ["cost", "spend", "amount", "usd", "cad", "purchase"]):
+    if has("vendor") and any(has(term) for term in ["cost", "spend", "amount", "usd", "cad", "purchase"]):
         add("vendor_procurement_threshold", "vendor procurement spend thresholds Finance Legal department leader approval", "FIN-001")
-    if "vendor" in normalized and any(term in normalized for term in ["contract", "signature", "signing", "sign"]):
+    if has("vendor") and any(has(term) for term in ["contract", "signature", "signing", "sign"]):
         add("vendor_contract_approval", "vendor agreement contract signature Legal Finance department leader signature authority", "LEGAL-001")
-    if "vendor" in normalized and any(term in normalized for term in ["company data", "customer data", "credentials", "building access", "high risk", "security review"]):
+    if has("vendor") and any(has(term) for term in ["company data", "customer data", "credentials", "building access", "high risk", "security review"]):
         add("vendor_risk_review", "vendor onboarding high risk company customer data Operations Legal IT Admin required reviews", "OPS-001")
 
-    if any(term in normalized for term in ["exception", "waiver"]) and any(term in normalized for term in ["cross-border", "remote", "international"]):
+    if any(has(term) for term in ["exception", "waiver"]) and any(has(term) for term in ["cross-border", "remote", "international"]):
         add("hr_exception", "HR remote work exception escalation People Operations Legal", "HR-ADMIN-001")
 
     return plan if len(plan) >= 2 else []

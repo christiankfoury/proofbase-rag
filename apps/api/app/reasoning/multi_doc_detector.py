@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import re
 
+from apps.api.app.reasoning.source_planner import matches_query_term
+
 
 # Cross-domain keyword pairs. Each tuple is (domain_a_terms, domain_b_terms).
 # A question fires if it contains at least one term from each set.
@@ -110,8 +112,8 @@ def is_multi_document_question(question: str) -> bool:
         return True
 
     for domain_a, domain_b in _DOMAIN_PAIRS:
-        hit_a = any(term in normalized for term in domain_a)
-        hit_b = any(term in normalized for term in domain_b)
+        hit_a = any(matches_query_term(normalized, term) for term in domain_a)
+        hit_b = any(matches_query_term(normalized, term) for term in domain_b)
         if hit_a and hit_b:
             return True
 

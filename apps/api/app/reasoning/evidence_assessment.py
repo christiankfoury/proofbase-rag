@@ -97,13 +97,17 @@ class EvidenceAssessmentDecision(BaseModel):
     schema_version: Literal["evidence_assessment.v1"]
 
 
+class SemanticRequiredFact(RequiredFact):
+    support: Literal["supported", "contradicted", "unsupported", "conflicting"]
+
+
 class SemanticEvidenceDecision(BaseModel):
     """Minimal model-authored fields; deterministic fields are added by the service."""
 
     model_config = ConfigDict(extra="forbid")
 
     answerability: Answerability
-    required_facts: list[RequiredFact] = Field(min_length=1, max_length=10)
+    required_facts: list[SemanticRequiredFact] = Field(min_length=1, max_length=10)
     conflicts: list[EvidenceConflict] = Field(max_length=6)
     missing_information: list[str] = Field(max_length=8)
     supporting_chunk_ids: list[str] = Field(max_length=10)
@@ -442,15 +446,15 @@ def _complete_semantic_decision(
     for fact in semantic.required_facts:
         valid_ids = [chunk_id for chunk_id in fact.supporting_chunk_ids if chunk_id in allowed_ids]
         support = fact.support
+        if support == "contradicted":
+            support = "supported" if valid_ids else "unsupported"
         if support == "supported" and not valid_ids:
             support = "unsupported"
-        elif support == "unsupported" and valid_ids:
-            support = "supported"
         if valid_ids != fact.supporting_chunk_ids:
             normalization_reason = "unauthorized_reference_rejected"
         elif support != fact.support and normalization_reason is None:
             normalization_reason = "assessment_contract_invalid"
-        facts.append(fact.model_copy(update={"supporting_chunk_ids": valid_ids, "support": support}))
+        facts.append(RequiredFact(**{**fact.model_dump(), "supporting_chunk_ids": valid_ids, "support": support}))
 
     conflicts: list[EvidenceConflict] = []
     for conflict in semantic.conflicts:
@@ -471,16 +475,14 @@ def _complete_semantic_decision(
         if fact.support == "supported"
         for chunk_id in fact.supporting_chunk_ids
     ))
-    if semantic.answerability in {"sufficient", "partial"} and fact_supporting_ids:
-        merged_supporting_ids = list(dict.fromkeys([*supporting_ids, *fact_supporting_ids]))[:10]
-        if merged_supporting_ids != supporting_ids and normalization_reason is None:
-            normalization_reason = "assessment_contract_invalid"
-        supporting_ids = merged_supporting_ids
+    if supporting_ids != fact_supporting_ids[:10] and normalization_reason is None:
+        normalization_reason = "assessment_contract_invalid"
+    supporting_ids = fact_supporting_ids[:10]
 
     statuses = {fact.support for fact in facts}
     unresolved_conflict = any(not item.resolved for item in conflicts)
     answerability = semantic.answerability
-    if answerability in {"sufficient", "partial", "conflicting"}:
+    if answerability != "uncertain":
         if unresolved_conflict:
             answerability = "conflicting"
         elif statuses == {"supported"}:
@@ -493,15 +495,6 @@ def _complete_semantic_decision(
             normalization_reason = "assessment_contract_invalid"
     if answerability in {"insufficient", "conflicting", "uncertain"}:
         supporting_ids = []
-    if answerability == "insufficient" and "supported" in statuses:
-        facts = [
-            fact.model_copy(update={"support": "unsupported", "supporting_chunk_ids": []})
-            if fact.support == "supported"
-            else fact
-            for fact in facts
-        ]
-        if normalization_reason is None:
-            normalization_reason = "assessment_contract_invalid"
 
     if answerability == "sufficient":
         reason_codes: list[EvidenceReasonCode] = [
@@ -521,7 +514,8 @@ def _complete_semantic_decision(
         required_facts=facts,
         required_source_coverage=_source_coverage(source_plan, authorized_chunks),
         conflicts=conflicts,
-        missing_information=semantic.missing_information,
+        missing_information=([] if answerability == "sufficient" else
+            [fact.description for fact in facts if fact.support != "supported"][:8]),
         recommended_action=_ACTION_BY_ANSWERABILITY[answerability],
         supporting_chunk_ids=supporting_ids,
         reason_codes=reason_codes,
