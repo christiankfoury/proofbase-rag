@@ -1,0 +1,93 @@
+{
+  "kind": "Offline development verification; not a quality score",
+  "baseline_commit": "e69b5bae5c310fc94e22282aa5d943c7752857bf",
+  "python": "3.12.7 (tags/v3.12.7:0b05ead, Oct  1 2024, 03:06:41) [MSC v.1941 64 bit (AMD64)]",
+  "dependencies": {
+    "openai": "1.68.2",
+    "pydantic": "2.12.5",
+    "fastapi": "0.115.12",
+    "httpx": "0.28.1",
+    "tiktoken": "0.12.0"
+  },
+  "tested_source_sha256": {
+    "apps/api/app/core/config.py": "5e13d947ad9c04e6f468dbdeef05f697e73bcf0c00ed555dff8aa66d374056dd",
+    "apps/api/app/generation/answer_generator.py": "2f3b5726abed26e56f617cbc1b677c633496397a4dd3deb908b0568e6e4bd6aa",
+    "apps/api/app/generation/structured_answer.py": "ee1bf0c4a1833c94cd16ab39f2b3ff850b2eaea7db48405824497dee5c758f41",
+    "apps/api/app/prompts/versions/evidence_assessment_v4.md": "305321fa6ee93aa3512e507bc1a990aca4c5d7edb0443a131fb68b799d67fb1d",
+    "apps/api/app/prompts/versions/post_generation_validation_v4.md": "0f4388df32069fa3f25cb40b7537279e359b51678908b40f66b9a04baab56d74",
+    "apps/api/app/reasoning/evidence_assessment.py": "f1a8398b0f67247dba67f2b5548116cf3a3c343f9664ab022c3768820bda3d28",
+    "apps/api/app/reasoning/post_generation_validation.py": "523cfa38e0502b36fd2aa5fa767004d5ee90dd3859f9b9edca2aecdd3dfa4b97",
+    "scripts/reliability_payload_preparation.py": "04e13704b40c54ad83785f458b850d3de0abcb2ecf1a0d1b5140df983eeea602",
+    "scripts/test_phase53_evidence_assessment.py": "63f9d31a59a981a2f9bc2dd0cb46723812768a626d6aa54c63cd8edae449693c",
+    "scripts/test_reliability_remediation_v3.py": "806713647c12950e61fc22d52e1c6366607c956c930c12ed7d99b969ee928063",
+    "scripts/test_reliability_v3_custody.py": "b38f4a555abf8cbb5fb795818aefc48d562e80edc7e76971c0d15c0cc8e75163"
+  },
+  "replay_sha256": {
+    "after-legacy-contract.json": "7fcf826e463f2e8e8c9a0fe88e336cdd26d883ce106b70dc28ec570132fd0602",
+    "after.json": "d1579cc7dc3c001d8860485d5acbe93507cb4d070c614ff31dac031428677bf1",
+    "before.json": "b5e9ab07941efd6fd6b4c6ee7f9c698279376e2ee35ca85d4f152e4b2ffc6aa8"
+  },
+  "unrelated_log_sha256": "f37906539da34d369b0259b014fc061bb2d15b42e31605800d55b724335c176e",
+  "provider_calls": 0,
+  "actual_cost_usd": "0",
+  "remaining_budget_usd": "3.74777920",
+  "network_controls": "New tests block HTTP provider transports and outbound socket connection creation; all model responses injected.",
+  "checks": [
+    {
+      "command": "python scripts/test_reliability_remediation_v3.py --record-replay after.json",
+      "methods": 17,
+      "result": "passed",
+      "elapsed_seconds": 3.433,
+      "prompt_versions": "v4"
+    },
+    {
+      "command": "python scripts/test_reliability_remediation_v3.py --legacy-replay Contracts.test_saved_failures_through_callers --record-replay after-legacy-contract.json",
+      "methods": 1,
+      "result": "passed",
+      "prompt_versions": "v3"
+    },
+    {
+      "command": "python scripts/test_reliability_remediation_v2.py",
+      "methods": 25,
+      "result": "passed"
+    },
+    {
+      "command": "python scripts/test_application_reliability.py",
+      "methods": 30,
+      "result": "passed",
+      "elapsed_seconds": 42.259,
+      "prompt_versions": "Both evidence and post-generation environment variables set to v2",
+      "reuse": "Reused after accounting-only change; affected Phase 54 rerun passed."
+    },
+    {
+      "command": "python scripts/test_phase53_evidence_assessment.py",
+      "result": "passed"
+    },
+    {
+      "command": "python scripts/test_phase54_post_generation_validation.py",
+      "result": "passed after final accounting change",
+      "prompt_versions": "post-generation v2"
+    },
+    {
+      "command": "python scripts/test_reliability_v3_custody.py",
+      "methods": 4,
+      "result": "passed",
+      "elapsed_seconds": 2.604,
+      "runtime": "d4c50ebef687d96b00b474227b03e44f81175764 hash-verified Git archive"
+    },
+    {
+      "command": "compile changed Python bytes without writing bytecode",
+      "files": 9,
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "limitations": [
+    "Captured bad judgments remain bad; schema rejection is not semantic improvement.",
+    "No provider schema acceptance, live cost/latency, database E2E or evaluator qualification measured.",
+    "Canonical adapter must be wired into a fresh future diagnostic executor; frozen old runner remains unchanged."
+  ]
+}

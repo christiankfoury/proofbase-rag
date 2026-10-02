@@ -12,6 +12,7 @@ from apps.api.app.confidence.confidence_scorer import final_confidence
 from apps.api.app.costing.estimator import estimate_chat_cost
 from apps.api.app.core.config import get_settings
 from apps.api.app.generation.prompts import build_answer_user_prompt
+from apps.api.app.generation.structured_answer import response_format, valid_answer_shape
 from apps.api.app.generation.response_types import (
     RESPONSE_ANSWER,
     RESPONSE_CLARIFY,
@@ -132,13 +133,7 @@ def _parse_json_object(text: str) -> dict | None:
     try:
         parsed = json.loads(text)
     except json.JSONDecodeError:
-        match = re.search(r"\{.*\}", text, re.DOTALL)
-        if not match:
-            return None
-        try:
-            parsed = json.loads(match.group(0))
-        except json.JSONDecodeError:
-            return None
+        return None
     return parsed if isinstance(parsed, dict) else None
 
 
@@ -904,7 +899,7 @@ def _finalize_generated_answer(
     evidence_action: str | None = None,
 ) -> dict:
     parsed = _parse_json_object(raw_answer)
-    if parsed:
+    if valid_answer_shape(parsed):
         answer = str(parsed.get("answer") or "")
         response_type = str(parsed.get("response_type") or RESPONSE_ANSWER)
         if response_type not in SUPPORTED_RESPONSE_TYPES:
@@ -913,11 +908,11 @@ def _finalize_generated_answer(
         supported_claims = [str(claim) for claim in parsed.get("supported_claims") or []]
         unsupported_claims = [str(claim) for claim in parsed.get("unsupported_claims") or []]
     else:
-        answer = raw_answer
-        response_type = RESPONSE_NOT_FOUND if classify_behavior(answer) == "say_not_found" else RESPONSE_ANSWER
-        citations = citations_from_answer(answer, chunks, include_fallback=False)
+        answer = "I could not safely validate the generated answer. Please try again."
+        response_type = RESPONSE_NOT_FOUND
+        citations = []
         supported_claims = []
-        unsupported_claims = ["Model did not return structured JSON."]
+        unsupported_claims = []
 
     citations = _backfill_supporting_citations(answer, response_type, citations, chunks, multi_doc=multi_doc)
     validation = validate_citations(answer, citations, chunks)
@@ -937,6 +932,9 @@ def _finalize_generated_answer(
         supported_claims = []
         unsupported_claims = []
     confidence = final_confidence(response_type, chunks, validation["citation_confidence"], unsupported_claims)
+
+    if not valid_answer_shape(parsed):
+        validation["validation_notes"] = "Generation output failed the structured answer contract."
 
     input_tokens = usage.prompt_tokens if usage else None
     output_tokens = usage.completion_tokens if usage else None
@@ -1066,6 +1064,7 @@ def generate_answer(
     response = _client().chat.completions.create(
         model=selected_model,
         temperature=selected_temperature,
+        response_format=response_format(),
         messages=[
             {"role": "system", "content": prompt.content},
             {"role": "user", "content": user_prompt},
@@ -1148,6 +1147,7 @@ def repair_answer_once(
     response = _client().chat.completions.create(
         model=selected_model,
         temperature=selected_temperature,
+        response_format=response_format(),
         messages=[
             {"role": "system", "content": prompt.content},
             {"role": "user", "content": user_prompt},
@@ -1281,6 +1281,7 @@ def generate_answer_stream(
         stream = _client().chat.completions.create(
             model=selected_model,
             temperature=selected_temperature,
+            response_format=response_format(),
             messages=[
                 {"role": "system", "content": prompt.content},
                 {"role": "user", "content": user_prompt},
@@ -1292,6 +1293,7 @@ def generate_answer_stream(
         stream = _client().chat.completions.create(
             model=selected_model,
             temperature=selected_temperature,
+            response_format=response_format(),
             messages=[
                 {"role": "system", "content": prompt.content},
                 {"role": "user", "content": user_prompt},

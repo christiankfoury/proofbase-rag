@@ -6,7 +6,28 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: second remediation and six-question live diagnostic complete
+### Current: six-root-cause offline remediation complete; live checks deferred
+
+The latest request explicitly forbids paid calls. The
+[third remediation note](../phase-73/reliability-remediation-v3.md) records captured
+before/after replays and fresh positive/negative regressions. Deterministic fixes
+reject malformed generation output, retain usage on failed validation, preserve
+unknown totals and canonicalize future diagnostic payloads. New v4 contracts
+enumerate numeric provenance and scope obligations and clarify false-premise
+answerability. Their semantic effectiveness remains unmeasured: the saved
+false-premise judgment still abstains, and the saved scope judgment still passes
+under the legacy contract. New-schema rejection is not a semantic improvement.
+
+Seventeen new regression methods, four frozen live-v2 custody/tampering methods,
+25 prior remediation methods and 30 shared compatibility methods pass. Historical
+evidence, quality gates and unrelated edits remain intact. **No paid calls;
+USD 3.74777920 remains.** Proposed next stage: six source-inspected development
+questions, estimated USD 0.03–0.08, with a proposed USD 0.50 ceiling subject to
+fresh authorization, pricing and payload preflight. No evaluator qualification,
+full evaluation or overall success-rate claim. Stop after this offline work unit.
+The active plan remains [application reliability](application-reliability-plan.md).
+
+### Prior milestone: second remediation and six-question live diagnostic complete
 
 The 2026-10-02 follow-up authorized fixes and six new live diagnostic questions
 with a USD 0.50 ceiling from the existing remainder. Offline runtime `d4c50ebe`

@@ -128,7 +128,7 @@ def test_schema_is_strict_bounded_and_prompt_is_active() -> None:
     assert semantic_schema["additionalProperties"] is False
     assert "recommended_action" not in semantic_schema["properties"]
     assert "required_source_coverage" not in semantic_schema["properties"]
-    assert get_prompt("evidence_assessment").version == "v3"
+    assert get_prompt("evidence_assessment").version == "v4"
 
 
 def test_empty_authorized_evidence_stops_deterministically() -> None:

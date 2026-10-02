@@ -337,6 +337,7 @@ def _semantic_assessment(
     prompt = get_prompt("evidence_assessment", settings.evidence_assessment_prompt_version)
     selected_model = settings.evidence_assessment_model or prompt.model or settings.openai_chat_model
     started_at = time.perf_counter()
+    response = None
     try:
         if not settings.openai_api_key and client is None:
             raise RuntimeError("evidence assessment service unavailable")
@@ -423,6 +424,13 @@ def _semantic_assessment(
             prompt_version=prompt.version,
             latency_ms=max(int((time.perf_counter() - started_at) * 1000), 0),
         )
+        usage = getattr(response, "usage", None)
+        input_tokens = usage.prompt_tokens if usage else None
+        output_tokens = usage.completion_tokens if usage else None
+        assessment = assessment.model_copy(update={
+            "input_tokens": input_tokens, "output_tokens": output_tokens,
+            **estimate_chat_cost(model=selected_model, input_tokens=input_tokens, output_tokens=output_tokens),
+        })
         if emit_telemetry:
             _submit_evidence_telemetry(assessment, question, len(authorized_chunks))
         return assessment
@@ -630,6 +638,12 @@ def _semantic_input(
             for chunk in authorized_chunks[:10]
         ],
     }
+    if get_settings().evidence_assessment_prompt_version == "v4":
+        payload["answerability_target"] = (
+            "Can the authorized sources answer the question, including correcting or denying a premise? "
+            "Describe required facts as neutral questions. A scenario value is query context, not a policy fact. "
+            "Use contradicted for a premise directly disproven by the sources; unsupported for an unknown answer."
+        )
     return json.dumps(payload, ensure_ascii=False)
 
 

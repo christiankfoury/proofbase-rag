@@ -93,6 +93,17 @@ class SemanticValidationV3(SemanticValidationDecision):
     numeric_context: list[NumericContext] = Field(max_length=64)
 
 
+class ScopeCheck(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    claim_id: str = Field(min_length=1, max_length=32)
+    preserves_scope: bool
+    explanation: str = Field(min_length=1, max_length=600)
+
+
+class SemanticValidationV4(SemanticValidationV3):
+    scope_checks: list[ScopeCheck] = Field(min_length=1, max_length=16)
+
+
 class PostGenerationValidation(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -209,7 +220,7 @@ def validate_candidate_answer(
     unsupported_exact = [literal for literal in exact_literals if _normalize_exact(literal) not in supported_literals]
     # Request quantities are context only. The v3 semantic contract must still
     # prove their scenario role, rule application and authorized claim citation.
-    if not code_authored and get_settings().post_generation_validation_prompt_version == "v3":
+    if not code_authored and get_settings().post_generation_validation_prompt_version in {"v3", "v4"}:
         request_literals = {_normalize_exact(value) for value in extract_exact_literals(question)}
         unsupported_exact = [value for value in unsupported_exact if _normalize_exact(value) not in request_literals]
     if unsupported_exact:
@@ -271,6 +282,7 @@ def combine_validation_attempts(
             "input_cost_usd": _sum_optional(first.input_cost_usd, second.input_cost_usd),
             "output_cost_usd": _sum_optional(first.output_cost_usd, second.output_cost_usd),
             "estimated_cost_usd": _sum_optional(first.estimated_cost_usd, second.estimated_cost_usd),
+            "pricing_status": (first.pricing_status if first.estimated_cost_usd is None else second.pricing_status),
         }
     )
 
@@ -342,8 +354,19 @@ def _semantic_validate(
     settings = get_settings()
     prompt = get_prompt("post_generation_validation", settings.post_generation_validation_prompt_version)
     model = settings.post_generation_validation_model or prompt.model or settings.openai_chat_model
-    decision_model = SemanticValidationV3 if prompt.version == "v3" else SemanticValidationDecision
+    decision_model = (SemanticValidationV4 if prompt.version == "v4" else
+                      SemanticValidationV3 if prompt.version == "v3" else SemanticValidationDecision)
+    response = None
+    attempted = False
     try:
+        schema = decision_model.model_json_schema()
+        if prompt.version == "v4":
+            obligations = numeric_obligations(question, candidate, authorized_chunks)
+            units = candidate_units(str(candidate.get("answer") or ""))
+            if not 1 <= len(units) <= 16 or len(str(candidate.get("answer") or "")) > 6000 or len(obligations) > 64:
+                raise ValidationContractError("candidate exceeds complete validation bounds")
+            schema["properties"]["numeric_context"].update(minItems=len(obligations), maxItems=len(obligations))
+            schema["properties"]["scope_checks"].update(minItems=len(units), maxItems=len(units))
         if not settings.openai_api_key and client is None:
             raise RuntimeError("post-generation validation service unavailable")
         api = client or OpenAI(
@@ -351,6 +374,7 @@ def _semantic_validate(
             timeout=settings.post_generation_validation_timeout_seconds,
             max_retries=0,
         )
+        attempted = True
         response = api.chat.completions.create(
             model=model,
             temperature=prompt.temperature,
@@ -363,7 +387,7 @@ def _semantic_validate(
                 "json_schema": {
                     "name": "post_generation_validation_v1",
                     "strict": True,
-                    "schema": decision_model.model_json_schema(),
+                    "schema": schema,
                 },
             },
         )
@@ -371,8 +395,14 @@ def _semantic_validate(
         if getattr(message, "refusal", None):
             raise RuntimeError("post-generation validation refused")
         decision = decision_model.model_validate_json(message.content or "")
-        if prompt.version == "v3":
+        if prompt.version in {"v3", "v4"}:
             _validate_candidate_units(decision, question, candidate, authorized_chunks)
+        if prompt.version == "v4":
+            expected_numeric = {(item["claim_id"], _normalize_exact(item["literal"])) for item in obligations}
+            actual_numeric = [(item.claim_id, _normalize_exact(item.literal)) for item in decision.numeric_context]
+            if len(actual_numeric) != len(expected_numeric) or set(actual_numeric) != expected_numeric:
+                raise ValidationContractError("numeric obligations omitted, duplicated or invented")
+            decision = _apply_scope_checks(decision)
         decision = _normalize_source_instruction_decision(
             decision,
             candidate=candidate,
@@ -440,6 +470,14 @@ def _semantic_validate(
             prompt_version=prompt.version,
             exact_literals=exact_literals,
         )
+        if attempted:
+            usage = getattr(response, "usage", None)
+            input_tokens = usage.prompt_tokens if usage else None
+            output_tokens = usage.completion_tokens if usage else None
+            result = result.model_copy(update={
+                "input_tokens": input_tokens, "output_tokens": output_tokens,
+                **estimate_chat_cost(model=model, input_tokens=input_tokens, output_tokens=output_tokens),
+            })
     _emit(result, question, len(authorized_chunks), emit_telemetry)
     return result
 
@@ -642,9 +680,40 @@ def _semantic_input(question: str, candidate: dict, authorized_chunks: list[Retr
             for chunk in authorized_chunks[:12]
         ],
     }
-    if get_settings().post_generation_validation_prompt_version == "v3":
+    if get_settings().post_generation_validation_prompt_version in {"v3", "v4"}:
         payload["candidate_units"] = candidate_units(str(candidate.get("answer") or ""))
+    if get_settings().post_generation_validation_prompt_version == "v4":
+        payload["numeric_obligations"] = numeric_obligations(question, candidate, authorized_chunks)
+        payload["scope_obligations"] = [unit["claim_id"] for unit in payload["candidate_units"]]
     return json.dumps(payload, ensure_ascii=True)
+
+
+def numeric_obligations(question: str, candidate: dict, authorized_chunks: list[RetrievedChunk]) -> list[dict]:
+    """Identify work to check, never declare user numbers to be source facts."""
+    source_values = {_normalize_exact(v) for c in authorized_chunks for v in extract_exact_literals(c.content)}
+    obligations = {}
+    for unit in candidate_units(str(candidate.get("answer") or "")):
+        for literal in extract_exact_literals(_without_source_ids(unit["claim_text"], authorized_chunks)):
+            normalized = _normalize_exact(literal)
+            if normalized not in source_values:
+                obligations.setdefault((unit["claim_id"], normalized), {
+                    "claim_id": unit["claim_id"], "literal": literal,
+                    "present_in_request": exact_literal_supported(literal, question),
+                })
+    return list(obligations.values())
+
+
+def _apply_scope_checks(decision: SemanticValidationV4) -> SemanticValidationV4:
+    expected = {claim.claim_id for claim in decision.claims}
+    observed = {check.claim_id for check in decision.scope_checks}
+    if expected != observed or len(observed) != len(decision.scope_checks):
+        raise ValidationContractError("scope checks omitted or duplicated")
+    rejected = {check.claim_id for check in decision.scope_checks if not check.preserves_scope}
+    # A scope failure cannot be overridden by a contradictory supported label.
+    return decision.model_copy(update={"claims": [
+        claim.model_copy(update={"support_status": "unsupported"})
+        if claim.claim_id in rejected else claim for claim in decision.claims
+    ]})
 
 
 def candidate_units(answer: str) -> list[dict[str, str]]:
@@ -759,6 +828,6 @@ def _emit(result: PostGenerationValidation, question: str, chunk_count: int, ena
 
 
 def _sum_optional(first: int | float | None, second: int | float | None):
-    if first is None and second is None:
+    if first is None or second is None:
         return None
-    return (first or 0) + (second or 0)
+    return first + second
