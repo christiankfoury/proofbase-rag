@@ -6,7 +6,18 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: six-root-cause offline remediation complete; live checks deferred
+### Current: design review complete; implementation and paid diagnostics paused
+
+The user requested documentation only, with no further prompt versions or API
+calls. [Structural decision](../phase-73/reliability-structural-decision.md)
+locates the earliest scenario attribution, false-premise assessment and geographic
+generation errors. It recommends a narrowly bounded source-backed scenario
+calculation first, with explicit provenance, acceptance cases and a stopping rule.
+No implementation is authorized by this review; prior evidence and gates remain
+unchanged. Cost USD 0; remaining ledger USD 3.74777920. Stop after publishing this
+decision, without beginning the proposed live stage or another runtime change.
+
+### Prior milestone: six-root-cause offline remediation complete; live checks deferred
 
 The latest request explicitly forbids paid calls. The
 [third remediation note](../phase-73/reliability-remediation-v3.md) records captured
