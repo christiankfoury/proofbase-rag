@@ -25,6 +25,7 @@ ClaimType = Literal["exact", "semantic", "negation", "exception", "role_or_appro
 SupportStatus = Literal["supported", "unsupported", "conflicting"]
 ValidationReasonCode = Literal[
     "scenario_calculation_verified",
+    "scenario_calculation_semantic_input_verified",
     "scenario_calculation_invalid",
     "non_answer_skipped",
     "code_authored_response_valid",

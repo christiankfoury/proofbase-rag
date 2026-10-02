@@ -15,6 +15,7 @@ from apps.api.app.permissions.access_control import unauthorized_chunks
 from apps.api.app.reasoning.evidence_assessment import EvidenceAssessment
 from apps.api.app.reasoning.post_generation_validation import PostGenerationValidation
 from apps.api.app.reasoning.restricted_intent import restricted_intent_allowed_roles
+from apps.api.app.reasoning.scenario_input import ScenarioExtraction
 from apps.api.app.permissions.roles import role_variants
 from apps.api.app.retrieval.types import RetrievedChunk
 
@@ -54,6 +55,8 @@ class ScenarioCalculation:
     effective_role: str
     project_id: str | None
     department_id: str | None
+    input_origin: str = 'complete_grammar'
+    extraction_sha256: str | None = None
 
 
 def _digest(text: str) -> str:
@@ -116,33 +119,65 @@ def _source_row(category: str, chunks: list[RetrievedChunk]):
 
 
 def calculate(question: str, chunks: list[RetrievedChunk], *, effective_role: str,
-              project_id: str | None, department_id: str | None) -> ScenarioCalculation | None:
-    match = next((m for p in QUESTIONS if (m := p.fullmatch(question))), None)
-    if not match or not chunks or unauthorized_chunks(chunks, effective_role):
+              project_id: str | None, department_id: str | None,
+              extraction: ScenarioExtraction | None = None) -> ScenarioCalculation | None:
+    if extraction is None:
+        match = next((m for p in QUESTIONS if (m := p.fullmatch(question))), None)
+        if match is None:
+            return None
+        quote, category, role = match['money'], match['category'], match['role']
+        input_span, category_span = match.span('money'), match.span('category')
+    else:
+        # These labels remain model judgments. Exact bindings are checked here;
+        # acceptance of applicability is separately required by the caller.
+        if extraction.scope != 'row_comparison' or not extraction.complete_request or extraction.unhandled_parts:
+            return None
+        quote, category, role = extraction.amount_quote, extraction.category_quote, None
+        if not quote or not category or question.count(quote) != 1 or question.count(category) != 1:
+            return None
+        start, category_start = question.index(quote), question.index(category)
+        input_span = (start, start + len(quote))
+        category_span = (category_start, category_start + len(category))
+        if question[:start].rstrip().endswith(('+', '-', '−')):
+            return None
+        for begin, end in (input_span, category_span):
+            if ((begin and re.match(r'\w', question[begin - 1]))
+                    or (end < len(question) and re.match(r'\w', question[end]))):
+                return None
+        if re.search(r'\d', question[:start] + question[start + len(quote):]):
+            return None  # More numeric operands cannot be silently discarded.
+        if not re.fullmatch(CATEGORY, category, re.I | re.ASCII):
+            return None
+    money = re.fullmatch(MONEY, quote, re.I | re.ASCII)
+    if not money or not chunks or unauthorized_chunks(chunks, effective_role):
         return None
     restricted_roles = restricted_intent_allowed_roles(question)
     if restricted_roles and not set(role_variants(effective_role)).intersection(restricted_roles):
         return None
     if len({c.chunk_id for c in chunks}) != len(chunks):
         return None
-    if len(match['category']) > 64 or len(match['role']) > 32:
+    if len(category) > 64 or (role is not None and len(role) > 32):
         return None
     if any((project_id is not None and c.project_id != project_id) or
            (department_id is not None and c.department_id != department_id) for c in chunks):
         return None
-    found = _source_row(match['category'], chunks)
+    found = _source_row(category, chunks)
     if found is None:
         return None
     source, span, quote, limit, approval = found
-    if match['currency'].upper() != limit['currency'].upper() or match['role'].casefold() != approval['role'].casefold():
+    if money['currency'].upper() != limit['currency'].upper() or (role is not None and role.casefold() != approval['role'].casefold()):
         return None
-    amount = Decimal(match['amount'].replace(',', ''))
+    if extraction is not None and extraction.source_chunk_id != source.chunk_id:
+        return None
+    amount = Decimal(money['amount'].replace(',', ''))
     threshold = Decimal(limit['amount'].replace(',', ''))
     return ScenarioCalculation(
-        _digest(question), match.span('money'), match['money'], match.span('category'), match['category'],
-        match['currency'].upper(), str(amount), source.chunk_id, source.document_id,
+        _digest(question), input_span, money['money'], category_span, category,
+        money['currency'].upper(), str(amount), source.chunk_id, source.document_id,
         _digest(source.content), span, quote, str(threshold), approval['role'], '>', amount > threshold,
         effective_role, project_id, department_id,
+        'semantic_extraction' if extraction is not None else 'complete_grammar',
+        _digest(extraction.model_dump_json()) if extraction is not None else None,
     )
 
 
@@ -163,7 +198,9 @@ def render(record: ScenarioCalculation, chunks: list[RetrievedChunk]) -> dict:
         'response_type': 'answer', 'behavior': 'answer',
         'citations': citation_check['citations'],
         'supported_claims': [policy_claim], 'unsupported_claims': [],
-        'validation_notes': 'Verified row calculation. Purchase amount is supplied by the current user, not by the cited document.',
+        'validation_notes': ('Verified row calculation. Purchase amount is supplied by the current user, not by the cited document.'
+                             + (' Request interpretation is model-assessed, not deterministically proven.'
+                                if record.input_origin == 'semantic_extraction' else '')),
         'input_tokens': 0, 'output_tokens': 0, 'input_cost_usd': 0.0, 'output_cost_usd': 0.0,
         'estimated_cost_usd': 0.0, 'pricing_status': 'not_applicable',
         'model': None, 'prompt_name': None, 'prompt_version': None, 'temperature': None,
@@ -191,15 +228,40 @@ def prepare(question: str, chunks: list[RetrievedChunk], *, request_assessment, 
     return answer, assessment
 
 
+def conversational_record(question: str, chunks: list[RetrievedChunk], assessment: EvidenceAssessment | None, **scope):
+    if (assessment is None or assessment.scenario is None or assessment.status != 'succeeded'
+            or assessment.scenario_request_sha256 != _digest(question)
+            or assessment.route not in {'hybrid_semantic', 'semantic_always'}
+            or assessment.answerability != 'sufficient' or assessment.recommended_action != 'answer'
+            or assessment.conflicts or assessment.missing_information or assessment.normalization_reason
+            or any(c.status != 'covered' for c in assessment.required_source_coverage)):
+        return None
+    record = calculate(question, chunks, extraction=assessment.scenario, **scope)
+    return record if record and record.chunk_id in assessment.supporting_chunk_ids else None
+
+
+def prepare_conversational(question: str, chunks: list[RetrievedChunk], assessment: EvidenceAssessment,
+                           *, request_assessment, **scope) -> dict | None:
+    if request_assessment.recommended_action != 'continue' or request_assessment.injection_risk != 'none':
+        return None
+    record = conversational_record(question, chunks, assessment, **scope)
+    return render(record, chunks) if record else None
+
+
 def finalize(question: str, answer: dict, chunks: list[RetrievedChunk], *, effective_role: str,
-             project_id: str | None, department_id: str | None) -> PostGenerationValidation:
-    record = calculate(question, chunks, effective_role=effective_role, project_id=project_id, department_id=department_id)
+             project_id: str | None, department_id: str | None,
+             assessment: EvidenceAssessment | None = None) -> PostGenerationValidation:
+    previous = answer.get('_scenario_calculation')
+    semantic = isinstance(previous, ScenarioCalculation) and previous.input_origin == 'semantic_extraction'
+    scope = dict(effective_role=effective_role, project_id=project_id, department_id=department_id)
+    record = conversational_record(question, chunks, assessment, **scope) if semantic else calculate(question, chunks, **scope)
     valid = record is not None and isinstance(answer.get('_scenario_calculation'), ScenarioCalculation)
     valid = valid and answer == render(record, chunks)
     return PostGenerationValidation(
         action='accept' if valid else 'downgrade', claims=[], citation_checks=[], exact_literals=[],
         unsupported_exact_literals=[], source_instruction_followed=False,
-        reason_codes=['scenario_calculation_verified' if valid else 'scenario_calculation_invalid'],
+        reason_codes=[('scenario_calculation_semantic_input_verified' if semantic else 'scenario_calculation_verified')
+                      if valid else 'scenario_calculation_invalid'],
         repair_count=0, schema_version='post_generation_validation.v1', route='deterministic_guard',
         status='succeeded' if valid else 'failed_safe', model=None, prompt_version=None, latency_ms=0,
         input_tokens=0, output_tokens=0, input_cost_usd=0.0, output_cost_usd=0.0,

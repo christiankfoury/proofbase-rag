@@ -6,7 +6,20 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: bounded scenario calculation complete; paid diagnostics paused
+### Current: conversational scenario experiment, offline checks complete
+
+The user authorized one extraction integration and a maximum USD 0.50 diagnostic
+from the existing USD 3.74777920 remainder. The
+[experiment note](../phase-73/conversational-scenario.md) predeclares eight questions,
+separate interpretation/unsafe-acceptance/unnecessary-rejection metrics and a
+single-pass stopping rule. The opt-in v5 candidate reuses evidence assessment;
+defaults and historical prompts remain unchanged. Offline plumbing, arithmetic,
+applicability and budget checks pass. Prepared payload reservation is USD 0.0443520.
+Next: freeze reviewed runtime/suite, execute once, inspect sources, publish results
+and stop. No evaluator qualification, full evaluation or automatic prompt cycle.
+The active plan remains [application reliability](application-reliability-plan.md).
+
+### Prior milestone: bounded scenario calculation complete
 
 Implemented only priority one of the structural decision in the real synchronous
 and streaming query callers. The [scenario note](../phase-73/scenario-calculation.md)

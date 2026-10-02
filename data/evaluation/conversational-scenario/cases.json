@@ -1,0 +1,14 @@
+{
+  "kind": "predeclared development component diagnostic, not a holdout",
+  "source_capture": "data/evaluation/application-reliability-live-v2/run/check-01.json",
+  "cases": [
+    {"id":"paraphrase-below","question":"I'm spending USD 164 on office supplies. Is that over the category's standard limit?","scope":"row_comparison","amount":"USD 164","category":"office supplies","above":false},
+    {"id":"paraphrase-above","question":"Would a USD 425 office supplies purchase cross the threshold for manager approval in that category's row?","scope":"row_comparison","amount":"USD 425","category":"office supplies","above":true},
+    {"id":"paraphrase-equal","question":"For office supplies costing USD 300, is the row's above-limit approval condition triggered?","scope":"row_comparison","amount":"USD 300","category":"office supplies","above":false},
+    {"id":"policy-assertion","question":"The office supplies policy limit is USD 164, isn't it?","scope":"policy_assertion"},
+    {"id":"multiple-amounts","question":"For office supplies, would either a USD 164 purchase or a USD 425 purchase cross the category limit?","scope":"unsupported"},
+    {"id":"missing-currency","question":"I'm spending 164 on office supplies. Is that above the category limit?","scope":"unsupported"},
+    {"id":"extra-condition","question":"Would USD 425 of office supplies cross the category limit if this is an emergency expense?","scope":"conditional"},
+    {"id":"overall-permission","question":"Can I go ahead and buy office supplies for USD 164 without getting approval?","scope":"overall_permission"}
+  ]
+}

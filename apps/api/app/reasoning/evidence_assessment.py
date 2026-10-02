@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import logging
 import time
 from typing import Any, Literal
@@ -13,6 +14,7 @@ from apps.api.app.costing.estimator import estimate_chat_cost
 from apps.api.app.observability.auxiliary_telemetry import submit_auxiliary_telemetry
 from apps.api.app.prompts.prompt_registry import get_prompt
 from apps.api.app.reasoning.request_assessment import RequestAssessment
+from apps.api.app.reasoning.scenario_input import ScenarioExtraction
 from apps.api.app.reasoning.source_planner import SourcePlanItem, plan_multi_document_sources
 from apps.api.app.retrieval.types import RetrievedChunk
 
@@ -116,6 +118,10 @@ class SemanticEvidenceDecision(BaseModel):
     assessment_confidence: float = Field(ge=0.0, le=1.0)
 
 
+class ConversationalEvidenceDecision(SemanticEvidenceDecision):
+    scenario: ScenarioExtraction
+
+
 class EvidenceAssessment(EvidenceAssessmentDecision):
     model_config = ConfigDict(extra="forbid")
 
@@ -131,6 +137,9 @@ class EvidenceAssessment(EvidenceAssessmentDecision):
     estimated_cost_usd: float | None
     pricing_status: str
     normalization_reason: EvidenceReasonCode | None = None
+    # Internal proposal; public metadata shape and historical schemas stay stable.
+    scenario: ScenarioExtraction | None = Field(default=None, exclude=True)
+    scenario_request_sha256: str | None = Field(default=None, exclude=True)
 
 
 _ACTION_BY_ANSWERABILITY: dict[Answerability, EvidenceAction] = {
@@ -151,6 +160,7 @@ def assess_evidence(
     mode: str | None = None,
     client: OpenAI | None = None,
     emit_telemetry: bool = True,
+    original_question: str | None = None,
 ) -> EvidenceAssessment:
     if request_assessment.recommended_action != "continue":
         raise ValueError("Evidence assessment requires a continued request assessment.")
@@ -178,6 +188,7 @@ def assess_evidence(
         route=route,
         client=client,
         emit_telemetry=emit_telemetry,
+        original_question=original_question,
     )
 
 
@@ -334,12 +345,14 @@ def _semantic_assessment(
     route: EvidenceRoute,
     client: OpenAI | None,
     emit_telemetry: bool,
+    original_question: str | None = None,
 ) -> EvidenceAssessment:
     settings = get_settings()
     prompt = get_prompt("evidence_assessment", settings.evidence_assessment_prompt_version)
     selected_model = settings.evidence_assessment_model or prompt.model or settings.openai_chat_model
     started_at = time.perf_counter()
     response = None
+    decision_type = ConversationalEvidenceDecision if prompt.version == 'v5' else SemanticEvidenceDecision
     try:
         if not settings.openai_api_key and client is None:
             raise RuntimeError("evidence assessment service unavailable")
@@ -360,22 +373,23 @@ def _semantic_assessment(
                         request_assessment=request_assessment,
                         authorized_chunks=authorized_chunks,
                         source_plan=source_plan,
+                        original_question=original_question,
                     ),
                 },
             ],
             response_format={
                 "type": "json_schema",
                 "json_schema": {
-                    "name": "evidence_assessment_v1",
+                    "name": "evidence_assessment_v5" if prompt.version == 'v5' else "evidence_assessment_v1",
                     "strict": True,
-                    "schema": SemanticEvidenceDecision.model_json_schema(),
+                    "schema": decision_type.model_json_schema(),
                 },
             },
         )
         message = response.choices[0].message
         if getattr(message, "refusal", None):
             raise RuntimeError("evidence assessment refused")
-        semantic_decision = SemanticEvidenceDecision.model_validate_json(message.content or "")
+        semantic_decision = decision_type.model_validate_json(message.content or "")
         decision, normalization_reason = _complete_semantic_decision(
             semantic_decision,
             source_plan=source_plan,
@@ -401,6 +415,12 @@ def _semantic_assessment(
             output_tokens=output_tokens,
             **cost,
             normalization_reason=normalization_reason,
+            scenario=(semantic_decision.scenario if isinstance(semantic_decision, ConversationalEvidenceDecision)
+                      and original_question is not None and semantic_decision.answerability == 'sufficient'
+                      and not semantic_decision.conflicts and not semantic_decision.missing_information
+                      and normalization_reason is None else None),
+            scenario_request_sha256=(hashlib.sha256(original_question.encode('utf-8')).hexdigest()
+                                     if original_question is not None and prompt.version == 'v5' else None),
         )
         if emit_telemetry:
             _submit_evidence_telemetry(assessment, question, len(authorized_chunks))
@@ -612,9 +632,12 @@ def _semantic_input(
     request_assessment: RequestAssessment,
     authorized_chunks: list[RetrievedChunk],
     source_plan: list[SourcePlanItem],
+    original_question: str | None = None,
 ) -> str:
+    conversational = get_settings().evidence_assessment_prompt_version == 'v5'
     payload: dict[str, Any] = {
-        "current_request": question.strip()[:4000],
+        "current_request": (original_question if original_question is not None else question)
+                           if conversational else question.strip()[:4000],
         "request_assessment_for_routing_context_only": {
             "intent": request_assessment.intent,
             "topic": request_assessment.topic,
@@ -640,7 +663,9 @@ def _semantic_input(
             for chunk in authorized_chunks[:10]
         ],
     }
-    if get_settings().evidence_assessment_prompt_version == "v4":
+    if conversational and original_question is not None:
+        payload['retrieval_question_for_context_only'] = question
+    if get_settings().evidence_assessment_prompt_version in {"v4", "v5"}:
         payload["answerability_target"] = (
             "Can the authorized sources answer the question, including correcting or denying a premise? "
             "Describe required facts as neutral questions. A scenario value is query context, not a policy fact. "
