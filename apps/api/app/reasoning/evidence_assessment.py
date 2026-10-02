@@ -26,6 +26,7 @@ CoverageStatus = Literal["covered", "missing", "partial"]
 ConflictType = Literal["version", "effective_date", "applicability", "precedence", "factual"]
 EvidenceAction = Literal["answer", "partial_answer", "clarify", "not_found", "temporary_unavailable"]
 EvidenceReasonCode = Literal[
+    "scenario_rule_available",
     "authorized_evidence_sufficient",
     "empty_authorized_evidence",
     "required_fact_missing",
@@ -44,6 +45,7 @@ EvidenceReasonCode = Literal[
     "unauthorized_reference_rejected",
 ]
 EvidenceRoute = Literal[
+    "deterministic_scenario",
     "deterministic_empty",
     "deterministic_source_coverage",
     "deterministic_default",

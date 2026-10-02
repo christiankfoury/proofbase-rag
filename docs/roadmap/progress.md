@@ -6,7 +6,22 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: design review complete; implementation and paid diagnostics paused
+### Current: bounded scenario calculation complete; paid diagnostics paused
+
+Implemented only priority one of the structural decision in the real synchronous
+and streaming query callers. The [scenario note](../phase-73/scenario-calculation.md)
+records the closed request/row grammar, independent provenance verification,
+captured before/after and 13 new offline regression methods. Both callers now
+answer the captured purchase comparison without semantic evidence assessment,
+answer generation or model-generated numeric provenance. Unsupported requests
+retain the existing guarded route; this is not a general applicability resolver.
+The 17/25 prior remediation, 30 shared compatibility and four frozen-evidence
+methods pass. Prompt versions, evaluator standards and historical evidence are
+unchanged. No paid calls; USD 3.74777920 remains. Stop at this work unit: broader
+scenario interpretation, false-premise/geographic fixes and live checks are deferred.
+The active plan remains [application reliability](application-reliability-plan.md).
+
+### Prior milestone: design review complete
 
 The user requested documentation only, with no further prompt versions or API
 calls. [Structural decision](../phase-73/reliability-structural-decision.md)

@@ -24,6 +24,8 @@ ValidationRoute = Literal["deterministic_skip", "deterministic_guard", "hybrid_s
 ClaimType = Literal["exact", "semantic", "negation", "exception", "role_or_approval"]
 SupportStatus = Literal["supported", "unsupported", "conflicting"]
 ValidationReasonCode = Literal[
+    "scenario_calculation_verified",
+    "scenario_calculation_invalid",
     "non_answer_skipped",
     "code_authored_response_valid",
     "authorized_evidence_missing",

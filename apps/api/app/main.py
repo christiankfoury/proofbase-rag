@@ -97,6 +97,7 @@ from apps.api.app.projects.project_store import create_project as create_project
 from apps.api.app.projects.project_store import update_department as update_department_record
 from apps.api.app.projects.project_store import update_project as update_project_record
 from apps.api.app.reasoning.clarification import ClarificationDecision, clarification_answer
+from apps.api.app.reasoning import scenario_calculation
 from apps.api.app.reasoning.evidence_assessment import (
     EvidenceAssessment,
     assess_evidence,
@@ -2164,13 +2165,19 @@ def _validate_generated_answer(
     multi_doc: bool,
     evidence_action: str | None,
 ) -> tuple[dict, PostGenerationValidation]:
-    code_authored = answer.get("input_tokens") == 0 and answer.get("output_tokens") == 0
-    first = validate_candidate_answer(
-        question,
-        candidate=answer,
-        authorized_chunks=authorized_chunks,
-        code_authored=code_authored,
-    )
+    if '_scenario_calculation' in answer or answer.get('_answer_origin') == 'scenario_calculation':
+        first = scenario_calculation.finalize(
+            original_question, answer, authorized_chunks, effective_role=effective_role,
+            project_id=project_id, department_id=department_id,
+        )
+    else:
+        code_authored = answer.get("input_tokens") == 0 and answer.get("output_tokens") == 0
+        first = validate_candidate_answer(
+            question,
+            candidate=answer,
+            authorized_chunks=authorized_chunks,
+            code_authored=code_authored,
+        )
     final_answer = answer
     final_validation = first
     if can_prune_unsupported_citations(first):
@@ -2483,7 +2490,11 @@ def query_stream(request: QueryRequest, http_request: Request, user: Annotated[d
                     "status",
                     {"status": "evidence_assessment_started", "message": "Checking accessible evidence sufficiency."},
                 )
-                evidence_assessment = _assess_after_retrieval(
+                scenario = scenario_calculation.prepare(
+                    request.question, chunks, request_assessment=request_assessment,
+                    effective_role=effective_role, project_id=project_id, department_id=department_id,
+                )
+                evidence_assessment = scenario[1] if scenario else _assess_after_retrieval(
                     retrieval_question,
                     request_assessment=request_assessment,
                     chunks=chunks,
@@ -2503,7 +2514,7 @@ def query_stream(request: QueryRequest, http_request: Request, user: Annotated[d
                         "reason_codes": list(evidence_assessment.reason_codes),
                     },
                 )
-                answer = _evidence_stop_answer(evidence_assessment) or {}
+                answer = scenario[0] if scenario else (_evidence_stop_answer(evidence_assessment) or {})
                 generation_chunks = _evidence_generation_chunks(chunks, evidence_assessment)
                 if evidence_assessment.recommended_action == "not_found":
                     answer = generate_answer(
@@ -2808,7 +2819,11 @@ def query(request: QueryRequest, http_request: Request, user: Annotated[dict, De
                 grouped_docs = None
             trace.stop("retrieval")
 
-            evidence_assessment = _assess_after_retrieval(
+            scenario = scenario_calculation.prepare(
+                request.question, chunks, request_assessment=request_assessment,
+                effective_role=effective_role, project_id=project_id, department_id=department_id,
+            )
+            evidence_assessment = scenario[1] if scenario else _assess_after_retrieval(
                 retrieval_question,
                 request_assessment=request_assessment,
                 chunks=chunks,
@@ -2818,7 +2833,7 @@ def query(request: QueryRequest, http_request: Request, user: Annotated[dict, De
                 project_id=project_id,
                 department_id=department_id,
             )
-            answer = _evidence_stop_answer(evidence_assessment) or {}
+            answer = scenario[0] if scenario else (_evidence_stop_answer(evidence_assessment) or {})
             generation_chunks = _evidence_generation_chunks(chunks, evidence_assessment)
             if evidence_assessment.recommended_action == "not_found":
                 answer = generate_answer(
