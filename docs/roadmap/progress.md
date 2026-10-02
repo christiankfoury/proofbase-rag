@@ -6,6 +6,34 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
+### Active: bounded live reliability diagnostic captured; offline remediation next
+
+The user authorized a 12-question diagnostic on 2026-10-02, with at most USD 1
+from the existing remainder. [Results and every-case source inspection](../phase-73/application-reliability-live.md)
+record **12 questions attempted once: nine application outcomes and three local
+input-bound interruptions**, not twelve completed quality measurements. All 53
+provider calls settled (35 chat, 18 embeddings), costing **USD 0.02573086**;
+**USD 3.76906404 remains**. No SDK retries, evaluator calls, qualification or
+full evaluation occurred. Stopped cases were preserved; separate bounded
+segments attempted only untouched cases, without resubmission or larger caps.
+
+The live quote example confirms the R3 formatter fixes a model's noncontiguous
+excerpt; grouped-number, resolved-context, ambiguity and modality controls also
+behaved as expected. Confirmed remaining defects include false-premise questions
+misrouted as missing evidence, a legitimate scenario amount rejected by numeric
+validation, and a broadened geographic qualifier accepted by semantic validation.
+Multi-source synthesis and final permitted/denied answers remain unvalidated
+because the conservative input estimator stopped them. No overall success rate
+is published. Permission-filtered captured sources showed no unauthorized data;
+this incomplete diagnostic is not a safety-gate pass.
+
+Next action is offline root-cause remediation and better payload preflight, not
+additional spending. A later six-question contrast diagnostic is estimated at
+USD 0.02–0.06 with a proposed USD 0.50 ceiling, requiring fresh authorization.
+The active plan remains [application reliability](application-reliability-plan.md).
+Historical evidence, previous spending entries and the unrelated tracked log
+remain intact. See the results note for exact verification and limitations.
+
 ### Active: application reliability R1–R4 offline milestone complete
 
 Implementation was explicitly requested on 2026-10-01. The

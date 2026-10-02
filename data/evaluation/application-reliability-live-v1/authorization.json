@@ -1,0 +1,41 @@
+{
+  "allocation_usd": "1.00",
+  "chat_calls_per_case": 7,
+  "chat_input_cap": 16384,
+  "chat_output_cap": 2048,
+  "embedding_input_cap": 8192,
+  "evaluator_calls_authorized": false,
+  "existing_remainder_usd": "3.79479490",
+  "full_evaluation_authorized": false,
+  "input_bound_method": "UTF-8 serialized request bytes plus 2048 framing tokens; conservative bound, rejects without input truncation",
+  "max_calls": 124,
+  "max_chat_calls": 84,
+  "max_embedding_calls": 40,
+  "offline_tests": {
+    "command": "python -m unittest scripts.test_application_reliability_live -v",
+    "elapsed_test_seconds": 2.601,
+    "passed": 10
+  },
+  "preflight_sha256": "727ef3265b5a1566ce28923df38fed5d2fb024f6292931155d7a1191f6727da2",
+  "prices_usd_per_million": {
+    "gpt-4.1-mini": {
+      "cached_input": "0.10",
+      "input": "0.40",
+      "output": "1.60"
+    },
+    "text-embedding-3-small": {
+      "input": "0.02"
+    }
+  },
+  "prices_verified_on": "2026-10-02",
+  "pricing_sources": [
+    "https://developers.openai.com/api/docs/models/gpt-4.1-mini",
+    "https://developers.openai.com/api/docs/models/text-embedding-3-small"
+  ],
+  "provider_retries": 0,
+  "query_embeddings_per_case": 3,
+  "recorded_at": "2026-10-02T17:02:33.216306+00:00",
+  "transport": "standard synchronous",
+  "uncached_token_cost_bound_usd": "0.8323072",
+  "user_instruction": "Proceed with the proposed 12-question live diagnostic, allocating at most USD $1 from the existing remaining budget. Verify pricing and call bounds before execution. Use synchronous requests without automatic retries, preserve historical evidence, and inspect answers against their sources. Report confirmed improvements and remaining defects. Do not start evaluator qualification or a full evaluation. Review, commit, and push the resulting evidence to main."
+}

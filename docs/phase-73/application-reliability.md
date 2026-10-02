@@ -275,6 +275,11 @@ this change. No alternative model, standard, evaluator version or label is added
 
 ### Proposed next live stage — no execution authorized
 
+Historical proposal at the offline milestone. The user subsequently authorized
+this bounded stage on 2026-10-02; see the [live diagnostic result](application-reliability-live.md)
+for 12 attempted questions, three input-guard interruptions and actual spending.
+The proposal and its original estimates below are retained unchanged.
+
 Use 12 newly composed diagnostic questions (six contrasts) instead of repeating
 the old 60-case/453-call measurement: grouped amounts versus nearby mismatches;
 legitimate scenario application versus false thresholds; resolved context versus

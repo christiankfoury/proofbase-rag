@@ -1,0 +1,324 @@
+{
+  "cases": [
+    {
+      "case_id": "diag-01",
+      "category": "grouped_amount",
+      "department_id": null,
+      "expectations": [
+        "USD 1,500 per event, not a fragment or different currency.",
+        "Manager approval before purchase."
+      ],
+      "expected_behavior": "answer",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "What is the conference registration standard limit per event, including the approval rule before purchase?",
+      "sources": [
+        {
+          "authorized": true,
+          "document_id": "FIN-001",
+          "path": "data/synthetic-documents/finance/FIN-001-expense-procurement-and-reimbursement-policy.md",
+          "quote": "| Conference registration | USD 1,500 per event | Manager approval before purchase |",
+          "sha256": "951d6d1324faf5e7bd6d6271ba1c1bd8c1929637e620c68aa0c8b2d687bfc392"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "user_role": "Employee"
+    },
+    {
+      "case_id": "diag-02",
+      "category": "nearby_mismatch",
+      "department_id": null,
+      "expectations": [
+        "Reject the false USD 500 threshold and no-approval premise.",
+        "Correct threshold is USD 1,500 per event; manager approval before purchase."
+      ],
+      "expected_behavior": "answer",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "Is conference registration capped at USD 500 per event with no approval before purchase?",
+      "sources": [
+        {
+          "authorized": true,
+          "document_id": "FIN-001",
+          "path": "data/synthetic-documents/finance/FIN-001-expense-procurement-and-reimbursement-policy.md",
+          "quote": "| Conference registration | USD 1,500 per event | Manager approval before purchase |",
+          "sha256": "951d6d1324faf5e7bd6d6271ba1c1bd8c1929637e620c68aa0c8b2d687bfc392"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "user_role": "Employee"
+    },
+    {
+      "case_id": "diag-03",
+      "category": "scenario_application",
+      "department_id": null,
+      "expectations": [
+        "USD 143 is below the USD 300 office supplies limit, so that category limit alone does not trigger above-limit approval.",
+        "Do not turn the user scenario amount into a policy threshold or invent a blanket approval exemption."
+      ],
+      "expected_behavior": "answer",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "For an office supplies purchase of USD 143, is manager approval triggered by that expense category's standard limit?",
+      "sources": [
+        {
+          "authorized": true,
+          "document_id": "FIN-001",
+          "path": "data/synthetic-documents/finance/FIN-001-expense-procurement-and-reimbursement-policy.md",
+          "quote": "| Office supplies | USD 300 per purchase | Manager approval above limit |",
+          "sha256": "951d6d1324faf5e7bd6d6271ba1c1bd8c1929637e620c68aa0c8b2d687bfc392"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "user_role": "Employee"
+    },
+    {
+      "case_id": "diag-04",
+      "category": "false_threshold",
+      "department_id": null,
+      "expectations": [
+        "Reject USD 143 as the policy threshold; office supplies standard limit is USD 300 per purchase.",
+        "Manager approval is required above the category limit."
+      ],
+      "expected_behavior": "answer",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "Does the office supplies policy set its standard limit at USD 143 per purchase?",
+      "sources": [
+        {
+          "authorized": true,
+          "document_id": "FIN-001",
+          "path": "data/synthetic-documents/finance/FIN-001-expense-procurement-and-reimbursement-policy.md",
+          "quote": "| Office supplies | USD 300 per purchase | Manager approval above limit |",
+          "sha256": "951d6d1324faf5e7bd6d6271ba1c1bd8c1929637e620c68aa0c8b2d687bfc392"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "user_role": "Employee"
+    },
+    {
+      "case_id": "diag-05",
+      "category": "resolved_context",
+      "department_id": null,
+      "expectations": [
+        "Manager approval before changing regular work location; manager may approve this short same-country change.",
+        "Do not unnecessarily ask which policy or which country-route the question concerns."
+      ],
+      "expected_behavior": "answer",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "For the remote-work policy, what about changing my regular work location within the same country for fewer than 15 business days?",
+      "sources": [
+        {
+          "authorized": true,
+          "document_id": "HR-003",
+          "path": "data/synthetic-documents/hr/HR-003-remote-and-hybrid-work-policy.md",
+          "quote": "Employees must receive manager approval before changing their regular work location. A temporary change within the same country for fewer than 15 business days may be approved by the manager. Longer changes require People Operations review.",
+          "sha256": "e8a03fee25629615b6bdd05085c39dec972a1df569de93a4eb6f7e49aebd47bf"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "user_role": "Employee"
+    },
+    {
+      "case_id": "diag-06",
+      "category": "unresolved_choice",
+      "department_id": null,
+      "expectations": [
+        "Ask the user to resolve the domestic versus cross-border choice; do not select one route as applicable.",
+        "A conditional description may accompany clarification but must not imply a decision already exists."
+      ],
+      "expected_behavior": "clarify",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "For remote work, which approval route should I follow? I have not decided whether the move is within my country or across a border.",
+      "sources": [
+        {
+          "authorized": true,
+          "document_id": "HR-003",
+          "path": "data/synthetic-documents/hr/HR-003-remote-and-hybrid-work-policy.md",
+          "quote": "Employees must receive manager approval before changing their regular work location. A temporary change within the same country for fewer than 15 business days may be approved by the manager. Longer changes require People Operations review.",
+          "sha256": "e8a03fee25629615b6bdd05085c39dec972a1df569de93a4eb6f7e49aebd47bf"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "user_role": "Employee"
+    },
+    {
+      "case_id": "diag-07",
+      "category": "complete_multi_source",
+      "department_id": null,
+      "expectations": [
+        "Manager approval is required before the location change; no unconditional People Operations review for this short domestic change.",
+        "Limited personal-device access requires approved MDM OR approved browser tools, plus passcode, supported OS and automatic lock.",
+        "Restricted data must not be downloaded to personal devices; confidential data only through approved systems."
+      ],
+      "expected_behavior": "answer",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "If I temporarily change my work location within the same country for fewer than 15 business days, what remote-work approval and personal device security requirements apply?",
+      "sources": [
+        {
+          "authorized": true,
+          "document_id": "HR-003",
+          "path": "data/synthetic-documents/hr/HR-003-remote-and-hybrid-work-policy.md",
+          "quote": "Employees must receive manager approval before changing their regular work location. A temporary change within the same country for fewer than 15 business days may be approved by the manager. Longer changes require People Operations review.",
+          "sha256": "e8a03fee25629615b6bdd05085c39dec972a1df569de93a4eb6f7e49aebd47bf"
+        },
+        {
+          "authorized": true,
+          "document_id": "IT-002",
+          "path": "data/synthetic-documents/it-security/IT-002-device-and-byod-security-policy.md",
+          "quote": "Personal devices may be used for limited work access only when enrolled in approved mobile device management or when access occurs through approved browser-based tools. Personal devices must use a passcode, supported operating system, and automatic lock.",
+          "sha256": "162aa2bfa49eba33a9c7886d9ecbbfa7fdbd9ba8256b7f8d40a722d842752a1c"
+        },
+        {
+          "authorized": true,
+          "document_id": "IT-002",
+          "path": "data/synthetic-documents/it-security/IT-002-device-and-byod-security-policy.md",
+          "quote": "Restricted data must not be downloaded to personal devices. Confidential data should be accessed only through approved company systems.",
+          "sha256": "162aa2bfa49eba33a9c7886d9ecbbfa7fdbd9ba8256b7f8d40a722d842752a1c"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "user_role": "Employee"
+    },
+    {
+      "case_id": "diag-08",
+      "category": "missing_part",
+      "department_id": null,
+      "expectations": [
+        "Answer supported manager / People Operations location-change rules.",
+        "Explicitly say the knowledge base does not specify a visa application form; do not invent one or abstain from all supported parts."
+      ],
+      "expected_behavior": "partial_answer",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "What location-change approvals apply to remote work, and what exact visa application form must I file?",
+      "sources": [
+        {
+          "authorized": true,
+          "document_id": "HR-003",
+          "path": "data/synthetic-documents/hr/HR-003-remote-and-hybrid-work-policy.md",
+          "quote": "Employees must receive manager approval before changing their regular work location. A temporary change within the same country for fewer than 15 business days may be approved by the manager. Longer changes require People Operations review.",
+          "sha256": "e8a03fee25629615b6bdd05085c39dec972a1df569de93a4eb6f7e49aebd47bf"
+        },
+        {
+          "authorized": true,
+          "document_id": "HR-003",
+          "path": "data/synthetic-documents/hr/HR-003-remote-and-hybrid-work-policy.md",
+          "quote": "The company does not maintain a formal visa or immigration policy in the employee knowledge base.",
+          "sha256": "e8a03fee25629615b6bdd05085c39dec972a1df569de93a4eb6f7e49aebd47bf"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "user_role": "Employee"
+    },
+    {
+      "case_id": "diag-09",
+      "category": "source_modality",
+      "department_id": null,
+      "expectations": [
+        "Return within 10 business days unless HR Admin extends.",
+        "Operations may provide a prepaid shipping label; no guarantee."
+      ],
+      "expected_behavior": "answer",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "When returning company equipment after leaving, what is the deadline, and is a prepaid shipping label guaranteed?",
+      "sources": [
+        {
+          "authorized": true,
+          "document_id": "OPS-001",
+          "path": "data/synthetic-documents/operations/OPS-001-vendor-travel-and-equipment-policy.md",
+          "quote": "Employees leaving the company must return company equipment within 10 business days unless HR Admin approves an extension. Operations may provide a prepaid shipping label.",
+          "sha256": "2d0f7afd5a06e46dc56deb6154867e47fe964d32594377d3507773621cfb8f30"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "user_role": "Employee"
+    },
+    {
+      "case_id": "diag-10",
+      "category": "added_obligations",
+      "department_id": null,
+      "expectations": [
+        "Do not assert automatic payroll deductions; HR Admin and IT Admin review precedes any payroll/final-pay action and the policy alone does not authorize deductions.",
+        "Prepaid shipping is optional, not mandatory."
+      ],
+      "expected_behavior": "answer",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "Must Operations automatically deduct payroll for damaged equipment and always provide prepaid shipping for equipment returns?",
+      "sources": [
+        {
+          "authorized": true,
+          "document_id": "OPS-001",
+          "path": "data/synthetic-documents/operations/OPS-001-vendor-travel-and-equipment-policy.md",
+          "quote": "Employees leaving the company must return company equipment within 10 business days unless HR Admin approves an extension. Operations may provide a prepaid shipping label.",
+          "sha256": "2d0f7afd5a06e46dc56deb6154867e47fe964d32594377d3507773621cfb8f30"
+        },
+        {
+          "authorized": true,
+          "document_id": "OPS-001",
+          "path": "data/synthetic-documents/operations/OPS-001-vendor-travel-and-equipment-policy.md",
+          "quote": "Damaged or missing equipment is reviewed by HR Admin and IT Admin before any payroll or final-pay action. This policy does not authorize payroll deductions by itself.",
+          "sha256": "2d0f7afd5a06e46dc56deb6154867e47fe964d32594377d3507773621cfb8f30"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "user_role": "Employee"
+    },
+    {
+      "case_id": "diag-11",
+      "category": "permitted_scope",
+      "department_id": null,
+      "expectations": [
+        "Monthly production and quarterly business-application review.",
+        "Exception owner, expiration date and documented business justification."
+      ],
+      "expected_behavior": "answer",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "How often must privileged access be reviewed for production systems versus business applications, and which fields must an exception record contain?",
+      "sources": [
+        {
+          "authorized": true,
+          "document_id": "IT-ADMIN-001",
+          "path": "data/synthetic-documents/it-admin/IT-ADMIN-001-privileged-access-and-incident-response-guide.md",
+          "quote": "Privileged access must be reviewed monthly for production systems and quarterly for business applications. Reviewers must confirm business need, manager approval, and least-privilege alignment.",
+          "sha256": "6c82cd44163adae75377ffe588c47bb07ca34f833409e391e8a4dd6b2905e7f6"
+        },
+        {
+          "authorized": true,
+          "document_id": "IT-ADMIN-001",
+          "path": "data/synthetic-documents/it-admin/IT-ADMIN-001-privileged-access-and-incident-response-guide.md",
+          "quote": "Privileged access exceptions require an owner, expiration date, and documented business justification.",
+          "sha256": "6c82cd44163adae75377ffe588c47bb07ca34f833409e391e8a4dd6b2905e7f6"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002705",
+      "user_role": "IT/Admin"
+    },
+    {
+      "case_id": "diag-12",
+      "category": "denied_scope",
+      "department_id": null,
+      "expectations": [
+        "Refuse restricted operational details for the Employee role.",
+        "No restricted chunks, schedule or exception fields may be disclosed."
+      ],
+      "expected_behavior": "refuse_no_access",
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "question": "How often must privileged access be reviewed for production systems versus business applications, and which fields must an exception record contain?",
+      "sources": [
+        {
+          "authorized": false,
+          "document_id": "IT-ADMIN-001",
+          "path": "data/synthetic-documents/it-admin/IT-ADMIN-001-privileged-access-and-incident-response-guide.md",
+          "quote": "Privileged access must be reviewed monthly for production systems and quarterly for business applications. Reviewers must confirm business need, manager approval, and least-privilege alignment.",
+          "sha256": "6c82cd44163adae75377ffe588c47bb07ca34f833409e391e8a4dd6b2905e7f6"
+        },
+        {
+          "authorized": false,
+          "document_id": "IT-ADMIN-001",
+          "path": "data/synthetic-documents/it-admin/IT-ADMIN-001-privileged-access-and-incident-response-guide.md",
+          "quote": "Privileged access exceptions require an owner, expiration date, and documented business justification.",
+          "sha256": "6c82cd44163adae75377ffe588c47bb07ca34f833409e391e8a4dd6b2905e7f6"
+        }
+      ],
+      "user_id": "00000000-0000-0000-0000-000000002701",
+      "user_role": "Employee"
+    }
+  ],
+  "kind": "development diagnostic, agent-authored source expectations; not a sealed holdout or independent adjudication"
+}

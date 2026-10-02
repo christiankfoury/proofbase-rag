@@ -8,6 +8,16 @@ offline sequence below. This is the single active plan; the earlier
 custody and qualification requirements. Its automatic paid evaluator loop is
 deferred by this application-first sequence. No quality standard is relaxed.
 
+**2026-10-02 execution amendment:** after the offline R1–R4 milestone, the user
+authorized only the proposed 12-question live diagnostic, allocating at most
+USD 1 from existing headroom. [Diagnostic results](../phase-73/application-reliability-live.md)
+retain all 12 attempts, nine application outcomes and three local input-bound
+interruptions. The 53 settled calls cost USD 0.02573086; remaining headroom is
+USD 3.76906404. No evaluator qualification/full evaluation was started and no
+overall quality score is claimed. The original offline scope and historical
+accounting below remain the planning record; this amendment does not authorize
+further paid work after the diagnostic. Continue with offline diagnosis first.
+
 ## Outcome and scope
 
 Make the existing assistant answer supported questions reliably while retaining

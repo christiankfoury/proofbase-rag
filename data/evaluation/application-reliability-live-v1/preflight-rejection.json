@@ -1,0 +1,42 @@
+{
+  "case_before": {
+    "case_id": "diag-07",
+    "category": "complete_multi_source",
+    "department_id": null,
+    "expectations": [
+      "Manager approval is required before the location change; no unconditional People Operations review for this short domestic change.",
+      "Limited personal-device access requires approved MDM OR approved browser tools, plus passcode, supported OS and automatic lock.",
+      "Restricted data must not be downloaded to personal devices; confidential data only through approved systems."
+    ],
+    "expected_behavior": "answer",
+    "project_id": "00000000-0000-0000-0000-000000000019",
+    "question": "If I temporarily change my work location within the same country for fewer than 15 business days, what remote-work approval and personal laptop security requirements apply?",
+    "sources": [
+      {
+        "authorized": true,
+        "document_id": "HR-003",
+        "path": "data/synthetic-documents/hr/HR-003-remote-and-hybrid-work-policy.md",
+        "quote": "Employees must receive manager approval before changing their regular work location. A temporary change within the same country for fewer than 15 business days may be approved by the manager. Longer changes require People Operations review.",
+        "sha256": "e8a03fee25629615b6bdd05085c39dec972a1df569de93a4eb6f7e49aebd47bf"
+      },
+      {
+        "authorized": true,
+        "document_id": "IT-002",
+        "path": "data/synthetic-documents/it-security/IT-002-device-and-byod-security-policy.md",
+        "quote": "Personal devices may be used for limited work access only when enrolled in approved mobile device management or when access occurs through approved browser-based tools. Personal devices must use a passcode, supported operating system, and automatic lock.",
+        "sha256": "162aa2bfa49eba33a9c7886d9ecbbfa7fdbd9ba8256b7f8d40a722d842752a1c"
+      },
+      {
+        "authorized": true,
+        "document_id": "IT-002",
+        "path": "data/synthetic-documents/it-security/IT-002-device-and-byod-security-policy.md",
+        "quote": "Restricted data must not be downloaded to personal devices. Confidential data should be accessed only through approved company systems.",
+        "sha256": "162aa2bfa49eba33a9c7886d9ecbbfa7fdbd9ba8256b7f8d40a722d842752a1c"
+      }
+    ],
+    "user_id": "00000000-0000-0000-0000-000000002701",
+    "user_role": "Employee"
+  },
+  "checked_at": "2026-10-02T17:01:43.041506+00:00",
+  "reason": "Source planner matched pto inside laptop, producing four searches (vacation_and_leave, remote_work, remote_device_security, device_security). No provider calls. Before launch, equivalent personal device wording replaces personal laptop; source expectations are unchanged."
+}

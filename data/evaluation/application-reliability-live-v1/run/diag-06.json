@@ -1,0 +1,210 @@
+{
+  "authorized_evidence": [],
+  "call_end": 22,
+  "call_start": 21,
+  "case_id": "diag-06",
+  "category": "unresolved_choice",
+  "completed_at": "2026-10-02T17:04:11.321443+00:00",
+  "http_status": 200,
+  "latency_ms": 4154.27,
+  "raw_response": {
+    "answer": "Please clarify type of move (within country or across border), move location type so I can search the right company guidance.",
+    "answer_confidence": 0.65,
+    "assistant_message_id": null,
+    "behavior": "ask_clarifying_question",
+    "chunking_strategy": "section_based",
+    "citation_confidence": 0.0,
+    "citations": [],
+    "clarification_reason": "semantic_clarification_required",
+    "defense_trace": {
+      "privacy_mode": "bounded_metadata_only",
+      "schema_version": "defense_trace.v1",
+      "stages": [
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": null,
+          "name": "deterministic_guard",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "not_selected",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "clarify",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.000658,
+          "latency_ms": 4041,
+          "memory_used_as_evidence": false,
+          "name": "semantic_request_assessment",
+          "reason_codes": [
+            "missing_decision_variables",
+            "unresolved_reference"
+          ],
+          "repair_count": null,
+          "route": "semantic_assessment",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "allow_authorized_only",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "permission_filter",
+          "reason_codes": [
+            "pre_generation_role_filter"
+          ],
+          "repair_count": null,
+          "route": "application_authorization",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "evidence_assessment",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "pre_retrieval_stop",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "generator",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "code_authored_response",
+          "status": "skipped",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "post_generation_validation",
+          "reason_codes": [],
+          "repair_count": 0,
+          "route": "no_generated_candidate",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "clarify",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "final_response",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "application_response_policy",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        }
+      ]
+    },
+    "estimated_cost_usd": null,
+    "evidence_assessment": null,
+    "final_confidence": 0.358,
+    "generation_latency_ms": null,
+    "input_cost_usd": null,
+    "memory": {
+      "is_followup": false,
+      "memory_used": false,
+      "original_question": "For remote work, which approval route should I follow? I have not decided whether the move is within my country or across a border.",
+      "previous_topic": null,
+      "rewrite_strategy": "none",
+      "rewritten_question": "For remote work, which approval route should I follow? I have not decided whether the move is within my country or across a border."
+    },
+    "model": null,
+    "multi_doc_mode": "auto",
+    "multi_doc_used": false,
+    "output_cost_usd": null,
+    "permission_check": {
+      "retrieved_chunks_count": 0,
+      "unauthorized_chunks_reached_generation": false,
+      "user_role": "Employee"
+    },
+    "post_generation_validation": null,
+    "pricing_status": null,
+    "prompt_name": null,
+    "prompt_version": null,
+    "request_assessment": {
+      "ambiguity": "clarification_required",
+      "assessment_confidence": 0.95,
+      "decision_variables": [
+        "move location type"
+      ],
+      "estimated_cost_usd": 0.000658,
+      "injection_risk": "none",
+      "input_cost_usd": 0.000496,
+      "input_tokens": 1240,
+      "intent": "question",
+      "latency_ms": 4041,
+      "missing_referents": [
+        "type of move (within country or across border)"
+      ],
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.000162,
+      "output_tokens": 101,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "missing_decision_variables",
+        "unresolved_reference"
+      ],
+      "recommended_action": "clarify",
+      "referents": "unresolved",
+      "response_reason": "semantic_clarification_required",
+      "route": "semantic_assessment",
+      "schema_version": "request_assessment.v1",
+      "status": "succeeded",
+      "topic": "approval",
+      "topic_description": "Approval process for remote work location changes"
+    },
+    "response_type": "clarify",
+    "retrieval_confidence": 0.0,
+    "retrieval_latency_ms": null,
+    "retrieval_mode": "vector_lexical_rerank",
+    "retrieved_chunks": [],
+    "scope": {
+      "department_id": null,
+      "project_id": "00000000-0000-0000-0000-000000000019"
+    },
+    "session_id": null,
+    "supported_claims": [],
+    "temperature": null,
+    "total_latency_ms": 4123,
+    "unsupported_claims": [],
+    "user_message_id": null,
+    "validation_notes": "Pre-retrieval clarification guard triggered: semantic_clarification_required."
+  },
+  "request": {
+    "department_id": null,
+    "project_id": "00000000-0000-0000-0000-000000000019",
+    "question": "For remote work, which approval route should I follow? I have not decided whether the move is within my country or across a border.",
+    "rerank_candidate_limit": 20,
+    "retrieval_mode": "vector_lexical_rerank",
+    "session_id": null,
+    "top_k": 5
+  },
+  "safety_flags": [],
+  "started_at": "2026-10-02T17:04:06.713383+00:00",
+  "status": "complete"
+}
