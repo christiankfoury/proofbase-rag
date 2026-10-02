@@ -6,17 +6,30 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Active: second offline reliability remediation verified; six-question diagnostic authorized
+### Current: second remediation and six-question live diagnostic complete
 
-The 2026-10-02 follow-up authorizes the fixes and then six new live diagnostic
-questions with a USD 0.50 hard ceiling from the existing USD 3.76906404 remainder.
+The 2026-10-02 follow-up authorized fixes and six new live diagnostic questions
+with a USD 0.50 ceiling from the existing remainder. Offline runtime `d4c50ebe`
+was reviewed, committed and pushed before execution. All six cases completed,
+with 20 chat calls and 7 embeddings costing **USD 0.02128484**;
+**USD 3.74777920 remains**. No retries, unknown outcomes, evaluator qualification
+or full evaluation. [Every-case source inspection and actual costs](../phase-73/reliability-live-v2-results.md)
+confirm improved excerpt selection, completed payload coverage and an appropriate
+employee refusal, while recording continued scenario/false-premise abstention,
+compound geographic scope errors and malformed generation JSON. Two failures also
+expose zero-cost application telemetry despite paid receipts; the independent
+ledger is correct. Sorted payload persistence shifts tokenizer replay estimates
+by 1–3 tokens; both recorded reservations and actual usage are retained/checked.
 [Remediation note](../phase-73/reliability-remediation-v2.md) records reproduced
 false-premise routing, scenario-number validation, rewritten validator claims,
 excerpt selection and substring planning, plus improved full-payload estimation.
 Twenty-five new offline tests and the 30-method shared compatibility suite pass.
-Historical evidence and grading standards are preserved. The offline work is
-reviewed and committed/pushed before the live stage. No overall success-rate
-claim, evaluator qualification or full evaluation is authorized by this stage.
+Three additional offline receipt/source/tampering tests pass. Historical evidence,
+grading standards and unrelated logs are preserved. Two overstrong new diagnostic
+expectations are documented separately rather than silently changing frozen cases.
+No overall success-rate improvement is claimed. Next work is offline remediation
+of the observed defects; another small diagnostic would need new authorization
+(estimated USD 0.02–0.06, proposed USD 0.50 ceiling from the same remainder).
 The active plan remains [application reliability](application-reliability-plan.md).
 
 ### Prior milestone: bounded live reliability diagnostic captured

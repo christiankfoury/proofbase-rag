@@ -87,3 +87,10 @@ and USD 0.02 per million embedding tokens. At maximum calls and caps, uncached
 exposure is USD 0.41582592. Expected consumption remains USD 0.02–0.06; unused
 allocation does not authorize another run. Actual results/costs follow separately
 after the reviewed offline commit and immutable runtime preflight.
+
+Completed: offline commit `d4c50ebe` is pushed. The six-question run cost
+USD 0.02128484; [results](reliability-live-v2-results.md) distinguish confirmed
+excerpt/planning/payload improvements from continuing semantic and generation
+defects. The runtime remains frozen; the evidence commit contains no further
+behavior change. Remaining allowance is USD 3.74777920, with no automatic paid
+continuation, qualification or full evaluation.
