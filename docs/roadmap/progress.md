@@ -8,15 +8,19 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ### Current: autonomous conversational completion within the same USD 12.50 ceiling
 
-Latest: V6 full application comparison passes14/14: original12/12 plus two
-recipient controls, all safety controls and24 exact authorized excerpts.
-V30 diagnostic stops3/4 because its independent review exhausts the unchanged
-4096-token allowance without producing a judgment. Cumulative USD5.65127876,
-remaining USD6.84872124; no unknown calls. V31 retains the same rubric and high
-claim/coverage effort, with medium review effort. Focus, full qualification,
-fresh independent16 confirmation and isolated60 measurement remain required.
-V4 remains default; no accepted release score.
-See [continuation](../phase-73/conversation-continuation.md).
+Latest: application candidate prompt v6 passes 14/14 development tasks (original
+12/12 plus two recipient controls), with 24 exact authorized excerpts. V30 grader
+diagnostic stops 3/4 after review-token exhaustion; v31 preserves all scoring and
+output allowances, with medium review effort and high claim/coverage effort.
+Ten offline budget/replay checks pass. Its first focused request then raised
+APIConnectionError without a provider response in the restricted network context.
+The unknown-outcome rule blocks all further calls; no retry or case credit.
+Confirmed spending USD 5.65127876; held reservation USD 0.14820250; accounted
+USD 5.79948126; unreserved headroom USD 6.70051874 of the same USD 12.50 total.
+V4 remains default. Qualification, fresh 16 confirmation, new 60 measurement,
+acceptance and activation are unfinished. Resolve the unsettled outcome under
+the existing policy before paid continuation; do not erase the reservation.
+See [continuation](../phase-73/conversation-continuation.md) and its stopped audit.
 
 The latest user explicitly supersedes the prior one-attempt/no-second-cycle and
 failure-stop rules. Start with the diagnosed upstream ambiguity defect; continue

@@ -24,14 +24,16 @@
 
 **Current work:** the [conversational continuation](docs/phase-73/conversation-continuation.md)
 repairs follow-up routing and uses one cited-answer producer followed by one
-contextual checker. The selected candidate passed all 12 fixed development tasks;
-the matched v4 baseline passed 6/12. These are development inspections, not a new
-overall accuracy rate. Grader v25 passed diagnostic, calibration and fresh 16-case
-confirmation with clean source inspection, but the subsequent fresh measurement
-stopped after two graded cases on new grader/reference findings. There is no
-accepted full-suite score. [Source inspection](docs/phase-73/conversation-final-v1-source-review.md)
-drives correction and requalification. V4 remains the default until all release
-gates, including 48/60, pass. See the [progress tracker](docs/roadmap/progress.md).
+contextual checker. Candidate prompt v6 passes 14/14 development tasks: the original
+12/12 versus the reused v4 baseline's 6/12, plus two mandatory recipient controls.
+These are development inspections, not a new overall accuracy rate. The retired
+fresh measurement exposed grader/reference defects; subsequent qualification is
+still incomplete. The latest focused grader run stopped on a connection error
+without a provider response, retaining its full reservation and blocking further
+calls. Confirmed cumulative spending is USD 5.65127876, with USD 0.14820250 held
+for the unsettled request under the same USD 12.50 ceiling. There is no accepted
+full-suite score. V4 remains the default until every release gate, including
+48/60, passes. See the [progress tracker](docs/roadmap/progress.md).
 
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.
 

@@ -9,6 +9,49 @@ allocations may move. The subsequent explicit rolling-reservation approval
 supersedes whole-stage funding; per-request reservation and receipt settlement
 remain mandatory. Original stopped artifacts are immutable historical evidence.
 
+## Current status: blocked by an unsettled transport outcome
+
+The candidate is not accepted or activated. Prompt v6 passes the complete
+14-task application development comparison (original 12 plus two recipient
+controls), but grader qualification, fresh confirmation and the new 60-case final
+measurement remain unfinished. V4 stays default and the 48/60 gate is unchanged.
+
+On 2026-10-03 the v31 focused run's first claims request raised APIConnectionError
+before any provider response was recorded. The command was inadvertently launched
+in the restricted network context. This is a transport/execution failure, not
+evidence of invalid credentials, quota exhaustion or an incorrect model answer.
+The saved error does not establish a provider charge or a confirmed zero charge.
+The existing unknown-outcome rule keeps the full reservation and stops; no retry
+or continuation occurred. The troubleshooting skill's usual network retry is not
+used because this run's explicit no-retry/unknown-outcome policy takes precedence.
+
+Accounting after replay of all 939 completed provider receipts:
+
+| Item | USD |
+| --- | ---: |
+| Confirmed cumulative receipt-derived spending |5.65127876|
+| Unsettled request's conservative reservation |0.14820250|
+| Total accounted against the ceiling |5.79948126|
+| Unreserved authorization remaining |6.70051874|
+| Total authorization, including all prior spending |12.50000000|
+
+The failed request is not included in the 939 settled receipts. The run manifest's
+`new_spend_usd` records its held reservation, **not a confirmed API charge**.
+[Stopped audit](../../data/evaluation/conversation-continuation/grader-v31-focus/stopped-review.json)
+verifies historical hashes/charges, frozen request and output bounds, the absent
+response, and that the cumulative prefix rejects any continuation. Raw request,
+ledger, manifest and prior failures remain immutable. No case receives credit.
+
+Unblocking requires resolution of the unsettled request under the existing cost
+policy and a working authorized network context. Do not clear the unknown flag,
+mark the request free, silently retry, or change the policy to spend the remaining
+headroom. Once resolved, v31 still needs its focused check, all 16 diagnostic
+controls plus 3 probes, all 24 calibration controls plus 3 probes, fresh independently
+authored/validated 16 confirmation, and a newly frozen 60-case measurement with at
+least USD 4.50 available at launch. Only acceptance permits activation. No new
+confirmation or final suite has been authored for v31. Local verification and
+reviewed changes are committed and pushed; this is an incomplete blocked attempt.
+
 ## Current work
 
 Goal: ordinary questions should reach authorized evidence before deciding whether

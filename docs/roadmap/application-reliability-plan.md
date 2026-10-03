@@ -10,6 +10,14 @@ Unused allocations may move; no top-up or old remainder addition. Continue until
 accepted activation, insufficient safe budget for the next necessary stage, or
 concrete external blocker. Safety, qualification and 48/60 release gates remain.
 
+Current execution is blocked: v31's first focused grader request returned a
+connection error with no provider response. The existing unknown-outcome rule
+retains USD 0.14820250 and blocks continuation. Confirmed cumulative spending is
+USD 5.65127876; total accounted USD 5.79948126 of USD 12.50. Resolve this unsettled
+outcome under the existing policy before further paid execution. Full details,
+verified receipts and remaining gates are in the continuation note. V4 remains
+default; no accepted final score or activation is claimed.
+
 ## Historical handoff: application comparison failed; attempt closed
 
 One complete comparison at frozen `2010ff0a` made 138 provider calls for 45 HTTP
