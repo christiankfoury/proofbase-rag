@@ -23,7 +23,8 @@
 ## Evidence Snapshot
 
 **Current work:** the [application-reliability handoff](docs/roadmap/application-reliability-plan.md)
-is paused for collaborative planning after results commit `65e6650f`. Local fixes
+is pursuing the authorized [conversational continuation](docs/phase-73/conversation-continuation.md)
+after the failed bounded comparison. Local fixes
 and small development experiments do not establish a new overall success rate.
 Evidence assessment v4 remains the code default; conversational v5 is closed and
 policy-fact v6 remains opt-in/unaccepted. See the [latest candidate findings](docs/phase-73/policy-fact-candidate.md)

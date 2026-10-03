@@ -1,6 +1,16 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: application comparison failed; attempt closed
+## Current handoff: autonomous correction and acceptance, unchanged total budget
+
+The latest 2026-10-03 user message supersedes previous attempt/failure stopping
+rules and authorizes necessary corrections, focused checks and gated broader runs.
+[Continuation](../phase-73/conversation-continuation.md) records diagnosis and work.
+Total USD 12.50 includes USD 0.1529816 spent; initial remaining USD 12.3470184.
+Unused allocations may move; no top-up or old remainder addition. Continue until
+accepted activation, insufficient safe budget for the next necessary stage, or
+concrete external blocker. Safety, qualification and 48/60 release gates remain.
+
+## Historical handoff: application comparison failed; attempt closed
 
 One complete comparison at frozen `2010ff0a` made 138 provider calls for 45 HTTP
 turns, spending USD 0.1529816. Both candidates fail the mandatory two-turn control

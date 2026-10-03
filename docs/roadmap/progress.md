@@ -6,7 +6,18 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: bounded attempt closed after failed application gate
+### Current: autonomous conversational completion within the same USD 12.50 ceiling
+
+The latest user explicitly supersedes the prior one-attempt/no-second-cycle and
+failure-stop rules. Start with the diagnosed upstream ambiguity defect; continue
+focused fixes, qualification and final measurement until acceptance or a real
+budget/external blocker. See [continuation](../phase-73/conversation-continuation.md)
+and the active [application plan](application-reliability-plan.md). The remaining
+USD 12.3470184 includes no new funding; USD 0.1529816 already spent counts toward
+the cumulative 12.50. V4 stays default until all existing gates pass. Preserve
+prior failed evidence, tests and the unrelated request-log edit.
+
+### Prior milestone: bounded attempt closed after failed application gate
 
 The CAD 20 continuation ran the frozen comparison once at `2010ff0a`: 36 task/profile
 pairs, 45 HTTP turns, 138 provider calls, **USD 0.1529816 receipt-derived cost**.

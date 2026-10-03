@@ -73,6 +73,7 @@ AssessmentStatus = Literal["succeeded", "skipped", "failed_safe"]
 NormalizationReason = Literal[
     "clear_information_request",
     "searchable_named_subject",
+    "clarification_after_authorized_retrieval",
 ]
 
 
@@ -216,6 +217,7 @@ def assess_request(
     previous_turns: list[dict[str, Any]] | None = None,
     mode: str | None = None,
     emit_telemetry: bool = True,
+    evidence_aware_clarification: bool = False,
 ) -> RequestAssessment:
     deterministic = deterministic_request_assessment(
         question,
@@ -224,10 +226,14 @@ def assess_request(
         has_memory=has_memory,
         rewritten_question=rewritten_question,
     )
-    if deterministic is not None:
+    if deterministic is not None and not (
+        evidence_aware_clarification and deterministic.recommended_action == "clarify"
+    ):
         return deterministic
 
-    selected_mode = mode or get_settings().request_assessment_mode
+    # Deferring an ordinary ambiguity decision must still run semantic security
+    # review, even when the legacy deterministic router requested clarification.
+    selected_mode = "semantic_all_remaining" if evidence_aware_clarification else (mode or get_settings().request_assessment_mode)
     if selected_mode == "deterministic_only":
         decision = _base_continue_decision()
         return RequestAssessment(
@@ -256,12 +262,23 @@ def assess_request(
             output_tokens=0,
             **_zero_cost(),
         )
-    return semantic_request_assessment(
+    assessment = semantic_request_assessment(
         question,
         previous_turns=previous_turns or [],
         standalone_question=rewritten_question,
         emit_telemetry=emit_telemetry,
     )
+    if (evidence_aware_clarification and assessment.status == "succeeded"
+            and assessment.recommended_action == "clarify"
+            and assessment.injection_risk in {"none", "source_discussion"}):
+        # Continue authorizes only an already-permitted search, never a guessed
+        # answer. Preserve uncertainty fields and record the actual routing change.
+        return assessment.model_copy(update={
+            "recommended_action": "continue",
+            "response_reason": "clarification_after_authorized_retrieval",
+            "normalization_reason": "clarification_after_authorized_retrieval",
+        })
+    return assessment
 
 
 def semantic_request_assessment(

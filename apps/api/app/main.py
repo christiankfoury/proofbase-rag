@@ -2046,6 +2046,7 @@ def _assess_before_retrieval(
         has_memory=bool(rewrite.get("memory_used")),
         rewritten_question=rewrite.get("rewritten_question"),
         previous_turns=previous_turns,
+        evidence_aware_clarification=get_settings().conversational_candidate_enabled,
     )
     decision = assessment_response_decision(assessment)
     if assessment.recommended_action == "block":
