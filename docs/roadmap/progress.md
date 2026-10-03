@@ -13,7 +13,7 @@ gates unchanged. Full challenger 12/12, mini 8/12 (ineligible), matched v4 6/12.
 selected; v4 remains default. V24 diagnostic3/4 then stopped on inconsistent
 attribution extraction; v25 focus, full8+3 diagnostic and24+3 calibration pass with clean inspection.
 Fresh16 confirmation passes16/16 with clean source inspection. Grader qualified;
-runtime freeze and isolated fresh60 next. Cumulative USD2.0565328; remaining USD10.4434672.
+Runtime/index frozen at e8182abe; fresh60 independently approved and sealed; final measurement next. Cumulative USD2.0565328; remaining USD10.4434672.
 
 The latest user explicitly supersedes the prior one-attempt/no-second-cycle and
 failure-stop rules. Start with the diagnosed upstream ambiguity defect; continue
@@ -24,17 +24,12 @@ USD 12.3470184 includes no new funding; USD 0.1529816 already spent counts towar
 the cumulative 12.50. V4 stays default until all existing gates pass. Preserve
 prior failed evidence, tests and the unrelated request-log edit.
 
-Routing fix `84db2f68` passed offline/shared checks and the paid two-turn correction
-now succeeds. The focused mini run is 3/5 with conflict failure and the original
-scope ambiguity retained; cumulative receipts USD 0.1605456. V3 clarifies conflict
-behavior and uses a separately versioned, more explicit scope fixture with all
-questions/expectations unchanged. Challenger focused preflight reserves 0.4327248;
-no broader paid run until focused inspection passes. V3 challenger focus at
-`7c43a94c` subsequently passed all five focused tasks; cumulative USD 0.2108504.
-The full fixed development comparison is next, with v4 still default.
-The challenger full comparison then completed 12/12 by agent inspection at
-`b738bdc3`, all controls, cumulative USD 0.3361780. Mini/v4 matched-source runs and
-all grader/release gates are still pending; no activation or overall accuracy claim.
+Development history: routing fix `84db2f68` repaired the failed two-turn correction.
+The first mini focus remained3/5. Prompt v3 and a separately documented explicit
+scope fixture preserved all original questions/expectations. Challenger focus
+passed5/5, then the complete matched comparison passed12/12 versus mini8/12 and
+v4 6/12. Failed runs remain immutable. These development results select the
+candidate; only the newly frozen final measurement can authorize activation.
 
 ### Prior milestone: bounded attempt closed after failed application gate
 

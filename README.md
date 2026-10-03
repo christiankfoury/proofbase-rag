@@ -22,14 +22,14 @@
 
 ## Evidence Snapshot
 
-**Current work:** the [application-reliability handoff](docs/roadmap/application-reliability-plan.md)
-is pursuing the authorized [conversational continuation](docs/phase-73/conversation-continuation.md)
-after the failed bounded comparison. Local fixes
-and small development experiments do not establish a new overall success rate.
-Evidence assessment v4 remains the code default; conversational v5 is closed and
-policy-fact v6 remains opt-in/unaccepted. See the [latest candidate findings](docs/phase-73/policy-fact-candidate.md)
-and [progress tracker](docs/roadmap/progress.md). The desired 75% milestone does not
-replace the existing 80% Phase 73 release gate.
+**Current work:** the [conversational continuation](docs/phase-73/conversation-continuation.md)
+repairs follow-up routing and uses one cited-answer producer followed by one
+contextual checker. The selected candidate passed all 12 fixed development tasks;
+the matched v4 baseline passed 6/12. These are development inspections, not a new
+overall accuracy rate. Grader v25 passed diagnostic, calibration and fresh 16-case
+confirmation with clean source inspection. The candidate is frozen for a newly
+authored 60-case application measurement. V4 remains the default until all release
+gates, including 48/60, pass. See the [progress tracker](docs/roadmap/progress.md).
 
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.
 
@@ -91,7 +91,7 @@ Recorded project review classified the eight Phase 49 automated failures as four
 
 ## Five-Minute Review Path
 
-**Portfolio release:** the historical bounded demo finish is complete; that does not establish current quality-gate completion. The [quality-completion history](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). V23 passed 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases. Its [fresh Phase 73 run](docs/phase-73/v6-results.md) completed all 60 cases, but seven source-inspection findings prevent a validated score and the 48/60 target was missed. After subsequent development diagnostics, remaining journal headroom is USD 3.73106560, below the existing USD 4.50 measurement launch floor before successor qualification. This is not a verified account balance or new spending authorization. Original failed evidence and the full timeout reservation are preserved. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
+**Portfolio release:** the historical bounded demo finish is complete; that does not establish current quality-gate completion. The [quality-completion history](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). V23 passed 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases. Its [fresh Phase 73 run](docs/phase-73/v6-results.md) completed all 60 cases, but seven source-inspection findings prevent a validated score and the 48/60 target was missed. That historical allowance ended with USD 3.73106560 of journal headroom. It is not added to the current user-authorized USD 12.50 cumulative ceiling. Current continuation spending and remaining work are recorded in the [phase note](docs/phase-73/conversation-continuation.md); neither figure is a verified account balance. Original failed evidence and the full timeout reservation are preserved. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
 
 
 1. **0:00–0:45:** Open `/demo`, select **Emma Employee**, and open Northstar Analytics.

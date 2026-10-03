@@ -8,6 +8,11 @@ These chapters include historical architecture and scorecard explanations; they
 are not a verification of every current runtime path. Later additions include the
 [bounded calculator](../phase-73/scenario-calculation.md), the closed conversational
 candidate and the unaccepted [policy-fact candidate](../phase-73/policy-fact-candidate.md).
+The current [conversational continuation](../phase-73/conversation-continuation.md)
+defers safe ambiguity resolution until authorized evidence is available and uses
+one producer plus one contextual checker. All seven checker requirements and
+exact authorized citation checks remain mandatory; no repair answer is released.
+The candidate remains opt-in pending the fresh 60-case release measurement.
 Inspect the actual source before proposing changes. Historical perfect heuristic
 scores do not establish current accuracy.
 

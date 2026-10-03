@@ -222,3 +222,22 @@ API call or freeze write. The versioned conversation_measurement_v2 harness
 uses existing batched committed-blob verification for freeze/run. Original
 confirmation-frozen scripts remain immutable; runtime/grader/gates unchanged.
 All four measurement ledger checks rerun against the successor.
+
+Runtime/index/configuration freeze: e8182abe2035a2f6c3d54a20d1929aa235b21301,
+512 bound files. Fresh60 authored in a separate context from neutral contract and
+corpus only; full category mix retained. Independent validation and mechanical
+custody/overlap checks precede sealing and live measurement. No new API spending.
+
+Fresh60 mechanical schema, exact-source/gold inputs and frozen role scope pass.
+Historical overlap: no hits against1164 unique questions at the unchanged0.8
+threshold. Independent review accepts59/60 and rejects fresh-056 for source
+subject scope (FHV-001). Initial suite/rejected validation and notes preserved
+before isolated author correction; no application calls or case-result feedback.
+
+Independent revalidation approves60/60 with no unresolved findings. Only fresh-056
+question/reference scope changed; every source quotation and other59 cases stayed
+unchanged. Repeated overlap scan still has no hits. Approved suite/seal/preflight
+are committed before the once-only real HTTP/upload/retrieval measurement.
+Expected new spending remains roughlyUSD2.5-5.0; this is not a reservation. Every
+complete request retains its full conservative reservation before submission,
+within the cumulativeUSD12.50 ceiling and unchanged output/coverage/safety gates.
