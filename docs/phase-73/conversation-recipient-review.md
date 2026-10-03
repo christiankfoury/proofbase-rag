@@ -27,3 +27,9 @@ scope and actionable conflict clarification. All24 calls settledUSD0.0786162;
 cumulativeUSD2.40170816. V5 explicitly preserves normative strength in the same
 producer/checker, with no extra layer or relaxed flags. Repeat the focused tasks
 under the changed prompt, then require the full14-case application gate.
+
+V5 focus passes6/6 with8/8 HTTP200 turns and no source-inspection findings.
+Dev13 retains should-include, mandatory reporting deadlines and both applicable
+recipients. Dev14 answers the requested advice without an explicit compulsory
+content claim. Corrections, Ontario scope and actionable policy conflict remain
+correct.24calls costUSD0.0767370, cumulativeUSD2.47844516. Full14 next.

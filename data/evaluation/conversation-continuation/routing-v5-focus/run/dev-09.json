@@ -1,0 +1,287 @@
+{
+  "authorized_evidence": [
+    {
+      "access_roles": [
+        "Employee"
+      ],
+      "chunk_id": "scope",
+      "content": "This temporary-work policy applies only to employees based in Ontario. Employees based in Ontario may work temporarily elsewhere in Canada for up to 10 business days with manager approval. Work outside Canada requires HR and IT approval regardless of duration.",
+      "department_id": null,
+      "document_id": "SYN-scope",
+      "document_title": "Synthetic reimbursement rules",
+      "hybrid_score": null,
+      "keyword_score": null,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "rank": 1,
+      "restricted": false,
+      "retrieval_source": "vector",
+      "score": 0.95,
+      "section_heading": "Limits",
+      "sensitivity": "internal",
+      "vector_score": null
+    }
+  ],
+  "case_id": "dev-09",
+  "turns": [
+    {
+      "final_response": {
+        "answer": "No. For employees based in Ontario, manager approval alone is not enough for a temporary work trip outside Canada. Work outside Canada requires both HR and IT approval, regardless of how short the trip is.",
+        "answer_confidence": 0.0,
+        "assistant_message_id": "2",
+        "behavior": "answer",
+        "chunking_strategy": "section_based",
+        "citation_confidence": 0.0,
+        "citations": [
+          {
+            "chunk_id": "scope",
+            "citation_text": "This temporary-work policy applies only to employees based in Ontario.",
+            "citation_type": "model",
+            "document_id": "SYN-scope",
+            "document_title": "Synthetic reimbursement rules",
+            "section_heading": "Limits",
+            "source": "Source: SYN-scope Synthetic reimbursement rules, Section: Limits"
+          },
+          {
+            "chunk_id": "scope",
+            "citation_text": "Employees based in Ontario may work temporarily elsewhere in Canada for up to 10 business days with manager approval. Work outside Canada requires HR and IT approval regardless of duration.",
+            "citation_type": "model",
+            "document_id": "SYN-scope",
+            "document_title": "Synthetic reimbursement rules",
+            "section_heading": "Limits",
+            "source": "Source: SYN-scope Synthetic reimbursement rules, Section: Limits"
+          }
+        ],
+        "clarification_reason": null,
+        "defense_trace": {
+          "privacy_mode": "bounded_metadata_only",
+          "schema_version": "defense_trace.v1",
+          "stages": [
+            {
+              "action": "continue",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": 0.0,
+              "latency_ms": 0,
+              "memory_used_as_evidence": null,
+              "name": "deterministic_guard",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "not_selected",
+              "status": "skipped",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "continue",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": 1778,
+              "memory_used_as_evidence": false,
+              "name": "semantic_request_assessment",
+              "reason_codes": [
+                "no_risk"
+              ],
+              "repair_count": null,
+              "route": "semantic_assessment",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "allow_authorized_only",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "permission_filter",
+              "reason_codes": [
+                "pre_generation_role_filter"
+              ],
+              "repair_count": null,
+              "route": "application_authorization",
+              "status": "succeeded",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "not_run",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": 0.0,
+              "latency_ms": 0,
+              "memory_used_as_evidence": false,
+              "name": "evidence_assessment",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "replaced_by_contextual_check",
+              "status": "skipped",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "generated",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": 0.004,
+              "latency_ms": 5314,
+              "memory_used_as_evidence": false,
+              "name": "generator",
+              "reason_codes": [
+                "authorized_chunks_only"
+              ],
+              "repair_count": null,
+              "route": "authorized_evidence_only",
+              "status": "succeeded",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "accept",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": 0.0048125,
+              "latency_ms": 3017,
+              "memory_used_as_evidence": false,
+              "name": "post_generation_validation",
+              "reason_codes": [
+                "all_claims_supported"
+              ],
+              "repair_count": 0,
+              "route": "hybrid_semantic",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "answer",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "final_response",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "application_response_policy",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            }
+          ]
+        },
+        "estimated_cost_usd": 0.004,
+        "evidence_assessment": null,
+        "final_confidence": 0.0,
+        "generation_latency_ms": 5314,
+        "input_cost_usd": 0.001885,
+        "memory": {
+          "is_followup": false,
+          "memory_used": false,
+          "original_question": "Can a short temporary work trip outside Canada use manager approval alone?",
+          "previous_topic": null,
+          "rewrite_strategy": "none",
+          "rewritten_question": "Can a short temporary work trip outside Canada use manager approval alone?"
+        },
+        "model": "gpt-5.4-2026-03-05",
+        "multi_doc_mode": "off",
+        "multi_doc_used": false,
+        "output_cost_usd": 0.002115,
+        "permission_check": {
+          "retrieved_chunks_count": 1,
+          "unauthorized_chunks_reached_generation": false,
+          "user_role": "Employee"
+        },
+        "post_generation_validation": {
+          "action": "accept",
+          "citation_checks": [],
+          "claims": [],
+          "estimated_cost_usd": 0.0048125,
+          "exact_literals": [],
+          "input_cost_usd": 0.0019775,
+          "input_tokens": 791,
+          "latency_ms": 3017,
+          "model": "gpt-5.4-2026-03-05",
+          "normalization_reason": null,
+          "output_cost_usd": 0.002835,
+          "output_tokens": 189,
+          "pricing_status": "estimated",
+          "prompt_version": "conversational-v5",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "schema_version": "post_generation_validation.v1",
+          "source_instruction_followed": false,
+          "status": "succeeded",
+          "unsupported_exact_literals": []
+        },
+        "pricing_status": "estimated",
+        "prompt_name": "conversational_candidate",
+        "prompt_version": "v5",
+        "request_assessment": {
+          "ambiguity": "none",
+          "assessment_confidence": 0.95,
+          "decision_variables": [
+            "definition_of_short_temporary_work_trip",
+            "organizational_policy_on_travel_approval",
+            "manager_approval_scope"
+          ],
+          "estimated_cost_usd": null,
+          "injection_risk": "none",
+          "input_cost_usd": null,
+          "input_tokens": 1212,
+          "intent": "question",
+          "latency_ms": 1778,
+          "missing_referents": [],
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 101,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v2",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "recommended_action": "continue",
+          "referents": "resolved",
+          "response_reason": null,
+          "route": "semantic_assessment",
+          "schema_version": "request_assessment.v1",
+          "status": "succeeded",
+          "topic": "travel",
+          "topic_description": "Approval requirements for short temporary work trips outside Canada"
+        },
+        "response_type": "answer",
+        "retrieval_confidence": 0.0,
+        "retrieval_latency_ms": 0,
+        "retrieval_mode": "vector_lexical_rerank",
+        "retrieved_chunks": [
+          {
+            "access_roles": [
+              "Employee"
+            ],
+            "chunk_id": "scope",
+            "content_preview": "This temporary-work policy applies only to employees based in Ontario. Employees based in Ontario may work temporarily elsewhere in Canada for up to 10 business days with manager approval. Work outside Canada requires HR and IT approval regardless of duration.",
+            "department_id": null,
+            "document_id": "SYN-scope",
+            "document_title": "Synthetic reimbursement rules",
+            "hybrid_score": null,
+            "keyword_score": null,
+            "project_id": "00000000-0000-0000-0000-000000000019",
+            "rank": 1,
+            "restricted": false,
+            "retrieval_source": "vector",
+            "score": 0.95,
+            "section_heading": "Limits",
+            "sensitivity": "internal",
+            "vector_score": null
+          }
+        ],
+        "scope": {
+          "department_id": null,
+          "project_id": "00000000-0000-0000-0000-000000000019"
+        },
+        "session_id": "00000000-0000-0000-0000-000000009001",
+        "supported_claims": [],
+        "temperature": null,
+        "total_latency_ms": 7109,
+        "unsupported_claims": [],
+        "user_message_id": "1",
+        "validation_notes": "The answer is fully supported by the source: the policy is limited to Ontario-based employees, and for work outside Canada, HR and IT approval are required regardless of duration, so manager approval alone is insufficient even for a short trip. It applies the condition and duration rule correctly and cites relevant text."
+      },
+      "latency_ms": 7114,
+      "question": "Can a short temporary work trip outside Canada use manager approval alone?",
+      "status_code": 200,
+      "turn": 0
+    }
+  ]
+}

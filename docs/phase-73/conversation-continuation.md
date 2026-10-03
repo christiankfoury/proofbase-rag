@@ -276,3 +276,11 @@ V4 focus passes5/6; recipient composition fixed but dev13 upgrades should to
 must. Preserve that failed result. V5 preserves normative strength explicitly
 in the existing producer/checker; no new validation layer.24callsUSD0.0786162,
 cumulativeUSD2.40170816. Focus then full14 gate before grader spending.
+
+V5 focus passes6/6 with clean inspection,24callsUSD0.0767370; cumulative
+USD2.47844516. Full14 next. New versioned custody harnesses preserve old frozen
+files, require v26 qualification, retain all case/output gates, add an explicit
+request-boundary operator stop and replay partial receipts without case credit.
+Neutral author/validator contracts add clause-to-question scope mapping and
+scenario-versus-policy controls while preserving all existing coverage.
+Six offline successor measurement tests pass, including request-boundary stop with no charge and replay of partial-case receipts without granting credit. Prior13 routing/candidate tests and all application receipt checks pass.
