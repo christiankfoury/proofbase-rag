@@ -18,3 +18,12 @@ fail-closed behavior remain mandatory. No application source or scoring change.
 Before run: six calls, USD0.0249993, cumulativeUSD2.32309196. Two original
 preparations were superseded without API execution. After-change focus and full
 original12 plus both recipient controls are required before selection updates.
+
+V4 after-focus completes6 tasks/8 turns but passes5/6 by source inspection.
+Actor/recipient composition is repaired in both reporting variants. Dev13 newly
+upgrades source should-include into must-include, so it remains a failure despite
+HTTP200/checker acceptance. Other five tasks preserve corrections, geographic
+scope and actionable conflict clarification. All24 calls settledUSD0.0786162;
+cumulativeUSD2.40170816. V5 explicitly preserves normative strength in the same
+producer/checker, with no extra layer or relaxed flags. Repeat the focused tasks
+under the changed prompt, then require the full14-case application gate.

@@ -271,3 +271,8 @@ duty presentation, dev14 preserves distinct recipients. SixcallsUSD0.0249993;
 cumulativeUSD2.32309196. V4 prompt clarifies cumulative source composition and
 recipients, while all seven checker requirements and budgets remain unchanged.
 Focused after-checks and full original12+2 required before updating selection.
+
+V4 focus passes5/6; recipient composition fixed but dev13 upgrades should to
+must. Preserve that failed result. V5 preserves normative strength explicitly
+in the existing producer/checker; no new validation layer.24callsUSD0.0786162,
+cumulativeUSD2.40170816. Focus then full14 gate before grader spending.
