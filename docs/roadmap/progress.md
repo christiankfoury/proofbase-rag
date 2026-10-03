@@ -11,7 +11,8 @@ Update this tracker before committing each phase. Keep entries factual: record w
 Latest: rolling per-request reservations explicitly approved; all output/coverage
 gates unchanged. Full challenger 12/12, mini 8/12 (ineligible), matched v4 6/12. Challenger
 selected; v4 remains default. V24 diagnostic3/4 then stopped on inconsistent
-attribution extraction; v25 focused correction next. Cumulative USD 0.5713143.
+attribution extraction; v25 focused correction passes1/1. Full8+3 diagnostic
+next. Cumulative USD 0.6258183.
 
 The latest user explicitly supersedes the prior one-attempt/no-second-cycle and
 failure-stop rules. Start with the diagnosed upstream ambiguity defect; continue

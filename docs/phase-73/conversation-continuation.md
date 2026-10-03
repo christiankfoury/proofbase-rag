@@ -165,3 +165,8 @@ the case is unresolved, not accepted. Other three source-inspected cases agree.
 V25 keeps attributed predicates with their subject and avoids duplicate overlapping
 extractions; schema/reducers/reviewer independence unchanged. A focused rerun of
 the failed case precedes the complete8+3 diagnostic. Historical v24 remains failed.
+
+V25 focus passes1/1 with three settled calls, USD0.0545040; cumulative
+USD0.6258183. Source inspection confirms a single whole-sentence claim, correct
+unknown/missing attribution, covered underlying rule and independent reviewer
+agreement. Full8+3 diagnostic follows; focus alone grants no qualification.
