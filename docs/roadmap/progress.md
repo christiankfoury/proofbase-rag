@@ -6,7 +6,19 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: conversational scenario candidate closed; answer-finalization review complete
+### Current: policy-fact candidate prepared for one bounded diagnostic
+
+The user authorized an isolated availability/premise-truth candidate and one live
+diagnostic capped at USD 0.50 from USD 3.73920000. The
+[candidate note](../phase-73/policy-fact-candidate.md) declares six cases, acceptance
+criteria, offline checks and stopping rules. Opt-in evidence-assessment v6 retains
+contradictions separately from supported policy facts. V4 remains the default;
+conversational v5 stays closed/disabled. No calculator or geographic expansion.
+Offline routing/safeguard checks and payload preflight pass; freeze reviewed work,
+run once, inspect final answers, publish costs/results and stop. No retries,
+selective reruns, second prompt cycle, qualification or full evaluation.
+
+### Prior milestone: conversational scenario candidate closed; answer-finalization review complete
 
 The user closed conversational scenario v5 as unsuccessful. Keep it disabled;
 v4 remains the default. No calculator expansion or further prompt cycle.

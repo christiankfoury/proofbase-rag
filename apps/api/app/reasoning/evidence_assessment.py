@@ -122,6 +122,36 @@ class ConversationalEvidenceDecision(SemanticEvidenceDecision):
     scenario: ScenarioExtraction
 
 
+class PolicyWitness(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    chunk_id: str = Field(min_length=1)
+    quote: str = Field(min_length=1, max_length=1500)
+
+
+class PolicyFact(BaseModel):
+    """Availability concerns the policy statement, never the user's premise."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    fact_id: str = Field(min_length=1, max_length=48)
+    requested_fact: str = Field(min_length=1, max_length=180)
+    availability: Literal["available", "missing", "conflicting"]
+    policy_statement: str | None = Field(max_length=180)
+    semantic_support: Literal["entailed", "not_established"]
+    witnesses: list[PolicyWitness] = Field(max_length=10)
+    premise_quote: str | None = Field(max_length=4000)
+    premise_relation: Literal["confirmed", "contradicted", "undetermined", "not_asserted"]
+
+
+class PolicyFactDecision(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    request_coverage: Literal["complete", "incomplete", "uncertain"]
+    policy_facts: list[PolicyFact] = Field(min_length=1, max_length=10)
+    assessment_confidence: float = Field(ge=0.0, le=1.0)
+
+
 class EvidenceAssessment(EvidenceAssessmentDecision):
     model_config = ConfigDict(extra="forbid")
 
@@ -140,6 +170,8 @@ class EvidenceAssessment(EvidenceAssessmentDecision):
     # Internal proposal; public metadata shape and historical schemas stay stable.
     scenario: ScenarioExtraction | None = Field(default=None, exclude=True)
     scenario_request_sha256: str | None = Field(default=None, exclude=True)
+    # Preserve candidate premise relations without changing the legacy public schema.
+    policy_facts: list[PolicyFact] | None = Field(default=None, exclude=True)
 
 
 _ACTION_BY_ANSWERABILITY: dict[Answerability, EvidenceAction] = {
@@ -352,7 +384,8 @@ def _semantic_assessment(
     selected_model = settings.evidence_assessment_model or prompt.model or settings.openai_chat_model
     started_at = time.perf_counter()
     response = None
-    decision_type = ConversationalEvidenceDecision if prompt.version == 'v5' else SemanticEvidenceDecision
+    decision_type = (PolicyFactDecision if prompt.version == 'v6' else
+                     ConversationalEvidenceDecision if prompt.version == 'v5' else SemanticEvidenceDecision)
     try:
         if not settings.openai_api_key and client is None:
             raise RuntimeError("evidence assessment service unavailable")
@@ -380,7 +413,7 @@ def _semantic_assessment(
             response_format={
                 "type": "json_schema",
                 "json_schema": {
-                    "name": "evidence_assessment_v5" if prompt.version == 'v5' else "evidence_assessment_v1",
+                    "name": f"evidence_assessment_{prompt.version}" if prompt.version in {'v5', 'v6'} else "evidence_assessment_v1",
                     "strict": True,
                     "schema": decision_type.model_json_schema(),
                 },
@@ -390,11 +423,16 @@ def _semantic_assessment(
         if getattr(message, "refusal", None):
             raise RuntimeError("evidence assessment refused")
         semantic_decision = decision_type.model_validate_json(message.content or "")
-        decision, normalization_reason = _complete_semantic_decision(
-            semantic_decision,
-            source_plan=source_plan,
-            authorized_chunks=authorized_chunks,
-        )
+        if isinstance(semantic_decision, PolicyFactDecision):
+            decision = _complete_policy_fact_decision(
+                semantic_decision, question=original_question if original_question is not None else question,
+                source_plan=source_plan, authorized_chunks=authorized_chunks,
+            )
+            normalization_reason = None
+        else:
+            decision, normalization_reason = _complete_semantic_decision(
+                semantic_decision, source_plan=source_plan, authorized_chunks=authorized_chunks,
+            )
         decision = _validate_semantic_decision(
             decision,
             authorized_chunks=authorized_chunks,
@@ -421,6 +459,7 @@ def _semantic_assessment(
                       and normalization_reason is None else None),
             scenario_request_sha256=(hashlib.sha256(original_question.encode('utf-8')).hexdigest()
                                      if original_question is not None and prompt.version == 'v5' else None),
+            policy_facts=(semantic_decision.policy_facts if isinstance(semantic_decision, PolicyFactDecision) else None),
         )
         if emit_telemetry:
             _submit_evidence_telemetry(assessment, question, len(authorized_chunks))
@@ -462,6 +501,70 @@ class EvidenceContractError(ValueError):
     def __init__(self, reason: EvidenceReasonCode):
         super().__init__(reason)
         self.reason = reason
+
+
+def _complete_policy_fact_decision(
+    semantic: PolicyFactDecision, *, question: str,
+    source_plan: list[SourcePlanItem], authorized_chunks: list[RetrievedChunk],
+) -> EvidenceAssessmentDecision:
+    """Validate provenance; semantic entailment remains a model judgment.
+
+    Contradicted premises are retained in PolicyFact, never promoted to supported
+    RequiredFact descriptions. Only the separately established policy statement
+    supplies a supported fact to the existing routing contract.
+    """
+    if semantic.request_coverage != "complete":
+        raise EvidenceContractError("assessment_contract_invalid")
+    visible = {chunk.chunk_id: chunk.content[:3000] for chunk in authorized_chunks[:10]}
+    if len({fact.fact_id for fact in semantic.policy_facts}) != len(semantic.policy_facts):
+        raise EvidenceContractError("assessment_contract_invalid")
+    facts, conflicts, supported_ids, missing = [], [], [], []
+    for fact in semantic.policy_facts:
+        ids = list(dict.fromkeys(w.chunk_id for w in fact.witnesses))
+        if any(cid not in visible for cid in ids):
+            raise EvidenceContractError("unauthorized_reference_rejected")
+        if any(not w.quote.strip() or w.quote not in visible[w.chunk_id] for w in fact.witnesses):
+            raise EvidenceContractError("assessment_contract_invalid")
+        if fact.premise_relation == "not_asserted":
+            if fact.premise_quote is not None:
+                raise EvidenceContractError("assessment_contract_invalid")
+        elif not fact.premise_quote or not fact.premise_quote.strip() or fact.premise_quote not in question:
+            raise EvidenceContractError("assessment_contract_invalid")
+        if fact.availability == "available":
+            # Membership is necessary but never promotes a non-entailing judgment.
+            if (fact.semantic_support != "entailed" or not ids
+                    or not fact.policy_statement or not fact.policy_statement.strip()
+                    or fact.premise_relation == "undetermined"):
+                raise EvidenceContractError("assessment_contract_invalid")
+            facts.append(RequiredFact(fact_id=fact.fact_id, description=fact.policy_statement,
+                                      support="supported", supporting_chunk_ids=ids))
+            supported_ids.extend(ids)
+        else:
+            if (fact.semantic_support != "not_established" or fact.policy_statement is not None
+                    or fact.premise_relation in {"confirmed", "contradicted"}):
+                raise EvidenceContractError("assessment_contract_invalid")
+            if fact.availability == "conflicting":
+                if len(ids) < 2:
+                    raise EvidenceContractError("assessment_contract_invalid")
+                conflicts.append(EvidenceConflict(topic=fact.requested_fact, conflict_type="factual",
+                    chunk_ids=ids, resolved=False, resolution_basis=None))
+            facts.append(RequiredFact(fact_id=fact.fact_id, description=fact.requested_fact,
+                support="conflicting" if fact.availability == "conflicting" else "unsupported",
+                supporting_chunk_ids=ids))
+            missing.append(fact.requested_fact)
+    answerability: Answerability = ("conflicting" if conflicts else
+        "sufficient" if not missing else "partial" if supported_ids else "insufficient")
+    return EvidenceAssessmentDecision(
+        answerability=answerability, required_facts=facts,
+        required_source_coverage=_source_coverage(source_plan, authorized_chunks),
+        conflicts=conflicts, missing_information=missing[:8],
+        recommended_action=_ACTION_BY_ANSWERABILITY[answerability],
+        supporting_chunk_ids=list(dict.fromkeys(supported_ids))[:10] if not conflicts else [],
+        reason_codes=["accessible_conflict_unresolved" if conflicts else
+            "authorized_evidence_sufficient" if not missing else
+            "partial_fact_support" if supported_ids else "required_fact_missing"],
+        assessment_confidence=semantic.assessment_confidence, schema_version="evidence_assessment.v1",
+    )
 
 
 def _complete_semantic_decision(
@@ -634,7 +737,7 @@ def _semantic_input(
     source_plan: list[SourcePlanItem],
     original_question: str | None = None,
 ) -> str:
-    conversational = get_settings().evidence_assessment_prompt_version == 'v5'
+    conversational = get_settings().evidence_assessment_prompt_version in {'v5', 'v6'}
     payload: dict[str, Any] = {
         "current_request": (original_question if original_question is not None else question)
                            if conversational else question.strip()[:4000],

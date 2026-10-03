@@ -1,0 +1,250 @@
+{
+  "scope": "Controlled synthetic retrieval and identity fixtures; real application routing and live semantic stages, no database retrieval measurement.",
+  "source_capture": "data/evaluation/application-reliability-live-v2/run/check-02.json",
+  "project_id": "00000000-0000-0000-0000-000000000019",
+  "role": "Employee",
+  "sources": [
+    {
+      "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+      "document_id": "FIN-001",
+      "document_title": "Expense, Procurement, and Reimbursement Policy",
+      "section_heading": "Expense Categories",
+      "content": "Expense Categories\n\n| Category | Standard Limit | Approval Required |\n| --- | ---: | --- |\n| Meals during business travel | USD 85 per day | Manager approval above limit |\n| Customer-facing meals | USD 125 per attendee | Manager approval and attendee list |\n| Office supplies | USD 300 per purchase | Manager approval above limit |\n| Software subscription trial | USD 500 annualized value | IT review and manager approval |\n| Conference registration | USD 1,500 per event | Manager approval before purchase |\n\nAlcohol is not reimbursable unless it is part of a customer-facing meal approved by a manager before the event. Gift cards, personal devices, fines, commuting costs, and family travel are not reimbursable.",
+      "access_roles": [
+        "Employee",
+        "Sales Representative",
+        "Manager",
+        "HR Admin",
+        "IT/Admin"
+      ],
+      "restricted": false,
+      "sensitivity": "internal",
+      "rank": 1,
+      "score": 0.95,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null
+    },
+    {
+      "chunk_id": "policy-book-a",
+      "document_id": "SYN-POL-001",
+      "document_title": "Synthetic reimbursement rules",
+      "section_heading": "Limits",
+      "content": "Reference-book reimbursement has a limit of EUR 460 per order. Expenses above this limit require director approval.",
+      "access_roles": [
+        "Employee"
+      ],
+      "restricted": false,
+      "sensitivity": "internal",
+      "rank": 1,
+      "score": 0.95,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null
+    },
+    {
+      "chunk_id": "policy-book-b",
+      "document_id": "SYN-POL-002",
+      "document_title": "Synthetic reimbursement rules",
+      "section_heading": "Limits",
+      "content": "Reference-book reimbursement has a limit of EUR 680 per order. Expenses above this limit require director approval.",
+      "access_roles": [
+        "Employee"
+      ],
+      "restricted": false,
+      "sensitivity": "internal",
+      "rank": 1,
+      "score": 0.95,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null
+    },
+    {
+      "chunk_id": "policy-private",
+      "document_id": "HR-ADMIN-900",
+      "document_title": "Synthetic reimbursement rules",
+      "section_heading": "Limits",
+      "content": "Executive relocation reimbursement has a limit of EUR 720 per move.",
+      "access_roles": [
+        "HR Admin"
+      ],
+      "restricted": true,
+      "sensitivity": "internal",
+      "rank": 1,
+      "score": 0.95,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "department_id": null
+    }
+  ],
+  "cases": [
+    {
+      "id": "fact-01",
+      "question": "Is the office supplies limit USD 217 per purchase, and is conference registration allowed without approval up to USD 375 per event?",
+      "source_ids": [
+        "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+      ],
+      "kind": "captured_false",
+      "expected_action": "answer",
+      "expected_facts": [
+        {
+          "fact_id": "office",
+          "requested_fact": "Office supplies limit",
+          "availability": "available",
+          "policy_statement": "Office supplies standard limit is USD 300 per purchase.",
+          "semantic_support": "entailed",
+          "witnesses": [
+            {
+              "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+              "quote": "| Office supplies | USD 300 per purchase | Manager approval above limit |"
+            }
+          ],
+          "premise_quote": "the office supplies limit USD 217 per purchase",
+          "premise_relation": "contradicted"
+        },
+        {
+          "fact_id": "conference",
+          "requested_fact": "Conference approval rule",
+          "availability": "available",
+          "policy_statement": "Conference registration requires manager approval before purchase.",
+          "semantic_support": "entailed",
+          "witnesses": [
+            {
+              "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+              "quote": "| Conference registration | USD 1,500 per event | Manager approval before purchase |"
+            }
+          ],
+          "premise_quote": "conference registration allowed without approval up to USD 375 per event",
+          "premise_relation": "contradicted"
+        }
+      ]
+    },
+    {
+      "id": "fact-02",
+      "question": "Is reference-book reimbursement capped at EUR 90 for each order?",
+      "source_ids": [
+        "policy-book-a"
+      ],
+      "kind": "new_false",
+      "expected_action": "answer",
+      "expected_facts": [
+        {
+          "fact_id": "books",
+          "requested_fact": "Reference-book reimbursement limit",
+          "availability": "available",
+          "policy_statement": "Reference-book reimbursement has a limit of EUR 460 per order.",
+          "semantic_support": "entailed",
+          "witnesses": [
+            {
+              "chunk_id": "policy-book-a",
+              "quote": "Reference-book reimbursement has a limit of EUR 460 per order. Expenses above this limit require director approval."
+            }
+          ],
+          "premise_quote": "reference-book reimbursement capped at EUR 90 for each order",
+          "premise_relation": "contradicted"
+        }
+      ]
+    },
+    {
+      "id": "fact-03",
+      "question": "Am I right that reference-book reimbursement is limited to EUR 460 per order?",
+      "source_ids": [
+        "policy-book-a"
+      ],
+      "kind": "correct",
+      "expected_action": "answer",
+      "expected_facts": [
+        {
+          "fact_id": "books",
+          "requested_fact": "Reference-book reimbursement limit",
+          "availability": "available",
+          "policy_statement": "Reference-book reimbursement has a limit of EUR 460 per order.",
+          "semantic_support": "entailed",
+          "witnesses": [
+            {
+              "chunk_id": "policy-book-a",
+              "quote": "Reference-book reimbursement has a limit of EUR 460 per order. Expenses above this limit require director approval."
+            }
+          ],
+          "premise_quote": "reference-book reimbursement is limited to EUR 460 per order",
+          "premise_relation": "confirmed"
+        }
+      ]
+    },
+    {
+      "id": "fact-04",
+      "question": "Is the replacement handling fee EUR 35 per order?",
+      "source_ids": [
+        "policy-book-a"
+      ],
+      "kind": "unknown",
+      "expected_action": "not_found",
+      "expected_facts": [
+        {
+          "fact_id": "fee",
+          "requested_fact": "Replacement handling fee",
+          "availability": "missing",
+          "policy_statement": null,
+          "semantic_support": "not_established",
+          "witnesses": [
+            {
+              "chunk_id": "policy-book-a",
+              "quote": "Reference-book reimbursement has a limit of EUR 460 per order. Expenses above this limit require director approval."
+            }
+          ],
+          "premise_quote": "the replacement handling fee EUR 35 per order",
+          "premise_relation": "undetermined"
+        }
+      ]
+    },
+    {
+      "id": "fact-05",
+      "question": "What is the reference-book reimbursement limit per order?",
+      "source_ids": [
+        "policy-book-a",
+        "policy-book-b"
+      ],
+      "kind": "conflict",
+      "expected_action": "clarify",
+      "expected_facts": [
+        {
+          "fact_id": "books",
+          "requested_fact": "Reference-book reimbursement limit",
+          "availability": "conflicting",
+          "policy_statement": null,
+          "semantic_support": "not_established",
+          "witnesses": [
+            {
+              "chunk_id": "policy-book-a",
+              "quote": "Reference-book reimbursement has a limit of EUR 460 per order. Expenses above this limit require director approval."
+            },
+            {
+              "chunk_id": "policy-book-b",
+              "quote": "Reference-book reimbursement has a limit of EUR 680 per order. Expenses above this limit require director approval."
+            }
+          ],
+          "premise_quote": null,
+          "premise_relation": "not_asserted"
+        }
+      ]
+    },
+    {
+      "id": "fact-06",
+      "question": "What reimbursement limit applies to executive relocation?",
+      "source_ids": [
+        "policy-book-a",
+        "policy-private"
+      ],
+      "kind": "inaccessible",
+      "expected_action": "not_found",
+      "expected_facts": [
+        {
+          "fact_id": "relocation",
+          "requested_fact": "Executive relocation reimbursement limit",
+          "availability": "missing",
+          "policy_statement": null,
+          "semantic_support": "not_established",
+          "witnesses": [],
+          "premise_quote": null,
+          "premise_relation": "not_asserted"
+        }
+      ]
+    }
+  ]
+}
