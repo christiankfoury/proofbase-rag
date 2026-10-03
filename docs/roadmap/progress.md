@@ -6,7 +6,25 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: conversational scenario experiment complete; candidate not promoted
+### Current: conversational scenario candidate closed; answer-finalization review complete
+
+The user closed conversational scenario v5 as unsuccessful. Keep it disabled;
+v4 remains the default. No calculator expansion or further prompt cycle.
+[Answer-finalization review](../phase-73/answer-finalization-review.md) compares
+all 18 attempts in the two focused diagnostics: ten generation captures, five
+earlier application outcomes and three diagnostic-bound interruptions. It records
+two citation corrections (one with lost excerpt support), two harmful scenario
+rejections, two accepted scope errors and three pre-generation false-premise
+abstentions; mixed and ambiguous judgments remain separate. These are mechanism
+counts, not an overall accuracy claim or new evaluator labels.
+
+Recommend separating policy-fact availability from premise truth at the existing
+evidence-assessment boundary as one future intervention; implementation is not
+started. Report and tracker only; captured evidence and unrelated edits preserved.
+No API calls or new costs; **USD 3.73920000** remains. Stop after review, commit and
+push. The active plan remains [application reliability](application-reliability-plan.md).
+
+### Prior milestone: conversational scenario experiment complete; candidate not promoted
 
 Frozen runtime `2539b084` completed one eight-call live component experiment.
 [Results and recommendation](../phase-73/conversational-scenario.md): full extraction
