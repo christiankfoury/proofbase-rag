@@ -1,0 +1,64 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive rule answering the question.",
+    "behavior_span": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "This sentence asserts both a document attribution and a rule: that the rule comes from the Visitor Parking Handbook, and that it requires laboratory staff to return loaned meters within four working days. The source text supports the rule itself, but the only authoritative document metadata for that text identifies it as coming from \"Meter Loan Handbook,\" not \"Visitor Parking Handbook.\" Under the instructions, a mismatched document name leaves the attributed claim unknown rather than supported.",
+        "source_spans": [],
+        "text": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "requires laboratory staff to return loaned meters within four working days"
+        ],
+        "fact_id": "F1",
+        "reason": "This span states that laboratory staff must return loaned meters within four working days, matching the required fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the meter return rule, and the answer provides a specific rule about returning loaned meters for laboratory staff.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for the meter return rule, and the answer does address that topic by stating a return requirement for laboratory staff. So the response is relevant.\n\nInterpreted meaning of the answer: it makes one substantive claim combining (1) a document attribution — that the rule comes from \"The Visitor Parking Handbook\" — and (2) the rule itself — that laboratory staff are required to return loaned meters within four working days.\n\nRequired-fact coverage: the required fact is \"Laboratory staff must return loaned meters within four working days.\" The answer does communicate that rule, even though it wraps it in a document-attribution sentence. So F1 is covered.\n\nActual behavior: the response gives substantive information answering the question, so actual_behavior is answer. Because the expected behavior is also answer and the required fact is covered, response_behavior reduces to pass.\n\nFactual/citation support from raw inputs: source text R1 says \"Laboratory staff must return loaned meters within four working days.\" That supports the rule content. But the answer specifically attributes that rule to \"The Visitor Parking Handbook,\" while source_metadata identifies R1 as coming from \"Meter Loan Handbook.\" Under the rubric, that mismatched document name means the complete attributed claim is not supported; without an explicit contradiction, the factual status is unknown, not contradicted. For citation, the cited text likewise supports only the rule content and not the claimed document title, so the complete claim is citation missing.\n\nComparing to the candidate: the candidate correctly treated the single sentence as one combined attributed claim, correctly marked its factual status unknown and citation status missing, correctly marked the required fact covered, relevance pass, actual_behavior answer with response_behavior pass, and forbidden assertions absent. I do not see any omitted substantive claim or mislabeled intermediate status.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

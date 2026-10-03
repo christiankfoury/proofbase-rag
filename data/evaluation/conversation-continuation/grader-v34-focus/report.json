@@ -1,0 +1,312 @@
+{
+  "calls": 12,
+  "cost_usd": "0.19170000",
+  "count": 4,
+  "cumulative_usd": "7.75922776",
+  "matched": 4,
+  "matching_probes": 0,
+  "probes": [],
+  "rows": [
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response provides a substantive direct answer to the asked requirement.",
+        "behavior_span": "The Meter Loan Handbook requires laboratory staff to return loaned meters within four working days.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Laboratory staff must return loaned meters within four working days."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "This sentence asserts both the source document identity and the rule. The source text states the return requirement for laboratory staff, and the metadata identifies source R1 as the document titled \"Meter Loan Handbook,\" so together they support the attributed claim. The cited source C1 contains the same rule text and points to the same underlying source_id, so the citation also supports the full attributed statement.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Laboratory staff must return loaned meters within four working days."
+              }
+            ],
+            "text": "The Meter Loan Handbook requires laboratory staff to return loaned meters within four working days."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The Meter Loan Handbook requires laboratory staff to return loaned meters within four working days."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states that laboratory staff are required to return loaned meters within four working days.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks for the meter handbook's return requirement, and the answer directly states a return requirement from the Meter Loan Handbook for laboratory staff.",
+          "status": "pass"
+        }
+      },
+      "id": "document-attribution",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "Relevance first: the question asks for the meter handbook’s return requirement. The answer directly addresses that exact topic by stating what the handbook requires for returning loaned meters, so it is relevant.\n\nInterpreted meaning of the answer: it makes one substantive attributed policy claim — that the document titled \"Meter Loan Handbook\" requires laboratory staff to return loaned meters within four working days.\n\nRequired-fact coverage: the required fact is \"Laboratory staff must return loaned meters within four working days.\" The answer fully covers that rule, with only harmless wording changes (\"requires ... to return\" instead of \"must return\").\n\nActual behavior: the response gives a direct substantive answer, so actual behavior is \"answer,\" matching expected behavior.\n\nFactual support: source R1 states, \"Laboratory staff must return loaned meters within four working days.\" Metadata identifies R1 as coming from the document titled \"Meter Loan Handbook.\" Together, those support the full attributed claim.\n\nCitation support: cited source C1 contains the same rule text, and metadata ties the underlying source_id to the title \"Meter Loan Handbook,\" so the cited evidence also supports the attributed claim.\n\nComparing that to the candidate: the candidate extracted the right claim, correctly judged it supported/citation-supported, correctly marked the required fact covered, relevance pass, behavior answer/pass, and no forbidden assertion. I see no grading error.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive rule answering the question.",
+        "behavior_span": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "This sentence asserts both a document attribution and a rule: that the rule comes from the Visitor Parking Handbook, and that it requires laboratory staff to return loaned meters within four working days. The source text supports the rule itself, but the only authoritative document metadata for that text identifies it as coming from \"Meter Loan Handbook,\" not \"Visitor Parking Handbook.\" Under the instructions, a mismatched document name leaves the attributed claim unknown rather than supported.",
+            "source_spans": [],
+            "text": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "requires laboratory staff to return loaned meters within four working days"
+            ],
+            "fact_id": "F1",
+            "reason": "This span states that laboratory staff must return loaned meters within four working days, matching the required fact.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks for the meter return rule, and the answer provides a specific rule about returning loaned meters for laboratory staff.",
+          "status": "pass"
+        }
+      },
+      "id": "wrong-attribution",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "Relevance first: the question asks for the meter return rule, and the answer does address that topic by stating a return requirement for laboratory staff. So the response is relevant.\n\nInterpreted meaning of the answer: it makes one substantive claim combining (1) a document attribution — that the rule comes from \"The Visitor Parking Handbook\" — and (2) the rule itself — that laboratory staff are required to return loaned meters within four working days.\n\nRequired-fact coverage: the required fact is \"Laboratory staff must return loaned meters within four working days.\" The answer does communicate that rule, even though it wraps it in a document-attribution sentence. So F1 is covered.\n\nActual behavior: the response gives substantive information answering the question, so actual_behavior is answer. Because the expected behavior is also answer and the required fact is covered, response_behavior reduces to pass.\n\nFactual/citation support from raw inputs: source text R1 says \"Laboratory staff must return loaned meters within four working days.\" That supports the rule content. But the answer specifically attributes that rule to \"The Visitor Parking Handbook,\" while source_metadata identifies R1 as coming from \"Meter Loan Handbook.\" Under the rubric, that mismatched document name means the complete attributed claim is not supported; without an explicit contradiction, the factual status is unknown, not contradicted. For citation, the cited text likewise supports only the rule content and not the claimed document title, so the complete claim is citation missing.\n\nComparing to the candidate: the candidate correctly treated the single sentence as one combined attributed claim, correctly marked its factual status unknown and citation status missing, correctly marked the required fact covered, relevance pass, actual_behavior answer with response_behavior pass, and forbidden assertions absent. I do not see any omitted substantive claim or mislabeled intermediate status.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives substantive information answering the asked rule, though it also includes an extra unrelated statement.",
+        "behavior_span": "Laboratory staff must return loaned meters within four working days. Staff also receive a free meter each year.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Laboratory staff must return loaned meters within four working days."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "This exactly states the meter return rule asked in the question, and the same rule appears verbatim in the factual and cited source.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Laboratory staff must return loaned meters within four working days."
+              }
+            ],
+            "text": "Laboratory staff must return loaned meters within four working days."
+          },
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "This adds a separate entitlement not stated in the answer's cited rule. The only factual and cited text concerns returning loaned meters within four working days. The source metadata title does not by itself prove that staff receive a free meter each year.",
+            "source_spans": [],
+            "text": "Staff also receive a free meter each year."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Laboratory staff must return loaned meters within four working days."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states the required meter return rule with the same subject, obligation, and time limit.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks for the meter return rule, and the answer directly states a rule about returning loaned meters for laboratory staff.",
+          "status": "pass"
+        }
+      },
+      "id": "title-not-entitlement",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The question asks for the meter return rule. In context, the answer communicates two substantive claims: (1) \"Laboratory staff must return loaned meters within four working days.\" and (2) \"Staff also receive a free meter each year.\" The first claim is directly relevant and fully covers the only required fact F1. The second is extra and unrelated to the asked rule, but extra content does not make the response irrelevant. Actual behavior is still \"answer\" because the response does provide the requested rule.\n\nFor evidence: claim (1) is fully supported factually and by citation because both the factual source R1 and cited source C1 contain that exact sentence. Claim (2) is not supported by the factual or cited text. The source metadata title \"Annual Free Meter Benefit\" identifies a document title only; it does not entail the policy content that staff receive a free meter each year. So claim (2) is factual unknown and citation missing, not supported. The candidate extracted both substantive claims, marked all_claims_assessed true, and their per-claim statuses and reducers are consistent: factual_support = unresolved (one unknown, none contradicted), citation_support = fail (one missing), completeness = pass, relevance = pass, response_behavior = pass, forbidden_assertion absent. I see no grading error in the candidate's labels or reasons.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the user's question with a substantive result.",
+        "behavior_span": "With your corrected eight crates, the ten-slot rack has two unused crate slots.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "A full-sized Osprey rack has capacity for ten crates, one per slot."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "This applies the source rule to the user's explicit scenario. The question states there are eight crates, and the source says a full-sized Osprey rack has capacity for ten crates, one per slot. Under that stated scenario, unused slots = 10 - 8 = 2.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "A full-sized Osprey rack has capacity for ten crates, one per slot."
+              }
+            ],
+            "text": "With your corrected eight crates, the ten-slot rack has two unused crate slots."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "the ten-slot rack has two unused crate slots"
+            ],
+            "fact_id": "F1",
+            "reason": "This span states that with eight crates in a ten-slot rack, two slots are unused.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks how many unused crate slots there are for a full-sized Osprey rack given the corrected scenario of eight crates. The answer directly addresses that subject and gives the number of unused slots.",
+          "status": "pass"
+        }
+      },
+      "id": "current-scenario-correction",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "Relevance: The question asks, under the corrected scenario of eight crates, how many unused slots a full-sized Osprey rack has. The answer directly addresses that exact subject and provides the requested quantity, so it is relevant.\n\nRequired-fact coverage: The required fact is that there are two unused slots with eight crates in a ten-slot rack. The answer states, \"With your corrected eight crates, the ten-slot rack has two unused crate slots.\" That fully covers the required fact.\n\nAnswer meaning and factual/citation support: In context, the answer asserts a scenario application: a full-sized Osprey rack holds ten crates, the user now has eight crates, therefore 10 - 8 = 2 unused slots. The source rule is \"A full-sized Osprey rack has capacity for ten crates, one per slot.\" The question supplies the explicit scenario input of eight crates, so the arithmetic application is supported. The same is true for the cited source, which contains the same rule text. Thus the claim is factually supported and citation-supported.\n\nActual behavior: The response gives a substantive answer to the user's question, so actual_behavior is answer, matching expected_behavior.\n\nComparison to candidate: The candidate extracted the only substantive claim, correctly treated it as supported by applying the source rule to the user's explicit eight-crate scenario, correctly marked the required fact as covered, correctly marked relevance as pass, correctly identified actual_behavior as answer, and correctly marked forbidden_assertion as absent. I found no incorrect intermediate label or omitted substantive claim.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "source_review_pending": true,
+  "status": "complete",
+  "version": "answer-dimensions.v34-candidate"
+}

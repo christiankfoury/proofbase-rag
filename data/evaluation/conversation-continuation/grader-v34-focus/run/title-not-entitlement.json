@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive information answering the asked rule, though it also includes an extra unrelated statement.",
+    "behavior_span": "Laboratory staff must return loaned meters within four working days. Staff also receive a free meter each year.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "This exactly states the meter return rule asked in the question, and the same rule appears verbatim in the factual and cited source.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "text": "Laboratory staff must return loaned meters within four working days."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "This adds a separate entitlement not stated in the answer's cited rule. The only factual and cited text concerns returning loaned meters within four working days. The source metadata title does not by itself prove that staff receive a free meter each year.",
+        "source_spans": [],
+        "text": "Staff also receive a free meter each year."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Laboratory staff must return loaned meters within four working days."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states the required meter return rule with the same subject, obligation, and time limit.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the meter return rule, and the answer directly states a rule about returning loaned meters for laboratory staff.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The question asks for the meter return rule. In context, the answer communicates two substantive claims: (1) \"Laboratory staff must return loaned meters within four working days.\" and (2) \"Staff also receive a free meter each year.\" The first claim is directly relevant and fully covers the only required fact F1. The second is extra and unrelated to the asked rule, but extra content does not make the response irrelevant. Actual behavior is still \"answer\" because the response does provide the requested rule.\n\nFor evidence: claim (1) is fully supported factually and by citation because both the factual source R1 and cited source C1 contain that exact sentence. Claim (2) is not supported by the factual or cited text. The source metadata title \"Annual Free Meter Benefit\" identifies a document title only; it does not entail the policy content that staff receive a free meter each year. So claim (2) is factual unknown and citation missing, not supported. The candidate extracted both substantive claims, marked all_claims_assessed true, and their per-claim statuses and reducers are consistent: factual_support = unresolved (one unknown, none contradicted), citation_support = fail (one missing), completeness = pass, relevance = pass, response_behavior = pass, forbidden_assertion absent. I see no grading error in the candidate's labels or reasons.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

@@ -598,3 +598,10 @@ claim witness. Unknown/missing carry empty witnesses, without postprocessing.
 No field, reducer, cap or requirement changed. Six44-payload/budget checks pass;
 unchanged ledger/measurement evidence reused. Four attribution/scenario controls
 next, then full qualification if clean and budget permits. Final floorUSD4.50.
+
+V34 focus4/4 passes clean source inspection: correct attribution supported, wrong
+attribution unknown/missing with empty witnesses, invented annual benefit unknown/
+missing, corrected eight-of-ten scenario supports two unused slots and citation.
+12 callsUSD0.19170000; accountedUSD7.75922776, remainingUSD7.12614000. Focus sample
+is attribution-heavy; full remaining qualification expectedaboutUSD1.8-2.5, not
+assured. Available beforeUSD4.50 final floor isUSD2.62614000. Full16+3 next.
