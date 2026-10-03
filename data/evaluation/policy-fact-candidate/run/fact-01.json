@@ -1,0 +1,434 @@
+{
+  "assessments": [
+    {
+      "policy_facts": [
+        {
+          "availability": "available",
+          "fact_id": "office_supplies_limit",
+          "policy_statement": "The standard limit for office supplies is USD 300 per purchase; manager approval is required for amounts above this limit.",
+          "premise_quote": "Is the office supplies limit USD 217 per purchase",
+          "premise_relation": "contradicted",
+          "requested_fact": "office supplies limit per purchase",
+          "semantic_support": "entailed",
+          "witnesses": [
+            {
+              "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+              "quote": "| Office supplies | USD 300 per purchase | Manager approval above limit |"
+            }
+          ]
+        },
+        {
+          "availability": "available",
+          "fact_id": "conference_registration_approval",
+          "policy_statement": "Conference registration expenses have a standard limit of USD 1,500 per event; manager approval is required before purchase regardless of amount.",
+          "premise_quote": "is conference registration allowed without approval up to USD 375 per event?",
+          "premise_relation": "contradicted",
+          "requested_fact": "conference registration approval requirement and limit",
+          "semantic_support": "entailed",
+          "witnesses": [
+            {
+              "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+              "quote": "| Conference registration | USD 1,500 per event | Manager approval before purchase |"
+            }
+          ]
+        }
+      ],
+      "result": {
+        "answerability": "sufficient",
+        "assessment_confidence": 0.9,
+        "conflicts": [],
+        "estimated_cost_usd": 0.00093,
+        "input_cost_usd": 0.000466,
+        "input_tokens": 1165,
+        "latency_ms": 3138,
+        "missing_information": [],
+        "model": "gpt-4.1-mini",
+        "normalization_reason": null,
+        "output_cost_usd": 0.000464,
+        "output_tokens": 290,
+        "pricing_status": "estimated",
+        "prompt_version": "v6",
+        "reason_codes": [
+          "authorized_evidence_sufficient"
+        ],
+        "recommended_action": "answer",
+        "required_facts": [
+          {
+            "description": "The standard limit for office supplies is USD 300 per purchase; manager approval is required for amounts above this limit.",
+            "fact_id": "office_supplies_limit",
+            "support": "supported",
+            "supporting_chunk_ids": [
+              "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+            ]
+          },
+          {
+            "description": "Conference registration expenses have a standard limit of USD 1,500 per event; manager approval is required before purchase regardless of amount.",
+            "fact_id": "conference_registration_approval",
+            "support": "supported",
+            "supporting_chunk_ids": [
+              "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+            ]
+          }
+        ],
+        "required_source_coverage": [],
+        "route": "hybrid_semantic",
+        "schema_version": "evidence_assessment.v1",
+        "status": "succeeded",
+        "supporting_chunk_ids": [
+          "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+        ]
+      }
+    }
+  ],
+  "authorized_evidence": [
+    {
+      "access_roles": [
+        "Employee",
+        "Sales Representative",
+        "Manager",
+        "HR Admin",
+        "IT/Admin"
+      ],
+      "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+      "content": "Expense Categories\n\n| Category | Standard Limit | Approval Required |\n| --- | ---: | --- |\n| Meals during business travel | USD 85 per day | Manager approval above limit |\n| Customer-facing meals | USD 125 per attendee | Manager approval and attendee list |\n| Office supplies | USD 300 per purchase | Manager approval above limit |\n| Software subscription trial | USD 500 annualized value | IT review and manager approval |\n| Conference registration | USD 1,500 per event | Manager approval before purchase |\n\nAlcohol is not reimbursable unless it is part of a customer-facing meal approved by a manager before the event. Gift cards, personal devices, fines, commuting costs, and family travel are not reimbursable.",
+      "department_id": null,
+      "document_id": "FIN-001",
+      "document_title": "Expense, Procurement, and Reimbursement Policy",
+      "hybrid_score": null,
+      "keyword_score": null,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "rank": 1,
+      "restricted": false,
+      "retrieval_source": "vector",
+      "score": 0.95,
+      "section_heading": "Expense Categories",
+      "sensitivity": "internal",
+      "vector_score": null
+    }
+  ],
+  "case_id": "fact-01",
+  "final_response": {
+    "answer": "No, the office supplies limit is USD 300 per purchase, not USD 217, and conference registration requires manager approval before purchase with a limit of USD 1,500 per event, not USD 375 without approval.",
+    "answer_confidence": 0.711,
+    "assistant_message_id": null,
+    "behavior": "answer",
+    "chunking_strategy": "section_based",
+    "citation_confidence": 0.861,
+    "citations": [
+      {
+        "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+        "citation_text": "| Customer-facing meals | USD 125 per attendee | Manager approval and attendee list |\n| Office supplies | USD 300 per purchase | Manager approval above limit |\n| Software subscription trial | USD 500 annualized value | IT review and manager approval |\n| Conference registration | USD 1,500 per event | Manager approval before purchase |\n\nAlcohol is not reimbursable unless it is part of a customer-facing meal approved by a manager before the event.",
+        "citation_type": "fallback",
+        "confidence": 0.861,
+        "document_id": "FIN-001",
+        "document_title": "Expense, Procurement, and Reimbursement Policy",
+        "section_heading": "Expense Categories",
+        "source": "Source: FIN-001 Expense, Procurement, and Reimbursement Policy, Section: Expense Categories"
+      }
+    ],
+    "clarification_reason": null,
+    "defense_trace": {
+      "privacy_mode": "bounded_metadata_only",
+      "schema_version": "defense_trace.v1",
+      "stages": [
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": null,
+          "name": "deterministic_guard",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "not_selected",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.000625,
+          "latency_ms": 3581,
+          "memory_used_as_evidence": false,
+          "name": "semantic_request_assessment",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "repair_count": null,
+          "route": "semantic_assessment",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "allow_authorized_only",
+          "authorized_chunk_count": 1,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "permission_filter",
+          "reason_codes": [
+            "pre_generation_role_filter"
+          ],
+          "repair_count": null,
+          "route": "application_authorization",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "answer",
+          "authorized_chunk_count": 1,
+          "estimated_cost_usd": 0.00093,
+          "latency_ms": 3138,
+          "memory_used_as_evidence": false,
+          "name": "evidence_assessment",
+          "reason_codes": [
+            "authorized_evidence_sufficient"
+          ],
+          "repair_count": null,
+          "route": "hybrid_semantic",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "generated",
+          "authorized_chunk_count": 1,
+          "estimated_cost_usd": 0.000659,
+          "latency_ms": 3180,
+          "memory_used_as_evidence": false,
+          "name": "generator",
+          "reason_codes": [
+            "authorized_chunks_only"
+          ],
+          "repair_count": null,
+          "route": "authorized_evidence_only",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "accept",
+          "authorized_chunk_count": 1,
+          "estimated_cost_usd": 0.001288,
+          "latency_ms": 3494,
+          "memory_used_as_evidence": false,
+          "name": "post_generation_validation",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "partial_answer",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "final_response",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "application_response_policy",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        }
+      ]
+    },
+    "estimated_cost_usd": 0.000659,
+    "evidence_assessment": {
+      "answerability": "sufficient",
+      "assessment_confidence": 0.9,
+      "conflicts": [],
+      "estimated_cost_usd": 0.00093,
+      "input_cost_usd": 0.000466,
+      "input_tokens": 1165,
+      "latency_ms": 3138,
+      "missing_information": [],
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.000464,
+      "output_tokens": 290,
+      "pricing_status": "estimated",
+      "prompt_version": "v6",
+      "reason_codes": [
+        "authorized_evidence_sufficient"
+      ],
+      "recommended_action": "answer",
+      "required_facts": [
+        {
+          "description": "The standard limit for office supplies is USD 300 per purchase; manager approval is required for amounts above this limit.",
+          "fact_id": "office_supplies_limit",
+          "support": "supported",
+          "supporting_chunk_ids": [
+            "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+          ]
+        },
+        {
+          "description": "Conference registration expenses have a standard limit of USD 1,500 per event; manager approval is required before purchase regardless of amount.",
+          "fact_id": "conference_registration_approval",
+          "support": "supported",
+          "supporting_chunk_ids": [
+            "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+          ]
+        }
+      ],
+      "required_source_coverage": [],
+      "route": "hybrid_semantic",
+      "schema_version": "evidence_assessment.v1",
+      "status": "succeeded",
+      "supporting_chunk_ids": [
+        "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+      ]
+    },
+    "final_confidence": 0.836,
+    "generation_latency_ms": 3180,
+    "input_cost_usd": 0.000293,
+    "memory": {
+      "is_followup": false,
+      "memory_used": false,
+      "original_question": "Is the office supplies limit USD 217 per purchase, and is conference registration allowed without approval up to USD 375 per event?",
+      "previous_topic": null,
+      "rewrite_strategy": "none",
+      "rewritten_question": "Is the office supplies limit USD 217 per purchase, and is conference registration allowed without approval up to USD 375 per event?"
+    },
+    "model": "gpt-4.1-mini",
+    "multi_doc_mode": "off",
+    "multi_doc_used": false,
+    "output_cost_usd": 0.000366,
+    "permission_check": {
+      "retrieved_chunks_count": 1,
+      "unauthorized_chunks_reached_generation": false,
+      "user_role": "Employee"
+    },
+    "post_generation_validation": {
+      "action": "accept",
+      "citation_checks": [
+        {
+          "citation_chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+          "supported_claim_ids": [
+            "claim-1"
+          ],
+          "supports_claims": true
+        }
+      ],
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "claim_text": "No, the office supplies limit is USD 300 per purchase, not USD 217, and conference registration requires manager approval before purchase with a limit of USD 1,500 per event, not USD 375 without approval.",
+          "claim_type": "exact",
+          "evidence_chunk_ids": [
+            "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+          ],
+          "support_status": "supported"
+        }
+      ],
+      "estimated_cost_usd": 0.001288,
+      "exact_literals": [
+        "USD 300",
+        "USD 217",
+        "USD 1,500",
+        "USD 375"
+      ],
+      "input_cost_usd": 0.000771,
+      "input_tokens": 1927,
+      "latency_ms": 3494,
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.000517,
+      "output_tokens": 323,
+      "pricing_status": "estimated",
+      "prompt_version": "v4",
+      "reason_codes": [
+        "all_claims_supported"
+      ],
+      "repair_count": 0,
+      "route": "hybrid_semantic",
+      "schema_version": "post_generation_validation.v1",
+      "source_instruction_followed": false,
+      "status": "succeeded",
+      "unsupported_exact_literals": []
+    },
+    "pricing_status": "estimated",
+    "prompt_name": "answer_generation",
+    "prompt_version": "v1",
+    "request_assessment": {
+      "ambiguity": "none",
+      "assessment_confidence": 0.95,
+      "decision_variables": [],
+      "estimated_cost_usd": 0.000625,
+      "injection_risk": "none",
+      "input_cost_usd": 0.000495,
+      "input_tokens": 1238,
+      "intent": "question",
+      "latency_ms": 3581,
+      "missing_referents": [],
+      "model": "gpt-4.1-mini",
+      "normalization_reason": null,
+      "output_cost_usd": 0.00013,
+      "output_tokens": 81,
+      "pricing_status": "estimated",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "no_risk"
+      ],
+      "recommended_action": "continue",
+      "referents": "not_applicable",
+      "response_reason": null,
+      "route": "semantic_assessment",
+      "schema_version": "request_assessment.v1",
+      "status": "succeeded",
+      "topic": "expenses",
+      "topic_description": "office supplies purchase limit and conference registration approval limits"
+    },
+    "response_type": "partial_answer",
+    "retrieval_confidence": 0.898,
+    "retrieval_latency_ms": 0,
+    "retrieval_mode": "vector_lexical_rerank",
+    "retrieved_chunks": [
+      {
+        "access_roles": [
+          "Employee",
+          "Sales Representative",
+          "Manager",
+          "HR Admin",
+          "IT/Admin"
+        ],
+        "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+        "content_preview": "Expense Categories\n\n| Category | Standard Limit | Approval Required |\n| --- | ---: | --- |\n| Meals during business travel | USD 85 per day | Manager approval above limit |\n| Customer-facing meals | USD 125 per attendee | Manager approval and attendee list |\n| Office supplies | USD 300 per purchase | Manager approval above limit |\n| Software subscription trial | USD 500 annualized value | IT review and manager approval |\n| Conference registration | USD 1,500 per event | Manager approval before pu",
+        "department_id": null,
+        "document_id": "FIN-001",
+        "document_title": "Expense, Procurement, and Reimbursement Policy",
+        "hybrid_score": null,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 1,
+        "restricted": false,
+        "retrieval_source": "vector",
+        "score": 0.95,
+        "section_heading": "Expense Categories",
+        "sensitivity": "internal",
+        "vector_score": null
+      }
+    ],
+    "scope": {
+      "department_id": null,
+      "project_id": "00000000-0000-0000-0000-000000000019"
+    },
+    "session_id": null,
+    "supported_claims": [
+      "Office supplies limit is USD 300 per purchase",
+      "Conference registration requires manager approval before purchase",
+      "Conference registration limit is USD 1,500 per event",
+      "FIN-001: Expense Categories"
+    ],
+    "temperature": 0.2,
+    "total_latency_ms": 13428,
+    "unsupported_claims": [
+      "Office supplies limit is USD 217 per purchase",
+      "Conference registration allowed without approval up to USD 375 per event"
+    ],
+    "user_message_id": null,
+    "validation_notes": "Strong citation support."
+  },
+  "question": "Is the office supplies limit USD 217 per purchase, and is conference registration allowed without approval up to USD 375 per event?"
+}

@@ -6,7 +6,25 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: policy-fact candidate prepared for one bounded diagnostic
+### Current: policy-fact diagnostic stopped; candidate not accepted
+
+Frozen candidate `17840a18` attempted three of six cases once. The
+[result/source inspection](../phase-73/policy-fact-candidate.md) finds correct
+availability/premise separation in all three completed assessments and two
+source-supported final corrections. Downstream response routing marks both
+corrections partial; validation rejects the correct-premise confirmation and
+requests repair. The predeclared no-repair guard blocks submission and stops.
+Unknown-field, conflict and inaccessible-source controls remain unexecuted live;
+offline mocks do not establish semantic safety. Acceptance is not established.
+
+Twelve settled synchronous calls cost **USD 0.00813440**, leaving **USD 3.73106560**.
+No retries, repair submissions or unknown outcomes. Raw receipts, source inspection,
+original journal entries and historical evidence are preserved. V4 remains default,
+v6 stays isolated/unpromoted and conversational v5 stays disabled. Stop after
+reviewed evidence commit/push: no continuation, prompt cycle, calculator/geographic
+work, evaluator qualification or full evaluation.
+
+### Prior milestone: policy-fact candidate prepared for one bounded diagnostic
 
 The user authorized an isolated availability/premise-truth candidate and one live
 diagnostic capped at USD 0.50 from USD 3.73920000. The
