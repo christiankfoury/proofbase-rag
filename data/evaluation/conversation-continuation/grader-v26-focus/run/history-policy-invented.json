@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with a specific loan limit.",
+    "behavior_span": "The Rowan trolley loan limit is 22 hours.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer says the loan limit is 22 hours, but the source states: \"A Rowan trolley may be borrowed for at most 12 hours.\" The cited source does not support 22 hours; it states a different limit.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "A Rowan trolley may be borrowed for at most 12 hours."
+          }
+        ],
+        "text": "The Rowan trolley loan limit is 22 hours."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The Rowan trolley loan limit is 22 hours."
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact states the Rowan trolley loan limit is 12 hours, but the answer explicitly says it is 22 hours for the same loan limit.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested topic: the loan limit for a Rowan trolley.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s grading is correct. The only substantive claim is exactly: \"The Rowan trolley loan limit is 22 hours.\" That is contradicted by the factual source and the cited source, both of which state: \"A Rowan trolley may be borrowed for at most 12 hours.\" So factual_support=fail and citation_support=fail are correct. The required fact \"The Rowan trolley loan limit is 12 hours.\" is explicitly contradicted by the answer, so completeness=fail is correct. The response is still an actual answer to the user’s question, so actual_behavior=\"answer\" and relevance=pass are correct; because expected_behavior is answer but the required fact is contradicted, response_behavior reduces to fail, which the candidate correctly marked. There are no forbidden assertions specified, so forbidden_assertion absent is also correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

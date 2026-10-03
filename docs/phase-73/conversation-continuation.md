@@ -312,3 +312,8 @@ the opt-in challenger; no release approval before qualification/fresh60.
 V26 focus8 prepared with24callmaximum, unchanged8192/4096/4096 allowances,
 rolling full-request reservations. Expected focus roughlyUSD0.2-0.4; entire
 qualification roughlyUSD1.3-2.5 plus finalUSD2.5-5.0 are estimates, not caps.
+
+V26 focus8/8 matched with clean source inspection of every extractedclaim,
+factstatus and independent review.24callsUSD0.22806100, cumulativeUSD3.01279526,
+remainingUSD9.48720474. Full16+3 diagnostic frozen; full conservative stage
+boundUSD6.5125625, expected aboutUSD0.45-0.65, rollingrequest policy unchanged.
