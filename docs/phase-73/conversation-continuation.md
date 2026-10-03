@@ -375,3 +375,18 @@ V29 focus4/4 clean source inspection.12callsUSD0.09321900; cumulative
 USD4.97403276, remainingUSD7.52596724. Explicitrequest interpretation correctly
 separates unresolvedentity from sharedbroadtopic while retaining speechact
 relevance and wrongtopicfailures. Full16+3 diagnostic requirednext.
+
+V29 diagnosticstops3/4: wrongattribution incorrectlycontradictedwithoutwitness
+and coverage invents missingqualifiers for concrete meterreturnsubject. Review
+correctlydisputesboth; preservefailure.12callsUSD0.16487950; cumulative
+USD5.13891226, remainingUSD7.36108774. V30 retains requestfirststructure but
+distinguishes missingobject from unspecifiedhypotheticalqualifiers; metadata
+identifies suppliedtext, doesnot proveotherdocumentslackrule. Contradiction
+still requires an exact incompatible sourcewitness; no automaticlabelrepair.
+Same pinnedgrader model now uses high reasoning effort for allthree stages.
+Caps8192/4096/4096 andall scoring/safetygates unchanged; fullUTF8 requestcost
+reserved beforecalls. Expected requalification roughlyUSD1.8-3.0 plus final
+USD2.5-5.0; estimates only. MustretainUSD4.50 final-launchfloor, so qualification
+may consume usableheadroom without authorizing final. No topup orhiddenfunding.
+Tenoffline tests pass;40requestdata/schema/caps unchanged apartprompt/effort;
+wrong effort rejected. Attributionfocus3 then requestscopefocus beforebroadruns.

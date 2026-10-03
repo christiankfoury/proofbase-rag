@@ -1,0 +1,90 @@
+{
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "unresolved",
+    "disputed_dimensions": [
+      "factual_support",
+      "relevance"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "unresolved",
+    "grader_errors": [
+      "source_witness_required"
+    ],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "unresolved",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "unresolved",
+    "response_behavior": "unresolved",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive information phrased as an answer to the question, rather than asking for clarification or refusing.",
+    "behavior_span": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "R1 supports only the rule that laboratory staff must return loaned meters within four working days, and C1 cites that same rule. But the answer attributes the rule to 'The Visitor Parking Handbook,' while source_metadata for R1 identifies the document title as 'Meter Loan Handbook.' Because the whole claim includes the wrong document attribution, the complete claim is not factually supported, and the citation does not support the complete claim either.",
+        "source_spans": [],
+        "text": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states that laboratory staff are required to return loaned meters within four working days.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks generally, \"What is the meter return rule?\" and does not identify which organization, handbook, meter type, or population the rule is about. There is an unresolved choice among possible meter-return policies. The answer selects a specific rule from the Visitor Parking Handbook for laboratory staff returning loaned meters. Because the answer chooses a specific policy/entity not identified in the question or history, it does not clearly address the user's specified referent.",
+      "status": "fail"
+    }
+  },
+  "matched": false,
+  "mismatches": {
+    "citation_support": {
+      "actual": "unresolved",
+      "expected": "fail"
+    },
+    "completeness": {
+      "actual": "unresolved",
+      "expected": "pass"
+    },
+    "overall": {
+      "actual": "unresolved",
+      "expected": "fail"
+    },
+    "relevance": {
+      "actual": "unresolved",
+      "expected": "pass"
+    },
+    "response_behavior": {
+      "actual": "unresolved",
+      "expected": "pass"
+    }
+  },
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "The answer’s substantive sentence includes the correct return rule but also an unsupported document attribution: it says \"The Visitor Parking Handbook\" while the only actual source text says only \"Laboratory staff must return loaned meters within four working days.\" That makes citation support fail, so I agree with citation_support=fail. However, I dispute factual_support=fail via a contradicted claim: no factual source text explicitly contradicts the handbook attribution; the claim is not fully supported, but on these inputs it is unsupported/unknown rather than contradicted. I agree completeness=pass because the required fact itself is fully stated in the answer despite the extra bad attribution. I dispute relevance=fail because the response still answers the asked topic, \"the meter return rule,\" rather than a different topic. I agree response_behavior=pass because it is plainly an answer, and I agree forbidden_assertion=absent.",
+    "relevance": "dispute",
+    "response_behavior": "agree"
+  }
+}
