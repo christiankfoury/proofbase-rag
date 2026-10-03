@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with a specific rebate amount, even though the value is incorrect relative to the required fact.",
+    "behavior_span": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source rule says the rebate is 25 percent of the eligible invoice total. With the question's explicit scenario input of an 80-credit eligible invoice, 25% of 80 is 20 credits, not 40 credits. So the answer's amount and arithmetic are contradicted by the sourced rule as applied to the stated scenario.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "The Alder rebate is 25 percent of the eligible invoice total."
+          }
+        ],
+        "text": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The rebate is 40 credits"
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says the rebate is 20 credits, but the answer explicitly states the rebate is 40 credits for the same invoice.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response addresses the asked topic: the rebate amount for an 80-credit eligible invoice.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s judgments are correct. The answer makes one substantive claim: \"The rebate is 40 credits, which is 25 percent of your 80-credit invoice.\" The only source rule says, \"The Alder rebate is 25 percent of the eligible invoice total.\" Applying that rule to the question’s explicit scenario input of an 80-credit invoice gives 20 credits, so the answer’s 40-credit amount is contradicted by the sourced calculation. That makes factual_support fail and, because the cited source is the same rule and does not entail the incorrect 40-credit result, citation_support fail. The required fact says the rebate is 20 credits, and the answer explicitly says 40 credits, so completeness fail is correct. The response still directly answers the user’s question, so actual_behavior = answer and relevance = pass are correct; but because expected_behavior is answer and the required fact is contradicted, response_behavior correctly reduces to fail. There are no forbidden assertions, so forbidden_assertion is correctly absent.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

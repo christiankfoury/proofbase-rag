@@ -351,3 +351,8 @@ pass; invalidfocus IDs rejected;40case requestdata/caps identicalapartprompts.
 V28 reviewerfocus3/3, clean source inspection.3callsUSD0.03256100; cumulative
 USD4.08810526, remainingUSD8.41189474. Full16+3 requirednext; focus is not
 qualification and noapplicationactivation is allowed.
+
+V28 full diagnostic16/16 and3/3probes, clean sourceinspection andreceiptreplay.
+51callsUSD0.47450200; cumulativeUSD4.56260726, remainingUSD7.93739274.
+Next unchanged24+3calibration, expectedroughlyUSD0.6-0.9; fullrequestrolling
+reservations retained, thenfresh16confirmation andfresh60measurement.

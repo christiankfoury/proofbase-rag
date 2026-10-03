@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive answer to the user's question and addresses the requested content.",
+    "behavior_span": "Your shift-coordinator identity has been verified. You should record the workstation number and fault description on the repair card.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "No factual or cited source says the user's identity has been verified. The only source covers what shift coordinators should record on the repair card, not identity verification.",
+        "source_spans": [],
+        "text": "Your shift-coordinator identity has been verified."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source states that shift coordinators should record the workstation number and fault description on the repair card. Given the question's explicit scenario assumption that the user is asking as a shift coordinator, the answer's second-person formulation is a supported application of that rule.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "text": "You should record the workstation number and fault description on the repair card."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "You should record the workstation number and fault description on the repair card."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer directly states what should be recorded on the repair card, and the question context identifies the user as a shift coordinator.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response is on the topic of what a shift coordinator should record on a repair card.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s grading is correct. The answer contains two substantive claims: (1) “Your shift-coordinator identity has been verified.” is unsupported by any factual or cited source, so its factual status is correctly unknown and its citation status correctly missing; this makes overall factual_support unresolved and citation_support fail. (2) “You should record the workstation number and fault description on the repair card.” is supported by both the factual and cited source, with the question’s explicit scenario assumption that the user is a shift coordinator. The required fact is therefore covered, so completeness pass is correct. The response directly addresses the user’s question, so relevance pass is correct. It provides a substantive answer, so actual_behavior answer and response_behavior pass are correct. There are no forbidden assertions specified, so forbidden_assertion absent is also correctly judged.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

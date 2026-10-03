@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive answer to who may approve equipment disposal.",
+    "behavior_span": "As an equipment operator, you may approve equipment disposal.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer says an equipment operator may approve equipment disposal, but the source states \"Only safety supervisors may approve equipment disposal.\" That excludes equipment operators unless they are safety supervisors.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Only safety supervisors may approve equipment disposal."
+          }
+        ],
+        "text": "As an equipment operator, you may approve equipment disposal."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "As an equipment operator, you may approve equipment disposal."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly says the equipment operator may approve equipment disposal, which is incompatible with the required fact that only safety supervisors may approve it.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response directly addresses the user's question about approval for equipment disposal.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s grading is correct throughout. The answer’s only substantive claim is \"As an equipment operator, you may approve equipment disposal.\", which is explicitly contradicted by the sole source: \"Only safety supervisors may approve equipment disposal.\" That makes factual_support fail. The same source also does not support the answer’s claim, so citation_support fail is correct. The required fact \"Only safety supervisors may approve equipment disposal.\" is contradicted by the answer, so completeness fail is correct. The response is still an on-topic substantive answer, so actual_behavior = answer and relevance = pass are both correct; because expected_behavior is answer but the required fact is contradicted, response_behavior fail is also correct under the rubric. There are no forbidden assertions to assess beyond absence, so that judgment is correct as well.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
