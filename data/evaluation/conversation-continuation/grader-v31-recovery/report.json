@@ -1,0 +1,79 @@
+{
+  "calls": 3,
+  "cost_usd": "0.04688500",
+  "count": 1,
+  "cumulative_usd": "5.84636626",
+  "matched": 1,
+  "matching_probes": 0,
+  "probes": [],
+  "rows": [
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly provides a substantive answer to the asked rule.",
+        "behavior_span": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "The source text supports the rule that laboratory staff must return loaned meters within four working days, but it does not identify that rule as coming from the \"Visitor Parking Handbook.\" The provided metadata names a different title (\"Meter Loan Handbook\"), and metadata is not policy evidence; that mismatch does not by itself contradict the answer, but it leaves the named attribution unsupported. Because the answer combines the unsupported attribution with the supported rule in one sentence, the full claim is factually unknown. The cited text likewise does not positively entail the handbook attribution, so citation support is missing.",
+            "source_spans": [],
+            "text": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "laboratory staff to return loaned meters within four working days"
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states that laboratory staff must return loaned meters within four working days, which matches the required fact.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks for the meter return rule, and the answer states a specific return requirement for loaned meters and identifies the subject as laboratory staff.",
+          "status": "pass"
+        }
+      },
+      "id": "wrong-attribution",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The answer makes one combined substantive claim: that the Visitor Parking Handbook imposes the four-working-day return rule. The supplied source text supports only the rule text, \"Laboratory staff must return loaned meters within four working days,\" not the specific attribution to the \"Visitor Parking Handbook.\" Because metadata is not policy evidence and a title mismatch is not itself contradiction, the full claim is factually unknown rather than contradicted, so factual_support = unresolved is correct. For citation support, the cited text likewise supports the rule but not the handbook attribution, so citation_support = fail is correct. The required fact is still covered, because saying a handbook requires laboratory staff to return meters within four working days communicates the same return rule. The response is relevant to \"What is the meter return rule?\" and its actual behavior is a substantive answer, matching expected behavior. No forbidden assertion was specified or present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "source_review_pending": true,
+  "status": "complete",
+  "version": "answer-dimensions.v31-candidate"
+}

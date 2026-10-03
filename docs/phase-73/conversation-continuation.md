@@ -471,3 +471,11 @@ This addresses measured truncation rather than relabeling it or increasing budge
 Focused attribution check precedes full qualification. Expected qualification
 USD1.7-2.4 and finalUSD2.5-5 are uncertain; USD4.50 final-launch floor remains.
 Ten offline budget/replay tests pass. All40 development request payloads are identical to v30 except the review effort; wrong-stage effort is rejected. Focus maximum3 calls, conservative USD0.4001150; expected aboutUSD0.04-0.06.
+
+Approved v31 recovery passes1/1 with clean source inspection: the unsupported
+handbook attribution remains unknown/missing citation, while the meter return
+rule is covered and relevant. Independent review agrees correctly. Three settled
+calls cost USD0.04688500; confirmed cumulativeUSD5.69816376 plus retained
+USD0.14820250 equals accountedUSD5.84636626, leavingUSD6.65363374. Original
+failure remains immutable. Full16+3 diagnostic next, expectedaboutUSD0.6-0.8;
+rolling reservations, output allowances, final-launchfloor and gates unchanged.
