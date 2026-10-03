@@ -284,3 +284,15 @@ request-boundary operator stop and replay partial receipts without case credit.
 Neutral author/validator contracts add clause-to-question scope mapping and
 scenario-versus-policy controls while preserving all existing coverage.
 Six offline successor measurement tests pass, including request-boundary stop with no charge and replay of partial-case receipts without granting credit. Prior13 routing/candidate tests and all application receipt checks pass.
+
+V5 full stopped after the original12 tasks:11 correct, dev08 safely rejected
+noncontiguous table-row quotation, new recipient controls unexecuted/no credit.
+44calls settled USD0.12251930; cumulativeUSD2.60096446, remainingUSD9.89903554.
+Runner accidentally kept15 stage calls for17 declared turns; successor ledger
+now has explicit per-turn allowance and counts actual declared turns. Frozen
+original ledger remains unchanged. V6 asks separate excerpts for nonadjacent
+passages; no output, citation, permission or checker requirement changed.
+17 offline budget/routing/candidate checks pass, including17 successful declared
+turns and duplicate submission blocked. Versioned replay audits stopped receipts
+and labels missing turns rather than claiming complete coverage. Focus dev08/13/14
+then full14 remains required; no grader calls until clean application selection.

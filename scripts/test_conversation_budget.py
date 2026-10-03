@@ -34,5 +34,21 @@ class BudgetTests(unittest.TestCase):
             ledger=Ledger(folder,plan)
             with self.assertRaises(ValueError):ledger.begin('candidate-mini','dev-03',1)
 
+    def test_seventeen_declared_turns_each_allow_one_submission(self):
+        from scripts.test_bounded_redesign_run import RunTests
+        old=read(PREVIOUS/'preflight-complete.json')
+        body=next(r['request'] for r in old['prepared_payloads'] if r['profile']=='candidate-mini' and r['stage']=='conversational_producer')
+        bound=next(r for r in old['bounds']['candidate-mini'] if r['stage']=='conversational_producer')
+        plan=dict(prefix=dict(spent_usd='.1529816',ledger_sha256={}),profile='candidate-mini',
+            turns=[dict(case_id='case',turn=i) for i in range(17)],
+            bounds={'candidate-mini':[dict(bound,count=17,per_turn=1)]})
+        with tempfile.TemporaryDirectory() as folder:
+            ledger=Ledger(folder,plan);provider=Mock(side_effect=RunTests().reply)
+            for turn in range(17):
+                ledger.begin('candidate-mini','case',turn);ledger.call(provider,body)
+            self.assertEqual(provider.call_count,17)
+            with self.assertRaises(ValueError):ledger.call(provider,body)
+            self.assertEqual(provider.call_count,17)
+
 
 if __name__=='__main__':unittest.main()

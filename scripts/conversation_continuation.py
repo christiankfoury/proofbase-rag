@@ -8,7 +8,8 @@ from unittest.mock import patch
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from scripts.bounded_redesign_run import Ledger as ApplicationLedger, read, digest, now, write, response_charge
+from scripts.bounded_redesign_run import read, digest, now, write, response_charge
+from scripts.conversation_application_ledger import Ledger as ApplicationLedger
 from scripts.bounded_redesign_preflight import FOLDER as PREVIOUS, PROFILES, prepare as prepare_body, configure, c
 
 FOLDER=ROOT/'data/evaluation/conversation-continuation'
@@ -80,7 +81,7 @@ def prepare(step,profile,ids):
         each=(extra*ri+maximum['output_cap']*ro)/1000000
         per_turn=2 if profile=='v4' and stage in {'generated_answer_v1','post_generation_validation_v1'} else 1
         amount+=each*len(turns)*per_turn
-        bounds.append(dict(stage=stage,count=15*per_turn,input_bound=extra,output_cap=maximum['output_cap'],model=maximum['body']['model']))
+        bounds.append(dict(stage=stage,count=len(turns)*per_turn,per_turn=per_turn,input_bound=extra,output_cap=maximum['output_cap'],model=maximum['body']['model']))
     spending=prefix()
     files=list((ROOT/'apps/api/app').rglob('*.py'))+list((ROOT/'apps/api/app/prompts/versions').glob('*.md'))+list((ROOT/'scripts').glob('*.py'))
     files+=[ROOT/'requirements.txt',PREVIOUS/'development.json',SUITE,FOLDER/'authorization.json']
