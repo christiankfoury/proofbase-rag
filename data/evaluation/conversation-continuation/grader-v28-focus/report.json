@@ -1,0 +1,56 @@
+{
+  "calls": 3,
+  "cost_usd": "0.03256100",
+  "count": 0,
+  "cumulative_usd": "4.08810526",
+  "matched": 0,
+  "matching_probes": 3,
+  "probes": [
+    {
+      "error": null,
+      "id": "covered-label-with-missing-reason",
+      "matched": true,
+      "review": {
+        "citation_support": "agree",
+        "completeness": "dispute",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The only substantive claim in the answer is: \"The reimbursement cap is 38 credits per trip.\" That claim is supported by both the factual source and cited source. The response is relevant to the user's request and contains no forbidden assertions. However, completeness is graded incorrectly: the answer does not provide the required shift-condition fact (eligibility only if the lab shift ends after 22:00), so completeness should fail, not pass. The candidate's own fact reasoning for F2 says it is omitted, but labels it covered. Response behavior is also graded incorrectly: because one requested part was answered and the other omitted, actual behavior is partial_answer rather than answer, and with expected_behavior=\"answer\" plus a missing required fact, response_behavior should fail.",
+        "relevance": "agree",
+        "response_behavior": "dispute"
+      }
+    },
+    {
+      "error": null,
+      "id": "generic-refusal-falsely-covers-policy",
+      "matched": true,
+      "review": {
+        "citation_support": "dispute",
+        "completeness": "dispute",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The answer is a pure generic refusal: \"I cannot help with that request.\" Under the rubric, that is a speech act, not a substantive policy claim, so the candidate incorrectly invented a factual/cited claim and marked it supported; factual_support and citation_support should not be pass on that basis. The required facts are not communicated at all, so both F1 and F2 are missing, making completeness fail. Relevance is correctly pass because the refusal still addresses the user's request. Response behavior is incorrect: this is not an \"answer,\" and because an answer was expected while the required facts are missing, response_behavior should fail. No forbidden assertion is present, so that judgment is correct.",
+        "relevance": "agree",
+        "response_behavior": "dispute"
+      }
+    },
+    {
+      "error": null,
+      "id": "extra-factual-assertion-omitted-from-claims",
+      "matched": true,
+      "review": {
+        "citation_support": "dispute",
+        "completeness": "agree",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate missed a substantive second claim in the answer: \"Employees also receive free theft insurance.\" Only the first sentence is assessed. Because omitted substantive claims must be assessed, the candidate's `all_claims_assessed: true` is incorrect, which makes the factual_support and citation_support judgments incorrect. The omitted insurance claim is unsupported by the provided source/citation, which only says: \"Alder employees may claim up to 60 credits per calendar year for bicycle servicing.\" Completeness is correctly graded because the required fact \"The bicycle service allowance is up to 60 credits per calendar year.\" is fully covered by the answer span \"The bicycle servicing allowance is up to 60 credits per calendar year.\" Relevance is correctly pass because the response addresses the bicycle service allowance question. Response behavior is correctly pass: it gives a substantive answer to the request. Forbidden assertion is correctly absent.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "rows": [],
+  "source_review_pending": true,
+  "status": "complete",
+  "version": "answer-dimensions.v28-candidate"
+}

@@ -347,3 +347,7 @@ Shared-entailment architecture and reducers unchanged. Focusall3reviewprobes
 (max3calls,USD0.3011575 conservative; expectedaboutUSD0.04), then unchanged
 full16+3,24+3,fresh16 andfresh60. Tenoffline ledger/reducer/measurementtests
 pass; invalidfocus IDs rejected;40case requestdata/caps identicalapartprompts.
+
+V28 reviewerfocus3/3, clean source inspection.3callsUSD0.03256100; cumulative
+USD4.08810526, remainingUSD8.41189474. Full16+3 requirednext; focus is not
+qualification and noapplicationactivation is allowed.
