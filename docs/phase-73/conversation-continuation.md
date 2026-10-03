@@ -317,3 +317,17 @@ V26 focus8/8 matched with clean source inspection of every extractedclaim,
 factstatus and independent review.24callsUSD0.22806100, cumulativeUSD3.01279526,
 remainingUSD9.48720474. Full16+3 diagnostic frozen; full conservative stage
 boundUSD6.5125625, expected aboutUSD0.45-0.65, rollingrequest policy unchanged.
+
+V26 full diagnostic stops14/15 matched, finalcase and3probes unexecuted.
+G27-001: current-scenario-correction claim correctly supported by capacity10
+and user8, but citation incorrectly requires source to contain8 and result2.
+Reviewer agrees with this inconsistent inference. No relabeling or qualification.
+45callsUSD0.44251250; cumulativeUSD3.45530776, remainingUSD9.04469224.
+V27 replaces the independent citation-entailment paragraph with one shared
+entailment rule used against two evidence sets. It preserves independent source
+selection: uncited factual evidence never repairs wrong/missing cited evidence.
+Identical evidence cannot be treated differently solely due to scenario inputs.
+No schema/reducer, outputallowance, safety or coverage change. Versioned successor
+harnesses preserve v26 files. Ten offline receipt/cap/reducer/measurement tests
+pass; request bodies apart from systemprompts identical across40 developmentcases.
+Fivecase focus then full16+3,24+3,fresh16,fresh60 still required.

@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with a substantive statement about the Mica budget limit.",
+    "behavior_span": "Yes, the Mica budget limit is 95 credits.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer asserts the Mica budget limit is 95 credits, but the source states it is 75 credits, which directly contradicts the claimed amount. The cited source also does not support 95 credits; it says 75 credits instead.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "The Mica budget limit is 75 credits."
+          }
+        ],
+        "text": "Yes, the Mica budget limit is 95 credits."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "the Mica budget limit is 95 credits."
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says the Mica budget limit is 75 credits, but the answer explicitly states a different limit: 95 credits.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the same topic asked about in the question: the Mica budget limit.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s grading is correct on all dimensions. The answer makes one substantive claim: \"Yes, the Mica budget limit is 95 credits.\" That claim is factually contradicted by the only factual source, which says \"The Mica budget limit is 75 credits.\" So factual_support=fail is correct. The cited source is the same 75-credit text, which does not support the 95-credit claim, so citation_support=fail is also correct. The required fact is \"The Mica budget limit is 75 credits.\" and the answer explicitly asserts the incompatible value 95, so marking that fact contradicted and completeness=fail is correct. The response is still an actual answer to the question, so actual_behavior=\"answer\" is correct; because expected_behavior is answer and the required fact is contradicted, the reduced response_behavior judgment of fail is also correct. The answer is on-topic, so relevance=pass is correct. There are no forbidden assertions specified, so forbidden_assertion=absent is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

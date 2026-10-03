@@ -10,8 +10,9 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 Latest: V6 full application comparison passes14/14: original12/12 plus two
 recipient controls, all safety controls and24 exact authorized excerpts.
-CumulativeUSD2.78473426, remainingUSD9.71526574; no unknown calls.
-Next v26 grader focus, full diagnostic/calibration, fresh independent16
+V26 full diagnostic stopped14/15 on inconsistent scenario citation inference.
+CumulativeUSD3.45530776, remainingUSD9.04469224; no unknown calls.
+Next v27 shared-entailment focus, full diagnostic/calibration, fresh independent16
 confirmation and newly isolated60 measurement. V4 remains default.
 See [continuation](../phase-73/conversation-continuation.md).
 

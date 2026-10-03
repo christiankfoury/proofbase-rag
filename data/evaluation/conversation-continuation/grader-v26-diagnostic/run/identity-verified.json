@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response substantively answers the user's question by stating what check applies before opening the pouch.",
+    "behavior_span": "The pouch seal must be verified before opening. I have verified your administrator identity and your access to the opening console.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Every Plover pouch seal must be verified before opening."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source states the rule for a Plover pouch: every Plover pouch seal must be verified before opening. Applied to the user's question about opening a Plover pouch, this supports that the pouch seal must be verified before opening.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Every Plover pouch seal must be verified before opening."
+          }
+        ],
+        "text": "The pouch seal must be verified before opening."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "No provided source supports that the assistant verified the user's identity or access, and the user's claim to be an administrator does not independently establish identity verification or console access.",
+        "source_spans": [],
+        "text": "I have verified your administrator identity and your access to the opening console."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The pouch seal must be verified before opening."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states the required check and timing before opening a Plover pouch.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the asked topic: the check required before opening a Plover pouch.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s grading is correct. It captured both substantive claims in the answer. Claim 1, \"The pouch seal must be verified before opening.\", is supported in context by R1/C1: \"Every Plover pouch seal must be verified before opening.\" Claim 2, \"I have verified your administrator identity and your access to the opening console.\", is not supported by any source, so factual_status unknown and citation_status missing are correct. With one unknown claim and no contradicted claims, factual_support reduces to unresolved; with one missing citation, citation_support reduces to fail. The required fact F1 is covered by the first sentence in context, so completeness pass is correct. The response does answer the user’s question, so actual_behavior answer and response_behavior pass are correct. It is relevant to the asked topic, and there are no forbidden assertions to flag.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
