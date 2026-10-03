@@ -9,7 +9,21 @@ allocations may move. The subsequent explicit rolling-reservation approval
 supersedes whole-stage funding; per-request reservation and receipt settlement
 remain mandatory. Original stopped artifacts are immutable historical evidence.
 
-## Current status: blocked by an unsettled transport outcome
+## Current status: one network recovery explicitly approved
+
+The user approved one logged recovery attempt and continuation through the
+existing gates. The original unknown request remains immutable and its full
+USD 0.14820250 reservation remains counted. Confirmed spending before recovery is
+USD 5.65127876; total accounted USD 5.79948126; remaining USD 6.70051874.
+A separate authorization binds the exact failed ledger hash. A versioned budget
+reader exempts only that record; every other unknown outcome still stops. The
+same request, grader rubric, output caps and provider retries=0 are retained.
+Recovery uses authorized network execution and a fresh one-use run directory.
+Four new offline exception tests plus ten existing ledger/measurement checks pass.
+The stopped report below remains historical evidence, not a current prohibition
+on this specifically approved recovery. V4 remains default until full acceptance.
+
+## Historical status: blocked by an unsettled transport outcome
 
 The candidate is not accepted or activated. Prompt v6 passes the complete
 14-task application development comparison (original 12 plus two recipient

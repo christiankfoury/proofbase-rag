@@ -8,6 +8,14 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ### Current: autonomous conversational completion within the same USD 12.50 ceiling
 
+Latest authorization: the user approved one logged network recovery and continued
+execution, retaining the exact failed request's USD 0.14820250 reservation.
+Confirmed spending USD 5.65127876; accounted USD 5.79948126; remaining USD 6.70051874.
+The recovery reader permits only that immutable unknown record; any new unknown
+still stops. Four exception tests and ten existing budget/measurement tests pass.
+V31 focus recovery precedes unchanged qualification and fresh confirmation/final
+gates. V4 remains default. The following records the prior blocked state.
+
 Latest: application candidate prompt v6 passes 14/14 development tasks (original
 12/12 plus two recipient controls), with 24 exact authorized excerpts. V30 grader
 diagnostic stops 3/4 after review-token exhaustion; v31 preserves all scoring and

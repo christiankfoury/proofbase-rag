@@ -10,7 +10,12 @@ Unused allocations may move; no top-up or old remainder addition. Continue until
 accepted activation, insufficient safe budget for the next necessary stage, or
 concrete external blocker. Safety, qualification and 48/60 release gates remain.
 
-Current execution is blocked: v31's first focused grader request returned a
+The user has now approved one logged recovery with the original reservation held.
+Use the versioned recovery budget reader and authorized network execution; all
+other unknown outcomes still stop. The unchanged qualification and release gates
+remain required.
+
+Prior blocked state: v31's first focused grader request returned a
 connection error with no provider response. The existing unknown-outcome rule
 retains USD 0.14820250 and blocks continuation. Confirmed cumulative spending is
 USD 5.65127876; total accounted USD 5.79948126 of USD 12.50. Resolve this unsettled
