@@ -22,7 +22,9 @@ now succeeds. The focused mini run is 3/5 with conflict failure and the original
 scope ambiguity retained; cumulative receipts USD 0.1605456. V3 clarifies conflict
 behavior and uses a separately versioned, more explicit scope fixture with all
 questions/expectations unchanged. Challenger focused preflight reserves 0.4327248;
-no broader paid run until focused inspection passes.
+no broader paid run until focused inspection passes. V3 challenger focus at
+`7c43a94c` subsequently passed all five focused tasks; cumulative USD 0.2108504.
+The full fixed development comparison is next, with v4 still default.
 
 ### Prior milestone: bounded attempt closed after failed application gate
 

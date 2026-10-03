@@ -1,0 +1,217 @@
+{
+  "authorized_evidence": [],
+  "final_response": {
+    "answer": "I can’t determine the executive relocation reimbursement limit from the provided materials because no authorized sources were supplied.",
+    "answer_confidence": 0.0,
+    "assistant_message_id": "2",
+    "behavior": "say_not_found",
+    "chunking_strategy": "section_based",
+    "citation_confidence": 0.0,
+    "citations": [],
+    "clarification_reason": null,
+    "defense_trace": {
+      "privacy_mode": "bounded_metadata_only",
+      "schema_version": "defense_trace.v1",
+      "stages": [
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": null,
+          "name": "deterministic_guard",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "not_selected",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": 1511,
+          "memory_used_as_evidence": false,
+          "name": "semantic_request_assessment",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "repair_count": null,
+          "route": "semantic_assessment",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "allow_authorized_only",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "permission_filter",
+          "reason_codes": [
+            "pre_generation_role_filter"
+          ],
+          "repair_count": null,
+          "route": "application_authorization",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "evidence_assessment",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "replaced_by_contextual_check",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "generated",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.00237,
+          "latency_ms": 4038,
+          "memory_used_as_evidence": false,
+          "name": "generator",
+          "reason_codes": [
+            "authorized_chunks_only"
+          ],
+          "repair_count": null,
+          "route": "authorized_evidence_only",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "accept",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0032575,
+          "latency_ms": 2051,
+          "memory_used_as_evidence": false,
+          "name": "post_generation_validation",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "not_found",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "final_response",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "application_response_policy",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        }
+      ]
+    },
+    "estimated_cost_usd": 0.00237,
+    "evidence_assessment": null,
+    "final_confidence": 0.0,
+    "generation_latency_ms": 4038,
+    "input_cost_usd": 0.001395,
+    "memory": {
+      "is_followup": false,
+      "memory_used": false,
+      "original_question": "What is the executive relocation reimbursement limit?",
+      "previous_topic": null,
+      "rewrite_strategy": "none",
+      "rewritten_question": "What is the executive relocation reimbursement limit?"
+    },
+    "model": "gpt-5.4-2026-03-05",
+    "multi_doc_mode": "off",
+    "multi_doc_used": false,
+    "output_cost_usd": 0.000975,
+    "permission_check": {
+      "retrieved_chunks_count": 0,
+      "unauthorized_chunks_reached_generation": false,
+      "user_role": "Employee"
+    },
+    "post_generation_validation": {
+      "action": "accept",
+      "citation_checks": [],
+      "claims": [],
+      "estimated_cost_usd": 0.0032575,
+      "exact_literals": [],
+      "input_cost_usd": 0.0014275,
+      "input_tokens": 571,
+      "latency_ms": 2051,
+      "model": "gpt-5.4-2026-03-05",
+      "normalization_reason": null,
+      "output_cost_usd": 0.00183,
+      "output_tokens": 122,
+      "pricing_status": "estimated",
+      "prompt_version": "conversational-v3",
+      "reason_codes": [
+        "all_claims_supported"
+      ],
+      "repair_count": 0,
+      "route": "hybrid_semantic",
+      "schema_version": "post_generation_validation.v1",
+      "source_instruction_followed": false,
+      "status": "succeeded",
+      "unsupported_exact_literals": []
+    },
+    "pricing_status": "estimated",
+    "prompt_name": "conversational_candidate",
+    "prompt_version": "v3",
+    "request_assessment": {
+      "ambiguity": "none",
+      "assessment_confidence": 0.95,
+      "decision_variables": [],
+      "estimated_cost_usd": null,
+      "injection_risk": "none",
+      "input_cost_usd": null,
+      "input_tokens": 1202,
+      "intent": "question",
+      "latency_ms": 1511,
+      "missing_referents": [],
+      "model": "gpt-4.1-mini-2025-04-14",
+      "normalization_reason": null,
+      "output_cost_usd": null,
+      "output_tokens": 82,
+      "pricing_status": "missing_model_price",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "no_risk"
+      ],
+      "recommended_action": "continue",
+      "referents": "not_applicable",
+      "response_reason": null,
+      "route": "semantic_assessment",
+      "schema_version": "request_assessment.v1",
+      "status": "succeeded",
+      "topic": "expenses",
+      "topic_description": "Inquiry about the reimbursement limit for executive relocation expenses."
+    },
+    "response_type": "not_found",
+    "retrieval_confidence": 0.0,
+    "retrieval_latency_ms": 0,
+    "retrieval_mode": "vector_lexical_rerank",
+    "retrieved_chunks": [],
+    "scope": {
+      "department_id": null,
+      "project_id": "00000000-0000-0000-0000-000000000019"
+    },
+    "session_id": "00000000-0000-0000-0000-000000009001",
+    "supported_claims": [],
+    "temperature": null,
+    "total_latency_ms": 5566,
+    "unsupported_claims": [],
+    "user_message_id": "1",
+    "validation_notes": "No authorized sources were provided, and the candidate appropriately abstains without making unsupported policy assertions or invented amounts. This fully answers the question within the available evidence."
+  },
+  "latency_ms": 5572,
+  "question": "What is the executive relocation reimbursement limit?",
+  "status_code": 200,
+  "turn": 0
+}

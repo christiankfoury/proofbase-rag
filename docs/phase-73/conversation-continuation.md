@@ -107,3 +107,10 @@ The initial v3 preparation is retained but superseded before execution because t
 offline replay helper was corrected for a pre-existing mixed-line-ending file.
 Its successor `routing-v3-focus-02` has the same USD 0.4327248 reservation, challenger
 profile and six turns; no paid submission used the superseded preparation.
+
+V3 challenger focus at `7c43a94c` passes all five tasks/six turns by agent source
+inspection: both correction turns, actionable conflict question, explicit Ontario
+scope, no-source abstention and equality boundary. Eighteen calls cost USD 0.0503048;
+cumulative USD 0.2108504. All checker flags remain required. No open finding in
+this focused run; no full application or grader acceptance yet. Proceed to the
+fixed 12-task comparisons on the versioned suite, retaining every result.
