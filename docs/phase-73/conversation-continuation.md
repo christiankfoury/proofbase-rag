@@ -395,3 +395,8 @@ V30 attributionfocus3/3 clean.9callsUSD0.15236600; cumulativeUSD5.29127826,
 remainingUSD7.20872174. MeanUSD0.0508percase in this attribution-heavy sample;
 futurequalificationcost remainsuncertain. Requestscopefocus next; maintain
 USD4.50 final-launchfloor and neverreplace expectedcost withguaranteedfunding.
+
+V30 scopefocus4/4 clean.12callsUSD0.12714900; cumulativeUSD5.41842726,
+remainingUSD7.08157274. Both focused groups pass; full16+3 diagnostic next.
+Observedfocuscosts vary bycomplexity; estimated remainingqualificationUSD1.8-3
+and finalUSD2.5-5 remain estimates. Final-launchfloorUSD4.50 unchanged.
