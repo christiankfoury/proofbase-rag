@@ -173,3 +173,12 @@ agreement. Full8+3 diagnostic follows; focus alone grants no qualification.
 
 V25 full diagnostic passes8/8 and3/3 probes, no source-inspection findings.
 27calls cost USD0.2796570; cumulative USD0.9054753. Full24+3 calibration next.
+
+V25 calibration passes24/24 and3/3 probes with no source-inspection finding.
+75calls cost USD0.6292620; cumulative USD1.5347373, remaining USD10.9652627.
+Fresh16 confirmation is next, with separate context-isolated author/validator
+authorized by the existing quality-completion plan. Neutral briefs and all grader
+code freeze before authorship. Final harness preparation reuses real HTTP,
+authoritative evidence capture and upload/index fixtures in a separate local DB.
+Nine offline grader/measurement checks pass, including embedding receipt settlement
+and per-case/model/output/ceiling bounds. No final suite or paid measurement yet.
