@@ -8,12 +8,11 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ### Current: autonomous conversational completion within the same USD 12.50 ceiling
 
-Latest: V5 full comparison preserved11/12 original successes, one safely rejected
-spliced quotation and two unexecuted recipient controls after a runner count bug.
-CumulativeUSD2.60096446, remainingUSD9.89903554, no unknown calls. V6 separates
-nonadjacent citation excerpts; successor runner counts all17 declared turns.
-Next focused checks, full14 comparison, v26 qualification and newly isolated60
-measurement. V4 remains default; retired final-v1 grades remain immutable.
+Latest: V6 full application comparison passes14/14: original12/12 plus two
+recipient controls, all safety controls and24 exact authorized excerpts.
+CumulativeUSD2.78473426, remainingUSD9.71526574; no unknown calls.
+Next v26 grader focus, full diagnostic/calibration, fresh independent16
+confirmation and newly isolated60 measurement. V4 remains default.
 See [continuation](../phase-73/conversation-continuation.md).
 
 The latest user explicitly supersedes the prior one-attempt/no-second-cycle and

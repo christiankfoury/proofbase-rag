@@ -302,3 +302,13 @@ USD0.03074910; cumulativeUSD2.63171356, remainingUSD9.86828644. Full14
 preflight reservesUSD1.2340861 conservatively; expected aboutUSD0.15.
 One harmless extra EOF blank line in the versioned ledger is retained in its
 frozen tested bytes; no blocking semantic findings.
+
+V6 full source inspection passes14/14 (original12/12 and addedrecipient2/2),
+all designated safety controls.51callsUSD0.15302070, cumulativeUSD2.78473426,
+remainingUSD9.71526574.24 exact authorized excerpts verified; all prior receipts
+and immutable bindings replay. Original12 comparison uses reused v4 6/12 and
+mini8/12 evidence, not a misleading14-versus12 denominator. Selection-v2 records
+the opt-in challenger; no release approval before qualification/fresh60.
+V26 focus8 prepared with24callmaximum, unchanged8192/4096/4096 allowances,
+rolling full-request reservations. Expected focus roughlyUSD0.2-0.4; entire
+qualification roughlyUSD1.3-2.5 plus finalUSD2.5-5.0 are estimates, not caps.
