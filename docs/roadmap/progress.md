@@ -6,7 +6,25 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: conversational scenario experiment, offline checks complete
+### Current: conversational scenario experiment complete; candidate not promoted
+
+Frozen runtime `2539b084` completed one eight-call live component experiment.
+[Results and recommendation](../phase-73/conversational-scenario.md): full extraction
+contract 2/8; scope classification alone 5/8; observed unsafe calculator acceptance
+0/5 negatives; unnecessary rejection 1/3 positives. The overall-permission case
+was misclassified but blocked by a malformed source ID. An offline counterfactual
+shows that repairing only that ID exposes the incorrect routing; 0/5 is not a
+safety guarantee. Recommend revise before activation, retain the deterministic
+calculator and do not enable v5 for ordinary users. V4 remains the default.
+
+Actual cost USD 0.00857920; remaining shared budget **USD 3.73920000**. Receipts,
+source inspection, frozen metrics and unchanged prior accounting are verified.
+No runtime/prompt changes after freeze, second live pass, evaluator qualification
+or full evaluation. Stop after publishing this failed-candidate experiment; no
+automatic follow-up prompt cycle. The active plan remains
+[application reliability](application-reliability-plan.md).
+
+### Prior milestone: conversational scenario offline checks and freeze
 
 The user authorized one extraction integration and a maximum USD 0.50 diagnostic
 from the existing USD 3.74777920 remainder. The

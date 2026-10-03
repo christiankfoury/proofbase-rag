@@ -1,0 +1,133 @@
+{
+  "accepted": true,
+  "answer": "Your stated purchase amount, USD 300, does not exceed the USD 300 per purchase limit in the retrieved office supplies row. That row's manager-approval-above-limit condition is not triggered. This comparison does not grant purchase approval or waive other requirements.",
+  "assessment": {
+    "answerability": "sufficient",
+    "assessment_confidence": 0.9,
+    "conflicts": [],
+    "estimated_cost_usd": 0.001618,
+    "input_cost_usd": 0.001228,
+    "input_tokens": 3069,
+    "latency_ms": 2342,
+    "missing_information": [],
+    "model": "gpt-4.1-mini",
+    "normalization_reason": null,
+    "output_cost_usd": 0.00039,
+    "output_tokens": 244,
+    "pricing_status": "estimated",
+    "prompt_version": "v5",
+    "reason_codes": [
+      "authorized_evidence_sufficient"
+    ],
+    "recommended_action": "answer",
+    "required_facts": [
+      {
+        "description": "What is the standard limit for office supplies per purchase?",
+        "fact_id": "office_supplies_standard_limit",
+        "support": "supported",
+        "supporting_chunk_ids": [
+          "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+        ]
+      },
+      {
+        "description": "Is manager approval required for office supplies purchases above the standard limit?",
+        "fact_id": "office_supplies_approval_condition",
+        "support": "supported",
+        "supporting_chunk_ids": [
+          "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+        ]
+      }
+    ],
+    "required_source_coverage": [],
+    "route": "hybrid_semantic",
+    "schema_version": "evidence_assessment.v1",
+    "status": "succeeded",
+    "supporting_chunk_ids": [
+      "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+    ]
+  },
+  "calculation": {
+    "above_limit": false,
+    "amount": "300",
+    "approver": "Manager",
+    "category": "office supplies",
+    "category_span": [
+      4,
+      19
+    ],
+    "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+    "currency": "USD",
+    "department_id": null,
+    "document_id": "FIN-001",
+    "effective_role": "Employee",
+    "extraction_sha256": "7a755de448f1c8db102089d338bc0ee7b0c568bedfeda7e9752fb7c2db30a5ef",
+    "input_origin": "semantic_extraction",
+    "input_quote": "USD 300",
+    "input_span": [
+      28,
+      35
+    ],
+    "limit": "300",
+    "operator": ">",
+    "project_id": "00000000-0000-0000-0000-000000000019",
+    "question_sha256": "f074b43035ba961f14c1f8587e3331934a8598785c399271471c7ef54cd33968",
+    "row_quote": "| Office supplies | USD 300 per purchase | Manager approval above limit |",
+    "row_span": [
+      258,
+      331
+    ],
+    "source_sha256": "8aeacccbc80fa2e41f5db6823f3b60c5c8a2807d442a8c132cc2ba7080b9fd08"
+  },
+  "case_id": "paraphrase-equal",
+  "citations": [
+    {
+      "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+      "citation_text": "| Office supplies | USD 300 per purchase | Manager approval above limit |",
+      "citation_type": "fallback",
+      "confidence": 0.903,
+      "document_id": "FIN-001",
+      "document_title": "Expense, Procurement, and Reimbursement Policy",
+      "section_heading": "Expense Categories",
+      "source": "Source: FIN-001 Expense, Procurement, and Reimbursement Policy, Section: Expense Categories"
+    }
+  ],
+  "correct_interpretation": true,
+  "expected_scope": "row_comparison",
+  "proposal": {
+    "amount_quote": "USD 300",
+    "category_quote": "office supplies",
+    "complete_request": true,
+    "scope": "row_comparison",
+    "source_chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+    "unhandled_parts": []
+  },
+  "question": "For office supplies costing USD 300, is the row's above-limit approval condition triggered?",
+  "raw_sha256": "7be64868de257c032205c3d1617f5380880e1495bedb54609e70735d242e8794",
+  "unnecessary_rejection": false,
+  "unsafe_acceptance": false,
+  "validation": {
+    "action": "accept",
+    "citation_checks": [],
+    "claims": [],
+    "estimated_cost_usd": 0.0,
+    "exact_literals": [],
+    "input_cost_usd": 0.0,
+    "input_tokens": 0,
+    "latency_ms": 0,
+    "model": null,
+    "normalization_reason": null,
+    "output_cost_usd": 0.0,
+    "output_tokens": 0,
+    "pricing_status": "not_applicable",
+    "prompt_version": null,
+    "reason_codes": [
+      "scenario_calculation_semantic_input_verified"
+    ],
+    "repair_count": 0,
+    "route": "deterministic_guard",
+    "schema_version": "post_generation_validation.v1",
+    "source_instruction_followed": false,
+    "status": "succeeded",
+    "unsupported_exact_literals": []
+  }
+}

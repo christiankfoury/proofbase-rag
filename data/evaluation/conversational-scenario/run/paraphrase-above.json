@@ -1,0 +1,125 @@
+{
+  "accepted": true,
+  "answer": "Your stated purchase amount, USD 425, exceeds the USD 300 per purchase limit in the retrieved office supplies row. That row's manager-approval-above-limit condition is triggered. This comparison does not grant purchase approval or waive other requirements.",
+  "assessment": {
+    "answerability": "sufficient",
+    "assessment_confidence": 0.9,
+    "conflicts": [],
+    "estimated_cost_usd": 0.001525,
+    "input_cost_usd": 0.001229,
+    "input_tokens": 3073,
+    "latency_ms": 2253,
+    "missing_information": [],
+    "model": "gpt-4.1-mini",
+    "normalization_reason": null,
+    "output_cost_usd": 0.000296,
+    "output_tokens": 185,
+    "pricing_status": "estimated",
+    "prompt_version": "v5",
+    "reason_codes": [
+      "authorized_evidence_sufficient"
+    ],
+    "recommended_action": "answer",
+    "required_facts": [
+      {
+        "description": "What is the standard purchase limit for office supplies before manager approval is required?",
+        "fact_id": "office_supplies_limit",
+        "support": "supported",
+        "supporting_chunk_ids": [
+          "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+        ]
+      }
+    ],
+    "required_source_coverage": [],
+    "route": "hybrid_semantic",
+    "schema_version": "evidence_assessment.v1",
+    "status": "succeeded",
+    "supporting_chunk_ids": [
+      "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+    ]
+  },
+  "calculation": {
+    "above_limit": true,
+    "amount": "425",
+    "approver": "Manager",
+    "category": "office supplies",
+    "category_span": [
+      16,
+      31
+    ],
+    "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+    "currency": "USD",
+    "department_id": null,
+    "document_id": "FIN-001",
+    "effective_role": "Employee",
+    "extraction_sha256": "fad4503a66120f4daa0b31f3047977549ba6ed8fe64736da3a8302da32710e6a",
+    "input_origin": "semantic_extraction",
+    "input_quote": "USD 425",
+    "input_span": [
+      8,
+      15
+    ],
+    "limit": "300",
+    "operator": ">",
+    "project_id": "00000000-0000-0000-0000-000000000019",
+    "question_sha256": "c2d1e86a17990dce35f15e72fc797f98e4648a0e797872950fcad89c7377c066",
+    "row_quote": "| Office supplies | USD 300 per purchase | Manager approval above limit |",
+    "row_span": [
+      258,
+      331
+    ],
+    "source_sha256": "8aeacccbc80fa2e41f5db6823f3b60c5c8a2807d442a8c132cc2ba7080b9fd08"
+  },
+  "case_id": "paraphrase-above",
+  "citations": [
+    {
+      "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+      "citation_text": "| Office supplies | USD 300 per purchase | Manager approval above limit |",
+      "citation_type": "fallback",
+      "confidence": 0.903,
+      "document_id": "FIN-001",
+      "document_title": "Expense, Procurement, and Reimbursement Policy",
+      "section_heading": "Expense Categories",
+      "source": "Source: FIN-001 Expense, Procurement, and Reimbursement Policy, Section: Expense Categories"
+    }
+  ],
+  "correct_interpretation": true,
+  "expected_scope": "row_comparison",
+  "proposal": {
+    "amount_quote": "USD 425",
+    "category_quote": "office supplies",
+    "complete_request": true,
+    "scope": "row_comparison",
+    "source_chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+    "unhandled_parts": []
+  },
+  "question": "Would a USD 425 office supplies purchase cross the threshold for manager approval in that category's row?",
+  "raw_sha256": "3762d692f941ad88a3f32add8801f2fe1f81741b7adf55514d1f14373abdfc7a",
+  "unnecessary_rejection": false,
+  "unsafe_acceptance": false,
+  "validation": {
+    "action": "accept",
+    "citation_checks": [],
+    "claims": [],
+    "estimated_cost_usd": 0.0,
+    "exact_literals": [],
+    "input_cost_usd": 0.0,
+    "input_tokens": 0,
+    "latency_ms": 0,
+    "model": null,
+    "normalization_reason": null,
+    "output_cost_usd": 0.0,
+    "output_tokens": 0,
+    "pricing_status": "not_applicable",
+    "prompt_version": null,
+    "reason_codes": [
+      "scenario_calculation_semantic_input_verified"
+    ],
+    "repair_count": 0,
+    "route": "deterministic_guard",
+    "schema_version": "post_generation_validation.v1",
+    "source_instruction_followed": false,
+    "status": "succeeded",
+    "unsupported_exact_literals": []
+  }
+}
