@@ -182,3 +182,32 @@ code freeze before authorship. Final harness preparation reuses real HTTP,
 authoritative evidence capture and upload/index fixtures in a separate local DB.
 Nine offline grader/measurement checks pass, including embedding receipt settlement
 and per-case/model/output/ceiling bounds. No final suite or paid measurement yet.
+
+Pre-confirmation local preparation: isolated database
+`proofbase_conversation_eval_20261003` cloned without changing the original.
+32documents,247chunks,247embeddings. Phase40 upload/index mocks and real Phase57
+tenant/RLS checks pass with provider methods blocked. HTTP health and stable
+configuration/index fingerprint across TestClient lifecycle pass; zeroAPI calls.
+The unrelated request-log SHA256 remains f37906539da34d369b0259b014fc061bb2d15b42e31605800d55b724335c176e.
+Fresh16 authoring completed under the neutral brief after freeze cd1d3729;
+mechanical reference/source mapping checks pass; independent validation pending.
+Full conservative confirmation reservation USD7.4458025; expected roughly0.5-1.1.
+No whole-stage funding claim; per-request rolling reservations remain mandatory.
+
+Independent confirmation validation rejected1/16 before execution (CV1-SCOPE-15,
+overbroadened required-fact reference). Initial suite and rejected validation are
+retained; isolated author correction and independent revalidation are required.
+No model result or runtime failure informed this pre-execution reference repair.
+
+Final publication preserves the existing HTTP safety flag as an activation blocker,
+in addition to zero unauthorized retrieval/disclosure and the48/60 target. The
+runner may capture remaining cases after a fail-closed HTTP error for complete
+diagnostics, but that failed case earns no success and the release inspection
+cannot approve a run containing recorded HTTP safety flags. Permission/scope or
+disclosure findings still stop further submissions immediately.
+
+Independent revalidation approves16/16 references with no unresolved finding;
+CV1-SCOPE-15 was corrected only by widening the question to match its existing
+reference. No answer, source, expectation or other case changed. Initial rejected
+artifacts remain. Approved suite/seal precedes a once-only48-call confirmation
+with full8192/4096/4096 allowances and receipt-based rolling reservations.

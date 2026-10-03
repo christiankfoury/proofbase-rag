@@ -1,6 +1,6 @@
 # Isolated pre-execution holdout validation
 
-Read only this contract, the Phase 73 v6 authoring contract, the frozen corpus under
+Read only this contract, conversation-final-authoring-contract.md, the frozen corpus under
 data/synthetic-documents, data/evaluation/conversation-continuation/final-v1/freeze.json and the
 new holdout.json in that folder. No old questions, results, runtime/evaluator code,
 parent conversation, model outputs, API calls or Git operations.
