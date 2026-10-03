@@ -1,0 +1,225 @@
+{
+  "authorized_evidence": [],
+  "call_end": 16,
+  "call_start": 16,
+  "case_id": "fresh-003",
+  "category": "factual",
+  "completed_at": "2026-10-03T19:19:57.223096+00:00",
+  "grader_inputs": {
+    "answer": "I can’t safely assess this request right now, so I haven’t searched any company sources. Please try again shortly.",
+    "cited_sources": [],
+    "expected_behavior": "answer",
+    "factual_sources": [
+      {
+        "source_id": "G1",
+        "text": "Missing receipts require a signed missing-receipt attestation that explains the business purpose, amount, date, and merchant."
+      }
+    ],
+    "forbidden_assertions": [],
+    "history_not_evidence": [],
+    "question": "A USD 42 taxi expense has no merchant receipt. What information belongs in my signed missing-receipt attestation?",
+    "required_facts": [
+      {
+        "fact_id": "f01",
+        "text": "Missing receipts require a signed missing-receipt attestation that explains the business purpose, amount, date, and merchant."
+      }
+    ],
+    "source_metadata": []
+  },
+  "http_status": 200,
+  "latency_ms": 585.42,
+  "raw_response": {
+    "answer": "I can’t safely assess this request right now, so I haven’t searched any company sources. Please try again shortly.",
+    "answer_confidence": 0.65,
+    "assistant_message_id": null,
+    "behavior": "ask_clarifying_question",
+    "chunking_strategy": "section_based",
+    "citation_confidence": 0.0,
+    "citations": [],
+    "clarification_reason": "request_assessment_unavailable",
+    "defense_trace": {
+      "privacy_mode": "bounded_metadata_only",
+      "schema_version": "defense_trace.v1",
+      "stages": [
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": null,
+          "name": "deterministic_guard",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "not_selected",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "temporary_unavailable",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": 428,
+          "memory_used_as_evidence": false,
+          "name": "semantic_request_assessment",
+          "reason_codes": [
+            "assessment_service_error"
+          ],
+          "repair_count": null,
+          "route": "fail_safe",
+          "status": "failed_safe",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "allow_authorized_only",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "permission_filter",
+          "reason_codes": [
+            "pre_generation_role_filter"
+          ],
+          "repair_count": null,
+          "route": "application_authorization",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "evidence_assessment",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "pre_retrieval_stop",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "generator",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "code_authored_response",
+          "status": "skipped",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 0,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "post_generation_validation",
+          "reason_codes": [],
+          "repair_count": 0,
+          "route": "no_generated_candidate",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "clarify",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "final_response",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "application_response_policy",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        }
+      ]
+    },
+    "estimated_cost_usd": null,
+    "evidence_assessment": null,
+    "final_confidence": 0.358,
+    "generation_latency_ms": null,
+    "input_cost_usd": null,
+    "memory": {
+      "is_followup": false,
+      "memory_used": false,
+      "original_question": "A USD 42 taxi expense has no merchant receipt. What information belongs in my signed missing-receipt attestation?",
+      "previous_topic": null,
+      "rewrite_strategy": "none",
+      "rewritten_question": "A USD 42 taxi expense has no merchant receipt. What information belongs in my signed missing-receipt attestation?"
+    },
+    "model": null,
+    "multi_doc_mode": "auto",
+    "multi_doc_used": false,
+    "output_cost_usd": null,
+    "permission_check": {
+      "retrieved_chunks_count": 0,
+      "unauthorized_chunks_reached_generation": false,
+      "user_role": "Employee"
+    },
+    "post_generation_validation": null,
+    "pricing_status": null,
+    "prompt_name": null,
+    "prompt_version": null,
+    "request_assessment": {
+      "ambiguity": "clarification_required",
+      "assessment_confidence": 0.0,
+      "decision_variables": [],
+      "estimated_cost_usd": null,
+      "injection_risk": "uncertain",
+      "input_cost_usd": null,
+      "input_tokens": null,
+      "intent": "unknown",
+      "latency_ms": 428,
+      "missing_referents": [],
+      "model": "gpt-4.1-mini-2025-04-14",
+      "normalization_reason": null,
+      "output_cost_usd": null,
+      "output_tokens": null,
+      "pricing_status": "missing_token_usage",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "assessment_service_error"
+      ],
+      "recommended_action": "temporary_unavailable",
+      "referents": "not_applicable",
+      "response_reason": "request_assessment_unavailable",
+      "route": "fail_safe",
+      "schema_version": "request_assessment.v1",
+      "status": "failed_safe",
+      "topic": "unknown",
+      "topic_description": null
+    },
+    "response_type": "clarify",
+    "retrieval_confidence": 0.0,
+    "retrieval_latency_ms": null,
+    "retrieval_mode": "vector_lexical_rerank",
+    "retrieved_chunks": [],
+    "scope": {
+      "department_id": null,
+      "project_id": "00000000-0000-0000-0000-000000000019"
+    },
+    "session_id": null,
+    "supported_claims": [],
+    "temperature": null,
+    "total_latency_ms": 550,
+    "unsupported_claims": [],
+    "user_message_id": null,
+    "validation_notes": "Pre-retrieval clarification guard triggered: request_assessment_unavailable."
+  },
+  "request": {
+    "department_id": null,
+    "project_id": "00000000-0000-0000-0000-000000000019",
+    "question": "A USD 42 taxi expense has no merchant receipt. What information belongs in my signed missing-receipt attestation?",
+    "rerank_candidate_limit": 20,
+    "retrieval_mode": "vector_lexical_rerank",
+    "session_id": null,
+    "top_k": 5
+  },
+  "safety_flags": [],
+  "started_at": "2026-10-03T19:19:56.342278+00:00",
+  "status": "complete"
+}

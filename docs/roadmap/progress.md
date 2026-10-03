@@ -8,12 +8,13 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ### Current: autonomous conversational completion within the same USD 12.50 ceiling
 
-Latest: rolling per-request reservations explicitly approved; all output/coverage
-gates unchanged. Full challenger 12/12, mini 8/12 (ineligible), matched v4 6/12. Challenger
-selected; v4 remains default. V24 diagnostic3/4 then stopped on inconsistent
-attribution extraction; v25 focus, full8+3 diagnostic and24+3 calibration pass with clean inspection.
-Fresh16 confirmation passes16/16 with clean source inspection. Grader qualified;
-Runtime/index frozen at e8182abe; fresh60 independently approved and sealed; final measurement next. Cumulative USD2.0565328; remaining USD10.4434672.
+Latest: final-v1 stopped after2 graded rows on source-inspection findings: grader
+misclassified a scenario input, and one reference exceeded the question's scope.
+All16 calls settled; cumulativeUSD2.29809266, remainingUSD10.20190734. No release
+approval; v4 remains default. Preserve the retired suite and original grades.
+Next: coherent grader prompt simplification, focused scenario and application
+routing controls, requalification and a newly isolated60-case measurement.
+See [source inspection](../phase-73/conversation-final-v1-source-review.md).
 
 The latest user explicitly supersedes the prior one-attempt/no-second-cycle and
 failure-stop rules. Start with the diagnosed upstream ambiguity defect; continue

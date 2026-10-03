@@ -241,3 +241,13 @@ are committed before the once-only real HTTP/upload/retrieval measurement.
 Expected new spending remains roughlyUSD2.5-5.0; this is not a reservation. Every
 complete request retains its full conservative reservation before submission,
 within the cumulativeUSD12.50 ceiling and unchanged output/coverage/safety gates.
+
+Final-v1 retired after2 graded rows following source-inspection findings F26-001
+(scenario premise treated as unsupported policy) and F26-002 (overbroad reference).
+A26-001 flags ambiguous reporting recipient for focused application diagnosis.
+Safe operator stop used the existing exclusive provider lock between requests;
+16calls fully settled, USD0.24155986 new; cumulativeUSD2.29809266, remaining
+USD10.20190734. No release approval, no relabeling, v4 default. Next coherent
+grader simplification and focused controls, then unchanged qualification/fresh
+holdout gates. Expected requalification plus focus roughlyUSD1.3-2.5 and final
+USD2.5-5.0; estimates only, every full request reserved under rolling12.50 ceiling.

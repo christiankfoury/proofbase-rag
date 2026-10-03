@@ -27,8 +27,10 @@ repairs follow-up routing and uses one cited-answer producer followed by one
 contextual checker. The selected candidate passed all 12 fixed development tasks;
 the matched v4 baseline passed 6/12. These are development inspections, not a new
 overall accuracy rate. Grader v25 passed diagnostic, calibration and fresh 16-case
-confirmation with clean source inspection. The candidate is frozen for a newly
-authored 60-case application measurement. V4 remains the default until all release
+confirmation with clean source inspection, but the subsequent fresh measurement
+stopped after two graded cases on new grader/reference findings. There is no
+accepted full-suite score. [Source inspection](docs/phase-73/conversation-final-v1-source-review.md)
+drives correction and requalification. V4 remains the default until all release
 gates, including 48/60, pass. See the [progress tracker](docs/roadmap/progress.md).
 
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.
