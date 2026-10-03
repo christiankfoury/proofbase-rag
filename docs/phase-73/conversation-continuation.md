@@ -336,3 +336,14 @@ V27 focus5/5, clean source inspection,15callsUSD0.14831450. Cumulative
 USD3.60362226, remainingUSD8.89637774. Full16+3 diagnostic preparation
 reservesUSD6.5532500 whole-stage conservatively but uses authorized rolling
 requests; expectedroughlyUSD0.5. Qualification and final gates unchanged.
+
+V27 diagnostic16/16 but2/3reviewprobes, soqualificationfails. G28-001 reviewer
+conflates absenceofrequestedfacts with relevance of genericrefusal. Preserve
+all fixed expectations and failed evidence.51callsUSD0.45192200; cumulative
+USD4.05554426, remainingUSD8.44445574. V28 replaces relevance paragraph with
+one topical/communicative relationship definition, explicitly independent of
+factcoverage and behavior. It does not turn refusal into an answer or success.
+Shared-entailment architecture and reducers unchanged. Focusall3reviewprobes
+(max3calls,USD0.3011575 conservative; expectedaboutUSD0.04), then unchanged
+full16+3,24+3,fresh16 andfresh60. Tenoffline ledger/reducer/measurementtests
+pass; invalidfocus IDs rejected;40case requestdata/caps identicalapartprompts.

@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with a specific loan limit, even though the value does not match the required fact.",
+    "behavior_span": "The Rowan trolley loan limit is 22 hours.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer claims a 22-hour loan limit, but the source states the maximum is 12 hours, which explicitly conflicts with 22 hours. The cited source also does not support the 22-hour claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "A Rowan trolley may be borrowed for at most 12 hours."
+          }
+        ],
+        "text": "The Rowan trolley loan limit is 22 hours."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The Rowan trolley loan limit is 22 hours."
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says the Rowan trolley loan limit is 12 hours, but the answer explicitly states it is 22 hours, which is incompatible on the same subject and condition.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the asked topic: the limit for a Rowan trolley loan.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly identified the only substantive claim as contradicted by the source, which states the limit is 12 hours, not 22. It also correctly marked citation support as missing because the cited text does not entail the 22-hour claim. The required fact is explicitly contradicted by the answer, so completeness fails. The response still counts as an answer and is relevant to the asked topic, but response_behavior correctly fails because expected behavior was an answer and the required fact is contradicted. No forbidden assertions are present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
