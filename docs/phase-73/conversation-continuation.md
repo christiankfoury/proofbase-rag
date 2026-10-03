@@ -584,3 +584,17 @@ Six budget/44-payload checks pass; prior ten ledger/measurement checks reused
 because successor wrappers differ only by version/import/custody paths. Focus
 three attribution/benefit controls before unchanged full qualification. Expected
 remaining qualification aboutUSD1.8-2.5 plus focus; final reserveUSD4.50 remains.
+
+V33 focus stops1/2; third benefit control unexecuted. G34-001: wrong-attribution
+claim labels are unknown/missing correctly, but reviewer copies factual unknown
+to citation unknown because it interprets shared entailment as identical enum
+labels. It also accepts partial-rule witnesses on the unsupported full attribution.
+Preserve both findings, no label repair.6 callsUSD0.14913250; accountedUSD7.56752776,
+remainingUSD7.31784000. V34 keeps a shared meaning/support test but explicitly maps
+results to the two existing enums: factual unknown does not imply citation unknown;
+clearly insufficient cited support is missing. Explanation precedes verdicts;
+exact witnesses follow verdicts so partial support is not presented as a full
+claim witness. Unknown/missing carry empty witnesses, without postprocessing.
+No field, reducer, cap or requirement changed. Six44-payload/budget checks pass;
+unchanged ledger/measurement evidence reused. Four attribution/scenario controls
+next, then full qualification if clean and budget permits. Final floorUSD4.50.

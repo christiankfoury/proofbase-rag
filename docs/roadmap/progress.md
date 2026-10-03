@@ -8,11 +8,11 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ### Current: CAD13.11 continuation explicitly approved
 
-V32 focused checks passed, then full diagnostic stopped2/3 on correct title
-attribution rejected by claims; independent review caught the mistake. V33
-clarifies authoritative identity metadata versus policy-text evidence. Threecase
-focus precedes full qualification. AccountedUSD7.41839526 including the unchanged
-hold; remainingUSD7.46697250. Original failed evidence is preserved.
+V33 focus stopped1/2: independent review conflated factual unknown with citation
+unknown for an unsupported attribution. V34 clarifies the existing enum mapping
+and generates exact witnesses after verdicts. No scoring/schema/output changes.
+Four focused controls precede full qualification. AccountedUSD7.56752776 with the
+original hold retained; remainingUSD7.31784000. All failed evidence preserved.
 
 New cumulative ceiling USD14.88536776: past confirmed USD6.88536776 plus USD8.00
 remaining inclusive of the original USD0.14820250 hold. Future-call headroom

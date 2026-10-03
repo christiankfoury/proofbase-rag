@@ -1,0 +1,85 @@
+{
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "pass",
+    "disputed_dimensions": [
+      "citation_support"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "unresolved",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response provides substantive information directly answering the question about the meter return rule.",
+    "behavior_span": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "This sentence asserts both the meter-return rule and that the rule comes from the \"Visitor Parking Handbook.\" The source text supports the rule that laboratory staff must return loaned meters within four working days, but the provided metadata identifies source R1 as coming from \"Meter Loan Handbook,\" not \"Visitor Parking Handbook.\" Because that document attribution is not established, the full attributed claim is not fully supported.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "text": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "requires laboratory staff to return loaned meters within four working days."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states that laboratory staff are required to return loaned meters within four working days, which matches the required fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the meter return rule. The answer gives a rule about returning loaned meters, including who must return them and the time limit, so it addresses the requested topic.",
+      "status": "pass"
+    }
+  },
+  "matched": false,
+  "mismatches": {
+    "citation_support": {
+      "actual": "unresolved",
+      "expected": "fail"
+    },
+    "overall": {
+      "actual": "unresolved",
+      "expected": "fail"
+    }
+  },
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Independent audit first:\n\n- Question asks for the meter return rule.\n- The answer’s substantive assertion is the full sentence: \"The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days.\" In context, this communicates two things together: (1) the rule that laboratory staff must return loaned meters within four working days, and (2) that this rule is from the \"Visitor Parking Handbook.\"\n- Required fact F1 is only the rule itself: \"Laboratory staff must return loaned meters within four working days.\" The answer does communicate that rule, even though it adds a handbook attribution.\n- Actual behavior is a substantive answer to the question.\n\nNow compare with the candidate:\n\n1. Factual support\n- The source text supports the rule portion: \"Laboratory staff must return loaned meters within four working days.\"\n- But the answer attributes that rule to \"The Visitor Parking Handbook,\" while source_metadata identifies R1 as \"Meter Loan Handbook.\"\n- Under the rubric, a mismatched document name makes the attributed claim unknown unless there is an exact contradictory text witness. There is no such contradictory source text here.\n- So the claim-level factual status is unknown, and the reduced factual_support is unresolved.\n- Candidate labeled factual_status unknown and overall unresolved, which matches.\n\n2. Citation support\n- The cited source text is identical to the factual source text, and the rubric says identical cited/factual text should yield identical entailment for the same claim.\n- Since the only problem is the mismatched handbook name, and the rubric says that mismatch leaves the attributed claim unknown absent an exact contradictory text witness, the citation status should also be unknown, not missing.\n- Therefore the reduced citation_support should be unresolved, not fail.\n- Candidate’s citation_status \"missing\" and overall \"fail\" are incorrect.\n\n3. Completeness\n- F1 asks only for the rule. The answer states that laboratory staff are required to return loaned meters within four working days.\n- Extra wrong attribution does not make the required fact uncovered.\n- Candidate’s \"covered\" and completeness \"pass\" are correct.\n\n4. Relevance\n- The response addresses the meter return rule directly.\n- Candidate’s relevance pass is correct.\n\n5. Response behavior\n- The response gives substantive information answering the question, so actual_behavior is answer.\n- Expected behavior is answer, and the required fact is covered, so reduced response_behavior is pass.\n- Candidate is correct.\n\n6. Forbidden assertion\n- No forbidden assertions were specified, and none are present.\n- Candidate is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
