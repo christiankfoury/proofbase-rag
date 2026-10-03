@@ -370,3 +370,8 @@ Focusedcalibration subset allowed for diagnosis; full24 still requires16+3
 diagnostic gate andfresh16/60 gates unchanged. Tenoffline tests pass;40request
 data/schema meaning equivalent; generatedorder asserted, fullcal bypassblocked.
 Fourcase focus on wrongtopic, clarification, genericrefusal, guessedobject next.
+
+V29 focus4/4 clean source inspection.12callsUSD0.09321900; cumulative
+USD4.97403276, remainingUSD7.52596724. Explicitrequest interpretation correctly
+separates unresolvedentity from sharedbroadtopic while retaining speechact
+relevance and wrongtopicfailures. Full16+3 diagnostic requirednext.

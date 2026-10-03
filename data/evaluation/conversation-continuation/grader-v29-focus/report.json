@@ -1,0 +1,247 @@
+{
+  "calls": 12,
+  "cost_usd": "0.09321900",
+  "count": 4,
+  "cumulative_usd": "4.97403276",
+  "matched": 4,
+  "matching_probes": 0,
+  "probes": [],
+  "rows": [
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "fail",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response provides substantive information, but it answers a different topic (parking reimbursement) rather than the asked meal allowance.",
+        "behavior_span": "Cedar reimburses parking up to 14 credits per day.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Cedar reimburses parking up to 14 credits per day."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The answer makes a single policy claim, and it is exactly stated in factual source R2 and cited source C1.",
+            "source_spans": [
+              {
+                "id": "R2",
+                "span": "Cedar reimburses parking up to 14 credits per day."
+              }
+            ],
+            "text": "Cedar reimburses parking up to 14 credits per day."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [],
+            "fact_id": "F1",
+            "reason": "The answer does not state the meal reimbursement rule for overnight fieldwork or the 32 credits per day amount; it only mentions parking reimbursement.",
+            "status": "missing"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question identifies Cedar's meal allowance for overnight fieldwork. There is no history resolving any different entity or policy. The answer instead addresses Cedar parking reimbursement per day, which is a different expense topic and does not respond to the requested meal allowance.",
+          "status": "fail"
+        }
+      },
+      "id": "true-answer-wrong-topic",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct across dimensions. The only substantive claim in the answer is exactly: \"Cedar reimburses parking up to 14 credits per day.\" That claim is factually supported by R2 and citation-supported by C1. The required fact about meals during overnight fieldwork up to 32 credits per day is not stated, so completeness correctly fails. The response is substantively wrong-topic relative to the question about meal allowance, so relevance correctly fails. Its actual behavior is still \"answer\" because it gives substantive information, but response_behavior correctly fails overall because expected behavior was answer and the required fact is missing. There are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "not_applicable",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "not_applicable",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "not_applicable",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "clarify",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response asks for missing context needed to determine which booking deadline the user is asking about.",
+        "behavior_span": "Do you mean the equipment booking deadline or the visitor-room booking deadline?",
+        "claims": [],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question identifies a booking deadline but does not identify which booking policy or entity is meant. There is an unresolved choice between at least equipment booking and visitor-room booking. The answer responds to that ambiguity by asking which deadline the user means, rather than selecting one on its own.",
+          "status": "pass"
+        }
+      },
+      "id": "clarification-selects-policy",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The question is ambiguous because it asks for 'the booking deadline' without identifying whether it means equipment or visitor-room booking, and the source shows those are different policies. The answer does not assert any substantive policy fact; it only asks a clarifying question, so empty claims and not_applicable factual/citation/completeness judgments are correct. The clarification directly addresses that ambiguity, making relevance pass and actual_behavior=clarify correct. There are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "not_applicable",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "not_applicable",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "unresolved",
+        "quotation_fidelity": "not_applicable",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "unresolved",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "unknown",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response is a generic unexplained refusal. It does not explicitly say access is denied, that the information cannot be found, or ask for clarification.",
+        "behavior_span": "I cannot help with that request.",
+        "claims": [],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks to show a specific document/appendix: the restricted compensation appendix. The answer responds directly to that request by refusing to help with it, rather than switching to a different topic. This addresses the same requested action, even though it does not provide the appendix.",
+          "status": "pass"
+        }
+      },
+      "id": "generic-refusal-unknown-reason",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer is a pure refusal with no substantive factual or policy claims, so factual_support and citation_support are correctly not_applicable, and there are no required facts to cover, so completeness is correctly not_applicable. The refusal is relevant because it responds to the user's request for the restricted compensation appendix rather than changing topics. The behavior label is also correctly audited: \"I cannot help with that request.\" is a generic unexplained refusal, which fits actual_behavior = unknown rather than explicit refuse_no_access, so the reduced response_behavior judgment of unresolved is correct against the expected refuse_no_access. No forbidden assertions are present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "fail",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives substantive booking guidance with a specific lead time, so its prose functions as an answer rather than a clarification or refusal, even though it addresses an unspecified/different subject.",
+        "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Morrow equipment must be booked at least 2 days ahead."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source states the booking rule for Morrow equipment as at least 2 days ahead. The answer restates that rule in second-person active wording without changing the requirement.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Morrow equipment must be booked at least 2 days ahead."
+              }
+            ],
+            "text": "You must book Morrow equipment at least 2 days ahead."
+          }
+        ],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks, \"How far ahead must I book?\" but does not identify what is being booked or which policy/entity applies, and there is no history resolving that ambiguity. The answer selects a specific subject—\"Morrow equipment\"—that the question/history did not identify. Because the answer guesses an unspecified booking subject rather than addressing a resolved entity/policy from the request, it does not match the requested topic as stated.",
+          "status": "fail"
+        }
+      },
+      "id": "ambiguous-question-assumed-context",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The only substantive claim in the answer is \"You must book Morrow equipment at least 2 days ahead.\" That claim is factually supported by R1 and citation-supported by C1 via the exact rule \"Morrow equipment must be booked at least 2 days ahead.\" There are no required facts, so completeness is correctly not_applicable. Relevance is correctly failed because the question \"How far ahead must I book?\" does not identify what is being booked, and there is no history resolving whether this is about equipment or visitor rooms; the answer guesses \"Morrow equipment.\" Response behavior is correctly failed because the expected behavior was clarify, but the answer instead gives a substantive answer. No forbidden assertions are present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "source_review_pending": true,
+  "status": "complete",
+  "version": "answer-dimensions.v29-candidate"
+}
