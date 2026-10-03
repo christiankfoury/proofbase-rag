@@ -1,0 +1,72 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [
+      "relevance"
+    ],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "unresolved",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question by stating a booking lead time requirement.",
+    "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The answer communicates the same booking rule as the source. The source states the required lead time for Morrow equipment is at least 2 days ahead, and the question frames this as advice to the user.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "text": "You must book Morrow equipment at least 2 days ahead."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The response addresses the asked topic of how far in advance booking must be made.",
+      "status": "pass"
+    }
+  },
+  "matched": false,
+  "mismatches": {
+    "relevance": {
+      "actual": "unresolved",
+      "expected": "fail"
+    }
+  },
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The extracted claim is exactly supported by both the factual and cited source: \"Morrow equipment must be booked at least 2 days ahead.\" With no required facts, completeness is correctly not applicable. Response behavior is correctly failed because the expected behavior was to clarify, but the answer instead gave a substantive answer. However, the candidate's relevance judgment is incorrect: the question \"How far ahead must I book?\" does not specify what is being booked, and history does not resolve that ambiguity. The answer guesses \"Morrow equipment,\" so under the stated rule about guessing an unspecified entity, relevance should fail rather than pass. No forbidden assertions are present.",
+    "relevance": "dispute",
+    "response_behavior": "agree"
+  }
+}

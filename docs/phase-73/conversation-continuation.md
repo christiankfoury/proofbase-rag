@@ -356,3 +356,17 @@ V28 full diagnostic16/16 and3/3probes, clean sourceinspection andreceiptreplay.
 51callsUSD0.47450200; cumulativeUSD4.56260726, remainingUSD7.93739274.
 Next unchanged24+3calibration, expectedroughlyUSD0.6-0.9; fullrequestrolling
 reservations retained, thenfresh16confirmation andfresh60measurement.
+
+V28 calibration stops13/14, tenremainingcases and3probes unexecuted/no credit.
+G29-001: coverage overlooks unresolved bookingobject; reviewercorrectlydisputes
+relevance.42callsUSD0.31820650; cumulativeUSD4.88081376, remainingUSD7.61918624.
+Architecture review: coverage generated facts before resolving requesttarget,
+allowing answer/reference topic to substitute for userintent. V29 generates the
+existing relevance.reason first, explicitly recording question/history target,
+unresolvedchoice andanswer selection; thenrelevance, behavior andfactcoverage.
+No addedcall, field, reducer, validationlayer oroutputreduction. JSONproperty
+order changes, fieldtypes/requiredsets unchanged. Independent reviewer preserved.
+Focusedcalibration subset allowed for diagnosis; full24 still requires16+3
+diagnostic gate andfresh16/60 gates unchanged. Tenoffline tests pass;40request
+data/schema meaning equivalent; generatedorder asserted, fullcal bypassblocked.
+Fourcase focus on wrongtopic, clarification, genericrefusal, guessedobject next.

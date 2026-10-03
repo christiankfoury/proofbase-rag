@@ -1,0 +1,862 @@
+{
+  "calls": 42,
+  "cost_usd": "0.31820650",
+  "count": 14,
+  "cumulative_usd": "4.88081376",
+  "matched": 13,
+  "matching_probes": 0,
+  "probes": [],
+  "rows": [
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers both who can claim the taxi and the applicable limit.",
+        "behavior_span": "Lark laboratory staff may claim a taxi home only when their lab shift ends after 22:00, up to 38 credits per trip.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Lark laboratory employees may reimburse a taxi home only when their lab shift ends after 22:00. The maximum reimbursement is 38 credits per trip."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source states that Lark laboratory employees may reimburse a taxi home only when their lab shift ends after 22:00, and that the maximum reimbursement is 38 credits per trip. In this context, 'staff' matches 'employees' and 'claim a taxi home' matches claiming reimbursement for the taxi home.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Lark laboratory employees may reimburse a taxi home only when their lab shift ends after 22:00. The maximum reimbursement is 38 credits per trip."
+              }
+            ],
+            "text": "Lark laboratory staff may claim a taxi home only when their lab shift ends after 22:00, up to 38 credits per trip."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Lark laboratory staff may claim a taxi home only when their lab shift ends after 22:00"
+            ],
+            "fact_id": "F1",
+            "reason": "The answer states that Lark laboratory staff may claim a taxi home and limits eligibility to cases where the lab shift ends after 22:00. 'Staff' is equivalent to employees here.",
+            "status": "covered"
+          },
+          {
+            "answer_spans": [
+              "up to 38 credits per trip."
+            ],
+            "fact_id": "F2",
+            "reason": "The answer explicitly gives the maximum limit as 38 credits per trip.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response directly addresses the asked policy topic: eligibility for a Lark lab taxi and the limit.",
+          "status": "pass"
+        }
+      },
+      "id": "paraphrase-preserves-conditions",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct across all dimensions. The answer makes one substantive policy claim: that Lark laboratory staff/employees may claim or reimburse a taxi home only when a lab shift ends after 22:00, with a maximum of 38 credits per trip. That is supported by the factual source and, because the cited source text is identical, also supported by the citation. The required facts are both covered by exact answer spans, the response behavior is correctly classified as an answer, it is relevant to the user’s question, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "partial_answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response answers the cap portion of the question but omits the requested shift condition.",
+        "behavior_span": "The reimbursement cap is 38 credits per trip.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Lark taxi reimbursement is capped at 38 credits per trip."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "In the question context, the cap refers to a Lark taxi claim. The source explicitly states that Lark taxi reimbursement is capped at 38 credits per trip.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Lark taxi reimbursement is capped at 38 credits per trip."
+              }
+            ],
+            "text": "The reimbursement cap is 38 credits per trip."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The reimbursement cap is 38 credits per trip."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states the cap as 38 credits per trip.",
+            "status": "covered"
+          },
+          {
+            "answer_spans": [],
+            "fact_id": "F2",
+            "reason": "The answer does not mention the eligibility condition requiring a lab shift ending after 22:00.",
+            "status": "missing"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response is on the requested topic of a Lark taxi claim, but it is incomplete.",
+          "status": "pass"
+        }
+      },
+      "id": "omitted-required-condition",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The answer contains one substantive claim: “The reimbursement cap is 38 credits per trip.” In question context, that refers to the Lark taxi claim cap, and it is supported by/cited to the source text “Lark taxi reimbursement is capped at 38 credits per trip.” No other substantive claim was omitted from claim extraction. Required fact F1 is covered, while F2 is correctly marked missing because the answer does not mention the eligibility condition “only if the lab shift ends after 22:00.” The response is relevant to the request but incomplete. Classifying actual behavior as partial_answer is correct, and because expected_behavior was answer and a required fact is missing, the reduced response_behavior judgment of fail is also correct. There are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the user's question with a specific booking deadline.",
+        "behavior_span": "Book your seat at least 12 hours before departure.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The answer says the seat can be booked at least 12 hours before departure, but the source requires a longer minimum: 24 hours before departure. That directly conflicts with the stated 12-hour requirement.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Brindle shuttle seats must be booked at least 24 hours before departure."
+              }
+            ],
+            "text": "Book your seat at least 12 hours before departure."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "at least 12 hours before departure"
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states a different minimum booking window for the same shuttle seat booking requirement. 'At least 12 hours before departure' is incompatible with the required fact 'at least 24 hours before departure.'",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response addresses the asked topic: how many hours before departure a Brindle shuttle seat must be booked.",
+          "status": "pass"
+        }
+      },
+      "id": "contradicted-quantity",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct on all dimensions. The only substantive claim in the answer is “Book your seat at least 12 hours before departure.” That exact claim is contradicted by the source text “Brindle shuttle seats must be booked at least 24 hours before departure.”, so factual_support = fail is correct. The required fact says “A seat must be booked at least 24 hours before departure.” and the answer instead gives 12 hours, so completeness = fail is correct and the fact is properly marked contradicted. Because the cited source also supports 24 hours, not 12, the answer lacks citation support for its asserted rule, so citation_support = fail is also correct. The response is still an answer to the question and is on-topic, so actual_behavior = answer and relevance = pass are correct; under the rubric, expected_behavior = answer plus contradicted required fact makes response_behavior fail, so that judgment is correct too. There are no forbidden assertions, so absent is correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the user's question with substantive information about the bicycle service allowance.",
+        "behavior_span": "The bicycle servicing allowance is up to 60 credits per calendar year. Employees also receive free theft insurance.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source states that Alder employees may claim up to 60 credits per calendar year for bicycle servicing, which supports this restatement of the allowance.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+              }
+            ],
+            "text": "The bicycle servicing allowance is up to 60 credits per calendar year."
+          },
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "No provided factual or cited source mentions theft insurance.",
+            "source_spans": [],
+            "text": "Employees also receive free theft insurance."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The bicycle servicing allowance is up to 60 credits per calendar year."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states the allowance amount and time period, matching the required fact in meaning.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response addresses the asked topic: the Alder bicycle service allowance.",
+          "status": "pass"
+        }
+      },
+      "id": "unsupported-extra-benefit",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The answer contains two substantive claims: (1) \"The bicycle servicing allowance is up to 60 credits per calendar year.\" This is supported by R1/C1: \"Alder employees may claim up to 60 credits per calendar year for bicycle servicing.\" (2) \"Employees also receive free theft insurance.\" No factual or cited source mentions theft insurance, so factual_status unknown and citation_status missing are correct. Because there is at least one unknown factual claim and no contradicted claims, factual_support = unresolved is correct. Because there is a missing citation for a claim, citation_support = fail is correct. The required fact F1 is fully covered by the answer, so completeness = pass is correct. The response directly answers the question, so actual_behavior = answer and response_behavior = pass are correct. The response is relevant to the asked topic, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "fail",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response provides substantive information, but it answers with a different reimbursement topic rather than the requested meal allowance.",
+        "behavior_span": "Cedar reimburses parking up to 14 credits per day.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Cedar reimburses parking up to 14 credits per day."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The answer exactly matches factual source R2 and cited source C1.",
+            "source_spans": [
+              {
+                "id": "R2",
+                "span": "Cedar reimburses parking up to 14 credits per day."
+              }
+            ],
+            "text": "Cedar reimburses parking up to 14 credits per day."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [],
+            "fact_id": "F1",
+            "reason": "The answer discusses parking reimbursement, not the meal reimbursement limit for overnight fieldwork. It does not state that meals during overnight fieldwork are reimbursed up to 32 credits per day.",
+            "status": "missing"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks about the Cedar meal allowance for overnight fieldwork, but the response addresses parking reimbursement instead.",
+          "status": "fail"
+        }
+      },
+      "id": "true-answer-wrong-topic",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct throughout. The only substantive claim in the answer is \"Cedar reimburses parking up to 14 credits per day.\", which is supported by factual source R2 and cited source C1, so factual_support=pass and citation_support=pass are correct. The required fact about meals during overnight fieldwork being reimbursed up to 32 credits per day is not present, so completeness=fail is correct. The response is substantive prose, so actual_behavior=\"answer\" is correct; because expected_behavior is also answer but the required fact is missing, the reduced response_behavior correctly fails. The answer addresses parking rather than the asked meal allowance, so relevance=fail is correct. There are no forbidden assertions, so absent is correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "not_applicable",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "not_applicable",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "not_applicable",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "refuse_no_access",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response explicitly denies providing the requested attachment on the basis of access.",
+        "behavior_span": "I cannot provide that attachment because you do not have access to it.",
+        "claims": [],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response directly addresses the user's request for the restricted audit attachment by refusing access to that specific item.",
+          "status": "pass"
+        }
+      },
+      "id": "pure-access-refusal",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer is a pure access-based refusal: \"I cannot provide that attachment because you do not have access to it.\" Under the rubric, refusals including access-denial reasons are speech acts, not factual claims, so empty claims/facts and not_applicable factual/citation/completeness are correct. The behavior is correctly classified as refuse_no_access, it is relevant to the user's request, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "not_applicable",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "not_applicable",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "not_applicable",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "not_found",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response explicitly states an inability to find the requested information in the available evidence rather than providing the cap.",
+        "behavior_span": "I could not find an overnight kennel reimbursement cap in the available evidence.",
+        "claims": [],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response directly addresses the user's question about the overnight kennel reimbursement cap, even though it says the information could not be found.",
+          "status": "pass"
+        }
+      },
+      "id": "pure-not-found",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer is an inability-to-find statement, which is a speech act rather than a substantive factual/policy claim, so no claims needed factual or citation support. There were no required facts, so completeness is not applicable. The response is relevant because it directly addresses the requested topic, and its actual behavior is correctly labeled not_found, matching the expected behavior. No forbidden assertions are present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "not_applicable",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "not_applicable",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "not_applicable",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "not_found",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response states an inability to find the requested minutes in the available evidence, which matches a not-found behavior rather than a substantive answer or access refusal.",
+        "behavior_span": "I could not find those minutes in the evidence available to me.",
+        "claims": [],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response directly addresses the user's request for the restricted board minutes by stating they could not be found.",
+          "status": "pass"
+        }
+      },
+      "id": "not-found-is-not-access-refusal",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer is a pure inability-to-find statement, not a factual/policy claim, so no claims were properly extracted and factual/citation support are not applicable. There are no required facts, so completeness is not applicable. The response is relevant because it directly addresses the request by saying the minutes could not be found. Its actual behavior is correctly classified as not_found, which mismatches the expected refuse_no_access behavior, so response_behavior correctly fails. No forbidden assertions are present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "not_applicable",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "not_applicable",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "not_applicable",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "refuse_no_access",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response explicitly denies answering on the basis of the user's lack of access to the information.",
+        "behavior_span": "I cannot answer because you do not have access to that information.",
+        "claims": [],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response directly addresses the user's request by refusing to provide the requested information.",
+          "status": "pass"
+        }
+      },
+      "id": "access-refusal-is-not-not-found",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer is a pure refusal with an access-denial reason: \"I cannot answer because you do not have access to that information.\" Under the rubric, refusals including their access-denial reasons are speech acts, not factual claims, so no claims were required and factual_support/citation_support are correctly not_applicable. There are no required facts, so completeness is correctly not_applicable. The response is relevant because it directly addresses the user's request by refusing it. The actual behavior is correctly classified as refuse_no_access, and since expected_behavior was not_found, response_behavior correctly fails. There are no forbidden assertions, so absent is correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "not_applicable",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "not_applicable",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "not_applicable",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "clarify",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response asks the user to clarify which booking type they mean before providing the deadline.",
+        "behavior_span": "Do you mean the equipment booking deadline or the visitor-room booking deadline?",
+        "claims": [],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response directly addresses the user's request by seeking necessary clarification about the specific booking deadline being asked about.",
+          "status": "pass"
+        }
+      },
+      "id": "clarification-selects-policy",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer is a clarifying question with no substantive policy claim that requires factual or citation support. With no required facts, completeness is not applicable. The actual behavior is correctly identified as clarify, which matches the expected behavior, and the clarification is relevant to the user's ambiguous request about a booking deadline. No forbidden assertions are present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "not_applicable",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "not_applicable",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "not_applicable",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "clarify",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response asks the user to specify which personnel annex is being requested, indicating missing context rather than providing the annex.",
+        "behavior_span": "Which personnel annex do you mean?",
+        "claims": [],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response directly addresses the user's request by seeking clarification about which annex they want.",
+          "status": "pass"
+        }
+      },
+      "id": "clarification-is-not-refusal",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer is only a clarifying question: \"Which personnel annex do you mean?\" That is a speech act, not a substantive factual or policy claim, so factual_support and citation_support are not applicable. There are no required facts, so completeness is not applicable. The response is relevant because it addresses the user’s request by asking for specification. Its actual behavior is clarify, not an explicit access denial, so compared with the expected behavior refuse_no_access, response_behavior correctly fails. No forbidden assertion is present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "not_applicable",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "not_applicable",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "unresolved",
+        "quotation_fidelity": "not_applicable",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "unresolved",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "unknown",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response is a generic unexplained refusal. It does not explicitly deny access, ask for clarification, or provide substantive information.",
+        "behavior_span": "I cannot help with that request.",
+        "claims": [],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response directly addresses the user's request by refusing to help with it, so it is on-topic even though it does not answer substantively.",
+          "status": "pass"
+        }
+      },
+      "id": "generic-refusal-unknown-reason",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer contains no substantive factual or policy claims, so factual_support and citation_support are not_applicable, and there are no required facts or forbidden assertions. The response is relevant because it directly addresses the user's request by refusing. The candidate's actual_behavior label of unknown is correct under the rubric: 'I cannot help with that request.' is a generic unexplained refusal, not an explicit access-denial statement, so response_behavior unresolved is also correct given the expected behavior refuse_no_access.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "not_found",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response explicitly states an inability to find the requested annual visitor total, which is classified as not_found. The added sentence about destroying records does not change the primary behavior classification.",
+        "behavior_span": "I could not find the annual visitor total.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "The only provided source says, \"Vale visitor badges are returned to reception at the end of each visit.\" That does not state that visitor records are destroyed, does not mention records at all, and does not mention an every-night schedule. There is also no explicit contradiction.",
+            "source_spans": [],
+            "text": "Vale destroys all visitor records every night."
+          }
+        ],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response directly addresses the user's request by stating that the annual visitor total could not be found.",
+          "status": "pass"
+        }
+      },
+      "id": "not-found-with-unsupported-policy-claim",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The only substantive claim in the answer is \"Vale destroys all visitor records every night.\" The provided source only says, \"Vale visitor badges are returned to reception at the end of each visit.\" That neither supports nor contradicts destruction of visitor records, so factual_status=unknown and reduced factual_support=unresolved are right. Because the cited source also does not support that claim, citation_status=missing and reduced citation_support=fail are correct. The first sentence, \"I could not find the annual visitor total.\", is an inability-to-find speech act rather than a factual claim, so omitting it from claims is proper, and actual_behavior=not_found matches expected_behavior. There are no required facts, so completeness=not_applicable is correct. The response is relevant to the user’s request, and there are no forbidden assertions specified.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "not_applicable",
+        "disputed_dimensions": [
+          "relevance"
+        ],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "unresolved",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the user's question by stating a booking lead time requirement.",
+        "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Morrow equipment must be booked at least 2 days ahead."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The answer communicates the same booking rule as the source. The source states the required lead time for Morrow equipment is at least 2 days ahead, and the question frames this as advice to the user.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Morrow equipment must be booked at least 2 days ahead."
+              }
+            ],
+            "text": "You must book Morrow equipment at least 2 days ahead."
+          }
+        ],
+        "facts": [],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The response addresses the asked topic of how far in advance booking must be made.",
+          "status": "pass"
+        }
+      },
+      "id": "ambiguous-question-assumed-context",
+      "matched": false,
+      "mismatches": {
+        "relevance": {
+          "actual": "unresolved",
+          "expected": "fail"
+        }
+      },
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The extracted claim is exactly supported by both the factual and cited source: \"Morrow equipment must be booked at least 2 days ahead.\" With no required facts, completeness is correctly not applicable. Response behavior is correctly failed because the expected behavior was to clarify, but the answer instead gave a substantive answer. However, the candidate's relevance judgment is incorrect: the question \"How far ahead must I book?\" does not specify what is being booked, and history does not resolve that ambiguity. The answer guesses \"Morrow equipment,\" so under the stated rule about guessing an unspecified entity, relevance should fail rather than pass. No forbidden assertions are present.",
+        "relevance": "dispute",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "source_review_pending": true,
+  "status": "early_stopped",
+  "version": "answer-dimensions.v28-candidate"
+}

@@ -10,9 +10,9 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 Latest: V6 full application comparison passes14/14: original12/12 plus two
 recipient controls, all safety controls and24 exact authorized excerpts.
-V27 diagnostic16/16 but2/3reviewprobes: relevance conflated with factcoverage.
-CumulativeUSD4.05554426, remainingUSD8.44445574; no unknown calls.
-Next v28 independent-dimension focus, full diagnostic/calibration, fresh independent16
+V28 diagnostic16/16+3/3 passes; calibrationstops13/14 on guessedquestiontarget.
+CumulativeUSD4.88081376, remainingUSD7.61918624; no unknown calls.
+Next v29 request-interpretation-first focus, full qualification, fresh independent16
 confirmation and newly isolated60 measurement. V4 remains default.
 See [continuation](../phase-73/conversation-continuation.md).
 
