@@ -251,3 +251,17 @@ USD10.20190734. No release approval, no relabeling, v4 default. Next coherent
 grader simplification and focused controls, then unchanged qualification/fresh
 holdout gates. Expected requalification plus focus roughlyUSD1.3-2.5 and final
 USD2.5-5.0; estimates only, every full request reserved under rolling12.50 ceiling.
+
+V26 replaces accumulated prompt amendments with one coherent contextual rubric;
+request data, exact witnesses, schema/reducers, pinned model/effort and8192/4096/4096
+output caps unchanged. Eight separately composed scenario controls extend the
+diagnostic to16+3; original24+3 calibration and fresh16 confirmation remain.
+Two separately composed two-source badge-reporting variants extend application
+development without changing the original12. Before any runtime prompt change,
+measure the unchanged selected candidate on this focused recipient control.
+Four offline receipt/ceiling/contract tests pass against the successor (initial
+test fixture isolation needed caching its input cases before temporary-path mocks).
+Full request-body equivalence apart from prompts and Python compilation pass.
+The first two recipient preflights are superseded unexecuted after local review
+and addition of the implicit-recipient variant; preserve both. Use03 with both
+focused variants and identical per-call output allowances.

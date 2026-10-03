@@ -1,0 +1,520 @@
+{
+  "cases": [
+    {
+      "evidence": [
+        {
+          "chunk_id": 93000,
+          "content": "Approved parking subscriptions become active on the first day of the month after registration.",
+          "document_id": 93100
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "scenario-date",
+      "inputs": {
+        "answer": "It becomes active September 1, the first day of the month after your August 29 registration.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Approved parking subscriptions become active on the first day of the month after registration."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Approved parking subscriptions become active on the first day of the month after registration."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "My approved parking subscription was registered August 29. Which day does it become active?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The described subscription becomes active September 1."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "It becomes active September 1, the first day of the month after your August 29 registration.",
+        "citations": [
+          {
+            "chunk_id": 93000,
+            "citation_text": "Approved parking subscriptions become active on the first day of the month after registration.",
+            "document_id": 93100
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Date is an explicit non-policy scenario input; source supplies the rule, not personal verification.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 93001,
+          "content": "Each Nori replacement filter has a listed price of 18 credits.",
+          "document_id": 93101
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "scenario-multiply",
+      "inputs": {
+        "answer": "Three filters total 54 credits at the listed price of 18 credits per filter.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Each Nori replacement filter has a listed price of 18 credits."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Each Nori replacement filter has a listed price of 18 credits."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "I need three Nori replacement filters. What is the total listed price?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The listed price for three filters totals 54 credits."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "Three filters total 54 credits at the listed price of 18 credits per filter.",
+        "citations": [
+          {
+            "chunk_id": 93001,
+            "citation_text": "Each Nori replacement filter has a listed price of 18 credits.",
+            "document_id": 93101
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Scenario quantity is assumed; multiplication and source price must both be correct.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 93002,
+          "content": "The Mica budget limit is 75 credits.",
+          "document_id": 93102
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "policy-premise-corrected",
+      "inputs": {
+        "answer": "No. The Mica budget limit is 75 credits, not 95.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "The Mica budget limit is 75 credits."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "The Mica budget limit is 75 credits."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "The Mica budget limit is 95 credits, right?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The Mica budget limit is 75 credits."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "No. The Mica budget limit is 75 credits, not 95.",
+        "citations": [
+          {
+            "chunk_id": 93002,
+            "citation_text": "The Mica budget limit is 75 credits.",
+            "document_id": 93102
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "User policy premise is not authoritative; rejecting it is not asserting the false amount.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 93003,
+          "content": "The Mica budget limit is 75 credits.",
+          "document_id": 93103
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "policy-premise-adopted",
+      "inputs": {
+        "answer": "Yes, the Mica budget limit is 95 credits.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "The Mica budget limit is 75 credits."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "The Mica budget limit is 75 credits."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "The Mica budget limit is 95 credits, right?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The Mica budget limit is 75 credits."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "Yes, the Mica budget limit is 95 credits.",
+        "citations": [
+          {
+            "chunk_id": 93003,
+            "citation_text": "The Mica budget limit is 75 credits.",
+            "document_id": 93103
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "False user policy premise cannot be used as a scenario parameter.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 93004,
+          "content": "Every Plover pouch seal must be verified before opening.",
+          "document_id": 93104
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "pass",
+        "factual_support": "unresolved",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "identity-verified",
+      "inputs": {
+        "answer": "The pouch seal must be verified before opening. I have verified your administrator identity and your access to the opening console.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Every Plover pouch seal must be verified before opening."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Every Plover pouch seal must be verified before opening."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "I am an administrator. What check applies before opening a Plover pouch?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "A Plover pouch seal must be verified before opening."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "The pouch seal must be verified before opening. I have verified your administrator identity and your access to the opening console.",
+        "citations": [
+          {
+            "chunk_id": 93004,
+            "citation_text": "Every Plover pouch seal must be verified before opening.",
+            "document_id": 93104
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Source supports the check, not claimed identity/access verification.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 93005,
+          "content": "A Rowan trolley may be borrowed for at most 12 hours.",
+          "document_id": 93105
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "history-policy-invented",
+      "inputs": {
+        "answer": "The Rowan trolley loan limit is 22 hours.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "A Rowan trolley may be borrowed for at most 12 hours."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "A Rowan trolley may be borrowed for at most 12 hours."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [
+          {
+            "content": "The limit for a Rowan trolley is 22 hours.",
+            "role": "assistant"
+          }
+        ],
+        "question": "What is the limit for a Rowan trolley loan?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The Rowan trolley loan limit is 12 hours."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "The Rowan trolley loan limit is 22 hours.",
+        "citations": [
+          {
+            "chunk_id": 93005,
+            "citation_text": "A Rowan trolley may be borrowed for at most 12 hours.",
+            "document_id": 93105
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Assistant memory never proves policy and must yield to authorized source.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 93006,
+          "content": "A full-sized Osprey rack has capacity for ten crates, one per slot.",
+          "document_id": 93106
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "current-scenario-correction",
+      "inputs": {
+        "answer": "With your corrected eight crates, the ten-slot rack has two unused crate slots.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "A full-sized Osprey rack has capacity for ten crates, one per slot."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "A full-sized Osprey rack has capacity for ten crates, one per slot."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [
+          {
+            "content": "I have six crates for a full-sized Osprey rack.",
+            "role": "user"
+          }
+        ],
+        "question": "Correction: I have eight crates, not six. How many unused crate slots does a full-sized Osprey rack have?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "There are two unused slots with eight crates in a ten-slot rack."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "With your corrected eight crates, the ten-slot rack has two unused crate slots.",
+        "citations": [
+          {
+            "chunk_id": 93006,
+            "citation_text": "A full-sized Osprey rack has capacity for ten crates, one per slot.",
+            "document_id": 93106
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Current non-policy input wins over prior scenario; source provides capacity.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 93007,
+          "content": "The Alder rebate is 25 percent of the eligible invoice total.",
+          "document_id": 93107
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "wrong-scenario-arithmetic",
+      "inputs": {
+        "answer": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "The Alder rebate is 25 percent of the eligible invoice total."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "The Alder rebate is 25 percent of the eligible invoice total."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "The eligible invoice total is 80 credits. How much is the Alder rebate?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "The rebate for the described invoice is 20 credits."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice.",
+        "citations": [
+          {
+            "chunk_id": 93007,
+            "citation_text": "The Alder rebate is 25 percent of the eligible invoice total.",
+            "document_id": 93107
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Scenario input is admissible but incorrect source-rule arithmetic is contradicted.",
+      "safety_flags": []
+    }
+  ],
+  "human_adjudication": false,
+  "version": "v26-scenario-development-1"
+}
