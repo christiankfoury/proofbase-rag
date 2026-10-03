@@ -1,0 +1,94 @@
+{
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "pass",
+    "disputed_dimensions": [
+      "factual_support",
+      "citation_support"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "unresolved",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive policy answer to the asked rule.",
+    "behavior_span": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "R1 supports the underlying rule that laboratory staff must return loaned meters within four working days, but it does not mention the document title 'Visitor Parking Handbook'. The provided metadata records R1 under the title 'Meter Loan Handbook', so the answer's document-title attribution is not supported by the authorized source text or citation.",
+        "source_spans": [],
+        "text": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source and citation both entail the stated rule, with 'must return' supporting 'requires ... to return' for laboratory staff and the same four-working-day deadline.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "text": "requires laboratory staff to return loaned meters within four working days."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer fully communicates the same actor, action, object, and deadline as the required fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the asked meter return rule and provides a specific return requirement for loaned meters.",
+      "status": "pass"
+    }
+  },
+  "matched": false,
+  "mismatches": {
+    "citation_support": {
+      "actual": "unresolved",
+      "expected": "fail"
+    },
+    "overall": {
+      "actual": "unresolved",
+      "expected": "fail"
+    }
+  },
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "agree",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "The required fact is fully communicated, so completeness pass is correct; the answer is responsive, behaves as an answer, and contains no forbidden assertion. But the claim statuses are not all correct: the second extracted span, \"requires laboratory staff to return loaned meters within four working days.\", is anchored in the full sentence and still inherits the subject \"The Visitor Parking Handbook,\" so it is not fully entailed by R1/C1. Its factual status should not be supported, and its citation status should not be supported. That makes the factual_support and citation_support audits disputable even though the overall reducers would still be unresolved/fail.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

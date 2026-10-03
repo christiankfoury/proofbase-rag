@@ -156,3 +156,12 @@ are saved separately; rolling calls must fit the actual remaining ceiling.
 Offline tests replay all24 calibration and3 probe semantics unchanged and prove
 pre-submission reservation, cached receipt settlement, unknown-outcome stop,
 no repeats, exact cap/model enforcement and ceiling rejection. All four pass.
+
+V24 diagnostic stops after3/4 matches (12calls, USD0.1837735; cumulative
+USD0.5713143). Wrong document attribution is correctly unknown/missing in the
+whole sentence, but the extractor duplicates its subjectless predicate and marks
+that fragment supported. The reviewer correctly disputes the inconsistent claim;
+the case is unresolved, not accepted. Other three source-inspected cases agree.
+V25 keeps attributed predicates with their subject and avoids duplicate overlapping
+extractions; schema/reducers/reviewer independence unchanged. A focused rerun of
+the failed case precedes the complete8+3 diagnostic. Historical v24 remains failed.

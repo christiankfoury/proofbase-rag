@@ -64,5 +64,19 @@ class GraderTests(unittest.TestCase):
             altered=deepcopy(body);altered[key]=value
             with self.assertRaises(r.transport.BudgetStop):r.transport.reserve(altered)
 
+    def test_v25_changes_only_extraction_prompts_and_preserves_failed_evidence(self):
+        contract,transport=r.versioned('answer-dimensions.v25-candidate')
+        self.assertIs(contract.dimensions,r.contract.dimensions)
+        self.assertEqual(contract.schema(),r.contract.schema())
+        for case in r.cases('calibration'):
+            old=r.transport.initial_requests(case['inputs']);new=transport.initial_requests(case['inputs'])
+            for (purpose,a),(_,b) in zip(old,new):
+                prompt=b['messages'][0]['content'];b['messages'][0]=a['messages'][0]
+                self.assertEqual(a,b)
+                self.assertTrue(prompt.startswith(a['messages'][0]['content']))
+        failed=r.read(r.FOLDER/'grader-v24-diagnostic/run/wrong-attribution.json')
+        self.assertFalse(failed['matched'])
+        self.assertEqual(failed['dimensions']['overall'],'unresolved')
+
 
 if __name__=='__main__':unittest.main()

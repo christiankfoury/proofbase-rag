@@ -65,7 +65,16 @@ def cases(stage):return existing.cases(stage)
 def probes(stage):return existing.probes(stage)
 
 
-def prepare(step,stage):
+def versioned(version):
+    if version=='answer-dimensions.v24-candidate':return contract,transport
+    if version=='answer-dimensions.v25-candidate':
+        from scripts import quality_eval_contract_v25,quality_eval_transport_v25
+        return quality_eval_contract_v25,quality_eval_transport_v25
+    raise ValueError('Unfrozen grader version')
+
+
+def prepare(step,stage,ids=None):
+    contract,transport=versioned('answer-dimensions.v25-candidate')
     if stage not in ('diagnostic','calibration'):raise ValueError('Unknown stage')
     folder=FOLDER/step
     if folder.exists():raise ValueError('Preserve prior preparation')
@@ -88,10 +97,13 @@ def prepare(step,stage):
         if report['matched']!=8 or report['matching_probes']!=3 or report['status']!='complete':raise ValueError('Diagnostic incomplete')
         paths.extend([gate,report_path])
     paths+=list((ROOT/'scripts').glob('*.py'))
-    bound=sum((transport.case_bound(c['inputs']) for c in cases(stage)),Decimal(0))
-    bound+=sum((transport.reserve(transport.review_request(c['inputs'],c['candidate']))['reserved_usd'] for c in probes(stage)),Decimal(0))
-    value=dict(stage=stage,step=step,version=contract.VERSION,prefix=prefix(),maximum_calls=len(cases(stage))*3+len(probes(stage)),
-        case_ids=[c['id'] for c in cases(stage)],probe_ids=[c['id'] for c in probes(stage)],
+    selected=[c for c in cases(stage) if not ids or c['id'] in ids]
+    if ids and (stage!='diagnostic' or len(selected)!=len(set(ids))):raise ValueError('Invalid focus')
+    selected_probes=[] if ids else probes(stage)
+    bound=sum((transport.case_bound(c['inputs']) for c in selected),Decimal(0))
+    bound+=sum((transport.reserve(transport.review_request(c['inputs'],c['candidate']))['reserved_usd'] for c in selected_probes),Decimal(0))
+    value=dict(stage=stage,step=step,version=contract.VERSION,prefix=prefix(),maximum_calls=len(selected)*3+len(selected_probes),
+        case_ids=[c['id'] for c in selected],probe_ids=[c['id'] for c in selected_probes],
         whole_stage_conservative_reservation_usd=str(bound),reservation_policy='rolling per-request; not whole-stage funded',
         total_ceiling_usd=str(CEILING),output_caps=transport.CAPS,provider_retries=0,
         bindings={p.relative_to(ROOT).as_posix():digest(p) for p in paths})
@@ -101,6 +113,7 @@ def prepare(step,stage):
 
 def execute(step):
     folder=FOLDER/step;plan=read(folder/'preflight.json')
+    contract,transport=versioned(plan['version'])
     if plan['prefix']!=prefix() or any(digest(ROOT/p)!=h for p,h in plan['bindings'].items()):raise ValueError('Frozen inputs changed')
     if subprocess.check_output(['git','diff','HEAD','--',*plan['bindings']],text=True).strip():raise ValueError('Commit freeze before spending')
     from apps.api.app.core.config import get_settings
@@ -114,7 +127,7 @@ def execute(step):
         started_at=now(),preflight_sha256=digest(folder/'preflight.json'),rows={},probes={})
     write(out/'manifest.json',manifest)
     try:
-        for case in cases(plan['stage']):
+        for case in [c for c in cases(plan['stage']) if c['id'] in plan['case_ids']]:
             grade=review=error=None
             try:grade,review=transport.grade_case(client.chat.completions.create,case['inputs'],ledger,out/'raw'/case['id'])
             except (ValueError,IndexError) as exc:
@@ -126,7 +139,7 @@ def execute(step):
             if not row['matched']:
                 manifest['status']='early_stopped';break
         else:
-            for case in probes(plan['stage']):
+            for case in [c for c in probes(plan['stage']) if c['id'] in plan['probe_ids']]:
                 review=error=None;body=transport.review_request(case['inputs'],case['candidate'])
                 try:review=transport.parsed(ledger.call(client.chat.completions.create,body,out/'raw'/(case['id']+'.json')),contract.review_schema())
                 except (ValueError,IndexError) as exc:
@@ -146,6 +159,7 @@ def report(step):
     from scripts.report_quality_calibration_v12 import replay_raw
     from scripts.conversation_custody import verify_bindings
     out=FOLDER/step/'run';manifest=read(out/'manifest.json');plan=read(out.parent/'preflight.json')
+    contract,transport=versioned(plan['version'])
     if digest(out.parent/'preflight.json')!=manifest['preflight_sha256']:raise ValueError('Preflight changed')
     verify_bindings(ROOT,manifest['runtime_commit'],plan['bindings'])
     for path,h in plan['prefix']['ledger_sha256'].items():
@@ -190,7 +204,7 @@ def report(step):
 
 
 if __name__=='__main__':
-    if sys.argv[1]=='prepare':prepare(sys.argv[2],sys.argv[3])
+    if sys.argv[1]=='prepare':prepare(sys.argv[2],sys.argv[3],sys.argv[4:])
     elif sys.argv[1]=='run':execute(sys.argv[2])
     elif sys.argv[1]=='report':report(sys.argv[2])
     else:raise SystemExit('Choose prepare, run or report')
