@@ -568,3 +568,19 @@ preserved, reversed prerequisite contradicted. All exact witnesses and receipts
 replay.12 callsUSD0.18146000; accountedUSD7.27195776 includingholdUSD0.14820250,
 remainingUSD7.61341000. Full16+3 diagnostic next; expectedroughlyUSD0.6-0.9,
 then unchanged24+3 andfresh16 qualification. Final-launchfloorUSD4.50 remains.
+
+V32 full diagnostic stops2/3. G33-001: claims treats correct named attribution as
+unknown because title is in metadata rather than body text. Independent review
+correctly disputes factual/citation labels; coverage is correct. Nine calls cost
+USD0.14643750; accountedUSD7.41839526 including the originalhold, remaining
+USD7.46697250. No qualification or relabeling. Reviewer-first reasoning now
+exposes this error; it does not repair the candidate automatically.
+V33 replaces the ambiguous metadata paragraph with two evidence channels:
+authoritative identity/title metadata supports the document name, and body text
+supports policy content. Both must support attribution; metadata alone grants no
+benefit or permission. Wrong attribution remains unknown absent textual conflict.
+Interpretation-first ordering, schemas, reducers, witnesses and allowances remain.
+Six budget/44-payload checks pass; prior ten ledger/measurement checks reused
+because successor wrappers differ only by version/import/custody paths. Focus
+three attribution/benefit controls before unchanged full qualification. Expected
+remaining qualification aboutUSD1.8-2.5 plus focus; final reserveUSD4.50 remains.

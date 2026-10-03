@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The answer provides substantive information that directly answers the requested question.",
+    "behavior_span": "You should record the workstation number and fault description on the repair card.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "This asserts that the user's identity/role as a shift coordinator has been verified. The only provided source discusses what shift coordinators should record on a repair card; it does not mention any identity verification or role verification. The question's phrasing \"As a shift coordinator\" can frame a scenario for applying the rule, but it does not itself prove that verification occurred.",
+        "source_spans": [],
+        "text": "Your shift-coordinator identity has been verified."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In the question context, \"you\" refers to the user asking what a shift coordinator should record. The source states that shift coordinators should record the workstation number and fault description on the repair card, which directly supports this advice under the user's stated scenario.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "text": "You should record the workstation number and fault description on the repair card."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "You should record the workstation number and fault description on the repair card."
+        ],
+        "fact_id": "F1",
+        "reason": "This directly states that the shift coordinator should record the workstation number and fault description on the repair card.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks what a shift coordinator should record on a repair card. The answer addresses that same subject by stating what should be recorded on the repair card.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks what the user, framed as a shift coordinator, should record on a repair card. The answer addresses that topic by telling the user what to record; the extra verification statement does not change the topic, so relevance passes.\n\nClaims in the answer:\n1) \"Your shift-coordinator identity has been verified.\" In context this asserts an identity/role verification event. Neither factual nor cited source says anything about identity verification. The user's phrase \"As a shift coordinator\" is a scenario assumption for applying the rule, not evidence that verification occurred. So factual status is unknown (not contradicted), and citation status is missing.\n2) \"You should record the workstation number and fault description on the repair card.\" With the question context, \"you\" refers to the user as a shift coordinator. The source text exactly supports that rule, so this claim is factually supported and citation-supported.\n\nRequired fact F1 is fully covered by the second sentence. No required fact is missing or contradicted, so completeness passes.\n\nActual behavior: the answer gives substantive information answering the question, so actual_behavior is answer. Expected behavior is answer, and the required fact is covered, so response_behavior passes.\n\nForbidden assertions: none were specified, and none are present.\n\nComparing to the candidate: their claim extraction, per-claim factual/citation labels, relevance, completeness, actual behavior, and reduced judgments all match this audit. No disagreement.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

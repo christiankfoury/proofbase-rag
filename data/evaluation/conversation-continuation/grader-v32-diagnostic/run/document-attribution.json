@@ -1,0 +1,80 @@
+{
+  "dimensions": {
+    "citation_support": "unresolved",
+    "completeness": "pass",
+    "disputed_dimensions": [
+      "factual_support",
+      "citation_support"
+    ],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "unresolved",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive answer to the question by stating the handbook's return requirement.",
+    "behavior_span": "The Meter Loan Handbook requires laboratory staff to return loaned meters within four working days.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "This sentence asserts both a rule and a named attribution: that the document called the Meter Loan Handbook is the source requiring laboratory staff to return loaned meters within four working days. The supplied source text supports the return requirement itself, but it does not itself say 'Meter Loan Handbook.' Because source metadata is not policy evidence, the specific named attribution is not fully supported by the source text, and nothing explicitly contradicts it.",
+        "source_spans": [],
+        "text": "The Meter Loan Handbook requires laboratory staff to return loaned meters within four working days."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "laboratory staff to return loaned meters within four working days"
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states the same return requirement for laboratory staff.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "Requested property: the meter handbook's requirement for returns; subject: returns of loaned meters. The answer states a return requirement from the Meter Loan Handbook, so it addresses the asked topic.",
+      "status": "pass"
+    }
+  },
+  "matched": false,
+  "mismatches": {
+    "citation_support": {
+      "actual": "unresolved",
+      "expected": "pass"
+    },
+    "factual_support": {
+      "actual": "unresolved",
+      "expected": "pass"
+    },
+    "overall": {
+      "actual": "unresolved",
+      "expected": "pass"
+    }
+  },
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "agree",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "First, from the raw inputs: the question asks for the meter handbook’s requirement for returns. The answer communicates one substantive claim: that the Meter Loan Handbook requires laboratory staff to return loaned meters within four working days. In context, that directly answers the asked topic. It also covers required fact F1, because “requires laboratory staff to return loaned meters within four working days” conveys the same obligation as the required fact. So relevance is pass, completeness is pass, and actual behavior is answer, which matches expected_behavior=answer, so response_behavior is pass. There are no forbidden assertions.\n\nNow the evidence judgment. The factual source R1 says exactly: “Laboratory staff must return loaned meters within four working days.” The cited source C1 is identical. The answer’s rule content is therefore supported. The remaining issue is the named attribution “The Meter Loan Handbook...”. Under the rubric, a named attribution is supported when the metadata matches the named document and the policy text supports the rule. Here source_metadata maps source R1 to document_title “Meter Loan Handbook,” and R1 contains the return rule. So the full attributed claim is supported, not merely unknown. Because the cited source text is the same as the factual source, citation support for the same claim also passes.\n\nCompared with that, the candidate’s relevance/completeness/behavior/forbidden judgments are correct. But the candidate’s claim-level reasoning for factual_status=unknown and citation_status=missing is too strict: it incorrectly treats the absence of the title words inside the source text as defeating attributed support despite matching metadata plus supporting policy text. That makes the reduced factual_support and citation_support judgments incorrect as well.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

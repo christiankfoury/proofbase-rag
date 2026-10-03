@@ -8,6 +8,12 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ### Current: CAD13.11 continuation explicitly approved
 
+V32 focused checks passed, then full diagnostic stopped2/3 on correct title
+attribution rejected by claims; independent review caught the mistake. V33
+clarifies authoritative identity metadata versus policy-text evidence. Threecase
+focus precedes full qualification. AccountedUSD7.41839526 including the unchanged
+hold; remainingUSD7.46697250. Original failed evidence is preserved.
+
 New cumulative ceiling USD14.88536776: past confirmed USD6.88536776 plus USD8.00
 remaining inclusive of the original USD0.14820250 hold. Future-call headroom
 USD7.85179750; USD4.50 final-launch floor unchanged. This replaces the old ceiling
