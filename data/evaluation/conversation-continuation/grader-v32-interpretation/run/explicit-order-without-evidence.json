@@ -1,0 +1,90 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly provides both requested steps for the key replacement process.",
+    "behavior_span": "Report the missing key to the service desk and pay a 7-credit fee.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "For a Lumen key replacement, report the missing key to the service desk and pay a 7-credit fee."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In the question context, this sentence gives the two required steps for a Lumen key replacement. The source states those same two actions and amount. The sentence does not need to be read as imposing a mandatory order beyond naming both steps.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "For a Lumen key replacement, report the missing key to the service desk and pay a 7-credit fee."
+          }
+        ],
+        "text": "Report the missing key to the service desk and pay a 7-credit fee."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "This sentence asserts a prerequisite and sequence: payment must happen before reporting the missing key is allowed. The supplied source only says to report the missing key to the service desk and pay a 7-credit fee; it does not state that paying first is required or that reporting is disallowed until payment occurs. The source's presentation order does not by itself prove such a rule.",
+        "source_spans": [],
+        "text": "Policy requires that the fee be paid before you are allowed to report the missing key."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Report the missing key to the service desk"
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states this step.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [
+          "pay a 7-credit fee"
+        ],
+        "fact_id": "F2",
+        "reason": "The answer explicitly states this step.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for both steps for a Lumen key replacement. The answer addresses that subject by listing two steps, even though it also adds an extra ordering claim.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "From the raw inputs, the answer communicates two substantive claims. First: \"Report the missing key to the service desk and pay a 7-credit fee.\" In context of the question asking for both steps for a Lumen key replacement, this states the two requested steps. Second: \"Policy requires that the fee be paid before you are allowed to report the missing key.\" This adds a separate prerequisite/ordering rule: payment must occur first, and reporting is not allowed until then.\n\nRequired-fact coverage from the answer is complete. F1 (report the missing key to the service desk) is explicitly stated. F2 (pay a 7-credit fee) is explicitly stated. The extra sequencing claim does not erase that coverage.\n\nRelevance is pass. The response addresses the asked subject—both steps for a Lumen key replacement—even though it adds an extra ordering assertion.\n\nActual behavior is answer. The response substantively answers the request by giving both steps; the added unsupported policy statement does not change the behavior category.\n\nFactual/citation support: the first sentence is supported by source R1/C1, which states, \"For a Lumen key replacement, report the missing key to the service desk and pay a 7-credit fee.\" The second sentence is not entailed by the source. The source names both actions but does not state that payment must precede reporting or that reporting is disallowed until payment. That added prerequisite is therefore factually unknown (not explicitly contradicted) and citation-missing.\n\nComparing that to the candidate: their claim extraction is complete, their interpretation of the first sentence as stating both steps without imposing mandatory order is reasonable, their treatment of the second sentence as an unsupported added sequence/prerequisite is correct, their required-fact labels are correct, and their actual_behavior/relevance judgments are correct. Their reduced judgments also follow the rubric: factual_support unresolved (supported + unknown), citation_support fail (supported + missing), completeness pass, response_behavior pass, relevance pass. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

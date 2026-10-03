@@ -561,3 +561,10 @@ instruction has no authority. Reviewer explains raw-input conclusions before
 agreement.3 calls USD0.05692750; accountedUSD7.09049776 including the retained
 hold, remainingUSD7.79487000. Four fixed positive/negative interpretation controls
 are next before any broad qualification. No application activation.
+
+V32 interpretation controls pass4/4 with clean raw-source inspection: list framing
+supported, explicit invented prerequisite unknown/uncited, actual prerequisite
+preserved, reversed prerequisite contradicted. All exact witnesses and receipts
+replay.12 callsUSD0.18146000; accountedUSD7.27195776 includingholdUSD0.14820250,
+remainingUSD7.61341000. Full16+3 diagnostic next; expectedroughlyUSD0.6-0.9,
+then unchanged24+3 andfresh16 qualification. Final-launchfloorUSD4.50 remains.

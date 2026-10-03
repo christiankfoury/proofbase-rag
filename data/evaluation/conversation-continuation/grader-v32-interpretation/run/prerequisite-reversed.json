@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive answer to the user's question rather than refusing, asking for clarification, or stating inability, even though the content is incorrect.",
+    "behavior_span": "Restart the Oriole compressor before having it inspected.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "This instructs that restarting should occur before inspection, asserting a mandatory order opposite to the source rule, which requires inspection first and restart afterward.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "An Oriole compressor must be inspected before it is restarted."
+          }
+        ],
+        "text": "Restart the Oriole compressor before having it inspected."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Restart the Oriole compressor before having it inspected."
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says the compressor must be inspected before it is restarted, but the answer explicitly states the opposite order: restart first, inspection afterward.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks what must happen before restarting an Oriole compressor, and the answer addresses that same restart/inspection sequence for the Oriole compressor, even though it gives the opposite sequence.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The question asks for the prerequisite to restarting an Oriole compressor. The answer’s only substantive sentence is: “Restart the Oriole compressor before having it inspected.” In context, that communicates the opposite sequence: restart first, inspection afterward. The supplied factual/cited source says: “An Oriole compressor must be inspected before it is restarted.” So the answer’s sole claim is explicitly contradicted by the source rule. Because the cited source likewise does not support that opposite instruction, citation support for the claim is missing. The answer is still relevant because it addresses the same Oriole compressor restart/inspection prerequisite topic, just incorrectly. For the required fact, the answer explicitly contradicts F1 rather than covering it. The prose is a substantive answer, so actual_behavior is answer, but response_behavior still fails because expected_behavior is answer and the required fact is contradicted. There are no forbidden assertions to assess, and the candidate’s extraction and intermediate labels match these judgments.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

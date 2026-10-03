@@ -1,0 +1,100 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "pass",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": true,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the question by providing both requested steps.",
+    "behavior_span": "First, report the missing key to the service desk. Second, pay a 7-credit fee.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "report the missing key to the service desk"
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In context, this sentence answers one of the two requested steps for a Lumen key replacement. The substantive instruction is to report the missing key to the service desk; the word \"First\" is treated as list presentation for the two-step answer, not as an independently sourced mandatory sequence requirement. The source expressly includes reporting the missing key to the service desk as part of a Lumen key replacement.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "report the missing key to the service desk"
+          }
+        ],
+        "text": "First, report the missing key to the service desk."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "pay a 7-credit fee"
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In context, this sentence gives the other requested step for a Lumen key replacement. The substantive instruction is to pay a 7-credit fee; the word \"Second\" is treated as list presentation for the two-step answer, not as an independently sourced mandatory sequence requirement. The source expressly includes paying a 7-credit fee as part of a Lumen key replacement.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "pay a 7-credit fee"
+          }
+        ],
+        "text": "Second, pay a 7-credit fee."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "First, report the missing key to the service desk."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states the first required step.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [
+          "Second, pay a 7-credit fee."
+        ],
+        "fact_id": "F2",
+        "reason": "The answer explicitly states the second required step.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for both steps for a Lumen key replacement, and the answer lists a first step and a second step for that process.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for both steps for a Lumen key replacement. The answer addresses exactly that topic by giving two step-like instructions for a Lumen key replacement, so relevance passes. Required-fact coverage next: F1 is covered by the exact answer span \"First, report the missing key to the service desk.\" and F2 is covered by \"Second, pay a 7-credit fee.\" The words \"First\" and \"Second\" here function as list framing for the two requested steps, not necessarily as an added sourced policy requirement about mandatory order, so they do not prevent coverage. Actual behavior: the response substantively answers the question and includes both requested parts, so actual_behavior is answer, matching expected_behavior answer.\n\nClaim assessment from the raw inputs: the substantive claims are the two full sentences. Interpreted in context, they assert the two replacement steps. Both are factually supported by R1, which states \"report the missing key to the service desk\" and \"pay a 7-credit fee\" for a Lumen key replacement. Both are also citation-supported by identical cited source C1. There are no forbidden assertions.\n\nComparing to the candidate: the candidate extracted the right claims, correctly treated \"First/Second\" as presentation rather than an unsourced mandatory sequence, marked both required facts covered, set relevance to pass, actual behavior to answer, and reduced factual_support, citation_support, completeness, response_behavior, and forbidden_assertion consistently. I see no mislabeled intermediate status or omitted substantive claim.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
