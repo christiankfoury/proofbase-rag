@@ -390,3 +390,8 @@ USD2.5-5.0; estimates only. MustretainUSD4.50 final-launchfloor, so qualificatio
 may consume usableheadroom without authorizing final. No topup orhiddenfunding.
 Tenoffline tests pass;40requestdata/schema/caps unchanged apartprompt/effort;
 wrong effort rejected. Attributionfocus3 then requestscopefocus beforebroadruns.
+
+V30 attributionfocus3/3 clean.9callsUSD0.15236600; cumulativeUSD5.29127826,
+remainingUSD7.20872174. MeanUSD0.0508percase in this attribution-heavy sample;
+futurequalificationcost remainsuncertain. Requestscopefocus next; maintain
+USD4.50 final-launchfloor and neverreplace expectedcost withguaranteedfunding.

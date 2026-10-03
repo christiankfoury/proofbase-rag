@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive information answering the asked rule, though it also includes an extra unrelated statement.",
+    "behavior_span": "Laboratory staff must return loaned meters within four working days. Staff also receive a free meter each year.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The factual source and cited source both exactly state this meter return rule.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "text": "Laboratory staff must return loaned meters within four working days."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "No provided factual source states that staff receive a free meter each year, and there is no explicit contradictory source text. The cited source only covers returning loaned meters. The metadata title is not policy evidence for this benefit claim.",
+        "source_spans": [],
+        "text": "Staff also receive a free meter each year."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Laboratory staff must return loaned meters within four working days."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states the required meter return rule with the same subject, obligation, and deadline.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the meter return rule, and the answer states a rule about returning loaned meters within four working days.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s grading is correct across dimensions. It properly extracts both substantive claims from the answer. The first claim is exactly supported and exactly cited by R1/C1. The second claim, \"Staff also receive a free meter each year.\", is not supported by any provided source text, is not contradicted by any provided source text, and has no citation support; the metadata title is not evidence, so factual_status=unknown and citation_status=missing are correct. That makes factual_support unresolved and citation_support fail. The required fact is fully covered by the first sentence, so completeness pass is correct. The answer addresses the asked meter return rule, so relevance pass is correct. Its actual behavior is an answer, and no required facts are missing, so response_behavior pass is correct. There are no forbidden assertions to violate, so forbidden_assertion absent is correctly judged.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
