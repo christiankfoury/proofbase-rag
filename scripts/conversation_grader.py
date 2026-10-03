@@ -1,0 +1,196 @@
+"""Frozen grader qualification using the one shared rolling-reservation budget."""
+from decimal import Decimal
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
+from scripts.conversation_continuation import FOLDER, CEILING, prefix
+from scripts.bounded_redesign_run import read,digest,write,now,response_charge
+from scripts.phase73_v6_budget import request_hash
+from scripts import quality_eval_contract_v24 as contract
+from scripts import quality_eval_transport_v24 as transport
+from scripts import quality_development_v23 as existing
+
+
+class RollingLedger:
+    def __init__(self,folder,plan):
+        self.folder=Path(folder);self.plan=plan
+        self.data=dict(calls=[],unknown_outcome=False,stopped=False,prefix=plan['prefix'])
+        if (self.folder/'api-ledger.json').exists():raise ValueError('Preserve existing ledger')
+        self.save()
+
+    def save(self):write(self.folder/'api-ledger.json',self.data)
+
+    @property
+    def accounted(self):
+        return Decimal(self.plan['prefix']['spent_usd'])+sum((Decimal(r['accounted_usd']) for r in self.data['calls']),Decimal(0))
+
+    def call(self,create,body,path):
+        with transport.exclusive_lock(FOLDER):
+            if self.data['stopped'] or len(self.data['calls'])>=self.plan['maximum_calls']:
+                raise transport.BudgetStop('Stopped or call allowance exhausted')
+            # Include every historical and current receipt; forbid another writer.
+            current=prefix()
+            expected=dict(self.plan['prefix']['ledger_sha256'])
+            expected[(self.folder/'api-ledger.json').relative_to(ROOT).as_posix()]=digest(self.folder/'api-ledger.json')
+            if current['ledger_sha256']!=expected or Decimal(current['spent_usd'])!=self.accounted:
+                raise transport.BudgetStop('Spending prefix changed')
+            limits=transport.reserve(body); amount=limits['reserved_usd'];path=Path(path)
+            relative=path.resolve().relative_to(self.folder.resolve()).as_posix()
+            if path.exists():raise transport.BudgetStop('No repeated request')
+            if self.accounted+amount>CEILING:
+                self.data.update(stopped=True,stop_reason='Insufficient per-request headroom');self.save()
+                raise transport.BudgetStop('Ceiling prevents submission')
+            row=dict(status='reserved',raw_path=relative,request_sha256=request_hash(body),
+                accounted_usd=str(amount),**{k:str(v) if isinstance(v,Decimal) else v for k,v in limits.items()})
+            raw=dict(request=body,response=None,status='reserved')
+            write(path,raw);self.data['calls'].append(row);self.save()
+            try:
+                response=create(**body);raw.update(status='received',response=response.model_dump(mode='json'));write(path,raw)
+                usage=raw['response']['usage'];cost=response_charge(raw['response'],body['model'])
+                if not(0<=usage['prompt_tokens']<=limits['input_bound'] and 0<=usage['completion_tokens']<=limits['output_cap'] and 0<=cost<=amount):
+                    raise ValueError('Receipt exceeds reservation')
+                row.update(status='completed',accounted_usd=str(cost),raw_sha256=digest(path));self.save()
+                return response
+            except BaseException as exc:
+                raw['exception_type']=type(exc).__name__;write(path,raw)
+                row.update(status='unknown',raw_sha256=digest(path))
+                self.data.update(stopped=True,unknown_outcome=True);self.save();raise
+
+
+def cases(stage):return existing.cases(stage)
+def probes(stage):return existing.probes(stage)
+
+
+def prepare(step,stage):
+    if stage not in ('diagnostic','calibration'):raise ValueError('Unknown stage')
+    folder=FOLDER/step
+    if folder.exists():raise ValueError('Preserve prior preparation')
+    selection=read(FOLDER/'application-selection.json')
+    selected=selection['completed'][selection['profile']]
+    if (selection['status']!='passed' or selection['tasks']!=12 or selected<10
+            or selected<selection['completed']['v4'] or not selection['all_candidate_safety_controls_passed']
+            or selection['unresolved_selected_candidate_findings']):raise ValueError('Application gate required')
+    for path,h in selection['inspection_hashes'].items():
+        if digest(ROOT/path)!=h:raise ValueError('Application inspection changed')
+    paths=[FOLDER/'authorization.json',FOLDER/'rolling-authorization.json',FOLDER/'application-selection.json',existing.CONTROLS,
+        existing.old_development.baseline.SUITE,existing.old_development.baseline.AUDITS,existing.old_development.baseline.VALIDATION]
+    paths += [ROOT/p for p in selection['inspection_hashes']]
+    if stage=='calibration':
+        gate=FOLDER/'grader-diagnostic-acceptance.json';value=read(gate)
+        report_path=ROOT/value['report_path']
+        if value['status']!='passed' or value['unresolved_findings'] or digest(report_path)!=value['report_sha256']:
+            raise ValueError('Source-reviewed diagnostic required')
+        report=read(report_path)
+        if report['matched']!=8 or report['matching_probes']!=3 or report['status']!='complete':raise ValueError('Diagnostic incomplete')
+        paths.extend([gate,report_path])
+    paths+=list((ROOT/'scripts').glob('*.py'))
+    bound=sum((transport.case_bound(c['inputs']) for c in cases(stage)),Decimal(0))
+    bound+=sum((transport.reserve(transport.review_request(c['inputs'],c['candidate']))['reserved_usd'] for c in probes(stage)),Decimal(0))
+    value=dict(stage=stage,step=step,version=contract.VERSION,prefix=prefix(),maximum_calls=len(cases(stage))*3+len(probes(stage)),
+        case_ids=[c['id'] for c in cases(stage)],probe_ids=[c['id'] for c in probes(stage)],
+        whole_stage_conservative_reservation_usd=str(bound),reservation_policy='rolling per-request; not whole-stage funded',
+        total_ceiling_usd=str(CEILING),output_caps=transport.CAPS,provider_retries=0,
+        bindings={p.relative_to(ROOT).as_posix():digest(p) for p in paths})
+    write(folder/'preflight.json',value)
+    print(json.dumps({k:v for k,v in value.items() if k not in ('bindings','prefix')},indent=2))
+
+
+def execute(step):
+    folder=FOLDER/step;plan=read(folder/'preflight.json')
+    if plan['prefix']!=prefix() or any(digest(ROOT/p)!=h for p,h in plan['bindings'].items()):raise ValueError('Frozen inputs changed')
+    if subprocess.check_output(['git','diff','HEAD','--',*plan['bindings']],text=True).strip():raise ValueError('Commit freeze before spending')
+    from apps.api.app.core.config import get_settings
+    from openai import OpenAI
+    settings=get_settings()
+    if not settings.openai_api_key:raise ValueError('Existing credential unavailable')
+    client=OpenAI(api_key=settings.openai_api_key,max_retries=0,timeout=180.0)
+    if str(client.base_url)!='https://api.openai.com/v1/':raise ValueError('Unexpected endpoint')
+    out=folder/'run';out.mkdir();ledger=RollingLedger(out,plan)
+    manifest=dict(status='running',runtime_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+        started_at=now(),preflight_sha256=digest(folder/'preflight.json'),rows={},probes={})
+    write(out/'manifest.json',manifest)
+    try:
+        for case in cases(plan['stage']):
+            grade=review=error=None
+            try:grade,review=transport.grade_case(client.chat.completions.create,case['inputs'],ledger,out/'raw'/case['id'])
+            except (ValueError,IndexError) as exc:
+                if ledger.data['unknown_outcome']:raise
+                error=type(exc).__name__
+            row=existing.judged(case,grade,review,error);path=out/(case['id']+'.json');write(path,row)
+            manifest['rows'][case['id']]=digest(path);write(out/'manifest.json',manifest)
+            print(json.dumps(dict(case_id=case['id'],matched=row['matched'],cumulative_usd=str(ledger.accounted))),flush=True)
+            if not row['matched']:
+                manifest['status']='early_stopped';break
+        else:
+            for case in probes(plan['stage']):
+                review=error=None;body=transport.review_request(case['inputs'],case['candidate'])
+                try:review=transport.parsed(ledger.call(client.chat.completions.create,body,out/'raw'/(case['id']+'.json')),contract.review_schema())
+                except (ValueError,IndexError) as exc:
+                    if ledger.data['unknown_outcome']:raise
+                    error=type(exc).__name__
+                path=out/(case['id']+'-probe.json');write(path,existing.probe_result(case,review,error))
+                manifest['probes'][case['id']]=digest(path);write(out/'manifest.json',manifest)
+            manifest['status']='complete'
+    except BaseException as exc:
+        manifest.update(status='stopped',exception_type=type(exc).__name__);raise
+    finally:
+        manifest.update(finished_at=now(),new_spend_usd=str(ledger.accounted-Decimal(plan['prefix']['spent_usd'])),cumulative_usd=str(ledger.accounted),ledger_sha256=digest(out/'api-ledger.json'))
+        write(out/'manifest.json',manifest)
+
+
+def report(step):
+    from scripts.report_quality_calibration_v12 import replay_raw
+    from scripts.conversation_custody import verify_bindings
+    out=FOLDER/step/'run';manifest=read(out/'manifest.json');plan=read(out.parent/'preflight.json')
+    if digest(out.parent/'preflight.json')!=manifest['preflight_sha256']:raise ValueError('Preflight changed')
+    verify_bindings(ROOT,manifest['runtime_commit'],plan['bindings'])
+    for path,h in plan['prefix']['ledger_sha256'].items():
+        if digest(ROOT/path)!=h:raise ValueError('Spending prefix changed')
+    prefix() # Full cache-aware receipt replay, no silent unknown outcome.
+    ledger=read(out/'api-ledger.json')
+    if digest(out/'api-ledger.json')!=manifest['ledger_sha256']:raise ValueError('Ledger changed')
+    rows=[];reviews=[];bodies={}
+    for case in cases(plan['stage']):
+        if case['id'] not in manifest['rows']:continue
+        grade=review=error=None
+        try:
+            parts={}
+            for purpose,body in transport.initial_requests(case['inputs']):
+                path=out/'raw'/case['id']/(purpose+'.json');bodies[path.relative_to(out).as_posix()]=body
+                parts.update(replay_raw(path,body))
+            body=transport.review_request(case['inputs'],parts);path=out/'raw'/case['id']/'review.json';bodies[path.relative_to(out).as_posix()]=body
+            review=replay_raw(path,body);grade=parts
+        except (ValueError,IndexError) as exc:error=type(exc).__name__
+        row=existing.judged(case,grade,review,error);path=out/(case['id']+'.json')
+        if digest(path)!=manifest['rows'][case['id']] or read(path)!=row:raise ValueError('Judgment changed')
+        rows.append(dict(id=case['id'],**row))
+    for case in probes(plan['stage']):
+        if case['id'] not in manifest['probes']:continue
+        body=transport.review_request(case['inputs'],case['candidate']);path=out/'raw'/(case['id']+'.json');bodies[path.relative_to(out).as_posix()]=body
+        review=error=None
+        try:review=replay_raw(path,body)
+        except (ValueError,IndexError) as exc:error=type(exc).__name__
+        row=existing.probe_result(case,review,error);path=out/(case['id']+'-probe.json')
+        if digest(path)!=manifest['probes'][case['id']] or read(path)!=row:raise ValueError('Probe changed')
+        reviews.append(dict(id=case['id'],**row))
+    for row in ledger['calls']:
+        body=bodies[row['raw_path']]
+        if read(out/row['raw_path'])['request']!=body or row['request_sha256']!=request_hash(body):raise ValueError('Request changed')
+        limits=transport.reserve(body)
+        if any(str(row[k])!=str(v) for k,v in limits.items()):raise ValueError('Reservation changed')
+    result=dict(status=manifest['status'],version=contract.VERSION,count=len(rows),matched=sum(r['matched'] for r in rows),
+        matching_probes=sum(r['matched'] for r in reviews),calls=len(ledger['calls']),cost_usd=manifest['new_spend_usd'],
+        cumulative_usd=manifest['cumulative_usd'],rows=rows,probes=reviews,source_review_pending=True)
+    write(out.parent/'report.json',result)
+    print(json.dumps({k:v for k,v in result.items() if k not in ('rows','probes')},indent=2))
+
+
+if __name__=='__main__':
+    if sys.argv[1]=='prepare':prepare(sys.argv[2],sys.argv[3])
+    elif sys.argv[1]=='run':execute(sys.argv[2])
+    elif sys.argv[1]=='report':report(sys.argv[2])
+    else:raise SystemExit('Choose prepare, run or report')

@@ -11,27 +11,20 @@ sys.path.insert(0,str(ROOT))
 from scripts.conversation_continuation import FOLDER,PREVIOUS,prefix,read,digest,write
 from scripts.bounded_redesign_run import request_hash,response_charge
 from scripts.bounded_redesign_preflight import prepare
+from scripts.conversation_custody import verify_bindings
 
 
 def report():
     spending=prefix();rows=[]
     for manifest_path in sorted(FOLDER.glob('*/run/manifest.json')):
         folder=manifest_path.parent;manifest=read(manifest_path);plan=read(folder.parent/'preflight.json');ledger=read(folder/'api-ledger.json')
+        if 'profile' not in plan:continue # Grader stages have their own complete replay.
         assert manifest['status']=='complete' and not ledger['stopped']
         assert manifest['ledger_sha256']==digest(folder/'api-ledger.json')
         assert manifest['preflight_sha256']==digest(folder.parent/'preflight.json')
         assert ledger['prefix']==plan['prefix']
         for path,h in plan['prefix']['ledger_sha256'].items():assert digest(ROOT/path)==h
-        for path,h in plan['bindings'].items():
-            blob=subprocess.check_output(['git','show',manifest['runtime_commit']+':'+path],cwd=ROOT)
-            # Git stores LF; freeze hashes retain the Windows checkout's bytes.
-            normalized=blob.replace(b'\r\n',b'\n')
-            representations={hashlib.sha256(value).hexdigest() for value in (blob,normalized,normalized.replace(b'\n',b'\r\n'))}
-            if h not in representations:
-                # Some historical checkouts contain mixed line endings. Retain
-                # exact freeze bytes AND prove their normalized committed content.
-                current=(ROOT/path).read_bytes()
-                assert hashlib.sha256(current).hexdigest()==h and current.replace(b'\r\n',b'\n')==normalized,path
+        verify_bindings(ROOT,manifest['runtime_commit'],plan['bindings'])
         suite=read(ROOT/plan.get('suite_path','data/evaluation/bounded-redesign/development.json'))
         expected={(x['case_id'],x['turn']) for x in plan['turns']};seen=set();quotes=0
         for item in manifest['rows']:

@@ -1,0 +1,549 @@
+{
+  "authorized_evidence": [
+    {
+      "access_roles": [
+        "Employee",
+        "Sales Representative",
+        "Manager",
+        "HR Admin",
+        "IT/Admin"
+      ],
+      "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+      "content": "Expense Categories\n\n| Category | Standard Limit | Approval Required |\n| --- | ---: | --- |\n| Meals during business travel | USD 85 per day | Manager approval above limit |\n| Customer-facing meals | USD 125 per attendee | Manager approval and attendee list |\n| Office supplies | USD 300 per purchase | Manager approval above limit |\n| Software subscription trial | USD 500 annualized value | IT review and manager approval |\n| Conference registration | USD 1,500 per event | Manager approval before purchase |\n\nAlcohol is not reimbursable unless it is part of a customer-facing meal approved by a manager before the event. Gift cards, personal devices, fines, commuting costs, and family travel are not reimbursable.",
+      "department_id": null,
+      "document_id": "FIN-001",
+      "document_title": "Expense, Procurement, and Reimbursement Policy",
+      "hybrid_score": null,
+      "keyword_score": null,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "rank": 1,
+      "restricted": false,
+      "retrieval_source": "vector",
+      "score": 0.95,
+      "section_heading": "Expense Categories",
+      "sensitivity": "internal",
+      "vector_score": null
+    }
+  ],
+  "case_id": "dev-03",
+  "turns": [
+    {
+      "final_response": {
+        "answer": "Please clarify above-limit approval rule, approval_threshold_for_office_supplies so I can search the right company guidance.",
+        "answer_confidence": 0.65,
+        "assistant_message_id": "2",
+        "behavior": "ask_clarifying_question",
+        "chunking_strategy": "section_based",
+        "citation_confidence": 0.0,
+        "citations": [],
+        "clarification_reason": "semantic_clarification_required",
+        "defense_trace": {
+          "privacy_mode": "bounded_metadata_only",
+          "schema_version": "defense_trace.v1",
+          "stages": [
+            {
+              "action": "continue",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": 0.0,
+              "latency_ms": 0,
+              "memory_used_as_evidence": null,
+              "name": "deterministic_guard",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "not_selected",
+              "status": "skipped",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "clarify",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": 1847,
+              "memory_used_as_evidence": false,
+              "name": "semantic_request_assessment",
+              "reason_codes": [
+                "missing_context"
+              ],
+              "repair_count": null,
+              "route": "semantic_assessment",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "allow_authorized_only",
+              "authorized_chunk_count": 0,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "permission_filter",
+              "reason_codes": [
+                "pre_generation_role_filter"
+              ],
+              "repair_count": null,
+              "route": "application_authorization",
+              "status": "succeeded",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "not_run",
+              "authorized_chunk_count": 0,
+              "estimated_cost_usd": 0.0,
+              "latency_ms": 0,
+              "memory_used_as_evidence": false,
+              "name": "evidence_assessment",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "pre_retrieval_stop",
+              "status": "skipped",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "not_run",
+              "authorized_chunk_count": 0,
+              "estimated_cost_usd": 0.0,
+              "latency_ms": 0,
+              "memory_used_as_evidence": false,
+              "name": "generator",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "code_authored_response",
+              "status": "skipped",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "not_run",
+              "authorized_chunk_count": 0,
+              "estimated_cost_usd": 0.0,
+              "latency_ms": 0,
+              "memory_used_as_evidence": false,
+              "name": "post_generation_validation",
+              "reason_codes": [],
+              "repair_count": 0,
+              "route": "no_generated_candidate",
+              "status": "skipped",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "clarify",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "final_response",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "application_response_policy",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            }
+          ]
+        },
+        "estimated_cost_usd": null,
+        "evidence_assessment": null,
+        "final_confidence": 0.358,
+        "generation_latency_ms": null,
+        "input_cost_usd": null,
+        "memory": {
+          "is_followup": false,
+          "memory_used": false,
+          "original_question": "I plan to spend USD 290 on office supplies. Does that trigger the above-limit approval rule?",
+          "previous_topic": null,
+          "rewrite_strategy": "none",
+          "rewritten_question": "I plan to spend USD 290 on office supplies. Does that trigger the above-limit approval rule?"
+        },
+        "model": null,
+        "multi_doc_mode": "off",
+        "multi_doc_used": false,
+        "output_cost_usd": null,
+        "permission_check": {
+          "retrieved_chunks_count": 0,
+          "unauthorized_chunks_reached_generation": false,
+          "user_role": "Employee"
+        },
+        "post_generation_validation": null,
+        "pricing_status": null,
+        "prompt_name": null,
+        "prompt_version": null,
+        "request_assessment": {
+          "ambiguity": "none",
+          "assessment_confidence": 0.95,
+          "decision_variables": [
+            "approval_threshold_for_office_supplies"
+          ],
+          "estimated_cost_usd": null,
+          "injection_risk": "none",
+          "input_cost_usd": null,
+          "input_tokens": 1226,
+          "intent": "question",
+          "latency_ms": 1847,
+          "missing_referents": [
+            "above-limit approval rule"
+          ],
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 113,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v2",
+          "reason_codes": [
+            "missing_context"
+          ],
+          "recommended_action": "clarify",
+          "referents": "unresolved",
+          "response_reason": "semantic_clarification_required",
+          "route": "semantic_assessment",
+          "schema_version": "request_assessment.v1",
+          "status": "succeeded",
+          "topic": "approval",
+          "topic_description": "User is asking about whether a planned expense triggers an approval rule, but the specific approval threshold or rule details are not provided in the conversation context."
+        },
+        "response_type": "clarify",
+        "retrieval_confidence": 0.0,
+        "retrieval_latency_ms": null,
+        "retrieval_mode": "vector_lexical_rerank",
+        "retrieved_chunks": [],
+        "scope": {
+          "department_id": null,
+          "project_id": "00000000-0000-0000-0000-000000000019"
+        },
+        "session_id": "00000000-0000-0000-0000-000000009001",
+        "supported_claims": [],
+        "temperature": null,
+        "total_latency_ms": 1865,
+        "unsupported_claims": [],
+        "user_message_id": "1",
+        "validation_notes": "Pre-retrieval clarification guard triggered: semantic_clarification_required."
+      },
+      "latency_ms": 1875,
+      "question": "I plan to spend USD 290 on office supplies. Does that trigger the above-limit approval rule?",
+      "status_code": 200,
+      "turn": 0
+    },
+    {
+      "final_response": {
+        "answer": "Yes, a purchase of USD 330 for office supplies exceeds the standard limit of USD 300 per purchase, so it would trigger the above-limit approval rule requiring manager approval.",
+        "answer_confidence": 0.784,
+        "assistant_message_id": "4",
+        "behavior": "answer",
+        "chunking_strategy": "section_based",
+        "citation_confidence": 0.784,
+        "citations": [
+          {
+            "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+            "citation_text": "Office supplies | USD 300 per purchase | Manager approval above limit",
+            "citation_type": "model",
+            "confidence": 0.784,
+            "document_id": "FIN-001",
+            "document_title": "Expense, Procurement, and Reimbursement Policy",
+            "section_heading": "Expense Categories",
+            "source": "Source: FIN-001 Expense, Procurement, and Reimbursement Policy, Section: Expense Categories"
+          }
+        ],
+        "clarification_reason": null,
+        "defense_trace": {
+          "privacy_mode": "bounded_metadata_only",
+          "schema_version": "defense_trace.v1",
+          "stages": [
+            {
+              "action": "continue",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": 0.0,
+              "latency_ms": 0,
+              "memory_used_as_evidence": null,
+              "name": "deterministic_guard",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "not_selected",
+              "status": "skipped",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "continue",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": 1566,
+              "memory_used_as_evidence": false,
+              "name": "semantic_request_assessment",
+              "reason_codes": [
+                "no_risk"
+              ],
+              "repair_count": null,
+              "route": "semantic_assessment",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "allow_authorized_only",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "permission_filter",
+              "reason_codes": [
+                "pre_generation_role_filter"
+              ],
+              "repair_count": null,
+              "route": "application_authorization",
+              "status": "succeeded",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "answer",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": null,
+              "latency_ms": 3044,
+              "memory_used_as_evidence": false,
+              "name": "evidence_assessment",
+              "reason_codes": [
+                "authorized_evidence_sufficient"
+              ],
+              "repair_count": null,
+              "route": "hybrid_semantic",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "generated",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": 0.000595,
+              "latency_ms": 2163,
+              "memory_used_as_evidence": false,
+              "name": "generator",
+              "reason_codes": [
+                "authorized_chunks_only"
+              ],
+              "repair_count": null,
+              "route": "authorized_evidence_only",
+              "status": "succeeded",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "accept",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": null,
+              "latency_ms": 3007,
+              "memory_used_as_evidence": false,
+              "name": "post_generation_validation",
+              "reason_codes": [
+                "all_claims_supported"
+              ],
+              "repair_count": 0,
+              "route": "hybrid_semantic",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "answer",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "final_response",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "application_response_policy",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            }
+          ]
+        },
+        "estimated_cost_usd": 0.000595,
+        "evidence_assessment": {
+          "answerability": "sufficient",
+          "assessment_confidence": 0.9,
+          "conflicts": [],
+          "estimated_cost_usd": null,
+          "input_cost_usd": null,
+          "input_tokens": 2043,
+          "latency_ms": 3044,
+          "missing_information": [],
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 175,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v4",
+          "reason_codes": [
+            "authorized_evidence_sufficient"
+          ],
+          "recommended_action": "answer",
+          "required_facts": [
+            {
+              "description": "What is the approval threshold for office supplies purchases?",
+              "fact_id": "fact1",
+              "support": "supported",
+              "supporting_chunk_ids": [
+                "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+              ]
+            },
+            {
+              "description": "Does a purchase of USD 290 on office supplies require manager approval?",
+              "fact_id": "fact2",
+              "support": "supported",
+              "supporting_chunk_ids": [
+                "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+              ]
+            }
+          ],
+          "required_source_coverage": [],
+          "route": "hybrid_semantic",
+          "schema_version": "evidence_assessment.v1",
+          "status": "succeeded",
+          "supporting_chunk_ids": [
+            "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+          ]
+        },
+        "final_confidence": 0.824,
+        "generation_latency_ms": 2163,
+        "input_cost_usd": 0.000318,
+        "memory": {
+          "is_followup": true,
+          "memory_used": true,
+          "original_question": "Correction: the purchase is USD 330. Does that change the threshold comparison?",
+          "previous_topic": "I plan to spend USD 290 on office supplies. Does that trigger the above-limit approval rule?",
+          "rewrite_strategy": "topic_prefix",
+          "rewritten_question": "Correction: the purchase is USD 330. Does that change the threshold comparison? Context: I plan to spend USD 290 on office supplies. Does that trigger the above-limit approval rule?."
+        },
+        "model": "gpt-4.1-mini",
+        "multi_doc_mode": "off",
+        "multi_doc_used": false,
+        "output_cost_usd": 0.000277,
+        "permission_check": {
+          "retrieved_chunks_count": 1,
+          "unauthorized_chunks_reached_generation": false,
+          "user_role": "Employee"
+        },
+        "post_generation_validation": {
+          "action": "accept",
+          "citation_checks": [
+            {
+              "citation_chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+              "supported_claim_ids": [
+                "claim-1"
+              ],
+              "supports_claims": true
+            }
+          ],
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "claim_text": "Yes, a purchase of USD 330 for office supplies exceeds the standard limit of USD 300 per purchase, so it would trigger the above-limit approval rule requiring manager approval.",
+              "claim_type": "exact",
+              "evidence_chunk_ids": [
+                "22e6e0ed-a681-4701-97d1-c1be7d69b0c0"
+              ],
+              "support_status": "supported"
+            }
+          ],
+          "estimated_cost_usd": null,
+          "exact_literals": [
+            "USD 330",
+            "USD 300"
+          ],
+          "input_cost_usd": null,
+          "input_tokens": 1814,
+          "latency_ms": 3007,
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 256,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v4",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "schema_version": "post_generation_validation.v1",
+          "source_instruction_followed": false,
+          "status": "succeeded",
+          "unsupported_exact_literals": []
+        },
+        "pricing_status": "estimated",
+        "prompt_name": "answer_generation",
+        "prompt_version": "v1",
+        "request_assessment": {
+          "ambiguity": "none",
+          "assessment_confidence": 0.95,
+          "decision_variables": [
+            "purchase_amount",
+            "approval_threshold"
+          ],
+          "estimated_cost_usd": null,
+          "injection_risk": "none",
+          "input_cost_usd": null,
+          "input_tokens": 1258,
+          "intent": "question",
+          "latency_ms": 1566,
+          "missing_referents": [],
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 85,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v2",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "recommended_action": "continue",
+          "referents": "resolved",
+          "response_reason": null,
+          "route": "semantic_assessment",
+          "schema_version": "request_assessment.v1",
+          "status": "succeeded",
+          "topic": "expenses",
+          "topic_description": "Inquiry about expense approval threshold for office supplies purchase"
+        },
+        "response_type": "answer",
+        "retrieval_confidence": 0.898,
+        "retrieval_latency_ms": 0,
+        "retrieval_mode": "vector_lexical_rerank",
+        "retrieved_chunks": [
+          {
+            "access_roles": [
+              "Employee",
+              "Sales Representative",
+              "Manager",
+              "HR Admin",
+              "IT/Admin"
+            ],
+            "chunk_id": "22e6e0ed-a681-4701-97d1-c1be7d69b0c0",
+            "content_preview": "Expense Categories\n\n| Category | Standard Limit | Approval Required |\n| --- | ---: | --- |\n| Meals during business travel | USD 85 per day | Manager approval above limit |\n| Customer-facing meals | USD 125 per attendee | Manager approval and attendee list |\n| Office supplies | USD 300 per purchase | Manager approval above limit |\n| Software subscription trial | USD 500 annualized value | IT review and manager approval |\n| Conference registration | USD 1,500 per event | Manager approval before pu",
+            "department_id": null,
+            "document_id": "FIN-001",
+            "document_title": "Expense, Procurement, and Reimbursement Policy",
+            "hybrid_score": null,
+            "keyword_score": null,
+            "project_id": "00000000-0000-0000-0000-000000000019",
+            "rank": 1,
+            "restricted": false,
+            "retrieval_source": "vector",
+            "score": 0.95,
+            "section_heading": "Expense Categories",
+            "sensitivity": "internal",
+            "vector_score": null
+          }
+        ],
+        "scope": {
+          "department_id": null,
+          "project_id": "00000000-0000-0000-0000-000000000019"
+        },
+        "session_id": "00000000-0000-0000-0000-000000009001",
+        "supported_claims": [
+          "A purchase of USD 330 for office supplies exceeds the USD 300 limit.",
+          "Purchases above USD 300 require manager approval.",
+          "FIN-001: Expense Categories"
+        ],
+        "temperature": 0.2,
+        "total_latency_ms": 9816,
+        "unsupported_claims": [],
+        "user_message_id": "3",
+        "validation_notes": "Acceptable citation support."
+      },
+      "latency_ms": 9822,
+      "question": "Correction: the purchase is USD 330. Does that change the threshold comparison?",
+      "status_code": 200,
+      "turn": 1
+    }
+  ]
+}

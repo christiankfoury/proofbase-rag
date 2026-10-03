@@ -135,3 +135,24 @@ Stage estimates are planning figures, not extra funding; incomplete stages earn
 no acceptance. The final launch floor remains USD 4.50. No retries or coverage
 reductions. The prior whole-stage final output reservation alone was USD 14.7456;
 rolling funding uses settled actual spending instead of reserving all 60 at once.
+
+Matched v4 completes 6/12 under the unchanged expected details: first correction
+turn diverted, scope omitted, conflict values omitted, confirmation approval detail
+omitted, conference condition/unit incomplete, equality validation unavailable.
+Its 50 calls cost USD 0.0346460, cumulative USD 0.3875408.
+No observed disclosure. Candidate selection: challenger 12/12 >=10 and >=v4 6/12,
+all designated controls; mini8/12 fails. These are development inspection results.
+
+Grader v24 preserves v23 schema, reducers, exact witnesses and metadata limits.
+It clarifies contextual coverage witnesses, evidence-caveat speech acts, mixed
+partial answers and scenario references, based on the preserved v6 source review.
+Pinned GPT-5.4 medium: claims8192, coverage4096, review4096. Qualification keeps
+eight diagnostic controls plus three probes, 24 calibration cases plus three
+probes, then newly sealed16 confirmation. No fresh60 launch without qualification.
+Estimated remaining costs are approximately USD 0.3-0.7 diagnostic, 0.8-1.6
+calibration, 0.5-1.1 confirmation, and 2.5-5.0 final application/grading. These are
+planning estimates, not reservations or promises. Full conservative request bounds
+are saved separately; rolling calls must fit the actual remaining ceiling.
+Offline tests replay all24 calibration and3 probe semantics unchanged and prove
+pre-submission reservation, cached receipt settlement, unknown-outcome stop,
+no repeats, exact cap/model enforcement and ceiling rejection. All four pass.
