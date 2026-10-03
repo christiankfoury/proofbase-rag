@@ -216,3 +216,9 @@ V25 fresh confirmation passes16/16 with clean source inspection and exact replay
 48 calls cost USD0.5217955; cumulative USD2.0565328, remaining USD10.4434672.
 Grader qualification complete. Freeze the selected runtime/index/configuration
 before isolated fresh60 authoring; retain v4 default pending full acceptance.
+
+Final freeze hit Windows WinError206 on its long Git argument list before any
+API call or freeze write. The versioned conversation_measurement_v2 harness
+uses existing batched committed-blob verification for freeze/run. Original
+confirmation-frozen scripts remain immutable; runtime/grader/gates unchanged.
+All four measurement ledger checks rerun against the successor.
