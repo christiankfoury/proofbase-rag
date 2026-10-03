@@ -114,3 +114,9 @@ scope, no-source abstention and equality boundary. Eighteen calls cost USD 0.050
 cumulative USD 0.2108504. All checker flags remain required. No open finding in
 this focused run; no full application or grader acceptance yet. Proceed to the
 fixed 12-task comparisons on the versioned suite, retaining every result.
+
+The full v3 challenger run at `b738bdc3` completes **12/12 tasks**, all designated
+controls, by agent inspection of all 15 turns and source/draft/checker pairs. No
+open inspection finding. Cost USD 0.1253276, cumulative USD 0.3361780. This is a
+development result, not final accuracy or activation authority. Mini and v4 still
+need the matched-source comparison; qualification and release remain pending.

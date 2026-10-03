@@ -25,6 +25,9 @@ questions/expectations unchanged. Challenger focused preflight reserves 0.432724
 no broader paid run until focused inspection passes. V3 challenger focus at
 `7c43a94c` subsequently passed all five focused tasks; cumulative USD 0.2108504.
 The full fixed development comparison is next, with v4 still default.
+The challenger full comparison then completed 12/12 by agent inspection at
+`b738bdc3`, all controls, cumulative USD 0.3361780. Mini/v4 matched-source runs and
+all grader/release gates are still pending; no activation or overall accuracy claim.
 
 ### Prior milestone: bounded attempt closed after failed application gate
 

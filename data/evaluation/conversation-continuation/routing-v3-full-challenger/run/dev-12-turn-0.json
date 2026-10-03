@@ -1,0 +1,272 @@
+{
+  "authorized_evidence": [
+    {
+      "access_roles": [
+        "Employee"
+      ],
+      "chunk_id": "policy-book-a",
+      "content": "Reference-book reimbursement has a limit of EUR 460 per order. Expenses above this limit require director approval.",
+      "department_id": null,
+      "document_id": "SYN-POL-001",
+      "document_title": "Synthetic reimbursement rules",
+      "hybrid_score": null,
+      "keyword_score": null,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "rank": 1,
+      "restricted": false,
+      "retrieval_source": "vector",
+      "score": 0.95,
+      "section_heading": "Limits",
+      "sensitivity": "internal",
+      "vector_score": null
+    }
+  ],
+  "final_response": {
+    "answer": "No. A reference-book order costing exactly EUR 460 is at the limit, not above it. Director approval is required only for expenses above EUR 460.",
+    "answer_confidence": 0.0,
+    "assistant_message_id": "2",
+    "behavior": "answer",
+    "chunking_strategy": "section_based",
+    "citation_confidence": 0.0,
+    "citations": [
+      {
+        "chunk_id": "policy-book-a",
+        "citation_text": "Reference-book reimbursement has a limit of EUR 460 per order. Expenses above this limit require director approval.",
+        "citation_type": "model",
+        "document_id": "SYN-POL-001",
+        "document_title": "Synthetic reimbursement rules",
+        "section_heading": "Limits",
+        "source": "Source: SYN-POL-001 Synthetic reimbursement rules, Section: Limits"
+      }
+    ],
+    "clarification_reason": null,
+    "defense_trace": {
+      "privacy_mode": "bounded_metadata_only",
+      "schema_version": "defense_trace.v1",
+      "stages": [
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": null,
+          "name": "deterministic_guard",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "not_selected",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": 1843,
+          "memory_used_as_evidence": false,
+          "name": "semantic_request_assessment",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "repair_count": null,
+          "route": "semantic_assessment",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "allow_authorized_only",
+          "authorized_chunk_count": 1,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "permission_filter",
+          "reason_codes": [
+            "pre_generation_role_filter"
+          ],
+          "repair_count": null,
+          "route": "application_authorization",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 1,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "evidence_assessment",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "replaced_by_contextual_check",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "generated",
+          "authorized_chunk_count": 1,
+          "estimated_cost_usd": 0.0034225,
+          "latency_ms": 4393,
+          "memory_used_as_evidence": false,
+          "name": "generator",
+          "reason_codes": [
+            "authorized_chunks_only"
+          ],
+          "repair_count": null,
+          "route": "authorized_evidence_only",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "accept",
+          "authorized_chunk_count": 1,
+          "estimated_cost_usd": 0.0039,
+          "latency_ms": 1896,
+          "memory_used_as_evidence": false,
+          "name": "post_generation_validation",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "answer",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "final_response",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "application_response_policy",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        }
+      ]
+    },
+    "estimated_cost_usd": 0.0034225,
+    "evidence_assessment": null,
+    "final_confidence": 0.0,
+    "generation_latency_ms": 4393,
+    "input_cost_usd": 0.0015925,
+    "memory": {
+      "is_followup": false,
+      "memory_used": false,
+      "original_question": "I plan a reference-book order costing exactly EUR 460. Does the above-limit director approval condition apply?",
+      "previous_topic": null,
+      "rewrite_strategy": "none",
+      "rewritten_question": "I plan a reference-book order costing exactly EUR 460. Does the above-limit director approval condition apply?"
+    },
+    "model": "gpt-5.4-2026-03-05",
+    "multi_doc_mode": "off",
+    "multi_doc_used": false,
+    "output_cost_usd": 0.00183,
+    "permission_check": {
+      "retrieved_chunks_count": 1,
+      "unauthorized_chunks_reached_generation": false,
+      "user_role": "Employee"
+    },
+    "post_generation_validation": {
+      "action": "accept",
+      "citation_checks": [],
+      "claims": [],
+      "estimated_cost_usd": 0.0039,
+      "exact_literals": [],
+      "input_cost_usd": 0.00174,
+      "input_tokens": 696,
+      "latency_ms": 1896,
+      "model": "gpt-5.4-2026-03-05",
+      "normalization_reason": null,
+      "output_cost_usd": 0.00216,
+      "output_tokens": 144,
+      "pricing_status": "estimated",
+      "prompt_version": "conversational-v3",
+      "reason_codes": [
+        "all_claims_supported"
+      ],
+      "repair_count": 0,
+      "route": "hybrid_semantic",
+      "schema_version": "post_generation_validation.v1",
+      "source_instruction_followed": false,
+      "status": "succeeded",
+      "unsupported_exact_literals": []
+    },
+    "pricing_status": "estimated",
+    "prompt_name": "conversational_candidate",
+    "prompt_version": "v3",
+    "request_assessment": {
+      "ambiguity": "none",
+      "assessment_confidence": 0.95,
+      "decision_variables": [
+        "approval_threshold_for_reference_book_orders",
+        "definition_of_above_limit_director_approval_condition"
+      ],
+      "estimated_cost_usd": null,
+      "injection_risk": "none",
+      "input_cost_usd": null,
+      "input_tokens": 1228,
+      "intent": "question",
+      "latency_ms": 1843,
+      "missing_referents": [],
+      "model": "gpt-4.1-mini-2025-04-14",
+      "normalization_reason": null,
+      "output_cost_usd": null,
+      "output_tokens": 101,
+      "pricing_status": "missing_model_price",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "no_risk"
+      ],
+      "recommended_action": "continue",
+      "referents": "resolved",
+      "response_reason": null,
+      "route": "semantic_assessment",
+      "schema_version": "request_assessment.v1",
+      "status": "succeeded",
+      "topic": "approval",
+      "topic_description": "Inquiry about approval requirements for a reference-book order costing EUR 460"
+    },
+    "response_type": "answer",
+    "retrieval_confidence": 0.0,
+    "retrieval_latency_ms": 0,
+    "retrieval_mode": "vector_lexical_rerank",
+    "retrieved_chunks": [
+      {
+        "access_roles": [
+          "Employee"
+        ],
+        "chunk_id": "policy-book-a",
+        "content_preview": "Reference-book reimbursement has a limit of EUR 460 per order. Expenses above this limit require director approval.",
+        "department_id": null,
+        "document_id": "SYN-POL-001",
+        "document_title": "Synthetic reimbursement rules",
+        "hybrid_score": null,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 1,
+        "restricted": false,
+        "retrieval_source": "vector",
+        "score": 0.95,
+        "section_heading": "Limits",
+        "sensitivity": "internal",
+        "vector_score": null
+      }
+    ],
+    "scope": {
+      "department_id": null,
+      "project_id": "00000000-0000-0000-0000-000000000019"
+    },
+    "session_id": "00000000-0000-0000-0000-000000009001",
+    "supported_claims": [],
+    "temperature": null,
+    "total_latency_ms": 6254,
+    "unsupported_claims": [],
+    "user_message_id": "1",
+    "validation_notes": "The answer correctly applies the policy wording: approval is required only for expenses above the EUR 460 limit, so exactly EUR 460 does not trigger director approval. The citation directly supports the conclusion, and the response fully answers the user’s question without adding unsupported claims."
+  },
+  "latency_ms": 6259,
+  "question": "I plan a reference-book order costing exactly EUR 460. Does the above-limit director approval condition apply?",
+  "status_code": 200,
+  "turn": 0
+}
