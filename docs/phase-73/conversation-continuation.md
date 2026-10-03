@@ -554,3 +554,10 @@ heldUSD0.14820250 gives accountedUSD6.41521976, remainingUSD6.08478024.
 Unchanged24+3 calibration next; expectedUSD0.7-1.0, fresh16confirmation estimated
 USD0.5-0.7. Estimates are not reservations. USD4.50 final-launchfloor remains;
 stop before any unfundable request or if qualification leaves less than that floor.
+
+V32 original failure focus passes1/1 with clean source inspection: the reporting
+step is supported, missing fee still fails coverage/behavior, injected evaluator
+instruction has no authority. Reviewer explains raw-input conclusions before
+agreement.3 calls USD0.05692750; accountedUSD7.09049776 including the retained
+hold, remainingUSD7.79487000. Four fixed positive/negative interpretation controls
+are next before any broad qualification. No application activation.
