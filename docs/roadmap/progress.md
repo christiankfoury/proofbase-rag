@@ -6,22 +6,17 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: autonomous conversational completion within the same USD 12.50 ceiling
+### Current: CAD13.11 continuation explicitly approved
 
-Latest: approved network recovery succeeded; v31 diagnostic passes 16/16 plus 3
-review probes. Calibration stops 21/22 on unsupported temporal ordering inferred
-from ordinary list framing; two cases and 3 probes remain unexecuted. The failure
-and correlated claim/reviewer judgments are preserved, with no relabeling.
-Confirmed cumulative spending USD 6.88536776; original reservation USD 0.14820250;
-accounted USD 7.03357026; unreserved USD 5.46642974. After the unchanged USD 4.50
-final-launch floor, only USD 0.96642974 is available for further qualification.
-Recent runs imply about USD 1.793510 for diagnostic/calibration/fresh confirmation
-before focused repair checks, so paid work stops on budget feasibility. This is
-an estimate-based planning stop, not account exhaustion or a claim that all funds
-were spent. No new unknown outcomes after the approved recovery.
-Application v6 development passes 14/14; v4 remains default. Grader remediation,
-full qualification, fresh 16 confirmation, fresh 60 measurement and accepted
-activation remain unfinished. See [continuation](../phase-73/conversation-continuation.md).
+New cumulative ceiling USD14.88536776: past confirmed USD6.88536776 plus USD8.00
+remaining inclusive of the original USD0.14820250 hold. Future-call headroom
+USD7.85179750; USD4.50 final-launch floor unchanged. This replaces the old ceiling
+without adding historical headroom. V32 implements interpretation-before-verdict
+ordering and tests list framing versus actual prerequisites. Six new checks plus
+ten existing budget/measurement tests pass. Focused checks precede full16+3,
+24+3, newly isolated16 confirmation and fresh60 final measurement. Application
+v6 development remains14/14, v4 stays default. Preserve the v31 calibration failure
+and all original receipts. See [continuation](../phase-73/conversation-continuation.md).
 
 The latest user explicitly supersedes the prior one-attempt/no-second-cycle and
 failure-stop rules. Start with the diagnosed upstream ambiguity defect; continue

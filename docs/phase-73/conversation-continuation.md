@@ -9,7 +9,38 @@ allocations may move. The subsequent explicit rolling-reservation approval
 supersedes whole-stage funding; per-request reservation and receipt settlement
 remain mandatory. Original stopped artifacts are immutable historical evidence.
 
-## Current status: recovery succeeded; budget stop before another qualification
+## Current authorization: CAD13.11 remaining, revised cumulative ceiling
+
+The user approved the reviewed replacement budget: CAD13.11 is the entire
+remaining balance, not an addition to the old unused allowance. The Bank of
+Canada2026-10-02 rate is CAD1.4246/USD; using CAD1.60/USD and rounding down gives
+USD8.00 remaining INCLUDING the unchanged USD0.14820250 unknown-request hold.
+Confirmed past spending USD6.88536776 plus that USD8.00 produces the new cumulative
+ceiling USD14.88536776. Accounted before new calls is USD7.03357026; future-call
+headroom USD7.85179750. Keep USD4.50 for final launch and USD3.35179750 for grader
+repairs/qualification. Rolling full-request reservations and all gates remain.
+Authorization and prior journal hashes are in `cad1311-authorization.json`.
+No historical balance is added twice, no top-up or account setting changes.
+
+V32 tests an interpretation-first generation order: exact claim text, contextual
+reason and evidence precede verdicts; independent review produces its raw-input
+assessment before agree/dispute labels. No field, scoring rule, source allowance
+or model/output cap is removed or reduced. The reviewer still receives candidate
+data and is not described as blind. Four fixed development variants distinguish
+ordinary list presentation, explicit unsupported policy ordering, preserved
+prerequisites and reversed prerequisites. The original failed calibration case
+also receives a focused check. All16+3 diagnostic,24+3 calibration, fresh16
+confirmation and fresh60 release gates remain; focused successes cannot replace
+them. Application v6 and v4 default remain unchanged.
+
+Six new budget/schema-order checks plus ten existing receipt/measurement checks
+pass. The ceiling tests use the new near-ceiling balance; no threshold checks
+were deleted. All44 development payloads retain the same evidence and schema
+meaning, with only prompts and generation property order changed. Expected focus
+cost roughly USD0.15-0.25, requalification about USD1.8 plus uncertainty, final
+USD2.5-5.0. Those estimates are not conservative reservations or guarantees.
+
+## Historical status: recovery succeeded; budget stop before another qualification
 
 The approved network recovery succeeded. V31 then passed all 16 diagnostic cases
 and 3 reviewer probes, but calibration stopped at 21/22 matched. The remaining two

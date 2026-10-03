@@ -10,6 +10,13 @@ Unused allocations may move; no top-up or old remainder addition. Continue until
 accepted activation, insufficient safe budget for the next necessary stage, or
 concrete external blocker. Safety, qualification and 48/60 release gates remain.
 
+Latest amendment: user approved CAD13.11 as the entire remaining balance, using
+USD8.00 inclusive of the retained USD0.14820250 hold. New cumulative ceiling is
+USD14.88536776 including USD6.88536776 confirmed prior spending; no historical
+remainder is added. Resume v32 focused remediation and unchanged qualification/
+release gates under the versioned CAD1311 ledger. USD4.50 final-launch floor stays.
+
+Historical budget stop:
 The approved network recovery succeeded and its original USD 0.14820250 reservation
 remains held. V31 passes 16/16 diagnostic cases plus 3 probes, but calibration fails
 at 21/22 on list-framing interpretation. Source review preserves the failure and

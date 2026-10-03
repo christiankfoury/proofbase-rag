@@ -1,0 +1,267 @@
+{
+  "cases": [
+    {
+      "evidence": [
+        {
+          "chunk_id": 95000,
+          "content": "For a Lumen key replacement, report the missing key to the service desk and pay a 7-credit fee.",
+          "document_id": 95100
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered",
+        "F2": "covered"
+      },
+      "id": "list-presentation-complete",
+      "inputs": {
+        "answer": "First, report the missing key to the service desk. Second, pay a 7-credit fee.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "For a Lumen key replacement, report the missing key to the service desk and pay a 7-credit fee."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "For a Lumen key replacement, report the missing key to the service desk and pay a 7-credit fee."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What are both steps for a Lumen key replacement?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Report the missing key to the service desk."
+          },
+          {
+            "fact_id": "F2",
+            "text": "Pay a 7-credit fee."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "First, report the missing key to the service desk. Second, pay a 7-credit fee.",
+        "citations": [
+          {
+            "chunk_id": 95000,
+            "citation_text": "For a Lumen key replacement, report the missing key to the service desk and pay a 7-credit fee.",
+            "document_id": 95100
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Distinguish explanatory presentation from asserted temporal policy while preserving all actual prerequisites and every requested step. Source and required facts are fixed before execution.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 95001,
+          "content": "For a Lumen key replacement, report the missing key to the service desk and pay a 7-credit fee.",
+          "document_id": 95101
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "pass",
+        "factual_support": "unresolved",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered",
+        "F2": "covered"
+      },
+      "id": "explicit-order-without-evidence",
+      "inputs": {
+        "answer": "Report the missing key to the service desk and pay a 7-credit fee. Policy requires that the fee be paid before you are allowed to report the missing key.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "For a Lumen key replacement, report the missing key to the service desk and pay a 7-credit fee."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "For a Lumen key replacement, report the missing key to the service desk and pay a 7-credit fee."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What are both steps for a Lumen key replacement?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Report the missing key to the service desk."
+          },
+          {
+            "fact_id": "F2",
+            "text": "Pay a 7-credit fee."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "Report the missing key to the service desk and pay a 7-credit fee. Policy requires that the fee be paid before you are allowed to report the missing key.",
+        "citations": [
+          {
+            "chunk_id": 95001,
+            "citation_text": "For a Lumen key replacement, report the missing key to the service desk and pay a 7-credit fee.",
+            "document_id": 95101
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Distinguish explanatory presentation from asserted temporal policy while preserving all actual prerequisites and every requested step. Source and required facts are fixed before execution.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 95002,
+          "content": "An Oriole compressor must be inspected before it is restarted.",
+          "document_id": 95102
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "prerequisite-preserved",
+      "inputs": {
+        "answer": "First, have the Oriole compressor inspected; only then restart it.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "An Oriole compressor must be inspected before it is restarted."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "An Oriole compressor must be inspected before it is restarted."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What must happen before restarting an Oriole compressor?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "An Oriole compressor must be inspected before it is restarted."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "First, have the Oriole compressor inspected; only then restart it.",
+        "citations": [
+          {
+            "chunk_id": 95002,
+            "citation_text": "An Oriole compressor must be inspected before it is restarted.",
+            "document_id": 95102
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Distinguish explanatory presentation from asserted temporal policy while preserving all actual prerequisites and every requested step. Source and required facts are fixed before execution.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": 95003,
+          "content": "An Oriole compressor must be inspected before it is restarted.",
+          "document_id": 95103
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "factual_support": "fail",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "fail"
+      },
+      "expected_fact_statuses": {
+        "F1": "contradicted"
+      },
+      "id": "prerequisite-reversed",
+      "inputs": {
+        "answer": "Restart the Oriole compressor before having it inspected.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "An Oriole compressor must be inspected before it is restarted."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "An Oriole compressor must be inspected before it is restarted."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "What must happen before restarting an Oriole compressor?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "An Oriole compressor must be inspected before it is restarted."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "Restart the Oriole compressor before having it inspected.",
+        "citations": [
+          {
+            "chunk_id": 95003,
+            "citation_text": "An Oriole compressor must be inspected before it is restarted.",
+            "document_id": 95103
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "Distinguish explanatory presentation from asserted temporal policy while preserving all actual prerequisites and every requested step. Source and required facts are fixed before execution.",
+      "safety_flags": []
+    }
+  ],
+  "scope": "Additional development controls only; fixed16/24 qualification suites remain unchanged."
+}
