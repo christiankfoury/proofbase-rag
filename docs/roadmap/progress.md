@@ -6,7 +6,24 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: policy-fact diagnostic stopped; candidate not accepted
+### Current: documentation reconciled; collaborative planning requested
+
+The user wants a new chat to understand the recurring failures and jointly choose
+a bounded solution, with a desired 75% milestone. Start with the current handoff
+in the single active [application-reliability plan](application-reliability-plan.md).
+This is planning only: no runtime changes, automatic queue continuation, candidate
+activation, remaining-control execution or API spending. The original R1-R4 starter
+is historical and completed. The previous autonomous-sprint and paid-continuation
+messages were suggested prompts, not new authorization in this request.
+
+Latest implementation evidence remains `65e6650f`: v4 code default, v5 closed,
+v6 opt-in/unaccepted, three negative controls still untested live. Journal headroom
+is USD 3.73106560. No validated overall score exists; desired 45/60 (75%) does not
+replace the existing 48/60 gate. Documentation entry points and historical metric
+labels have been reconciled; phase evidence and the unrelated log stay unchanged.
+Verification is documentation/link/diff review only, with no runtime or paid tests.
+
+### Prior milestone: policy-fact diagnostic stopped; candidate not accepted
 
 Frozen candidate `17840a18` attempted three of six cases once. The
 [result/source inspection](../phase-73/policy-fact-candidate.md) finds correct

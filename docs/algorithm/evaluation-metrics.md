@@ -172,27 +172,32 @@ Manual review preserved the automated result and separately classified the eight
 
 The dashboard export adds sample size, pass/fail counts, benchmark version, run timestamp, and category breakdown where available.
 
-## Current Scorecard Story
+## Historical Scorecard Story
 
-| Area | Baseline | Current |
+These development artifacts predate the latest runtime. Their heuristic scores
+are not validated answer accuracy or a current safety guarantee. See the
+[evaluation guide](../evaluation/README.md) for later fresh-suite failures and the
+[planning handoff](../roadmap/application-reliability-plan.md) for current work.
+
+| Area | Historical baseline | Historical comparison run |
 | --- | --- | --- |
 | Retrieval | `phase32-expanded-retrieval` | `phase33-vector-lexical-rerank-top3` |
 | Answer quality | `phase32-expanded-answer-generation-v5` | `phase39-live-query-answer-quality-v8` |
 | Permission safety | `phase8-permission-safety` | `phase46-permission-evaluation` |
 | Memory | `phase9-memory` | `phase36-memory-evaluation` |
 
-Current metrics from existing artifacts:
+Historical metrics reported by those artifacts:
 
-| Metric | Current value |
+| Metric | Historical value |
 | --- | ---: |
 | Precision@k | `0.778` |
 | Expected-source recall | `0.950` |
 | MRR | `0.965` |
-| Answer accuracy | `1.000` |
-| Citation accuracy | `1.000` |
-| Hallucination rate | `0.000` |
-| Permission leakage | `0.000` |
-| Memory answer accuracy | `1.000` |
+| Heuristic answer score | `1.000` |
+| Expected-document citation score | `1.000` |
+| Heuristic hallucination flag rate | `0.000` |
+| Observed permission leakage in that suite | `0.000` |
+| Heuristic memory answer score | `1.000` |
 
 ## What The Metrics Prove
 
@@ -201,7 +206,7 @@ They support these claims:
 - the benchmark has a known size and category mix
 - the system improved on measured retrieval and answer-quality runs
 - permission leakage stayed at zero on the evaluated restricted suite
-- memory follow-ups are handled correctly on the evaluated suite
+- memory follow-ups met the historical suite's heuristic checks
 - current failed-question counts and diagnostic notes are visible rather than hidden
 - a separately authored frozen holdout preserved the measured hard permission and memory-evidence boundaries while exposing generalization gaps
 

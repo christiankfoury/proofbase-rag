@@ -6,7 +6,18 @@ deferral for these three areas only. The portfolio release remains complete.
 The original workflow was approved on 2026-09-28; the standing authorization below
 supersedes its historical per-candidate approval limits.
 
-## Current sequence: application-first offline work (2026-10-01)
+## Current entry point: collaborative planning after `65e6650f`
+
+Use the current handoff in [application reliability](application-reliability-plan.md)
+and [progress](progress.md). R1-R4 and later bounded experiments have run; v4 stays
+default, conversational v5 is closed, and policy-fact v6 is unaccepted. Remaining
+journal headroom is USD 3.73106560, not permission for another run. The user now
+wants to plan and choose a solution together; implementation and paid execution
+are paused. The older authorizations and balances below are historical checkpoints,
+not an instruction to resume them. Qualification, custody and 48/60 release gates
+remain unchanged; a desired 75% milestone is not a validated result.
+
+## Historical sequence: application-first offline work (2026-10-01)
 
 Following the full v6 publication, the user requested a plan-only handoff for
 focused root-cause fixes and more efficient verification. The single active plan
@@ -17,7 +28,7 @@ evaluator continuation for that milestone, not the qualification, custody, safet
 or scoring gates below. Preserve the remaining USD 3.79479490; paid stages stay
 deferred. Local application improvements do not require a new overall score.
 
-## Latest execution boundary (2026-10-01)
+## Historical full-run execution boundary (2026-10-01)
 
 The [v6 full run](../phase-73/v6-results.md) completed 60/60 cases with 28 recorded
 model passes, 21 failures and 11 unresolved. Seven source-inspection findings

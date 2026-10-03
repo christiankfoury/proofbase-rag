@@ -2,6 +2,15 @@
 
 This folder explains how Proofbase answers a question, why the algorithm is shaped this way, and where the current implementation is strong or fragile.
 
+For current remediation status, start with the
+[application-reliability handoff](../roadmap/application-reliability-plan.md).
+These chapters include historical architecture and scorecard explanations; they
+are not a verification of every current runtime path. Later additions include the
+[bounded calculator](../phase-73/scenario-calculation.md), the closed conversational
+candidate and the unaccepted [policy-fact candidate](../phase-73/policy-fact-candidate.md).
+Inspect the actual source before proposing changes. Historical perfect heuristic
+scores do not establish current accuracy.
+
 The intended reader is a product or technical reviewer, or a developer who knows basic web apps but may be new to retrieval-augmented generation, vector search, prompt versions, or permission-filtered retrieval.
 
 ## Reading Order

@@ -1,5 +1,83 @@
 # Application reliability: focused implementation handoff
 
+## Current handoff: collaborative planning only (after `65e6650f`)
+
+The user wants to discuss the problem and choose a solution with the next agent
+before implementation. **Do not execute the historical R1-R4 queue, activate a
+candidate, run the remaining live controls or spend API funds from this handoff.**
+Read this section and the [current tracker](progress.md) first. The sections below
+preserve the original plan and gates; completed work is not a queue to restart.
+
+### Verified position
+
+- R1-R4 offline fixes and subsequent focused diagnostics are complete as recorded
+  in [application reliability](../phase-73/application-reliability.md) and the
+  linked successor notes. Local tests establish code behavior, not model accuracy.
+- [Bounded scenario calculation](../phase-73/scenario-calculation.md), `0d018586`,
+  works through saved-source sync/stream callers for two complete request templates
+  and a constrained policy-table format. Ordinary conversational coverage and live
+  retrieval are not established; do not expand templates automatically.
+- [Conversational extraction v5](../phase-73/conversational-scenario.md), runtime
+  `2539b084`, is closed as unsuccessful. Its 2/8 complete interpretations and
+  malformed-ID counterfactual do not justify activation. V4 remains the code
+  default; v5 is not approved for ordinary use.
+- [Policy-fact v6](../phase-73/policy-fact-candidate.md), runtime `17840a18`, results
+  `65e6650f`, remains opt-in and unaccepted. Three live assessments separated fact
+  availability from premise truth. Two corrections were supported but marked
+  partial; a correct confirmation was rejected by validation. Denied policy
+  amounts were also misclassified as scenario inputs. The no-repair guard stopped
+  before submission. Unknown-field, conflicting-rule and inaccessible-source
+  controls **have not run live**. Their continuation was recommended in chat, not
+  executed or authorized by the present planning request.
+- [Answer-finalization review](../phase-73/answer-finalization-review.md) covers
+  18 older diagnostic attempts: two citation corrections (one loses supporting
+  excerpt), two harmful scenario rejections, two accepted geographic errors and
+  three avoidable pre-generation abstentions. These overlapping observations are
+  not a pass-rate partition or a frequency estimate for general use.
+- Receipt-derived remaining allowance is **USD 3.73106560**, per the
+  [latest receipt summary](../../data/evaluation/policy-fact-candidate/receipt-summary.json).
+  This is journal headroom, not a verified provider-account balance or new spending
+  permission. Historical USD 0.146775 reservation stays intact. The USD 4.50 full
+  measurement launch floor already exceeds this remainder, before qualification.
+
+### What the next conversation must decide
+
+The user wants a finish line and at least 75% success, without another open-ended
+cycle of prompts, mocked tests and paid diagnostics. **75% is a desired milestone,
+not an achieved score or a replacement release criterion.** It would mean 45/60
+under the same case-level rubric; the existing Phase 73 target remains 48/60 (80%)
+with its qualification, fresh-suite, citation and zero-disclosure requirements.
+Unresolved judgments receive no credit. The historical 28/21/11 model counts have
+no validated score; the old 130-question heuristic regression is not a current
+accuracy baseline. A small component experiment measures neither overall metric.
+
+Discuss the definition of success, scope, stopping conditions and measurement
+approach with the user. Compare a small number of concrete options, including
+integrating fact/premise distinctions across assessment, generation and validation,
+or simplifying the supported product scope. Do not assume the previously proposed
+integration is already selected. Identify model-dependent judgments explicitly;
+exact source spans and passing mocks do not prove semantic correctness. Any change
+to scoring meaning, model, safeguards or adjudication is a proposal for discussion,
+not an implementation instruction. Distinguish portfolio delivery from passing the
+still-unmet Phase 73 quality gate.
+
+Use the latest source traces and inspect affected code on demand. Avoid another
+exhaustive history review or a new report per wording change. Recommend one bounded
+plan with acceptance criteria, negative controls, a whole-stage cost estimate,
+stopping rules and an honest uncertainty statement. Ask a few consequential
+questions and wait for the user's choice before implementation or paid execution.
+
+Documentation audit: reconciled README/evaluation navigation, this active plan,
+tracker, execution-policy/AGENTS precedence and the historical quality-plan entry.
+Algorithm-guide historical metric labels are corrected; this was not an exhaustive
+code audit of every old algorithm chapter. Historical phase notes, raw evidence,
+scores, receipts and local request-log edits are retained. Semantic review and
+`git diff --check` pass; all 255 relative links across nine changed Markdown files
+resolve. The unrelated request-log hash remains unchanged. No runtime tests,
+service startup or provider calls were performed for this documentation-only handoff.
+
+## Original plan and execution record
+
 Prepared 2026-10-01 at publication commit `47c81e55`. The user requested a plan
 only, for implementation in a new chat. No implementation or API execution is
 authorized by this planning turn. When the user starts implementation, follow the
@@ -13,7 +91,7 @@ authorized only the proposed 12-question live diagnostic, allocating at most
 USD 1 from existing headroom. [Diagnostic results](../phase-73/application-reliability-live.md)
 retain all 12 attempts, nine application outcomes and three local input-bound
 interruptions. The 53 settled calls cost USD 0.02573086; remaining headroom is
-USD 3.76906404. No evaluator qualification/full evaluation was started and no
+USD 3.76906404 at that checkpoint. No evaluator qualification/full evaluation was started and no
 overall quality score is claimed. The original offline scope and historical
 accounting below remain the planning record; this amendment does not authorize
 further paid work after the diagnostic. Continue with offline diagnosis first.
@@ -51,7 +129,7 @@ specified inputs; they cannot establish live model quality or generalization.
   heuristic scoring. Historical 130/130 does not establish current correctness.
   Keep its questions, expected answers and sources unchanged. Add stronger
   development checks alongside it, not replacement labels or an inflated score.
-- Remaining approved API headroom is USD **3.79479490**, not a verified account
+- At the original planning checkpoint, API headroom was USD **3.79479490**, not a verified account
   balance. The old unknown outcome retains USD 0.146775. Preserve all journals,
   reservations and evidence. The USD 4.50 measurement launch floor is unchanged.
 - First implementation sequence has a **USD 0 external-API budget**. Offline work
@@ -324,7 +402,8 @@ development stage against new examples. State exactly what mocks could not prove
 which positive/negative cases address it, and the complete application/auxiliary
 call and token reservations. The prior conversational USD 0.10-0.50 estimate was
 not a spending authorization or a guaranteed bound. This plan preserves the
-remaining USD 3.79479490; a later user decision is needed to allocate it to a paid
+then-remaining USD 3.79479490; see the current handoff above for the latest balance.
+A later user decision is needed to allocate remaining funds to a paid
 stage under the current deferral. Use standard synchronous calls, zero provider
 retries and the existing accounting rules if that stage is subsequently approved.
 
@@ -348,7 +427,7 @@ The unchanged 130-question suite can later be rerun as a separately labeled live
 regression if funded and useful. It does not replace fresh evaluation, and its
 word-overlap/document-ID metrics must not be called verified answer accuracy.
 
-## New-chat starter
+## Historical R1-R4 starter (completed; do not execute)
 
 > Implement the offline application-reliability plan in
 > `docs/roadmap/application-reliability-plan.md`. Read AGENTS.md, the current
@@ -363,7 +442,7 @@ word-overlap/document-ID metrics must not be called verified answer accuracy.
 > fixes to main, continue through the offline sequence without routine approvals,
 > then report verified improvements and the exact remaining live-validation needs.
 
-## Plan-only verification
+## Original plan-only verification
 
 This document and navigation updates are the entire current work unit. Local links,
 scope consistency and the complete intended diff were reviewed; Git whitespace

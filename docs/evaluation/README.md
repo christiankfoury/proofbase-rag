@@ -1,5 +1,12 @@
 # Evaluation evidence: start here
 
+The current [planning handoff](../roadmap/application-reliability-plan.md) records
+post-measurement fixes and small component/application diagnostics through
+`65e6650f`. None replaces the full-suite evidence below. Policy-fact v6 has three
+untested live negative controls and is not accepted; conversational v5 is closed.
+The user wants to discuss a 75% milestone; the existing 48/60 release gate remains
+unchanged. No validated current-runtime overall accuracy is available.
+
 The latest [Phase 73 v6 run](../phase-73/v6-results.md) completed all 60 cases
 once: 28 recorded model passes, 21 failures and 11 unresolved. Seven
 [source-inspection findings](../phase-73/v6-source-review.md) reject the publication

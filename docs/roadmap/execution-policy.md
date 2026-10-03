@@ -101,10 +101,15 @@ boundaries so bookkeeping does not become another source of repeated work.
 
 ## Development and measurement boundary
 
+The current user scope and the active plan's latest handoff take precedence over
+historical standing execution authorization. After `65e6650f`, work is paused for
+collaborative planning. Completed R1-R4 steps and proposed live continuations must
+not restart automatically; preserve failed candidates and original gates.
+
 Use cheap development cases for iteration. Full calibration/confirmation is a
 declared gate; fresh holdouts are authored only after the runtime freeze and run
 once. No selective reruns, exposed-case tuning or expectation changes for score.
-For Phases 71-73, the active quality-completion plan's 2026-09-29 standing
+For historical Phases 71-73 execution, the quality-completion plan's 2026-09-29 standing
 authorization supersedes earlier candidate-count approval limits. Continue
 cause-driven remediation without routine approval, with one bounded execution
 per declared stage, preserved failed evidence and fresh post-freeze confirmation.

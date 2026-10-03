@@ -22,6 +22,14 @@
 
 ## Evidence Snapshot
 
+**Current work:** the [application-reliability handoff](docs/roadmap/application-reliability-plan.md)
+is paused for collaborative planning after results commit `65e6650f`. Local fixes
+and small development experiments do not establish a new overall success rate.
+Evidence assessment v4 remains the code default; conversational v5 is closed and
+policy-fact v6 remains opt-in/unaccepted. See the [latest candidate findings](docs/phase-73/policy-fact-candidate.md)
+and [progress tracker](docs/roadmap/progress.md). The desired 75% milestone does not
+replace the existing 80% Phase 73 release gate.
+
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.
 
 The latest [Phase 73 v6 measurement](docs/phase-73/v6-results.md), suite
@@ -82,7 +90,7 @@ Recorded project review classified the eight Phase 49 automated failures as four
 
 ## Five-Minute Review Path
 
-**Portfolio release:** the bounded demo finish is complete. The [quality-completion queue](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). V23 passed 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases. Its [fresh Phase 73 run](docs/phase-73/v6-results.md) completed all 60 cases, but seven source-inspection findings prevent a validated score and the 48/60 target was missed. The remaining approved USD 3.79479490 is below the existing USD 4.50 measurement launch floor, before any successor qualification. Original failed evidence and the full timeout reservation are preserved. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
+**Portfolio release:** the historical bounded demo finish is complete; that does not establish current quality-gate completion. The [quality-completion history](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). V23 passed 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases. Its [fresh Phase 73 run](docs/phase-73/v6-results.md) completed all 60 cases, but seven source-inspection findings prevent a validated score and the 48/60 target was missed. After subsequent development diagnostics, remaining journal headroom is USD 3.73106560, below the existing USD 4.50 measurement launch floor before successor qualification. This is not a verified account balance or new spending authorization. Original failed evidence and the full timeout reservation are preserved. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
 
 
 1. **0:00–0:45:** Open `/demo`, select **Emma Employee**, and open Northstar Analytics.
@@ -589,7 +597,7 @@ The Phase 48/49 product-quality backlog also remains preserved for a separately 
 - Independent evaluation: [Phase 47 Holdout](docs/phase-47/holdout-results.md), [Phase 48 Interruption Record](docs/phase-48/holdout-interruption.md), [Phase 49 Results](docs/phase-49/fresh-holdout-results.md), and [Phase 49 Adjudication](docs/phase-49/human-adjudication.md)
 - Defense readiness: [Phase 55 Design](docs/phase-55/design.md) and [Phase 55 Verification](docs/phase-55/verification.md)
 - Evaluation integrity: [Phase 49 Reliability Design](docs/phase-49/evaluation-reliability-design.md) and [Verification](docs/phase-49/verification.md)
-- Current status: [Roadmap Progress](docs/roadmap/progress.md) and [Defense And Production Readiness Plan](docs/roadmap/post-phase-50-defense-and-production-readiness-plan.md)
+- Current status: [Roadmap Progress](docs/roadmap/progress.md) and [Application Reliability Planning Handoff](docs/roadmap/application-reliability-plan.md)
 
 ## Project Summary
 
