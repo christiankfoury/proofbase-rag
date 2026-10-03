@@ -6,7 +6,23 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: documentation reconciled; collaborative planning requested
+### Current: bounded redesign stopped at application budget preflight
+
+The user's 2026-10-02 implementation request superseded the planning-only handoff
+and authorized one bounded attempt with USD 10 total, including the existing
+USD 3.73106560 remainder. The [execution note](../phase-73/bounded-redesign.md)
+records an opt-in shared producer/contextual-checker path, 12 fixed development
+tasks (three two-turn conversations), and passing offline regressions.
+
+Complete application-comparison reservation is **USD 1.7965755**, above its
+**USD 1.30** allocation. The attempt stops here under the user's predeclared rule.
+**Zero provider calls and USD 0 spent.** V4 remains default; candidate stays
+disabled/unaccepted. No application success count exists. Grader successor,
+qualification, fresh confirmation and 60-case measurement are unexecuted; no
+holdout was authored. No automatic rerun, cap change or next cycle is authorized.
+Historical accounting and the unrelated request-log edit are preserved.
+
+### Prior milestone: documentation reconciled; collaborative planning requested
 
 The user wants a new chat to understand the recurring failures and jointly choose
 a bounded solution, with a desired 75% milestone. Start with the current handoff

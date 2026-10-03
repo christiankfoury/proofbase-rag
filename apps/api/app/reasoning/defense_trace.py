@@ -106,7 +106,8 @@ def build_defense_trace(
             DefenseTraceStage(
                 name="evidence_assessment",
                 status=("failed_safe" if evidence_assessment and evidence_assessment.status == "failed_safe" else "succeeded") if evidence_assessment else "skipped",
-                route=evidence_assessment.route if evidence_assessment else "pre_retrieval_stop",
+                route=evidence_assessment.route if evidence_assessment else (
+                    "replaced_by_contextual_check" if answer.get("candidate_stages") else "pre_retrieval_stop"),
                 action=evidence_assessment.recommended_action if evidence_assessment else "not_run",
                 reason_codes=list(evidence_assessment.reason_codes) if evidence_assessment else [],
                 latency_ms=evidence_assessment.latency_ms if evidence_assessment else 0,

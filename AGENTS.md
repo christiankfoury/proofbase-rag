@@ -64,13 +64,14 @@ Track durable progress in `docs/roadmap/progress.md`. At each phase start, read 
 After the Phase 73 v6 publication, the active sequence is
 [application reliability](docs/roadmap/application-reliability-plan.md): local
 root-cause reproduction, focused application fixes and offline regression evidence.
-R1-R4 and the subsequent bounded experiments have been recorded. The latest user
-request is a collaborative planning handoff after `65e6650f`, not another runtime
-queue. Read the current handoff at the top of that plan and the progress tracker;
-do not restart completed steps or run unexecuted controls automatically. Historical
-standing authorization below does not override this planning-only scope. Preserve
-the existing quality gates and API remainder; proposed continuation prompts are
-not authority to implement, activate a candidate or spend funds in the new chat.
+R1-R4 and the subsequent bounded experiments have been recorded. The 2026-10-02
+user request superseded planning-only scope with one bounded redesign attempt.
+That attempt stopped before paid execution: its complete application comparison
+reservation exceeded the USD 1.30 stage cap. Read the current handoff and tracker;
+do not restart completed steps, unexecuted controls or another cycle automatically.
+V4 remains default, the new candidate is disabled/unaccepted, and no new model
+quality score exists. Preserve quality gates and historical accounting. Suggested
+continuations are not authority to resume, activate a candidate or spend funds.
 
 Use [execution policy](docs/roadmap/execution-policy.md) for the verification matrix, evidence reuse, completion criteria, compact handoff and runtime-file rules. This operating loop supersedes older phase-specific descriptions of post-commit code review. A request limited to documentation or workflow maintenance completes at that scope; it does not start the runtime queue automatically.
 

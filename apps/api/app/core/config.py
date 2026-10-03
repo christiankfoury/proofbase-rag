@@ -191,6 +191,11 @@ class Settings(BaseSettings):
         ),
     )
     default_top_k: int = 5
+    conversational_candidate_enabled: bool = False
+    conversational_candidate_model: str = Field(
+        default="gpt-4.1-mini-2025-04-14",
+        pattern="^(gpt-4.1-mini-2025-04-14|gpt-5.4-2026-03-05)$",
+    )
     log_level: str = "INFO"
     observability_log_path: str = "data/observability/request-logs.jsonl"
     audit_log_path: str = "data/audit/audit-events.jsonl"

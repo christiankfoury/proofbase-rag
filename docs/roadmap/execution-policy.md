@@ -102,9 +102,10 @@ boundaries so bookkeeping does not become another source of repeated work.
 ## Development and measurement boundary
 
 The current user scope and the active plan's latest handoff take precedence over
-historical standing execution authorization. After `65e6650f`, work is paused for
-collaborative planning. Completed R1-R4 steps and proposed live continuations must
-not restart automatically; preserve failed candidates and original gates.
+historical standing execution authorization. The 2026-10-02 bounded redesign
+superseded planning-only scope and then stopped at its application budget preflight.
+Do not restart completed R1-R4 steps, paid continuations or another redesign cycle
+automatically; preserve failed candidates, stop conditions and original gates.
 
 Use cheap development cases for iteration. Full calibration/confirmation is a
 declared gate; fresh holdouts are authored only after the runtime freeze and run

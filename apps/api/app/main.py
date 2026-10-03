@@ -98,6 +98,7 @@ from apps.api.app.projects.project_store import update_department as update_depa
 from apps.api.app.projects.project_store import update_project as update_project_record
 from apps.api.app.reasoning.clarification import ClarificationDecision, clarification_answer
 from apps.api.app.reasoning import scenario_calculation
+from apps.api.app.generation import conversational_candidate
 from apps.api.app.reasoning.evidence_assessment import (
     EvidenceAssessment,
     assess_evidence,
@@ -1980,7 +1981,9 @@ def _query_response_payload(
         "citation_confidence": answer["citation_confidence"],
         "answer_confidence": answer["answer_confidence"],
         "final_confidence": answer["final_confidence"],
-        "confidence_interpretation": _confidence_interpretation(answer["response_type"]),
+        "confidence_interpretation": ("Diagnostic only; no correctness probability is assigned."
+            if answer.get("candidate_stages") else _confidence_interpretation(answer["response_type"])),
+        "candidate_stages": answer.get("candidate_stages"),
         "supported_claims": answer["supported_claims"],
         "unsupported_claims": answer["unsupported_claims"],
         "validation_notes": answer["validation_notes"],
@@ -2489,106 +2492,115 @@ def query_stream(request: QueryRequest, http_request: Request, user: Annotated[d
                     },
                 )
 
-                yield _sse(
-                    "status",
-                    {"status": "evidence_assessment_started", "message": "Checking accessible evidence sufficiency."},
-                )
-                scenario = scenario_calculation.prepare(
-                    request.question, chunks, request_assessment=request_assessment,
-                    effective_role=effective_role, project_id=project_id, department_id=department_id,
-                )
-                evidence_assessment = scenario[1] if scenario else _assess_after_retrieval(
-                    retrieval_question,
-                    original_question=request.question,
-                    request_assessment=request_assessment,
-                    chunks=chunks,
-                    multi_doc=multi_doc,
-                    effective_role=effective_role,
-                    user_id=user.get("id"),
-                    project_id=project_id,
-                    department_id=department_id,
-                )
-                yield _sse(
-                    "status",
-                    {
-                        "status": "evidence_assessment_complete",
-                        "message": f"Evidence assessment recommended {evidence_assessment.recommended_action}.",
-                        "route": evidence_assessment.route,
-                        "recommended_action": evidence_assessment.recommended_action,
-                        "reason_codes": list(evidence_assessment.reason_codes),
-                    },
-                )
-                answer = scenario[0] if scenario else (scenario_calculation.prepare_conversational(
-                    request.question, chunks, evidence_assessment, request_assessment=request_assessment,
-                    effective_role=effective_role, project_id=project_id, department_id=department_id,
-                ) or _evidence_stop_answer(evidence_assessment) or {})
-                generation_chunks = _evidence_generation_chunks(chunks, evidence_assessment)
-                if evidence_assessment.recommended_action == "not_found":
-                    answer = generate_answer(
-                        retrieval_question,
-                        [],
-                        user_role=effective_role,
-                        prompt_name=request.prompt_name,
-                        prompt_version=request.prompt_version or ("v4" if multi_doc else None),
-                    )
-                elif not answer:
+                if settings.conversational_candidate_enabled:
                     trace.start("generation")
-                    yield _sse("status", {"status": "generation_started", "message": "Generating answer."})
-                    generation_grouped_docs = group_chunks_by_document(generation_chunks) if multi_doc else None
-                    for generation_event in generate_answer_stream(
+                    evidence_assessment = conversational_candidate.run(
+                        request.question, retrieval_question, chunks, previous_turns,
+                        request_assessment=request_assessment, effective_role=effective_role,
+                        project_id=project_id, department_id=department_id, output=answer,
+                    )
+                    trace.stop("generation")
+                else:
+                    yield _sse(
+                        "status",
+                        {"status": "evidence_assessment_started", "message": "Checking accessible evidence sufficiency."},
+                    )
+                    scenario = scenario_calculation.prepare(
+                        request.question, chunks, request_assessment=request_assessment,
+                        effective_role=effective_role, project_id=project_id, department_id=department_id,
+                    )
+                    evidence_assessment = scenario[1] if scenario else _assess_after_retrieval(
                         retrieval_question,
-                        generation_chunks,
-                        user_role=effective_role,
+                        original_question=request.question,
+                        request_assessment=request_assessment,
+                        chunks=chunks,
+                        multi_doc=multi_doc,
+                        effective_role=effective_role,
+                        user_id=user.get("id"),
+                        project_id=project_id,
+                        department_id=department_id,
+                    )
+                    yield _sse(
+                        "status",
+                        {
+                            "status": "evidence_assessment_complete",
+                            "message": f"Evidence assessment recommended {evidence_assessment.recommended_action}.",
+                            "route": evidence_assessment.route,
+                            "recommended_action": evidence_assessment.recommended_action,
+                            "reason_codes": list(evidence_assessment.reason_codes),
+                        },
+                    )
+                    answer = scenario[0] if scenario else (scenario_calculation.prepare_conversational(
+                        request.question, chunks, evidence_assessment, request_assessment=request_assessment,
+                        effective_role=effective_role, project_id=project_id, department_id=department_id,
+                    ) or _evidence_stop_answer(evidence_assessment) or {})
+                    generation_chunks = _evidence_generation_chunks(chunks, evidence_assessment)
+                    if evidence_assessment.recommended_action == "not_found":
+                        answer = generate_answer(
+                            retrieval_question,
+                            [],
+                            user_role=effective_role,
+                            prompt_name=request.prompt_name,
+                            prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                        )
+                    elif not answer:
+                        trace.start("generation")
+                        yield _sse("status", {"status": "generation_started", "message": "Generating answer."})
+                        generation_grouped_docs = group_chunks_by_document(generation_chunks) if multi_doc else None
+                        for generation_event in generate_answer_stream(
+                            retrieval_question,
+                            generation_chunks,
+                            user_role=effective_role,
+                            memory_context=memory_text,
+                            original_question=request.question,
+                            prompt_name=request.prompt_name,
+                            prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                            multi_doc=multi_doc,
+                            grouped_docs=generation_grouped_docs,
+                            evidence_action=evidence_generation_action(evidence_assessment),
+                        ):
+                            event_type = generation_event.get("type")
+                            if event_type == "status":
+                                yield _sse(
+                                    "status",
+                                    {
+                                        "status": generation_event.get("status", "generation_status"),
+                                        "message": generation_event.get("message", "Generation status updated."),
+                                    },
+                                )
+                            elif event_type == "final":
+                                answer = generation_event["answer"]
+                        trace.stop("generation")
+                    yield _sse(
+                        "status",
+                        {"status": "post_generation_validation_started", "message": "Validating generated claims and citations."},
+                    )
+                    answer, post_validation = _validate_generated_answer(
+                        retrieval_question,
+                        answer=answer,
+                        evidence_assessment=evidence_assessment,
+                        authorized_chunks=generation_chunks,
+                        effective_role=effective_role,
+                        user_id=user.get("id"),
+                        project_id=project_id,
+                        department_id=department_id,
                         memory_context=memory_text,
                         original_question=request.question,
                         prompt_name=request.prompt_name,
                         prompt_version=request.prompt_version or ("v4" if multi_doc else None),
                         multi_doc=multi_doc,
-                        grouped_docs=generation_grouped_docs,
                         evidence_action=evidence_generation_action(evidence_assessment),
-                    ):
-                        event_type = generation_event.get("type")
-                        if event_type == "status":
-                            yield _sse(
-                                "status",
-                                {
-                                    "status": generation_event.get("status", "generation_status"),
-                                    "message": generation_event.get("message", "Generation status updated."),
-                                },
-                            )
-                        elif event_type == "final":
-                            answer = generation_event["answer"]
-                    trace.stop("generation")
-                yield _sse(
-                    "status",
-                    {"status": "post_generation_validation_started", "message": "Validating generated claims and citations."},
-                )
-                answer, post_validation = _validate_generated_answer(
-                    retrieval_question,
-                    answer=answer,
-                    evidence_assessment=evidence_assessment,
-                    authorized_chunks=generation_chunks,
-                    effective_role=effective_role,
-                    user_id=user.get("id"),
-                    project_id=project_id,
-                    department_id=department_id,
-                    memory_context=memory_text,
-                    original_question=request.question,
-                    prompt_name=request.prompt_name,
-                    prompt_version=request.prompt_version or ("v4" if multi_doc else None),
-                    multi_doc=multi_doc,
-                    evidence_action=evidence_generation_action(evidence_assessment),
-                )
-                yield _sse(
-                    "status",
-                    {
-                        "status": "post_generation_validation_complete",
-                        "message": f"Post-generation validation recommended {post_validation.action}.",
-                        "action": post_validation.action,
-                        "reason_codes": list(post_validation.reason_codes),
-                        "repair_count": post_validation.repair_count,
-                    },
-                )
+                    )
+                    yield _sse(
+                        "status",
+                        {
+                            "status": "post_generation_validation_complete",
+                            "message": f"Post-generation validation recommended {post_validation.action}.",
+                            "action": post_validation.action,
+                            "reason_codes": list(post_validation.reason_codes),
+                            "repair_count": post_validation.repair_count,
+                        },
+                    )
                 yield _sse("answer_delta", {"delta": answer["answer"]})
             if not answer:
                 raise RuntimeError("Streaming generation did not return a final answer.")
@@ -2827,66 +2839,75 @@ def query(request: QueryRequest, http_request: Request, user: Annotated[dict, De
                 grouped_docs = None
             trace.stop("retrieval")
 
-            scenario = scenario_calculation.prepare(
-                request.question, chunks, request_assessment=request_assessment,
-                effective_role=effective_role, project_id=project_id, department_id=department_id,
-            )
-            evidence_assessment = scenario[1] if scenario else _assess_after_retrieval(
-                retrieval_question,
-                original_question=request.question,
-                request_assessment=request_assessment,
-                chunks=chunks,
-                multi_doc=multi_doc,
-                effective_role=effective_role,
-                user_id=user.get("id"),
-                project_id=project_id,
-                department_id=department_id,
-            )
-            answer = scenario[0] if scenario else (scenario_calculation.prepare_conversational(
-                request.question, chunks, evidence_assessment, request_assessment=request_assessment,
-                effective_role=effective_role, project_id=project_id, department_id=department_id,
-            ) or _evidence_stop_answer(evidence_assessment) or {})
-            generation_chunks = _evidence_generation_chunks(chunks, evidence_assessment)
-            if evidence_assessment.recommended_action == "not_found":
-                answer = generate_answer(
-                    retrieval_question,
-                    [],
-                    user_role=effective_role,
-                    prompt_name=request.prompt_name,
-                    prompt_version=request.prompt_version or ("v4" if multi_doc else None),
-                )
-            elif not answer:
+            if settings.conversational_candidate_enabled:
                 trace.start("generation")
-                generation_grouped_docs = group_chunks_by_document(generation_chunks) if multi_doc else None
-                answer = generate_answer(
+                evidence_assessment = conversational_candidate.run(
+                    request.question, retrieval_question, chunks, previous_turns,
+                    request_assessment=request_assessment, effective_role=effective_role,
+                    project_id=project_id, department_id=department_id, output=answer,
+                )
+                trace.stop("generation")
+            else:
+                scenario = scenario_calculation.prepare(
+                    request.question, chunks, request_assessment=request_assessment,
+                    effective_role=effective_role, project_id=project_id, department_id=department_id,
+                )
+                evidence_assessment = scenario[1] if scenario else _assess_after_retrieval(
                     retrieval_question,
-                    generation_chunks,
-                    user_role=effective_role,
+                    original_question=request.question,
+                    request_assessment=request_assessment,
+                    chunks=chunks,
+                    multi_doc=multi_doc,
+                    effective_role=effective_role,
+                    user_id=user.get("id"),
+                    project_id=project_id,
+                    department_id=department_id,
+                )
+                answer = scenario[0] if scenario else (scenario_calculation.prepare_conversational(
+                    request.question, chunks, evidence_assessment, request_assessment=request_assessment,
+                    effective_role=effective_role, project_id=project_id, department_id=department_id,
+                ) or _evidence_stop_answer(evidence_assessment) or {})
+                generation_chunks = _evidence_generation_chunks(chunks, evidence_assessment)
+                if evidence_assessment.recommended_action == "not_found":
+                    answer = generate_answer(
+                        retrieval_question,
+                        [],
+                        user_role=effective_role,
+                        prompt_name=request.prompt_name,
+                        prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                    )
+                elif not answer:
+                    trace.start("generation")
+                    generation_grouped_docs = group_chunks_by_document(generation_chunks) if multi_doc else None
+                    answer = generate_answer(
+                        retrieval_question,
+                        generation_chunks,
+                        user_role=effective_role,
+                        memory_context=memory_text,
+                        original_question=request.question,
+                        prompt_name=request.prompt_name,
+                        prompt_version=request.prompt_version or ("v4" if multi_doc else None),
+                        multi_doc=multi_doc,
+                        grouped_docs=generation_grouped_docs,
+                        evidence_action=evidence_generation_action(evidence_assessment),
+                    )
+                    trace.stop("generation")
+                answer, _post_validation = _validate_generated_answer(
+                    retrieval_question,
+                    answer=answer,
+                    evidence_assessment=evidence_assessment,
+                    authorized_chunks=generation_chunks,
+                    effective_role=effective_role,
+                    user_id=user.get("id"),
+                    project_id=project_id,
+                    department_id=department_id,
                     memory_context=memory_text,
                     original_question=request.question,
                     prompt_name=request.prompt_name,
                     prompt_version=request.prompt_version or ("v4" if multi_doc else None),
                     multi_doc=multi_doc,
-                    grouped_docs=generation_grouped_docs,
                     evidence_action=evidence_generation_action(evidence_assessment),
                 )
-                trace.stop("generation")
-            answer, _post_validation = _validate_generated_answer(
-                retrieval_question,
-                answer=answer,
-                evidence_assessment=evidence_assessment,
-                authorized_chunks=generation_chunks,
-                effective_role=effective_role,
-                user_id=user.get("id"),
-                project_id=project_id,
-                department_id=department_id,
-                memory_context=memory_text,
-                original_question=request.question,
-                prompt_name=request.prompt_name,
-                prompt_version=request.prompt_version or ("v4" if multi_doc else None),
-                multi_doc=multi_doc,
-                evidence_action=evidence_generation_action(evidence_assessment),
-            )
     except HTTPException as exc:
         submit_failure_telemetry(exc)
         raise

@@ -1,6 +1,20 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: collaborative planning only (after `65e6650f`)
+## Current handoff: bounded redesign stopped before paid execution
+
+The 2026-10-02 user attachment explicitly superseded the planning-only handoff
+and authorized the single attempt described in [bounded redesign](../phase-73/bounded-redesign.md).
+Its application stage must fit USD 1.30 before paid execution. The complete
+preflight reserves USD 1.7965755, so its mandatory budget stop is reached.
+
+Prepared: disabled candidate pipeline shared by HTTP/SSE, fixed 12-task development
+suite and offline integration evidence. Unexecuted: live comparison, grader
+successor/qualification, fresh confirmation and final measurement. V4 stays default;
+no success score, candidate promotion or new accuracy claim. USD 0 spent, historical
+USD 3.73106560 remains; the authorized attempt total was USD 10, not another USD 10
+on top. Do not resume automatically or reduce bounds merely to fit the cap.
+
+## Historical handoff: collaborative planning only (after `65e6650f`)
 
 The user wants to discuss the problem and choose a solution with the next agent
 before implementation. **Do not execute the historical R1-R4 queue, activate a
