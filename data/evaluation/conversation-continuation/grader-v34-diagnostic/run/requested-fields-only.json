@@ -1,0 +1,74 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "pass",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": true,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly provides the requested fields.",
+    "behavior_span": "A repair card must list the asset tag and defect code.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Repair cards must list the asset tag and defect code."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "This claims the required fields on a repair card are the asset tag and defect code. The source states that repair cards must list those two fields; the answer’s singular phrasing is equivalent to the source’s plural rule.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Repair cards must list the asset tag and defect code."
+          }
+        ],
+        "text": "A repair card must list the asset tag and defect code."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "A repair card must list the asset tag and defect code."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states that repair cards must list the asset tag and defect code.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks which fields a repair card must list, and the answer states the fields a repair card must list.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "From the raw inputs alone: the question asks for the required fields on a repair card. The answer communicates one substantive policy claim: \"A repair card must list the asset tag and defect code.\" In context, the singular \"a repair card\" is equivalent to the source rule about repair cards generally. That directly addresses the asked property (which fields must be listed), so relevance is pass. It also supplies the requested information rather than refusing or asking for clarification, so actual_behavior is answer, which matches expected_behavior.\n\nRequired fact F1 is \"Repair cards must list the asset tag and defect code.\" The answer fully covers that meaning: same subject, same obligation, same two fields, no material omission or change. So completeness reduces to pass.\n\nFor factual support, the complete claim is fully entailed by factual source R1: \"Repair cards must list the asset tag and defect code.\" The answer does not add anything beyond that rule. So the claim is factually supported. For citation support, cited source C1 contains the same rule, so the cited evidence fully supports the claim as well. There are no forbidden assertions listed, and the answer contains none.\n\nComparing to the candidate: the extracted claim is appropriate, the support reasoning is correct, the source and citation spans are exact contiguous matches from R1/C1, all_claims_assessed=true is correct, relevance pass is correct, actual_behavior=answer is correct, required fact F1 covered is correct, and forbidden_assertion absent is correct. I find no grading error in any dimension.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

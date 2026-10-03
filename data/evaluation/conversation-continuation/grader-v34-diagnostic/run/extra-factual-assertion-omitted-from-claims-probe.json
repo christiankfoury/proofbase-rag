@@ -1,0 +1,13 @@
+{
+  "error": null,
+  "matched": true,
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "agree",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for the Alder bicycle service allowance. The answer does address that topic by stating, \"The bicycle servicing allowance is up to 60 credits per calendar year.\" The added sentence about theft insurance is extra, but it does not change the topic addressed.\n\nRequired-fact coverage: the only required fact is \"The bicycle service allowance is up to 60 credits per calendar year.\" That meaning is fully present in the first sentence, including the cap and calendar-year period, so coverage is complete.\n\nActual behavior: this is substantive prose answering the question, so actual_behavior = answer. Because the required fact is covered, behavior matches expected_behavior = answer.\n\nClaims actually asserted in the answer: there are two substantive claims, not one:\n1. \"The bicycle servicing allowance is up to 60 credits per calendar year.\" This is supported factually and by citation from R1/C1: \"Alder employees may claim up to 60 credits per calendar year for bicycle servicing.\"\n2. \"Employees also receive free theft insurance.\" This is a separate policy assertion. Nothing in the factual_sources supports or contradicts it, so factual status is unknown. Nothing in the cited_sources supports it, so citation status is missing.\n\nBecause the candidate assessed only the first claim and marked all_claims_assessed true, the factual_support and citation_support dimensions are graded incorrectly. Under the reducers, the omitted second claim makes factual_support unresolved (not pass) and citation_support fail (not pass).\n\nCandidate comparison:\n- Relevance: candidate pass is correct.\n- Completeness: candidate pass is correct.\n- Response behavior: candidate pass is correct.\n- Forbidden assertion: no forbidden assertions were specified or made, so absent is correct.\n- Factual support: dispute, because a substantive second claim was omitted from assessment.\n- Citation support: dispute, for the same omission; the extra theft-insurance claim lacks citation support.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

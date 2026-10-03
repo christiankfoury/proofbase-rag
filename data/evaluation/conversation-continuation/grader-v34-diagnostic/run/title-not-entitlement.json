@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response provides substantive information answering the asked rule, though it also adds an extra unrelated statement.",
+    "behavior_span": "Laboratory staff must return loaned meters within four working days. Staff also receive a free meter each year.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "This answer sentence exactly matches the rule stated in the factual source, and the same text is also present in the cited source.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "text": "Laboratory staff must return loaned meters within four working days."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "No factual source text states that staff receive a free meter each year. The only factual and cited text concerns returning loaned meters within four working days. The source metadata title \"Annual Free Meter Benefit\" identifies the document but does not itself prove that entitlement.",
+        "source_spans": [],
+        "text": "Staff also receive a free meter each year."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Laboratory staff must return loaned meters within four working days."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states the required meter return rule for laboratory staff, including the four working day deadline.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the meter return rule, and the answer gives a rule about when loaned meters must be returned.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for the meter return rule, specifically the rule governing return of meters. The answer does address that topic with \"Laboratory staff must return loaned meters within four working days.\" The added sentence about a free meter benefit is off-topic extra content, but it does not change the fact that the response is still about the requested subject, so relevance passes.\n\nFrom the raw answer, there are two substantive claims:\n1. \"Laboratory staff must return loaned meters within four working days.\" This is fully supported by factual source R1 and by cited source C1, both of which contain that exact sentence.\n2. \"Staff also receive a free meter each year.\" No factual source states that. The metadata title \"Annual Free Meter Benefit\" identifies a document title only; it does not prove the entitlement claim. So factual status is unknown, not supported or contradicted. The cited source also does not support it, so citation status is missing.\n\nRequired fact coverage: the only required fact is the return rule, and the answer states it exactly, so completeness passes.\n\nBehavior: the response gives substantive information answering the asked rule, so actual behavior is answer, matching expected behavior. The extra unsupported sentence does not change the behavior classification.\n\nForbidden assertions: none were specified, and none are present.\n\nComparing to the candidate: their claim extraction, per-claim factual and citation labels, relevance, fact coverage, actual behavior, and reduced judgments all match the correct audit. No substantive claim appears omitted, and no intermediate label needs correction.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

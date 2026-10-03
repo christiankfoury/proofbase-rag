@@ -29,14 +29,13 @@ contextual checker. Candidate prompt v6 passes 14/14 development tasks: the orig
 These are development inspections, not a new overall accuracy rate. The retired
 fresh measurement exposed grader/reference defects; subsequent qualification is
 still incomplete. An explicitly approved network recovery succeeded, retaining
-the original failed request's full reservation. Grader v31 passed 16/16 diagnostic
-cases and 3 probes, then stopped at 21/22 calibration cases because it interpreted
-ordinary list framing as an unsupported policy ordering requirement. Two cases
-and 3 probes remain unexecuted. Another full qualification cannot reasonably fit
-while retaining the required final-run reserve. Confirmed spending is USD 6.88536776
-plus USD 0.14820250 held, leaving USD 5.46642974 within the USD 12.50 ceiling. There is
-no accepted full-suite score. V4 remains default until all release gates,
-including 48/60, pass. See the [progress tracker](docs/roadmap/progress.md).
+the original failed request's full reservation. The user approved continuation
+using CAD 13.11 remaining, buffered to a new cumulative USD 14.88536776 ceiling.
+Grader v34 passes 16/16 diagnostic cases and 3 reviewer probes with clean source
+inspection; full calibration, fresh confirmation and fresh final measurement
+remain required. Confirmed spending is USD 8.37086776 plus USD 0.14820250 held,
+leaving USD 6.36629750. There is no accepted full-suite score. V4 remains default
+until all release gates, including 48/60, pass. See the [progress tracker](docs/roadmap/progress.md).
 
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.
 

@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive direct answer to the user's question.",
+    "behavior_span": "Yes, the Mica budget limit is 95 credits.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "In context, this affirms that the current Mica budget limit is 95 credits. The available source explicitly states a different limit, 75 credits, so the claim is contradicted. The cited source is the same contradicting text, so it does not support the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "The Mica budget limit is 75 credits."
+          }
+        ],
+        "text": "Yes, the Mica budget limit is 95 credits."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "the Mica budget limit is 95 credits"
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says the Mica budget limit is 75 credits, but the answer explicitly states it is 95 credits for the same subject and property.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "Requested property: whether the Mica budget limit is 95 credits. The answer directly addresses that exact subject and property by affirming it.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks whether the Mica budget limit is 95 credits. The answer directly addresses that exact subject and property by saying, \"Yes, the Mica budget limit is 95 credits.\" So the response is relevant.\n\nOwn assessment of answer content and evidence:\n- Exact substantive claim: \"Yes, the Mica budget limit is 95 credits.\" In context, this asserts that the Mica budget limit is 95 credits.\n- Factual support: contradicted, because the factual source says, \"The Mica budget limit is 75 credits.\" That is an exact incompatible value for the same subject/property.\n- Citation support: missing, because the only cited source is the same contradicting text and therefore does not support the asserted 95-credit limit.\n- Required fact F1: \"The Mica budget limit is 75 credits.\" The answer does not cover this; it explicitly contradicts it by asserting 95 credits. So completeness fails.\n- Actual behavior: the prose is a direct substantive answer, so actual_behavior = answer. Since expected_behavior is answer, the behavior label matches; however, per the reducer, expected answer plus a contradicted required fact makes the reduced response_behavior fail.\n- Forbidden assertions: none specified, and none present.\n\nComparison to candidate:\n- Claim extraction and interpretation are correct.\n- Candidate factual_status \"contradicted\" is correct.\n- Candidate citation_status \"missing\" is correct.\n- Candidate relevance pass is correct.\n- Candidate required fact status \"contradicted\" is correct.\n- Candidate actual_behavior \"answer\" is correct, and the reduced response_behavior fail is also correct because the required fact is contradicted.\n- Candidate forbidden_assertion absent is correct.\n\nSo I agree with all candidate dimension judgments.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

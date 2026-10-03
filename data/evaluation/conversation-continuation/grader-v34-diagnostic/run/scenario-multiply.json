@@ -1,0 +1,74 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "pass",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": true,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the requested price calculation.",
+    "behavior_span": "Three filters total 54 credits at the listed price of 18 credits per filter.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Each Nori replacement filter has a listed price of 18 credits."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source states that each Nori replacement filter has a listed price of 18 credits. Using the question’s explicit scenario of three filters, the total is 3 × 18 = 54 credits, so the full sentence is supported.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Each Nori replacement filter has a listed price of 18 credits."
+          }
+        ],
+        "text": "Three filters total 54 credits at the listed price of 18 credits per filter."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Three filters total 54 credits at the listed price of 18 credits per filter."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states that three filters total 54 credits and links that total to the listed per-filter price.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the total listed price for three Nori replacement filters, and the answer directly states the total price for three filters.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "From the raw inputs, the question asks for the total listed price for three Nori replacement filters. The answer communicates one substantive claim: that three filters cost 54 credits, based on a listed per-filter price of 18 credits. Under the rubric, the user’s quantity of three is an admissible scenario input, and the source supplies the rule: \"Each Nori replacement filter has a listed price of 18 credits.\" Applying that rule to the scenario gives 3 × 18 = 54, so the claim is factually supported and also citation-supported by the cited source plus the scenario arithmetic. The required fact F1 (that three filters total 54 credits) is fully covered by the answer. The answer is directly on topic, so relevance passes. Its actual behavior is an answer, matching expected_behavior=answer, and because the required fact is covered, response behavior passes. There are no forbidden assertions.\n\nComparing that to the candidate: the candidate correctly extracted the single substantive claim, correctly treated it as supported for both factual and citation review, correctly marked F1 as covered, correctly judged relevance as pass, correctly labeled actual_behavior as answer, and correctly marked forbidden assertions absent. I see no grading error in any dimension.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

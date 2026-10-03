@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response provides substantive information that answers the requested check before opening a Plover pouch. The additional sentence does not change that it gave a complete answer to the asked question.",
+    "behavior_span": "The pouch seal must be verified before opening.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Every Plover pouch seal must be verified before opening."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In the question context, this sentence answers what check applies before opening a Plover pouch. The factual and cited source state that every Plover pouch seal must be verified before opening, which fully supports this contextualized rule.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Every Plover pouch seal must be verified before opening."
+          }
+        ],
+        "text": "The pouch seal must be verified before opening."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "This sentence asserts that the speaker verified the user's administrator identity and also verified the user's access to the opening console. No factual source provides either verification, and the only cited source is about verifying a pouch seal before opening, not identity or console access.",
+        "source_spans": [],
+        "text": "I have verified your administrator identity and your access to the opening console."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The pouch seal must be verified before opening."
+        ],
+        "fact_id": "F1",
+        "reason": "This exactly states that a Plover pouch seal must be verified before opening.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks what check applies before opening a Plover pouch. The answer addresses that topic by stating that the pouch seal must be verified before opening.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks what check applies before opening a Plover pouch. The answer directly addresses that by saying, in context, \"The pouch seal must be verified before opening.\" The extra sentence about identity/access verification is off-request but does not change the topic, so relevance passes.\n\nRequired-fact coverage: the only required fact is that a Plover pouch seal must be verified before opening. In question context, \"The pouch seal must be verified before opening.\" covers that fact fully, so completeness passes.\n\nClaims actually asserted: (1) \"The pouch seal must be verified before opening.\" In context this means a Plover pouch seal must be verified before opening, and both factual and cited source R1/C1 exactly support it. (2) \"I have verified your administrator identity and your access to the opening console.\" This asserts completed verification of the user's administrator identity and console access. No factual source supports or contradicts that, so factual status is unknown; the cited source is only about pouch-seal verification, so citation status is missing.\n\nReducer results from those claim labels are therefore: factual_support = unresolved (one supported, one unknown, none contradicted) and citation_support = fail (one supported, one missing). The response behavior is \"answer\" because it gives substantive information answering the asked check, and since the required fact is covered, behavior passes against expected \"answer.\" There are no forbidden assertions to assess, so absent is correct.\n\nI do not see any incorrect intermediate labels or omitted substantive claims in the candidate grading.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

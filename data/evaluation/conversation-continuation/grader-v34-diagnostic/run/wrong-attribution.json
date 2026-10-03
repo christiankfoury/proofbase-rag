@@ -1,0 +1,64 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response provides substantive policy information answering the asked rule.",
+    "behavior_span": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "The source text supports the rule that laboratory staff must return loaned meters within four working days, but the answer also attributes that rule to the specific document \"The Visitor Parking Handbook.\" The metadata identifies source R1 as the document titled \"Meter Loan Handbook,\" not \"Visitor Parking Handbook.\" Because the document attribution is part of the complete claim, the full claim is not established. There is also no explicit evidence contradicting that the Visitor Parking Handbook might contain the same rule, so the factual status is unknown rather than contradicted. For citation, the cited text supports the rule content but clearly does not support the claimed document title, so the citation is missing for the complete attributed claim.",
+        "source_spans": [],
+        "text": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer states the same rule as the required fact; 'requires' conveys that laboratory staff must return loaned meters within four working days.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the meter return rule, and the answer states a specific rule about returning loaned meters for laboratory staff within four working days.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for the meter return rule, and the answer does address that topic by stating a rule about returning loaned meters. So relevance passes.\n\nInterpreted complete claim: \"The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days.\" This includes both the rule content and the document attribution. The factual and cited source text support the rule content: \"Laboratory staff must return loaned meters within four working days.\" However, the answer attributes that rule to \"The Visitor Parking Handbook,\" while source_metadata identifies R1 as \"Meter Loan Handbook.\" Metadata supports document identity, so the complete attributed claim is not established. Because there is no explicit incompatible source saying the Visitor Parking Handbook does not contain this rule, the claim is factual unknown, not contradicted. For citation, the cited evidence clearly fails to support the full attributed claim, so citation status is missing.\n\nRequired fact coverage: the required fact is only the rule itself, \"Laboratory staff must return loaned meters within four working days.\" The answer does communicate that rule; the extra wrong/unsupported handbook attribution does not make the required fact uncovered. So F1 is covered, and completeness passes.\n\nBehavior: the response gives substantive policy information answering the asked question, so actual_behavior is answer. That matches expected_behavior=answer, and completeness does not override it to fail.\n\nForbidden assertions: none are specified, and none are present.\n\nComparing to the candidate: the candidate’s claim extraction, factual unknown, citation missing, relevance pass, F1 covered, actual_behavior answer, and reduced judgments are all consistent with the rubric and the raw inputs.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

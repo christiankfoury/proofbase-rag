@@ -8,11 +8,10 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ### Current: CAD13.11 continuation explicitly approved
 
-V33 focus stopped1/2: independent review conflated factual unknown with citation
-unknown for an unsupported attribution. V34 clarifies the existing enum mapping
-and generates exact witnesses after verdicts. No scoring/schema/output changes.
-Four focused controls precede full qualification. AccountedUSD7.56752776 with the
-original hold retained; remainingUSD7.31784000. All failed evidence preserved.
+V34 passes all16 diagnostic cases and3 probes with clean source inspection.
+AccountedUSD8.51907026 includes the originalholdUSD0.14820250; remainingUSD6.36629750.
+Full24+3 calibration next, then newly isolated16 confirmation if clean and funded.
+USD4.50 final-launchfloor remains. Application v6 is still disabled/unaccepted.
 
 New cumulative ceiling USD14.88536776: past confirmed USD6.88536776 plus USD8.00
 remaining inclusive of the original USD0.14820250 hold. Future-call headroom
