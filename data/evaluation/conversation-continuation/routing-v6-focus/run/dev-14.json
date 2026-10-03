@@ -1,0 +1,323 @@
+{
+  "authorized_evidence": [
+    {
+      "access_roles": [
+        "Employee"
+      ],
+      "chunk_id": "badge-general",
+      "content": "Lost access badges must be reported to Facilities within 30 minutes of discovery. The report should include badge identifier and last known location.",
+      "department_id": null,
+      "document_id": "badge-general",
+      "document_title": "Badge loss reporting",
+      "hybrid_score": null,
+      "keyword_score": null,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "rank": 1,
+      "restricted": false,
+      "retrieval_source": "vector",
+      "score": 0.95,
+      "section_heading": "Badge loss reporting",
+      "sensitivity": "internal",
+      "vector_score": null
+    },
+    {
+      "access_roles": [
+        "Employee"
+      ],
+      "chunk_id": "badge-special",
+      "content": "Lost badges that grant restricted laboratory access must be reported to Security Operations immediately.",
+      "department_id": null,
+      "document_id": "badge-special",
+      "document_title": "Restricted laboratory badges",
+      "hybrid_score": null,
+      "keyword_score": null,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "rank": 1,
+      "restricted": false,
+      "retrieval_source": "vector",
+      "score": 0.95,
+      "section_heading": "Restricted laboratory badges",
+      "sensitivity": "internal",
+      "vector_score": null
+    }
+  ],
+  "case_id": "dev-14",
+  "turns": [
+    {
+      "final_response": {
+        "answer": "For a lost access badge report to Facilities, send the badge identifier and the last known location, and report it within 30 minutes of discovering the loss. If the lost badge grants restricted laboratory access, there is an additional requirement to report it to Security Operations immediately.",
+        "answer_confidence": 0.0,
+        "assistant_message_id": "2",
+        "behavior": "answer",
+        "chunking_strategy": "section_based",
+        "citation_confidence": 0.0,
+        "citations": [
+          {
+            "chunk_id": "badge-general",
+            "citation_text": "Lost access badges must be reported to Facilities within 30 minutes of discovery. The report should include badge identifier and last known location.",
+            "citation_type": "model",
+            "document_id": "badge-general",
+            "document_title": "Badge loss reporting",
+            "section_heading": "Badge loss reporting",
+            "source": "Source: badge-general Badge loss reporting, Section: Badge loss reporting"
+          },
+          {
+            "chunk_id": "badge-special",
+            "citation_text": "Lost badges that grant restricted laboratory access must be reported to Security Operations immediately.",
+            "citation_type": "model",
+            "document_id": "badge-special",
+            "document_title": "Restricted laboratory badges",
+            "section_heading": "Restricted laboratory badges",
+            "source": "Source: badge-special Restricted laboratory badges, Section: Restricted laboratory badges"
+          }
+        ],
+        "clarification_reason": null,
+        "defense_trace": {
+          "privacy_mode": "bounded_metadata_only",
+          "schema_version": "defense_trace.v1",
+          "stages": [
+            {
+              "action": "continue",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": 0.0,
+              "latency_ms": 0,
+              "memory_used_as_evidence": null,
+              "name": "deterministic_guard",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "not_selected",
+              "status": "skipped",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "continue",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": 1610,
+              "memory_used_as_evidence": false,
+              "name": "semantic_request_assessment",
+              "reason_codes": [
+                "no_risk"
+              ],
+              "repair_count": null,
+              "route": "semantic_assessment",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "allow_authorized_only",
+              "authorized_chunk_count": 2,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "permission_filter",
+              "reason_codes": [
+                "pre_generation_role_filter"
+              ],
+              "repair_count": null,
+              "route": "application_authorization",
+              "status": "succeeded",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "not_run",
+              "authorized_chunk_count": 2,
+              "estimated_cost_usd": 0.0,
+              "latency_ms": 0,
+              "memory_used_as_evidence": false,
+              "name": "evidence_assessment",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "replaced_by_contextual_check",
+              "status": "skipped",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "generated",
+              "authorized_chunk_count": 2,
+              "estimated_cost_usd": 0.0050275,
+              "latency_ms": 5836,
+              "memory_used_as_evidence": false,
+              "name": "generator",
+              "reason_codes": [
+                "authorized_chunks_only"
+              ],
+              "repair_count": null,
+              "route": "authorized_evidence_only",
+              "status": "succeeded",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "accept",
+              "authorized_chunk_count": 2,
+              "estimated_cost_usd": 0.0045775,
+              "latency_ms": 2729,
+              "memory_used_as_evidence": false,
+              "name": "post_generation_validation",
+              "reason_codes": [
+                "all_claims_supported"
+              ],
+              "repair_count": 0,
+              "route": "hybrid_semantic",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "answer",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "final_response",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "application_response_policy",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            }
+          ]
+        },
+        "estimated_cost_usd": 0.0050275,
+        "evidence_assessment": null,
+        "final_confidence": 0.0,
+        "generation_latency_ms": 5836,
+        "input_cost_usd": 0.0020575,
+        "memory": {
+          "is_followup": false,
+          "memory_used": false,
+          "original_question": "For a lost access badge report to Facilities, which details should I send and how quickly must I report it?",
+          "previous_topic": null,
+          "rewrite_strategy": "none",
+          "rewritten_question": "For a lost access badge report to Facilities, which details should I send and how quickly must I report it?"
+        },
+        "model": "gpt-5.4-2026-03-05",
+        "multi_doc_mode": "off",
+        "multi_doc_used": false,
+        "output_cost_usd": 0.00297,
+        "permission_check": {
+          "retrieved_chunks_count": 2,
+          "unauthorized_chunks_reached_generation": false,
+          "user_role": "Employee"
+        },
+        "post_generation_validation": {
+          "action": "accept",
+          "citation_checks": [],
+          "claims": [],
+          "estimated_cost_usd": 0.0045775,
+          "exact_literals": [],
+          "input_cost_usd": 0.0021175,
+          "input_tokens": 847,
+          "latency_ms": 2729,
+          "model": "gpt-5.4-2026-03-05",
+          "normalization_reason": null,
+          "output_cost_usd": 0.00246,
+          "output_tokens": 164,
+          "pricing_status": "estimated",
+          "prompt_version": "conversational-v6",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "schema_version": "post_generation_validation.v1",
+          "source_instruction_followed": false,
+          "status": "succeeded",
+          "unsupported_exact_literals": []
+        },
+        "pricing_status": "estimated",
+        "prompt_name": "conversational_candidate",
+        "prompt_version": "v6",
+        "request_assessment": {
+          "ambiguity": "none",
+          "assessment_confidence": 0.95,
+          "decision_variables": [],
+          "estimated_cost_usd": null,
+          "injection_risk": "none",
+          "input_cost_usd": null,
+          "input_tokens": 1230,
+          "intent": "question",
+          "latency_ms": 1610,
+          "missing_referents": [],
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 82,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v2",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "recommended_action": "continue",
+          "referents": "not_applicable",
+          "response_reason": null,
+          "route": "semantic_assessment",
+          "schema_version": "request_assessment.v1",
+          "status": "succeeded",
+          "topic": "security",
+          "topic_description": "Reporting lost access badge details and reporting timeframe to Facilities"
+        },
+        "response_type": "answer",
+        "retrieval_confidence": 0.0,
+        "retrieval_latency_ms": 0,
+        "retrieval_mode": "vector_lexical_rerank",
+        "retrieved_chunks": [
+          {
+            "access_roles": [
+              "Employee"
+            ],
+            "chunk_id": "badge-general",
+            "content_preview": "Lost access badges must be reported to Facilities within 30 minutes of discovery. The report should include badge identifier and last known location.",
+            "department_id": null,
+            "document_id": "badge-general",
+            "document_title": "Badge loss reporting",
+            "hybrid_score": null,
+            "keyword_score": null,
+            "project_id": "00000000-0000-0000-0000-000000000019",
+            "rank": 1,
+            "restricted": false,
+            "retrieval_source": "vector",
+            "score": 0.95,
+            "section_heading": "Badge loss reporting",
+            "sensitivity": "internal",
+            "vector_score": null
+          },
+          {
+            "access_roles": [
+              "Employee"
+            ],
+            "chunk_id": "badge-special",
+            "content_preview": "Lost badges that grant restricted laboratory access must be reported to Security Operations immediately.",
+            "department_id": null,
+            "document_id": "badge-special",
+            "document_title": "Restricted laboratory badges",
+            "hybrid_score": null,
+            "keyword_score": null,
+            "project_id": "00000000-0000-0000-0000-000000000019",
+            "rank": 1,
+            "restricted": false,
+            "retrieval_source": "vector",
+            "score": 0.95,
+            "section_heading": "Restricted laboratory badges",
+            "sensitivity": "internal",
+            "vector_score": null
+          }
+        ],
+        "scope": {
+          "department_id": null,
+          "project_id": "00000000-0000-0000-0000-000000000019"
+        },
+        "session_id": "00000000-0000-0000-0000-000000009001",
+        "supported_claims": [],
+        "temperature": null,
+        "total_latency_ms": 7463,
+        "unsupported_claims": [],
+        "user_message_id": "1",
+        "validation_notes": "The answer is fully supported by the cited sources: it correctly states the required report details (badge identifier and last known location), the timing (within 30 minutes of discovery), and preserves the additional condition for restricted laboratory badges needing immediate reporting to Security Operations. No unsupported assertions or citation misuse."
+      },
+      "latency_ms": 7469,
+      "question": "For a lost access badge report to Facilities, which details should I send and how quickly must I report it?",
+      "status_code": 200,
+      "turn": 0
+    }
+  ]
+}

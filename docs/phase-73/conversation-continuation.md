@@ -296,3 +296,9 @@ passages; no output, citation, permission or checker requirement changed.
 turns and duplicate submission blocked. Versioned replay audits stopped receipts
 and labels missing turns rather than claiming complete coverage. Focus dev08/13/14
 then full14 remains required; no grader calls until clean application selection.
+
+V6 focus passes3/3 with exact excerpts and clean source inspection.9calls
+USD0.03074910; cumulativeUSD2.63171356, remainingUSD9.86828644. Full14
+preflight reservesUSD1.2340861 conservatively; expected aboutUSD0.15.
+One harmless extra EOF blank line in the versioned ledger is retained in its
+frozen tested bytes; no blocking semantic findings.
