@@ -8,6 +8,10 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ### Current: autonomous conversational completion within the same USD 12.50 ceiling
 
+Latest: rolling per-request reservations explicitly approved; all output/coverage
+gates unchanged. Full challenger 12/12, mini 8/12 (ineligible); matched v4 baseline
+next. Settled cumulative USD 0.3528948. Qualification/release still pending.
+
 The latest user explicitly supersedes the prior one-attempt/no-second-cycle and
 failure-stop rules. Start with the diagnosed upstream ambiguity defect; continue
 focused fixes, qualification and final measurement until acceptance or a real

@@ -5,7 +5,8 @@ stopping rules. Continue focused diagnosis/corrections, then qualification and
 measurement, until accepted activation or a concrete budget/external blocker.
 The total remains **USD 12.50 including USD 0.1529816 spent**, leaving
 USD 12.3470184 at this authorization. No historical allowance is added. Stage
-allocations may move; whole-stage reservations and per-request receipt settlement
+allocations may move. The subsequent explicit rolling-reservation approval
+supersedes whole-stage funding; per-request reservation and receipt settlement
 remain mandatory. Original stopped artifacts are immutable historical evidence.
 
 ## Current work
@@ -120,3 +121,17 @@ controls, by agent inspection of all 15 turns and source/draft/checker pairs. No
 open inspection finding. Cost USD 0.1253276, cumulative USD 0.3361780. This is a
 development result, not final accuracy or activation authority. Mini and v4 still
 need the matched-source comparison; qualification and release remain pending.
+
+Mini completes 8/12: two noncontiguous table quotations fail the exact-quote gate,
+one conflict draft is blocked by the checker, and one delivered answer omits
+Ontario applicability. All failures remain failures. Its 43 settled calls cost
+USD 0.0167168, cumulative USD 0.3528948. Challenger remains the only eligible
+candidate. Complete v4 on the same versioned suite before profile selection.
+
+The user explicitly approved rolling reservations within the unchanged USD 12.50
+total. See `rolling-authorization.json`: complete input and unchanged output caps
+are reserved before each submission, unknown receipts retain reservation and stop.
+Stage estimates are planning figures, not extra funding; incomplete stages earn
+no acceptance. The final launch floor remains USD 4.50. No retries or coverage
+reductions. The prior whole-stage final output reservation alone was USD 14.7456;
+rolling funding uses settled actual spending instead of reserving all 60 at once.
