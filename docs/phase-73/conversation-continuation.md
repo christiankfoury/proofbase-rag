@@ -170,3 +170,6 @@ V25 focus passes1/1 with three settled calls, USD0.0545040; cumulative
 USD0.6258183. Source inspection confirms a single whole-sentence claim, correct
 unknown/missing attribution, covered underlying rule and independent reviewer
 agreement. Full8+3 diagnostic follows; focus alone grants no qualification.
+
+V25 full diagnostic passes8/8 and3/3 probes, no source-inspection findings.
+27calls cost USD0.2796570; cumulative USD0.9054753. Full24+3 calibration next.

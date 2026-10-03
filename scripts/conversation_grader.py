@@ -28,6 +28,8 @@ class RollingLedger:
     def accounted(self):
         return Decimal(self.plan['prefix']['spent_usd'])+sum((Decimal(r['accounted_usd']) for r in self.data['calls']),Decimal(0))
 
+    def prepare_request(self,body):return body,transport.reserve(body)
+
     def call(self,create,body,path):
         with transport.exclusive_lock(FOLDER):
             if self.data['stopped'] or len(self.data['calls'])>=self.plan['maximum_calls']:
@@ -38,7 +40,7 @@ class RollingLedger:
             expected[(self.folder/'api-ledger.json').relative_to(ROOT).as_posix()]=digest(self.folder/'api-ledger.json')
             if current['ledger_sha256']!=expected or Decimal(current['spent_usd'])!=self.accounted:
                 raise transport.BudgetStop('Spending prefix changed')
-            limits=transport.reserve(body); amount=limits['reserved_usd'];path=Path(path)
+            body,limits=self.prepare_request(body); amount=limits['reserved_usd'];path=Path(path)
             relative=path.resolve().relative_to(self.folder.resolve()).as_posix()
             if path.exists():raise transport.BudgetStop('No repeated request')
             if self.accounted+amount>CEILING:
@@ -51,7 +53,7 @@ class RollingLedger:
             try:
                 response=create(**body);raw.update(status='received',response=response.model_dump(mode='json'));write(path,raw)
                 usage=raw['response']['usage'];cost=response_charge(raw['response'],body['model'])
-                if not(0<=usage['prompt_tokens']<=limits['input_bound'] and 0<=usage['completion_tokens']<=limits['output_cap'] and 0<=cost<=amount):
+                if not(0<=usage['prompt_tokens']<=limits['input_bound'] and 0<=usage.get('completion_tokens',0)<=limits['output_cap'] and 0<=cost<=amount):
                     raise ValueError('Receipt exceeds reservation')
                 row.update(status='completed',accounted_usd=str(cost),raw_sha256=digest(path));self.save()
                 return response
@@ -94,7 +96,7 @@ def prepare(step,stage,ids=None):
         if value['status']!='passed' or value['unresolved_findings'] or digest(report_path)!=value['report_sha256']:
             raise ValueError('Source-reviewed diagnostic required')
         report=read(report_path)
-        if report['matched']!=8 or report['matching_probes']!=3 or report['status']!='complete':raise ValueError('Diagnostic incomplete')
+        if report['matched']!=8 or report['matching_probes']!=3 or report['status']!='complete' or report['version']!=contract.VERSION:raise ValueError('Diagnostic incomplete or stale version')
         paths.extend([gate,report_path])
     paths+=list((ROOT/'scripts').glob('*.py'))
     selected=[c for c in cases(stage) if not ids or c['id'] in ids]
@@ -111,7 +113,7 @@ def prepare(step,stage,ids=None):
     print(json.dumps({k:v for k,v in value.items() if k not in ('bindings','prefix')},indent=2))
 
 
-def execute(step):
+def execute(step,*,case_loader=cases,probe_loader=probes):
     folder=FOLDER/step;plan=read(folder/'preflight.json')
     contract,transport=versioned(plan['version'])
     if plan['prefix']!=prefix() or any(digest(ROOT/p)!=h for p,h in plan['bindings'].items()):raise ValueError('Frozen inputs changed')
@@ -127,7 +129,7 @@ def execute(step):
         started_at=now(),preflight_sha256=digest(folder/'preflight.json'),rows={},probes={})
     write(out/'manifest.json',manifest)
     try:
-        for case in [c for c in cases(plan['stage']) if c['id'] in plan['case_ids']]:
+        for case in [c for c in case_loader(plan['stage']) if c['id'] in plan['case_ids']]:
             grade=review=error=None
             try:grade,review=transport.grade_case(client.chat.completions.create,case['inputs'],ledger,out/'raw'/case['id'])
             except (ValueError,IndexError) as exc:
@@ -139,7 +141,7 @@ def execute(step):
             if not row['matched']:
                 manifest['status']='early_stopped';break
         else:
-            for case in [c for c in probes(plan['stage']) if c['id'] in plan['probe_ids']]:
+            for case in [c for c in probe_loader(plan['stage']) if c['id'] in plan['probe_ids']]:
                 review=error=None;body=transport.review_request(case['inputs'],case['candidate'])
                 try:review=transport.parsed(ledger.call(client.chat.completions.create,body,out/'raw'/(case['id']+'.json')),contract.review_schema())
                 except (ValueError,IndexError) as exc:
@@ -155,7 +157,7 @@ def execute(step):
         write(out/'manifest.json',manifest)
 
 
-def report(step):
+def report(step,*,case_loader=cases,probe_loader=probes):
     from scripts.report_quality_calibration_v12 import replay_raw
     from scripts.conversation_custody import verify_bindings
     out=FOLDER/step/'run';manifest=read(out/'manifest.json');plan=read(out.parent/'preflight.json')
@@ -168,7 +170,7 @@ def report(step):
     ledger=read(out/'api-ledger.json')
     if digest(out/'api-ledger.json')!=manifest['ledger_sha256']:raise ValueError('Ledger changed')
     rows=[];reviews=[];bodies={}
-    for case in cases(plan['stage']):
+    for case in case_loader(plan['stage']):
         if case['id'] not in manifest['rows']:continue
         grade=review=error=None
         try:
@@ -182,7 +184,7 @@ def report(step):
         row=existing.judged(case,grade,review,error);path=out/(case['id']+'.json')
         if digest(path)!=manifest['rows'][case['id']] or read(path)!=row:raise ValueError('Judgment changed')
         rows.append(dict(id=case['id'],**row))
-    for case in probes(plan['stage']):
+    for case in probe_loader(plan['stage']):
         if case['id'] not in manifest['probes']:continue
         body=transport.review_request(case['inputs'],case['candidate']);path=out/'raw'/(case['id']+'.json');bodies[path.relative_to(out).as_posix()]=body
         review=error=None
