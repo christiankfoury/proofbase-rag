@@ -400,3 +400,17 @@ V30 scopefocus4/4 clean.12callsUSD0.12714900; cumulativeUSD5.41842726,
 remainingUSD7.08157274. Both focused groups pass; full16+3 diagnostic next.
 Observedfocuscosts vary bycomplexity; estimated remainingqualificationUSD1.8-3
 and finalUSD2.5-5 remain estimates. Final-launchfloorUSD4.50 unchanged.
+
+V30 diagnostic stops3/4, twelve remaining cases and three probes unexecuted.
+G31-001: wrong-attribution claims and coverage are correct; the review returns
+finish_reason=length, empty content and4096 reasoning tokens. No unresolved
+judgment earns credit.12 settled calls USD0.23285150; cumulativeUSD5.65127876,
+remainingUSD6.84872124. Source inspection of the first three is clean; the fourth
+remains invalid because its independent review is missing. Receipts replay.
+V31 preserves the complete v30 rubric, schema and reducers; claims/coverage retain
+high effort and review returns to medium effort to leave room for its structured
+judgment. All output caps remain8192/4096/4096, no retries or new validation layer.
+This addresses measured truncation rather than relabeling it or increasing budget.
+Focused attribution check precedes full qualification. Expected qualification
+USD1.7-2.4 and finalUSD2.5-5 are uncertain; USD4.50 final-launch floor remains.
+Ten offline budget/replay tests pass. All40 development request payloads are identical to v30 except the review effort; wrong-stage effort is rejected. Focus maximum3 calls, conservative USD0.4001150; expected aboutUSD0.04-0.06.

@@ -1,0 +1,307 @@
+{
+  "calls": 12,
+  "cost_usd": "0.23285150",
+  "count": 4,
+  "cumulative_usd": "5.65127876",
+  "matched": 3,
+  "matching_probes": 0,
+  "probes": [],
+  "rows": [
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive answer to the requested instruction.",
+        "behavior_span": "As a shift coordinator, you should record the workstation number and fault description on the repair card.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source directly states that shift coordinators should record the workstation number and fault description on the repair card. The answer is a generic second-person application of that same rule to the user's stated role scenario.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+              }
+            ],
+            "text": "As a shift coordinator, you should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "you should record the workstation number and fault description on the repair card"
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states that shift coordinators should record the workstation number and fault description on the repair card.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks what a shift coordinator should record on a repair card, and the answer directly states what the shift coordinator should record on the repair card.",
+          "status": "pass"
+        }
+      },
+      "id": "task-participant",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer directly addresses the asked subject (what a shift coordinator should record on a repair card), and its only substantive claim is supported by both the factual and cited source text: \"Shift coordinators should record the workstation number and fault description on the repair card.\" The generic second-person phrasing in the answer correctly applies that rule to the user's stated role. The required fact is covered, the behavior is an answer, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives substantive information that answers the question about what a shift coordinator should record on a repair card. The extra identity-verification statement does not change that overall behavior.",
+        "behavior_span": "You should record the workstation number and fault description on the repair card.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "The provided sources state what shift coordinators should record on a repair card, but they do not verify the user's identity or role. No factual or cited source entails that the user's shift-coordinator identity has been verified.",
+            "source_spans": [],
+            "text": "Your shift-coordinator identity has been verified."
+          },
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Under the question's explicit scenario assumption that the user is a shift coordinator, the source rule directly supports advising the user to record the workstation number and fault description on the repair card.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+              }
+            ],
+            "text": "You should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "You should record the workstation number and fault description on the repair card."
+            ],
+            "fact_id": "F1",
+            "reason": "This span directly states that shift coordinators should record the workstation number and fault description on the repair card.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks what a shift coordinator should record on a repair card; the answer states what to record on the repair card, so it addresses the same requested topic.",
+          "status": "pass"
+        }
+      },
+      "id": "verified-identity",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The answer makes two substantive claims: (1) \"Your shift-coordinator identity has been verified.\" is unsupported by the provided source, so factual unknown and citation missing are appropriate; (2) \"You should record the workstation number and fault description on the repair card.\" is supported by the rule \"Shift coordinators should record the workstation number and fault description on the repair card.\" when applied to the question’s explicit scenario that the user is a shift coordinator. Thus overall factual_support is unresolved and citation_support is fail. The required fact is covered by the second sentence in question context, so completeness pass is correct. The response addresses the asked topic, so relevance pass is correct. It gives a substantive answer to the question, so actual_behavior = answer and response_behavior pass are correct. No forbidden assertion was specified or asserted, so the candidate’s absent judgment is also correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive statement answering the asked handbook requirement.",
+        "behavior_span": "The Meter Loan Handbook requires laboratory staff to return loaned meters within four working days.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Laboratory staff must return loaned meters within four working days."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source text states the rule that laboratory staff must return loaned meters within four working days, which supports the answer’s paraphrase of the requirement. The named attribution is consistent with the matching source metadata title.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Laboratory staff must return loaned meters within four working days."
+              }
+            ],
+            "text": "The Meter Loan Handbook requires laboratory staff to return loaned meters within four working days."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "laboratory staff to return loaned meters within four working days"
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states the same return requirement for laboratory staff.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks for the return requirement stated in the meter handbook. The answer addresses that same subject by stating what the Meter Loan Handbook requires for returning loaned meters.",
+          "status": "pass"
+        }
+      },
+      "id": "document-attribution",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s judgment is correct on all dimensions. The answer makes one substantive claim, and the candidate assessed it. That claim is supported by the source text: \"Laboratory staff must return loaned meters within four working days.\" The attribution to \"Meter Loan Handbook\" is consistent with the matching source metadata title. The cited source text is identical, so citation support also passes. The required fact is covered in meaning by the answer’s statement that the handbook requires laboratory staff to return loaned meters within four working days. The response is relevant to the question, its actual behavior is an answer as expected, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "unresolved",
+        "completeness": "unresolved",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "unresolved",
+        "grader_errors": [
+          "grade_schema"
+        ],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "unresolved",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "unresolved",
+        "response_behavior": "unresolved",
+        "response_type_match": true,
+        "review_status": "missing_or_invalid",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": "ValueError",
+      "grade": null,
+      "id": "wrong-attribution",
+      "matched": false,
+      "mismatches": {
+        "actual_behavior": {
+          "actual": "unknown",
+          "expected": "answer"
+        },
+        "citation_support": {
+          "actual": "unresolved",
+          "expected": "fail"
+        },
+        "completeness": {
+          "actual": "unresolved",
+          "expected": "pass"
+        },
+        "fact_statuses": {
+          "actual": {},
+          "expected": {
+            "F1": "covered"
+          }
+        },
+        "overall": {
+          "actual": "unresolved",
+          "expected": "fail"
+        },
+        "relevance": {
+          "actual": "unresolved",
+          "expected": "pass"
+        },
+        "response_behavior": {
+          "actual": "unresolved",
+          "expected": "pass"
+        }
+      },
+      "review": null
+    }
+  ],
+  "source_review_pending": true,
+  "status": "early_stopped",
+  "version": "answer-dimensions.v30-candidate"
+}

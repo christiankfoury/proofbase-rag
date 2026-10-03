@@ -10,10 +10,12 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 Latest: V6 full application comparison passes14/14: original12/12 plus two
 recipient controls, all safety controls and24 exact authorized excerpts.
-V29 diagnosticstops3/4 on attributioncontradiction and hypotheticalambiguity.
-CumulativeUSD5.13891226, remainingUSD7.36108774; no unknown calls.
-Next v30 high-effort focused checks, full qualification, fresh independent16
-confirmation and newly isolated60 measurement. V4 remains default.
+V30 diagnostic stops3/4 because its independent review exhausts the unchanged
+4096-token allowance without producing a judgment. Cumulative USD5.65127876,
+remaining USD6.84872124; no unknown calls. V31 retains the same rubric and high
+claim/coverage effort, with medium review effort. Focus, full qualification,
+fresh independent16 confirmation and isolated60 measurement remain required.
+V4 remains default; no accepted release score.
 See [continuation](../phase-73/conversation-continuation.md).
 
 The latest user explicitly supersedes the prior one-attempt/no-second-cycle and
