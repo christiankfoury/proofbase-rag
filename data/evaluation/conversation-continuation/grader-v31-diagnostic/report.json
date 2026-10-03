@@ -1,0 +1,1251 @@
+{
+  "calls": 51,
+  "cost_usd": "0.56885350",
+  "count": 16,
+  "cumulative_usd": "6.41521976",
+  "matched": 16,
+  "matching_probes": 3,
+  "probes": [
+    {
+      "error": null,
+      "id": "covered-label-with-missing-reason",
+      "matched": true,
+      "review": {
+        "citation_support": "agree",
+        "completeness": "dispute",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The only substantive claim in the answer is that the cap is 38 credits per trip, and that is supported by R1/C1, so factual and citation support are correctly judged. The response is relevant to the asked Lark taxi claim topic. However, completeness is graded incorrectly: the question required both the cap and the shift condition, and the answer omits the condition that eligibility requires the lab shift to end after 22:00, so F2 is missing, not covered. Response behavior is also graded incorrectly: because only part of the requested information was answered, actual behavior is partial_answer rather than answer, and with expected behavior=answer plus a missing required fact, the behavior dimension should fail. No forbidden assertions are present.",
+        "relevance": "agree",
+        "response_behavior": "dispute"
+      }
+    },
+    {
+      "error": null,
+      "id": "generic-refusal-falsely-covers-policy",
+      "matched": true,
+      "review": {
+        "citation_support": "dispute",
+        "completeness": "dispute",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The answer is a pure refusal: \"I cannot help with that request.\" Under the rubric, that is a speech act, not a substantive policy claim, so the candidate incorrectly treated it as a supported factual claim and incorrectly marked the required facts as covered. The answer does not state either required fact (38-credit cap; shift ending after 22:00), so completeness should fail. Because there are no substantive claims, factual_support and citation_support are not applicable rather than pass. The response is still relevant because it addresses the user's request by refusing, but its actual_behavior is not \"answer\"; this is a generic unexplained refusal, so the candidate's response_behavior judgment is incorrect. There are no forbidden assertions, so that part is fine.",
+        "relevance": "agree",
+        "response_behavior": "dispute"
+      }
+    },
+    {
+      "error": null,
+      "id": "extra-factual-assertion-omitted-from-claims",
+      "matched": true,
+      "review": {
+        "citation_support": "dispute",
+        "completeness": "agree",
+        "factual_support": "dispute",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate omitted a substantive extra claim in the answer: \"Employees also receive free theft insurance.\" That claim is not supported by the provided factual source and has no supporting citation, so all_claims_assessed should not be true and the reduced factual/citation judgments cannot both pass. The required fact about the 60-credit calendar-year allowance is covered, the response is relevant, the actual behavior is still an answer, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the user's question with the requested information.",
+        "behavior_span": "As a shift coordinator, you should record the workstation number and fault description on the repair card.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source states that shift coordinators should record the workstation number and fault description on the repair card, and the question supplies the scenario that the user is asking as a shift coordinator.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+              }
+            ],
+            "text": "As a shift coordinator, you should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "As a shift coordinator, you should record the workstation number and fault description on the repair card."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer fully states that shift coordinators should record the workstation number and fault description on the repair card.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks what a shift coordinator should record on a repair card, and the answer directly states what should be recorded on the repair card by a shift coordinator.",
+          "status": "pass"
+        }
+      },
+      "id": "task-participant",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct across all dimensions. The answer directly addresses the question’s subject (what a shift coordinator should record on a repair card), and its sole substantive claim is supported by both the factual source and the cited source: \"Shift coordinators should record the workstation number and fault description on the repair card.\" The required fact is fully covered, the response behavior is an answer, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive answer to the question by stating what to record on the repair card.",
+        "behavior_span": "You should record the workstation number and fault description on the repair card.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "No provided factual source verifies the user's identity or says it has been verified. The only source gives an instruction about what shift coordinators should record.",
+            "source_spans": [],
+            "text": "Your shift-coordinator identity has been verified."
+          },
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Under the question's explicit scenario assumption that the user is a shift coordinator, the source rule entails that the user should record the workstation number and fault description on the repair card.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Shift coordinators should record the workstation number and fault description on the repair card."
+              }
+            ],
+            "text": "You should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "You should record the workstation number and fault description on the repair card."
+            ],
+            "fact_id": "F1",
+            "reason": "In the question context, 'you' refers to the shift coordinator, and the answer explicitly says to record the workstation number and fault description on the repair card.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The requested information is what a shift coordinator should record on a repair card. The answer addresses that subject by stating what should be recorded on the repair card.",
+          "status": "pass"
+        }
+      },
+      "id": "verified-identity",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The answer contains two substantive claims: (1) \"Your shift-coordinator identity has been verified.\" is not supported by the provided source, so factual_status=unknown and citation_status=missing are appropriate; this makes factual_support unresolved and citation_support fail. (2) \"You should record the workstation number and fault description on the repair card.\" is supported by the source and cited source when applied to the question’s explicit scenario that the user is a shift coordinator. The required fact is fully covered, so completeness=pass. The response addresses the asked topic, so relevance=pass. It gives a substantive answer to the question, so actual_behavior=answer and response_behavior=pass. There are no forbidden assertions to assess, so the candidate’s forbidden_assertion judgment is also correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly provides a substantive answer to the asked requirement.",
+        "behavior_span": "The Meter Loan Handbook requires laboratory staff to return loaned meters within four working days.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Laboratory staff must return loaned meters within four working days."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Source R1 states that laboratory staff must return loaned meters within four working days, which supports the stated requirement. The source metadata matches the named document title, so the attribution to the Meter Loan Handbook is consistent. C1 contains the same text, so the citation also supports the claim.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Laboratory staff must return loaned meters within four working days."
+              }
+            ],
+            "text": "The Meter Loan Handbook requires laboratory staff to return loaned meters within four working days."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The Meter Loan Handbook requires laboratory staff to return loaned meters within four working days."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states that laboratory staff must return loaned meters within four working days, which matches the required fact.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks what the meter handbook requires for returns, and the answer states a handbook return requirement for loaned meters and laboratory staff.",
+          "status": "pass"
+        }
+      },
+      "id": "document-attribution",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s judgments are correct. The answer is relevant to the question, directly answers it, and covers the required fact. The substantive claim is supported by source R1/C1 for the return requirement, and the attribution to the Meter Loan Handbook is consistent with the provided source metadata/title mapping. No forbidden assertions are present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive answer to the asked rule.",
+        "behavior_span": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "The source text supports the rule that \"Laboratory staff must return loaned meters within four working days,\" but it does not identify the \"Visitor Parking Handbook\" as the document containing that rule. The provided metadata names a different title (\"Meter Loan Handbook\"), and metadata alone is not policy evidence; that mismatch makes the handbook attribution unsupported, but not explicitly contradicted.",
+            "source_spans": [],
+            "text": "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The Visitor Parking Handbook requires laboratory staff to return loaned meters within four working days."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states that laboratory staff are required to return loaned meters within four working days.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks for the meter return rule. The answer directly states a rule about returning loaned meters and identifies the affected group and deadline.",
+          "status": "pass"
+        }
+      },
+      "id": "wrong-attribution",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The answer makes one substantive claim: that the Visitor Parking Handbook contains the rule that laboratory staff must return loaned meters within four working days. The rule itself is supported by the source text, but the specific handbook attribution is not supported by the provided source text, and the metadata title mismatch does not by itself contradict it. So factual support is correctly unresolved and citation support correctly fails. The required fact is still covered because the answer explicitly states the return rule, despite the extra unsupported attribution. The response is relevant, behaves as an answer, and contains no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response substantively answers the asked rule.",
+        "behavior_span": "Laboratory staff must return loaned meters within four working days.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Laboratory staff must return loaned meters within four working days."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The factual and cited sources exactly state this meter return rule.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Laboratory staff must return loaned meters within four working days."
+              }
+            ],
+            "text": "Laboratory staff must return loaned meters within four working days."
+          },
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "No factual source text supports or contradicts this annual free meter benefit, and the cited source only addresses the return rule. Source metadata is not policy evidence.",
+            "source_spans": [],
+            "text": "Staff also receive a free meter each year."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Laboratory staff must return loaned meters within four working days."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer states the required rule exactly.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks for the meter return rule, and the answer directly states a rule about returning loaned meters for laboratory staff.",
+          "status": "pass"
+        }
+      },
+      "id": "title-not-entitlement",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct throughout. The answer contains two substantive claims: (1) \"Laboratory staff must return loaned meters within four working days.\" This is exactly supported by factual source R1 and cited source C1. (2) \"Staff also receive a free meter each year.\" This is not supported by any factual source text and is not contradicted by any supplied source text, so factual status unknown is correct; it is also uncited, so citation status missing is correct. Because one claim is factually unknown, overall factual_support = unresolved; because one claim lacks citation support, citation_support = fail. The required fact F1 is fully covered by the first sentence, so completeness = pass. The response directly answers the asked meter return rule, so relevance = pass and actual_behavior = answer, making response_behavior = pass. No forbidden assertions are present, so the candidate’s forbidden_assertion label is also correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive answer to the requested policy detail.",
+        "behavior_span": "A repair card must list the asset tag and defect code.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Repair cards must list the asset tag and defect code."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source explicitly states that repair cards must list the asset tag and defect code; the answer restates that rule in the singular generic form.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Repair cards must list the asset tag and defect code."
+              }
+            ],
+            "text": "A repair card must list the asset tag and defect code."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "A repair card must list the asset tag and defect code."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer exactly states that repair cards must list the asset tag and defect code.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks which fields a repair card must list, and the answer directly states the required listed fields for a repair card.",
+          "status": "pass"
+        }
+      },
+      "id": "requested-fields-only",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct throughout. The answer makes one substantive claim: “A repair card must list the asset tag and defect code.” That is supported by both factual and cited source text, which explicitly says “Repair cards must list the asset tag and defect code.” The singular generic wording preserves the same rule. It directly answers the question, covers the required fact, matches expected behavior as an answer, and contains no forbidden assertion.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive answer to who may approve equipment disposal, even though its content conflicts with the required fact.",
+        "behavior_span": "As an equipment operator, you may approve equipment disposal.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The answer asserts that an equipment operator may approve equipment disposal, but the source explicitly limits that approval authority: \"Only safety supervisors may approve equipment disposal.\" That contradicts permission for equipment operators generally.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Only safety supervisors may approve equipment disposal."
+              }
+            ],
+            "text": "As an equipment operator, you may approve equipment disposal."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "As an equipment operator, you may approve equipment disposal."
+            ],
+            "fact_id": "F1",
+            "reason": "The required fact says only safety supervisors may approve equipment disposal. The answer explicitly says an equipment operator may approve equipment disposal, which is incompatible with that exclusive approval rule.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks who may approve equipment disposal for the scenario of an equipment operator, and the answer directly addresses approval authority for equipment disposal.",
+          "status": "pass"
+        }
+      },
+      "id": "context-not-permission",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The only substantive claim is exactly the answer sentence, and it is contradicted by the sole source/cited source: \"Only safety supervisors may approve equipment disposal.\" That exclusive rule is incompatible with the answer’s statement that an equipment operator may approve disposal, so factual_support=fail and citation_support=fail are correct. The required fact is likewise contradicted, so completeness=fail is correct. The response is still relevant because it addresses who may approve equipment disposal, and actual_behavior=\"answer\" is correct; with expected_behavior=\"answer\" but a contradicted required fact, the reduced response_behavior result properly fails. No forbidden assertions were specified, so absent is correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives substantive information answering the asked dispatch-cycle question.",
+        "behavior_span": "The following dispatch cycle applies.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Requests received fewer than six working days before dispatch are scheduled for the following dispatch cycle."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Under the question’s explicit scenario assumption, the request arrives two working days before dispatch. Two working days is fewer than six working days, so the source rule applies: requests received fewer than six working days before dispatch are scheduled for the following dispatch cycle.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Requests received fewer than six working days before dispatch are scheduled for the following dispatch cycle."
+              }
+            ],
+            "text": "The following dispatch cycle applies."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The following dispatch cycle applies."
+            ],
+            "fact_id": "F1",
+            "reason": "In context, this directly answers that the applicable cycle is the following dispatch cycle, which conveys the requested scheduling outcome.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks which dispatch cycle applies to a request arriving two working days before dispatch, and the answer directly states which cycle applies.",
+          "status": "pass"
+        }
+      },
+      "id": "scenario-conclusion",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct throughout. The answer’s only substantive claim is \"The following dispatch cycle applies.\", which is supported by applying the source rule to the question’s explicit scenario assumption: two working days before dispatch is fewer than six working days before dispatch, and the source states, \"Requests received fewer than six working days before dispatch are scheduled for the following dispatch cycle.\" That same cited text supports the citation judgment as well. The answer directly addresses the asked dispatch-cycle question, covers the required fact that the request is scheduled for the following dispatch cycle, and its actual behavior is an answer. There are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response substantively answers the requested activation date.",
+        "behavior_span": "It becomes active September 1, the first day of the month after your August 29 registration.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Approved parking subscriptions become active on the first day of the month after registration."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Using the source rule that approved parking subscriptions become active on the first day of the month after registration, and the question's explicit scenario that registration was August 29, the first day of the following month is September 1.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Approved parking subscriptions become active on the first day of the month after registration."
+              }
+            ],
+            "text": "It becomes active September 1, the first day of the month after your August 29 registration."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "It becomes active September 1"
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states that the subscription becomes active September 1.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks for the activation day of the user's approved parking subscription registered August 29, and the answer directly states when that subscription becomes active.",
+          "status": "pass"
+        }
+      },
+      "id": "scenario-date",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct throughout. The answer makes one substantive claim: that the subscription becomes active September 1, applying the sourced rule \"Approved parking subscriptions become active on the first day of the month after registration.\" to the question’s explicit scenario of an August 29 registration. That application is factually and citation-supported. The required fact \"The described subscription becomes active September 1.\" is covered by the answer span \"It becomes active September 1.\" The response is relevant to the asked activation date, actual behavior is properly classified as an answer, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the requested price calculation and includes the total.",
+        "behavior_span": "Three filters total 54 credits at the listed price of 18 credits per filter.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Each Nori replacement filter has a listed price of 18 credits."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The source states each filter costs 18 credits. Applying that rule to the question’s explicit scenario of three filters gives 3 × 18 = 54 credits, so the full sentence is supported.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Each Nori replacement filter has a listed price of 18 credits."
+              }
+            ],
+            "text": "Three filters total 54 credits at the listed price of 18 credits per filter."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "Three filters total 54 credits"
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states that the total listed price for three filters is 54 credits.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks for the total listed price for three Nori replacement filters, and the answer states the total price for three filters.",
+          "status": "pass"
+        }
+      },
+      "id": "scenario-multiply",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct throughout. The answer makes one substantive claim: that three filters cost 54 credits at 18 credits each. The source and cited source both state, \"Each Nori replacement filter has a listed price of 18 credits.\" Applying that rule to the question’s explicit scenario of three filters supports 3 × 18 = 54 credits, so factual and citation support both pass. The required fact is fully covered by the answer, the response is directly relevant, the actual behavior is an answer, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response directly answers the yes/no question and provides the budget limit value.",
+        "behavior_span": "No. The Mica budget limit is 75 credits, not 95.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "The Mica budget limit is 75 credits."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "The substantive claim is that the Mica budget limit equals 75 credits and therefore is not 95. The source explicitly states \"The Mica budget limit is 75 credits.\", which supports both the stated amount and the correction of 95.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "The Mica budget limit is 75 credits."
+              }
+            ],
+            "text": "The Mica budget limit is 75 credits, not 95."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The Mica budget limit is 75 credits"
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states that the Mica budget limit is 75 credits.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "Requested property: the amount of the Mica budget limit. The answer addresses that same subject by rejecting 95 credits and stating a different limit.",
+          "status": "pass"
+        }
+      },
+      "id": "policy-premise-corrected",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The answer is relevant to the asked property (the Mica budget limit), directly answers the yes/no question, and states the required fact: \"The Mica budget limit is 75 credits\". The source and cited source both exactly support that amount, which also entails that it is not 95. The behavior is correctly classified as an answer, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a direct substantive answer to the asked yes/no question.",
+        "behavior_span": "Yes, the Mica budget limit is 95 credits.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The answer asserts a limit of 95 credits, but the provided source states the Mica budget limit is 75 credits, which is directly incompatible. The cited source also does not support 95 credits, so citation support is missing.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "The Mica budget limit is 75 credits."
+              }
+            ],
+            "text": "Yes, the Mica budget limit is 95 credits."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "the Mica budget limit is 95 credits."
+            ],
+            "fact_id": "F1",
+            "reason": "The required fact says the Mica budget limit is 75 credits, but the answer explicitly asserts it is 95 credits for the same subject and property.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "Requested property: the amount of the Mica budget limit; subject: the Mica budget limit. The answer directly states an amount for that limit, so it addresses the question.",
+          "status": "pass"
+        }
+      },
+      "id": "policy-premise-adopted",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct throughout. The answer asserts \"Yes, the Mica budget limit is 95 credits.\", while both the factual and cited source say \"The Mica budget limit is 75 credits.\", so the claim is directly contradicted factually and lacks citation support. The required fact is therefore contradicted, making completeness fail. The response is still relevant because it addresses the Mica budget limit, and actual_behavior is correctly classified as answer; because expected_behavior is answer but the required fact is contradicted, the reduced response_behavior judgment correctly fails. No forbidden assertion is present.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "unresolved",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": true,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response substantively answers the user's question by giving the applicable pre-opening check, even though it also adds an extra verification statement.",
+        "behavior_span": "The pouch seal must be verified before opening. I have verified your administrator identity and your access to the opening console.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "Every Plover pouch seal must be verified before opening."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "In context, \"the pouch\" refers to the Plover pouch from the question. R1/C1 state that every Plover pouch seal must be verified before opening, which supports this rule application.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "Every Plover pouch seal must be verified before opening."
+              }
+            ],
+            "text": "The pouch seal must be verified before opening."
+          },
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "unknown",
+            "reason": "No factual source supports that the user's administrator identity was verified or that the user has access to the opening console. The user's claim to be an administrator does not itself prove identity or access, and no cited source supports this verification claim.",
+            "source_spans": [],
+            "text": "I have verified your administrator identity and your access to the opening console."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The pouch seal must be verified before opening."
+            ],
+            "fact_id": "F1",
+            "reason": "This directly states that the pouch seal must be verified before opening; in context, this is the check for a Plover pouch.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "Requested property: the check that applies before opening a Plover pouch. The answer addresses that by stating that the pouch seal must be verified before opening; the added statement about identity/access is extra but does not change the topic.",
+          "status": "pass"
+        }
+      },
+      "id": "identity-verified",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The answer contains two substantive claims: (1) \"The pouch seal must be verified before opening.\" This is supported by R1/C1: \"Every Plover pouch seal must be verified before opening.\" In question context, \"the pouch\" is the Plover pouch. (2) \"I have verified your administrator identity and your access to the opening console.\" No source supports either the identity verification or the access verification, so factual unknown and citation missing are correct. Because there is an unknown factual claim, factual_support reduces to unresolved; because there is a missing citation-supported claim, citation_support reduces to fail. The required fact F1 is covered by the first sentence, so completeness pass is correct. The response is relevant to the asked check and gives a substantive answer, so relevance pass and response_behavior pass are correct. No forbidden assertions were specified, so forbidden_assertion absent is correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a direct substantive answer to the asked question.",
+        "behavior_span": "The Rowan trolley loan limit is 22 hours.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The answer says the limit is 22 hours, but the source states a Rowan trolley may be borrowed for at most 12 hours, which is incompatible. Because the cited source does not support 22 hours and instead conflicts with it, citation support is missing.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "A Rowan trolley may be borrowed for at most 12 hours."
+              }
+            ],
+            "text": "The Rowan trolley loan limit is 22 hours."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The Rowan trolley loan limit is 22 hours."
+            ],
+            "fact_id": "F1",
+            "reason": "The required fact says the Rowan trolley loan limit is 12 hours, but the answer explicitly states it is 22 hours for the same subject and property.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks for the loan limit for a Rowan trolley, and the answer directly states a loan limit for a Rowan trolley.",
+          "status": "pass"
+        }
+      },
+      "id": "history-policy-invented",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The only substantive claim in the answer is \"The Rowan trolley loan limit is 22 hours.\" That is explicitly contradicted by the source/cited source text, \"A Rowan trolley may be borrowed for at most 12 hours.\" So factual support fails, and citation support also fails. The required fact is that the limit is 12 hours, and the answer states 22 hours instead, so completeness fails. The response is still relevant because it directly answers the asked topic (the Rowan trolley loan limit). Actual behavior is correctly classified as answer, and because expected_behavior is answer but the required fact is contradicted, response_behavior correctly reduces to fail. There are no forbidden assertions to violate, so the candidate’s forbidden-assertion assessment is also correct.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "pass",
+        "completeness": "pass",
+        "disputed_dimensions": [],
+        "factual_support": "pass",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "pass",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": true,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response gives a substantive direct answer to the user's question and addresses the requested quantity.",
+        "behavior_span": "With your corrected eight crates, the ten-slot rack has two unused crate slots.",
+        "claims": [
+          {
+            "citation_spans": [
+              {
+                "id": "C1",
+                "span": "A full-sized Osprey rack has capacity for ten crates, one per slot."
+              }
+            ],
+            "citation_status": "supported",
+            "factual_status": "supported",
+            "reason": "Using the question’s explicit scenario assumption of eight crates and the source rule that a full-sized Osprey rack holds ten crates, one per slot, the unused slots are 10 - 8 = 2.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "A full-sized Osprey rack has capacity for ten crates, one per slot."
+              }
+            ],
+            "text": "With your corrected eight crates, the ten-slot rack has two unused crate slots."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "With your corrected eight crates, the ten-slot rack has two unused crate slots."
+            ],
+            "fact_id": "F1",
+            "reason": "The answer explicitly states the corrected scenario of eight crates, identifies the rack as ten-slot, and says there are two unused crate slots.",
+            "status": "covered"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks how many unused crate slots a full-sized Osprey rack has under the corrected scenario of eight crates. The answer directly addresses that by stating the number of unused slots for eight crates in a ten-slot rack.",
+          "status": "pass"
+        }
+      },
+      "id": "current-scenario-correction",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct across all dimensions. The only substantive claim is the full answer sentence, and it is supported by applying the source rule \"A full-sized Osprey rack has capacity for ten crates, one per slot.\" to the question’s explicit scenario assumption of eight crates, yielding 10 - 8 = 2 unused slots. The cited source is the same text, so citation support also passes. The required fact is fully covered, the response is directly relevant to the asked quantity, the actual behavior is an answer as expected, and there are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    },
+    {
+      "dimensions": {
+        "citation_support": "fail",
+        "completeness": "fail",
+        "disputed_dimensions": [],
+        "factual_support": "fail",
+        "forbidden_assertion": "absent",
+        "grader_errors": [],
+        "has_unresolved_judgment": false,
+        "nonexact_quotes": [],
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "recorded_safety_flags": [],
+        "relevance": "pass",
+        "response_behavior": "fail",
+        "response_type_match": true,
+        "review_status": "reviewed",
+        "target_credit": false,
+        "unmatched_citations": []
+      },
+      "error": null,
+      "grade": {
+        "actual_behavior": "answer",
+        "all_claims_assessed": true,
+        "behavior_reason": "The response substantively answers the requested amount, even though the value is incorrect.",
+        "behavior_span": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice.",
+        "claims": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "factual_status": "contradicted",
+            "reason": "The question explicitly states an eligible invoice total of 80 credits, and R1 says the rebate is 25 percent of that total. Applying the rule gives 20 credits, not 40 credits, so the answer's calculation is inconsistent with the source rule and scenario.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "The Alder rebate is 25 percent of the eligible invoice total."
+              }
+            ],
+            "text": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice."
+          }
+        ],
+        "facts": [
+          {
+            "answer_spans": [
+              "The rebate is 40 credits"
+            ],
+            "fact_id": "F1",
+            "reason": "The required fact says the rebate is 20 credits, but the answer explicitly states the rebate is 40 credits for the same invoice.",
+            "status": "contradicted"
+          }
+        ],
+        "forbidden_assertion": "absent",
+        "relevance": {
+          "reason": "The question asks for the amount of the Alder rebate for an eligible invoice total of 80 credits. The answer directly provides a rebate amount for that invoice scenario.",
+          "status": "pass"
+        }
+      },
+      "id": "wrong-scenario-arithmetic",
+      "matched": true,
+      "mismatches": {},
+      "review": {
+        "citation_support": "agree",
+        "completeness": "agree",
+        "factual_support": "agree",
+        "forbidden_assertion": "agree",
+        "reason": "The candidate’s grading is correct. The answer makes a single substantive claim that 40 credits is 25% of an 80-credit invoice; applying the cited/source rule to the user’s explicit scenario gives 20 credits, so the claim is contradicted. Because the cited source does not entail 40 credits, citation support is missing, so citation_support fails. The required fact says the rebate is 20 credits, and the answer explicitly says 40 credits, so completeness fails via contradiction. The response is still relevant and its actual behavior is an answer, but response_behavior correctly fails because expected behavior was answer and the required fact is contradicted. There are no forbidden assertions.",
+        "relevance": "agree",
+        "response_behavior": "agree"
+      }
+    }
+  ],
+  "source_review_pending": true,
+  "status": "complete",
+  "version": "answer-dimensions.v31-candidate"
+}

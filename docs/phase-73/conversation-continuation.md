@@ -479,3 +479,10 @@ calls cost USD0.04688500; confirmed cumulativeUSD5.69816376 plus retained
 USD0.14820250 equals accountedUSD5.84636626, leavingUSD6.65363374. Original
 failure remains immutable. Full16+3 diagnostic next, expectedaboutUSD0.6-0.8;
 rolling reservations, output allowances, final-launchfloor and gates unchanged.
+
+V31 full diagnostic passes16/16 and3/3 probes, with clean source inspection and
+receipt replay.51 callsUSD0.56885350. Confirmed cumulativeUSD6.26701726 plus
+heldUSD0.14820250 gives accountedUSD6.41521976, remainingUSD6.08478024.
+Unchanged24+3 calibration next; expectedUSD0.7-1.0, fresh16confirmation estimated
+USD0.5-0.7. Estimates are not reservations. USD4.50 final-launchfloor remains;
+stop before any unfundable request or if qualification leaves less than that floor.
