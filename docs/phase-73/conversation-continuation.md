@@ -331,3 +331,8 @@ No schema/reducer, outputallowance, safety or coverage change. Versioned success
 harnesses preserve v26 files. Ten offline receipt/cap/reducer/measurement tests
 pass; request bodies apart from systemprompts identical across40 developmentcases.
 Fivecase focus then full16+3,24+3,fresh16,fresh60 still required.
+
+V27 focus5/5, clean source inspection,15callsUSD0.14831450. Cumulative
+USD3.60362226, remainingUSD8.89637774. Full16+3 diagnostic preparation
+reservesUSD6.5532500 whole-stage conservatively but uses authorized rolling
+requests; expectedroughlyUSD0.5. Qualification and final gates unchanged.
