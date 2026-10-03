@@ -104,6 +104,8 @@ boundaries so bookkeeping does not become another source of repeated work.
 The current user scope and the active plan's latest handoff take precedence over
 historical standing execution authorization. The 2026-10-02 bounded redesign
 superseded planning-only scope and then stopped at its application budget preflight.
+The 2026-10-03 CAD 20 continuation subsequently completed the comparison and failed
+the application gate. That single attempt is closed, with v4 still default.
 Do not restart completed R1-R4 steps, paid continuations or another redesign cycle
 automatically; preserve failed candidates, stop conditions and original gates.
 

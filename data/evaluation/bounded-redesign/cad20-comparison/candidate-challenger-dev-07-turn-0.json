@@ -1,0 +1,318 @@
+{
+  "authorized_evidence": [
+    {
+      "access_roles": [
+        "Employee"
+      ],
+      "chunk_id": "policy-book-a",
+      "content": "Reference-book reimbursement has a limit of EUR 460 per order. Expenses above this limit require director approval.",
+      "department_id": null,
+      "document_id": "SYN-POL-001",
+      "document_title": "Synthetic reimbursement rules",
+      "hybrid_score": null,
+      "keyword_score": null,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "rank": 1,
+      "restricted": false,
+      "retrieval_source": "vector",
+      "score": 0.95,
+      "section_heading": "Limits",
+      "sensitivity": "internal",
+      "vector_score": null
+    },
+    {
+      "access_roles": [
+        "Employee"
+      ],
+      "chunk_id": "policy-book-b",
+      "content": "Reference-book reimbursement has a limit of EUR 680 per order. Expenses above this limit require director approval.",
+      "department_id": null,
+      "document_id": "SYN-POL-002",
+      "document_title": "Synthetic reimbursement rules",
+      "hybrid_score": null,
+      "keyword_score": null,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "rank": 1,
+      "restricted": false,
+      "retrieval_source": "vector",
+      "score": 0.95,
+      "section_heading": "Limits",
+      "sensitivity": "internal",
+      "vector_score": null
+    }
+  ],
+  "final_response": {
+    "answer": "The provided sources conflict on the reference-book reimbursement limit, so I can’t determine a single current limit from the accessible evidence. One source states EUR 460 per order, while another states EUR 680 per order. Both also say expenses above the limit require director approval.",
+    "answer_confidence": 0.0,
+    "assistant_message_id": "2",
+    "behavior": "ask_clarifying_question",
+    "chunking_strategy": "section_based",
+    "citation_confidence": 0.0,
+    "citations": [
+      {
+        "chunk_id": "policy-book-a",
+        "citation_text": "Reference-book reimbursement has a limit of EUR 460 per order. Expenses above this limit require director approval.",
+        "citation_type": "model",
+        "document_id": "SYN-POL-001",
+        "document_title": "Synthetic reimbursement rules",
+        "section_heading": "Limits",
+        "source": "Source: SYN-POL-001 Synthetic reimbursement rules, Section: Limits"
+      },
+      {
+        "chunk_id": "policy-book-b",
+        "citation_text": "Reference-book reimbursement has a limit of EUR 680 per order. Expenses above this limit require director approval.",
+        "citation_type": "model",
+        "document_id": "SYN-POL-002",
+        "document_title": "Synthetic reimbursement rules",
+        "section_heading": "Limits",
+        "source": "Source: SYN-POL-002 Synthetic reimbursement rules, Section: Limits"
+      }
+    ],
+    "clarification_reason": null,
+    "defense_trace": {
+      "privacy_mode": "bounded_metadata_only",
+      "schema_version": "defense_trace.v1",
+      "stages": [
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": null,
+          "name": "deterministic_guard",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "not_selected",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "continue",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": 1633,
+          "memory_used_as_evidence": false,
+          "name": "semantic_request_assessment",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "repair_count": null,
+          "route": "semantic_assessment",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "allow_authorized_only",
+          "authorized_chunk_count": 2,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "permission_filter",
+          "reason_codes": [
+            "pre_generation_role_filter"
+          ],
+          "repair_count": null,
+          "route": "application_authorization",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "not_run",
+          "authorized_chunk_count": 2,
+          "estimated_cost_usd": 0.0,
+          "latency_ms": 0,
+          "memory_used_as_evidence": false,
+          "name": "evidence_assessment",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "replaced_by_contextual_check",
+          "status": "skipped",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "generated",
+          "authorized_chunk_count": 2,
+          "estimated_cost_usd": 0.004,
+          "latency_ms": 5058,
+          "memory_used_as_evidence": false,
+          "name": "generator",
+          "reason_codes": [
+            "authorized_chunks_only"
+          ],
+          "repair_count": null,
+          "route": "authorized_evidence_only",
+          "status": "succeeded",
+          "unauthorized_chunk_count": 0
+        },
+        {
+          "action": "accept",
+          "authorized_chunk_count": 2,
+          "estimated_cost_usd": 0.0039,
+          "latency_ms": 2340,
+          "memory_used_as_evidence": false,
+          "name": "post_generation_validation",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        },
+        {
+          "action": "clarify",
+          "authorized_chunk_count": null,
+          "estimated_cost_usd": null,
+          "latency_ms": null,
+          "memory_used_as_evidence": false,
+          "name": "final_response",
+          "reason_codes": [],
+          "repair_count": null,
+          "route": "application_response_policy",
+          "status": "succeeded",
+          "unauthorized_chunk_count": null
+        }
+      ]
+    },
+    "estimated_cost_usd": 0.004,
+    "evidence_assessment": null,
+    "final_confidence": 0.0,
+    "generation_latency_ms": 5058,
+    "input_cost_usd": 0.001315,
+    "memory": {
+      "is_followup": false,
+      "memory_used": false,
+      "original_question": "What is the reference-book reimbursement limit?",
+      "previous_topic": null,
+      "rewrite_strategy": "none",
+      "rewritten_question": "What is the reference-book reimbursement limit?"
+    },
+    "model": "gpt-5.4-2026-03-05",
+    "multi_doc_mode": "off",
+    "multi_doc_used": false,
+    "output_cost_usd": 0.002685,
+    "permission_check": {
+      "retrieved_chunks_count": 2,
+      "unauthorized_chunks_reached_generation": false,
+      "user_role": "Employee"
+    },
+    "post_generation_validation": {
+      "action": "accept",
+      "citation_checks": [],
+      "claims": [],
+      "estimated_cost_usd": 0.0039,
+      "exact_literals": [],
+      "input_cost_usd": 0.001635,
+      "input_tokens": 654,
+      "latency_ms": 2340,
+      "model": "gpt-5.4-2026-03-05",
+      "normalization_reason": null,
+      "output_cost_usd": 0.002265,
+      "output_tokens": 151,
+      "pricing_status": "estimated",
+      "prompt_version": "conversational-v1",
+      "reason_codes": [
+        "all_claims_supported"
+      ],
+      "repair_count": 0,
+      "route": "hybrid_semantic",
+      "schema_version": "post_generation_validation.v1",
+      "source_instruction_followed": false,
+      "status": "succeeded",
+      "unsupported_exact_literals": []
+    },
+    "pricing_status": "estimated",
+    "prompt_name": "conversational_candidate",
+    "prompt_version": "v1",
+    "request_assessment": {
+      "ambiguity": "none",
+      "assessment_confidence": 0.95,
+      "decision_variables": [],
+      "estimated_cost_usd": null,
+      "injection_risk": "none",
+      "input_cost_usd": null,
+      "input_tokens": 1202,
+      "intent": "question",
+      "latency_ms": 1633,
+      "missing_referents": [],
+      "model": "gpt-4.1-mini-2025-04-14",
+      "normalization_reason": null,
+      "output_cost_usd": null,
+      "output_tokens": 80,
+      "pricing_status": "missing_model_price",
+      "prompt_version": "v2",
+      "reason_codes": [
+        "no_risk"
+      ],
+      "recommended_action": "continue",
+      "referents": "not_applicable",
+      "response_reason": null,
+      "route": "semantic_assessment",
+      "schema_version": "request_assessment.v1",
+      "status": "succeeded",
+      "topic": "expenses",
+      "topic_description": "Inquiry about the reimbursement limit for reference books"
+    },
+    "response_type": "clarify",
+    "retrieval_confidence": 0.0,
+    "retrieval_latency_ms": 0,
+    "retrieval_mode": "vector_lexical_rerank",
+    "retrieved_chunks": [
+      {
+        "access_roles": [
+          "Employee"
+        ],
+        "chunk_id": "policy-book-a",
+        "content_preview": "Reference-book reimbursement has a limit of EUR 460 per order. Expenses above this limit require director approval.",
+        "department_id": null,
+        "document_id": "SYN-POL-001",
+        "document_title": "Synthetic reimbursement rules",
+        "hybrid_score": null,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 1,
+        "restricted": false,
+        "retrieval_source": "vector",
+        "score": 0.95,
+        "section_heading": "Limits",
+        "sensitivity": "internal",
+        "vector_score": null
+      },
+      {
+        "access_roles": [
+          "Employee"
+        ],
+        "chunk_id": "policy-book-b",
+        "content_preview": "Reference-book reimbursement has a limit of EUR 680 per order. Expenses above this limit require director approval.",
+        "department_id": null,
+        "document_id": "SYN-POL-002",
+        "document_title": "Synthetic reimbursement rules",
+        "hybrid_score": null,
+        "keyword_score": null,
+        "project_id": "00000000-0000-0000-0000-000000000019",
+        "rank": 1,
+        "restricted": false,
+        "retrieval_source": "vector",
+        "score": 0.95,
+        "section_heading": "Limits",
+        "sensitivity": "internal",
+        "vector_score": null
+      }
+    ],
+    "scope": {
+      "department_id": null,
+      "project_id": "00000000-0000-0000-0000-000000000019"
+    },
+    "session_id": "00000000-0000-0000-0000-000000009001",
+    "supported_claims": [],
+    "temperature": null,
+    "total_latency_ms": 6708,
+    "unsupported_claims": [],
+    "user_message_id": "1",
+    "validation_notes": "The candidate correctly identifies a direct conflict between the two authorized sources: one states EUR 460 per order and the other EUR 680 per order. It does not invent a single limit, and it accurately includes the shared condition that expenses above the stated limit require director approval. Citations are relevant and support each substantive claim."
+  },
+  "latency_ms": 6714,
+  "question": "What is the reference-book reimbursement limit?",
+  "status_code": 200,
+  "turn": 0
+}

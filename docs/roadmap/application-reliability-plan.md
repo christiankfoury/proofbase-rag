@@ -1,6 +1,21 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: CAD 20 continuation of the same attempt
+## Current handoff: application comparison failed; attempt closed
+
+One complete comparison at frozen `2010ff0a` made 138 provider calls for 45 HTTP
+turns, spending USD 0.1529816. Both candidates fail the mandatory two-turn control
+before retrieval; mini also rejects a correct no-source abstention through
+contradictory checker flags. Agent-inspected development completion is v4 7/12,
+mini 9/12, challenger 9/12, with a scope/expectation ambiguity uncredited in all
+profiles. These are not qualified overall scores. Full
+[result/source inspection](../phase-73/bounded-redesign.md) preserves every outcome.
+
+V4 remains default. No grader or final measurement was started. USD 12.3470184 of
+the buffered new allowance is unused; historical journals and stopped evidence
+are intact. **Do not resume, patch another candidate cycle or spend this remainder
+automatically.** The user authorized one attempt, which reached its failure gate.
+
+## Historical handoff: CAD 20 continuation of the same attempt
 
 The latest 2026-10-03 user message authorizes the existing bounded attempt within
 CAD 20 total account balance, excluding historical headroom and USD 70. Buffered

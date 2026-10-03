@@ -2,6 +2,80 @@
 
 ## CAD 20 continuation (2026-10-03)
 
+**Outcome: application gate failed; this attempt is closed.** The comparison ran
+once against frozen commit `2010ff0a`: all 36 task/profile pairs and 45 HTTP turns,
+138 provider calls, no provider retry or uncertain charge. V4 remains default;
+neither candidate is selected. No grader revision, qualification, holdout authoring
+or final measurement followed. The remaining money does not authorize another cycle.
+
+| Profile | Inspected complete tasks | Provider USD | Median turn latency |
+| --- | ---: | ---: | ---: |
+| V4 | 7/12 | 0.0373580 | 6.925 s |
+| Candidate mini | 9/12 | 0.0154688 | 4.228 s |
+| Candidate GPT-5.4 low | 9/12 | 0.1001548 | 6.098 s |
+
+These are agent-inspected development outcomes, **not a qualified overall score**.
+Every profile has one unresolved scope/source-expectation finding (`dev-09`), with
+no success credit. No expectation was changed. The suite and exact per-task reasons
+are preserved in the [inspection](../../data/evaluation/bounded-redesign/cad20-inspection.json).
+Even granting every disputed item, both candidates still fail the mandatory
+two-turn control `dev-03`; the stopping decision does not depend on those judgments.
+
+The decisive failure occurs before the simplified pipeline: shared request
+assessment asks the user for the office-supply threshold on the USD 290 turn,
+although it is available in the authorized source. All profiles correctly handle
+the corrected USD 330 turn, but both turns are required. This isolates an unchanged
+upstream problem; changing the producer/checker model does not resolve it.
+
+Additional source/draft/checker inspection:
+
+- Mini produces a correct no-source abstention on `dev-10`. Its checker says
+  `accept`, explains that no citations are required, but sets `citation_support`
+  false. The all-true release contract correctly fails closed with HTTP 503.
+  Challenger releases the correct abstention. No restricted amount is disclosed.
+- Challenger describes both conflicting limits on `dev-07` but does not request
+  the applicable policy/version. Its checker nevertheless marks response behavior
+  and completeness true. Mini requests clarification; v4 asks generically but
+  omits the expected conflicting amounts/evidence. These are completion findings,
+  not fabricated-value claims.
+- All profiles omit the frozen `dev-09` Ontario qualifier. The synthetic source's
+  outside-Canada sentence does not explicitly repeat that qualifier, creating a
+  source/expectation ambiguity. This remains unresolved, not silently rescored or
+  asserted to prove hallucination. The factual HR+IT requirement is preserved.
+- V4 needlessly labels the complete premise correction partial, and rejects a
+  harmless lack-of-information caveat on the equality case before reconstructing
+  an unnecessarily incomplete reply. Candidate corrections/equality replies avoid
+  those failures. V4's confirmation omits the expected above-limit condition from
+  both answer and quotation; mini preserves it in the returned quotation.
+
+All **46 returned quotations** are exact contiguous text from authorized fixture
+sources. No unauthorized citation, private fixture content in provider payloads or
+final responses, or injected marker in final answers was found. These checks cover
+controlled development retrieval, not real PostgreSQL retrieval or production
+tenant assurance. Mini returns 14 HTTP 200 and one HTTP 503; the other profiles
+return 15 HTTP 200 each. HTTP success alone is not task completion.
+
+**Total receipt-derived spending: USD 0.1529816**, approximately CAD 0.21794 at the
+reference rate (CAD 0.24477 using the buffer). Remaining new authorization is
+**USD 12.3470184**, with **USD 0 unresolved reservations**. This is receipt arithmetic,
+not an independently verified provider balance/invoice. The USD 1.7965755 preflight
+was a maximum reservation; unused reservations were not charges. Historical
+journals, original stopped artifacts and the unrelated request log are unchanged.
+
+[Receipt summary](../../data/evaluation/bounded-redesign/cad20-receipt-summary.json),
+[run manifest](../../data/evaluation/bounded-redesign/cad20-comparison/manifest.json),
+[ledger](../../data/evaluation/bounded-redesign/cad20-comparison/api-ledger.json), and
+[draft/checker extract](../../data/evaluation/bounded-redesign/cad20-draft-checker-extract.json)
+retain raw-path/hash links. `python -B scripts/report_bounded_redesign.py` replays all
+receipts, request/raw hashes, saved turn equality, model/input/output/call bounds,
+45-turn coverage, source filtering, quotation integrity, policy arithmetic and
+unchanged historical/frozen-file hashes offline. The report does not grade semantics;
+it derives counts from the separately documented agent inspection. Complete result
+diff/source review and whitespace checks pass. No additional paid work or runtime
+fix is part of publication.
+
+### Authorization and pre-execution reconciliation
+
 The latest user authorization replaces the old budget with **CAD 20 total remaining
 balance**, not USD 70 and not CAD 20 plus historical headroom. Bank of Canada's last
 business-day rate, October 2, is CAD 1.4246/USD. A conservative CAD 1.60/USD budgeting

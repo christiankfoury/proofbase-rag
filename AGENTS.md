@@ -75,6 +75,9 @@ quality score exists. Preserve quality gates and historical accounting. The late
 balance, conservatively capped at USD 12.50, with no historical remainder added.
 Read the execution note for allocations and gates. Compare once, continue only if
 quality and budget gates pass; no top-ups or second cycle. V4 remains default.
+That comparison is now complete: both candidates failed the application gate;
+USD 0.1529816 spent, no grader/final measurement started. The attempt is closed.
+Preserve evidence and unused allowance; do not resume automatically.
 
 Use [execution policy](docs/roadmap/execution-policy.md) for the verification matrix, evidence reuse, completion criteria, compact handoff and runtime-file rules. This operating loop supersedes older phase-specific descriptions of post-commit code review. A request limited to documentation or workflow maintenance completes at that scope; it does not start the runtime queue automatically.
 

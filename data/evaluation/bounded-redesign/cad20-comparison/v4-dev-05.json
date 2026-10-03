@@ -1,0 +1,660 @@
+{
+  "authorized_evidence": [
+    {
+      "access_roles": [
+        "Employee"
+      ],
+      "chunk_id": "scope",
+      "content": "Employees based in Ontario may work temporarily elsewhere in Canada for up to 10 business days with manager approval. Work outside Canada requires HR and IT approval regardless of duration.",
+      "department_id": null,
+      "document_id": "SYN-scope",
+      "document_title": "Synthetic reimbursement rules",
+      "hybrid_score": null,
+      "keyword_score": null,
+      "project_id": "00000000-0000-0000-0000-000000000019",
+      "rank": 1,
+      "restricted": false,
+      "retrieval_source": "vector",
+      "score": 0.95,
+      "section_heading": "Limits",
+      "sensitivity": "internal",
+      "vector_score": null
+    }
+  ],
+  "case_id": "dev-05",
+  "turns": [
+    {
+      "final_response": {
+        "answer": "If you are based in Ontario and want to work elsewhere in Canada for 4 business days, you need manager approval.",
+        "answer_confidence": 0.88,
+        "assistant_message_id": "2",
+        "behavior": "answer",
+        "chunking_strategy": "section_based",
+        "citation_confidence": 0.88,
+        "citations": [
+          {
+            "chunk_id": "scope",
+            "citation_text": "Employees based in Ontario may work temporarily elsewhere in Canada for up to 10 business days with manager approval.",
+            "citation_type": "model",
+            "confidence": 0.88,
+            "document_id": "SYN-scope",
+            "document_title": "Synthetic reimbursement rules",
+            "section_heading": "Limits",
+            "source": "Source: SYN-scope Synthetic reimbursement rules, Section: Limits"
+          }
+        ],
+        "clarification_reason": null,
+        "defense_trace": {
+          "privacy_mode": "bounded_metadata_only",
+          "schema_version": "defense_trace.v1",
+          "stages": [
+            {
+              "action": "continue",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": 0.0,
+              "latency_ms": 0,
+              "memory_used_as_evidence": null,
+              "name": "deterministic_guard",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "not_selected",
+              "status": "skipped",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "continue",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": 1600,
+              "memory_used_as_evidence": false,
+              "name": "semantic_request_assessment",
+              "reason_codes": [
+                "no_risk"
+              ],
+              "repair_count": null,
+              "route": "semantic_assessment",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "allow_authorized_only",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "permission_filter",
+              "reason_codes": [
+                "pre_generation_role_filter"
+              ],
+              "repair_count": null,
+              "route": "application_authorization",
+              "status": "succeeded",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "answer",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": null,
+              "latency_ms": 1547,
+              "memory_used_as_evidence": false,
+              "name": "evidence_assessment",
+              "reason_codes": [
+                "authorized_evidence_sufficient"
+              ],
+              "repair_count": null,
+              "route": "hybrid_semantic",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "generated",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": 0.00047,
+              "latency_ms": 1786,
+              "memory_used_as_evidence": false,
+              "name": "generator",
+              "reason_codes": [
+                "authorized_chunks_only"
+              ],
+              "repair_count": null,
+              "route": "authorized_evidence_only",
+              "status": "succeeded",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "accept",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": null,
+              "latency_ms": 2072,
+              "memory_used_as_evidence": false,
+              "name": "post_generation_validation",
+              "reason_codes": [
+                "all_claims_supported"
+              ],
+              "repair_count": 0,
+              "route": "hybrid_semantic",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "answer",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "final_response",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "application_response_policy",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            }
+          ]
+        },
+        "estimated_cost_usd": 0.00047,
+        "evidence_assessment": {
+          "answerability": "sufficient",
+          "assessment_confidence": 0.9,
+          "conflicts": [],
+          "estimated_cost_usd": null,
+          "input_cost_usd": null,
+          "input_tokens": 1877,
+          "latency_ms": 1547,
+          "missing_information": [],
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 82,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v4",
+          "reason_codes": [
+            "authorized_evidence_sufficient"
+          ],
+          "recommended_action": "answer",
+          "required_facts": [
+            {
+              "description": "Is manager approval required for an employee based in Ontario to work temporarily elsewhere in Canada for up to 10 business days?",
+              "fact_id": "fact1",
+              "support": "supported",
+              "supporting_chunk_ids": [
+                "scope"
+              ]
+            }
+          ],
+          "required_source_coverage": [],
+          "route": "hybrid_semantic",
+          "schema_version": "evidence_assessment.v1",
+          "status": "succeeded",
+          "supporting_chunk_ids": [
+            "scope"
+          ]
+        },
+        "final_confidence": 0.886,
+        "generation_latency_ms": 1786,
+        "input_cost_usd": 0.000234,
+        "memory": {
+          "is_followup": false,
+          "memory_used": false,
+          "original_question": "I am based in Ontario and want to work elsewhere in Canada for 4 business days. What approval is needed?",
+          "previous_topic": null,
+          "rewrite_strategy": "none",
+          "rewritten_question": "I am based in Ontario and want to work elsewhere in Canada for 4 business days. What approval is needed?"
+        },
+        "model": "gpt-4.1-mini",
+        "multi_doc_mode": "off",
+        "multi_doc_used": false,
+        "output_cost_usd": 0.000237,
+        "permission_check": {
+          "retrieved_chunks_count": 1,
+          "unauthorized_chunks_reached_generation": false,
+          "user_role": "Employee"
+        },
+        "post_generation_validation": {
+          "action": "accept",
+          "citation_checks": [
+            {
+              "citation_chunk_id": "scope",
+              "supported_claim_ids": [
+                "claim-1"
+              ],
+              "supports_claims": true
+            }
+          ],
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "claim_text": "If you are based in Ontario and want to work elsewhere in Canada for 4 business days, you need manager approval.",
+              "claim_type": "exact",
+              "evidence_chunk_ids": [
+                "scope"
+              ],
+              "support_status": "supported"
+            }
+          ],
+          "estimated_cost_usd": null,
+          "exact_literals": [
+            "4 business days"
+          ],
+          "input_cost_usd": null,
+          "input_tokens": 1613,
+          "latency_ms": 2072,
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 201,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v4",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "schema_version": "post_generation_validation.v1",
+          "source_instruction_followed": false,
+          "status": "succeeded",
+          "unsupported_exact_literals": []
+        },
+        "pricing_status": "estimated",
+        "prompt_name": "answer_generation",
+        "prompt_version": "v1",
+        "request_assessment": {
+          "ambiguity": "none",
+          "assessment_confidence": 0.95,
+          "decision_variables": [
+            "user location: Ontario",
+            "work location: elsewhere in Canada",
+            "duration: 4 business days",
+            "approval requirements for temporary work location change"
+          ],
+          "estimated_cost_usd": null,
+          "injection_risk": "none",
+          "input_cost_usd": null,
+          "input_tokens": 1232,
+          "intent": "question",
+          "latency_ms": 1600,
+          "missing_referents": [],
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 110,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v2",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "recommended_action": "continue",
+          "referents": "resolved",
+          "response_reason": null,
+          "route": "semantic_assessment",
+          "schema_version": "request_assessment.v1",
+          "status": "succeeded",
+          "topic": "workplace_policy",
+          "topic_description": "Approval requirements for working temporarily in a different location within Canada"
+        },
+        "response_type": "answer",
+        "retrieval_confidence": 0.898,
+        "retrieval_latency_ms": 0,
+        "retrieval_mode": "vector_lexical_rerank",
+        "retrieved_chunks": [
+          {
+            "access_roles": [
+              "Employee"
+            ],
+            "chunk_id": "scope",
+            "content_preview": "Employees based in Ontario may work temporarily elsewhere in Canada for up to 10 business days with manager approval. Work outside Canada requires HR and IT approval regardless of duration.",
+            "department_id": null,
+            "document_id": "SYN-scope",
+            "document_title": "Synthetic reimbursement rules",
+            "hybrid_score": null,
+            "keyword_score": null,
+            "project_id": "00000000-0000-0000-0000-000000000019",
+            "rank": 1,
+            "restricted": false,
+            "retrieval_source": "vector",
+            "score": 0.95,
+            "section_heading": "Limits",
+            "sensitivity": "internal",
+            "vector_score": null
+          }
+        ],
+        "scope": {
+          "department_id": null,
+          "project_id": "00000000-0000-0000-0000-000000000019"
+        },
+        "session_id": "00000000-0000-0000-0000-000000009001",
+        "supported_claims": [
+          "Employees based in Ontario may work temporarily elsewhere in Canada for up to 10 business days with manager approval.",
+          "SYN-scope: Limits"
+        ],
+        "temperature": 0.2,
+        "total_latency_ms": 7042,
+        "unsupported_claims": [],
+        "user_message_id": "1",
+        "validation_notes": "Strong citation support."
+      },
+      "latency_ms": 7047,
+      "question": "I am based in Ontario and want to work elsewhere in Canada for 4 business days. What approval is needed?",
+      "status_code": 200,
+      "turn": 0
+    },
+    {
+      "final_response": {
+        "answer": "For working outside Canada, approval from both HR and IT is required regardless of the duration of the work.",
+        "answer_confidence": 0.807,
+        "assistant_message_id": "4",
+        "behavior": "answer",
+        "chunking_strategy": "section_based",
+        "citation_confidence": 0.807,
+        "citations": [
+          {
+            "chunk_id": "scope",
+            "citation_text": "Work outside Canada requires HR and IT approval regardless of duration.",
+            "citation_type": "model",
+            "confidence": 0.807,
+            "document_id": "SYN-scope",
+            "document_title": "Synthetic reimbursement rules",
+            "section_heading": "Limits",
+            "source": "Source: SYN-scope Synthetic reimbursement rules, Section: Limits"
+          }
+        ],
+        "clarification_reason": null,
+        "defense_trace": {
+          "privacy_mode": "bounded_metadata_only",
+          "schema_version": "defense_trace.v1",
+          "stages": [
+            {
+              "action": "continue",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": 0.0,
+              "latency_ms": 0,
+              "memory_used_as_evidence": null,
+              "name": "deterministic_guard",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "not_selected",
+              "status": "skipped",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "continue",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": 1623,
+              "memory_used_as_evidence": false,
+              "name": "semantic_request_assessment",
+              "reason_codes": [
+                "no_risk"
+              ],
+              "repair_count": null,
+              "route": "semantic_assessment",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "allow_authorized_only",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "permission_filter",
+              "reason_codes": [
+                "pre_generation_role_filter"
+              ],
+              "repair_count": null,
+              "route": "application_authorization",
+              "status": "succeeded",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "answer",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": null,
+              "latency_ms": 1613,
+              "memory_used_as_evidence": false,
+              "name": "evidence_assessment",
+              "reason_codes": [
+                "authorized_evidence_sufficient"
+              ],
+              "repair_count": null,
+              "route": "hybrid_semantic",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "generated",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": 0.000445,
+              "latency_ms": 1686,
+              "memory_used_as_evidence": false,
+              "name": "generator",
+              "reason_codes": [
+                "authorized_chunks_only"
+              ],
+              "repair_count": null,
+              "route": "authorized_evidence_only",
+              "status": "succeeded",
+              "unauthorized_chunk_count": 0
+            },
+            {
+              "action": "accept",
+              "authorized_chunk_count": 1,
+              "estimated_cost_usd": null,
+              "latency_ms": 1775,
+              "memory_used_as_evidence": false,
+              "name": "post_generation_validation",
+              "reason_codes": [
+                "all_claims_supported"
+              ],
+              "repair_count": 0,
+              "route": "hybrid_semantic",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            },
+            {
+              "action": "answer",
+              "authorized_chunk_count": null,
+              "estimated_cost_usd": null,
+              "latency_ms": null,
+              "memory_used_as_evidence": false,
+              "name": "final_response",
+              "reason_codes": [],
+              "repair_count": null,
+              "route": "application_response_policy",
+              "status": "succeeded",
+              "unauthorized_chunk_count": null
+            }
+          ]
+        },
+        "estimated_cost_usd": 0.000445,
+        "evidence_assessment": {
+          "answerability": "sufficient",
+          "assessment_confidence": 0.9,
+          "conflicts": [],
+          "estimated_cost_usd": null,
+          "input_cost_usd": null,
+          "input_tokens": 1896,
+          "latency_ms": 1613,
+          "missing_information": [],
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 116,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v4",
+          "reason_codes": [
+            "authorized_evidence_sufficient"
+          ],
+          "recommended_action": "answer",
+          "required_facts": [
+            {
+              "description": "Is manager approval required for an Ontario-based employee to work temporarily elsewhere in Canada for up to 10 business days?",
+              "fact_id": "fact1",
+              "support": "supported",
+              "supporting_chunk_ids": [
+                "scope"
+              ]
+            },
+            {
+              "description": "Is HR and IT approval required for work outside Canada regardless of duration?",
+              "fact_id": "fact2",
+              "support": "supported",
+              "supporting_chunk_ids": [
+                "scope"
+              ]
+            }
+          ],
+          "required_source_coverage": [],
+          "route": "hybrid_semantic",
+          "schema_version": "evidence_assessment.v1",
+          "status": "succeeded",
+          "supporting_chunk_ids": [
+            "scope"
+          ]
+        },
+        "final_confidence": 0.839,
+        "generation_latency_ms": 1686,
+        "input_cost_usd": 0.000264,
+        "memory": {
+          "is_followup": true,
+          "memory_used": true,
+          "original_question": "Actually, I meant outside Canada for the same 4 days. What approval is needed?",
+          "previous_topic": "I am based in Ontario and want to work elsewhere in Canada for 4 business days. What approval is needed?",
+          "rewrite_strategy": "topic_prefix",
+          "rewritten_question": "Actually, I meant outside Canada for the same 4 days. What approval is needed? Context: I am based in Ontario and want to work elsewhere in Canada for 4 business days. What approval is needed?."
+        },
+        "model": "gpt-4.1-mini",
+        "multi_doc_mode": "off",
+        "multi_doc_used": false,
+        "output_cost_usd": 0.000181,
+        "permission_check": {
+          "retrieved_chunks_count": 1,
+          "unauthorized_chunks_reached_generation": false,
+          "user_role": "Employee"
+        },
+        "post_generation_validation": {
+          "action": "accept",
+          "citation_checks": [
+            {
+              "citation_chunk_id": "scope",
+              "supported_claim_ids": [
+                "claim-1"
+              ],
+              "supports_claims": true
+            }
+          ],
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "claim_text": "For working outside Canada, approval from both HR and IT is required regardless of the duration of the work.",
+              "claim_type": "exact",
+              "evidence_chunk_ids": [
+                "scope"
+              ],
+              "support_status": "supported"
+            }
+          ],
+          "estimated_cost_usd": null,
+          "exact_literals": [],
+          "input_cost_usd": null,
+          "input_tokens": 1596,
+          "latency_ms": 1775,
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 148,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v4",
+          "reason_codes": [
+            "all_claims_supported"
+          ],
+          "repair_count": 0,
+          "route": "hybrid_semantic",
+          "schema_version": "post_generation_validation.v1",
+          "source_instruction_followed": false,
+          "status": "succeeded",
+          "unsupported_exact_literals": []
+        },
+        "pricing_status": "estimated",
+        "prompt_name": "answer_generation",
+        "prompt_version": "v1",
+        "request_assessment": {
+          "ambiguity": "none",
+          "assessment_confidence": 0.95,
+          "decision_variables": [
+            "location_of_work_change",
+            "duration_of_work_outside_home_country",
+            "approval_process_for_international_work"
+          ],
+          "estimated_cost_usd": null,
+          "injection_risk": "none",
+          "input_cost_usd": null,
+          "input_tokens": 1268,
+          "intent": "question",
+          "latency_ms": 1623,
+          "missing_referents": [],
+          "model": "gpt-4.1-mini-2025-04-14",
+          "normalization_reason": null,
+          "output_cost_usd": null,
+          "output_tokens": 100,
+          "pricing_status": "missing_model_price",
+          "prompt_version": "v2",
+          "reason_codes": [
+            "no_risk"
+          ],
+          "recommended_action": "continue",
+          "referents": "resolved",
+          "response_reason": null,
+          "route": "semantic_assessment",
+          "schema_version": "request_assessment.v1",
+          "status": "succeeded",
+          "topic": "approval",
+          "topic_description": "Approval needed for working outside Canada for a short duration"
+        },
+        "response_type": "answer",
+        "retrieval_confidence": 0.898,
+        "retrieval_latency_ms": 0,
+        "retrieval_mode": "vector_lexical_rerank",
+        "retrieved_chunks": [
+          {
+            "access_roles": [
+              "Employee"
+            ],
+            "chunk_id": "scope",
+            "content_preview": "Employees based in Ontario may work temporarily elsewhere in Canada for up to 10 business days with manager approval. Work outside Canada requires HR and IT approval regardless of duration.",
+            "department_id": null,
+            "document_id": "SYN-scope",
+            "document_title": "Synthetic reimbursement rules",
+            "hybrid_score": null,
+            "keyword_score": null,
+            "project_id": "00000000-0000-0000-0000-000000000019",
+            "rank": 1,
+            "restricted": false,
+            "retrieval_source": "vector",
+            "score": 0.95,
+            "section_heading": "Limits",
+            "sensitivity": "internal",
+            "vector_score": null
+          }
+        ],
+        "scope": {
+          "department_id": null,
+          "project_id": "00000000-0000-0000-0000-000000000019"
+        },
+        "session_id": "00000000-0000-0000-0000-000000009001",
+        "supported_claims": [
+          "Work outside Canada requires HR and IT approval regardless of duration.",
+          "SYN-scope: Limits"
+        ],
+        "temperature": 0.2,
+        "total_latency_ms": 6731,
+        "unsupported_claims": [],
+        "user_message_id": "3",
+        "validation_notes": "Acceptable citation support."
+      },
+      "latency_ms": 6737,
+      "question": "Actually, I meant outside Canada for the same 4 days. What approval is needed?",
+      "status_code": 200,
+      "turn": 1
+    }
+  ]
+}

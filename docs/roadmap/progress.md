@@ -6,7 +6,24 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: CAD 20 continuation of the same bounded attempt
+### Current: bounded attempt closed after failed application gate
+
+The CAD 20 continuation ran the frozen comparison once at `2010ff0a`: 36 task/profile
+pairs, 45 HTTP turns, 138 provider calls, **USD 0.1529816 receipt-derived cost**.
+Agent inspection credits v4 7/12 and each candidate 9/12 (not a validated overall
+score). Both candidates fail mandatory two-turn `dev-03`: unchanged request
+assessment unnecessarily clarifies the first turn. Mini also blocks a correct
+no-source abstention with inconsistent checker flags. One scope/expectation finding
+per profile stays unresolved with no credit. See the
+[complete result and receipts](../phase-73/bounded-redesign.md).
+
+V4 stays default; candidate disabled/unaccepted. Grader revision/qualification and
+fresh confirmation/final measurement remain unexecuted because the application
+gate failed. USD 12.3470184 of the buffered authorization remains, no unknown
+reservations, no added historical allowance. Preserve all evidence and the unrelated
+request log. **No further cycle, automatic resumption or spending is authorized.**
+
+### Prior milestone: CAD 20 continuation authorized
 
 The 2026-10-03 user authorizes continuation within CAD 20 entire remaining API
 balance; USD 70 and historical-balance addition are explicitly excluded. Buffered
