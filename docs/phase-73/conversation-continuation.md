@@ -265,3 +265,9 @@ Full request-body equivalence apart from prompts and Python compilation pass.
 The first two recipient preflights are superseded unexecuted after local review
 and addition of the implicit-recipient variant; preserve both. Use03 with both
 focused variants and identical per-call output allowances.
+
+Recipient focus v3 passes1/2; dev13 correctly rejected an ambiguous cumulative
+duty presentation, dev14 preserves distinct recipients. SixcallsUSD0.0249993;
+cumulativeUSD2.32309196. V4 prompt clarifies cumulative source composition and
+recipients, while all seven checker requirements and budgets remain unchanged.
+Focused after-checks and full original12+2 required before updating selection.

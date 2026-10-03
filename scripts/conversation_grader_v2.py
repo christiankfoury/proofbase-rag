@@ -83,14 +83,14 @@ def prepare(step,stage,ids=None):
     if stage not in ('diagnostic','calibration'):raise ValueError('Unknown stage')
     folder=FOLDER/step
     if folder.exists():raise ValueError('Preserve prior preparation')
-    selection=read(FOLDER/'application-selection.json')
+    selection=read(FOLDER/'application-selection-v2.json')
     selected=selection['completed'][selection['profile']]
-    if (selection['status']!='passed' or selection['tasks']!=12 or selected<10
-            or selected<selection['completed']['v4'] or not selection['all_candidate_safety_controls_passed']
+    if (selection['status']!='passed' or selection['tasks']!=14 or selection['original_completed']<10
+            or selection['original_completed']<selection['completed']['v4'] or selection['recipient_controls_completed']!=2 or not selection['all_candidate_safety_controls_passed']
             or selection['unresolved_selected_candidate_findings']):raise ValueError('Application gate required')
     for path,h in selection['inspection_hashes'].items():
         if digest(ROOT/path)!=h:raise ValueError('Application inspection changed')
-    paths=[FOLDER/'authorization.json',FOLDER/'rolling-authorization.json',FOLDER/'application-selection.json',existing.CONTROLS,
+    paths=[FOLDER/'authorization.json',FOLDER/'rolling-authorization.json',FOLDER/'application-selection-v2.json',existing.CONTROLS,
         existing.old_development.baseline.SUITE,existing.old_development.baseline.AUDITS,existing.old_development.baseline.VALIDATION]
     paths += [ROOT/p for p in selection['inspection_hashes']]
     if stage=='calibration':

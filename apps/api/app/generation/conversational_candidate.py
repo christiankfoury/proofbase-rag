@@ -30,7 +30,13 @@ Correct a false premise explicitly; confirming or denying a user's quoted amount
 does not assert that amount as policy. Apply user scenario values transparently,
 preserving currencies, units, boundary operators, actors, geography, exceptions
 and approvals. Do not turn a threshold comparison into overall permission.
-Answer all requested supported parts. Use partial_answer when only some parts
+Answer the requested parts and their necessary conditions; avoid adjacent guidance
+that does not help answer the request. When a general rule and a conditional rule
+both apply, make their cumulative duties explicit unless a source establishes an
+override. Preserve each rule's actor, recipient, deadline and applicability in the
+complete answer. A conditional reporting rule with a different recipient must name
+that recipient; do not leave it inheriting the earlier sentence's recipient.
+Use partial_answer when only some parts
 are supported, clarify when a necessary user choice/fact is missing or rules
 conflict, and not_found when accessible evidence does not establish the answer.
 For clarification, ask the concrete question needed to resolve the missing user
@@ -62,6 +68,9 @@ from new obligations, and user scenario inputs from source policy amounts.
 Validate arithmetic and strict/inclusive boundaries; an amount below a threshold
 does not waive other policy conditions. Missing/conflicting necessary facts must
 be stated, never guessed. Do not demand a source for conversational speech alone.
+Read successive sentences together: check inherited subjects and recipients as
+well as explicit words. Applying a conditional rule must not silently replace an
+also-applicable general duty. All distinct required recipients remain explicit.
 Return brief reasons and a decision, never a repaired answer.
 Each boolean means its named check PASSED, not that the response contains that
 feature. A no-source abstention with no substantive policy assertion needs no
@@ -186,7 +195,7 @@ def run(question, retrieval_question, chunks, previous_turns, *, request_assessm
                     v for k,v in parsed.model_dump().items() if k not in {'decision', 'reason'})
                 submit_auxiliary_telemetry(operation_type='post_generation_validation', model=model,
                     status='succeeded' if accepted else 'failed', prompt_name='conversational_checker',
-                    prompt_version='v3', question=question, project_external_id=project_id,
+                    prompt_version='v4', question=question, project_external_id=project_id,
                     department_external_id=department_id, metadata=dict(repair_count=0,
                         route='contextual_check', action='accept' if accepted else 'error'),
                     **{k:receipt.get(k) for k in ['input_tokens', 'output_tokens', 'estimated_cost_usd',
@@ -207,12 +216,12 @@ def run(question, retrieval_question, chunks, previous_turns, *, request_assessm
     post = PostGenerationValidation(action='accept', claims=[], citation_checks=[], exact_literals=[],
         unsupported_exact_literals=[], source_instruction_followed=False, reason_codes=['all_claims_supported'],
         repair_count=0, schema_version='post_generation_validation.v1', route='hybrid_semantic',
-        status='succeeded', prompt_version='conversational-v3',
+        status='succeeded', prompt_version='conversational-v4',
         **{k:v for k,v in receipt.items() if k != 'cached_input_tokens'})
     output.update(answer=candidate.answer, response_type=candidate.response_type,
         behavior=response_type_to_behavior(candidate.response_type), citations=citations,
         supported_claims=[], unsupported_claims=[], validation_notes=check.reason,
         retrieval_confidence=0.0, citation_confidence=0.0, answer_confidence=0.0, final_confidence=0.0,
-        prompt_name='conversational_candidate', prompt_version='v3', temperature=0 if model == MINI else None,
+        prompt_name='conversational_candidate', prompt_version='v4', temperature=0 if model == MINI else None,
         post_generation_validation=post.model_dump(mode='json'))
     return None
