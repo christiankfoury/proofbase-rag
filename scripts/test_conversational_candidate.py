@@ -78,6 +78,8 @@ class CandidateTests(OfflineCase):
     def test_rejection_uncertainty_malformed_and_timeout_never_repair(self):
         checks=[response(dict(accepted(),decision='reject')),response(dict(accepted(),decision='uncertain')),
             response(dict(accepted(),numerical_application=False)),response({}),TimeoutError()]
+        checks += [response(dict(accepted(), **{name:False})) for name in c.Check.model_fields
+                   if name not in {'decision','reason','numerical_application'}]
         for check in checks:
             with self.assertRaises(RuntimeError):self.run_candidate([response(self.draft),check])
             self.assertEqual(len(self.calls),2);self.assertNotIn('answer',self.output)

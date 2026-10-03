@@ -71,3 +71,39 @@ The prepared mini focus reserves USD 0.0844464 for all six turns across five tas
 including full output allowances and dynamic input headroom. Existing preparation
 is reused with only revised prompts/schema refreshed. The receipt-derived prefix
 remains USD 0.1529816. Broader paid comparison follows only after focused inspection.
+
+### Routing v2 focused result and v3 correction
+
+The six-turn mini focus completed at `84db2f68`, 18 settled calls costing
+USD 0.0075640; cumulative USD 0.1605456. Both correction turns now pass; correct
+no-source abstention and equality handling pass. The conflict task fails: producer
+uses partial_answer for incompatible limits and checker wrongly accepts it. Scope
+remains unresolved against the original ambiguous fixture. Result: 3/5 focused
+tasks, no full comparison or acceptance claim. Raw pairs and inspection are retained
+under `routing-v2-focus`; no safety disclosure or quotation defect was observed.
+
+V3 makes the existing response-behavior distinction explicit: unresolved conflict
+about the same fact requires an actionable clarification, whereas partial coverage
+is for separable requested parts. It adds no policy-specific pattern or extra layer.
+All checker flags, output caps and citation checks remain. Expanded rejection tests
+now exercise each individual false checker flag, not just the numerical flag.
+
+Fixture defect correction is separate from runtime behavior. Original `dev-09`
+expects Ontario applicability but its second source sentence does not state that
+restriction explicitly. `development-v2.json` adds only: "This temporary-work policy
+applies only to employees based in Ontario." Original source text follows verbatim.
+All 12 questions, expectations, safety flags and remaining sources are unchanged.
+The new explicit restriction strengthens the check against scope broadening; all
+previous unqualified `dev-09` answers still fail it. No historical score is changed.
+Because source evidence changes for 05/09, a new full comparison uses the versioned
+suite consistently; the original v4 score is not a matched-source comparison.
+
+Focused verification: eight candidate methods (now every false checker flag), five
+routing methods and three cumulative-budget methods pass. Prior shared tests remain
+valid for unchanged routing/runtime logic. Receipt/source replay checks exact raw
+hashes, normalized committed freeze content (including historical mixed line
+endings), turn coverage, quotations, private-data absence and cumulative charges.
+The initial v3 preparation is retained but superseded before execution because the
+offline replay helper was corrected for a pre-existing mixed-line-ending file.
+Its successor `routing-v3-focus-02` has the same USD 0.4327248 reservation, challenger
+profile and six turns; no paid submission used the superseded preparation.

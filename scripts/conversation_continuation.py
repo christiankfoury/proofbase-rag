@@ -14,6 +14,7 @@ from scripts.bounded_redesign_preflight import FOLDER as PREVIOUS, PROFILES, pre
 FOLDER=ROOT/'data/evaluation/conversation-continuation'
 CEILING=Decimal('12.50')
 ORIGINAL=PREVIOUS/'cad20-comparison/api-ledger.json'
+SUITE=FOLDER/'development-v2.json'
 
 
 def prefix():
@@ -55,7 +56,7 @@ def prepare(step,profile,ids):
     if profile not in PROFILES or not step.replace('-','').isalnum():raise ValueError('Invalid experiment identity')
     folder=FOLDER/step
     if folder.exists():raise ValueError('Preserve existing preparation and run')
-    suite=read(PREVIOUS/'development.json');selected=[x for x in suite['cases'] if x['id'] in ids]
+    suite=read(SUITE);selected=[x for x in suite['cases'] if x['id'] in ids]
     if len(selected)!=len(set(ids)) or not selected:raise ValueError('Unknown or duplicate tasks')
     old=read(PREVIOUS/'preflight-complete.json');samples=[]
     # Reuse complete prepared payloads; replace only the revised prompts/schema.
@@ -64,7 +65,10 @@ def prepare(step,profile,ids):
         if item['profile']!=profile:continue
         body=item['request'];stage=item['stage']
         if stage in {'conversational_producer','conversational_checker'}:
-            body=c.request_body(stage.split('_')[1],json.loads(body['messages'][1]['content']),body['model'])
+            payload=json.loads(body['messages'][1]['content'])
+            for source in payload['authorized_sources']:
+                source['content']=next(s['content'] for s in suite['sources'] if s['chunk_id']==source['chunk_id'])
+            body=c.request_body(stage.split('_')[1],payload,body['model'])
         body,bound=prepare_body(body);samples.append(dict(stage=stage,body=body,**bound))
     turns=[dict(case_id=x['id'],turn=i) for x in selected for i in range(len(x['turns']))]
     bounds=[];amount=Decimal(0)
@@ -79,8 +83,8 @@ def prepare(step,profile,ids):
         bounds.append(dict(stage=stage,count=15*per_turn,input_bound=extra,output_cap=maximum['output_cap'],model=maximum['body']['model']))
     spending=prefix()
     files=list((ROOT/'apps/api/app').rglob('*.py'))+list((ROOT/'apps/api/app/prompts/versions').glob('*.md'))+list((ROOT/'scripts').glob('*.py'))
-    files+=[ROOT/'requirements.txt',PREVIOUS/'development.json',FOLDER/'authorization.json']
-    plan=dict(step=step,profile=profile,case_ids=ids,turns=turns,bounds={profile:bounds},prefix=spending,
+    files+=[ROOT/'requirements.txt',PREVIOUS/'development.json',SUITE,FOLDER/'authorization.json']
+    plan=dict(step=step,profile=profile,suite_path=SUITE.relative_to(ROOT).as_posix(),case_ids=ids,turns=turns,bounds={profile:bounds},prefix=spending,
         total_ceiling_usd=str(CEILING),whole_stage_reservation_usd=str(amount),provider_retries=0,
         status='ready' if Decimal(spending['spent_usd'])+amount<=CEILING else 'budget_stop',
         bindings={p.relative_to(ROOT).as_posix():digest(p) for p in files})
@@ -102,7 +106,7 @@ def run(step):
     configure(plan['profile'])
     if not get_settings().openai_api_key:raise ValueError('Existing credential unavailable')
     folder=FOLDER/step/'run';folder.mkdir()
-    ledger=Ledger(folder,plan);suite=read(PREVIOUS/'development.json')
+    ledger=Ledger(folder,plan);suite=read(ROOT/plan['suite_path'])
     manifest=dict(status='running',started_at=now(),runtime_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         preflight_sha256=digest(folder.parent/'preflight.json'),rows=[])
     write(folder/'manifest.json',manifest)

@@ -17,6 +17,13 @@ USD 12.3470184 includes no new funding; USD 0.1529816 already spent counts towar
 the cumulative 12.50. V4 stays default until all existing gates pass. Preserve
 prior failed evidence, tests and the unrelated request-log edit.
 
+Routing fix `84db2f68` passed offline/shared checks and the paid two-turn correction
+now succeeds. The focused mini run is 3/5 with conflict failure and the original
+scope ambiguity retained; cumulative receipts USD 0.1605456. V3 clarifies conflict
+behavior and uses a separately versioned, more explicit scope fixture with all
+questions/expectations unchanged. Challenger focused preflight reserves 0.4327248;
+no broader paid run until focused inspection passes.
+
 ### Prior milestone: bounded attempt closed after failed application gate
 
 The CAD 20 continuation ran the frozen comparison once at `2010ff0a`: 36 task/profile

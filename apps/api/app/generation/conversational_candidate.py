@@ -36,6 +36,11 @@ conflict, and not_found when accessible evidence does not establish the answer.
 For clarification, ask the concrete question needed to resolve the missing user
 fact or applicable policy/version; a clarify label or description alone is not
 a clarification request. Do not ask users to supply facts the sources establish.
+Use partial_answer only for separable requested parts where some facts are absent.
+An unresolved material conflict about the SAME requested fact requires clarify:
+describe the conflict and ask which applicable policy/version to use. Do not turn
+incompatible rules into an either/or policy answer. Resolve a conflict only when
+the sources themselves establish precedence or applicability.
 Preserve applicability from the surrounding source context in the answer and
 quotations; do not present a locally scoped rule as a universal rule.
 Do not invent obligations or infer facts from missing sources. Cite every policy
@@ -64,6 +69,9 @@ citation: citation_support is true only if there is no unsupported assertion or
 citation misuse. Any factual policy assertion still requires entailing citations.
 For clarification, require an actionable question about the missing fact or
 applicable policy/version, not merely a statement that the answer is uncertain.
+Unresolved incompatible rules for the same requested fact require a clarification
+question, even when both alternatives are quoted accurately. A partial_answer
+label does not cure that response-behavior failure. Reject that output.
 """
 
 
@@ -178,7 +186,7 @@ def run(question, retrieval_question, chunks, previous_turns, *, request_assessm
                     v for k,v in parsed.model_dump().items() if k not in {'decision', 'reason'})
                 submit_auxiliary_telemetry(operation_type='post_generation_validation', model=model,
                     status='succeeded' if accepted else 'failed', prompt_name='conversational_checker',
-                    prompt_version='v2', question=question, project_external_id=project_id,
+                    prompt_version='v3', question=question, project_external_id=project_id,
                     department_external_id=department_id, metadata=dict(repair_count=0,
                         route='contextual_check', action='accept' if accepted else 'error'),
                     **{k:receipt.get(k) for k in ['input_tokens', 'output_tokens', 'estimated_cost_usd',
@@ -199,12 +207,12 @@ def run(question, retrieval_question, chunks, previous_turns, *, request_assessm
     post = PostGenerationValidation(action='accept', claims=[], citation_checks=[], exact_literals=[],
         unsupported_exact_literals=[], source_instruction_followed=False, reason_codes=['all_claims_supported'],
         repair_count=0, schema_version='post_generation_validation.v1', route='hybrid_semantic',
-        status='succeeded', prompt_version='conversational-v2',
+        status='succeeded', prompt_version='conversational-v3',
         **{k:v for k,v in receipt.items() if k != 'cached_input_tokens'})
     output.update(answer=candidate.answer, response_type=candidate.response_type,
         behavior=response_type_to_behavior(candidate.response_type), citations=citations,
         supported_claims=[], unsupported_claims=[], validation_notes=check.reason,
         retrieval_confidence=0.0, citation_confidence=0.0, answer_confidence=0.0, final_confidence=0.0,
-        prompt_name='conversational_candidate', prompt_version='v2', temperature=0 if model == MINI else None,
+        prompt_name='conversational_candidate', prompt_version='v3', temperature=0 if model == MINI else None,
         post_generation_validation=post.model_dump(mode='json'))
     return None
