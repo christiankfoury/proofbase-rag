@@ -1,6 +1,17 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: autonomous correction and acceptance, unchanged total budget
+## Current handoff: qualification budget stop after repeated grader defect
+
+V34 passes16/16 diagnostic plus3 probes but stops21/22 calibration on the recurring
+list-framing error; two cases and3 probes unexecuted. No accepted grader or new
+full-suite score. ConfirmedUSD9.17047526 plusholdUSD0.14820250 gives accounted
+USD9.31867776, leavingUSD5.56669000 withinUSD14.88536776. OnlyUSD1.06669000 remains
+above the requiredUSD4.50 final-launch floor, while another full qualification is
+estimatedaboutUSD2.190283 before repair checks. Stop paid work at this boundary.
+Preserve evidence, v4 default and all gates. See the [continuation](../phase-73/conversation-continuation.md)
+and [source/architecture review](../phase-73/conversation-v34-calibration-source-review.md).
+
+## Historical authorization: autonomous correction within CAD13.11 amendment
 
 The latest 2026-10-03 user message supersedes previous attempt/failure stopping
 rules and authorizes necessary corrections, focused checks and gated broader runs.

@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive information answering the asked allowance question, even though it also adds extra information about theft insurance.",
+    "behavior_span": "The bicycle servicing allowance is up to 60 credits per calendar year. Employees also receive free theft insurance.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In the context of the question about Alder, this communicates that Alder's bicycle servicing benefit has a limit of 60 credits in a calendar year. The factual and cited source both state that Alder employees may claim up to 60 credits per calendar year for bicycle servicing, which fully supports this allowance amount and period.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+          }
+        ],
+        "text": "The bicycle servicing allowance is up to 60 credits per calendar year."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "This asserts an additional Alder employee benefit: free theft insurance. The provided factual source only addresses the bicycle servicing allowance and does not mention theft insurance, so this additional benefit is not established or contradicted by the factual evidence. The cited source is likewise missing support for this claim.",
+        "source_spans": [],
+        "text": "Employees also receive free theft insurance."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The bicycle servicing allowance is up to 60 credits per calendar year."
+        ],
+        "fact_id": "F1",
+        "reason": "This span states the allowance amount and period matching the required fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the amount/terms of the Alder bicycle service allowance. The answer states the bicycle servicing allowance amount per calendar year, directly addressing that allowance.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Question asks for the amount/terms of Alder’s bicycle service allowance. The answer gives that amount in the first sentence and adds an extra benefit claim in the second sentence.\n\nIndependent assessment from the raw inputs:\n- Relevance: relevant. It addresses the asked allowance.\n- Required fact F1: covered by the exact span \"The bicycle servicing allowance is up to 60 credits per calendar year.\"\n- Actual behavior: answer. It provides substantive information answering the question.\n- Claims:\n  1) \"The bicycle servicing allowance is up to 60 credits per calendar year.\" In question context, this means Alder’s allowance is capped at 60 credits per calendar year. R1/C1 support this via \"Alder employees may claim up to 60 credits per calendar year for bicycle servicing.\"\n  2) \"Employees also receive free theft insurance.\" In context this asserts an additional Alder employee benefit. No factual or cited source supports or contradicts that, so factual=unknown, citation=missing.\n- Reduced dimensions from those claim verdicts: factual_support = unresolved; citation_support = fail; completeness = pass; response_behavior = pass; relevance = pass. No forbidden assertion is present.\n\nComparison to candidate:\n- Candidate extracted both substantive claims, marked all_claims_assessed true, and assigned the same statuses I derive.\n- Candidate’s required-fact, relevance, actual_behavior, and reduced judgments all match.\n- Candidate’s forbidden_assertion label \"absent\" is correct for the no-forbidden-assertions setup.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "not_found",
+    "all_claims_assessed": true,
+    "behavior_reason": "The answer explicitly states an inability to find the requested information, which is classified as not_found.",
+    "behavior_span": "I could not find the annual visitor total.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "This asserts a records-retention practice: that Vale destroys all visitor records, and that it does so every night. The only available source says visitor badges are returned to reception at the end of each visit, which does not establish or directly conflict with destruction of all visitor records on a nightly schedule. The cited source is likewise irrelevant to this retention claim.",
+        "source_spans": [],
+        "text": "Vale destroys all visitor records every night."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the annual visitor total for Vale. The answer addresses that same requested property and subject by stating it could not find the annual visitor total, although it also adds an extra claim about record destruction.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Request meaning from the raw inputs: the user asks for the annual visitor total for Vale. The answer does not provide that total; it says it could not find it, then adds a separate factual assertion: \"Vale destroys all visitor records every night.\" Under the rubric, the inability-to-find sentence is a speech act, not a factual claim to source-check. The added records-destruction sentence is a substantive claim and must be assessed. The only factual/cited source says, \"Vale visitor badges are returned to reception at the end of each visit.\" That supports neither nightly destruction of all visitor records nor contradicts it, so the claim is factually unknown and citation-missing. Relevance is pass because the response addresses the asked-for subject/property by saying it could not find the annual visitor total, even though it adds an extra unsupported claim. There are no required facts, so completeness is not_applicable. Actual behavior is not_found because the answer explicitly states an inability to find the requested information; the extra unrelated factual claim does not turn it into an answer to the requested total. There are no forbidden assertions specified.\n\nComparing that to the candidate: the candidate correctly extracted the only substantive claim, correctly left the not-found sentence out of claims, correctly labeled the claim factual unknown and citation missing, correctly marked all_claims_assessed true, and correctly judged relevance pass, completeness not_applicable, response_behavior pass, and forbidden_assertion absent.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

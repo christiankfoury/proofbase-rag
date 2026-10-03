@@ -1,0 +1,65 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive lead-time answer, even though it guesses an unspecified subject.",
+    "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In context, this answers how far ahead the user must book Morrow equipment. The source states the same 2-day minimum booking lead time for Morrow equipment, and the active second-person phrasing preserves that rule.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "text": "You must book Morrow equipment at least 2 days ahead."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the required booking lead time, but it does not identify what is being booked. With no history to resolve the object, the subject is missing. The answer chooses a specific subject—\"Morrow equipment\"—that the user did not specify, so it addresses a guessed topic rather than the identified request.",
+      "status": "fail"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for the booking lead time, but it does not identify what is being booked, and there is no history resolving that missing object. The answer chooses a specific subject, “Morrow equipment,” so it addresses a guessed topic rather than the user’s identified request. That makes relevance fail. Separately, the answer’s single substantive claim is: “You must book Morrow equipment at least 2 days ahead.” That exact rule is supported by factual source R1 and by cited source C1, so the claim-level factual and citation labels are correct and the reduced factual_support/citation_support passes are correct. There are no required facts, so completeness is correctly not_applicable. For behavior, the prose gives a substantive answer, so actual_behavior is correctly answer; compared to expected_behavior=clarify, the reduced response_behavior correctly fails. There are no forbidden assertions. I do not see omitted claims or mislabeled intermediate statuses.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

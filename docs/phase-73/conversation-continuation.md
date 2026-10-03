@@ -3,11 +3,31 @@
 The 2026-10-03 user explicitly supersedes the single-attempt and candidate-failure
 stopping rules. Continue focused diagnosis/corrections, then qualification and
 measurement, until accepted activation or a concrete budget/external blocker.
-The total remains **USD 12.50 including USD 0.1529816 spent**, leaving
+The initial authorization was **USD 12.50 including USD 0.1529816 spent**, leaving
 USD 12.3470184 at this authorization. No historical allowance is added. Stage
 allocations may move. The subsequent explicit rolling-reservation approval
 supersedes whole-stage funding; per-request reservation and receipt settlement
-remain mandatory. Original stopped artifacts are immutable historical evidence.
+remain mandatory. The CAD13.11 amendment below supersedes that initial ceiling.
+Original stopped artifacts are immutable historical evidence.
+
+## Current status: repeated grader defect; remaining qualification budget insufficient
+
+V34 diagnostic passes16/16 plus3 probes, but calibration stops21/22 on the same
+list-framing error as v31. Two cases and3 probes remain unexecuted. All raw evidence
+and source inspection are preserved in [v34 calibration review](conversation-v34-calibration-source-review.md).
+Interpretation-first generation did not solve the repeated error; the review
+records an independent judgment design for investigation, not another
+unfunded prompt patch. No source expectations or scores were repaired.
+
+Confirmed cumulativeUSD9.17047526 plus retainedholdUSD0.14820250 gives
+accountedUSD9.31867776. RemainingUSD5.56669000 under ceilingUSD14.88536776 includes
+USD4.50 final-launch floor, leavingUSD1.06669000 for qualification. Another complete
+qualification is empirically aboutUSD2.190283 before focused repairs. Therefore
+paid execution stops at the budget boundary. New spending since CAD13.11 approval
+USD2.28510750; no new unknown requests. This is not account-credit exhaustion.
+V4 remains default; v6 development14/14 does not authorize release. Remaining:
+grader correction/full qualification, fresh16confirmation, fresh60measurement,
+and accepted activation. [Exact ledger reconciliation](../../data/evaluation/conversation-continuation/cad1311-budget-stop.json).
 
 ## Current authorization: CAD13.11 remaining, revised cumulative ceiling
 

@@ -1,0 +1,72 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive information, but on the wrong topic.",
+    "behavior_span": "Cedar reimburses parking up to 14 credits per day.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Cedar reimburses parking up to 14 credits per day."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The sentence asserts a parking reimbursement rule. Although it does not answer the question about the meal allowance for overnight fieldwork, the claim itself is exactly stated in factual source R2 and in cited source C1.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "Cedar reimburses parking up to 14 credits per day."
+          }
+        ],
+        "text": "Cedar reimburses parking up to 14 credits per day."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer does not state anything about meals during overnight fieldwork or a 32-credits-per-day reimbursement limit; it discusses parking reimbursement instead.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for Cedar's meal allowance for overnight fieldwork, but the answer addresses parking reimbursement instead of meals or overnight fieldwork meal allowance.",
+      "status": "fail"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Question asks for Cedar’s meal allowance for overnight fieldwork. The answer instead says, “Cedar reimburses parking up to 14 credits per day.” That sentence asserts a parking reimbursement rule, not the requested meal allowance. As a claim, it is fully supported factually by R2 and by cited source C1, so factual_support and citation_support both reduce to pass. However, it does not cover required fact F1 (“Meals during overnight fieldwork are reimbursed up to 32 credits per day.”), so completeness fails. The response is on the wrong topic, so relevance fails. Its actual behavior is still \"answer\" because it gives substantive information; with expected_behavior=answer that would normally match, but missing required facts override response_behavior to fail. There are no forbidden assertions. The candidate’s labels and reasons match this analysis.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

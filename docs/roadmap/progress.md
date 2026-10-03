@@ -6,12 +6,18 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: CAD13.11 continuation explicitly approved
+### Current: CAD13.11 continuation stopped at qualification budget boundary
 
-V34 passes all16 diagnostic cases and3 probes with clean source inspection.
-AccountedUSD8.51907026 includes the originalholdUSD0.14820250; remainingUSD6.36629750.
-Full24+3 calibration next, then newly isolated16 confirmation if clean and funded.
-USD4.50 final-launchfloor remains. Application v6 is still disabled/unaccepted.
+V34 diagnostic passes16/16 plus3 probes, but calibration stops21/22 on repeated
+list-framing interpretation failure. Two cases and3 probes are unexecuted.
+ConfirmedUSD9.17047526 plusholdUSD0.14820250 gives accountedUSD9.31867776;
+remainingUSD5.56669000. KeepingUSD4.50 final-launch floor leavesUSD1.06669000,
+less than aboutUSD2.190283 for another full qualification before focused repairs.
+No more paid calls or new unverified successor. V4 remains default; v6 still
+unaccepted. See [source review and architecture assessment](../phase-73/conversation-v34-calibration-source-review.md).
+All failed evidence is preserved; no new unknown outcomes or weakened gates.
+
+### Historical authorization: CAD13.11 continuation
 
 New cumulative ceiling USD14.88536776: past confirmed USD6.88536776 plus USD8.00
 remaining inclusive of the original USD0.14820250 hold. Future-call headroom
