@@ -1,0 +1,90 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response substantively answers both requested parts: whether all Cobalt torque wrenches must be checked before issue and who performs the check.",
+    "behavior_span": "Only some Cobalt torque wrenches need checks; checking the others is optional. Warehouse clerks perform the checks.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "Contradicted by R1 (document titled \"Cobalt Issue Control\"), which states that every Cobalt torque wrench must be checked before issue, not only some, and does not make checking any others optional. The cited source does not entail this claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Every Cobalt torque wrench must be checked before issue."
+          }
+        ],
+        "text": "Only some Cobalt torque wrenches need checks; checking the others is optional."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "Contradicted by R1 (document titled \"Cobalt Issue Control\"), which assigns the checks to quality inspectors and explicitly prohibits warehouse clerks from performing them. The cited source does not entail this claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Quality inspectors perform these checks; warehouse clerks are prohibited from performing them."
+          }
+        ],
+        "text": "Warehouse clerks perform the checks."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Only some Cobalt torque wrenches need checks; checking the others is optional."
+        ],
+        "fact_id": "F1",
+        "reason": "This explicitly denies that every Cobalt torque wrench must be checked before issue by saying only some require checks and others are optional.",
+        "status": "contradicted"
+      },
+      {
+        "answer_spans": [
+          "Warehouse clerks perform the checks."
+        ],
+        "fact_id": "F2",
+        "reason": "In the question context, this names warehouse clerks as the performers of the requested pre-issue checks, which conflicts with the required rule that quality inspectors perform them and warehouse clerks are prohibited from doing so.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the same entity and policy asked about: pre-issue checks for Cobalt torque wrenches and the role that performs them.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted both factual claims from the answer, marked each as contradicted by R1/C1, and correctly treated citation support as missing rather than supported. It also correctly marked both required facts as contradicted by the answer, so completeness=fail and response_behavior=fail are right even though actual_behavior=answer is correct. Relevance=pass is correct because the answer addresses the asked policy and actor, just with wrong values. No forbidden assertion is present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

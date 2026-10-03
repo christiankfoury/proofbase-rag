@@ -211,3 +211,8 @@ CV1-SCOPE-15 was corrected only by widening the question to match its existing
 reference. No answer, source, expectation or other case changed. Initial rejected
 artifacts remain. Approved suite/seal precedes a once-only48-call confirmation
 with full8192/4096/4096 allowances and receipt-based rolling reservations.
+
+V25 fresh confirmation passes16/16 with clean source inspection and exact replay.
+48 calls cost USD0.5217955; cumulative USD2.0565328, remaining USD10.4434672.
+Grader qualification complete. Freeze the selected runtime/index/configuration
+before isolated fresh60 authoring; retain v4 default pending full acceptance.

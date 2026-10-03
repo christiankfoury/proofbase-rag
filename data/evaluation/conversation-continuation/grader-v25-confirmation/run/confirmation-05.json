@@ -1,0 +1,72 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "This is a substantive response, but it answers for the wrong item rather than the Maple Scanner requested in the question and history.",
+    "behavior_span": "The Willow Cart policy allows a maximum loan of 18 hours.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "A Willow Cart may be borrowed for at most 18 hours."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "This paraphrases the rule in R2 that a Willow Cart may be borrowed for at most 18 hours; cited source C1 states the same rule. The answer is about a Willow Cart rather than the scanner in the conversation context, but the asserted Willow Cart policy itself is supported.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "A Willow Cart may be borrowed for at most 18 hours."
+          }
+        ],
+        "text": "The Willow Cart policy allows a maximum loan of 18 hours."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer gives a loan period for a different item (Willow Cart) and does not state the maximum loan period for a Maple Scanner.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The requested item is the Maple Scanner, made explicit by the question context and history. The answer instead selects the Willow Cart policy, which is a different entity/topic.",
+      "status": "fail"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracts the single factual claim and marks it supported by R2/C1. It also correctly marks the required Maple Scanner fact as missing, not contradicted, because the answer gives a different item’s policy (Willow Cart). That makes completeness fail. The prose is still a substantive answer, so actual_behavior=answer is correct, but response_behavior correctly fails because an expected answer omitted the required fact. Relevance correctly fails due to answering the wrong entity/topic, and there are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

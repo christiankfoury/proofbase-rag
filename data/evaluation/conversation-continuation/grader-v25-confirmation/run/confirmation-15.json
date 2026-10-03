@@ -1,0 +1,126 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "pass",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": true,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response substantively answers all requested parts: permission, old/new limits with date, and required dispatch log fields.",
+    "behavior_span": "Yes, that batch may be dispatched. The volume limit increased from 4 to 6 litres on 1 July 2026. The dispatch log requires the batch code and dispatch timestamp.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Since 1 July 2026, Mistral batches of at most 6 litres may be dispatched if cooling clearance is recorded."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In the question’s scenario, “that batch” refers to the 5-litre Mistral batch with recorded cooling clearance. R1 states such batches may be dispatched under the current rule.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Since 1 July 2026, Mistral batches of at most 6 litres may be dispatched if cooling clearance is recorded."
+          }
+        ],
+        "text": "Yes, that batch may be dispatched."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Since 1 July 2026, Mistral batches of at most 6 litres may be dispatched if cooling clearance is recorded. This replaced the earlier 4-litre maximum."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "R1 states the new 6-litre rule applies since 1 July 2026 and that it replaced the earlier 4-litre maximum.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Since 1 July 2026, Mistral batches of at most 6 litres may be dispatched if cooling clearance is recorded. This replaced the earlier 4-litre maximum."
+          }
+        ],
+        "text": "The volume limit increased from 4 to 6 litres on 1 July 2026."
+      },
+      {
+        "citation_spans": [
+          {
+            "id": "C2",
+            "span": "The dispatch log requires the batch code and dispatch timestamp."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "R2 directly states the required dispatch-log fields.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "The dispatch log requires the batch code and dispatch timestamp."
+          }
+        ],
+        "text": "The dispatch log requires the batch code and dispatch timestamp."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Yes, that batch may be dispatched."
+        ],
+        "fact_id": "F1",
+        "reason": "This directly says the described batch is permitted to be dispatched under the current rule.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [
+          "The volume limit increased from 4 to 6 litres on 1 July 2026."
+        ],
+        "fact_id": "F2",
+        "reason": "This fully states the old limit, new limit, and effective date for the Mistral dispatch volume rule in context.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [
+          "The dispatch log requires the batch code and dispatch timestamp."
+        ],
+        "fact_id": "F3",
+        "reason": "This explicitly lists both required dispatch log fields.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the requested Mistral batch dispatch rule, the volume-limit change, and the dispatch log fields asked about.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracted all three factual claims from the answer, using exact answer substrings, and each is entailed by the corresponding factual and cited sources. No factual claims were omitted, so factual_support and citation_support are correctly pass. All three required facts are fully covered by exact answer spans, so completeness pass is correct. The response substantively answers every requested part, so actual_behavior=answer and response_behavior=pass are correct. The answer is on-topic for the asked Mistral dispatch rule and log fields, so relevance pass is correct. There are no forbidden assertions, so forbidden_assertion absent is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

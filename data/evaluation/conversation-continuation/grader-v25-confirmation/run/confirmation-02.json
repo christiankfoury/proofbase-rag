@@ -1,0 +1,80 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "partial_answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives one requested prerequisite and explicitly says it cannot establish the other.",
+    "behavior_span": "The package seal must be verified. I cannot find the temperature prerequisite in the material available to me.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Before a Lumen package is dispatched, its seal must be verified"
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In the question's dispatch context, this asserts one prerequisite for dispatch. R1 explicitly states that before a Lumen package is dispatched, its seal must be verified, and the cited source C1 contains the same text.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Before a Lumen package is dispatched, its seal must be verified"
+          }
+        ],
+        "text": "The package seal must be verified."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The package seal must be verified."
+        ],
+        "fact_id": "F1",
+        "reason": "This directly states the seal-verification prerequisite before dispatch.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [],
+        "fact_id": "F2",
+        "reason": "The answer does not state the required temperature rule; it only says it could not find that prerequisite.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer addresses the asked policy for Lumen package dispatch prerequisites, though incompletely.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate grading is correct on all dimensions. The only factual claim in the answer is the exact span \"The package seal must be verified.\"; the second sentence (\"I cannot find the temperature prerequisite...\") is an inability-to-find speech act and is properly not extracted as a policy claim. That extracted claim is supported and citation-supported by R1/C1 in the question’s dispatch-prerequisite context. Required fact F1 is covered; F2 is correctly marked missing because the answer does not state the temperature rule. The response therefore is a partial_answer, not a complete answer, so response_behavior=fail against expected_behavior=answer is correct. The answer is still relevant to the asked Lumen dispatch prerequisites, and there are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

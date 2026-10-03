@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response substantively addresses both requested parts: who may approve and whether approval is required or optional.",
+    "behavior_span": "Approval is optional, and shift leads may authorize a Vega restart without an engineer.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "This single sentence asserts both that approval is optional and that shift leads may authorize a Vega restart without an engineer. R1 (titled in metadata as Vega Restart Authority) explicitly says the opposite: every Vega restart requires approval by a controls engineer, and shift leads cannot give that approval. Because the cited source does not entail the claim, citation support is missing.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Every Vega restart requires approval by a controls engineer."
+          },
+          {
+            "id": "R1",
+            "span": "Only controls engineers can give that approval; shift leads cannot."
+          }
+        ],
+        "text": "Approval is optional, and shift leads may authorize a Vega restart without an engineer."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Approval is optional",
+          "shift leads may authorize a Vega restart without an engineer."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer says approval is optional and that a restart may be authorized without an engineer, which is incompatible with required controls-engineer approval before a Vega restart.",
+        "status": "contradicted"
+      },
+      {
+        "answer_spans": [
+          "shift leads may authorize a Vega restart without an engineer."
+        ],
+        "fact_id": "F2",
+        "reason": "The answer explicitly allows shift leads to approve/authorize Vega restarts without a controls engineer, contradicting the rule that only controls engineers may approve and shift leads may not.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The answer directly addresses the asked policy for Vega restart approval, including approver identity and whether approval is required.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate correctly extracts the answer’s single factual sentence and marks it contradicted by R1/C1, so factual_support=fail and citation_support=fail are correct. Both required facts are explicitly contradicted by the answer, so completeness=fail is correct. The answer is still on-topic for Vega restart approval, so relevance=pass is correct. The prose is a substantive answer to both asked parts, so actual_behavior=answer is correct; because the required facts are contradicted, response_behavior=fail is also correct. There are no forbidden assertions to mark present.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

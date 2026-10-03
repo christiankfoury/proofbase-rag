@@ -12,8 +12,8 @@ Latest: rolling per-request reservations explicitly approved; all output/coverag
 gates unchanged. Full challenger 12/12, mini 8/12 (ineligible), matched v4 6/12. Challenger
 selected; v4 remains default. V24 diagnostic3/4 then stopped on inconsistent
 attribution extraction; v25 focus, full8+3 diagnostic and24+3 calibration pass with clean inspection.
-Fresh16 authored and independently approved after one preserved scope correction;
-sealed confirmation next. Cumulative USD1.5347373; remaining USD10.9652627.
+Fresh16 confirmation passes16/16 with clean source inspection. Grader qualified;
+runtime freeze and isolated fresh60 next. Cumulative USD2.0565328; remaining USD10.4434672.
 
 The latest user explicitly supersedes the prior one-attempt/no-second-cycle and
 failure-stop rules. Start with the diagnosed upstream ambiguity defect; continue
