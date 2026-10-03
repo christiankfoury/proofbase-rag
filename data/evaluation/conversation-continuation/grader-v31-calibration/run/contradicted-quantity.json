@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive answer to the user's question, even though the stated deadline conflicts with the required fact.",
+    "behavior_span": "Book your seat at least 12 hours before departure.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer says the seat can be booked at least 12 hours before departure, but the source requires booking at least 24 hours before departure, so the stated number of hours is incorrect.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Brindle shuttle seats must be booked at least 24 hours before departure."
+          }
+        ],
+        "text": "Book your seat at least 12 hours before departure."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Book your seat at least 12 hours before departure."
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says a seat must be booked at least 24 hours before departure, but the answer explicitly states 12 hours before departure for the same booking requirement.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the booking deadline before departure for a Brindle shuttle seat, and the answer directly provides a specific number of hours before departure for booking.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s grading is correct throughout. The only substantive claim in the answer is \"Book your seat at least 12 hours before departure.\", which is contradicted by the factual source text \"Brindle shuttle seats must be booked at least 24 hours before departure.\" That makes factual_support fail. Because the cited source is the same rule and does not support the 12-hour claim, citation support is correctly treated as missing, so citation_support fail is also correct. The required fact states 24 hours, and the answer explicitly says 12 hours, so the fact is correctly labeled contradicted and completeness correctly reduces to fail. The answer is still relevant because it directly addresses the asked booking deadline for a Brindle shuttle seat. actual_behavior is correctly classified as answer, and because expected_behavior is answer but the required fact is contradicted, response_behavior correctly reduces to fail. There are no forbidden assertions, so absent is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

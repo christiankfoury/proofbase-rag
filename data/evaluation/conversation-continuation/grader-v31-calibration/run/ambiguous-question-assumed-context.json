@@ -1,0 +1,65 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive booking requirement, even though it applies it to an inferred subject not specified by the user.",
+    "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source states the booking rule for Morrow equipment exactly. Given the user's question asks how far ahead they must book, the answer's generic second-person phrasing is a supported restatement of that rule.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "text": "You must book Morrow equipment at least 2 days ahead."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks how far ahead something must be booked, but it does not identify what is being booked. The answer chooses a specific subject, \"Morrow equipment,\" which is not provided in the question or history, so it addresses a guessed topic rather than the user's identified request.",
+      "status": "fail"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The candidate’s grading is correct. The answer makes one substantive claim: \"You must book Morrow equipment at least 2 days ahead.\" That claim is supported by both the factual and cited source text: \"Morrow equipment must be booked at least 2 days ahead.\" Completeness is not applicable because there are no required facts. Relevance correctly fails because the question \"How far ahead must I book?\" does not identify what is being booked, and the answer guesses \"Morrow equipment.\" Actual behavior is correctly classified as answer, since it gives substantive information rather than asking for clarification; because expected_behavior is clarify, response_behavior correctly fails. There are no forbidden assertions.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

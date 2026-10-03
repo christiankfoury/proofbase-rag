@@ -9,7 +9,44 @@ allocations may move. The subsequent explicit rolling-reservation approval
 supersedes whole-stage funding; per-request reservation and receipt settlement
 remain mandatory. Original stopped artifacts are immutable historical evidence.
 
-## Current status: one network recovery explicitly approved
+## Current status: recovery succeeded; budget stop before another qualification
+
+The approved network recovery succeeded. V31 then passed all 16 diagnostic cases
+and 3 reviewer probes, but calibration stopped at 21/22 matched. The remaining two
+cases and 3 probes were unexecuted. G32-001 is a shared claim/reviewer interpretation
+error: ordinary `First,` list framing was incorrectly treated as a policy-mandated
+ordering assertion. Missing replacement-fee coverage was correctly rejected.
+See [source review and architecture assessment](conversation-v31-calibration-source-review.md).
+No reference, expectation, failed output or scoring rule was changed.
+
+The cost ledger replays 1059 settled requests, with no new unknown outcomes:
+
+| Accounting | USD |
+| --- | ---: |
+| Confirmed cumulative spending |6.88536776|
+| Original unknown request, full reservation retained |0.14820250|
+| Total accounted |7.03357026|
+| Unreserved authorization remaining |5.46642974|
+| Required final-measurement launch floor |4.50000000|
+| Available for more qualification while retaining that floor |0.96642974|
+
+The latest diagnostic cost USD 0.56885350. Extrapolating the calibration to all 24
+plus 3 probes gives about USD 0.702861; the historical fresh 16 confirmation cost
+USD 0.52179550. Together this is approximately USD 1.793510 before focused repair
+checks, above the USD 0.966430 available for qualification. These are empirical
+estimates, not guaranteed minima or conservative full-output reservations. Under
+the unchanged floor, another complete cycle cannot reasonably be funded, so no
+further paid call or new unverified grader revision is started. This is a budget
+planning stop, not API credit exhaustion. No extra funds or automatic top-up.
+[Exact reconciliation](../../data/evaluation/conversation-continuation/recovery-budget-stop.json).
+
+Application prompt v6 still passes 14/14 development tasks, but remains unaccepted.
+V4 stays active. Unfinished: grader remediation and full qualification, newly
+isolated 16 confirmation, newly frozen 60 final measurement, accepted activation.
+All safety, citation and 48/60 gates remain. The current code/evidence/docs are
+reviewed, committed and pushed; the application completion objective is not met.
+
+## Historical status: one network recovery explicitly approved
 
 The user approved one logged recovery attempt and continuation through the
 existing gates. The original unknown request remains immutable and its full

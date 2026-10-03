@@ -8,27 +8,20 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ### Current: autonomous conversational completion within the same USD 12.50 ceiling
 
-Latest authorization: the user approved one logged network recovery and continued
-execution, retaining the exact failed request's USD 0.14820250 reservation.
-Confirmed spending USD 5.65127876; accounted USD 5.79948126; remaining USD 6.70051874.
-The recovery reader permits only that immutable unknown record; any new unknown
-still stops. Four exception tests and ten existing budget/measurement tests pass.
-V31 focus recovery precedes unchanged qualification and fresh confirmation/final
-gates. V4 remains default. The following records the prior blocked state.
-
-Latest: application candidate prompt v6 passes 14/14 development tasks (original
-12/12 plus two recipient controls), with 24 exact authorized excerpts. V30 grader
-diagnostic stops 3/4 after review-token exhaustion; v31 preserves all scoring and
-output allowances, with medium review effort and high claim/coverage effort.
-Ten offline budget/replay checks pass. Its first focused request then raised
-APIConnectionError without a provider response in the restricted network context.
-The unknown-outcome rule blocks all further calls; no retry or case credit.
-Confirmed spending USD 5.65127876; held reservation USD 0.14820250; accounted
-USD 5.79948126; unreserved headroom USD 6.70051874 of the same USD 12.50 total.
-V4 remains default. Qualification, fresh 16 confirmation, new 60 measurement,
-acceptance and activation are unfinished. Resolve the unsettled outcome under
-the existing policy before paid continuation; do not erase the reservation.
-See [continuation](../phase-73/conversation-continuation.md) and its stopped audit.
+Latest: approved network recovery succeeded; v31 diagnostic passes 16/16 plus 3
+review probes. Calibration stops 21/22 on unsupported temporal ordering inferred
+from ordinary list framing; two cases and 3 probes remain unexecuted. The failure
+and correlated claim/reviewer judgments are preserved, with no relabeling.
+Confirmed cumulative spending USD 6.88536776; original reservation USD 0.14820250;
+accounted USD 7.03357026; unreserved USD 5.46642974. After the unchanged USD 4.50
+final-launch floor, only USD 0.96642974 is available for further qualification.
+Recent runs imply about USD 1.793510 for diagnostic/calibration/fresh confirmation
+before focused repair checks, so paid work stops on budget feasibility. This is
+an estimate-based planning stop, not account exhaustion or a claim that all funds
+were spent. No new unknown outcomes after the approved recovery.
+Application v6 development passes 14/14; v4 remains default. Grader remediation,
+full qualification, fresh 16 confirmation, fresh 60 measurement and accepted
+activation remain unfinished. See [continuation](../phase-73/conversation-continuation.md).
 
 The latest user explicitly supersedes the prior one-attempt/no-second-cycle and
 failure-stop rules. Start with the diagnosed upstream ambiguity defect; continue

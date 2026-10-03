@@ -10,18 +10,16 @@ Unused allocations may move; no top-up or old remainder addition. Continue until
 accepted activation, insufficient safe budget for the next necessary stage, or
 concrete external blocker. Safety, qualification and 48/60 release gates remain.
 
-The user has now approved one logged recovery with the original reservation held.
-Use the versioned recovery budget reader and authorized network execution; all
-other unknown outcomes still stop. The unchanged qualification and release gates
-remain required.
-
-Prior blocked state: v31's first focused grader request returned a
-connection error with no provider response. The existing unknown-outcome rule
-retains USD 0.14820250 and blocks continuation. Confirmed cumulative spending is
-USD 5.65127876; total accounted USD 5.79948126 of USD 12.50. Resolve this unsettled
-outcome under the existing policy before further paid execution. Full details,
-verified receipts and remaining gates are in the continuation note. V4 remains
-default; no accepted final score or activation is claimed.
+The approved network recovery succeeded and its original USD 0.14820250 reservation
+remains held. V31 passes 16/16 diagnostic cases plus 3 probes, but calibration fails
+at 21/22 on list-framing interpretation. Source review preserves the failure and
+records a reconsideration of verdict-first, correlated grading architecture.
+Confirmed cumulative spending USD 6.88536776; accounted USD 7.03357026; remaining
+USD 5.46642974. Retaining the mandatory USD 4.50 final-run floor leaves USD 0.96642974
+for qualification, below the roughly USD 1.793510 empirical estimate for another
+complete qualification before focused repair checks. Paid work stops here under
+the budget boundary. No more API calls, activation or new accuracy claim; v4
+stays default. Exact accounting and unfinished gates are in the continuation note.
 
 ## Historical handoff: application comparison failed; attempt closed
 
