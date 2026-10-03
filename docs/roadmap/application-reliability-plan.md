@@ -1,6 +1,16 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: bounded redesign stopped before paid execution
+## Current handoff: CAD 20 continuation of the same attempt
+
+The latest 2026-10-03 user message authorizes the existing bounded attempt within
+CAD 20 total account balance, excluding historical headroom and USD 70. Buffered
+USD ceiling 12.50; application allocation 2.00 covers the preserved 1.7965755 full
+comparison reservation. See [execution note](../phase-73/bounded-redesign.md) for
+the new policy, FX, conditional stage allocations and reservation limitations.
+Reuse preparation, start comparison, continue only on quality/budget gates, and
+stop without another redesign cycle. V4 remains default until every release gate.
+
+## Historical handoff: bounded redesign stopped before paid execution
 
 The 2026-10-02 user attachment explicitly superseded the planning-only handoff
 and authorized the single attempt described in [bounded redesign](../phase-73/bounded-redesign.md).

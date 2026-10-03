@@ -6,7 +6,18 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: bounded redesign stopped at application budget preflight
+### Current: CAD 20 continuation of the same bounded attempt
+
+The 2026-10-03 user authorizes continuation within CAD 20 entire remaining API
+balance; USD 70 and historical-balance addition are explicitly excluded. Buffered
+ceiling is USD 12.50. The [execution note](../phase-73/bounded-redesign.md) records
+FX, allocation, expected spending versus reservations, and unchanged gates.
+Application cap USD 2.00 now covers the preserved USD 1.7965755 preflight. Execute
+the existing 12-task/three-profile comparison once; later stages require passing
+quality and complete budget preflights. No second cycle or automatic top-up.
+V4 stays default. The earlier stop and all historical accounting remain evidence.
+
+### Prior milestone: bounded redesign stopped at application budget preflight
 
 The user's 2026-10-02 implementation request superseded the planning-only handoff
 and authorized one bounded attempt with USD 10 total, including the existing

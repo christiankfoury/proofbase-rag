@@ -1,5 +1,54 @@
 # One bounded conversational reliability redesign
 
+## CAD 20 continuation (2026-10-03)
+
+The latest user authorization replaces the old budget with **CAD 20 total remaining
+balance**, not USD 70 and not CAD 20 plus historical headroom. Bank of Canada's last
+business-day rate, October 2, is CAD 1.4246/USD. A conservative CAD 1.60/USD budgeting
+rate gives **USD 12.50 maximum new spending**; at the reference rate that is
+CAD 17.8075 with CAD 2.1925 buffer. Account balance is user-reported, not queried.
+[Rate source](https://www.bankofcanada.ca/rates/exchange/daily-exchange-rates-lookup/?dF=2026-09-18&dT=2026-10-02&lP=lookup_daily_exchange_rates_2017.php&rangeType=dates&sR=2017-01-01&se=FXUSDCAD).
+
+| Stage | New USD cap | Conservative reservation status |
+| --- | ---: | --- |
+| Application comparison | 2.00 | Existing complete 1.7965755 fits |
+| Grader diagnostic | 1.00 | Exact successor preparation pending; historical proxy 4.2638925 |
+| Calibration, 24 cases + 3 probes | 2.00 | Historical proxy 11.91232 |
+| Fresh confirmation, 16 cases | 1.50 | Historical proxy 8.3236 |
+| Final measurement, 60 cases | 6.00 | Historical proxy 38.3018628; launch floor 4.50 unchanged |
+| Total | **12.50** | No promise that later stages fit |
+
+Expected spending for a fully successful path is roughly USD 7-12, an uncertain
+planning estimate from historical receipts (previous final run USD 3.5000286),
+the new candidate and larger claims allowance. Expected usage is not authorization
+to ignore reservations. Later-stage proxies include full outputs and dynamic
+payload headroom; they are not forecasts of the bill. Exact whole-stage preflight
+must fit before any stage runs. This budget funds the comparison now; later work
+can stop for budget even if semantic gates pass. No coverage, output allowance,
+safety rule, acceptance gate or default changes to fit the money.
+
+Scope: reuse the frozen candidate, suite, complete preflight and regression evidence;
+add a durable once-only comparison transport under the separate
+[CAD policy](../../data/evaluation/bounded-redesign/cad20-policy.json).
+No historical journal is rewritten or credited to the new allowance. Preserve
+stopped evidence below as a historical record. Save requests, raw responses,
+cache-aware charges and real HTTP outcomes. Unknown outcomes retain reservation
+and stop; no provider retries. Both turns must pass for conversational task credit.
+Inspect source/draft/checker/final pairs before selecting a profile. All original
+application and grader gates below remain binding; v4 stays default.
+
+Verification: seven offline runner tests (reservation-before-network, receipt/cache
+settlement, duplicate-stage/turn stops, unknown outcomes, malformed receipt,
+model/payload caps, dollar cap and HTTP turn callbacks) and the two preserved
+preflight replay tests. Eight candidate integration methods rerun. Existing shared
+regressions from `86d706f3` are reused because application code/config is unchanged.
+This continuation changes execution/accounting only; no web build is relevant.
+
+The historical sections below describe the earlier authorization and stop, not
+the current available balance or permission to start another attempt.
+
+## Original attempt and preserved stopped evidence
+
 User authorization (2026-10-02): implement one candidate, compare two fixed model
 profiles, revise the grader once, qualify and measure once if preceding gates pass.
 This supersedes the planning-only handoff. V4 remains default until all gates pass.

@@ -14,7 +14,7 @@ from apps.api.app.abuse.limiter import InMemoryLimitBackend, RateLimitManager
 from scripts.policy_fact_candidate_support import authorized_sources
 
 
-def invoke(suite, case):
+def invoke(suite, case, *, before_turn=None, after_turn=None):
     sources=authorized_sources(suite,case)
     user=dict(id='00000000-0000-0000-0000-000000002701',business_role=suite['role'],is_admin=False,
         tenant_id='00000000-0000-0000-0000-000000002801',
@@ -42,9 +42,13 @@ def invoke(suite, case):
             'apps.api.app.reasoning.post_generation_validation.submit_auxiliary_telemetry']:
             stack.enter_context(patch(target))
         for index,question in enumerate(case['turns']):
+            if before_turn:
+                before_turn(index)
             started=time.perf_counter()
             response=TestClient(main.app).post('/query',json=dict(question=question,project_id=suite['project_id'],
                 session_id='00000000-0000-0000-0000-000000009001',multi_doc_mode='off',user_role=suite['role']))
             rows.append(dict(turn=index,question=question,status_code=response.status_code,
                 final_response=response.json(),latency_ms=int((time.perf_counter()-started)*1000)))
+            if after_turn:
+                after_turn(rows[-1], [asdict(s) for s in sources])
     return dict(case_id=case['id'],authorized_evidence=[asdict(s) for s in sources],turns=rows)

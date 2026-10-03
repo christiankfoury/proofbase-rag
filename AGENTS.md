@@ -70,8 +70,11 @@ That attempt stopped before paid execution: its complete application comparison
 reservation exceeded the USD 1.30 stage cap. Read the current handoff and tracker;
 do not restart completed steps, unexecuted controls or another cycle automatically.
 V4 remains default, the new candidate is disabled/unaccepted, and no new model
-quality score exists. Preserve quality gates and historical accounting. Suggested
-continuations are not authority to resume, activate a candidate or spend funds.
+quality score exists. Preserve quality gates and historical accounting. The latest
+2026-10-03 user authorization resumes this same attempt with CAD 20 entire remaining
+balance, conservatively capped at USD 12.50, with no historical remainder added.
+Read the execution note for allocations and gates. Compare once, continue only if
+quality and budget gates pass; no top-ups or second cycle. V4 remains default.
 
 Use [execution policy](docs/roadmap/execution-policy.md) for the verification matrix, evidence reuse, completion criteria, compact handoff and runtime-file rules. This operating loop supersedes older phase-specific descriptions of post-commit code review. A request limited to documentation or workflow maintenance completes at that scope; it does not start the runtime queue automatically.
 
