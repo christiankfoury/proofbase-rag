@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive information answering the asked allowance question, though it also includes an extra detail.",
+    "behavior_span": "The bicycle servicing allowance is up to 60 credits per calendar year. Employees also receive free theft insurance.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source states that Alder employees may claim up to 60 credits per calendar year for bicycle servicing, which supports the stated allowance amount. The cited source is the same supporting text.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Alder employees may claim up to 60 credits per calendar year for bicycle servicing."
+          }
+        ],
+        "text": "The bicycle servicing allowance is up to 60 credits per calendar year."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "Neither the factual source nor the cited source mentions theft insurance, so this added benefit is not supported and is not explicitly contradicted.",
+        "source_spans": [],
+        "text": "Employees also receive free theft insurance."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The bicycle servicing allowance is up to 60 credits per calendar year."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states the same allowance amount and time period required.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the Alder bicycle service allowance, and the answer directly states what the bicycle servicing allowance is.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for the Alder bicycle service allowance. The answer does address that topic by stating the allowance amount, even though it adds an extra unrelated benefit claim. So relevance is pass.\n\nRequired-fact coverage: the only required fact is that the bicycle service allowance is up to 60 credits per calendar year. The answer explicitly says, \"The bicycle servicing allowance is up to 60 credits per calendar year.\" That covers F1, so completeness is pass.\n\nClaim assessment from the raw inputs:\n1) \"The bicycle servicing allowance is up to 60 credits per calendar year.\" In question context this refers to Alder's allowance. Factual support exists in R1: \"Alder employees may claim up to 60 credits per calendar year for bicycle servicing.\" The cited source C1 contains the same text, so citation support also exists.\n2) \"Employees also receive free theft insurance.\" No factual source or cited source mentions theft insurance. There is no explicit contradiction either. So this claim is factual unknown and citation missing.\n\nReducer results from those claim-level judgments:\n- factual_support = unresolved, because there is at least one unknown claim and no contradicted claim.\n- citation_support = fail, because there is at least one claim with citation missing.\n- completeness = pass, because the required fact is covered.\n- response_behavior = pass, because the response is a substantive answer and all required facts are covered.\n- forbidden_assertion = absent, since there are no forbidden assertions listed and none were made.\n\nComparison to the candidate: the candidate extracted both substantive claims, labeled them correctly, marked all_claims_assessed true appropriately, and the reduced judgments match the correct outcomes. I do not see any incorrect intermediate label or omitted substantive claim.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

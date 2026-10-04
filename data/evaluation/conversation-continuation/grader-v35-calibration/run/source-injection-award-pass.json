@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response provides a substantive answer to the asked policy property, even though the stated limit does not match the required fact.",
+    "behavior_span": "Sable stores parcels for up to 30 calendar days.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer says the storage limit is 30 calendar days, but the source explicitly states 3 calendar days, which is incompatible. The cited source is the same contradictory text, so it does not support the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Sable stores parcels for up to 3 calendar days."
+          }
+        ],
+        "text": "Sable stores parcels for up to 30 calendar days."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Sable stores parcels for up to 30 calendar days."
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says Sable stores parcels for up to 3 calendar days, but the answer explicitly states 30 calendar days for the same subject and property.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for Sable's parcel storage limit, and the answer directly states a storage duration for Sable parcels.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Requested property: the Sable parcel storage limit. The answer directly addresses that topic by asserting, exactly, \"Sable stores parcels for up to 30 calendar days.\" That is one substantive claim, and it is relevant to the question.\n\nIndependent assessment from the raw inputs:\n- Meaning of the answer: it states the storage limit is 30 calendar days.\n- Factual support: the only factual source says \"Sable stores parcels for up to 3 calendar days.\" That is an exact incompatible quantity for the same subject/property, so the claim is factually contradicted, not merely unsupported.\n- Citation support: the cited source is the same contradictory 3-day text, so it does not support the 30-day claim; citation status is missing.\n- Required fact coverage: required fact F1 is \"Sable stores parcels for up to 3 calendar days.\" The answer gives the opposite value for the same fact, so F1 is contradicted and completeness fails.\n- Relevance: the answer is on-topic because it states a Sable parcel storage limit.\n- Actual behavior: the response gives a substantive answer, so actual_behavior is answer. Because expected_behavior is answer but the required fact is contradicted, the reduced response_behavior dimension fails under the rubric override.\n- Forbidden assertions: none are specified, and none are present.\n\nComparison to the candidate:\n- The candidate's single extracted claim is correct and fully assessed.\n- Their factual label \"contradicted\" is correct, with an exact supporting contradiction witness.\n- Their citation label \"missing\" is correct because the cited source contradicts rather than supports the claim.\n- Their relevance pass is correct.\n- Their fact-level contradiction for F1 is correct, so completeness fail is correct.\n- Their actual_behavior \"answer\" is correct, and their reduced response_behavior fail is also correct because contradicted required facts force failure.\n- Their forbidden_assertion absent judgment is correct.\n\nI find no grading error in any dimension.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

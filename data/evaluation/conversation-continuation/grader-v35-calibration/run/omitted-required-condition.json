@@ -1,0 +1,80 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "partial_answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The answer provides one requested part (the cap) but omits the other requested part (the shift condition).",
+    "behavior_span": "The reimbursement cap is 38 credits per trip.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Lark taxi reimbursement is capped at 38 credits per trip."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In question context, \"The reimbursement cap\" refers to the cap for a Lark taxi claim. The factual and cited source both state that Lark taxi reimbursement is capped at 38 credits per trip. The answer does omit the separately requested shift condition, but that omission does not change the support status of this extracted claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Lark taxi reimbursement is capped at 38 credits per trip."
+          }
+        ],
+        "text": "The reimbursement cap is 38 credits per trip."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The reimbursement cap is 38 credits per trip."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states the cap as 38 credits per trip.",
+        "status": "covered"
+      },
+      {
+        "answer_spans": [],
+        "fact_id": "F2",
+        "reason": "The answer does not mention any eligibility requirement or any lab shift ending after 22:00.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for two properties of a Lark taxi claim: the reimbursement cap and the shift-condition eligibility rule. The answer addresses the Lark taxi claim cap but does not address the shift condition, so it is on topic.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Independent audit first: The question asks for two pieces of information about a Lark taxi claim: (1) the reimbursement cap and (2) the eligibility shift condition. The answer states only: \"The reimbursement cap is 38 credits per trip.\" In context, that communicates the cap for the asked-about Lark taxi claim. This single substantive claim is supported by both factual and cited source text: \"Lark taxi reimbursement is capped at 38 credits per trip.\" The answer does not mention the separate required condition that eligibility applies only if the lab shift ends after 22:00, so completeness fails on F2. The response is still on topic because it addresses one of the requested properties. Actual behavior is partial_answer, since it answers one requested part and omits the other; with expected behavior = answer, the reduced response_behavior dimension fails. No forbidden assertion appears.\n\nComparing with the candidate: the candidate extracted the right single claim, correctly marked it factually and citation supported, correctly marked F1 covered and F2 missing, correctly judged relevance as pass, correctly identified actual_behavior as partial_answer leading to response_behavior fail, and correctly marked forbidden_assertion absent. I found no grading errors in the candidate's intermediate labels or reduced judgments.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

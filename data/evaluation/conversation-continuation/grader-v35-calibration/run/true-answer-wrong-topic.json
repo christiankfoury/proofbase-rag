@@ -1,0 +1,72 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive policy-like statement, but it answers with the wrong topic rather than the requested meal allowance.",
+    "behavior_span": "Cedar reimburses parking up to 14 credits per day.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Cedar reimburses parking up to 14 credits per day."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "This exact statement is supported by factual source R2 and by cited source C1. However, it does not answer the user's question, which asked about the meal allowance for overnight fieldwork rather than parking.",
+        "source_spans": [
+          {
+            "id": "R2",
+            "span": "Cedar reimburses parking up to 14 credits per day."
+          }
+        ],
+        "text": "Cedar reimburses parking up to 14 credits per day."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [],
+        "fact_id": "F1",
+        "reason": "The answer does not state the overnight fieldwork meal reimbursement amount or that meals are reimbursed up to 32 credits per day. Its parking statement is about a different subject, so the required fact is missing rather than contradicted.",
+        "status": "missing"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for Cedar's meal allowance for overnight fieldwork. The answer discusses parking reimbursement instead of meals, so it addresses a different reimbursement topic rather than the requested allowance.",
+      "status": "fail"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for Cedar’s meal allowance for overnight fieldwork. The answer instead states a parking reimbursement amount. That is a different reimbursement topic, so relevance fails.\n\nRequired-fact coverage: the only required fact is that meals during overnight fieldwork are reimbursed up to 32 credits per day. The answer never mentions meals, overnight fieldwork, or 32 credits; it only mentions parking. So F1 is missing, making completeness fail.\n\nClaims/factual and citation support: the answer asserts one policy claim, exactly: “Cedar reimburses parking up to 14 credits per day.” That exact claim is fully supported by factual source R2 and by cited source C1, each containing the same text. So the claim-level factual and citation labels are correct, and the reduced factual_support and citation_support judgments are both pass.\n\nActual behavior: despite being wrong-topic, the response gives substantive policy-like content, so actual_behavior is answer, not partial_answer or refusal. Because expected_behavior is answer, the behavior type matches; however, under the reducer, expected answer plus a missing required fact makes response_behavior fail. The candidate’s fail judgment is therefore correct.\n\nForbidden assertions: there are no forbidden assertions specified, and the answer contains none.\n\nI do not see any omitted substantive claims or incorrect intermediate labels in the candidate grading.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

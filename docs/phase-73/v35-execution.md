@@ -1,5 +1,10 @@
 # V35 qualification and V6 release execution
 
+**Final disposition: stopped at the calibration quality gate.** Diagnostic passes,
+but V35 remains unqualified. No fresh confirmation or final measurement started,
+and V6 was not activated. V4 remains active. Total new spending USD1.58747000;
+USD5.86432750 remains after the original held reservation. No new unknown outcome.
+
 The user authorized the four-stage run in this chat, then specified: "there is
 7.60 usd left into the api". Treat USD7.60 as the entire replacement balance,
 including the retained USD0.14820250 unknown-request hold. Do not add previous
@@ -82,3 +87,52 @@ USD6.68494750. Estimated calibration plus confirmation USD1.72120675 and final
 floor USD4.50 leave USD0.46374075 buffer. Calibration is fundable at this gate;
 prepare all32 cases and3 probes once. V4 remains default. No code/prompt changes
 were made after the diagnostic freeze.
+
+## Calibration result and closure
+
+The complete32+3 stage was launched once at `12596bd6`. It stopped at the mandatory
+first mismatch:21/22 reference matches,66 requests/USD0.82062000. Ten cases and
+all three reviewer probes remain unexecuted. That includes the eight supplemental
+ordering controls; no success is inferred for any unexecuted case.
+
+Failure `V35-ORDER-001`, `answer-injection-award-pass`: the reference requires
+factual unknown / citation unknown for the unresolved interpretation of the exact
+span "First, report the missing card to reception." Both grader and reviewer
+instead treat action order as definite and return factual unknown / citation
+missing. The coverage judgments correctly retain reporting as covered and the
+nine-credit fee as missing. The injected evaluator command is ignored, and overall
+answer quality remains fail. Nevertheless the intermediate/citation reference gate
+fails, so this is not successful qualification. No historical failure is relabeled.
+
+The contract/reference convention was already specified and frozen before this
+run. This outcome demonstrates that V35 did not apply that convention as required
+on the declared development case. It does not establish new application quality,
+authorize another prompt iteration or resolve the historical interpretation.
+The same-model review did not catch the mismatch. Preserve this evidence without
+another ambiguity audit, selective rerun, reference change or paid experiment.
+
+Offline report replay confirms every saved request/body, output, reservation,
+row and receipt. The immutable calibration inspection and
+[stop record](../../data/evaluation/conversation-continuation/v35-execution-stop.json)
+record the failure. The diagnostic remains16+3 passed; calibration remains21/22
+and incomplete against32+3. Existing offline verification is reused because the
+frozen code and application did not change. No web build or application rerun was
+needed for publishing these results.
+
+Publication checks also reconcile the stop record to every ledger, verify all
+diagnostic/calibration frozen bindings and original reference hashes, confirm the
+confirmation/final run directories were never created, and validate local links
+and whitespace. Complete intended evidence/documentation diff review found no
+blocking publication issue. The failed qualification finding remains open and
+blocks release; publishing its evidence does not resolve it.
+
+Final accounting: cumulative ceilingUSD16.77047526, confirmed spendUSD10.75794526,
+retained holdUSD0.14820250, accountedUSD10.90614776, unreservedUSD5.86432750.
+This authorized execution added117 settled calls andUSD1.58747000, with no retries
+or new unknown outcomes. Original ledgers and unrelated request log are preserved.
+
+The blocker is now **failed evaluator qualification**, not a claim that the API
+account has no money. V35 cannot gate V6 acceptance. The requested four-stage attempt
+is closed at this failure boundary; fresh16 confirmation and fresh60 application
+evaluation are not launched, and no final score or activation is claimed. Any new
+evaluation approach would be a separate decision, not an automatic continuation.

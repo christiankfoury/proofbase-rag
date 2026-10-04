@@ -22,32 +22,25 @@
 
 ## Evidence Snapshot
 
-**Current work:** the [conversational continuation](docs/phase-73/conversation-continuation.md)
-repairs follow-up routing and uses one cited-answer producer followed by one
-contextual checker. Candidate prompt v6 passes 14/14 development tasks: the original
-12/12 versus the reused v4 baseline's 6/12, plus two mandatory recipient controls.
-These are development inspections, not a new overall accuracy rate. The retired
-fresh measurement exposed grader/reference defects; subsequent qualification is
-still incomplete. An explicitly approved network recovery succeeded, retaining
-the original failed request's full reservation. The user approved continuation
-using CAD 13.11 remaining, buffered to a new cumulative USD 14.88536776 ceiling.
-Grader v34 passes 16/16 diagnostic cases and 3 reviewer probes, but calibration
-stops at 21/22 on a repeated list-framing interpretation error. Two cases and
-3 probes remain unexecuted. Confirmed spending is USD 9.17047526 plus USD 0.14820250
-held, leaving USD 5.56669000. Preserving the USD 4.50 final-run reserve leaves too
-little for another complete qualification cycle; paid work has stopped. The
-[source review](docs/phase-73/conversation-v34-calibration-source-review.md) records
-the failure and architectural limitation. A subsequent [offline audit](docs/phase-73/conversation-offline-grader-audit.md)
-identifies an unresolved ambiguity in the disputed reference and prepares an
-independent-judgment prototype; local checks pass, but no paid pilot has run.
-The subsequent [ordering remedy](docs/phase-73/procedural-ordering-contract-v2.md)
-implements a separately versioned uncertainty contract and reference comparison,
-retaining every original case and probe with eight added controls;25 offline checks
-pass. The disputed answer still fails and unresolved answers earn no success.
-Qualification plus the final-launch floor is estimated at USD6.98104925, above the
-USD5.56669000 remaining, so no paid execution starts. No historical result was
-relabeled. The new contract is unqualified; no accepted full-suite score exists.
-V4 remains default until all release gates, including 48/60, pass. See the [progress tracker](docs/roadmap/progress.md).
+**Current work:** candidate prompt V6 passes 14/14 development tasks, but remains
+unaccepted and disabled; **V4 remains active**. The separately versioned
+[ordering contract remedy](docs/phase-73/procedural-ordering-contract-v2.md)
+preserves historical evidence and requires uncertainty when procedural order is
+unresolved. In the authorized [V35 execution](docs/phase-73/v35-execution.md),
+diagnostic qualification passed 16/16 cases plus 3/3 reviewer probes. Calibration
+stopped at its first mismatch: **21/22 matched**, with ten of the planned 32 cases
+and all three probes unexecuted. Grader and reviewer labeled the disputed ordering
+claim's citation support missing instead of retaining the required uncertainty.
+The answer still fails overall; no failure was relabeled as a success.
+
+V35 remains unqualified. Fresh 16-case confirmation and the 60-question V6 final
+measurement did not start; there is no new final score or activation. This attempt
+used 117 settled requests costing USD 1.58747000. Under the replacement cumulative
+ceiling of USD 16.77047526, accounted spending is USD 10.90614776, including the
+unchanged USD 0.14820250 hold, leaving USD 5.86432750. The blocker is evaluator
+qualification. No retry or automatic follow-on experiment is authorized by this
+result. The final release gate remains at least 48/60 plus every safety and citation
+gate. See the [progress tracker](docs/roadmap/progress.md).
 
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.
 
@@ -109,7 +102,7 @@ Recorded project review classified the eight Phase 49 automated failures as four
 
 ## Five-Minute Review Path
 
-**Portfolio release:** the historical bounded demo finish is complete; that does not establish current quality-gate completion. The [quality-completion history](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). V23 passed 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases. Its [fresh Phase 73 run](docs/phase-73/v6-results.md) completed all 60 cases, but seven source-inspection findings prevent a validated score and the 48/60 target was missed. That historical allowance ended with USD 3.73106560 of journal headroom. It is not added to the current user-authorized USD 12.50 cumulative ceiling. Current continuation spending and remaining work are recorded in the [phase note](docs/phase-73/conversation-continuation.md); neither figure is a verified account balance. Original failed evidence and the full timeout reservation are preserved. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
+**Portfolio release:** the historical bounded demo finish is complete; that does not establish current quality-gate completion. The [quality-completion history](docs/roadmap/quality-completion-plan.md) shipped three [confirmed runtime fixes](docs/phase-72/confirmed-runtime-fixes.md). V23 passed 24/24 development cases, 3/3 reviewer probes and 16/16 fresh confirmation cases. Its [fresh Phase 73 run](docs/phase-73/v6-results.md) completed all 60 cases, but seven source-inspection findings prevent a validated score and the 48/60 target was missed. That historical allowance ended with USD 3.73106560 of journal headroom. It is not added to the latest user-authorized USD 16.77047526 cumulative ceiling. Current continuation spending and remaining work are recorded in the [phase note](docs/phase-73/conversation-continuation.md); neither figure is a verified account balance. Original failed evidence and the full timeout reservation are preserved. [Demo verification and remaining limits](docs/phase-70/portfolio-finish.md).
 
 
 1. **0:00–0:45:** Open `/demo`, select **Emma Employee**, and open Northstar Analytics.

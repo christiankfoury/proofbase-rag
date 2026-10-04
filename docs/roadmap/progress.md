@@ -9,7 +9,23 @@ Update this tracker before committing each phase. Keep entries factual: record w
 For a new chat, start with the [compact completion handoff](../phase-73/completion-handoff.md).
 It records current scope, exact accounting, preserved evidence and execution pitfalls.
 
-### Current: V35 execution authorized under replacement USD7.60 balance
+### Current: V35 execution stopped at calibration quality gate; V4 remains active
+
+The authorized [four-stage attempt](../phase-73/v35-execution.md) passes16/16
+diagnostic plus3/3 probes, then stops21/22 calibration at the disputed ordering
+case. V35 returns citation missing instead of the required interpretation-unknown;
+its reviewer agrees. The answer still fails for its omitted fee, but intermediate
+qualification fails. Ten of32 cases and all3 calibration probes are unexecuted.
+No reference relabeling, retry, new grader cycle, confirmation, final60 or activation.
+
+117 settled calls costUSD1.58747000 in this attempt. AccountedUSD10.90614776 includes
+the originalUSD0.14820250 hold; USD5.86432750 remains underUSD16.77047526. No new
+unknown outcomes. Offline replay/source inspection preserve the failed gate;
+frozen code verification is reused. V35 is unqualified, V6 unaccepted, V4 active.
+This run is closed at its quality failure; remaining funds are not authorization
+for another experiment. A different evaluator approach requires a separate decision.
+
+### Previous: V35 execution authorized under replacement USD7.60 balance
 
 The user approved the four-stage V35/V6 run and stated USD7.60 remains in the API
 account. [Execution note](../phase-73/v35-execution.md) records a replacement total,

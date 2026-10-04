@@ -1,6 +1,18 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: V35 four-stage execution authorized
+## Current handoff: V35 attempt closed at failed calibration gate
+
+[Execution results](../phase-73/v35-execution.md):16+3 diagnostic passes; calibration
+stops21/22 because the grader and reviewer treat the disputed ordering as definite
+instead of retaining the required uncertainty. Ten cases plus3 probes unexecuted.
+No new reference change, retry, cycle, fresh confirmation/final or activation.
+The known omission still fails; historical results remain unchanged.
+117 calls/USD1.58747000 added. AccountedUSD10.90614776 including the original hold;
+USD5.86432750 remains underUSD16.77047526. No new unknown outcome. V4 active,
+V35 unqualified and V6 unaccepted. Stop at this quality gate, preserve funds and
+evidence; any new evaluator approach is a separate user decision.
+
+## Previous handoff: V35 four-stage execution authorized
 
 Follow [V35 execution](../phase-73/v35-execution.md). The user's replacement USD7.60
 balance supersedes the previous funding stop: cumulative USD16.77047526, with

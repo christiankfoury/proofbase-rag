@@ -97,6 +97,13 @@ calibration adds eight controls. Whole-path qualification plus the USD4.50 final
 floor is estimated at USD6.98104925, above USD5.56669000 remaining. No paid calls
 were made. V4 stays active; candidate v6 and V35 remain unaccepted/unqualified.
 Do not restart experiments or assume more funding; acceptance is budget-blocked.
+Latest execution supersedes the prior budget stop: user supplied USD7.60 remaining,
+establishing cumulative USD16.77047526 inclusive of the original hold. V35 passed
+16+3 diagnostic, then failed calibration21/22 on ordering uncertainty;10 cases and
+3 probes unexecuted. The four-stage attempt is closed at that quality gate.
+117 calls/USD1.58747000 added; accountedUSD10.90614776, remainingUSD5.86432750.
+No new unknown outcome, fresh confirmation/final or activation. V4 stays active.
+Do not automatically start V36, repeat an ambiguity audit or spend the remainder.
 For continuation in a new chat, read [completion handoff](docs/phase-73/completion-handoff.md)
 and the current progress/active-plan sections. V4 remains default. Do not restart
 old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.

@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a direct substantive answer to the asked booking-time requirement.",
+    "behavior_span": "Book your seat at least 12 hours before departure.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The answer asserts a 12-hour booking minimum, but the source states the minimum is 24 hours before departure, which is explicitly incompatible. The cited source is the same contradictory text, so it does not support the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Brindle shuttle seats must be booked at least 24 hours before departure."
+          }
+        ],
+        "text": "Book your seat at least 12 hours before departure."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "at least 12 hours before departure"
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says the seat must be booked at least 24 hours before departure, but the answer explicitly states a different minimum of 12 hours before departure for the same subject and condition.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the required booking lead time before departure for a Brindle shuttle seat, and the answer directly addresses that timing requirement.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for the booking lead time for a Brindle shuttle seat, and the answer directly addresses that same subject and property by giving a number of hours before departure. So the response is relevant.\n\nInterpreting the answer on its own terms, it asserts one substantive policy claim: \"Book your seat at least 12 hours before departure.\" In context, that means a Brindle shuttle seat must be booked at least 12 hours before departure.\n\nAgainst the factual source, that claim is explicitly incompatible with the only source text: \"Brindle shuttle seats must be booked at least 24 hours before departure.\" A 12-hour minimum conflicts with a 24-hour minimum, so the claim is factually contradicted, not merely unsupported.\n\nAgainst the cited source, the same contradiction applies. Because the cited evidence does not support any substantive part of the complete claimed minimum and instead points to a different minimum, citation status is missing, not supported.\n\nRequired-fact coverage: the required fact is \"A seat must be booked at least 24 hours before departure.\" The answer instead says 12 hours. That is an explicit contradiction of the required fact, so completeness fails.\n\nActual behavior: the prose is a substantive answer, so actual_behavior = answer. Since expected_behavior is also answer, that part matches; however, under the rubric, when answer is expected, contradicted required facts override the response_behavior dimension to fail. So the candidate's reduced response_behavior judgment of fail is correct.\n\nForbidden assertions: none are specified, and none are present.\n\nComparing with the candidate: the extracted claim, factual contradicted label, citation missing label, relevance pass, fact contradiction, actual_behavior answer, reduced factual/citation/completeness/response_behavior judgments, and forbidden_assertion absent all align with the rubric and the raw inputs. I see no grading error to dispute.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

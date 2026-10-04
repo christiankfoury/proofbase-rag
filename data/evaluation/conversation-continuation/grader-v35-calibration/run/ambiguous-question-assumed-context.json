@@ -1,0 +1,65 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "not_applicable",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "fail",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive booking guidance rather than asking for clarification, even though it addresses a guessed subject.",
+    "behavior_span": "You must book Morrow equipment at least 2 days ahead.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "In context, this is a second-person restatement of the rule about Morrow equipment booking lead time. The source states that Morrow equipment must be booked at least 2 days ahead, which supports the same requirement, and the cited source contains the same text.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Morrow equipment must be booked at least 2 days ahead."
+          }
+        ],
+        "text": "You must book Morrow equipment at least 2 days ahead."
+      }
+    ],
+    "facts": [],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the required advance booking lead time, but it does not identify what is being booked. The answer supplies a lead time for \"Morrow equipment,\" which is a specific booking subject not established by the question or history, so it guesses the missing object rather than addressing an identified subject.",
+      "status": "fail"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "The answer makes one substantive policy assertion: \"You must book Morrow equipment at least 2 days ahead.\" In meaning, it gives a specific lead-time rule for the booking subject Morrow equipment. That exact rule is fully supported by the factual source text (\"Morrow equipment must be booked at least 2 days ahead.\") and by the cited source containing the same text, so the claim-level factual and citation statuses are supported.\n\nFor relevance, the question is \"How far ahead must I book?\" with no object of booking identified and no history resolving it. The available sources show different lead times for different subjects (equipment vs visitor rooms). Under the rubric, an answer that selects a specific booking subject not identified by the user is guessing the missing object, so this response is not relevant to an identified subject.\n\nThere are no required_facts, so completeness reduces to not_applicable.\n\nFor actual behavior, the response is substantive prose giving a rule, so actual_behavior is answer, not clarify. Because expected_behavior is clarify, response_behavior reduces to fail.\n\nThere are no forbidden assertions implicated here.\n\nComparing to the candidate: their extracted claim, support reasoning, relevance failure, actual_behavior=answer, completeness not_applicable, response_behavior fail, and forbidden_assertion absent all match this audit. I found no omitted substantive claims or mislabels.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

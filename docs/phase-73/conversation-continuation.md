@@ -7,10 +7,27 @@ The initial authorization was **USD 12.50 including USD 0.1529816 spent**, leavi
 USD 12.3470184 at this authorization. No historical allowance is added. Stage
 allocations may move. The subsequent explicit rolling-reservation approval
 supersedes whole-stage funding; per-request reservation and receipt settlement
-remain mandatory. The CAD13.11 amendment below supersedes that initial ceiling.
+remain mandatory. Later replacement authorizations supersede that initial ceiling; the latest V35 execution below uses USD16.77047526.
 Original stopped artifacts are immutable historical evidence.
 
-## Current scope: ordering remedy implemented; full-path budget stop
+## Current scope: V35 stopped at calibration quality gate
+
+The user authorized the complete four-stage attempt and specified USD7.60 remaining
+as a replacement balance, including the existing hold. The resulting ceiling is
+USD16.77047526. [V35 execution](v35-execution.md) passed diagnostic16/16 plus3/3
+reviewer probes, then stopped calibration at21/22 matches. Ten planned cases and
+all three calibration probes remain unexecuted. Both grader and reviewer returned
+citation missing instead of the frozen ordering contract's required uncertainty.
+The overall answer remains fail; historical evidence is unchanged.
+
+New spending USD1.58747000 across117 settled requests; cumulative accounted
+USD10.90614776 includes retained holdUSD0.14820250. RemainingUSD5.86432750.
+No retry or new unknown outcome. The blocker is evaluator qualification, not
+account-credit exhaustion. This attempt is closed; fresh16 confirmation and
+fresh60 application evaluation did not start. V4 remains active and V6 unaccepted.
+No automatic new grader cycle or activation follows this result.
+
+## Previous scope: ordering remedy implemented; full-path budget stop
 
 The latest [contract v2 delivery](procedural-ordering-contract-v2.md) implements the
 authorized prospective uncertainty convention, V35 request transport and a 32+3
@@ -64,7 +81,7 @@ V4 remains default; v6 development14/14 does not authorize release. Remaining:
 grader correction/full qualification, fresh16confirmation, fresh60measurement,
 and accepted activation. [Exact ledger reconciliation](../../data/evaluation/conversation-continuation/cad1311-budget-stop.json).
 
-## Current authorization: CAD13.11 remaining, revised cumulative ceiling
+## Previous authorization: CAD13.11 remaining, revised cumulative ceiling
 
 The user approved the reviewed replacement budget: CAD13.11 is the entire
 remaining balance, not an addition to the old unused allowance. The Bank of

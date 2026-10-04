@@ -1,6 +1,22 @@
 # Proofbase completion handoff
 
-## Latest: four-stage execution authorized with replacement balance
+## Latest: V35 attempt closed at failed calibration gate
+
+The authorized [four-stage run](v35-execution.md) executed once. V35 diagnostic
+passes16+3; calibration stops21/22 on `answer-injection-award-pass`. Both grader
+and reviewer choose definite action order and citation missing rather than the
+prospective reference's citation unknown. The missing fee still makes the answer
+fail, but reference agreement fails. Ten cases and3 probes remain unexecuted.
+V35 remains unqualified; no fresh16 confirmation, final60 or V6 activation.
+
+117 new settled calls/USD1.58747000. CeilingUSD16.77047526, confirmedUSD10.75794526,
+heldUSD0.14820250, accountedUSD10.90614776, unreservedUSD5.86432750. No new unknown
+outcome. Preserve all artifacts, references, hold and unrelated request log.
+The blocker is evaluator qualification. This attempt is closed; do not restart an
+audit, rewrite the reference, run V36 or spend remaining funds automatically.
+A different evaluator approach needs a separate decision. V4 remains active.
+
+## Previous: four-stage execution authorized with replacement balance
 
 The user subsequently authorized the full V35/V6 sequence and stated USD7.60
 remains in the API account. [Execution note](v35-execution.md) and the current
