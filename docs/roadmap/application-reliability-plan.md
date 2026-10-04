@@ -1,6 +1,24 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: funded structured blind execution
+## Current handoff: structured blind diagnostic failed; offline correction delivered
+
+[Execution results](../phase-73/structured-blind-execution-v1.md): frozen `3c5901db`
+stopped at diagnostic1/2. Judge B reported a forbidden assertion present for an
+empty forbidden-reference set; judge A said absent. Both correctly rejected the
+unsupported identity assertion. Fourteen controls and three probes remain
+unexecuted; calibration, fresh16, fresh60 and activation did not start. V4 active.
+Six new settled calls cost USD0.08709100; no retry or unknown outcome. Accounted
+USD10.99323876 includes the original USD0.14820250 hold; new-call headroom
+USD9.76470650 remains under cumulative USD20.75794526. Final USD4.50 floor intact.
+Historical failures remain unchanged. Receipt replay and source inspection pass;
+qualification fails. An [offline v2 correction](../phase-73/structured-blind-evaluator-v2.md)
+derives empty-set absence in code while preserving every other safety/judgment
+check. Six new regression checks pass; v2 is unqualified and has no live runner.
+This paid attempt is closed. The smallest next decision is authorization for new
+full qualification of the implemented correction using existing funds, subject
+to complete-path reconciliation. No automatic retry, reference rewrite or pilot.
+
+## Previous handoff: funded structured blind execution
 
 Follow [the USD10 execution note](../phase-73/structured-blind-execution-v1.md).
 The replacement balance funds the estimated complete path: cumulative ceiling

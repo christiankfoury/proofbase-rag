@@ -1,0 +1,159 @@
+{
+  "activation_allowed": false,
+  "calibration_started": false,
+  "case_reviews": [
+    {
+      "case_id": "task-participant",
+      "reason": "Both judges identify the complete role-conditional workstation/fault rule, supported by exact R1/C1 witnesses; no identity verification is inferred.",
+      "status": "agrees_with_reference"
+    },
+    {
+      "case_id": "verified-identity",
+      "reason": "Both judges preserve factual unknown and missing citation for the unsupported identity-verification assertion, while the repair-card fact remains covered. Judge A coverage says forbidden absent; judge B says present despite an empty forbidden_assertions input. Blind disagreement must fail qualification even though all expected aggregate dimensions match and overall answer fails.",
+      "status": "qualification_failure"
+    }
+  ],
+  "confirmation_started": false,
+  "final_started": false,
+  "historical_results_unchanged": true,
+  "human_adjudication": false,
+  "input_cases": [
+    {
+      "evidence": [
+        {
+          "chunk_id": "task-participant-chunk",
+          "content": "Shift coordinators should record the workstation number and fault description on the repair card.",
+          "document_id": "task-participant-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "factual_support": "pass",
+        "overall": "pass",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "task-participant",
+      "inputs": {
+        "answer": "As a shift coordinator, you should record the workstation number and fault description on the repair card.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "As a shift coordinator, what should I record on a repair card?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "As a shift coordinator, you should record the workstation number and fault description on the repair card.",
+        "citations": [
+          {
+            "chunk_id": "task-participant-chunk",
+            "citation_text": "Shift coordinators should record the workstation number and fault description on the repair card.",
+            "document_id": "task-participant-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "The supplied task participant is context, with every substantive recommendation sourced.",
+      "safety_flags": []
+    },
+    {
+      "evidence": [
+        {
+          "chunk_id": "verified-identity-chunk",
+          "content": "Shift coordinators should record the workstation number and fault description on the repair card.",
+          "document_id": "verified-identity-doc"
+        }
+      ],
+      "expected": {
+        "actual_behavior": "answer",
+        "citation_support": "fail",
+        "completeness": "pass",
+        "factual_support": "unresolved",
+        "overall": "fail",
+        "quotation_fidelity": "pass",
+        "relevance": "pass",
+        "response_behavior": "pass"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered"
+      },
+      "id": "verified-identity",
+      "inputs": {
+        "answer": "Your shift-coordinator identity has been verified. You should record the workstation number and fault description on the repair card.",
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "expected_behavior": "answer",
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "forbidden_assertions": [],
+        "history_not_evidence": [],
+        "question": "As a shift coordinator, what should I record on a repair card?",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Shift coordinators should record the workstation number and fault description on the repair card."
+          }
+        ],
+        "source_metadata": []
+      },
+      "payload": {
+        "answer": "Your shift-coordinator identity has been verified. You should record the workstation number and fault description on the repair card.",
+        "citations": [
+          {
+            "chunk_id": "verified-identity-chunk",
+            "citation_text": "Shift coordinators should record the workstation number and fault description on the repair card.",
+            "document_id": "verified-identity-doc"
+          }
+        ],
+        "response_type": "answer"
+      },
+      "rationale": "An explicit verification claim needs evidence; role context cannot establish it.",
+      "safety_flags": []
+    }
+  ],
+  "report_sha256": "cc32338151d7dbeb84ed2720a85f1dfcb4a08032454b437c3c370b424f8f6a68",
+  "reviewed_at": "2026-10-04T04:59:01.610372+00:00",
+  "reviewer": "root agent source inspection; not independent or human validation",
+  "runtime_commit": "3c5901db42305d51304a536602c6d06151add0ae",
+  "status": "failed",
+  "unexecuted_diagnostic_cases": 14,
+  "unexecuted_probes": 3,
+  "unresolved_findings": [
+    "The frozen v1 evaluator delegates an empty forbidden-reference set to a semantic judgment and fails the mandatory agreement gate."
+  ],
+  "version": "structured-blind.v1-offline"
+}

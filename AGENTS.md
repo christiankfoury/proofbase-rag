@@ -124,7 +124,12 @@ cumulative ceiling USD20.75794526, accounted USD10.90614776 including the same h
 new-call headroom USD9.85179750. The full-path estimate USD6.95826517 fits. Preserve
 every control, zero retries, full caps and the USD4.50 final floor. Run full
 qualification, fresh16 confirmation and fresh60; activate only if all gates pass.
-No paid result yet; stop on failed gates, unknown outcome or insufficient funding.
+That run is now closed: diagnostic1/2 failed on empty forbidden-set disagreement;
+14 cases and3 probes unexecuted, no downstream launch. Six calls/USD0.08709100
+added; accounted USD10.99323876 and new-call headroom USD9.76470650. Offline v2
+implements deterministic empty-set projection with six new regression checks
+passing; it is unqualified, has no live runner and does not relabel v1. The no-retry
+limit blocks automatic paid requalification. V4 stays active; no activation.
 For continuation in a new chat, read [completion handoff](docs/phase-73/completion-handoff.md)
 and the current progress/active-plan sections. V4 remains default. Do not restart
 old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.

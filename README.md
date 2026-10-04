@@ -22,11 +22,13 @@
 
 ## Evidence Snapshot
 
-**Current work:** [structured blind execution](docs/phase-73/structured-blind-execution-v1.md)
-is authorized under a replacement USD10 balance. The complete estimated path now
-fits with the protected final-launch floor. Forty-five offline checks pass;
-qualification, fresh16 confirmation and fresh60 measurement remain pending.
-Activation still requires every release gate. The prior offline snapshot follows.
+**Current work:** [structured blind qualification](docs/phase-73/structured-blind-execution-v1.md)
+stopped at diagnostic1/2 on disagreement about an empty forbidden-assertion list.
+Six calls cost USD0.087091; no downstream measurement or activation occurred.
+A [separate offline correction](docs/phase-73/structured-blind-evaluator-v2.md)
+derives that empty-set result in code; six new regression checks pass. It remains
+unqualified. USD9.76470650 is available after the retained hold; the blocker is
+qualification. V4 remains active. Historical results below are unchanged.
 
 An [offline evaluator implementation](docs/phase-73/structured-blind-evaluator-v1.md)
 now uses structured alternative interpretations and two blind judgments. 36 local

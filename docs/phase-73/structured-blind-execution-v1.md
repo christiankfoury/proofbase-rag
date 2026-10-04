@@ -1,5 +1,40 @@
 # Structured blind execution under the USD10 replacement balance
 
+## Outcome: diagnostic failed; no downstream launch
+
+Frozen execution commit `3c5901db42305d51304a536602c6d06151add0ae` stopped after
+two diagnostic cases: one matched, one failed; 14 cases and all three probes
+remain unexecuted. Six new settled requests plus two exact reused coverage
+components cost USD0.08709100. No unknown outcome or retry occurred.
+
+`verified-identity` exposes an empty-reference-set error: both judges correctly
+classify unsupported identity verification as factual unknown / citation missing,
+and the supplied repair-card fact as covered. Judge B nevertheless labels a
+forbidden assertion present when `forbidden_assertions` is empty; judge A says
+absent. The required blind-agreement gate fails even though expected aggregate
+dimensions match and the answer correctly fails. This is a concrete evaluator
+failure, unrelated to the disputed ordering example. Do not count it as passing.
+
+[Report](../../data/evaluation/conversation-continuation/structured-blind-diagnostic/report.json),
+[source inspection](../../data/evaluation/conversation-continuation/structured-blind-diagnostic/source-inspection.json)
+and failed acceptance are retained. Inspection is root-agent source review, not
+independent or human validation. Calibration, fresh16, fresh60 and activation
+were not started; no isolated suite author was needed. V4 remains active.
+
+Cumulative confirmed spend USD10.84503626 plus unchanged hold USD0.14820250 gives
+accounted USD10.99323876 under ceiling USD20.75794526. New-call headroom is
+USD9.76470650; balance including the hold is USD9.91290900. The USD4.50 final floor
+remains intact. The blocker is qualification, not the available balance.
+
+A separately versioned [offline correction](structured-blind-evaluator-v2.md)
+implements empty-set projection in code without changing prompts, source claims,
+references or historical results. It is not qualified and has no live runner.
+This paid attempt is closed. The smallest next decision is permission for a new
+full qualification of that correction within existing funds, followed by the
+unchanged gated sequence. Do not launch automatically under the no-retry limit.
+
+## Original authorization and launch reconciliation
+
 The user added funds, reported USD10 total remaining and explicitly authorized
 qualification, fresh16 confirmation, fresh60 V6 measurement and activation only
 after every gate passes. This supersedes the prior USD6.49 funding stop. Existing
