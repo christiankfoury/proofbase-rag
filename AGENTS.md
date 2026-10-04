@@ -130,6 +130,12 @@ added; accounted USD10.99323876 and new-call headroom USD9.76470650. Offline v2
 implements deterministic empty-set projection with six new regression checks
 passing; it is unqualified, has no live runner and does not relabel v1. The no-retry
 limit blocks automatic paid requalification. V4 stays active; no activation.
+The latest “lets do this” authorizes one full v2 qualification and the gated
+fresh16/fresh60 sequence, using existing funds only. Follow
+[corrected execution](docs/phase-73/structured-blind-execution-v2.md). The ceiling
+and hold are unchanged; USD9.76470650 is available. Updated qualification plus
+final-floor estimate USD8.194425 fits. Stop paid experiments if qualification
+fails again; do not relax gates or automatically start another correction cycle.
 For continuation in a new chat, read [completion handoff](docs/phase-73/completion-handoff.md)
 and the current progress/active-plan sections. V4 remains default. Do not restart
 old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.
