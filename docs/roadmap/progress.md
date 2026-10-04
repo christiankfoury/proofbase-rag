@@ -6,6 +6,9 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
+For a new chat, start with the [compact completion handoff](../phase-73/completion-handoff.md).
+It records current scope, exact accounting, preserved evidence and execution pitfalls.
+
 ### Current: procedural-ordering contract review complete; paid pilot deferred
 
 The user authorized the offline contract review. [Versioned review](../phase-73/procedural-ordering-contract-v1.md)

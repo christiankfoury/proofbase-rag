@@ -84,6 +84,17 @@ the SAME USD 12.50 cumulative ceiling (USD 0.1529816 already spent), allowing un
 stage redistribution. Read the current continuation note and tracker. No unrelated
 roadmap work, weakened gates, automatic top-ups or premature candidate activation.
 
+Latest handoff (2026-10-03): the later approved CAD13.11 replacement establishes
+cumulative USD14.88536776, with USD9.31867776 accounted (including the retained
+USD0.14820250 unknown-request hold) and USD5.56669000 unreserved. The USD4.50
+final-launch floor remains. Earlier budget amounts elsewhere are historical, not
+additional funding. The subsequent offline ordering-contract review is complete;
+no paid resumption or candidate activation was authorized by that review.
+For continuation in a new chat, read [completion handoff](docs/phase-73/completion-handoff.md)
+and the current progress/active-plan sections. V4 remains default. Do not restart
+old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.
+Use the new user's scope instruction and preserve all existing gates and evidence.
+
 Use [execution policy](docs/roadmap/execution-policy.md) for the verification matrix, evidence reuse, completion criteria, compact handoff and runtime-file rules. This operating loop supersedes older phase-specific descriptions of post-commit code review. A request limited to documentation or workflow maintenance completes at that scope; it does not start the runtime queue automatically.
 
 ## Operating Autonomy

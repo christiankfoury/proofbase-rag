@@ -2,6 +2,8 @@
 
 ## Current handoff: ordering-contract review complete; keep paid execution stopped
 
+New-chat entry point: [completion handoff](../phase-73/completion-handoff.md).
+
 Read [procedural-ordering contract v1](../phase-73/procedural-ordering-contract-v1.md).
 The old reference does not uniquely resolve presentation versus action order;
 no proven definitive replacement label is available. Preserve the original failed
