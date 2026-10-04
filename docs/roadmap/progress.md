@@ -9,21 +9,25 @@ Update this tracker before committing each phase. Keep entries factual: record w
 For a new chat, start with the [compact completion handoff](../phase-73/completion-handoff.md).
 It records current scope, exact accounting, preserved evidence and execution pitfalls.
 
-### Current: corrected evaluator qualification authorized
+### Current: v2 calibration failed; paid experiments ended
 
-The user authorized one full qualification of the implemented v2 correction,
-then gated fresh16 confirmation, fresh60 V6 measurement and conditional activation.
-Follow [v2 execution](../phase-73/structured-blind-execution-v2.md). Same ceiling
-USD20.75794526; accounted USD10.99323876 includes the retained USD0.14820250 hold;
-new-call headroom USD9.76470650. Updated uncached usage estimates qualification
-USD3.694425 plus the USD4.50 final floor, leaving USD1.57028150 planning buffer.
-Diagnostic passes16/16 and3/3 probes at frozen `81d7a9e9`:60 new calls cost
-USD0.84072300, with16 exact coverage receipts reused. Receipt replay and root-agent
-source inspection pass. Accounted USD11.83396176; headroom USD8.92398350. Next: full
-32+3 calibration, prepared with118 new-call maximum. Remaining qualification plus
-final floor estimates USD7.25632750, leaving USD1.66765600 planning buffer. A further
-qualification failure ends paid experiments. V4 remains active, V6 unaccepted.
-Separate isolated author/validator approval persists; author only after freezes.
+The [authorized v2 attempt](../phase-73/structured-blind-execution-v2.md) is closed.
+Diagnostic16/16+3/3 passes at `81d7a9e9`; calibration at `a03f8ff2` stops22/23 on
+`permission-modality-upgraded`. Both judges correctly reject guaranteed approval,
+but one labels the claim literal and the other action-order with excluded
+presentation-order. The frozen exact interpretation-comparison gate therefore
+marks factual/citation judgments unresolved. Nine controls and three probes are
+unexecuted. The disputed ordering case22 matched its preserved prospective
+uncertainty reference; its omitted fee still fails. No historical relabeling.
+
+130 new settled calls cost USD1.65716600 (diagnostic0.84072300, calibration0.81644300).
+Accounted USD12.65040476 includes the original USD0.14820250 hold; new-call headroom
+USD8.10754050 remains under cumulative USD20.75794526. No retry or new unknown
+outcome. Receipt replay and source inspection preserve the failed gate. No new
+code correction or paid cycle follows: the user agreed to end paid experiments
+if qualification failed again. V4 remains active; V6 is unaccepted. Fresh16,
+fresh60 and activation did not start. The acceptance objective is not achieved.
+The concrete blocker is evaluator representation consistency, not available funds.
 
 ### Previous: structured blind diagnostic failed; offline correction delivered
 

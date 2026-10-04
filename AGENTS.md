@@ -139,6 +139,12 @@ fails again; do not relax gates or automatically start another correction cycle.
 V2 diagnostic now passes16+3 at81d7a9e9, cost USD0.84072300. Accounted
 USD11.83396176; new-call headroom USD8.92398350. Full32+3 calibration is next.
 No final score or activation exists. Read the latest v2 execution note.
+V2 calibration is now closed at22/23: literal versus action-order representation
+of the same contradicted approval claim fails the frozen agreement gate. Nine
+cases and3 probes unexecuted. Total attempt130calls/USD1.65716600; accounted
+USD12.65040476, available USD8.10754050 after the same hold. The user-agreed stop
+now applies: end paid experiments, retain V4, no automatic correction cycle.
+Fresh16/fresh60 and activation did not start. Preserve every result and gate.
 For continuation in a new chat, read [completion handoff](docs/phase-73/completion-handoff.md)
 and the current progress/active-plan sections. V4 remains default. Do not restart
 old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.

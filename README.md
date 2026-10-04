@@ -22,11 +22,13 @@
 
 ## Evidence Snapshot
 
-**Current work:** the [corrected blind evaluator](docs/phase-73/structured-blind-execution-v2.md)
-passes all16 diagnostic cases and3 reviewer probes at frozen `81d7a9e9`.
-Calibration, fresh16 confirmation and fresh60 V6 measurement remain pending.
-Diagnostic spending was USD0.840723; USD8.92398350 remains after the retained hold.
-V4 remains active and V6 unaccepted. Earlier failures remain preserved.
+**Current result:** the [corrected blind evaluator attempt](docs/phase-73/structured-blind-execution-v2.md)
+passed16 diagnostic controls and3 probes, then stopped at22/23 calibration cases.
+Two judges rejected the same false guarantee but used different interpretation
+categories; the frozen consistency gate failed. Paid experiments have ended.
+Fresh16 confirmation, final60 measurement and activation did not start.
+V4 remains active and V6 unaccepted. This attempt cost USD1.657166; USD8.10754050
+remains after the retained hold. All historical results are preserved.
 
 An [offline evaluator implementation](docs/phase-73/structured-blind-evaluator-v1.md)
 now uses structured alternative interpretations and two blind judgments. 36 local

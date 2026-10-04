@@ -1,5 +1,48 @@
 # Corrected evaluator: one authorized full qualification
 
+## Final outcome: qualification failed; paid experiments ended
+
+Diagnostic passes16/16 and3/3 probes. Calibration at `a03f8ff2` stopped22/23 on
+`permission-modality-upgraded`, with nine cases and all three calibration probes
+unexecuted. The answer upgrades discretionary approval to a guarantee. Both judges
+correctly assign contradicted factual support, missing citation support and
+contradicted required-fact coverage. However, judge A encodes the main sentence as
+literal, while judge B encodes it as action-order with presentation-order excluded.
+The frozen comparer requires those interpretation encodings to agree, so it
+returns factual/citation unresolved and fails the reference-agreement gate.
+
+[Raw-replayed report](../../data/evaluation/conversation-continuation/structured-blind-v2-calibration/report.json),
+[source inspection](../../data/evaluation/conversation-continuation/structured-blind-v2-calibration/source-inspection.json)
+and [comparison analysis](../../data/evaluation/conversation-continuation/structured-blind-v2-calibration/comparison-analysis.json)
+preserve this failure. The analysis confirms equal projected claim verdicts but
+different interpretation encodings; it does not adjudicate or promote the result.
+The disputed ordering case22 matched the prospective uncertainty reference and
+still failed for its omitted fee. All historical results remain unchanged.
+
+The user-approved stopping condition now applies: end paid experiments and retain
+V4. No new evaluator version, correction cycle, fresh16 confirmation, final60 or
+activation is started. V6 is unaccepted. Completing its release would require a
+separately authorized remedy for representation consistency and all remaining
+qualification/release gates; available money does not remove that requirement.
+
+### Final accounting and verification
+
+130 new settled calls cost USD1.65716600: diagnostic60/USD0.84072300 and
+calibration70/USD0.81644300. Thirty-eight exact coverage components were reused.
+Cumulative confirmed USD12.50220226 plus the retained USD0.14820250 hold gives
+accounted USD12.65040476. Under unchanged ceiling USD20.75794526, new-call headroom
+is USD8.10754050; balance including the hold is USD8.25574300. The protected USD4.50
+floor remains intact. No provider retry or new unknown outcome occurred.
+
+Frozen implementation reuses its16 passing focused checks; no source changed
+during execution. Report replay verifies request/receipt/ledger hashes, full
+reservations, usage, cost and exact coverage reuse. Root-agent source inspection
+covers all executed cases/probes, including citation fidelity and the stopping
+failure; it is not independent or human validation. No unrelated build or paid
+application check was run. The unrelated tracked request log remains unchanged.
+
+## Original authorization
+
 The user accepted the recommendation with “lets do this”: freeze the implemented
 empty-set correction, qualify it once against all controls, then proceed through
 fresh16 confirmation and fresh60 V6 measurement only if each gate passes. Activate
