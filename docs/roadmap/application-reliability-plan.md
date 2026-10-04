@@ -1,6 +1,21 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: V35 attempt closed at failed calibration gate
+## Current handoff: offline structured blind evaluator delivered
+
+The user authorized the [offline implementation](../phase-73/structured-blind-evaluator-v1.md) after the V35 failure.
+Typed alternative readings now project uncertainty in code; two blind judgments
+replace the candidate-conditioned reviewer. All references and release gates are
+preserved. 36 offline checks pass; no new semantic model result is claimed.
+38 exact saved coverage components can be reused for one judge; no stage acceptance
+carries over. Qualification still needs 242 new requests, estimated USD2.45826517.
+With the USD4.50 final-launch floor, USD6.95826517 exceeds USD5.86432750 remaining
+by USD1.09393767 before contingency. The final itself needs 240 grader requests;
+its exact cost is unknown. No paid calls, retries, hold release or top-up.
+V4 stays active; V6 remains unaccepted and V35 remains failed at21/22 calibration.
+This offline work is complete. Preserve funds; do not launch a pilot or another
+cycle. Reconcile any future execution against the whole path and all gates.
+
+## Previous handoff: V35 attempt closed at failed calibration gate
 
 [Execution results](../phase-73/v35-execution.md):16+3 diagnostic passes; calibration
 stops21/22 because the grader and reviewer treat the disputed ordering as definite

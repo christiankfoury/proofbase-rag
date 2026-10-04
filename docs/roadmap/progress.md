@@ -9,7 +9,22 @@ Update this tracker before committing each phase. Keep entries factual: record w
 For a new chat, start with the [compact completion handoff](../phase-73/completion-handoff.md).
 It records current scope, exact accounting, preserved evidence and execution pitfalls.
 
-### Current: V35 execution stopped at calibration quality gate; V4 remains active
+### Current: offline structured blind evaluator implemented; paid path unfunded
+
+The user authorized the [offline implementation](../phase-73/structured-blind-evaluator-v1.md) after the V35 failure.
+Typed alternative readings now project uncertainty in code; two blind judgments
+replace the candidate-conditioned reviewer. All references and release gates are
+preserved. 36 offline checks pass; no new semantic model result is claimed.
+38 exact saved coverage components can be reused for one judge; no stage acceptance
+carries over. Qualification still needs 242 new requests, estimated USD2.45826517.
+With the USD4.50 final-launch floor, USD6.95826517 exceeds USD5.86432750 remaining
+by USD1.09393767 before contingency. The final itself needs 240 grader requests;
+its exact cost is unknown. No paid calls, retries, hold release or top-up.
+V4 stays active; V6 remains unaccepted and V35 remains failed at21/22 calibration.
+This offline work is complete. Preserve funds; do not launch a pilot or another
+cycle. Reconcile any future execution against the whole path and all gates.
+
+### Previous: V35 execution stopped at calibration quality gate; V4 remains active
 
 The authorized [four-stage attempt](../phase-73/v35-execution.md) passes16/16
 diagnostic plus3/3 probes, then stops21/22 calibration at the disputed ordering

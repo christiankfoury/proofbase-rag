@@ -22,7 +22,14 @@
 
 ## Evidence Snapshot
 
-**Current work:** candidate prompt V6 passes 14/14 development tasks, but remains
+**Current work:** an [offline evaluator implementation](docs/phase-73/structured-blind-evaluator-v1.md)
+now uses structured alternative interpretations and two blind judgments. 36 local
+checks pass; this is not measured evaluator qualification. Thirty-eight saved
+coverage components can be reused, but no full stage acceptance carries over.
+Even with reuse, qualification plus the protected final-launch floor is estimated
+at USD6.95826517 versus USD5.86432750 remaining. No new paid calls were made.
+
+Candidate prompt V6 passes 14/14 development tasks, but remains
 unaccepted and disabled; **V4 remains active**. The separately versioned
 [ordering contract remedy](docs/phase-73/procedural-ordering-contract-v2.md)
 preserves historical evidence and requires uncertainty when procedural order is

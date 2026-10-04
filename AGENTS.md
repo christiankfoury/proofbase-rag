@@ -104,6 +104,13 @@ establishing cumulative USD16.77047526 inclusive of the original hold. V35 passe
 117 calls/USD1.58747000 added; accountedUSD10.90614776, remainingUSD5.86432750.
 No new unknown outcome, fresh confirmation/final or activation. V4 stays active.
 Do not automatically start V36, repeat an ambiguity audit or spend the remainder.
+The subsequent user authorized offline structural evaluator implementation and
+funding reconciliation. This is delivered in structured-blind.v1: typed readings,
+blind comparison, 36 offline checks and 38 reusable coverage components. No full
+stage acceptance is reusable. Qualification plus final floor is USD6.95826517
+versus USD5.86432750 remaining; no paid path is funded. Read
+[offline delivery](docs/phase-73/structured-blind-evaluator-v1.md). No new paid call,
+reference change, hold release or candidate activation. This offline scope is complete.
 For continuation in a new chat, read [completion handoff](docs/phase-73/completion-handoff.md)
 and the current progress/active-plan sections. V4 remains default. Do not restart
 old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.
