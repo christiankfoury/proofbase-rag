@@ -6,7 +6,19 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: offline audit complete; independent-judgment pilot proposed
+### Current: procedural-ordering contract review complete; paid pilot deferred
+
+The user authorized the offline contract review. [Versioned review](../phase-73/procedural-ordering-contract-v1.md)
+defines explicit ordering, presentation and interpretation uncertainty separately.
+Disposition: the original reference remains unresolved; no definitive relabeling
+is justified. All historical labels and the24+3 calibration controls are unchanged.
+Eight supplemental examples and16 passing offline checks preserve failure/credit,
+citation and safety requirements. No model accuracy or new qualification claim.
+The earlier two-case pilot cannot settle this ambiguity and is deferred. No API
+calls or budget changes; USD5.56669000 remains after the original held reservation.
+V4 stays active. This offline review is complete; paid work and release remain gated.
+
+### Previous status: offline audit complete; independent-judgment pilot proposed
 
 The user authorized offline diagnosis/design only. The new [audit](../phase-73/conversation-offline-grader-audit.md)
 finds an unresolved reference ambiguity: `First, report...` can mean presentation

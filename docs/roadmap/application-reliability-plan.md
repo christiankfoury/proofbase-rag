@@ -1,6 +1,17 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: offline audit and prototype complete; paid work still stopped
+## Current handoff: ordering-contract review complete; keep paid execution stopped
+
+Read [procedural-ordering contract v1](../phase-73/procedural-ordering-contract-v1.md).
+The old reference does not uniquely resolve presentation versus action order;
+no proven definitive replacement label is available. Preserve the original failed
+score and all required cases. The versioned uncertainty convention is a future
+specification, not an activated grader or retroactive reference correction.
+Six new and10 prior offline checks pass. The earlier paid pilot is deferred because
+its clear controls cannot resolve this ambiguity. No new spending or cap changes.
+The current offline request is complete; v4 remains default and all gates remain.
+
+## Previous handoff: offline audit and prototype complete; paid work still stopped
 
 Read the [offline audit](../phase-73/conversation-offline-grader-audit.md). The user
 approved test audit, independent-review design and local verification, not paid

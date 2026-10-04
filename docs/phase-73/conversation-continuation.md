@@ -10,7 +10,18 @@ supersedes whole-stage funding; per-request reservation and receipt settlement
 remain mandatory. The CAD13.11 amendment below supersedes that initial ceiling.
 Original stopped artifacts are immutable historical evidence.
 
-## Current scope: offline audit and design completed
+## Current scope: offline ordering-contract review complete
+
+The [versioned contract review](procedural-ordering-contract-v1.md) distinguishes
+explicit procedure, explanation order and unresolved interpretation. No definitive
+reference correction is justified; original cases/labels remain unchanged.
+Eight supplemental review examples retain positive, negative, ambiguity, omission
+and injection coverage without replacing qualification controls.16 offline checks
+pass, including6 new checks. No model accuracy claim or live contract activation.
+The prior two-case pilot is deferred; it cannot establish the disputed meaning.
+New spendUSD0, remainingUSD5.56669000. V4 remains active; paid execution is stopped.
+
+## Previous scope: offline audit and design completed
 
 The latest user approved offline work only. The [audit addendum](conversation-offline-grader-audit.md)
 identifies ambiguous reference interpretation and withdraws earlier certainty that

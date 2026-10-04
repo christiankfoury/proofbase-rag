@@ -40,6 +40,8 @@ little for another complete qualification cycle; paid work has stopped. The
 the failure and architectural limitation. A subsequent [offline audit](docs/phase-73/conversation-offline-grader-audit.md)
 identifies an unresolved ambiguity in the disputed reference and prepares an
 independent-judgment prototype; local checks pass, but no paid pilot has run.
+The [ordering-contract review](docs/phase-73/procedural-ordering-contract-v1.md)
+keeps that reference unresolved and defers the paid pilot;16 offline checks pass.
 No historical result was relabeled. No accepted full-suite score exists.
 V4 remains default until all release gates, including 48/60, pass. See the [progress tracker](docs/roadmap/progress.md).
 
