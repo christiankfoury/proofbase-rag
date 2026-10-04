@@ -11,6 +11,17 @@ It records current scope, exact accounting, preserved evidence and execution pit
 
 ### Current: offline structured blind evaluator implemented; paid path unfunded
 
+Latest authorization amendment: the user approved the four-stage sequence and
+specified USD6.49 as the replacement remaining balance. Including the unchanged
+USD0.14820250 hold, cumulative ceiling is USD17.24794526 and new-call headroom is
+USD6.34179750. The USD6.95826517 path remains short by USD0.61646767 before
+contingency. No paid stage launched, no retry/top-up/hold release, no activation.
+Replay `python -B -m scripts.structured_blind_budget_v2 --check`; see the delivery
+note's latest authorization section. Preserve funds and every quality gate.
+
+The original offline delivery and its prior budget snapshot follow:
+
+
 The user authorized the [offline implementation](../phase-73/structured-blind-evaluator-v1.md) after the V35 failure.
 Typed alternative readings now project uncertainty in code; two blind judgments
 replace the candidate-conditioned reviewer. All references and release gates are

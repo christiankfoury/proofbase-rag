@@ -111,6 +111,12 @@ stage acceptance is reusable. Qualification plus final floor is USD6.95826517
 versus USD5.86432750 remaining; no paid path is funded. Read
 [offline delivery](docs/phase-73/structured-blind-evaluator-v1.md). No new paid call,
 reference change, hold release or candidate activation. This offline scope is complete.
+Latest user approval covers the four-stage sequence with USD6.49 replacement
+remaining balance. Cumulative ceilingUSD17.24794526, accountedUSD10.90614776,
+new-call headroomUSD6.34179750 after the same hold. Whole-path USD6.95826517 remains
+short USD0.61646767 before contingency. No paid launch: preserve the final floor,
+full allowances and all gates. Use the latest delivery-note authorization section
+and structured_blind_budget_v2 replay, not the historical balance above.
 For continuation in a new chat, read [completion handoff](docs/phase-73/completion-handoff.md)
 and the current progress/active-plan sections. V4 remains default. Do not restart
 old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.

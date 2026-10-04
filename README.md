@@ -27,7 +27,9 @@ now uses structured alternative interpretations and two blind judgments. 36 loca
 checks pass; this is not measured evaluator qualification. Thirty-eight saved
 coverage components can be reused, but no full stage acceptance carries over.
 Even with reuse, qualification plus the protected final-launch floor is estimated
-at USD6.95826517 versus USD5.86432750 remaining. No new paid calls were made.
+at USD6.95826517. The user's latest USD6.49 replacement balance leaves USD6.34179750
+for new calls after the retained hold, a USD0.61646767 estimated gap before
+contingency. No new paid calls were made; the complete path remains unfunded.
 
 Candidate prompt V6 passes 14/14 development tasks, but remains
 unaccepted and disabled; **V4 remains active**. The separately versioned

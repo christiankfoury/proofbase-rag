@@ -1,5 +1,29 @@
 # Structured interpretation and blind comparison: offline implementation
 
+## Latest execution authorization: USD6.49 replacement balance
+
+The user subsequently approved the four-stage sequence and answered "6.49 usd"
+when asked for the total remaining allowance. This replaces the old remainder;
+it is not added to it. Preserve the original USD0.14820250 unknown-request hold.
+Confirmed prior spending USD10.75794526 plus the replacement USD6.49 establishes
+cumulative ceiling **USD17.24794526**. Accounted spending stays USD10.90614776,
+leaving **USD6.34179750** for new calls and **USD1.84179750** above the final floor.
+
+The unchanged complete-path proxy is USD6.95826517, so the funding gap is now
+**USD0.61646767 before contingency**. The path remains unfunded even after all38
+valid component reuses. No qualification, confirmation or final call was launched.
+No more funding is assumed or requested; V4 remains active and V6 unaccepted.
+
+[Replacement authorization](../../data/evaluation/conversation-continuation/structured-blind-v1/authorization-649.json)
+and [reconciled assessment](../../data/evaluation/conversation-continuation/structured-blind-v1/budget-649.json)
+preserve the prior snapshot. Replay with
+`python -B -m scripts.structured_blind_budget_v2 --check`. Three focused offline
+checks reject double counting, allowance increases, hold release, retries and
+stale spending. The prior implementation and36 passing checks remain valid.
+The figures in the original delivery sections below are historical snapshots.
+
+## Original offline delivery
+
 The user authorized this offline successor after V35 stopped at calibration.
 Goal: make interpretation uncertainty a software-enforced part of judgments and
 remove candidate anchoring from semantic review. This affects evaluation tools
