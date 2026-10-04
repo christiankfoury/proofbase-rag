@@ -1,5 +1,31 @@
 # Corrected evaluator: one authorized full qualification
 
+## User-confirmed finalization: 2026-10-04
+
+The user explicitly closed this release attempt and ended spending. V4 stays
+active; V6 remains experimental, disabled and unaccepted. USD8.10754050 stays
+untouched. No new qualification, correction cycle or unrelated roadmap work is
+queued. The acceptance blocker below remains unresolved; closure does not claim
+a successful release or a new V6 application failure.
+
+Future work requires a new scope instruction. Before considering paid
+qualification, it must demonstrate offline that comparison logic treats
+equivalent judgments consistently and preserves genuine disagreements across
+the existing evidence, including difficult cases and uncertainty. A patch for
+only the latest failure is insufficient. Historical results, citation and
+permission safety, evaluator qualification and the 48/60 release gate remain
+unchanged. This finalization does not start that future work.
+
+Documentation-only verification: local settings retain v4 evidence assessment
+and post-generation validation, with `conversational_candidate_enabled=False`;
+the V6 answer prompt remains `experimental`. No runtime setting was changed.
+The offline `structured_blind_execution_budget_v2.prefix()` result exactly
+matches the saved closure ledger prefix; ceiling minus accounted spending is
+USD8.10754050 and the USD0.14820250 hold is unchanged. The unrelated request-log
+SHA256 is unchanged. Reviewed the intended documentation diff and local links,
+and ran `git diff --check`. Existing runtime verification is reused; no model
+calls, application tests or builds are required for this documentation change.
+
 ## Final outcome: qualification failed; paid experiments ended
 
 Diagnostic passes16/16 and3/3 probes. Calibration at `a03f8ff2` stopped22/23 on

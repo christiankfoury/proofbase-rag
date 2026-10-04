@@ -11,6 +11,13 @@ It records current scope, exact accounting, preserved evidence and execution pit
 
 ### Current: v2 calibration failed; paid experiments ended
 
+**Finalized at the user's request on 2026-10-04.** V4 stays active; V6 remains
+experimental, disabled and unaccepted. USD8.10754050 is untouched. No next cycle
+is queued. Future work must first prove offline comparison of equivalent and
+genuinely conflicting judgments across existing evidence; a single-case patch
+does not justify another paid attempt. See the
+[closure and verification](../phase-73/structured-blind-execution-v2.md#user-confirmed-finalization-2026-10-04).
+
 The [authorized v2 attempt](../phase-73/structured-blind-execution-v2.md) is closed.
 Diagnostic16/16+3/3 passes at `81d7a9e9`; calibration at `a03f8ff2` stops22/23 on
 `permission-modality-upgraded`. Both judges correctly reject guaranteed approval,

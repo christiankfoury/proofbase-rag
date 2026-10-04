@@ -27,8 +27,11 @@ passed16 diagnostic controls and3 probes, then stopped at22/23 calibration cases
 Two judges rejected the same false guarantee but used different interpretation
 categories; the frozen consistency gate failed. Paid experiments have ended.
 Fresh16 confirmation, final60 measurement and activation did not start.
-V4 remains active and V6 unaccepted. This attempt cost USD1.657166; USD8.10754050
-remains after the retained hold. All historical results are preserved.
+V4 remains active and V6 remains experimental, disabled and unaccepted. The user
+closed this release attempt on 2026-10-04. This attempt cost USD1.657166;
+USD8.10754050 remains untouched after the retained hold. All historical results
+are preserved. Future work must first demonstrate reliable offline comparison
+of equivalent judgments and genuine disagreements across the existing evidence.
 
 An [offline evaluator implementation](docs/phase-73/structured-blind-evaluator-v1.md)
 now uses structured alternative interpretations and two blind judgments. 36 local

@@ -145,6 +145,13 @@ cases and3 probes unexecuted. Total attempt130calls/USD1.65716600; accounted
 USD12.65040476, available USD8.10754050 after the same hold. The user-agreed stop
 now applies: end paid experiments, retain V4, no automatic correction cycle.
 Fresh16/fresh60 and activation did not start. Preserve every result and gate.
+Latest user instruction (2026-10-04): stop and finalize this release attempt.
+Keep V4 active, V6 experimental/disabled/unaccepted and USD8.10754050 untouched.
+No automatic roadmap continuation, offline correction or paid cycle is queued.
+Any future separately scoped work must first demonstrate offline comparison
+reliability across existing evidence for equivalent judgments and genuine
+disagreements; a fix for only the latest failing example is insufficient.
+Preserve all historical evidence and acceptance gates.
 For continuation in a new chat, read [completion handoff](docs/phase-73/completion-handoff.md)
 and the current progress/active-plan sections. V4 remains default. Do not restart
 old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.

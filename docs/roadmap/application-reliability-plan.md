@@ -2,6 +2,14 @@
 
 ## Current handoff: v2 calibration failed; paid experiments ended
 
+**User-confirmed closure, 2026-10-04:** stop this release attempt and preserve
+USD8.10754050 untouched. Keep V4 active and V6 experimental, disabled and
+unaccepted. No follow-on work is queued. Any future separately scoped work must
+first demonstrate offline that comparison handles equivalent judgments and real
+disagreements across existing evidence, rather than only the latest failure.
+All qualification, safety, citation and 48/60 release gates remain unchanged.
+See the [finalization record](../phase-73/structured-blind-execution-v2.md#user-confirmed-finalization-2026-10-04).
+
 The [authorized v2 attempt](../phase-73/structured-blind-execution-v2.md) is closed.
 Diagnostic16/16+3/3 passes at `81d7a9e9`; calibration at `a03f8ff2` stops22/23 on
 `permission-modality-upgraded`. Both judges correctly reject guaranteed approval,

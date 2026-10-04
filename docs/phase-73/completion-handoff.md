@@ -1,5 +1,19 @@
 # Proofbase completion handoff
 
+## User-confirmed closure: 2026-10-04
+
+The user explicitly ended this release attempt. V4 remains active; V6 is preserved
+as an experimental, disabled and unaccepted candidate. USD8.10754050 remains
+untouched. No further paid qualification, correction cycle or roadmap work is
+queued. This closes the attempt, not the unmet acceptance gates.
+
+Any future work requires a new scope instruction and must first demonstrate
+offline that comparison logic handles equivalent judgments and genuine
+disagreements across the existing evidence. Fixing only the latest failing case
+is insufficient. Preserve difficult cases, uncertainty, citations, permission
+safety, historical results, evaluator qualification and the 48/60 release gate.
+See the [finalization record](structured-blind-execution-v2.md#user-confirmed-finalization-2026-10-04).
+
 ## Latest: v2 calibration failed; paid experiments ended
 
 The [authorized v2 attempt](structured-blind-execution-v2.md) is closed.
