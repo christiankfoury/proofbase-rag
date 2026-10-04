@@ -1,6 +1,17 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: versioned remedy implemented; full-path funding gate fails
+## Current handoff: V35 four-stage execution authorized
+
+Follow [V35 execution](../phase-73/v35-execution.md). The user's replacement USD7.60
+balance supersedes the previous funding stop: cumulative USD16.77047526, with
+USD7.45179750 available for new calls after the retained hold. No historical
+remainder is added. Whole-path estimate USD6.98104925 fits with USD0.47074825
+buffer. Preserve the final USD4.50 floor, full allowances and every quality gate.
+Prepared versioned runners/briefs pass32 offline checks; no paid result yet.
+Proceed once through16+3,32+3,fresh16,fresh60, stopping on a failed gate, unknown
+request or insufficient funds. V4 stays active until accepted activation.
+
+## Previous handoff: versioned remedy implemented; full-path funding gate fails
 
 The latest user authorizes offline corrections and a separately versioned
 reference convention. [Ordering contract v2](../phase-73/procedural-ordering-contract-v2.md)

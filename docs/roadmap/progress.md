@@ -9,7 +9,19 @@ Update this tracker before committing each phase. Keep entries factual: record w
 For a new chat, start with the [compact completion handoff](../phase-73/completion-handoff.md).
 It records current scope, exact accounting, preserved evidence and execution pitfalls.
 
-### Current: ordering remedy implemented; acceptance blocked by whole-path budget
+### Current: V35 execution authorized under replacement USD7.60 balance
+
+The user approved the four-stage V35/V6 run and stated USD7.60 remains in the API
+account. [Execution note](../phase-73/v35-execution.md) records a replacement total,
+not an added remainder: cumulative USD16.77047526, accounted USD9.31867776 including
+the retained hold, new-call headroom USD7.45179750. The USD4.50 final-launch floor,
+full caps, zero retries and all acceptance gates remain. Whole-path estimate
+USD6.98104925 leaves USD0.47074825 planning buffer; costs remain uncertain.
+Versioned execution/freeze adapters and neutral briefs are prepared; 32 offline
+checks pass. Next: full16+3 diagnostic, gated32+3 calibration, fresh16 confirmation,
+fresh60 final, activation only if all gates pass. No new paid result yet; V4 active.
+
+### Previous: ordering remedy implemented; acceptance blocked by whole-path budget
 
 The latest user authorized a separately versioned remedy and completion only if
 the full remaining path is fundable. [Contract v2 implementation](../phase-73/procedural-ordering-contract-v2.md)

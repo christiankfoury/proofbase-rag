@@ -1,6 +1,17 @@
 # Proofbase completion handoff
 
-## Latest: implementation delivered; accepted activation remains budget-blocked
+## Latest: four-stage execution authorized with replacement balance
+
+The user subsequently authorized the full V35/V6 sequence and stated USD7.60
+remains in the API account. [Execution note](v35-execution.md) and the current
+tracker supersede the older funding stop below. Cumulative ceiling USD16.77047526;
+starting accounted USD9.31867776 includes the USD0.14820250 hold; new-call headroom
+USD7.45179750. Whole-path estimate USD6.98104925 fits, with uncertain actual costs.
+Preserve the USD4.50 final-launch floor, all gates, one shot and no retries/top-ups.
+Versioned adapters are prepared and32 offline checks pass; no new paid result yet.
+Do not reuse old freezes or old holdout agents. V4 remains default.
+
+## Previous: implementation delivered; accepted activation remains budget-blocked
 
 The subsequent user authorized necessary offline implementation, a separately
 versioned reference remedy, and paid completion only when the whole remaining
