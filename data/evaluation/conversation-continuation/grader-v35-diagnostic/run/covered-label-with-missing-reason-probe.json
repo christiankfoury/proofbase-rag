@@ -1,0 +1,13 @@
+{
+  "error": null,
+  "matched": true,
+  "review": {
+    "citation_support": "agree",
+    "completeness": "dispute",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for two properties of the same subject, a Lark taxi claim—(1) the reimbursement cap and (2) the shift-condition for eligibility. The answer addresses that subject and gives the cap, so it is on-topic and relevant, even though incomplete.\n\nAnswer meaning and claim assessment from the raw inputs:\n- The only substantive claim in the answer is: \"The reimbursement cap is 38 credits per trip.\"\n- That claim is factually supported by R1: \"Lark taxi reimbursement is capped at 38 credits per trip.\"\n- It is also supported by the cited source C1 with the same text.\n- The answer does not state the required eligibility condition \"only if the lab shift ends after 22:00.\"\n\nRequired-fact coverage:\n- F1 (cap is 38 credits per trip): covered by the answer.\n- F2 (eligibility requires a lab shift ending after 22:00): missing, because no answer span states that condition.\nSo completeness should be fail, not pass.\n\nActual behavior:\n- The response gives substantive information for one requested part but omits another requested part, so actual_behavior is partial_answer, not answer.\n- Independently, for expected_behavior=answer, the missing required fact also makes response_behavior fail under the reducer.\n\nComparison to candidate:\n- factual_support: candidate’s single extracted claim and supported/pass judgment are correct.\n- citation_support: candidate’s supported/pass judgment is correct.\n- completeness: candidate is internally inconsistent on F2, marking it \"covered\" while saying it is omitted. F2 should be missing, and the reduced completeness should be fail.\n- response_behavior: candidate says actual_behavior=answer and pass because both parts are covered; that is incorrect. The prose only answers one part, so actual_behavior should be partial_answer and the reduced dimension should fail.\n- relevance: candidate pass is correct.\n- forbidden_assertion: none are present; candidate is correct.",
+    "relevance": "agree",
+    "response_behavior": "dispute"
+  }
+}

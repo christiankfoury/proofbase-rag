@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response provides a substantive direct answer to the question by stating a specific loan limit.",
+    "behavior_span": "The Rowan trolley loan limit is 22 hours.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "This is contradicted by the source, which states the maximum borrowing period is 12 hours, not 22. The cited source is the same contradicting text, so it does not support the claim.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "A Rowan trolley may be borrowed for at most 12 hours."
+          }
+        ],
+        "text": "The Rowan trolley loan limit is 22 hours."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The Rowan trolley loan limit is 22 hours."
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says the Rowan trolley loan limit is 12 hours, but the answer explicitly states it is 22 hours for the same subject and property.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the loan limit for a Rowan trolley, and the answer directly states a loan limit for a Rowan trolley.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for the loan limit for a Rowan trolley. The answer directly addresses that same subject and property: \"The Rowan trolley loan limit is 22 hours.\" So the response is relevant.\n\nInterpreting the answer’s actual claim: it asserts the Rowan trolley loan limit is 22 hours. The only factual/cited source says: \"A Rowan trolley may be borrowed for at most 12 hours.\" That is an exact incompatibility with 22 hours, so the claim is factually contradicted. Because the cited source is the same contradictory text, it does not support the claim; citation status is therefore missing, not supported.\n\nRequired fact coverage: the required fact is \"The Rowan trolley loan limit is 12 hours.\" The answer explicitly gives the opposite value, 22 hours, for the same subject, so that required fact is contradicted rather than covered. Completeness therefore fails.\n\nBehavior: the response gives a substantive direct answer, so actual_behavior is answer. Expected behavior is answer, but when answer is expected and required facts are missing or contradicted, response_behavior reduces to fail. Thus the candidate’s actual_behavior label of answer is correct, and the reduced response_behavior fail is also correct.\n\nForbidden assertions: none are specified, and the answer contains no separately forbidden content, so absent is correct.\n\nComparing with the candidate: their extracted single claim, contradicted factual status, missing citation status, relevance pass, fact contradiction, actual_behavior answer, and reduced dimension judgments all match the rubric.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

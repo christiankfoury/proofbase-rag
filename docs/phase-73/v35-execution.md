@@ -65,3 +65,20 @@ checked without exposing it; existing reuse authorization remains in effect.
 Preparation has USD0 new API spending. The next action after reviewed commit/push
 is the full V35 diagnostic. Live stage results and source inspection will be
 appended below. No passing live result is claimed by this preparation record.
+
+## Diagnostic result
+
+Frozen execution `8b74359b` completed16/16 diagnostic cases and3/3 reviewer probes
+in51 requests for USD0.76685000 (03:14:50-03:22:05 UTC, 2026-10-04).
+Offline replay matches every raw request, response, reservation, row and receipt.
+Agent source inspection covers all16 cases and3 probes, with no unresolved finding;
+the immutable inspection and acceptance records bind the report. Identity/access
+claims, wrong attribution, metadata-only entitlements, policy-premise and history
+injection, and incorrect arithmetic remain rejected. Supported scenario application
+and requested-fact scope are preserved. This qualifies only the diagnostic stage.
+
+Accounted USD10.08552776 including the original hold; new-call remainder
+USD6.68494750. Estimated calibration plus confirmation USD1.72120675 and final
+floor USD4.50 leave USD0.46374075 buffer. Calibration is fundable at this gate;
+prepare all32 cases and3 probes once. V4 remains default. No code/prompt changes
+were made after the diagnostic freeze.

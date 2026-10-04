@@ -1,0 +1,82 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "unresolved",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": true,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives substantive information answering the asked rule, even though it also includes an additional unrelated statement.",
+    "behavior_span": "Laboratory staff must return loaned meters within four working days. Staff also receive a free meter each year.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "This exact rule appears in the factual source R1 and in the cited source C1.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Laboratory staff must return loaned meters within four working days."
+          }
+        ],
+        "text": "Laboratory staff must return loaned meters within four working days."
+      },
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "unknown",
+        "reason": "No factual source text states that staff receive a free meter each year. The metadata title \"Annual Free Meter Benefit\" identifies the document but does not prove this entitlement. The only cited text concerns returning loaned meters, so it does not support this separate claim.",
+        "source_spans": [],
+        "text": "Staff also receive a free meter each year."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "Laboratory staff must return loaned meters within four working days."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states the required meter return rule in full.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the meter return rule, and the answer directly provides a rule about returning loaned meters for laboratory staff.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for the meter return rule. The answer directly addresses that topic with “Laboratory staff must return loaned meters within four working days.” The added sentence about a free meter is off-topic extra content, but it does not change that the response is about the requested rule, so relevance passes.\n\nRequired-fact coverage: the only required fact is “Laboratory staff must return loaned meters within four working days.” The answer states that exact rule, so F1 is covered and completeness passes.\n\nActual behavior: the response gives substantive information answering the asked question, so actual_behavior is answer, matching expected_behavior answer. Because all required facts are covered, response_behavior passes.\n\nClaim assessment from the answer text:\n1) “Laboratory staff must return loaned meters within four working days.” This is fully supported by factual source R1 and cited source C1.\n2) “Staff also receive a free meter each year.” No factual source text states this. The metadata title “Annual Free Meter Benefit” identifies a document title only; it does not prove the entitlement claim. The cited text also does not support it. So this claim is factual unknown and citation missing, not contradicted.\n\nReducer checks:\n- factual_support: one supported claim and one unknown claim => unresolved.\n- citation_support: one supported claim and one missing citation => fail.\n- completeness: all required facts covered => pass.\n- response_behavior: actual answer matches expected answer, with no completeness override => pass.\n- forbidden_assertion: none listed, and none need be marked present => absent.\n\nComparison to candidate: the candidate extracted both substantive claims, labeled both claims correctly, covered the required fact correctly, classified behavior correctly, and reduced each dimension correctly. I see no grading error.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

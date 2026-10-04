@@ -1,0 +1,13 @@
+{
+  "error": null,
+  "matched": true,
+  "review": {
+    "citation_support": "dispute",
+    "completeness": "agree",
+    "factual_support": "dispute",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for the Alder bicycle service allowance. The answer directly addresses that topic with “The bicycle servicing allowance is up to 60 credits per calendar year.” The extra sentence about theft insurance is off-request, but it does not make the response irrelevant.\n\nRequired-fact coverage: the only required fact is “The bicycle service allowance is up to 60 credits per calendar year.” The answer states that exact meaning, so F1 is covered.\n\nActual behavior: the response gives a substantive answer to the asked question, so actual_behavior is answer.\n\nNow the answer’s asserted claims from the full answer:\n1) “The bicycle servicing allowance is up to 60 credits per calendar year.” This is supported by R1/C1: “Alder employees may claim up to 60 credits per calendar year for bicycle servicing.”\n2) “Employees also receive free theft insurance.” This is a separate substantive policy assertion. No factual source supports or contradicts it, so factual status is unknown. The only cited source is about servicing allowance, so citation status is missing for this claim.\n\nBecause the candidate omitted claim (2) entirely while marking all_claims_assessed true, the intermediate claim assessment is incorrect. Under the reducers, factual_support should be unresolved (supported + unknown), not pass; citation_support should be fail (because the extra insurance claim is uncited/unsupported by the citation), not pass.\n\nThe candidate’s completeness judgment is still correct because the required fact is covered, and extra unsupported claims do not negate fact coverage. Relevance and response_behavior are also correctly judged. There are no forbidden assertions specified, so absent is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

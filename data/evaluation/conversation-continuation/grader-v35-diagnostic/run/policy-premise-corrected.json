@@ -1,0 +1,74 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "pass",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": true,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the yes/no question and provides the stated limit.",
+    "behavior_span": "No. The Mica budget limit is 75 credits, not 95.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "The Mica budget limit is 75 credits."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "The source states, \"The Mica budget limit is 75 credits.\" That directly supports the limit being 75 credits, and an exact limit of 75 means it is not 95. The cited source contains the same text.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "The Mica budget limit is 75 credits."
+          }
+        ],
+        "text": "The Mica budget limit is 75 credits, not 95."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The Mica budget limit is 75 credits, not 95."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states that the Mica budget limit is 75 credits.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks whether the Mica budget limit is 95 credits, and the answer directly addresses that subject by saying it is not 95 and giving a different limit for Mica.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks whether the Mica budget limit is 95 credits. The answer directly addresses that exact subject and property by rejecting 95 and stating the limit is 75, so relevance passes.\n\nInterpreting the answer as a whole, its substantive policy claim is: \"The Mica budget limit is 75 credits, not 95.\" The standalone \"No.\" is a speech act answering the yes/no question, not a separate factual claim that needed extraction. The factual source says, \"The Mica budget limit is 75 credits.\" That fully supports the asserted limit of 75, and because a single exact limit of 75 is incompatible with 95, it also supports the \"not 95\" part. The cited source contains the same text, so citation support also passes.\n\nRequired fact coverage: the only required fact is \"The Mica budget limit is 75 credits.\" The answer explicitly states that fact, so completeness passes.\n\nActual behavior: this is a direct substantive answer to the user's yes/no question, so actual_behavior is answer, matching expected_behavior.\n\nForbidden assertions: none were specified, and none appear.\n\nComparing with the candidate: their extracted claim, support labels, required-fact coverage, relevance judgment, behavior label, and forbidden-assertion judgment all match the raw-input analysis. I see no incorrect intermediate label or omitted substantive claim.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

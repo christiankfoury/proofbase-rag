@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive answer to the requested question, even though the value is incorrect relative to the required fact.",
+    "behavior_span": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "The source rule says the Alder rebate is 25 percent of the eligible invoice total, and the question states the eligible invoice total is 80 credits. Applying the rule to that explicit scenario gives 20 credits, not 40 credits, so the answer's arithmetic and its statement that 40 credits is 25 percent of an 80-credit invoice are contradicted.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "The Alder rebate is 25 percent of the eligible invoice total."
+          }
+        ],
+        "text": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The rebate is 40 credits"
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says the rebate for the described invoice is 20 credits, but the answer explicitly states it is 40 credits for the same invoice.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the amount of the Alder rebate for an eligible invoice total of 80 credits. The answer directly provides a rebate amount for that invoice total, so it addresses the requested property and subject.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks for the Alder rebate amount for an eligible invoice total of 80 credits. The answer directly gives a rebate amount for that same invoice, so it is on-topic and relevant. The candidate’s relevance pass is correct.\n\nFor required-fact coverage, the only required fact is that the rebate for the described invoice is 20 credits. The factual source says, \"The Alder rebate is 25 percent of the eligible invoice total.\" Using that rule with the question’s explicit scenario input of 80 credits gives 20 credits. The answer instead says, \"The rebate is 40 credits, which is 25 percent of your 80-credit invoice.\" That explicitly conflicts with the required fact, so the fact is contradicted and completeness reduces to fail. The candidate’s fact label and completeness judgment are correct.\n\nFor actual behavior, the response gives a substantive answer to the user’s question, so actual_behavior is answer, not refusal or partial_answer. Because expected_behavior is answer but the required fact is contradicted, the reduced response_behavior is fail under the override rule. The candidate’s actual_behavior and reduced response_behavior are correct.\n\nFor claim assessment, the answer’s single substantive claim is the full sentence: \"The rebate is 40 credits, which is 25 percent of your 80-credit invoice.\" Under the source rule plus the user-provided scenario, that claim is contradicted: 25% of 80 is 20, not 40. So factual_status contradicted is correct, and factual_support reduces to fail. The cited source is the same rule; it does not entail the answer’s claimed amount and, with the scenario, conflicts with it, so citation_status missing and citation_support fail are also correct. I do not see omitted substantive claims.\n\nForbidden assertions: none are listed, and the answer does not assert any forbidden content. The candidate’s absent judgment is correct.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

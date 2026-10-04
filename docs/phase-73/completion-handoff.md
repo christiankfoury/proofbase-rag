@@ -8,7 +8,9 @@ tracker supersede the older funding stop below. Cumulative ceiling USD16.7704752
 starting accounted USD9.31867776 includes the USD0.14820250 hold; new-call headroom
 USD7.45179750. Whole-path estimate USD6.98104925 fits, with uncertain actual costs.
 Preserve the USD4.50 final-launch floor, all gates, one shot and no retries/top-ups.
-Versioned adapters are prepared and32 offline checks pass; no new paid result yet.
+Versioned adapters pass32 offline checks. Diagnostic16+3 now passes at8b74359b,
+costUSD0.76685000; replay/source inspection pass. AccountedUSD10.08552776 and
+headroomUSD6.68494750. Full32+3 calibration is next; no new final score exists.
 Do not reuse old freezes or old holdout agents. V4 remains default.
 
 ## Previous: implementation delivered; accepted activation remains budget-blocked

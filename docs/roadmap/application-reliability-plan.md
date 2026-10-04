@@ -7,7 +7,9 @@ balance supersedes the previous funding stop: cumulative USD16.77047526, with
 USD7.45179750 available for new calls after the retained hold. No historical
 remainder is added. Whole-path estimate USD6.98104925 fits with USD0.47074825
 buffer. Preserve the final USD4.50 floor, full allowances and every quality gate.
-Prepared versioned runners/briefs pass32 offline checks; no paid result yet.
+Prepared versioned runners/briefs pass32 offline checks. V35 diagnostic now passes
+16/16 plus3/3 probes,51 calls/USD0.76685000; replay/source inspection pass.
+USD6.68494750 remains after the hold. Next: full32+3 calibration.
 Proceed once through16+3,32+3,fresh16,fresh60, stopping on a failed gate, unknown
 request or insufficient funds. V4 stays active until accepted activation.
 

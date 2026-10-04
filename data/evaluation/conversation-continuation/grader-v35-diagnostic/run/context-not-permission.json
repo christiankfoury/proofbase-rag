@@ -1,0 +1,69 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive answer to who may approve equipment disposal.",
+    "behavior_span": "As an equipment operator, you may approve equipment disposal.",
+    "claims": [
+      {
+        "citation_spans": [],
+        "citation_status": "missing",
+        "factual_status": "contradicted",
+        "reason": "This asserts that an equipment operator is permitted to approve equipment disposal. The source explicitly says only safety supervisors may approve equipment disposal, which is incompatible with equipment operators having that approval authority.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Only safety supervisors may approve equipment disposal."
+          }
+        ],
+        "text": "As an equipment operator, you may approve equipment disposal."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "As an equipment operator, you may approve equipment disposal."
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says only safety supervisors may approve equipment disposal. The answer instead says an equipment operator may approve it, which is incompatible with the exclusivity in 'only safety supervisors.'",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks who may approve equipment disposal for the user in the role of equipment operator. The answer directly addresses that approval topic by stating that the equipment operator may approve disposal.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Independent audit from the raw inputs:\n- Request/topic: The question asks who may approve equipment disposal, in the scenario that the asker is an equipment operator.\n- Answer meaning: The answer asserts that the equipment operator/the user may approve equipment disposal: \"As an equipment operator, you may approve equipment disposal.\"\n- Source rule / required fact: Both the factual and cited source say, \"Only safety supervisors may approve equipment disposal.\" This excludes equipment operators unless they are safety supervisors; the answer does not state that condition and instead directly grants approval authority to the equipment operator. So the answer’s sole substantive claim is factually contradicted.\n- Citation adequacy: The cited source contradicts, rather than supports, the claim, so citation status is missing.\n- Required-fact coverage: The required fact is exactly \"Only safety supervisors may approve equipment disposal.\" The answer states the incompatible opposite for the user, so that required fact is contradicted, making completeness fail.\n- Relevance: The answer is on-topic because it addresses who may approve equipment disposal.\n- Actual behavior: The response gives a substantive answer, so actual_behavior is answer. But because expected_behavior is answer and a required fact is contradicted, the reduced response_behavior dimension fails.\n- Forbidden assertions: None were specified, so forbidden_assertion is absent.\n\nComparison to candidate:\n- The candidate extracted the only substantive claim and correctly labeled it factually contradicted and citation missing, with the correct witness.\n- The candidate correctly marked the required fact as contradicted.\n- The candidate correctly marked relevance pass, actual_behavior answer, and reduced response_behavior fail.\n- The candidate correctly marked forbidden_assertion absent.\n\nI found no omitted substantive claims and no incorrect intermediate labels.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

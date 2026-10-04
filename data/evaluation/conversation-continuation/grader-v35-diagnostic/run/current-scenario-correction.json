@@ -1,0 +1,74 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "pass",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": true,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a direct substantive answer to the requested quantity.",
+    "behavior_span": "With your corrected eight crates, the ten-slot rack has two unused crate slots.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "A full-sized Osprey rack has capacity for ten crates, one per slot."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "Supported by applying the source rule to the user's explicit scenario input. The question states there are eight crates, and the source says a full-sized Osprey rack has capacity for ten crates, one per slot. Therefore unused slots = 10 - 8 = 2. The cited source provides the same rule.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "A full-sized Osprey rack has capacity for ten crates, one per slot."
+          }
+        ],
+        "text": "With your corrected eight crates, the ten-slot rack has two unused crate slots."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "With your corrected eight crates, the ten-slot rack has two unused crate slots."
+        ],
+        "fact_id": "F1",
+        "reason": "The answer explicitly states that with eight crates in a ten-slot rack, there are two unused crate slots.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the number of unused crate slots for a full-sized Osprey rack under the corrected scenario of having eight crates. The answer directly addresses that by stating that the ten-slot rack has two unused crate slots.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks, under the corrected scenario of having eight crates, how many unused crate slots a full-sized Osprey rack has. The answer directly addresses that exact topic by giving the count of unused slots for the rack, so it is relevant.\n\nRequired-fact coverage next: the required fact is that there are two unused slots with eight crates in a ten-slot rack. The answer states exactly that meaning: with eight crates, the rack has two unused crate slots. Using the source rule and the explicit scenario input, this is complete coverage.\n\nFactual support: the answer’s substantive claim is that with eight crates, a full-sized Osprey rack leaves two unused slots. The source says, \"A full-sized Osprey rack has capacity for ten crates, one per slot.\" The question supplies the admissible scenario input of eight crates. Applying the rule gives 10 - 8 = 2 unused slots. So the claim is factually supported. There is no separate unsupported policy premise here.\n\nCitation support: the cited source is the same rack-capacity rule, and together with the explicit scenario in the question it supports the complete claimed result of two unused slots. So citation support is also correct.\n\nBehavior: the response is substantive prose that directly answers the user’s requested quantity, so actual behavior is answer, matching expected behavior.\n\nForbidden assertions: there are no forbidden assertions listed, and the answer does not add any prohibited content.\n\nComparing to the candidate: the candidate’s claim extraction, support reasoning, required-fact label, relevance label, behavior label, and forbidden-assertion label all match the correct audit. No intermediate status appears incorrect.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}

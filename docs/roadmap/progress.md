@@ -19,7 +19,10 @@ full caps, zero retries and all acceptance gates remain. Whole-path estimate
 USD6.98104925 leaves USD0.47074825 planning buffer; costs remain uncertain.
 Versioned execution/freeze adapters and neutral briefs are prepared; 32 offline
 checks pass. Next: full16+3 diagnostic, gated32+3 calibration, fresh16 confirmation,
-fresh60 final, activation only if all gates pass. No new paid result yet; V4 active.
+fresh60 final, activation only if all gates pass. Diagnostic now passes16/16 and
+3/3 probes at frozen8b74359b;51 calls costUSD0.76685000. Replay/source inspection
+pass. AccountedUSD10.08552776, headroomUSD6.68494750. Next calibration32+3 remains
+fundable; no evaluator or candidate acceptance yet. V4 remains active.
 
 ### Previous: ordering remedy implemented; acceptance blocked by whole-path budget
 

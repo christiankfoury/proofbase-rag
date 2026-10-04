@@ -1,0 +1,74 @@
+{
+  "dimensions": {
+    "citation_support": "pass",
+    "completeness": "pass",
+    "disputed_dimensions": [],
+    "factual_support": "pass",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "pass",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "pass",
+    "response_type_match": true,
+    "review_status": "reviewed",
+    "target_credit": true,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive direct answer to the requested dispatch-cycle question.",
+    "behavior_span": "The following dispatch cycle applies.",
+    "claims": [
+      {
+        "citation_spans": [
+          {
+            "id": "C1",
+            "span": "Requests received fewer than six working days before dispatch are scheduled for the following dispatch cycle."
+          }
+        ],
+        "citation_status": "supported",
+        "factual_status": "supported",
+        "reason": "Supported under the question's explicit scenario that the request arrives two working days before dispatch. The source rule says requests received fewer than six working days before dispatch are scheduled for the following dispatch cycle, and 2 working days is fewer than 6.",
+        "source_spans": [
+          {
+            "id": "R1",
+            "span": "Requests received fewer than six working days before dispatch are scheduled for the following dispatch cycle."
+          }
+        ],
+        "text": "The following dispatch cycle applies."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The following dispatch cycle applies."
+        ],
+        "fact_id": "F1",
+        "reason": "In the context of the question asking which dispatch cycle applies, this states that the applicable cycle is the following dispatch cycle, which covers the requested fact.",
+        "status": "covered"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks which dispatch cycle applies to a request that arrives two working days before dispatch, and the answer directly states that the following dispatch cycle applies.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "citation_support": "agree",
+    "completeness": "agree",
+    "factual_support": "agree",
+    "forbidden_assertion": "agree",
+    "reason": "Relevance first: the question asks which dispatch cycle applies to a request arriving two working days before dispatch. The answer, \"The following dispatch cycle applies.\", directly addresses that exact subject and requested property, so it is relevant.\n\nMeaning and claim extraction: in question context, \"The following dispatch cycle applies.\" communicates that this request is scheduled for the following dispatch cycle. That is a substantive claim, and the candidate extracted the full claim appropriately.\n\nFactual support: under the explicit scenario assumption from the question, the request arrives two working days before dispatch. The source rule states: \"Requests received fewer than six working days before dispatch are scheduled for the following dispatch cycle.\" Two working days is fewer than six, so the answer's claim is supported. The candidate's factual supported label and witness are correct.\n\nCitation support: the cited source text is the same rule, so it also supports the complete claim when applied to the question's explicit scenario. The candidate's citation supported label is correct.\n\nRequired-fact coverage: the only required fact is that the request is scheduled for the following dispatch cycle. The answer covers that fact exactly in context. The candidate correctly marked F1 covered, so completeness reduces to pass.\n\nResponse behavior: expected behavior is answer. The response provides a direct substantive answer to the user's question, so actual behavior is answer. Because the required fact is covered, response_behavior passes. The candidate's behavior label is correct.\n\nForbidden assertions: there are no forbidden assertions specified, and none appear in the answer. Marking forbidden_assertion absent is correct.\n\nI find no omitted claims, no misinterpreted spans, and no incorrect intermediate labels. The candidate grading is correct on every dimension.",
+    "relevance": "agree",
+    "response_behavior": "agree"
+  }
+}
