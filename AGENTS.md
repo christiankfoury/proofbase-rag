@@ -136,6 +136,9 @@ fresh16/fresh60 sequence, using existing funds only. Follow
 and hold are unchanged; USD9.76470650 is available. Updated qualification plus
 final-floor estimate USD8.194425 fits. Stop paid experiments if qualification
 fails again; do not relax gates or automatically start another correction cycle.
+V2 diagnostic now passes16+3 at81d7a9e9, cost USD0.84072300. Accounted
+USD11.83396176; new-call headroom USD8.92398350. Full32+3 calibration is next.
+No final score or activation exists. Read the latest v2 execution note.
 For continuation in a new chat, read [completion handoff](docs/phase-73/completion-handoff.md)
 and the current progress/active-plan sections. V4 remains default. Do not restart
 old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.

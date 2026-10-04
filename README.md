@@ -22,13 +22,11 @@
 
 ## Evidence Snapshot
 
-**Current work:** [structured blind qualification](docs/phase-73/structured-blind-execution-v1.md)
-stopped at diagnostic1/2 on disagreement about an empty forbidden-assertion list.
-Six calls cost USD0.087091; no downstream measurement or activation occurred.
-A [separate offline correction](docs/phase-73/structured-blind-evaluator-v2.md)
-derives that empty-set result in code; six new regression checks pass. It remains
-unqualified. USD9.76470650 is available after the retained hold; the blocker is
-qualification. V4 remains active. Historical results below are unchanged.
+**Current work:** the [corrected blind evaluator](docs/phase-73/structured-blind-execution-v2.md)
+passes all16 diagnostic cases and3 reviewer probes at frozen `81d7a9e9`.
+Calibration, fresh16 confirmation and fresh60 V6 measurement remain pending.
+Diagnostic spending was USD0.840723; USD8.92398350 remains after the retained hold.
+V4 remains active and V6 unaccepted. Earlier failures remain preserved.
 
 An [offline evaluator implementation](docs/phase-73/structured-blind-evaluator-v1.md)
 now uses structured alternative interpretations and two blind judgments. 36 local

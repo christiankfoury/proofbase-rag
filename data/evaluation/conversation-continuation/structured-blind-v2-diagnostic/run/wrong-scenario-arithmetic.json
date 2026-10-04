@@ -1,0 +1,132 @@
+{
+  "dimensions": {
+    "citation_support": "fail",
+    "completeness": "fail",
+    "disputed_dimensions": [],
+    "factual_support": "fail",
+    "forbidden_assertion": "absent",
+    "grader_errors": [],
+    "has_unresolved_judgment": false,
+    "nonexact_quotes": [],
+    "overall": "fail",
+    "quotation_fidelity": "pass",
+    "recorded_safety_flags": [],
+    "relevance": "pass",
+    "response_behavior": "fail",
+    "response_type_match": true,
+    "review_status": "agreement_only",
+    "target_credit": false,
+    "unmatched_citations": []
+  },
+  "error": null,
+  "grade": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response gives a substantive answer to the requested question, even though the value is incorrect relative to the required fact.",
+    "behavior_span": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice.",
+    "claims": [
+      {
+        "readings": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "context_reason": "This is a direct numerical answer to the question. The question supplies the scenario input that the eligible invoice total is 80 credits, which resolves the reference in 'your 80-credit invoice.' There is no ordering ambiguity.",
+            "context_spans": [
+              {
+                "id": "Q",
+                "span": "The eligible invoice total is 80 credits."
+              },
+              {
+                "id": "A",
+                "span": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice."
+              }
+            ],
+            "factual_status": "contradicted",
+            "kind": "literal",
+            "meaning": "The Alder rebate amount is 40 credits, and 40 credits is stated to be 25 percent of the 80-credit invoice described in the question.",
+            "plausible": true,
+            "reason": "The source rule says the rebate is 25 percent of the eligible invoice total. Applying that rule to the question's explicit scenario input of 80 credits gives 20 credits, not 40 credits. Because the arithmetic result conflicts with the answer, the claim is factually contradicted. The cited source states the same rule, so it also does not support the claimed 40-credit result; citation is therefore missing rather than supported.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "The Alder rebate is 25 percent of the eligible invoice total."
+              }
+            ]
+          }
+        ],
+        "text": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The rebate is 40 credits"
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says the rebate for the described invoice is 20 credits, but the answer explicitly states it is 40 credits for the same invoice.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the amount of the Alder rebate for an eligible invoice total of 80 credits. The answer directly provides a rebate amount for that invoice total, so it addresses the requested property and subject.",
+      "status": "pass"
+    }
+  },
+  "matched": true,
+  "mismatches": {},
+  "review": {
+    "actual_behavior": "answer",
+    "all_claims_assessed": true,
+    "behavior_reason": "The response directly answers the user's question with a specific rebate amount and explanation.",
+    "behavior_span": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice.",
+    "claims": [
+      {
+        "readings": [
+          {
+            "citation_spans": [],
+            "citation_status": "missing",
+            "context_reason": "This is the direct literal meaning of the single-sentence answer to the question asking for the rebate on an 80-credit eligible invoice.",
+            "context_spans": [
+              {
+                "id": "Q",
+                "span": "The eligible invoice total is 80 credits. How much is the Alder rebate?"
+              },
+              {
+                "id": "A",
+                "span": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice."
+              }
+            ],
+            "factual_status": "contradicted",
+            "kind": "literal",
+            "meaning": "The Alder rebate amount is 40 credits, and that amount equals 25% of an 80-credit invoice.",
+            "plausible": true,
+            "reason": "The source rule says the rebate is 25% of the eligible invoice total. Applying that rule to the question's explicit scenario input of 80 credits gives 20 credits, not 40 credits. Because the arithmetic in the answer is wrong, the complete claim is contradicted. The cited source also does not support the claimed 40-credit amount, so citation support is missing.",
+            "source_spans": [
+              {
+                "id": "R1",
+                "span": "The Alder rebate is 25 percent of the eligible invoice total."
+              }
+            ]
+          }
+        ],
+        "text": "The rebate is 40 credits, which is 25 percent of your 80-credit invoice."
+      }
+    ],
+    "facts": [
+      {
+        "answer_spans": [
+          "The rebate is 40 credits"
+        ],
+        "fact_id": "F1",
+        "reason": "The required fact says the rebate for the described invoice is 20 credits, but the answer explicitly states the rebate is 40 credits for the same invoice.",
+        "status": "contradicted"
+      }
+    ],
+    "forbidden_assertion": "absent",
+    "relevance": {
+      "reason": "The question asks for the amount of the Alder rebate for an eligible invoice total of 80 credits. The answer directly gives a rebate amount for that same 80-credit invoice.",
+      "status": "pass"
+    }
+  }
+}

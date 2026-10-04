@@ -17,8 +17,11 @@ Follow [v2 execution](../phase-73/structured-blind-execution-v2.md). Same ceilin
 USD20.75794526; accounted USD10.99323876 includes the retained USD0.14820250 hold;
 new-call headroom USD9.76470650. Updated uncached usage estimates qualification
 USD3.694425 plus the USD4.50 final floor, leaving USD1.57028150 planning buffer.
-No paid v2 call yet. Commit/push the frozen adapter and full16+3 diagnostic plan,
-then execute once; advance only on complete source-reviewed gates. A further
+Diagnostic passes16/16 and3/3 probes at frozen `81d7a9e9`:60 new calls cost
+USD0.84072300, with16 exact coverage receipts reused. Receipt replay and root-agent
+source inspection pass. Accounted USD11.83396176; headroom USD8.92398350. Next: full
+32+3 calibration, prepared with118 new-call maximum. Remaining qualification plus
+final floor estimates USD7.25632750, leaving USD1.66765600 planning buffer. A further
 qualification failure ends paid experiments. V4 remains active, V6 unaccepted.
 Separate isolated author/validator approval persists; author only after freezes.
 

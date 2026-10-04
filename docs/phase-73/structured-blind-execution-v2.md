@@ -51,3 +51,17 @@ push before the paid diagnostic. Reuse the previously passing unchanged evaluato
 and design checks. The old live-budget snapshot assertion remains historical and
 is not reused as a current balance test. No frontend or unrelated application build
 is required because runtime behavior is unchanged.
+
+## Diagnostic result and calibration handoff
+
+At frozen `81d7a9e9`, diagnostic passes16/16 plus3/3 reviewer probes. All original
+inputs and references are preserved; negative-control answers remain failed.
+60 new settled requests cost USD0.84072300, with16 exact judge-A coverage receipts
+reused. No unknown request or retry. Raw replay and root-agent source inspection
+pass; this is not independent human validation or a V6 quality result.
+
+Accounted USD11.83396176 includes the original hold; headroom USD8.92398350.
+Calibration plus confirmation estimates USD2.75632750 and the final floor remains
+USD4.50, leaving USD1.66765600 buffer. Full32+3 calibration is prepared, max118
+new requests plus22 exact saved coverage components. Commit/push its preflight
+with diagnostic evidence before launch. No fresh suites authored yet.
