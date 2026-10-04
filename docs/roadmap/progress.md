@@ -6,7 +6,20 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: CAD13.11 continuation stopped at qualification budget boundary
+### Current: offline audit complete; independent-judgment pilot proposed
+
+The user authorized offline diagnosis/design only. The new [audit](../phase-73/conversation-offline-grader-audit.md)
+finds an unresolved reference ambiguity: `First, report...` can mean presentation
+order or procedural sequence. Earlier certainty that the grader was wrong is
+withdrawn without editing any failed evidence or expected label. V34 is unqualified.
+A separate offline prototype builds two independent claims/coverage judgments
+before comparison;10 regression tests pass, covering all44 existing inputs.
+No API spending or active runtime change. USD5.56669000 remains after the retained
+hold. One two-case pilot is proposed: expectedUSD0.10-0.20, conservativeUSD0.9713200,
+proposed capUSD1.00. It requires separate paid approval and earns no release credit.
+The existing full qualification and final48/60 gates remain; v4 stays default.
+
+### Previous status: CAD13.11 continuation stopped at qualification budget boundary
 
 V34 diagnostic passes16/16 plus3 probes, but calibration stops21/22 on repeated
 list-framing interpretation failure. Two cases and3 probes are unexecuted.

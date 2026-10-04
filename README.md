@@ -37,7 +37,10 @@ stops at 21/22 on a repeated list-framing interpretation error. Two cases and
 held, leaving USD 5.56669000. Preserving the USD 4.50 final-run reserve leaves too
 little for another complete qualification cycle; paid work has stopped. The
 [source review](docs/phase-73/conversation-v34-calibration-source-review.md) records
-the failure and architectural limitation. No accepted full-suite score exists.
+the failure and architectural limitation. A subsequent [offline audit](docs/phase-73/conversation-offline-grader-audit.md)
+identifies an unresolved ambiguity in the disputed reference and prepares an
+independent-judgment prototype; local checks pass, but no paid pilot has run.
+No historical result was relabeled. No accepted full-suite score exists.
 V4 remains default until all release gates, including 48/60, pass. See the [progress tracker](docs/roadmap/progress.md).
 
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.

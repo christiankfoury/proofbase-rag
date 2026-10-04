@@ -1,0 +1,137 @@
+{
+  "version": "blind-review-development.v1",
+  "human_adjudication": false,
+  "independent_holdout": false,
+  "author": "implementation agent",
+  "purpose": "Proposed two-case mechanism pilot only; not a replacement for any qualification case or probe.",
+  "cases": [
+    {
+      "id": "explicit-unordered-complete",
+      "inputs": {
+        "question": "What are both required actions for a Juniper badge replacement?",
+        "history_not_evidence": [],
+        "answer": "Report the loss to the desk and pay a 6-credit fee. Either order is allowed.",
+        "expected_behavior": "answer",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Report the loss to the desk."
+          },
+          {
+            "fact_id": "F2",
+            "text": "Pay a 6-credit fee."
+          }
+        ],
+        "forbidden_assertions": [],
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "For a Juniper badge replacement, report the loss to the desk and pay a 6-credit fee. Both actions are required and may be completed in either order."
+          }
+        ],
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "For a Juniper badge replacement, report the loss to the desk and pay a 6-credit fee. Both actions are required and may be completed in either order."
+          }
+        ],
+        "source_metadata": []
+      },
+      "evidence": [
+        {
+          "chunk_id": 98000,
+          "document_id": 98100,
+          "content": "For a Juniper badge replacement, report the loss to the desk and pay a 6-credit fee. Both actions are required and may be completed in either order."
+        }
+      ],
+      "payload": {
+        "answer": "Report the loss to the desk and pay a 6-credit fee. Either order is allowed.",
+        "response_type": "answer",
+        "citations": [
+          {
+            "chunk_id": 98000,
+            "document_id": 98100,
+            "citation_text": "For a Juniper badge replacement, report the loss to the desk and pay a 6-credit fee. Both actions are required and may be completed in either order."
+          }
+        ]
+      },
+      "safety_flags": [],
+      "expected": {
+        "factual_support": "pass",
+        "citation_support": "pass",
+        "completeness": "pass",
+        "actual_behavior": "answer"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered",
+        "F2": "covered"
+      },
+      "rationale": "Positive explicit any-order evidence and complete actions."
+    },
+    {
+      "id": "invented-prerequisite-and-omission",
+      "inputs": {
+        "question": "What are both required actions for a Marlow badge replacement?",
+        "history_not_evidence": [],
+        "answer": "You must report the loss to the desk before you are allowed to pay the fee.",
+        "expected_behavior": "answer",
+        "required_facts": [
+          {
+            "fact_id": "F1",
+            "text": "Report the loss to the desk."
+          },
+          {
+            "fact_id": "F2",
+            "text": "Pay a 8-credit fee."
+          }
+        ],
+        "forbidden_assertions": [],
+        "factual_sources": [
+          {
+            "source_id": "R1",
+            "text": "For a Marlow badge replacement, report the loss to the desk and pay an 8-credit fee."
+          }
+        ],
+        "cited_sources": [
+          {
+            "citation_id": "C1",
+            "source_id": "R1",
+            "text": "For a Marlow badge replacement, report the loss to the desk and pay an 8-credit fee."
+          }
+        ],
+        "source_metadata": []
+      },
+      "evidence": [
+        {
+          "chunk_id": 98001,
+          "document_id": 98101,
+          "content": "For a Marlow badge replacement, report the loss to the desk and pay an 8-credit fee."
+        }
+      ],
+      "payload": {
+        "answer": "You must report the loss to the desk before you are allowed to pay the fee.",
+        "response_type": "answer",
+        "citations": [
+          {
+            "chunk_id": 98001,
+            "document_id": 98101,
+            "citation_text": "For a Marlow badge replacement, report the loss to the desk and pay an 8-credit fee."
+          }
+        ]
+      },
+      "safety_flags": [],
+      "expected": {
+        "factual_support": "unresolved",
+        "citation_support": "fail",
+        "completeness": "fail",
+        "actual_behavior": "partial_answer"
+      },
+      "expected_fact_statuses": {
+        "F1": "covered",
+        "F2": "missing"
+      },
+      "rationale": "Explicit permission prerequisite unsupported; requested fee amount omitted. Do not infer sequencing from source conjunction."
+    }
+  ]
+}

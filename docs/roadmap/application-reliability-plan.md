@@ -1,6 +1,16 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: qualification budget stop after repeated grader defect
+## Current handoff: offline audit and prototype complete; paid work still stopped
+
+Read the [offline audit](../phase-73/conversation-offline-grader-audit.md). The user
+approved test audit, independent-review design and local verification, not paid
+resumption. Preserve the unresolved interpretation finding and all prior labels.
+The proposed two-case pilot reservesUSD0.9713200 at full allowances under a proposed
+USD1.00 cap; expectedUSD0.10-0.20. No budget cap changed and no new calls were made.
+It needs separate approval and a verified execution adapter. No automatic roadmap
+continuation, qualification or activation. V4 remains active and all gates remain.
+
+## Previous handoff: qualification budget stop after repeated grader defect
 
 V34 passes16/16 diagnostic plus3 probes but stops21/22 calibration on the recurring
 list-framing error; two cases and3 probes unexecuted. No accepted grader or new

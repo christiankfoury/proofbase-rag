@@ -10,7 +10,18 @@ supersedes whole-stage funding; per-request reservation and receipt settlement
 remain mandatory. The CAD13.11 amendment below supersedes that initial ceiling.
 Original stopped artifacts are immutable historical evidence.
 
-## Current status: repeated grader defect; remaining qualification budget insufficient
+## Current scope: offline audit and design completed
+
+The latest user approved offline work only. The [audit addendum](conversation-offline-grader-audit.md)
+identifies ambiguous reference interpretation and withdraws earlier certainty that
+only presentation order was possible. Historical results remain unchanged and
+unqualified. An offline independent-judgment prototype passes10 tests, with no
+provider client or paid execution. A two-case pilot is proposed separately:
+expectedUSD0.10-0.20, full reservationUSD0.9713200, proposed capUSD1.00. No spending
+or cap change occurred. USD5.56669000 remains; v4 stays default. Both the reference
+concern and later qualification funding remain unresolved even if a pilot passes.
+
+## Previous status: repeated grader defect; remaining qualification budget insufficient
 
 V34 diagnostic passes16/16 plus3 probes, but calibration stops21/22 on the same
 list-framing error as v31. Two cases and3 probes remain unexecuted. All raw evidence
