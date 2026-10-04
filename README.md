@@ -40,9 +40,13 @@ little for another complete qualification cycle; paid work has stopped. The
 the failure and architectural limitation. A subsequent [offline audit](docs/phase-73/conversation-offline-grader-audit.md)
 identifies an unresolved ambiguity in the disputed reference and prepares an
 independent-judgment prototype; local checks pass, but no paid pilot has run.
-The [ordering-contract review](docs/phase-73/procedural-ordering-contract-v1.md)
-keeps that reference unresolved and defers the paid pilot;16 offline checks pass.
-No historical result was relabeled. No accepted full-suite score exists.
+The subsequent [ordering remedy](docs/phase-73/procedural-ordering-contract-v2.md)
+implements a separately versioned uncertainty contract and reference comparison,
+retaining every original case and probe with eight added controls;25 offline checks
+pass. The disputed answer still fails and unresolved answers earn no success.
+Qualification plus the final-launch floor is estimated at USD6.98104925, above the
+USD5.56669000 remaining, so no paid execution starts. No historical result was
+relabeled. The new contract is unqualified; no accepted full-suite score exists.
 V4 remains default until all release gates, including 48/60, pass. See the [progress tracker](docs/roadmap/progress.md).
 
 **The benchmark was authored and checked by the project author with AI assistance, and used during development. Answer and citation scores are heuristics, not expert accuracy labels.** Start with the [evaluation reviewer guide](docs/evaluation/README.md) for the dataset card, actual scoring rules, failure taxonomy, reviewer provenance, and reproduction commands.

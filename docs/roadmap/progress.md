@@ -9,7 +9,27 @@ Update this tracker before committing each phase. Keep entries factual: record w
 For a new chat, start with the [compact completion handoff](../phase-73/completion-handoff.md).
 It records current scope, exact accounting, preserved evidence and execution pitfalls.
 
-### Current: procedural-ordering contract review complete; paid pilot deferred
+### Current: ordering remedy implemented; acceptance blocked by whole-path budget
+
+The latest user authorized a separately versioned remedy and completion only if
+the full remaining path is fundable. [Contract v2 implementation](../phase-73/procedural-ordering-contract-v2.md)
+adds V35 requests and a versioned reference loader/comparator. It preserves all
+24 original inputs and 3 probes, prospectively maps the disputed interpretation
+to unresolved support, and adds eight ordering controls (32+3 calibration).
+Missing fees/injection still fail; uncertainty earns no answer success. Historical
+V34 remains 21/22, unqualified. All 25 offline checks pass; historical replay and
+cache-aware receipt reconciliation pass. No application/default changes or new
+model score. Candidate v6 retains its prior 14/14 development evidence only.
+
+Qualification is empirically USD2.48104925; with the USD4.50 final-launch floor,
+the path needs about USD6.98104925 versus USD5.56669000 remaining. The estimated
+gap is USD1.41435925 before any contingency; final cost is not guaranteed by its
+floor. No paid call, reduced allowance, retry, top-up or fresh holdout authoring.
+V4 stays active. Offline implementation is complete; accepted activation remains
+blocked. Recommendation: retain this unaccepted delivery under the fixed budget,
+not another small paid experiment. No unrelated roadmap work starts.
+
+### Previous: procedural-ordering contract review complete; paid pilot deferred
 
 The user authorized the offline contract review. [Versioned review](../phase-73/procedural-ordering-contract-v1.md)
 defines explicit ordering, presentation and interpretation uncertainty separately.

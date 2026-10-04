@@ -1,5 +1,41 @@
 # Proofbase completion handoff
 
+## Latest: implementation delivered; accepted activation remains budget-blocked
+
+The subsequent user authorized necessary offline implementation, a separately
+versioned reference remedy, and paid completion only when the whole remaining
+path is credibly fundable. That scope supersedes the older planning-only text below.
+Read [ordering contract v2](procedural-ordering-contract-v2.md) first; do not repeat
+the v1 ambiguity audit or the deferred two-case pilot.
+
+Implemented: V35 contract/request transport; a versioned 32-case calibration
+loader/comparator retaining all 24 original inputs and 3 reviewer probes; exact
+intermediate uncertainty/omission checks; whole-path receipt reconciliation.
+The disputed answer remains an overall failure under the new reference convention.
+Historical V34 remains 21/22; nothing was relabeled. 25 offline checks pass.
+No live V35 execution, qualification, new full-suite score or candidate activation.
+The frozen V34 live runners are unchanged and cannot launch V35. Future funded
+execution needs versioned orchestration/freeze adapters, full qualification and
+fresh isolated author/validator custody, not reuse of old acceptance artifacts.
+
+Budget remains USD14.88536776 ceiling, USD9.31867776 accounted including the
+USD0.14820250 hold, USD5.56669000 headroom. The new qualification estimate is
+USD2.48104925; adding the USD4.50 final-launch floor gives USD6.98104925, an
+estimated USD1.41435925 gap before contingency. Final cost is not guaranteed by
+that floor. No new calls/spend. Funding gate fails before any paid experiment.
+The exact [budget assessment](../../data/evaluation/conversation-continuation/ordering-contract-v2/completion-budget.json)
+replays with `python -B -m scripts.conversation_completion_budget_v2 --check`.
+
+Concrete recommendation under the fixed constraints: retain this implemented but
+unaccepted delivery with V4 active. Accepted activation is not achievable on a
+credibly funded path under the present budget; do not claim Phase 73 completion.
+No top-up or allowance reduction is requested. Preserve all gates and evidence.
+The unrelated request-log SHA256 remains the value recorded below and is unstaged.
+The latest commit containing this section records the reviewed implementation;
+use Git history rather than the older implementation IDs below.
+
+## Previous handoff retained for custody and historical execution context
+
 Purpose: transfer the project to a new chat without restarting the investigation.
 User priority: finish quickly and efficiently with defensible quality; stop
 repeating inconclusive grader prompt changes and documentation-only review loops.

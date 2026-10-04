@@ -1,6 +1,24 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: ordering-contract review complete; keep paid execution stopped
+## Current handoff: versioned remedy implemented; full-path funding gate fails
+
+The latest user authorizes offline corrections and a separately versioned
+reference convention. [Ordering contract v2](../phase-73/procedural-ordering-contract-v2.md)
+implements V35 prompts/transport and reference comparison. All 24 original cases
+and three probes remain, with eight added controls; the disputed case's new support
+references are unresolved, while its known omission still fails. No historical
+result changes and no unresolved answer success. 25 offline checks, historical
+V34 replay and ledger reconciliation pass. No new qualified model result exists.
+
+Whole-path estimate: USD2.48104925 qualification plus required USD4.50 final floor
+= USD6.98104925, above USD5.56669000 remaining. No paid execution is credibly funded;
+the USD1.41435925 estimated gap is not a guaranteed completion price. Preserve the
+USD0.14820250 hold and full allowances. V4 stays active; candidate v6 unaccepted.
+Offline implementation is complete, and acceptance is budget-blocked. Do not rerun
+old cycles, the deferred pilot, or author fresh holdouts before readiness/funding.
+Read the updated [completion handoff](../phase-73/completion-handoff.md).
+
+## Previous handoff: ordering-contract review complete; keep paid execution stopped
 
 New-chat entry point: [completion handoff](../phase-73/completion-handoff.md).
 

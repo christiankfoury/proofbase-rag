@@ -90,6 +90,13 @@ USD0.14820250 unknown-request hold) and USD5.56669000 unreserved. The USD4.50
 final-launch floor remains. Earlier budget amounts elsewhere are historical, not
 additional funding. The subsequent offline ordering-contract review is complete;
 no paid resumption or candidate activation was authorized by that review.
+Subsequent completion request: a separately versioned uncertainty/reference
+remedy is now implemented in ordering contract v2 / grader v35, with 25 offline
+checks passing. All original cases/probes and historical results remain intact;
+calibration adds eight controls. Whole-path qualification plus the USD4.50 final
+floor is estimated at USD6.98104925, above USD5.56669000 remaining. No paid calls
+were made. V4 stays active; candidate v6 and V35 remain unaccepted/unqualified.
+Do not restart experiments or assume more funding; acceptance is budget-blocked.
 For continuation in a new chat, read [completion handoff](docs/phase-73/completion-handoff.md)
 and the current progress/active-plan sections. V4 remains default. Do not restart
 old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.

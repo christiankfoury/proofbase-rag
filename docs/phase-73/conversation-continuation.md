@@ -10,7 +10,20 @@ supersedes whole-stage funding; per-request reservation and receipt settlement
 remain mandatory. The CAD13.11 amendment below supersedes that initial ceiling.
 Original stopped artifacts are immutable historical evidence.
 
-## Current scope: offline ordering-contract review complete
+## Current scope: ordering remedy implemented; full-path budget stop
+
+The latest [contract v2 delivery](procedural-ordering-contract-v2.md) implements the
+authorized prospective uncertainty convention, V35 request transport and a 32+3
+calibration reference loader/comparator. Historical inputs/results remain intact;
+unknown interpretation receives no answer credit. 25 offline checks pass, with
+unchanged V34 replay and receipt reconciliation. No new paid calls or score.
+
+Qualification estimate USD2.48104925 plus USD4.50 final-launch floor exceeds the
+USD5.56669000 remaining by USD1.41435925 before contingency. Paid work stops before
+any experiment. V4 stays active; v6 remains unaccepted. Preserve the hold and all
+quality gates. The offline implementation is complete, not accepted activation.
+
+## Previous scope: offline ordering-contract review complete
 
 The [versioned contract review](procedural-ordering-contract-v1.md) distinguishes
 explicit procedure, explanation order and unresolved interpretation. No definitive
