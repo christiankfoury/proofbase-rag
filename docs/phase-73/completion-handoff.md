@@ -1,6 +1,20 @@
 # Proofbase completion handoff
 
-## Latest: structured blind evaluator offline delivery complete
+## Latest: funded structured blind qualification authorized
+
+Follow [the execution note](structured-blind-execution-v1.md). The user replaced
+the remaining balance with USD10 and authorized the complete four-stage run,
+including separate isolated authors and validators for fresh16 and fresh60.
+Cumulative ceiling USD20.75794526; accounted USD10.90614776 includes the unchanged
+USD0.14820250 hold; new-call headroom USD9.85179750. Qualification plus protected
+final-launch floor estimates USD6.95826517, with USD2.89353233 planning buffer.
+Forty-five offline checks pass. New runners preserve the frozen evaluator,
+references, full output caps, zero retries, source inspection and all release gates.
+Next: commit/push the frozen execution preparation, then diagnostic16+3,
+calibration32+3, fresh16, fresh60. Stop on a failed gate, unknown request or
+insufficient funding. V4 remains active; no new paid result or V6 acceptance yet.
+
+## Previous: structured blind evaluator offline delivery complete
 
 Latest authorization amendment: the user approved the four-stage sequence and
 specified USD6.49 as the replacement remaining balance. Including the unchanged

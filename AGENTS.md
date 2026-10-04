@@ -117,6 +117,14 @@ new-call headroomUSD6.34179750 after the same hold. Whole-path USD6.95826517 rem
 short USD0.61646767 before contingency. No paid launch: preserve the final floor,
 full allowances and all gates. Use the latest delivery-note authorization section
 and structured_blind_budget_v2 replay, not the historical balance above.
+Latest user instruction supersedes that funding stop with USD10 total remaining
+and explicitly authorizes isolated author/validator agents for fresh16/fresh60.
+Use [structured blind execution](docs/phase-73/structured-blind-execution-v1.md):
+cumulative ceiling USD20.75794526, accounted USD10.90614776 including the same hold,
+new-call headroom USD9.85179750. The full-path estimate USD6.95826517 fits. Preserve
+every control, zero retries, full caps and the USD4.50 final floor. Run full
+qualification, fresh16 confirmation and fresh60; activate only if all gates pass.
+No paid result yet; stop on failed gates, unknown outcome or insufficient funding.
 For continuation in a new chat, read [completion handoff](docs/phase-73/completion-handoff.md)
 and the current progress/active-plan sections. V4 remains default. Do not restart
 old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.

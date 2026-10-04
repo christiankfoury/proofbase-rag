@@ -1,6 +1,20 @@
 # Application reliability: focused implementation handoff
 
-## Current handoff: offline structured blind evaluator delivered
+## Current handoff: funded structured blind execution
+
+Follow [the USD10 execution note](../phase-73/structured-blind-execution-v1.md).
+The replacement balance funds the estimated complete path: cumulative ceiling
+USD20.75794526, accounted USD10.90614776, retained hold USD0.14820250, new-call
+headroom USD9.85179750. Qualification plus the protected final-launch floor is
+estimated USD6.95826517; actual costs remain uncertain. Forty-five offline checks
+pass. The user also approved isolated author and validator agents for both fresh
+suites. Next: commit/push frozen preparation, diagnostic16+3, calibration32+3,
+fresh16 confirmation, fresh60 V6 measurement, activation only after all gates.
+Stop on failed qualification, source findings, unknown requests or insufficient
+funding. No retries, reduced caps, historical relabeling or automatic top-ups.
+V4 stays active; V6 remains unaccepted. No paid result from this run yet.
+
+## Previous handoff: offline structured blind evaluator delivered
 
 Latest authorization amendment: the user approved the four-stage sequence and
 specified USD6.49 as the replacement remaining balance. Including the unchanged

@@ -22,14 +22,20 @@
 
 ## Evidence Snapshot
 
-**Current work:** an [offline evaluator implementation](docs/phase-73/structured-blind-evaluator-v1.md)
+**Current work:** [structured blind execution](docs/phase-73/structured-blind-execution-v1.md)
+is authorized under a replacement USD10 balance. The complete estimated path now
+fits with the protected final-launch floor. Forty-five offline checks pass;
+qualification, fresh16 confirmation and fresh60 measurement remain pending.
+Activation still requires every release gate. The prior offline snapshot follows.
+
+An [offline evaluator implementation](docs/phase-73/structured-blind-evaluator-v1.md)
 now uses structured alternative interpretations and two blind judgments. 36 local
 checks pass; this is not measured evaluator qualification. Thirty-eight saved
 coverage components can be reused, but no full stage acceptance carries over.
 Even with reuse, qualification plus the protected final-launch floor is estimated
-at USD6.95826517. The user's latest USD6.49 replacement balance leaves USD6.34179750
+at USD6.95826517. The user's previous USD6.49 replacement balance left USD6.34179750
 for new calls after the retained hold, a USD0.61646767 estimated gap before
-contingency. No new paid calls were made; the complete path remains unfunded.
+contingency. No new paid calls were made at that earlier funding stop.
 
 Candidate prompt V6 passes 14/14 development tasks, but remains
 unaccepted and disabled; **V4 remains active**. The separately versioned

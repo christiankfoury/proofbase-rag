@@ -9,7 +9,21 @@ Update this tracker before committing each phase. Keep entries factual: record w
 For a new chat, start with the [compact completion handoff](../phase-73/completion-handoff.md).
 It records current scope, exact accounting, preserved evidence and execution pitfalls.
 
-### Current: offline structured blind evaluator implemented; paid path unfunded
+### Current: funded structured blind qualification authorized
+
+The [active reliability plan](application-reliability-plan.md) now follows the
+[USD10 execution note](../phase-73/structured-blind-execution-v1.md). The user
+authorized full qualification, fresh16 confirmation, fresh60 measurement and
+conditional activation, plus isolated author/validator agents. Replacement funds
+establish cumulative USD20.75794526; accounted USD10.90614776 includes the retained
+USD0.14820250 hold. New-call headroom USD9.85179750 covers the USD6.95826517
+qualification-plus-final-floor estimate with USD2.89353233 planning buffer.
+Forty-five offline checks pass; affected nine execution checks pass after review.
+New adapters preserve frozen semantics, all controls, full caps and zero retries.
+No paid result yet. Next: commit/push preparation, run diagnostic16+3, then gated
+calibration32+3, fresh16 and fresh60. V4 stays active until every release gate passes.
+
+### Previous: offline structured blind evaluator implemented; paid path unfunded
 
 Latest authorization amendment: the user approved the four-stage sequence and
 specified USD6.49 as the replacement remaining balance. Including the unchanged
