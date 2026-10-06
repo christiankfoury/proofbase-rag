@@ -6,7 +6,7 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: authorized offline ER1 -> ER2 -> AD1 -> AD2 (2026-10-06)
+### Current: ER1–AD2 offline investigation complete (2026-10-06)
 
 The user authorized execution of the four offline phases in the
 [active plan](evaluation-reliability-and-diagnosis-plan.md), superseding its
@@ -21,8 +21,14 @@ ER2 was verified/pushed at `74c04189`. AD1 is complete: all 32 turns in the
 V4/V6 development cohorts are traced, 101 receipts reconcile, and 4 focused
 checks pass. See [AD1 attribution](../evaluation-reliability-diagnosis/ad1-application-attribution.md).
 Normal retrieval observations and complete independent dimension labels are missing.
-AD2 preparation/replay and decision report are next within this authorization. No historical phase
-is restarted. Stop after AD2's reviewed and pushed decision report.
+AD1 was verified/pushed at `dad278eb`. AD2 is complete: 24 saved reference-input
+observations, 20 draft/checker/delivery chains and 24 explicitly missing normal
+retrieval observations; six harness tests pass. See the terminal
+[AD2 decision report](../evaluation-reliability-diagnosis/ad2-comparison-and-decision.md).
+Recommend separately scoped offline checker-contract/condition work before paid
+acquisition. The optional acquisition proposal has a USD2.83623424 hard cap and
+is NOT authorized; no funded release path or new performance score is claimed.
+Stop after AD2 publication. No phase or recommendation step 3–5 is queued.
 
 New model calls/spend: 0/USD0. V4 active; V6 experimental, disabled/unaccepted;
 USD8.10754050 untouched. All historical references, failures, accounting and

@@ -7,6 +7,11 @@ superseding the historical planning-only restriction below. Zero new model/API
 calls; stop after AD2 or a genuine blocking decision. The closed release remains
 closed. Phase results are linked from progress; steps 3-5 remain conditional.
 
+Execution result: ER1–AD2 are complete offline. See the
+[terminal decision report](../evaluation-reliability-diagnosis/ad2-comparison-and-decision.md)
+and [progress](progress.md) for evidence, missing observations and verification.
+No phase is queued; no model call, release reopening or activation occurred.
+
 Historical planning authorization follows; it does not override this amendment.
 
 Created 2026-10-06 at the user's request to document the phases for recommendation

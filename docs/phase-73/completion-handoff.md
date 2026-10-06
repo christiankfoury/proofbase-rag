@@ -1,5 +1,15 @@
 # Proofbase completion handoff
 
+## Offline investigation complete: 2026-10-06
+
+ER1–AD2 are delivered; read the [decision report](../evaluation-reliability-diagnosis/ad2-comparison-and-decision.md)
+and [tracker](../roadmap/progress.md). The comparator passes its declared offline
+controls but leaves 31/44 saved pairs unresolved; it is not live-qualified.
+Application traces support routing/condition/checker diagnosis; normal retrieval
+counterfactuals are absent. Recommend separately scoped offline checker-contract
+work before spending. No follow-up phase is queued. Zero new model calls/cost;
+V4 active, V6 disabled/unaccepted, USD8.10754050 untouched. Closure remains intact.
+
 ## Subsequent offline execution authorization: 2026-10-06
 
 The user authorized ER1/ER2/AD1/AD2 under the [active plan](../roadmap/evaluation-reliability-and-diagnosis-plan.md).
