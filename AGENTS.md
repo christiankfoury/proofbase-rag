@@ -167,6 +167,12 @@ still needs separately specified scope and budget. Recommendation steps 3-5 rema
 conditional possibilities, not an automatic queue. Preserve the closed release,
 V4 active/V6 disabled and unaccepted, all gates, and USD8.10754050 untouched.
 
+Latest execution request (2026-10-06) authorizes offline ER1 -> ER2 -> AD1 -> AD2
+under the evaluation-reliability-and-diagnosis plan, superseding its planning-only
+restriction. Zero new paid/model calls. Preserve the closed release, all evidence,
+V4 active/V6 disabled and unaccepted, the tracked request log and USD8.10754050.
+Stop after AD2's reviewed and pushed decision report; no automatic steps 3-5.
+
 Use [execution policy](docs/roadmap/execution-policy.md) for the verification matrix, evidence reuse, completion criteria, compact handoff and runtime-file rules. This operating loop supersedes older phase-specific descriptions of post-commit code review. A request limited to documentation or workflow maintenance completes at that scope; it does not start the runtime queue automatically.
 
 ## Operating Autonomy

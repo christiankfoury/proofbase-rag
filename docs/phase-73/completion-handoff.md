@@ -1,5 +1,12 @@
 # Proofbase completion handoff
 
+## Subsequent offline execution authorization: 2026-10-06
+
+The user authorized ER1/ER2/AD1/AD2 under the [active plan](../roadmap/evaluation-reliability-and-diagnosis-plan.md).
+Follow the [current tracker](../roadmap/progress.md). This supersedes planning-only
+scope for those phases, without reopening this release, spending funds or enabling
+V6. Stop after the AD2 decision report. Historical closure below remains intact.
+
 ## Subsequent planning request: 2026-10-06
 
 The user requested a phased plan for offline evaluator comparison reliability and

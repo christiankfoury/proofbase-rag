@@ -6,28 +6,20 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-### Current: evaluation reliability and application diagnosis plan (2026-10-06)
+### Current: authorized offline ER1 -> ER2 -> AD1 -> AD2 (2026-10-06)
 
-The user requested planning documentation for recommendation steps 1 and 2.
-The single current planning reference is
-[evaluation reliability and application diagnosis](evaluation-reliability-and-diagnosis-plan.md):
-ER1 evidence/contract, ER2 offline comparator, AD1 application trace attribution,
-and AD2 controlled diagnostic comparisons/decision. All four are **planned, not
-started**. Implementation needs a later execution instruction; paid observations
-need separate scope/budget authorization. Steps 3-5 are conditional possibilities,
-not queued phases. This documentation task stops after review, commit and push.
+The user authorized execution of the four offline phases in the
+[active plan](evaluation-reliability-and-diagnosis-plan.md), superseding its
+planning-only restriction. ER1 is complete: 519 immutable file bindings, 73
+execution slots and 32 frozen comparison controls. See the
+[ER1 contract and handoff](../evaluation-reliability-diagnosis/er1-evidence-and-contract.md).
+ER2 is next; AD1/AD2 remain queued within this authorization. No historical phase
+is restarted. Stop after AD2's reviewed and pushed decision report.
 
-V4 remains active; V6 is disabled/unaccepted and USD8.10754050 remains untouched.
-The closed release attempt and all evidence/gates below remain unchanged. No new
-model result, offline acceptance or runtime behavior is claimed by this plan.
-Planning verification: complete intended documentation review and 169 local-link
-checks passed; no application tests/build or model calls were needed. The reviewed
-planning commit contains only the plan and its four navigation/instruction updates;
-the unrelated request log is excluded. Use Git history for its commit identity.
-
-For a new chat, start with the [compact completion handoff](../phase-73/completion-handoff.md).
-It preserves closure accounting, evidence and execution pitfalls; use the current
-plan above for the new planning scope. Historical queues below are not resumed.
+New model calls/spend: 0/USD0. V4 active; V6 experimental, disabled/unaccepted;
+USD8.10754050 untouched. All historical references, failures, accounting and
+release gates remain intact. The tracked request log is excluded and preserved.
+Use each phase's commit in Git history for publication identity.
 
 ### Previous: v2 calibration failed; paid experiments ended
 

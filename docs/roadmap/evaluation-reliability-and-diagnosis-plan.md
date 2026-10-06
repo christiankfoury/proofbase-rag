@@ -2,6 +2,13 @@
 
 ## Current scope and authorization
 
+Latest execution instruction (2026-10-06) authorizes ER1 -> ER2 -> AD1 -> AD2,
+superseding the historical planning-only restriction below. Zero new model/API
+calls; stop after AD2 or a genuine blocking decision. The closed release remains
+closed. Phase results are linked from progress; steps 3-5 remain conditional.
+
+Historical planning authorization follows; it does not override this amendment.
+
 Created 2026-10-06 at the user's request to document the phases for recommendation
 steps 1 and 2. **This request authorizes planning documentation only.** All phases
 below are planned, not started. Publishing this plan does not start implementation,
