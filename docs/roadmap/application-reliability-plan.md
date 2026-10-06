@@ -1,5 +1,14 @@
 # Application reliability: focused implementation handoff
 
+## Subsequent planning reference: 2026-10-06
+
+The user's new documentation request is captured in
+[evaluation reliability and application diagnosis](evaluation-reliability-and-diagnosis-plan.md).
+That is the current planning reference; this file retains the prior work and
+release closure. Its ER1/ER2/AD1/AD2 phases are not started, steps 3-5 are conditional,
+and no implementation or spending is authorized by publishing that plan. The closed
+attempt, V4 default, V6 unaccepted status, historical evidence and gates are intact.
+
 ## Current handoff: v2 calibration failed; paid experiments ended
 
 **User-confirmed closure, 2026-10-04:** stop this release attempt and preserve

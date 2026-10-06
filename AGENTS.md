@@ -157,6 +157,16 @@ and the current progress/active-plan sections. V4 remains default. Do not restar
 old cycles, rerun the deferred two-case pilot, or repeat the same ambiguity audit.
 Use the new user's scope instruction and preserve all existing gates and evidence.
 
+Latest planning request (2026-10-06): document recommendation steps 1 and 2 in
+[evaluation reliability and application diagnosis](docs/roadmap/evaluation-reliability-and-diagnosis-plan.md).
+ER1 evidence/contract, ER2 offline comparator, AD1 trace attribution and AD2
+controlled diagnostic comparisons are planned, not started. This request covers
+documentation publication only; do not begin implementation after pushing the
+plan. A later instruction may authorize the offline sequence, while paid work
+still needs separately specified scope and budget. Recommendation steps 3-5 remain
+conditional possibilities, not an automatic queue. Preserve the closed release,
+V4 active/V6 disabled and unaccepted, all gates, and USD8.10754050 untouched.
+
 Use [execution policy](docs/roadmap/execution-policy.md) for the verification matrix, evidence reuse, completion criteria, compact handoff and runtime-file rules. This operating loop supersedes older phase-specific descriptions of post-commit code review. A request limited to documentation or workflow maintenance completes at that scope; it does not start the runtime queue automatically.
 
 ## Operating Autonomy

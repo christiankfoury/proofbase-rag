@@ -6,10 +6,30 @@ Update this tracker before committing each phase. Keep entries factual: record w
 
 ## Current Position
 
-For a new chat, start with the [compact completion handoff](../phase-73/completion-handoff.md).
-It records current scope, exact accounting, preserved evidence and execution pitfalls.
+### Current: evaluation reliability and application diagnosis plan (2026-10-06)
 
-### Current: v2 calibration failed; paid experiments ended
+The user requested planning documentation for recommendation steps 1 and 2.
+The single current planning reference is
+[evaluation reliability and application diagnosis](evaluation-reliability-and-diagnosis-plan.md):
+ER1 evidence/contract, ER2 offline comparator, AD1 application trace attribution,
+and AD2 controlled diagnostic comparisons/decision. All four are **planned, not
+started**. Implementation needs a later execution instruction; paid observations
+need separate scope/budget authorization. Steps 3-5 are conditional possibilities,
+not queued phases. This documentation task stops after review, commit and push.
+
+V4 remains active; V6 is disabled/unaccepted and USD8.10754050 remains untouched.
+The closed release attempt and all evidence/gates below remain unchanged. No new
+model result, offline acceptance or runtime behavior is claimed by this plan.
+Planning verification: complete intended documentation review and 169 local-link
+checks passed; no application tests/build or model calls were needed. The reviewed
+planning commit contains only the plan and its four navigation/instruction updates;
+the unrelated request log is excluded. Use Git history for its commit identity.
+
+For a new chat, start with the [compact completion handoff](../phase-73/completion-handoff.md).
+It preserves closure accounting, evidence and execution pitfalls; use the current
+plan above for the new planning scope. Historical queues below are not resumed.
+
+### Previous: v2 calibration failed; paid experiments ended
 
 **Finalized at the user's request on 2026-10-04.** V4 stays active; V6 remains
 experimental, disabled and unaccepted. USD8.10754050 is untouched. No next cycle

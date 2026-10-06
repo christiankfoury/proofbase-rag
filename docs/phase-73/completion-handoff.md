@@ -1,5 +1,15 @@
 # Proofbase completion handoff
 
+## Subsequent planning request: 2026-10-06
+
+The user requested a phased plan for offline evaluator comparison reliability and
+application diagnosis. Use the
+[new planning reference](../roadmap/evaluation-reliability-and-diagnosis-plan.md)
+and [current tracker](../roadmap/progress.md). ER1/ER2/AD1/AD2 are planned only;
+steps 3-5 remain possibilities. This request does not authorize implementation,
+paid calls, a resumed release attempt or activation. The closure below, all gates
+and USD8.10754050 untouched headroom remain unchanged.
+
 ## User-confirmed closure: 2026-10-04
 
 The user explicitly ended this release attempt. V4 remains active; V6 is preserved
