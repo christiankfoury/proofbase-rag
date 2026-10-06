@@ -17,7 +17,11 @@ ER1 was verified and pushed at `5e4f5c6d`. ER2 is complete: 32/32 contract
 controls and 12 test methods pass; all 44 saved pairs replay (13 equivalent,
 31 unresolved). See [ER2 results](../evaluation-reliability-diagnosis/er2-comparator-results.md).
 This is offline diagnostic acceptance only; historical qualification still fails.
-AD1 is next; AD2 remains queued within this authorization. No historical phase
+ER2 was verified/pushed at `74c04189`. AD1 is complete: all 32 turns in the
+V4/V6 development cohorts are traced, 101 receipts reconcile, and 4 focused
+checks pass. See [AD1 attribution](../evaluation-reliability-diagnosis/ad1-application-attribution.md).
+Normal retrieval observations and complete independent dimension labels are missing.
+AD2 preparation/replay and decision report are next within this authorization. No historical phase
 is restarted. Stop after AD2's reviewed and pushed decision report.
 
 New model calls/spend: 0/USD0. V4 active; V6 experimental, disabled/unaccepted;
