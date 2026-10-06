@@ -13,7 +13,11 @@ The user authorized execution of the four offline phases in the
 planning-only restriction. ER1 is complete: 519 immutable file bindings, 73
 execution slots and 32 frozen comparison controls. See the
 [ER1 contract and handoff](../evaluation-reliability-diagnosis/er1-evidence-and-contract.md).
-ER2 is next; AD1/AD2 remain queued within this authorization. No historical phase
+ER1 was verified and pushed at `5e4f5c6d`. ER2 is complete: 32/32 contract
+controls and 12 test methods pass; all 44 saved pairs replay (13 equivalent,
+31 unresolved). See [ER2 results](../evaluation-reliability-diagnosis/er2-comparator-results.md).
+This is offline diagnostic acceptance only; historical qualification still fails.
+AD1 is next; AD2 remains queued within this authorization. No historical phase
 is restarted. Stop after AD2's reviewed and pushed decision report.
 
 New model calls/spend: 0/USD0. V4 active; V6 experimental, disabled/unaccepted;
